@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>MCNEXT.WinJSLibrary</title>
+
+    <!-- WinJS references -->
+    <link href="//Microsoft.WinJS.2.0/css/ui-light.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.2.0/js/base.js"></script>
+    <script src="//Microsoft.WinJS.2.0/js/ui.js"></script>
+
+    <script src="/Scripts/jquery-2.1.1.js"></script>
+    <script src="/scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
+    
+    <script src="/scripts/winjscontrib/mcnext.logger.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.utils.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.globalProgress.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.bindings.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.animation.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.extended-splashscreen.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.navigator.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.multipass-renderer.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.grid.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.hubcontrol.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.semanticzoom-wrapper.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.tab-pages.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.multipleviews.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.multipleviews.main.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.search.js"></script>
+
+    <script src="/scripts/moment.min.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.date.utils.js"></script>
+    <script src="/pages/settings/whatsnew/WhatsNewControl.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.childViewFlyout.js"></script>
+
+    <link href="/css/winjscontrib/mcnext.ui.css" rel="stylesheet" />
+    <link href="/css/winjscontrib/mcnext.ui.tab-pages.css" rel="stylesheet" />
+    <link href="/css/winjscontrib/mcnext.ui.extended-splashscreen.css" rel="stylesheet" />
+    <link href="/css/winjscontrib/mcnext.ui.hub.css" rel="stylesheet" />
+    <link href="/css/winjscontrib/mcnext.ui.globalprogress.css" rel="stylesheet" />
+    <link href="/css/items.css" rel="stylesheet" />    
+    <link href="/css/winjscontrib/mcnext.ui.dataform.css" rel="stylesheet" />
+    <link href="/css/winjscontrib/mcnext.ui.childviewflyout.css" rel="stylesheet" />
+
+    <script src="/Scripts/syntaxhighlighter/scripts/shCore.js"></script>
+    <script src="/Scripts/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script src="/Scripts/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script src="/Scripts/syntaxhighlighter/scripts/shBrushCss.js"></script>
+    <link href="Scripts/syntaxhighlighter/styles/shCoreDefault.css" rel="stylesheet" />
+    <!-- MCNEXT.WinJSLibrary references -->
+    <link href="/css/default.css" rel="stylesheet" />
+    <script src="/js/default.js"></script>
+</head>
+<body>
+    <div id="contenthost" data-win-control="MCNEXT.UI.PageControlNavigator" data-win-options="{
+         home: '/pages/home/home.html',
+         delay: 150,
+         enterPageAnimation: 'MCNEXT.UI.Animation.enterShrink',
+         exitPageAnimation: 'MCNEXT.UI.Animation.exitShrink',
+     }"></div>
+    <!-- <div id="appbar" data-win-control="WinJS.UI.AppBar">
+        <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'cmd', label:'Command', icon:'placeholder'}" type="button"></button>
+    </div> -->
+
+    <div data-win-control="MCNEXT.UI.ExtendedSplash" data-win-options="{text: 'extended splash screen control in action...'}"></div>
+    <div id="codeviewFlyout" data-win-control="MCNEXT.UI.ChildViewFlyout">
+
+    </div>
+    <div class="top-wide" data-win-control="MCNEXT.UI.GlobalProgress" data-win-options="{global: true, text: 'global progress...', delay: 250}"></div>
+    <div id="ratecontr" data-win-control="MCNEXT.UI.WhatsNewControl" data-win-options="{nbLaunch:20}"></div>
+
+</body>
+</html>

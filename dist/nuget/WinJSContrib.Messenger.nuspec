@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>WinJSContrib.Messenger</id> 
+    <version>1.0.0.2</version> 
+    <title>WinJSContrib.Messenger</title>
+    <authors>MCNEXT, Guillaume Leborgne</authors>
+    <description>Wrapper for communication between main code web workers or iframes</description>
+    <copyright>MCNEXT</copyright>
+    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
+    <iconUrl>http://img4.hostingpics.net/pics/111863winjiscontrib.png</iconUrl>
+    <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
+    <language>en-US</language>
+    <dependencies>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.messenger.js" target="content\scripts\winjscontrib" />
+    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.messenger.worker.js" target="content\scripts\winjscontrib" />
+    <file src="WinJSContrib.Messenger.readme.txt" target="readme.txt" />    
+  </files>
+</package>

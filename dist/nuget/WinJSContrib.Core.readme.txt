@@ -1,0 +1,38 @@
+WinJSContrib.Core
+
+This package contains the core part of WinJSContrib. Some features relies on jquery so you must add a script tag to reference jquery.
+
+Here are some details about the different parts :
+
+
+<script src="/scripts/winjscontrib/mcnext.ui.utils.js"></script>
+This file contains the roots of WinJSContrib such as binding expression parser, function resolution by name, template resolution used by other parts of WinJSContrib, image loading promises, etc...    
+
+<script src="/scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
+Utility functions wrapped as jquery plugins
+
+
+<script src="/scripts/winjscontrib/mcnext.ui.bindings.js"></script>
+This file contains custom bindings, for example, you have bindings for showing/hiding/disabling elements, managing images, etc
+
+
+<script src="/scripts/winjscontrib/mcnext.ui.twowaybindings.js"></script>
+two way binding implementations
+
+
+<link href="/css/mcnext/mcnext.ui.css" rel="stylesheet" />
+some helper css classes and keyframe animations required by the animation library
+
+
+<script src="/scripts/winjscontrib/mcnext.ui.animation.js"></script>
+Parameterized and custom animations
+
+
+The core package also contains two files intended to serve as starting point for your own javascript objects :
+mcnext.ui.boilerplatecontrol.js
+mcnext.ui.boilerplateobservable.js
+
+
+
+If you need more, or need some help, look at the sample or start a new discussion at :
+http://winjscontrib.codeplex.com

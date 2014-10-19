@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>WinJSContrib.Tab</id> 
+    <title>WinJSContrib.Tab</title> 
+    <version>1.0.0.5</version> 
+    <authors>MCNEXT, Guillaume Leborgne</authors>
+    <description>Tab control based on html fragments</description>
+    <copyright>MCNEXT</copyright>
+    <iconUrl>http://img4.hostingpics.net/pics/111863winjiscontrib.png</iconUrl>
+    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
+    <tags>WinJS, HTML5, WinRT, Windows 8, Windows 8.1</tags>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="WinJSContrib.Core" version="[1.0.0, 2.0.0)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Master\scripts\winjscontrib\mcnext.ui.tab-pages.js" target="content\scripts\winjscontrib" />
+    <file src="Master\css\winjscontrib\mcnext.ui.tab-pages.css" target="content\css\winjscontrib" />
+    <file src="WinJSContrib.Tab.readme.txt" target="readme.txt" />
+  </files>
+</package>

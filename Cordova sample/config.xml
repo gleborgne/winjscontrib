@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="io.cordova.MCNEXT.WinJS.Contrib.Cordova" version="1.0.0.0" xmlns="http://www.w3.org/ns/widgets">
+  <name>WinJS Contrib Samples</name>
+  <description>
+    A blank project that uses Apache Cordova to help you build an app that targets multiple mobile platforms: Android, iOS, Windows, and Windows Phone.
+  </description>
+  <author href="http://cordova.io" email="dev@cordova.apache.org">
+    Apache Cordova Team
+  </author>
+  <content src="index.html" />
+  <access origin="*" />
+  <preference name="SplashScreen" value="screen" />
+  <preference name="Fullscreen" value="false" />
+  <vs:features>
+    <vs:feature>org.apache.cordova.contacts@0.2.11</vs:feature>
+    <vs:feature>org.apache.cordova.splashscreen@0.3.1</vs:feature>
+    <vs:feature>org.apache.cordova.dialogs@0.2.8</vs:feature>
+    <vs:feature>org.apache.cordova.device@0.2.10</vs:feature>
+    <vs:feature>de.appplant.cordova.plugin.local-notification@0.7.2</vs:feature>
+    <vs:feature>org.apache.cordova.statusbar@0.1.6</vs:feature>
+  </vs:features>
+  <vs:platformSpecificValues />
+</widget>

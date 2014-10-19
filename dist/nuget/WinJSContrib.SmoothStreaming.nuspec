@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>WinJSContrib.SmoothStreaming</id> 
+    <title>WinJSContrib.SmoothStreaming</title> 
+    <version>1.0.0.3</version> 
+    <authors>MCNEXT, Guillaume Leborgne</authors>
+    <description>Smooth Streaming probe for displaying bitrate, current resolution, available resolutions, etc</description>
+    <copyright>MCNEXT</copyright>
+    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
+    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
+    <tags>WinJS, HTML5, WinRT, Windows 8, Windows 8.1</tags>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="WinJSContrib.Core" version="[1.0.0, 2.0.0)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ssm.js" target="content\scripts\winjscontrib" />
+    <file src="WinJSContrib.SmoothStreaming.readme.txt" target="readme.txt" />
+  </files>
+</package>

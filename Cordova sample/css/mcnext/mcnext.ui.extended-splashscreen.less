@@ -1,0 +1,43 @@
+﻿.mcn-splashcreen {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    background-color: #081a4a;
+    display: -ms-grid;
+    -ms-grid-rows: 1fr;
+    -ms-grid-columns: 1fr;
+
+    #mcn-splashcreen-image {
+        -ms-grid-row-align: center;
+        -ms-grid-column-align: center;
+        max-width: 100%;
+    }
+
+    #mcn-splashcreen-loader{
+        display: -ms-inline-grid;
+        -ms-grid-row-align: center;
+        -ms-grid-column-align: center;
+        margin-top: 340px;
+        -ms-grid-rows: 1fr;
+        -ms-grid-columns: auto auto;
+        color: white;
+
+
+        progress {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+
+        .mcn-splashcreen-loader-text {
+            -ms-grid-column: 2;
+            font-size: 16pt;
+            -ms-grid-row-align: center;
+            margin-left : 20px
+        }
+    }
+}

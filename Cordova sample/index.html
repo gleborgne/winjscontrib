@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>MCNEXT.WinJS.Contrib.Cordova</title>
+
+    <!-- MCNEXT.WinJS.Contrib.Cordova references -->
+    <link href="css/index.css" rel="stylesheet" />
+
+
+    <!-- Cordova reference, this is added to your app when it's built. -->
+    <script src="cordova.js"></script>
+    <script src="scripts/platformOverrides.js"></script>
+
+    <script src="scripts/index.js"></script>
+
+
+    <link href="./css/winJS/ui-light.css" rel="stylesheet" />
+    <script src="./scripts/winJS/WinJS.min.js"></script>
+    <script src="./scripts/winJS/base.min.js"></script>
+    <script src="./scripts/winJS/ui.min.js"></script>
+
+
+
+    <script src="./scripts/jquery-2.1.1.js"></script>
+    <script src="./scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
+
+    <script src="./scripts/winjscontrib/mcnext.logger.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.utils.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.globalProgress.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.bindings.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.animation.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.extended-splashscreen.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.navigator.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.multipass-renderer.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.grid.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.hubcontrol.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.semanticzoom-wrapper.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.tab-pages.js"></script>
+    <!--<script src="./scripts/winjscontrib/mcnext.ui.multipleviews.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.multipleviews.main.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.search.js"></script>     -->
+    <script src="./scripts/winjscontrib/mcnext.ui.swipeslide.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.pivotmultidevice.js"></script>
+
+    <script src="./scripts/moment.min.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.date.utils.js"></script>
+    <script src="./scripts/winjscontrib/mcnext.ui.childViewFlyout.js"></script>
+
+    <link href="css/winjscontrib/mcnext.ui.dataform.css" rel="stylesheet" />
+    <link href="./css/winjscontrib/mcnext.ui.childviewflyout.css" rel="stylesheet" />
+    <link href="./css/winjscontrib/mcnext.ui.css" rel="stylesheet" />
+    <link href="./css/winjscontrib/mcnext.ui.tab-pages.css" rel="stylesheet" />
+    <link href="./css/winjscontrib/mcnext.ui.extended-splashscreen.css" rel="stylesheet" />
+    <link href="./css/winjscontrib/mcnext.ui.hub.css" rel="stylesheet" />
+    <link href="./css/winjscontrib/mcnext.ui.globalprogress.css" rel="stylesheet" />
+    <script src="./scripts/winjscontrib/mcnext.ui.windowsphone.flyoutpage.js"></script>
+    <script src="./scripts/syntaxhighlighter/scripts/shCore.js"></script>
+    <script src="./scripts/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script src="./scripts/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script src="./scripts/syntaxhighlighter/scripts/shBrushCss.js"></script>
+    <link href="./scripts/syntaxhighlighter/styles/shCoreDefault.css" rel="stylesheet" />
+    <link href="./css/items.css" rel="stylesheet" />
+    <link href="./css/winjscontrib/mcnext.ui.windowsphone.flyoutpage.css" rel="stylesheet" />
+
+    <!-- MCNEXT_WinJS_Contrib_Phone references -->
+    <script src="./js/default.js"></script>
+    <script src="./js/navigator.js"></script>
+    <link href="./css/default.css" rel="stylesheet" />
+    <link href="./css/defaultphone.css" rel="stylesheet" />
+    <link href="./css/defaultcordovaphone.css" rel="stylesheet" />
+</head>
+<body class="phone" id="phone">
+    <div id="contenthost" data-win-control="MCNEXT.UI.PageControlNavigator" data-win-options="{
+         home: './pages/home/home.html',
+         delay: 150,
+         enterPageAnimation: 'MCNEXT.UI.Animation.enterShrink',
+         exitPageAnimation: 'MCNEXT.UI.Animation.exitShrink',
+     }"></div>
+    <div data-win-control="MCNEXT.UI.ExtendedSplash" data-win-options="{ text: 'extended splash screen control in action...',image:'./images/SplashScreen.png'}"></div>
+    <div id="codeviewFlyout" data-win-control="MCNEXT.UI.ChildViewFlyout">  </div>
+    <div id="mainMenu" data-win-control="MCNEXT.UI.WindowsPhone.FlyoutPage" data-win-options="{ placement: 'right', disableTapAnimation: true, uri: './pages/mainmenu/mainmenu.html'}">
+
+    </div>
+    <div id="mainMenuTrigger" class="symbol" onclick="$('#mainMenu')[0].winControl.show()">&#xe169;</div>
+    <div class="top-wide" data-win-control="MCNEXT.UI.GlobalProgress" data-win-options="{global: true, text: 'global progress...', delay: 150}"></div>
+</body>
+</html>

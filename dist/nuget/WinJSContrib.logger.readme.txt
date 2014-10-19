@@ -1,0 +1,50 @@
+﻿WinJSContrib.Logger
+
+Interface to handle logging work. It logs to the console. Main purpose is to allow you to choose wheter or not you want to log a particular message level. You can also plug it to the WinJS log system to capture messages sent by the API.
+
+Levels enum :
+{
+    "off": 0,
+    "error": 1,
+    "warn": 2,
+    "info": 4,
+    "debug": 8,
+    "all": 15
+}
+
+Default configuration:
+{
+    "level": MCNEXT.Logger.Levels.all,
+    "displayLevelInMessage": false,
+    "displayGroupInMessage": true,
+    "plugToWinJSLog": false
+}
+
+* Configuration.level: indicates at which level messages will be logged. This is a flag enum. You can mix bitwise multiple values (ex: MCNEXT.Logger.Levels.error | MCNEXT.Logger.Levels.warn). Set it to MCNEXT.Logger.Levels.none if you want to disable logging.
+* Configuration.displayLevelInMessage : indicates if the log message level should be concatenated at the beggining of the log message.
+* Configuration.displayGroupInMessage : indicates if the group of the message (if any) should be concated at the beggining of the log message.
+* Configuration.plugToWinJSLog : indicates if the interface should be plugged to WinJS.log method to handle messages coming from the WinJS API.
+
+You can override the default configuration settings through the Config property, like so (this should be set in default.js file) :
+
+MCNEXT.Logger.Config = {
+    "level": MCNEXT.Logger.Levels.error | MCNEXT.Logger.Levels.info,
+    "displayGroupInMessage": false,
+    "plugToWinJSLog": true
+};
+
+Configurations properties not being set will be kept to their last value.
+
+There are five methods to log:
+MCNEXT.Logger.log(MESSAGE, GROUP, LOG_LEVEL)
+MCNEXT.Logger.debug(MESSAGE, GROUP)
+MCNEXT.Logger.info(MESSAGE, GROUP)
+MCNEXT.Logger.warn(MESSAGE, GROUP)
+MCNEXT.Logger.error(MESSAGE, GROUP)
+
+Default log level for a message is always 'debug'. The 'log' method takes a third parameter which allows you to precise a particular log level. You can use either a string ('log', 'debug', 'info', 'warn', 'error') or a value from the enmueration itself (except for 'all' and 'none' which are disallowed for message logging).
+
+Here is a typical logged message in the console:
+MCNEXT.Logger.info("Application has started", "StartUp");
+INFO - StartUp: Application has started
+{LOG_LEVEL} - {GROUP}: {MESSAGE}

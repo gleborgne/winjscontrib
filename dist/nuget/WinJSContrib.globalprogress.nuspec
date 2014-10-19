@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>WinJSContrib.GlobalProgress</id> 
+    <title>WinJSContrib.GlobalProgress</title> 
+    <version>1.0.0.4</version> 
+    <authors>MCNEXT, Guillaume Leborgne</authors>
+    <description>Control to show progress indicator on a page or globally in the application</description>
+    <copyright>MCNEXT</copyright>
+    <iconUrl>http://img4.hostingpics.net/pics/111863winjiscontrib.png</iconUrl>
+    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
+    <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="WinJSContrib.Core" version="[1.0.0, 2.0.0)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Master\scripts\winjscontrib\mcnext.ui.globalprogress.js" target="content\scripts\winjscontrib" />
+    <file src="Master\css\winjscontrib\mcnext.ui.globalprogress.css" target="content\css\winjscontrib" />
+    <file src="WinJSContrib.GlobalProgress.readme.txt" target="readme.txt" />
+  </files>
+</package>

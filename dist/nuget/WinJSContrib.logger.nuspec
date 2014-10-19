@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>WinJSContrib.Logger</id> 
+    <title>WinJSContrib.Logger</title> 
+    <version>1.0.0.4</version> 
+    <authors>MCNEXT, François Guillot</authors>
+    <description>Interface to handle logging work</description>
+    <copyright>MCNEXT</copyright>
+    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
+    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
+    <tags>WinJS, HTML5, WinRT, Windows 8, Windows 8.1, log, console</tags>
+    <language>en-US</language>
+    <dependencies/>
+  </metadata>
+  <files>
+    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.logger.js" target="content\scripts\winjscontrib" />
+    <file src="WinJSContrib.logger.readme.txt" target="readme.txt" />
+  </files>
+</package>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>WinJSContrib.BackgroundTasks</id> 
+    <title>WinJSContrib.BackgroundTasks</title> 
+    <version>1.0.0.4</version> 
+    <authors>MCNEXT, Guillaume Leborgne</authors>
+    <description>helpers that simplify background task integration for WinRT apps</description>
+    <copyright>MCNEXT</copyright>
+    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
+    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
+    <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="WinJSContrib.Core" version="[1.0.0, 2.0.0)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.bgtask.js" target="content\scripts\winjscontrib" /> 
+    <file src="WinJSContrib.BackgroundTasks.readme.txt" target="readme.txt" />   
+  </files>
+</package>

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>MCNEXT.WinJSLibrary</title>
+
+    <!-- WinJS references -->
+    <link href="//Microsoft.WinJS.2.0/css/ui-light.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.2.0/js/base.js"></script>
+    <script src="//Microsoft.WinJS.2.0/js/ui.js"></script>
+
+    <script src="/Scripts/jquery-2.1.1.js"></script>
+
+    <script src="/scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.app.error-tracking.js"></script>
+
+    <script src="/scripts/winjscontrib/mcnext.ui.utils.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.globalProgress.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.bindings.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.animation.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.extended-splashscreen.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.navigator.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.multipass-renderer.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.grid.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.hubcontrol.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.semanticzoom-wrapper.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.tab-pages.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.ui.multipleviews.js"></script>
+
+    <script src="/scripts/moment.min.js"></script>
+    <script src="/scripts/winjscontrib/mcnext.date.utils.js"></script>
+
+    <link href="/css/winjscontrib/mcnext.ui.css" rel="stylesheet" />
+    <link href="/css/winjscontrib/mcnext.ui.tab-pages.css" rel="stylesheet" />
+    <link href="/css/winjscontrib/mcnext.ui.extended-splashscreen.css" rel="stylesheet" />
+    <link href="/css/winjscontrib/mcnext.ui.hub.css" rel="stylesheet" />
+    <link href="/css/winjscontrib/mcnext.ui.globalprogress.css" rel="stylesheet" />
+    <link href="/css/items.css" rel="stylesheet" />
+
+    <link href="/css/default.css" rel="stylesheet" />
+    <script src="/scripts/winjscontrib/mcnext.ui.multipleviews.child.js"></script>
+
+</head>
+<body>
+    <div id="contenthost" data-win-control="MCNEXT.UI.PageControlNavigator" data-win-options="{global:true, home: '/pages/home/home.html'}"></div>
+    
+    <div class="top-wide" data-win-control="MCNEXT.UI.GlobalProgress" data-win-options="{global: true, text: 'chargement...', delay: 250}"></div>
+</body>
+</html>

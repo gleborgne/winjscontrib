@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>WinJSContrib.DataForm</id> 
+    <version>1.0.0.15</version> 
+    <title>WinJSContrib.DataForm</title>
+    <authors>MCNEXT, Guillaume Leborgne</authors>
+    <description>Control and css framework for handling data forms with validation</description>
+    <copyright>MCNEXT</copyright>
+    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
+    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
+    <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="jQuery.Validation" version="[1, 3)" />
+      <dependency id="WinJSContrib.Core" version="[1.0.0.4, 3)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.dataform.js" target="content\scripts\winjscontrib" />
+    <file src="MCNEXT WinJS Contrib.Shared\scripts\tooltipster\jquery.tooltipster.js" target="content\scripts\tooltipster" />
+    <file src="MCNEXT WinJS Contrib.Shared\scripts\tooltipster\tooltipster.css" target="content\scripts\tooltipster" />
+    <file src="MCNEXT WinJS Contrib.Shared\css\winjscontrib\mcnext.ui.dataform.css" target="content\css\winjscontrib" />
+    <file src="WinJSContrib.DataForm.readme.txt" target="readme.txt" />    
+  </files>
+</package>

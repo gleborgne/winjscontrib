@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>WinJSContrib.Settings.About</id> 
+    <version>1.0.0.2</version> 
+    <title>WinJSContrib.Settings.About</title>
+    <authors>MCNEXT, Guillaume Leborgne</authors>
+    <description>About page in the settings charms</description>
+    <copyright>MCNEXT</copyright>
+    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontribDownloadId=909840</iconUrl>
+    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
+    <tags>WinJS, HTML5, WinRT, Windows 8, Windows 8.1</tags>
+    <language>en-US</language>    
+  </metadata>
+  <files>
+    <file src="MCNEXT WinJS Contrib.Shared\pages\settings\about\aboutPage.js" target="content\pages\settings\about" />
+    <file src="MCNEXT WinJS Contrib.Shared\pages\settings\about\aboutPage.css" target="content\pages\settings\about" />
+    <file src="MCNEXT WinJS Contrib.Shared\pages\settings\about\aboutPage.html" target="content\pages\settings\about" />
+    <file src="WinJSContrib.Settings.About.readme.txt" target="readme.txt" />    
+  </files>
+</package>

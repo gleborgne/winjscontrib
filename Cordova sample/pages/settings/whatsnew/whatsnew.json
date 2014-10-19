@@ -1,0 +1,14 @@
+﻿{
+    "data": [
+               {
+            "version": 2,
+            "news": [
+                {
+                    "text": "item title",
+					"description": "item description"
+                }
+            ]
+        }
+
+    ]
+}

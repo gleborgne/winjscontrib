@@ -1,0 +1,138 @@
+﻿.mcn-dataform {
+    @blocspace: 5px;
+
+    input, select, textarea {
+        box-sizing: border-box;
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: @blocspace;
+
+        >label{
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        &.actions {
+            text-align: right;
+        }
+    }
+
+    .controlgroup {
+        display: block;
+
+        label {
+            display: inline;
+        }
+
+        input[type=radio], input[type=checkbox] {
+            width: auto;
+        }
+
+        input[type=text], input[type=number], input[type=email], select, textarea {
+            width: 100%;
+        }
+    }
+
+    .grid{
+        display: -ms-grid;
+        -ms-grid-rows: auto;
+
+        .col1{
+            -ms-grid-column:1;
+        }
+        .col2{
+            -ms-grid-column:3;
+        }
+        .col3{
+            -ms-grid-column:5;
+        }
+        .col4{
+            -ms-grid-column:7;
+        }
+        .col5{
+            -ms-grid-column:9;
+        }
+    }
+    
+    .grid1-1{        
+        -ms-grid-columns: 1fr @blocspace 1fr;        
+    }
+    .grid1-2{        
+        -ms-grid-columns: 1fr @blocspace 2fr;        
+    }
+
+    .grid2-1{        
+        -ms-grid-columns: 2fr @blocspace 1fr;        
+    }
+    .grid1-1-1{        
+        -ms-grid-columns: 1fr @blocspace 1fr @blocspace 1fr;        
+    }
+
+    &.form-vertical {
+        p {
+            >label {
+                display: block;
+            }
+
+            >input, >select, >textarea {
+                width: 100%;
+            }
+        }
+    }
+
+    &.form-horizontal {
+        &.label60 label {
+            width: 60px;
+        }
+
+        &.label80 label {
+            width: 80px;
+        }
+
+        &.label100 label {
+            width: 100px;
+        }
+
+        &.label120 label {
+            width: 100px;
+        }
+
+        &.label140 label {
+            width: 100px;
+        }
+
+        &.label160 label {
+            width: 100px;
+        }
+
+        &.label180 label {
+            width: 100px;
+        }
+
+        > p {
+            display: -ms-grid;
+            -ms-grid-rows: auto;
+            -ms-grid-columns: auto 1fr auto;
+
+            &.actions {
+                display: block;
+            }
+
+            > label {
+                display: block;
+                -ms-grid-column: 1;
+                -ms-grid-column-align: start;
+                margin-top: 0.35em;
+                margin-right: 10px;
+                text-align: right;
+            }
+
+            >input, >select, >textarea, >.controlgroup {
+                width: 100%;
+                -ms-grid-column: 2;
+            }
+        }
+    }
+}
