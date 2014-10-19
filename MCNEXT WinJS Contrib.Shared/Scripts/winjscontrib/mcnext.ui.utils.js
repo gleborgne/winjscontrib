@@ -173,6 +173,199 @@ var WinJSContrib = MCNEXT;
                 }
             });
         };
+
+
+        /** 
+         * build a promise around element "load" event (work for all element with src property like images, iframes, ...)
+         * @param {HTMLElement} element
+         * @param {string} url url used to feed "src" on element
+         * @returns {WinJS.Promise}
+         */
+        MCNEXT.UI.elementLoaded = function (elt, url) {
+            return new WinJS.Promise(function (complete, error) {
+                function onerror(e) {
+                    elt.onload = undefined;
+                    elt.onerror = undefined;
+                    elt.onreadystatechange = undefined;
+                    error('element not loaded');
+                }
+
+                function onload(e) {
+                    elt.onload = undefined;
+                    elt.onerror = undefined;
+                    elt.onreadystatechange = undefined;
+                    complete({
+                        element: elt,
+                        url: url
+                    });
+                }
+
+                elt.onerror = onerror;
+                elt.onload = onload;
+                elt.onreadystatechange = onload;
+                if (elt.naturalWidth > 0) {
+                    onload(undefined);
+                }
+                elt.src = url;
+            });
+        };
+
+        /**
+         * Create a promise for getting an image object from url
+         * @param {string} imgUrl url for the picture
+         * @returns {WinJS.Promise}
+         */
+        MCNEXT.UI.loadImage = function (imgUrl) {
+            return new WinJS.Promise(function (complete, error) {
+                var image = new Image();
+
+                function onerror(e) {
+                    image.onload = undefined;
+                    image.onerror = undefined;
+                    error('image not loaded');
+                }
+
+                function onload(e) {
+                    image.onload = undefined;
+                    image.onerror = undefined;
+                    complete({
+                        element: image,
+                        url: imgUrl
+                    });
+                }
+
+                image.onerror = onerror;
+                image.onload = onload;
+                if (image.naturalWidth > 0) {
+                    onload(undefined);
+                }
+                image.src = imgUrl;
+            });
+        };
+
+        /**
+         * List all elements found after provided element
+         * @param {HTMLElement} elt target element
+         * @returns {Array} list of sibling elements
+         */
+        MCNEXT.UI.listElementsAfterMe = function (elt) {
+            var res = [];
+            var passed = false;
+            if (elt.parentElement) {
+                var parent = elt.parentElement;
+                for (var i = 0; i < parent.children.length; i++) {
+                    if (parent.children[i] === elt) {
+                        passed = true;
+                    } else if (passed) {
+                        res.push(parent.children[i]);
+                    }
+                }
+            }
+            return res;
+        };
+
+        /**
+         * create an animation for removing an element from a list
+         * @param {HTMLElement} element that will be removed
+         * @returns {WinJS.Promise}
+         */
+        MCNEXT.UI.removeElementAnimation = function (elt) {
+            return new WinJS.Promise(function (complete, error) {
+                var remainings = MCNEXT.UI.listElementsAfterMe(elt);
+                var anim = WinJS.UI.Animation.createDeleteFromListAnimation([
+                    elt
+                ], remainings);
+                elt.style.position = "fixed";
+                elt.style.opacity = '0';
+                anim.execute().done(function () {
+                    complete(elt);
+                });
+            });
+        };
+
+        /**
+         * setup declarative binding to parent control function
+         * @param {HTMLElement} element root node crawled for page actions
+         * @param {Object} control control owning functions to call
+         */
+        MCNEXT.UI.bindPageActions = function (element, control) {
+            $('*[data-page-action]', element).each(function () {
+                var actionName = $(this).addClass('page-action').data('page-action');
+
+                var action = control[actionName];
+                if (action && typeof action === 'function') {
+                    $(this).tap(function (eltarg) {
+                        var actionArgs = $(eltarg).data('page-action-args');
+                        if (actionArgs && typeof actionArgs == 'string') {
+                            try {
+                                var tmp = MCNEXT.Utils.readValue(eltarg, actionArgs);
+                                if (tmp) {
+                                    actionArgs = tmp;
+                                } else {
+                                    actionArgs = JSON.parse(actionArgs);
+                                }
+                            } catch (exception) {
+                                return;
+                            }
+                        }
+
+                        control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
+                    });
+                }
+            });
+        };
+
+        /**
+         * setup declarative binding to page link
+         * @param {HTMLElement} element root node crawled for page actions
+         */
+        MCNEXT.UI.bindPageLinks = function (element) {
+            $('*[data-page-link]', element).each(function () {
+                var target = $(this).addClass('page-link').data('page-link');
+
+                if (target && target.indexOf('/') < 0) {
+                    var tmp = MCNEXT.Utils.readProperty(window, target);
+                    if (tmp) {
+                        target = tmp;
+                    }
+                }
+
+                if (target) {
+                    $(this).tap(function (eltarg) {
+                        var actionArgs = $(eltarg).data('page-action-args');
+                        if (actionArgs && typeof actionArgs == 'string') {
+                            try {
+                                var tmp = MCNEXT.Utils.readValue(eltarg, actionArgs);
+                                if (tmp) {
+                                    actionArgs = tmp;
+                                } else {
+                                    actionArgs = JSON.parse(actionArgs);
+                                }
+                            } catch (exception) {
+                                return;
+                            }
+                        }
+
+                        if (MCNEXT.UI.parentNavigator && MCNEXT.UI.parentNavigator(eltarg)) {
+                            var nav = MCNEXT.UI.parentNavigator(eltarg);
+                            nav.navigate(target, actionArgs);
+                        } else {
+                            WinJS.Navigation.navigate(target, actionArgs);
+                        }
+                    });
+                }
+            });
+        };
+
+        /**
+         * setup declarative binding to parent control function and to navigation links
+         * @param {HTMLElement} element root node crawled for page actions
+         * @param {Object} control control owning functions to call
+         */
+        MCNEXT.UI.bindActions = function (element, control) {
+            MCNEXT.UI.bindPageActions(element, control);
+            MCNEXT.UI.bindPageLinks(element);
+        };
     })(MCNEXT.UI);
 
 
@@ -365,34 +558,7 @@ var WinJSContrib = MCNEXT;
             return str.join("&");
         }
 
-        MCNEXT.Utils.cordovaClass = function (classList) {
-            if (MCNEXT.Utils.isMobile.Android() || MCNEXT.Utils.isMobile.iOS()) {
-                classList.add("mcn-cordova");
-            }
-
-            return classList
-        }
-
-        MCNEXT.Utils.isMobile = {
-            Android: function () {
-                return navigator.userAgent.match(/Android/i);
-            },
-            BlackBerry: function () {
-                return navigator.userAgent.match(/BlackBerry/i);
-            },
-            iOS: function () {
-                return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-            },
-            Opera: function () {
-                return navigator.userAgent.match(/Opera Mini/i);
-            },
-            Windows: function () {
-                return navigator.userAgent.match(/IEMobile/i);
-            },
-            any: function () {
-                return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-            }
-        };
+        
 
         /**
          * trigger an event on a DOM node
@@ -476,6 +642,7 @@ var WinJSContrib = MCNEXT;
         * @param {Object} source the object containing data
         * @param {Object} properties property descriptor. could be a string in js notation ex: 'myProp.myChildProp, 
         * or an array of strings ['myProp', 'myChildProp']. String notation can contain indexers
+        * @returns {Object} property value
         */
         MCNEXT.Utils.readProperty = function readProperty(source, properties) {
             if (typeof properties == 'string' && source[properties])
@@ -566,6 +733,7 @@ var WinJSContrib = MCNEXT;
          * WORK ONLY FOR WINRT
          * read protocol arguments from application activation event arguments
          * @param {Object} args WinJS application activation argument
+         * @returns {Object} protocol arguments
          */
         MCNEXT.Utils.readProtocol = function (args) {
             if (args.detail.kind === Windows.ApplicationModel.Activation.ActivationKind.protocol && args.detail.uri) {
@@ -720,70 +888,10 @@ var WinJSContrib = MCNEXT;
             return r;
         };
 
-        /** 
-         * build a promise around element "load" event
-         * @param {HTMLElement} element
-         * @param {string} url url used to feed "src" on element
+        /**
+         * remove a page from navigation history
+         * @param {string} pageLocation page url
          */
-        MCNEXT.Utils.elementLoaded = function (elt, url) {
-            return new WinJS.Promise(function (complete, error) {
-                function onerror(e) {
-                    elt.onload = undefined;
-                    elt.onerror = undefined;
-                    elt.onreadystatechange = undefined;
-                    error('element not loaded');
-                }
-
-                function onload(e) {
-                    elt.onload = undefined;
-                    elt.onerror = undefined;
-                    elt.onreadystatechange = undefined;
-                    complete({
-                        element: elt,
-                        url: url
-                    });
-                }
-
-                elt.onerror = onerror;
-                elt.onload = onload;
-                elt.onreadystatechange = onload;
-                if (elt.naturalWidth > 0) {
-                    onload(undefined);
-                }
-                elt.src = url;
-            });
-        };
-
-        MCNEXT.Utils.listElementsAfterMe = function (elt) {
-            var res = [];
-            var passed = false;
-            if (elt.parentElement) {
-                var parent = elt.parentElement;
-                for (var i = 0; i < parent.children.length; i++) {
-                    if (parent.children[i] === elt) {
-                        passed = true;
-                    } else if (passed) {
-                        res.push(parent.children[i]);
-                    }
-                }
-            }
-            return res;
-        };
-
-        MCNEXT.Utils.removeElementAnimation = function (elt) {
-            return new WinJS.Promise(function (complete, error) {
-                var remainings = listElementsAfterMe(elt);
-                var anim = WinJS.UI.Animation.createDeleteFromListAnimation([
-                    elt
-                ], remainings);
-                elt.style.position = "fixed";
-                elt.style.opacity = '0';
-                anim.execute().done(function () {
-                    complete(elt);
-                });
-            });
-        };
-
         MCNEXT.Utils.removePageFromHistory = function (pageLoc) {
             var history = [];
             if (WinJS.Navigation.history && WinJS.Navigation.history.backStack && WinJS.Navigation.history.backStack.length) {
@@ -796,38 +904,20 @@ var WinJSContrib = MCNEXT;
             WinJS.Navigation.history.backStack = history;
         };
 
-        MCNEXT.Utils.loadImage = function (imgUrl) {
-            return new WinJS.Promise(function (complete, error) {
-                var image = new Image();
-
-                function onerror(e) {
-                    image.onload = undefined;
-                    image.onerror = undefined;
-                    error('image not loaded');
-                }
-
-                function onload(e) {
-                    image.onload = undefined;
-                    image.onerror = undefined;
-                    complete({
-                        element: image,
-                        url: imgUrl
-                    });
-                }
-
-                image.onerror = onerror;
-                image.onload = onload;
-                if (image.naturalWidth > 0) {
-                    onload(undefined);
-                }
-                image.src = imgUrl;
-            });
-        };
-
+        /**
+         * format a number on 2 characters
+         * @param {number} number
+         */
         MCNEXT.Utils.pad2 = function (number) {
             return (number < 10 ? '0' : '') + number;
         };
 
+        /**
+         * truncate a string and add ellipse if text if greater than certain size
+         * @param {string} text text to truncate
+         * @param {number} maxSize maximum size for text
+         * @param {boolean} useWordBoundary indicate if truncate should happen on the closest word boundary (like space)
+         */
         MCNEXT.Utils.ellipsisizeString = function (text, maxSize, useWordBoundary) {
             if (!text) {
                 return '';
@@ -837,16 +927,8 @@ var WinJSContrib = MCNEXT;
             return toLong ? text_ + '...' : text_;
         };
 
-        MCNEXT.Utils.removeHTML = WinJS.Utilities.markSupportedForProcessing(function (source, sourceProperty, dest, destProperty) {
-            var data = MCNEXT.Utils.readProperty(source, sourceProperty);
-            var elt = document.createElement('DIV');
-            elt.innerHTML = data;
-            WinJS.Binding.oneTime({ value: elt.innerText }, ['value'], dest, [destProperty]);
-        });
-
-
         /**
-         * generate a Guid
+         * generate a new Guid
          * @returns {string}
          */
         MCNEXT.Utils.guid = function () {
@@ -874,7 +956,9 @@ var WinJSContrib = MCNEXT;
         };
 
         /**
-         * move DOM elements form one node to the other
+         * move DOM childrens form one node to the other
+         * @param {HTMLElement} source source node containing elements to move
+         * @param {HTMLElement} target target node for moved elements
          */
         MCNEXT.Utils.moveChilds = function (source, target) {
             var childs = [];
@@ -1015,75 +1099,7 @@ var WinJSContrib = MCNEXT;
             //return null;
         };
 
-        MCNEXT.Utils.bindPageActions = function (element, control) {
-            $('*[data-page-action]', element).each(function () {
-                var actionName = $(this).addClass('page-action').data('page-action');
-
-                var action = control[actionName];
-                if (action && typeof action === 'function') {
-                    $(this).tap(function (eltarg) {
-                        var actionArgs = $(eltarg).data('page-action-args');
-                        if (actionArgs && typeof actionArgs == 'string') {
-                            try {
-                                var tmp = MCNEXT.Utils.readValue(eltarg, actionArgs);
-                                if (tmp) {
-                                    actionArgs = tmp;
-                                } else {
-                                    actionArgs = JSON.parse(actionArgs);
-                                }
-                            } catch (exception) {
-                                return;
-                            }
-                        }
-
-                        control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
-                    });
-                }
-            });
-        };
-
-        MCNEXT.Utils.bindPageLinks = function (element) {
-            $('*[data-page-link]', element).each(function () {
-                var target = $(this).addClass('page-link').data('page-link');
-
-                if (target && target.indexOf('/') < 0) {
-                    var tmp = MCNEXT.Utils.readProperty(window, target);
-                    if (tmp) {
-                        target = tmp;
-                    }
-                }
-
-                if (target) {
-                    $(this).tap(function (eltarg) {
-                        var actionArgs = $(eltarg).data('page-action-args');
-                        if (actionArgs && typeof actionArgs == 'string') {
-                            try {
-                                var tmp = MCNEXT.Utils.readValue(eltarg, actionArgs);
-                                if (tmp) {
-                                    actionArgs = tmp;
-                                } else {
-                                    actionArgs = JSON.parse(actionArgs);
-                                }
-                            } catch (exception) {
-                                return;
-                            }
-                        }
-
-                        if (MCNEXT.UI.parentNavigator && MCNEXT.UI.parentNavigator(eltarg)) {
-                            var nav = MCNEXT.UI.parentNavigator(eltarg);
-                            nav.navigate(target, actionArgs);
-                        } else {
-                            WinJS.Navigation.navigate(target, actionArgs);
-                        }
-                    });
-                }
-            });
-        };
-
-        MCNEXT.Utils.bindActions = function (element, control) {
-            Utils.bindPageActions(element, control);
-            Utils.bindPageLinks(element);
-        };
+        
 
         /**
          * Checks in a safe way if an object has a value, which could be 'false', '0' or '""'
@@ -1094,6 +1110,9 @@ var WinJSContrib = MCNEXT;
             return typeof item !== "undefined" && item !== null;
         };
 
+        /**
+         * format error from an xhr call
+         */
         MCNEXT.Utils.formatXHRError = function (xhr) {
             return "{0} - {1}: {2}".format(xhr.status, xhr.statusText, xhr.responseText);
         };
