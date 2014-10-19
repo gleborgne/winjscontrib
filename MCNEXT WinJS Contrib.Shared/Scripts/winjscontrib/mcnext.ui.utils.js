@@ -120,17 +120,74 @@ var WinJSContrib = MCNEXT;
             }
             this.events = [];
         };
+
+        /**
+         * open appbars
+         */
+        MCNEXT.UI.appbarsOpen = function () {
+            var res = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
+            if (res && res.length) {
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].winControl) {
+                        res[i].winControl.show();
+                    }
+                }
+            }
+        };
+
+        /**
+         * close appbars
+         */
+        MCNEXT.UI.appbarsClose = function () {
+            var res = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
+            if (res && res.length) {
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].winControl) {
+                        res[i].winControl.hide();
+                    }
+                }
+            }
+        };
+
+        /**
+         * disable appbars
+         */
+        MCNEXT.UI.appbarsDisable = function () {
+            var res = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
+            if (res && res.length) {
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].winControl) {
+                        res[i].winControl.disabled = true;
+                    }
+                }
+            }
+        };
+
+        /**
+         * enable appbars
+         */
+        MCNEXT.UI.appbarsEnable = function () {
+            $('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]').each(function () {
+                if (this.winControl) {
+                    this.winControl.disabled = false;
+                }
+            });
+        };
     })(MCNEXT.UI);
 
 
     /** 
      * return a task object
+     * @param {Array} dataArray items to process with async tasks
      * @returns {MCNEXT.Task}
       */
     MCNEXT.Tasks = function (dataArray) {
         var dataPromise = WinJS.Promise.as(dataArray);
 
-        /** @class MCNEXT.Task */
+        /** 
+         * @class MCNEXT.Task 
+         * @see MCNEXT.Tasks
+         */
         var Task =
 
             {
@@ -787,46 +844,6 @@ var WinJSContrib = MCNEXT;
             WinJS.Binding.oneTime({ value: elt.innerText }, ['value'], dest, [destProperty]);
         });
 
-        MCNEXT.Utils.appbarsOpen = function () {
-            var res = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
-            if (res && res.length) {
-                for (var i = 0; i < res.length; i++) {
-                    if (res[i].winControl) {
-                        res[i].winControl.show();
-                    }
-                }
-            }
-        };
-
-        MCNEXT.Utils.appbarsClose = function () {
-            var res = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
-            if (res && res.length) {
-                for (var i = 0; i < res.length; i++) {
-                    if (res[i].winControl) {
-                        res[i].winControl.hide();
-                    }
-                }
-            }
-        };
-
-        MCNEXT.Utils.appbarsDisable = function () {
-            var res = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
-            if (res && res.length) {
-                for (var i = 0; i < res.length; i++) {
-                    if (res[i].winControl) {
-                        res[i].winControl.disabled = true;
-                    }
-                }
-            }
-        };
-
-        MCNEXT.Utils.appbarsEnable = function () {
-            $('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]').each(function () {
-                if (this.winControl) {
-                    this.winControl.disabled = false;
-                }
-            });
-        };
 
         /**
          * generate a Guid
