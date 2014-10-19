@@ -16,15 +16,22 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.boilerplatecontrol.js" target="content\scripts\winjscontrib" />
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.boilerplateobservable.js" target="content\scripts\winjscontrib" />
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\jquery.mcnext.WinJS.js" target="content\scripts\winjscontrib" />
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.utils.js" target="content\scripts\winjscontrib" />
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.bindings.js" target="content\scripts\winjscontrib" />
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.twowaybindings.js" target="content\scripts\winjscontrib" />
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.animation.js" target="content\scripts\winjscontrib" />
-    <file src="MCNEXT WinJS Contrib.Shared\css\winjscontrib\mcnext.ui.css" target="content\css\winjscontrib" />
-    <file src="MCNEXT WinJS Contrib.Shared\css\winjscontrib\segoe.symbol.css" target="content\css\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.boilerplatecontrol.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.boilerplateobservable.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\jquery.mcnext.WinJS.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\jquery.mcnext.WinJS.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.utils.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.utils.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.bindings.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.bindings.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.twowaybindings.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.twowaybindings.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.animation.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.animation.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\css\mcnext.ui.css" target="content\css\winjscontrib" />
+    <file src="..\bin\css\mcnext.ui.min.css" target="content\css\winjscontrib" />
+    <file src="..\bin\css\segoe.symbol.css" target="content\css\winjscontrib" />
+    <file src="..\bin\css\segoe.symbol.min.css" target="content\css\winjscontrib" />
     <file src="WinJSContrib.Core.readme.txt" target="readme.txt" />    
   </files>
 </package>

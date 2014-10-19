@@ -15,8 +15,10 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.messenger.js" target="content\scripts\winjscontrib" />
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.messenger.worker.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.messenger.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.messenger.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.messenger.worker.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.messenger.worker.min.js" target="content\scripts\winjscontrib" />
     <file src="WinJSContrib.Messenger.readme.txt" target="readme.txt" />    
   </files>
 </package>

@@ -16,8 +16,10 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Master\scripts\winjscontrib\mcnext.ui.hubcontrol.js" target="content\scripts\winjscontrib" />
-    <file src="Master\css\winjscontrib\mcnext.ui.hub.css" target="content\css\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.hubcontrol.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.hubcontrol.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\css\mcnext.ui.hub.css" target="content\css\winjscontrib" />
+    <file src="..\bin\css\mcnext.ui.hub.min.css" target="content\css\winjscontrib" />
     <file src="WinJSContrib.Hub.readme.txt" target="readme.txt" />
   </files>
 </package>

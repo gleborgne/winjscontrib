@@ -31,10 +31,17 @@ gulp.task('styles', function() {
 	return gulp.src(['MCNEXT WinJS Contrib.Shared/css/winjscontrib/**/*.less'])
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(less())
+	.pipe(gulp.dest('dist/bin/css'))
 	//.pipe(gulp.dest('src/'))
 	.pipe(minifycss())
+	.pipe(rename(function (path) {
+        if(path.extname === '.css') {
+            path.basename += '.min';
+        }
+    }))
+    .pipe(gulp.dest('dist/bin/css'))
 	//.pipe(concat('main.css'))
-	.pipe(gulp.dest('dist/bin/css'))
+	
 });
 
 
@@ -53,7 +60,7 @@ gulp.task('scripts', function() {
 	.pipe(uglify({ outSourceMap: true }))
 	//.pipe(uglify())
 	//.pipe(concat('main.js'))
-	.pipe(gulp.dest('dist/js/'));
+	.pipe(gulp.dest('dist/bin/js/'));
 });
 
 
@@ -75,5 +82,5 @@ gulp.task('watch', function() {
 
 
 gulp.task('default', ['clean'], function() {
-	gulp.start('styles', 'scripts');
+	gulp.start('doc', 'styles', 'scripts');
 });

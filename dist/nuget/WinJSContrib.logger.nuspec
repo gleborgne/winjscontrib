@@ -14,7 +14,8 @@
     <dependencies/>
   </metadata>
   <files>
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.logger.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.logger.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.logger.min.js" target="content\scripts\winjscontrib" />
     <file src="WinJSContrib.logger.readme.txt" target="readme.txt" />
   </files>
 </package>

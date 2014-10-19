@@ -16,8 +16,10 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Master\scripts\winjscontrib\mcnext.ui.windowsphone.flyoutpage.js" target="content\scripts\winjscontrib" />  
-    <file src="Master\css\winjscontrib\mcnext.ui.windowsphone.flyoutpage.css" target="content\css\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.windowsphone.flyoutpage.js" target="content\scripts\winjscontrib" />  
+    <file src="..\bin\js\mcnext.ui.windowsphone.flyoutpage.min.js" target="content\scripts\winjscontrib" />  
+    <file src="..\bin\css\mcnext.ui.windowsphone.flyoutpage.css" target="content\css\winjscontrib" />
+    <file src="..\bin\css\mcnext.ui.windowsphone.flyoutpage.min.css" target="content\css\winjscontrib" />
     <file src="WinJSContrib.datasourcemanager.readme.txt" target="readme.txt" />  
   </files>
 </package>

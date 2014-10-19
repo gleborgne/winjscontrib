@@ -17,7 +17,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.date.utils.js" target="content\scripts\winjscontrib" />   
+    <file src="..\bin\js\mcnext.date.utils.js" target="content\scripts\winjscontrib" />   
+    <file src="..\bin\js\mcnext.date.utils.min.js" target="content\scripts\winjscontrib" />   
     <file src="WinJSContrib.Dates.readme.txt" target="readme.txt" /> 
   </files>
 </package>

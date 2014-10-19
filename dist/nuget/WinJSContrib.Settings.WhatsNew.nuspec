@@ -16,11 +16,11 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="MCNEXT WinJS Contrib.Shared\pages\settings\whatsnew\whatsnew.css" target="content\pages\settings\whatsnew" />
-    <file src="MCNEXT WinJS Contrib.Shared\pages\settings\whatsnew\whatsnew.html" target="content\pages\settings\whatsnew" />
-    <file src="MCNEXT WinJS Contrib.Shared\pages\settings\whatsnew\whatsnew.js" target="content\pages\settings\whatsnew" />
-    <file src="MCNEXT WinJS Contrib.Shared\pages\settings\whatsnew\whatsnew.json" target="content\pages\settings\whatsnew" />
-    <file src="MCNEXT WinJS Contrib.Shared\pages\settings\whatsnew\whatsnewcontrol.js" target="content\pages\settings\whatsnew" />
+    <file src="..\..\MCNEXT WinJS Contrib.Shared\pages\settings\whatsnew\whatsnew.css" target="content\pages\settings\whatsnew" />
+    <file src="..\..\MCNEXT WinJS Contrib.Shared\pages\settings\whatsnew\whatsnew.html" target="content\pages\settings\whatsnew" />
+    <file src="..\..\MCNEXT WinJS Contrib.Shared\pages\settings\whatsnew\whatsnew.js" target="content\pages\settings\whatsnew" />
+    <file src="..\..\MCNEXT WinJS Contrib.Shared\pages\settings\whatsnew\whatsnew.json" target="content\pages\settings\whatsnew" />
+    <file src="..\..\MCNEXT WinJS Contrib.Shared\pages\settings\whatsnew\whatsnewcontrol.js" target="content\pages\settings\whatsnew" />
     <file src="WinJSContrib.Settings.WhatsNew.readme.txt" target="readme.txt" />    
   </files>
 </package>

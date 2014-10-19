@@ -16,8 +16,10 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.search.js" target="content\scripts\winjscontrib" />
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.search.worker.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.search.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.search.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.search.worker.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.search.worker.min.js" target="content\scripts\winjscontrib" />
     <file src="WinJSContrib.Search.readme.txt" target="readme.txt" />
   </files>
 </package>

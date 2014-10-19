@@ -16,7 +16,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.datasourcemanager.js" target="content\scripts\winjscontrib" />  
+    <file src="..\bin\js\mcnext.ui.datasourcemanager.js" target="content\scripts\winjscontrib" />  
+    <file src="..\bin\js\mcnext.ui.datasourcemanager.min.js" target="content\scripts\winjscontrib" />  
     <file src="WinJSContrib.datasourcemanager.readme.txt" target="readme.txt" />  
   </files>
 </package>

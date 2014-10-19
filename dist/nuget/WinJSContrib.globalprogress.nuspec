@@ -16,8 +16,10 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Master\scripts\winjscontrib\mcnext.ui.globalprogress.js" target="content\scripts\winjscontrib" />
-    <file src="Master\css\winjscontrib\mcnext.ui.globalprogress.css" target="content\css\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.globalprogress.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.globalprogress.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\css\mcnext.ui.globalprogress.css" target="content\css\winjscontrib" />
+    <file src="..\bin\css\mcnext.ui.globalprogress.min.css" target="content\css\winjscontrib" />
     <file src="WinJSContrib.GlobalProgress.readme.txt" target="readme.txt" />
   </files>
 </package>

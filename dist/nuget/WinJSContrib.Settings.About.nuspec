@@ -13,9 +13,9 @@
     <language>en-US</language>    
   </metadata>
   <files>
-    <file src="MCNEXT WinJS Contrib.Shared\pages\settings\about\aboutPage.js" target="content\pages\settings\about" />
-    <file src="MCNEXT WinJS Contrib.Shared\pages\settings\about\aboutPage.css" target="content\pages\settings\about" />
-    <file src="MCNEXT WinJS Contrib.Shared\pages\settings\about\aboutPage.html" target="content\pages\settings\about" />
+    <file src="..\..\MCNEXT WinJS Contrib.Shared\pages\settings\about\aboutPage.js" target="content\pages\settings\about" />
+    <file src="..\..\MCNEXT WinJS Contrib.Shared\pages\settings\about\aboutPage.css" target="content\pages\settings\about" />
+    <file src="..\..\MCNEXT WinJS Contrib.Shared\pages\settings\about\aboutPage.html" target="content\pages\settings\about" />
     <file src="WinJSContrib.Settings.About.readme.txt" target="readme.txt" />    
   </files>
 </package>

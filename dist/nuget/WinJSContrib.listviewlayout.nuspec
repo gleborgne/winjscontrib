@@ -16,7 +16,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ui.smartlistlayout.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.smartlistlayout.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.smartlistlayout.min.js" target="content\scripts\winjscontrib" />
     <file src="WinJSContrib.ListViewLayout.readme.txt" target="readme.txt" />
   </files>
 </package>

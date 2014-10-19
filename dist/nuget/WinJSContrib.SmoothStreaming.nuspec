@@ -16,7 +16,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="MCNEXT WinJS Contrib.Shared\scripts\winjscontrib\mcnext.ssm.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ssm.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ssm.min.js" target="content\scripts\winjscontrib" />
     <file src="WinJSContrib.SmoothStreaming.readme.txt" target="readme.txt" />
   </files>
 </package>

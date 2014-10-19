@@ -16,8 +16,10 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Master\scripts\winjscontrib\mcnext.ui.tab-pages.js" target="content\scripts\winjscontrib" />
-    <file src="Master\css\winjscontrib\mcnext.ui.tab-pages.css" target="content\css\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.tab-pages.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.tab-pages.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\css\mcnext.ui.tab-pages.css" target="content\css\winjscontrib" />
+    <file src="..\bin\css\mcnext.ui.tab-pages.min.css" target="content\css\winjscontrib" />
     <file src="WinJSContrib.Tab.readme.txt" target="readme.txt" />
   </files>
 </package>
