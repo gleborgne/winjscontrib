@@ -28,6 +28,10 @@
     <file src="..\bin\js\mcnext.ui.twowaybindings.min.js" target="content\scripts\winjscontrib" />
     <file src="..\bin\js\mcnext.ui.animation.js" target="content\scripts\winjscontrib" />
     <file src="..\bin\js\mcnext.ui.animation.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.crossplatform.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.crossplatform.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.winrtalerts.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\mcnext.ui.winrtalerts.min.js" target="content\scripts\winjscontrib" />
     <file src="..\bin\css\mcnext.ui.css" target="content\css\winjscontrib" />
     <file src="..\bin\css\mcnext.ui.min.css" target="content\css\winjscontrib" />
     <file src="..\bin\css\segoe.symbol.css" target="content\css\winjscontrib" />
