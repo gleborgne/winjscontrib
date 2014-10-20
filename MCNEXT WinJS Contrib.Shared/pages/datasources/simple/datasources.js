@@ -54,7 +54,7 @@
         ready: function (element) {
             var page = this;
 
-            if (MCNEXT.Utils.isMobile.Android() || MCNEXT.Utils.isMobile.iOS()) {
+            if (MCNEXT.CrossPlatform && (MCNEXT.CrossPlatform.isMobile.Android() || MCNEXT.CrossPlatform.isMobile.iOS())) {
                 var semanticzoom = element.querySelector('#semanticzoom');
                 if (semanticzoom && semanticzoom.winControl)
                     semanticzoom.winControl.forceLayout();

@@ -16,7 +16,8 @@
                 options = options || {};
                 ctrl.element = element || document.createElement("div");
                 ctrl.element.className = 'mcn-tabpages ' + ctrl.element.className;
-                MCNEXT.Utils.cordovaClass(ctrl.element.classList);
+                if (MCNEXT.CrossPlatform)
+                    MCNEXT.CrossPlatform.cordovaClass(ctrl.element.classList);
                 ctrl.tabHeader = options.header || element.querySelector('.mcn-tabpages-header');
                 ctrl.tabHeaderTemplate = options.headerTemplate;
                 ctrl.tabContent = options.content || element.querySelector('.mcn-tabpages-content');

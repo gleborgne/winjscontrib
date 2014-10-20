@@ -21,7 +21,8 @@
                     MCNEXT.UI.Application.progress = ctrl;
                 }
                 ctrl.element.className = 'mcn-globalprogress-ctrl ' + element.className;
-                MCNEXT.Utils.cordovaClass(ctrl.element.classList);
+                if (MCNEXT.CrossPlatform)
+                    MCNEXT.CrossPlatform.cordovaClass(ctrl.element.classList);
                 ctrl.element.style.display = 'none';
                 ctrl.element.style.opacity = '0';
                 element.innerHTML = '<div class="mcn-globalprogress-content"><progress class="bar"></progress><div class="mcn-globalprogress-text">' + (options.text || '') + '</div></div>'

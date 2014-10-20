@@ -96,7 +96,7 @@
                     ctrl.splashLoader.style.opacity = 0;
                     ctrl.element.style.display = '';
                     ctrl.element.style.opacity = '';
-                    MCNEXT.Utils.appbarsDisable();
+                    MCNEXT.UI.appbarsDisable();
 
                     return new WinJS.Promise(function (complete, error) {
                         setImmediate(function () {
@@ -144,7 +144,7 @@
 
                 hide: function () {
                     var ctrl = this;
-                    MCNEXT.Utils.appbarsEnable();
+                    MCNEXT.UI.appbarsEnable();
                     window.removeEventListener("resize", ctrl.handleResizeBinded);
                     return ctrl.exitAnimation.bind(ctrl)();
                 }

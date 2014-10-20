@@ -56,15 +56,15 @@ var MCNEXT = MCNEXT || {};
 
 var WinJSContrib = MCNEXT;
 
+/** @namespace */
+MCNEXT.UI = MCNEXT.UI || {};
 
-(function (MCNEXT) {
+
+/** @namespace */
+MCNEXT.Utils = MCNEXT.Utils || {};
+
+(function () {
     'use strict';
-
-    /**
-     * @namespace MCNEXT.UI
-     */
-    MCNEXT.UI = MCNEXT.UI || {};
-    (function (UI) {
 
         /**
          * @class
@@ -366,8 +366,7 @@ var WinJSContrib = MCNEXT;
             MCNEXT.UI.bindPageActions(element, control);
             MCNEXT.UI.bindPageLinks(element);
         };
-    })(MCNEXT.UI);
-
+    
 
     /** 
      * return a task object
@@ -501,11 +500,6 @@ var WinJSContrib = MCNEXT;
 
         return res;
     }
-
-    /** @namespace */
-    MCNEXT.Utils = MCNEXT.Utils || {};
-    (function (Utils) {
-        'use strict';
 
         /** indicate if string starts with featured characters 
          * @param {string} str string to search within
@@ -651,7 +645,7 @@ var WinJSContrib = MCNEXT;
             if (!properties || !properties.length)
                 return source;
 
-            var prop = getProperty(source, properties);
+            var prop = MCNEXT.Utils.getProperty(source, properties);
             if (prop) {
                 return prop.propValue;
             }
@@ -695,14 +689,17 @@ var WinJSContrib = MCNEXT;
                             }
                         }
                     },
+
                     get propValue() {
                         return getobject(this.parent, this.keyProp);
                     },
+
                     set propValue(val) {
                         this.ensureParent();
                         return setobject(this.parent, this.keyProp, val);
                     }
                 };
+
                 previousDescriptor = descriptor;
 
                 if (i == properties.length - 1) {
@@ -722,7 +719,7 @@ var WinJSContrib = MCNEXT;
          * @param {Object} data data to feed to the property
          */
         MCNEXT.Utils.writeProperty = function (source, properties, data) {
-            var prop = getProperty(source, properties);
+            var prop = MCNEXT.Utils.getProperty(source, properties);
             if (prop) {
                 prop.propValue = data;
                 //prop.parent[prop.keyProp] = data;
@@ -1045,7 +1042,7 @@ var WinJSContrib = MCNEXT;
         };
 
         MCNEXT.Utils.resolveMethod = function (element, text) {
-            var res = Utils.resolveValue(element, text);
+            var res = MCNEXT.Utils.resolveValue(element, text);
             if (res && typeof res == 'function')
                 return res;
 
@@ -1053,7 +1050,7 @@ var WinJSContrib = MCNEXT;
         };
 
         MCNEXT.Utils.readValue = function (element, text) {
-            var res = Utils.resolveValue(element, text);
+            var res = MCNEXT.Utils.resolveValue(element, text);
             if (res) {
                 if (typeof res == 'function')
                     return res(element);
@@ -1138,6 +1135,5 @@ var WinJSContrib = MCNEXT;
                 return errorCallback(unwrappedError);
             };
         };
-    })(MCNEXT.Utils);
-
+   
 })(MCNEXT);

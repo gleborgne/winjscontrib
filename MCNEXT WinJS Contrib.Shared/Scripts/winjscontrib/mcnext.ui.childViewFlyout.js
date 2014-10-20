@@ -4,13 +4,22 @@
 //project is available at http://winjscontrib.codeplex.com
 
 
-var MCNEXT = MCNEXT || {};
-
-MCNEXT.UI = MCNEXT.UI || {};
 
 (function () {
-    
-    MCNEXT.UI.ChildViewFlyout = WinJS.Class.mix(WinJS.Class.define(
+
+    WinJS.Namespace.define("MCNEXT.UI", {
+        parentChildView: function (element) {
+            var current = element.parentNode;
+
+            while (current) {
+                if (current.mcnChildnav) {
+                    return current.winControl;
+                }
+                current = current.parentNode;
+            }
+        },
+
+        ChildViewFlyout : WinJS.Class.mix(WinJS.Class.define(
         /** 
          * 
          * @class MCNEXT.UI.ChildViewFlyout 
@@ -36,10 +45,11 @@ MCNEXT.UI = MCNEXT.UI || {};
            {
                _createContent: function () {
                    var that = this;
+                   
                    this.overlay = document.createElement("div");
                    this.overlay.className = "childNavigator-overlay";
                    this.$overlay = $(this.overlay);
-                   this.$overlay.hide();
+                   this.$overlay.removeClass('visible');
                    this.element.appendChild(this.overlay);
                    this.$overlay.click(function () {
                        that.hide();
@@ -54,7 +64,7 @@ MCNEXT.UI = MCNEXT.UI || {};
                        return that.hide(arg);
                    }
                    this.$contentPlaceholder = $(this.contentPlaceholder);
-                   this.$contentPlaceholder.hide();
+                   
                    this.element.appendChild(this.contentPlaceholder);
                },
 
@@ -136,10 +146,10 @@ MCNEXT.UI = MCNEXT.UI || {};
                    var that = this;
                    document.body.addEventListener('keyup', that.childContentKeyUp);
                    that.isOpened = true;
-                   that.element.style.display = 'block';
-                   that.$overlay.show().addClass("visible");
+                   $(that.element).addClass("visible");
+                   that.$overlay.addClass("visible");
                    if (!skipshowcontainer)
-                       that.$contentPlaceholder.show().addClass("visible");
+                       that.$contentPlaceholder.addClass("visible");
                },
 
                pick: function (uri, options, skipHistory) {
@@ -196,10 +206,10 @@ MCNEXT.UI = MCNEXT.UI || {};
                 */
                open: function (uri, options, skipHistory) {
                    var that = this;
-                   that.element.style.display = 'block';
+                   $(that.element).addClass("visible");
                    that.dispatchEvent('beforeshow');
-                   that.$overlay.show().addClass("visible");
-                   that.$contentPlaceholder.show().addClass("visible");
+                   that.$overlay.addClass("visible");
+                   that.$contentPlaceholder.addClass("visible");
 
                    return new WinJS.Promise(function (complete, error) {
                        //setImmediate(function () {
@@ -241,38 +251,23 @@ MCNEXT.UI = MCNEXT.UI || {};
                    that.isOpened = false;
                    that.dispatchEvent('beforehide', arg);
 
-                   if (this.$overlay.hasClass("visible")) {
-                       this.$contentPlaceholder.afterTransition(function () {
-                           that.$overlay.hide();
-                           that.$contentPlaceholder.hide();
+                   if (that.$overlay.hasClass("visible")) {
+                       that.$contentPlaceholder.afterTransition(function () {
                            that.clear();
-                           that.element.style.display = 'none';
+                           $(that.element).removeClass('visible');
                            that.dispatchEvent('afterhide', arg);
 
                        });
 
 
-                       this.$overlay.removeClass("visible");
-                       this.$contentPlaceholder.removeClass("visible");
+                       that.$overlay.removeClass("visible");
+                       that.$contentPlaceholder.removeClass("visible");
                    }
                    return true;
                }
            }),
            WinJS.Utilities.eventMixin,
            WinJS.Utilities.createEventProperties("beforeshow", "beforehide", "aftershow", "afterhide"))
-
-    WinJS.Namespace.define("MCNEXT.UI", {
-        parentChildView: function (element) {
-            var current = element.parentNode;
-
-            while (current) {
-                if (current.mcnChildnav) {
-                    return current.winControl;
-                }
-                current = current.parentNode;
-            }
-        },
-
 
     });
 })();

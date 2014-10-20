@@ -34,7 +34,8 @@
                 MCNEXT.UI.Application = MCNEXT.UI.Application || {};
                 MCNEXT.UI.Application.splashscreen = ctrl;
                 ctrl.element.className = 'mcn-splashcreen ' + ctrl.element.className;
-                MCNEXT.Utils.cordovaClass(ctrl.element.classList);
+                if (MCNEXT.CrossPlatform)
+                    MCNEXT.CrossPlatform.cordovaClass(ctrl.element.classList);
                 ctrl.splashImageFile = options.image || '/images/splashscreen.png';
 
                 if (!ctrl.element.innerHTML) {
@@ -47,7 +48,7 @@
                 ctrl.handleDismissedBinded = ctrl.handleDismissed.bind(ctrl);
             }, {
                 defaultSplashContent: function (text, description) {
-                    if (MCNEXT.Utils.isMobile.Android() || MCNEXT.Utils.isMobile.iOS()) {
+                    if (MCNEXT.CrossPlatform && (MCNEXT.CrossPlatform.isMobile.Android() || MCNEXT.CrossPlatform.isMobile.iOS())) {
                         return '<img id="mcn-splashcreen-image" src="' + this.splashImageFile + '" alt="Splash screen image" />' +
                             //'<div id="mcn-splashcreen-description" style="display: none">' + (description || '') + '<div>' +         
                             '<div id="mcn-splashcreen-loader" style="opacity: 0">' +
@@ -96,7 +97,7 @@
                     ctrl.splashLoader.style.opacity = 0;
                     ctrl.element.style.display = '';
                     ctrl.element.style.opacity = '';
-                    MCNEXT.Utils.appbarsDisable();
+                    MCNEXT.UI.appbarsDisable();
 
                     return new WinJS.Promise(function (complete, error) {
                         setImmediate(function () {
@@ -144,7 +145,7 @@
 
                 hide: function () {
                     var ctrl = this;
-                    MCNEXT.Utils.appbarsEnable();
+                    MCNEXT.UI.appbarsEnable();
                     window.removeEventListener("resize", ctrl.handleResizeBinded);
                     return ctrl.exitAnimation.bind(ctrl)();
                 }

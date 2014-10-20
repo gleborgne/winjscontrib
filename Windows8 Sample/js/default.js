@@ -86,7 +86,8 @@
         // complete an asynchronous operation before your application is 
         // suspended, call args.setPromise().
         app.sessionState.history = nav.history;
-        MultipleViews.manager.closeAll();
+        if (MCNEXT.MultipleViews)
+            MCNEXT.MultipleViews.manager.closeAll();
     };
 
     app.start();

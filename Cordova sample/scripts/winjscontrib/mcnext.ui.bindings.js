@@ -268,7 +268,7 @@ var MCNEXT;
             bindingDesc[sourceProperty] = setVisibility;
             return WinJS.Binding.bind(source, bindingDesc);
         });
-        MCNEXT.Bindings.showIfNotDefined = WinJS.Binding.initializer(showUndefined); //warning, deprecated
+        MCNEXT.Bindings.showIfNotDefined = MCNEXT.Bindings.hideIf; //warning, deprecated
 
         MCNEXT.Bindings.enableIf = WinJS.Binding.initializer(function disableUndefined(source, sourceProperty, dest, destProperty) {
             function setVisibility() {

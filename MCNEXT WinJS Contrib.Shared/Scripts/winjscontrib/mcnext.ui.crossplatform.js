@@ -3,9 +3,9 @@
 /**
  * @namespace
  */
-MCNEXT.Cross = MCNEXT.Cross || {};
+MCNEXT.CrossPlatform = MCNEXT.Cross || {};
 (function () {
-    MCNEXT.Cross.cordovaClass = function (classList) {
+    MCNEXT.CrossPlatform.cordovaClass = function (classList) {
         if (MCNEXT.Utils.isMobile.Android() || MCNEXT.Utils.isMobile.iOS()) {
             classList.add("mcn-cordova");
         }
@@ -13,7 +13,7 @@ MCNEXT.Cross = MCNEXT.Cross || {};
         return classList
     }
 
-    MCNEXT.Cross.isMobile = {
+    MCNEXT.CrossPlatform.isMobile = {
         Android: function () {
             return navigator.userAgent.match(/Android/i);
         },
