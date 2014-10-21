@@ -35,7 +35,6 @@
     <Content Include="$(MSBuildThisFileDirectory)css\items.min.css">
       <DependentUpon>items.css</DependentUpon>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.childviewflyout.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.css">
       <DependentUpon>mcnext.ui.less</DependentUpon>
     </Content>
@@ -74,6 +73,10 @@
       <DependentUpon>mcnext.ui.tab-pages.css</DependentUpon>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.childviewflyout.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.childviewflyout.css.map">
+      <DependentUpon>mcnext.ui.childviewflyout.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.childviewflyout.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.css.map">
       <DependentUpon>mcnext.ui.css</DependentUpon>
@@ -105,7 +108,12 @@
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.windowsphone.flyoutpage.css.map">
       <DependentUpon>mcnext.ui.windowsphone.flyoutpage.css</DependentUpon>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.windowsphone.flyoutpage.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.css.map">
+      <DependentUpon>segoe.symbol.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.less" />
     <Content Include="$(MSBuildThisFileDirectory)images\mcnstore.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)pages\alerts\alerts.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\alerts\alerts.html" />
@@ -318,6 +326,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\mcnext.ui.boilerplatecontrol.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\mcnext.ui.boilerplateobservable.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\mcnext.ui.childViewFlyout.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\mcnext.ui.crossplatform.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\mcnext.ui.dataform.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\mcnext.ui.datasourcemanager.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\mcnext.ui.extended-splashscreen.js" />
@@ -340,6 +349,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\mcnext.ui.twowaybindings.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\mcnext.ui.utils.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\mcnext.ui.windowsphone.flyoutpage.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\mcnext.ui.winrtalerts.js" />
     <Content Include="$(MSBuildThisFileDirectory)templates\article.html" />
   </ItemGroup>
 </Project>

@@ -69,9 +69,29 @@ gulp.task('cleandoc', function(cb) {
 });
 
 gulp.task('doc', ['cleandoc'], function() {
+	var infos = {
+		name : 'WINJS Contrib',
+		applicationName : 'WinJS Contrib an',
+		description : 'helpers and controls to complement WinJS',
+		plugins: ['plugins/markdown']
+	};
+
+	var template = {
+	    path: 'ink-docstrap',
+	    systemName      : 'WinJS Contrib',
+	    footer          : "by MCNEXT",
+	    copyright       : "copyright MCNEXT",
+	    navType         : "vertical",
+	    theme           : "cosmo",
+	    linenums        : true,
+	    collapseSymbols : false,
+	    inverseNav      : false
+	  };
+
 	return gulp.src(['MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/**/*.js'])        
 	.pipe(plumber({errorHandler: onError}))
-	.pipe(jsdoc('dist/documentation/'));
+	.pipe(jsdoc.parser(infos))
+  	.pipe(jsdoc.generator('dist/documentation/', template));
 });
 
 

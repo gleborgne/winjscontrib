@@ -1,12 +1,30 @@
 ﻿var MCNEXT = MCNEXT || {};
 MCNEXT.UI = MCNEXT.UI || {};
+/** @namespace */
 MCNEXT.UI.DataSources = MCNEXT.UI.DataSources || {};
-MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
+
 
 (function (ds, gr) {
     "use strict";
 
-    ds.DataSourceManager = WinJS.Class.mix(WinJS.Class.define(function (options) {
+    ds.DataSourceManager = WinJS.Class.mix(WinJS.Class.define(
+    /** 
+     * 
+     * @class MCNEXT.UI.DataSources.DataSourceManager
+     * @classdesc helper class to manage an array with filter and grouping facilities and plug it into listview with or without semantic zoom. 
+     * This is a low level helper object, it's likely that relying on {@link MCNEXT.UI.DataSources.SemanticListViews} will be easier.
+     * @param {Object} options
+     * @example
+     * var datamgr = new MCNEXT.UI.DataSources.DataSourceManager({
+     *    defaultGroupLimit: 12,
+     *    groupKind: MCNEXT.UI.DataSources.Grouping.byField,
+     *    field: 'metadata.genre',
+     *    listview: page.zoomedInList,
+     *    zoomedOutListView: page.zoomedOutList
+     * });
+     * 
+     */
+    function (options) {
         this.groupedList = null;
         this.list = null;
         this.defaultGroupLimit = 0;
@@ -16,6 +34,9 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
         this.filters.onitemremoved = this.init.bind(this);
         this.apply(options);
     },
+    /**
+     * @lends MCNEXT.UI.DataSources.DataSourceManager.prototype
+     */
     {
         apply: function (options) {
             options = options || {};
@@ -39,6 +60,21 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
 
         },
 
+        /**
+         * @property {number} defaultGroupLimit no grouping if items.length < defaultGroupLimit
+         */
+        defaultGroupLimit: {
+            get: function () {
+                return this._defaultGroupLimit;
+            },
+            set: function (val) {
+                this._defaultGroupLimit = val;
+            }
+        },
+
+        /**
+         * @property {function} groupKind grouping manager function
+         */
         groupKind: {
             get: function () {
                 return this._groupKind;
@@ -52,6 +88,9 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
             }
         },
 
+        /**
+         * @property {WinJS.UI.ListView} listview items listview
+         */
         listview: {
             get: function () {
                 return this._listview;
@@ -65,6 +104,21 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
             }
         },
 
+        /**
+         * @property {WinJS.UI.ListView} groupedList listview for grouped items 
+         */
+        groupedList: {
+            get: function () {
+                return this._groupedList;
+            },
+            set: function (val) {
+                this._groupedList = val;
+            }
+        },
+
+        /**
+         * @property {function} filter item filter callback
+         */
         filter: {
             get: function () {
                 return this._filter;
@@ -81,6 +135,9 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
             }
         },
 
+        /**
+         * @property {Array} items data items
+         */
         items: {
             get: function () {
                 return this._items;
@@ -123,6 +180,9 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
             this.init();
         },
 
+        /**
+         * initialise data
+         */
         init: function (dontAttach) {
             this.detach();
             if (this.items) {
@@ -144,12 +204,18 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
             }
         },
 
+        /**
+         * clean-up, initialise data and bind listviews to data
+         */
         prepareItems: function (items) {
             this.detach();
             this._items = items;
             this.init(true);
         },
 
+        /**
+         * attach listviews to data
+         */
         attach: function () {
             if ((this.groupedList || this.filteredlist) && this.listview) {
                 if (this.groupedList && this.groupedList.length >= this.defaultGroupLimit) {
@@ -186,6 +252,10 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
             }
         },
 
+        /**
+         * get parent semantic zoom control
+         * @returns {WinJS.UI.SemanticZoom}
+         */
         parentSemanticZoom: function () {
             var parent = this.listview.element.parentElement;
             while (parent) {
@@ -195,6 +265,9 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
             }
         },
 
+        /**
+         * detach listviews from data
+         */
         detach: function () {
             if (this.listview) {
                 this.listview.itemDataSource = null;
@@ -205,27 +278,70 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
         }
     }), WinJS.UI.DOMEventMixin);
 
-    MCNEXT.UI.SemanticListViews = WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
+    MCNEXT.UI.SemanticListViews = WinJS.Class.mix(WinJS.Class.define(
+    /** 
+     * 
+     * @class MCNEXT.UI.DataSources.SemanticListViews
+     * @classdesc Control wrapping semantic zoom and listviews with a {@link MCNEXT.UI.DataSources.DataSourceManager}
+     * @param {HTMLElement} element DOM element containing the control
+     * @param {Object} options
+     * @example
+     * <div id="semanticzoom" data-win-control="MCNEXT.UI.SemanticListViews" data-win-options="{
+     *      listview: { itemTemplate: select('#listItemTemplate'), groupHeaderTemplate : select('#groupItemTemplate')},
+     *      zoomedOutListview: { itemTemplate: select('#semanticItemTemplate')},
+     *      data: {
+     *          defaultGroupLimit: 12,
+     *          groupKind: MCNEXT.UI.DataSources.Grouping.byField,
+     *          field: 'metadata.genre',
+     *          items: moviesSample
+     *      }}">
+     * </div>
+     */
+    function ctor(element, options) {
         this.element = element || document.createElement('DIV');
         options = options || {};
         this.element.winControl = this;
         this.element.classList.add('win-disposable');
         WinJS.UI.setOptions(this, options);
         this._initControl(options);
-    }, {
+    },
+    /**
+     * @lends MCNEXT.UI.DataSources.SemanticListViews.prototype
+     */
+    {
+        /**
+         * @property {WinJS.UI.SemanticZoom} semanticZoom semantic zoom control
+         */
         semanticZoom: {
             get: function () {
                 return this._semanticZoom;
             }
         },
+
+        /**
+         * @property {WinJS.UI.ListView} listview items listview
+         */
         listview: {
             get: function () {
                 return this._listview;
             }
         },
+
+        /**
+         * @property {WinJS.UI.ListView} zoomedOutListview listview for zoomed out items (usually groups)
+         */
         zoomedOutListview: {
             get: function () {
                 return this._zoomedOutListview;
+            }
+        },
+
+        /**
+         * @property {MCNEXT.UI.DataSources.DataSourceManager} dataManager datasource manager
+         */
+        dataManager: {
+            get: function () {
+                return this._dataManager;
             }
         },
 
@@ -256,7 +372,7 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
             var dataOptions = options.data || {};
             dataOptions.listview = this._listview;
             dataOptions.zoomedOutListView = this._zoomedOutListview;
-            this.dataManager = new ds.DataSourceManager(dataOptions);
+            this._dataManager = new ds.DataSourceManager(dataOptions);
         },
 
         dispose: function () {
@@ -265,9 +381,30 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
     }), WinJS.UI.DOMEventMixin, WinJS.Utilities.createEventProperties("myevent"));
 })(MCNEXT.UI.DataSources, MCNEXT.UI.DataSources.Grouping);
 
+
+/** 
+ * Custom grouping settings for {@link MCNEXT.UI.DataSources.DataSourceManager}
+ * @namespace 
+ * @example
+ * var datamgr = new MCNEXT.UI.DataSources.DataSourceManager({
+ *    defaultGroupLimit: 12,
+ *    groupKind: MCNEXT.UI.DataSources.Grouping.byField,
+ *    field: 'metadata.genre',
+ *    listview: page.zoomedInList,
+ *    zoomedOutListView: page.zoomedOutList
+ * });
+ */
+MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
+
 (function (ds, gr) {
     "use strict";
-    gr.alphabetic = WinJS.Utilities.markSupportedForProcessing(function (options) {
+
+    /**
+     * alphabetic grouping, use "options.field" to define the property used for grouping
+     * @param {Object} options grouping options
+     * @returns {Object} group manager
+     */
+    MCNEXT.UI.DataSources.Grouping.alphabetic = WinJS.Utilities.markSupportedForProcessing(function (options) {
         options = options || {};
         options.defaultGroupName = options.defaultGroupName || '#';
 
@@ -302,7 +439,12 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
         return options;
     });
 
-    gr.byField = WinJS.Utilities.markSupportedForProcessing(function (options) {
+    /**
+     * grouping by a string field on items, use "options.field" to define the property used for grouping
+     * @param {Object} options grouping options
+     * @returns {Object} group manager
+     */
+    MCNEXT.UI.DataSources.Grouping.byField = WinJS.Utilities.markSupportedForProcessing(function (options) {
         options.defaultGroupName = options.defaultGroupName || '#';
 
         options.compareGroups = options.compareGroups || function (a, b) {
@@ -342,7 +484,12 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
         return options;
     });
 
-    gr.byYear = WinJS.Utilities.markSupportedForProcessing(function (options) {
+    /**
+     * grouping by year from a date field, use "options.field" to define the property used for grouping
+     * @param {Object} options grouping options
+     * @returns {Object} group manager
+     */
+    MCNEXT.UI.DataSources.Grouping.byYear = WinJS.Utilities.markSupportedForProcessing(function (options) {
         options.defaultGroupName = options.defaultGroupName || '#';
 
         options.compareGroups = options.compareGroups || function (a, b) {
@@ -383,7 +530,12 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
         return options;
     });
 
-    gr.byMonth = WinJS.Utilities.markSupportedForProcessing(function (options) {
+    /**
+     * grouping by month from a date field, use "options.field" to define the property used for grouping
+     * @param {Object} options grouping options
+     * @returns {Object} group manager
+     */
+    MCNEXT.UI.DataSources.Grouping.byMonth = WinJS.Utilities.markSupportedForProcessing(function (options) {
         options.defaultGroupName = options.defaultGroupName || '#';
 
         options.compareGroups = options.compareGroups || function (a, b) {
@@ -424,7 +576,12 @@ MCNEXT.UI.DataSources.Grouping = MCNEXT.UI.DataSources.Grouping || {};
         return options;
     });
 
-    gr.byDay = WinJS.Utilities.markSupportedForProcessing(function (options) {
+    /**
+     * grouping by day from a date field, use "options.field" to define the property used for grouping
+     * @param {Object} options grouping options
+     * @returns {Object} group manager
+     */
+    MCNEXT.UI.DataSources.Grouping.byDay = WinJS.Utilities.markSupportedForProcessing(function (options) {
         options.defaultGroupName = options.defaultGroupName || '#';
 
         options.compareGroups = options.compareGroups || function (a, b) {
