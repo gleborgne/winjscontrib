@@ -8,7 +8,11 @@ It is a single page application (SPA) framework. The goal of WinJS is to provide
 Now WinJS is open source. it can still be used for Windows apps, but also in cross platform hybrid apps. All details are available on [WinJS website](http://www.buildwinjs.com), and you can experiment with it in their [playground](http://try.buildwinjs.com).
 
 ## So why a contrib project ?
+At [MCNEXT](http://www.mcnext.com), we have made several Windows Application using WinJS. While the framework is great to achieve high performance applications, it lacks some feature to ease the development story. From project to project we built some of those features and wanted to share it with you.
+
 The goal of the library is to help enhance UI and performance of your WinJS applications on all platforms. The helpers provides realworld mecanism missing from WinJS like two way binding, a mecanism for using arguments in custom bindings, referencing functions from your markup and/or controls, a couple powerfull navigation controls and much much more.
+
+Instead of one big library, WinJSContrib is a set of small NuGet packages (and probably very soon Bower packages), each containing a specific feature or control. You could [check the list in NuGet](http://www.nuget.org/packages?q=winjscontrib)
 
 ## how to get started ?
 If you haven't yet, have a look at [WinJS website](http://www.buildwinjs.com).
