@@ -11,14 +11,22 @@
 
     WinJS.Namespace.define("MCNEXT.UI", {
         ExtendedSplash: WinJS.Class.define(
+            /** 
+             * 
+             * @class MCNEXT.UI.ExtendedSplash 
+             * @classdesc This control displays a custom splash screen. It is primarily focused on WinRT apps but it works quite well in cordova applications (in that case you must add mcnext.ui.crossplatform.js)
+             * @param {HTMLElement} element DOM element containing the control
+             * @param {Object} options
+             * @example
+             * <div data-win-control="MCNEXT.UI.ExtendedSplash" data-win-options="{ text: 'extended splash screen control in action...' }"></div>
+             */
             function ctor(element, options) {
                 var ctrl = this;
                 options = options || {};
                 ctrl.element = element || document.createElement("div");
-                ctrl.throttlingDelay = (options.delay != undefined) ? options.delay : 200;
                 ctrl.enterAnimation = options.enterAnimation || function () {
                     var ctrl = this;
-                    MCNEXT.UI.Animation.fadeIn(ctrl.splashLoader, 500);
+                    return MCNEXT.UI.Animation.fadeIn(ctrl.splashLoader, 500);
                 };
                 ctrl.exitAnimation = options.enterAnimation || function () {
                     var ctrl = this;
@@ -38,7 +46,7 @@
                     MCNEXT.CrossPlatform.cordovaClass(ctrl.element.classList);
                 ctrl.splashImageFile = options.image || '/images/splashscreen.png';
 
-                if (!ctrl.element.innerHTML) {
+                if (!ctrl.element.innerHTML) {                    
                     ctrl.element.innerHTML = ctrl.defaultSplashContent(options.text || 'chargement en cours', options.description);
                 }
                 ctrl.textElement = ctrl.element.querySelector('.mcn-splashcreen-loader-text');
@@ -46,8 +54,17 @@
                 ctrl.splashLoader = ctrl.element.querySelector('#mcn-splashcreen-loader');
                 ctrl.handleResizeBinded = ctrl.handleResize.bind(ctrl);
                 ctrl.handleDismissedBinded = ctrl.handleDismissed.bind(ctrl);
-            }, {
-                defaultSplashContent: function (text, description) {
+            },
+
+            /**
+            * @lends MCNEXT.UI.ExtendedSplash.prototype
+            */
+            {
+                /** build html content for splash screen
+                 * @param {string} text text displayed on splash
+                 * @returns {string} HTML content
+                 */
+                defaultSplashContent: function (text) {
                     if (MCNEXT.CrossPlatform && (MCNEXT.CrossPlatform.isMobile.Android() || MCNEXT.CrossPlatform.isMobile.iOS())) {
                         return '<img id="mcn-splashcreen-image" src="' + this.splashImageFile + '" alt="Splash screen image" />' +
                             //'<div id="mcn-splashcreen-description" style="display: none">' + (description || '') + '<div>' +         
@@ -87,6 +104,12 @@
                     });
                 },
 
+                /**
+                 * show splash screen
+                 * @param {WinJS.Promise} dataLoadPromise promise covered by splash screen
+                 * @param {Object} arg application init arguments
+                 * @returns {WinJS.Promise} completion promise
+                 */
                 show: function (dataLoadPromise, arg) {
                     var ctrl = this;
 
@@ -143,6 +166,10 @@
                     }
                 },
 
+                /**
+                 * hide splash screen
+                 * @returns {WinJS.Promise} splash screen removal promise
+                 */
                 hide: function () {
                     var ctrl = this;
                     MCNEXT.UI.appbarsEnable();

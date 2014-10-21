@@ -501,9 +501,6 @@ MCNEXT.Utils = MCNEXT.Utils || {};
         return res;
     }
 
-    (function (Utils) {
-        'use strict';
-
         /** indicate if string starts with featured characters 
          * @param {string} str string to search within
          * @param {string} strToMatch match string
@@ -648,7 +645,7 @@ MCNEXT.Utils = MCNEXT.Utils || {};
             if (!properties || !properties.length)
                 return source;
 
-            var prop = getProperty(source, properties);
+            var prop = MCNEXT.Utils.getProperty(source, properties);
             if (prop) {
                 return prop.propValue;
             }
@@ -692,14 +689,17 @@ MCNEXT.Utils = MCNEXT.Utils || {};
                             }
                         }
                     },
+
                     get propValue() {
                         return getobject(this.parent, this.keyProp);
                     },
+
                     set propValue(val) {
                         this.ensureParent();
                         return setobject(this.parent, this.keyProp, val);
                     }
                 };
+
                 previousDescriptor = descriptor;
 
                 if (i == properties.length - 1) {
@@ -719,7 +719,7 @@ MCNEXT.Utils = MCNEXT.Utils || {};
          * @param {Object} data data to feed to the property
          */
         MCNEXT.Utils.writeProperty = function (source, properties, data) {
-            var prop = getProperty(source, properties);
+            var prop = MCNEXT.Utils.getProperty(source, properties);
             if (prop) {
                 prop.propValue = data;
                 //prop.parent[prop.keyProp] = data;
@@ -1042,7 +1042,7 @@ MCNEXT.Utils = MCNEXT.Utils || {};
         };
 
         MCNEXT.Utils.resolveMethod = function (element, text) {
-            var res = Utils.resolveValue(element, text);
+            var res = MCNEXT.Utils.resolveValue(element, text);
             if (res && typeof res == 'function')
                 return res;
 
@@ -1050,7 +1050,7 @@ MCNEXT.Utils = MCNEXT.Utils || {};
         };
 
         MCNEXT.Utils.readValue = function (element, text) {
-            var res = Utils.resolveValue(element, text);
+            var res = MCNEXT.Utils.resolveValue(element, text);
             if (res) {
                 if (typeof res == 'function')
                     return res(element);
@@ -1135,6 +1135,5 @@ MCNEXT.Utils = MCNEXT.Utils || {};
                 return errorCallback(unwrappedError);
             };
         };
-    })(MCNEXT.Utils);
-
+   
 })(MCNEXT);

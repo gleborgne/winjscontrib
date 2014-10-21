@@ -31,6 +31,7 @@ var MCNEXT;
                 }
             }
         }
+        var bindingArguments = MCNEXT.Bindings.bindingArguments;
 
         /**
          * Binding function to remove HTML from data and add it to destination
@@ -151,7 +152,7 @@ var MCNEXT;
 
             $(dest).removeClass('imageLoaded');
             setTimeout(function () {
-                MCNEXT.Utils.loadImage(data).done(function () {
+                MCNEXT.UI.loadImage(data).done(function () {
                     _setPic(dest, data);
                 }, function () {
                     _setPic(dest, Bindings.pictureUnavailable);
@@ -167,7 +168,7 @@ var MCNEXT;
                 return;
             }
             setTimeout(function () {
-                loadImage(data).done(function () {
+                MCNEXT.UI.loadImage(data).done(function () {
                     dest.src = data;
                 }, function () {
                     dest.src = Bindings.pictureUnavailable;

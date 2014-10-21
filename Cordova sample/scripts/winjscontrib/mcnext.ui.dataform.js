@@ -27,7 +27,8 @@
             this.element.winControl = this;
             this.element.mcnDataForm = true;
             this.element.classList.add('win-disposable');
-            MCNEXT.Utils.cordovaClass(this.element.classList);
+            if (MCNEXT.CrossPlatform)
+                MCNEXT.CrossPlatform.cordovaClass(this.element.classList);
             WinJS.UI.setOptions(this, options);
             WinJS.UI.processAll(this.element).done(function () {
                 WinJS.Binding.processAll(ctrl.element, ctrl.state);

@@ -657,7 +657,7 @@
                 },
 
                 _registerPageActions: function (newElementCtrl) {
-                    MCNEXT.Utils.bindActions(newElementCtrl.element, newElementCtrl);
+                    MCNEXT.UI.bindActions(newElementCtrl.element, newElementCtrl);
                 },
 
                 // Responds to resize events and call the updateLayout function
