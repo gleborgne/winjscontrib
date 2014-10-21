@@ -1,0 +1,53 @@
+# WinJS Contrib
+
+WinJS Contrib is salt and pepper to get your WinJS applications more tasty.
+It provides some utilities, helpers and controls to make your developers life happyer (or at least that's what we try to do).
+
+## What is WinJS ?
+It is a single page application (SPA) framework. The goal of WinJS is to provide the basis for HTML5 applications with almost native performances. It was originally designed by Microsoft for making Windows applications in HTML5 (for Windows, Windows Phone and Xbox One app stores).
+Now WinJS is open source. it can still be used for Windows apps, but also in cross platform hybrid apps. All details are available on [WinJS website](http://www.buildwinjs.com), and you can experiment with it in their [playground](http://try.buildwinjs.com).
+
+## So why a contrib project ?
+The goal of the library is to help enhance UI and performance of your WinJS applications on all platforms. The helpers provides realworld mecanism missing from WinJS like two way binding, a mecanism for using arguments in custom bindings, referencing functions from your markup and/or controls, a couple powerfull navigation controls and much much more.
+
+## how to get started ?
+If you haven't yet, have a look at [WinJS website](http://www.buildwinjs.com).
+
+Then it is very easy. Go to NuGet package manager and add the core package :
+``` 
+install-package WinJSContrib.Core
+```
+
+## What can I do with WinJS Contrib ?
+
+The library contains the following elements :
+
+### CONTROLS
++ a replacement for the default "navigator.js" provided in WinJS project templates 
++ a boilerplate custom control 
++ a control for managing listview layout in your markup 
++ extended splash screen control 
++ progress indicator control 
++ semantic zoom wrapper control 
++ hub control with multipass rendering 
++ grid control with multipass rendering 
++ tab control 
++ childviewflyout control 
++ a control for wrapping listviews with grouping and semantic zoom 
++ a control for flyout page in Windows Phone 8.1 
+
+### BINDINGS
++ parameterized bindings 
++ show / hide 
++ enable / disable 
++ Images and background-images 
++ date formatting 
++ two way binding 
+
+### HELPERS
++ a set of utility methods 
++ EventTracker (manage event listeners release) 
++ a search engine (full javascript !), with multi-threaded search and indexing 
++ wrapper for background tasks 
++ wrapper for contact API 
++ wrapper for multi-views 

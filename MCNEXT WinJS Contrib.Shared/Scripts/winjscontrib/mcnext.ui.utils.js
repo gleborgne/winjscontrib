@@ -3,6 +3,10 @@
 //This code is provided as is and we could not be responsible for what you are making with it
 //project is available at http://winjscontrib.codeplex.com
 
+/**
+ * @fileOverview test from api
+ */
+
 if (!Object.map) {
     Object.map = function (obj, mapping) {
         var mapped = {};
@@ -858,7 +862,12 @@ MCNEXT.Utils = MCNEXT.Utils || {};
             return newArray;
         };
 
-
+        /**
+         * get distinct values from an array of items
+         * @param {Array} array items array
+         * @param {string} property property path for values
+         * @param {boolean} ignorecase ignore case for comparisons
+         */
         MCNEXT.Utils.getDistinctPropertyValues = function (array, property, ignorecase) {
             return Utils.distinctArray(array, property, ignorecase).map(function (item) {
                 return MCNEXT.Utils.readProperty(item, property.split('.'));
@@ -866,7 +875,7 @@ MCNEXT.Utils = MCNEXT.Utils || {};
         };
 
         /**
-         * Remove all accented characters from a string and replace them with their non-accented counterpart
+         * Remove all accented characters from a string and replace them with their non-accented counterpart for ex: replace "é" with "e"
          * @param {string} s
          * @returns {string}
          */
@@ -938,6 +947,11 @@ MCNEXT.Utils = MCNEXT.Utils || {};
             return uuid;
         };
 
+        /**
+         * inherit property from parent WinJS controls
+         * @param {HTMLElement} element
+         * @param {string} property property name
+         */
         MCNEXT.Utils.inherit = function (element, property) {
             if (element && element.parentElement) {
                 var current = element.parentElement;
@@ -967,6 +981,12 @@ MCNEXT.Utils = MCNEXT.Utils || {};
             });
         };
 
+        /**
+         * get parent control identifyed by a property attached on DOM element
+         * @param {string} property property attached to control's DOM element, for ex: msParentSelectorScope
+         * @param {HTMLElement} element DOM element to scan
+         * @returns {Object} WinJS control
+         */
         MCNEXT.Utils.getParent = function (property, element) {
             var current = element.parentNode;
 
@@ -978,6 +998,12 @@ MCNEXT.Utils = MCNEXT.Utils || {};
             }
         };
 
+        /**
+         * get parent control identifyed by a css class
+         * @param {string} className css class name
+         * @param {HTMLElement} element DOM element to scan
+         * @returns {Object} WinJS control
+         */
         MCNEXT.Utils.getParentControlByClass = function (className, element) {
             var current = element.parentNode;
 
@@ -989,17 +1015,20 @@ MCNEXT.Utils = MCNEXT.Utils || {};
             }
         };
 
+        /**
+         * get parent page control (work only with MCNEXT.UI.PageControlNavigator
+         * @param {HTMLElement} element DOM element to scan
+         * @returns {Object} WinJS control
+         */
         MCNEXT.Utils.getParentPage = function (element) {
-            var current = element.parentNode;
-
-            while (current) {
-                if (current.mcnPage) {
-                    return current.winControl;
-                }
-                current = current.parentNode;
-            }
+            return MCNEXT.Utils.getParent('mcnPage', element);
         };
 
+        /**
+         * get parent scope control (based on msParentSelectorScope)
+         * @param {HTMLElement} element DOM element to scan
+         * @returns {Object} WinJS control
+         */
         MCNEXT.Utils.getScopeControl = function (element) {
             var current = element.parentNode;
 
@@ -1020,6 +1049,11 @@ MCNEXT.Utils = MCNEXT.Utils || {};
             }
         };
 
+        /**
+         * get WinJS.Binding.Template like control from a path, a control, a function or a DOM element
+         * @param {Object} template template input
+         * @returns {Object} WinJS.Binding.Template or template-like object
+         */
         MCNEXT.Utils.getTemplate = function (template) {
             if (template) {
                 var templatetype = typeof template;
@@ -1041,6 +1075,13 @@ MCNEXT.Utils = MCNEXT.Utils || {};
             }
         };
 
+        /**
+         * get a function from an expression, for example 'page:myAction' will return the myAction function from the parent page.
+         * The returned function will be bound to it's owner. This function relies on {link MCNEXT.Utils.resolveValue}, see this for details about how data are crawled
+         * @param {HTMLElement} element DOM element to look
+         * @param {string} text expression like 'page:something' or 'ctrl:something' or 'something'
+         * @returns {function}
+         */
         MCNEXT.Utils.resolveMethod = function (element, text) {
             var res = MCNEXT.Utils.resolveValue(element, text);
             if (res && typeof res == 'function')
@@ -1060,6 +1101,12 @@ MCNEXT.Utils = MCNEXT.Utils || {};
             return undefined;
         };
 
+        /**
+         * resolve value from an expression. This helper will crawl the DOM up, and provide the property or function from parent page or control.
+         * @param {HTMLElement} element DOM element to look
+         * @param {string} text expression like 'page:something' or 'ctrl:something' or 'something'
+         * @returns {Object}
+         */
         MCNEXT.Utils.resolveValue = function (element, text) {
             var methodName, control, method;
 

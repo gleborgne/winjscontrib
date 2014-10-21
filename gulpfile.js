@@ -69,6 +69,8 @@ gulp.task('cleandoc', function(cb) {
 });
 
 gulp.task('doc', ['cleandoc'], function() {
+	//ink-docstrap module within gulp-jsdoc is not up to date, update it with latest version
+	
 	var infos = {
 		name : 'WINJS Contrib',
 		applicationName : 'WinJS Contrib an',

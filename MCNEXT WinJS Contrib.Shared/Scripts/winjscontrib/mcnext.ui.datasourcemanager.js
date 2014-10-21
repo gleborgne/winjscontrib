@@ -1,4 +1,5 @@
-﻿var MCNEXT = MCNEXT || {};
+﻿
+var MCNEXT = MCNEXT || {};
 MCNEXT.UI = MCNEXT.UI || {};
 /** @namespace */
 MCNEXT.UI.DataSources = MCNEXT.UI.DataSources || {};
@@ -281,11 +282,12 @@ MCNEXT.UI.DataSources = MCNEXT.UI.DataSources || {};
     MCNEXT.UI.SemanticListViews = WinJS.Class.mix(WinJS.Class.define(
     /** 
      * 
-     * @class MCNEXT.UI.DataSources.SemanticListViews
+     * @class MCNEXT.UI.SemanticListViews
      * @classdesc Control wrapping semantic zoom and listviews with a {@link MCNEXT.UI.DataSources.DataSourceManager}
      * @param {HTMLElement} element DOM element containing the control
      * @param {Object} options
-     * @example
+     * 
+     * @example {@lang xml}
      * <div id="semanticzoom" data-win-control="MCNEXT.UI.SemanticListViews" data-win-options="{
      *      listview: { itemTemplate: select('#listItemTemplate'), groupHeaderTemplate : select('#groupItemTemplate')},
      *      zoomedOutListview: { itemTemplate: select('#semanticItemTemplate')},
@@ -306,7 +308,7 @@ MCNEXT.UI.DataSources = MCNEXT.UI.DataSources || {};
         this._initControl(options);
     },
     /**
-     * @lends MCNEXT.UI.DataSources.SemanticListViews.prototype
+     * @lends MCNEXT.UI.SemanticListViews.prototype
      */
     {
         /**
