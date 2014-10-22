@@ -32,43 +32,6 @@
     <Content Include="$(MSBuildThisFileDirectory)css\items.min.css">
       <DependentUpon>items.css</DependentUpon>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.css">
-      <DependentUpon>mcnext.ui.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.dataform.css">
-      <DependentUpon>mcnext.ui.dataform.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.dataform.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.dataform.min.css">
-      <DependentUpon>mcnext.ui.dataform.css</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.extended-splashscreen.css">
-      <DependentUpon>mcnext.ui.extended-splashscreen.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.extended-splashscreen.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.flipviewpager.css">
-      <DependentUpon>mcnext.ui.flipviewpager.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.flipviewpager.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.flipviewpager.min.css">
-      <DependentUpon>mcnext.ui.flipviewpager.css</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.globalprogress.css">
-      <DependentUpon>mcnext.ui.globalprogress.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.globalprogress.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.hub.css">
-      <DependentUpon>mcnext.ui.hub.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.hub.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.tab-pages.css">
-      <DependentUpon>mcnext.ui.tab-pages.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.tab-pages.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.tab-pages.min.css">
-      <DependentUpon>mcnext.ui.tab-pages.css</DependentUpon>
-    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.css" />
