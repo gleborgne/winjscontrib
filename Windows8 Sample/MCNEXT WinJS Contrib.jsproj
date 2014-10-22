@@ -77,7 +77,6 @@
     <Content Include="js\mcnext\mcnext.backgrounddownloads.js" />
     <Content Include="js\mcnext\mcnext.ui.datetimescroller.js" />
     <Content Include="js\movies.js" />
-    <Content Include="js\navigator.js" />
     <None Include="Package.StoreAssociation.xml" />
     <None Include="MCNEXT WinJS Contrib_StoreKey.pfx" />
     <Content Include="packages.config" />

@@ -8,9 +8,9 @@
             page.zoomedOutList = element.querySelector('#zoomedOutList').winControl;
             page.viewSelectionFlyout = element.querySelector('#viewSelectionFlyout').winControl;
 
-            page.data = new MCNEXT.UI.DataSources.DataSourceManager({
+            page.data = new WinJSContrib.UI.DataSources.DataSourceManager({
                 defaultGroupLimit: 12,
-                groupKind: MCNEXT.UI.DataSources.Grouping.byField,
+                groupKind: WinJSContrib.UI.DataSources.Grouping.byField,
                 field: 'metadata.genre',
                 listview: page.zoomedInList,
                 zoomedOutListView: page.zoomedOutList
@@ -54,7 +54,7 @@
         ready: function (element) {
             var page = this;
 
-            if (MCNEXT.CrossPlatform && (MCNEXT.CrossPlatform.isMobile.Android() || MCNEXT.CrossPlatform.isMobile.iOS())) {
+            if (WinJSContrib.CrossPlatform && (WinJSContrib.CrossPlatform.isMobile.Android() || WinJSContrib.CrossPlatform.isMobile.iOS())) {
                 var semanticzoom = element.querySelector('#semanticzoom');
                 if (semanticzoom && semanticzoom.winControl)
                     semanticzoom.winControl.forceLayout();
@@ -97,7 +97,7 @@
         viewByGenre: function (arg) {
             $('.viewKindName', this.element).text(arg.elt.innerText);
             this.data.apply({
-                groupKind: MCNEXT.UI.DataSources.Grouping.byField,
+                groupKind: WinJSContrib.UI.DataSources.Grouping.byField,
                 field: 'metadata.genre'
             });
             this.viewSelectionFlyout.hide();
@@ -111,7 +111,7 @@
         viewByYear: function (arg) {
             $('.viewKindName', this.element).text(arg.elt.innerText);
             this.data.apply({
-                groupKind: MCNEXT.UI.DataSources.Grouping.byYear,
+                groupKind: WinJSContrib.UI.DataSources.Grouping.byYear,
                 field: 'year'
             });
             this.viewSelectionFlyout.hide();
@@ -121,7 +121,7 @@
         viewAlphabetically: function (arg) {
             $('.viewKindName', this.element).text(arg.elt.innerText);
             this.data.apply({
-                groupKind: MCNEXT.UI.DataSources.Grouping.alphabetic,
+                groupKind: WinJSContrib.UI.DataSources.Grouping.alphabetic,
                 field: 'title'
             });
             this.viewSelectionFlyout.hide();

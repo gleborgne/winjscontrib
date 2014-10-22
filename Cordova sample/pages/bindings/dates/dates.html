@@ -6,13 +6,13 @@
 
     <!-- WinJSContrib.Core references -->
     <script src="./scripts/jquery-2.1.1.js"></script>
-    <script src="./scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
-    <script src="./scripts/winjscontrib/mcnext.ui.utils.js"></script>
-    <script src="./scripts/winjscontrib/mcnext.ui.bindings.js"></script>
+    <script src="./scripts/winjscontrib/jquery.winjscontrib.js"></script>
+    <script src="./scripts/winjscontrib/winjscontrib.core.js"></script>
+    <script src="./scripts/winjscontrib/WinJSContrib.ui.bindings.js"></script>
 
     <!-- WinJSContrib.Dates references -->
     <script src="./scripts/moment.min.js"></script>
-    <script src="./scripts/winjscontrib/mcnext.date.utils.js"></script>
+    <script src="./scripts/winjscontrib/WinJSContrib.date.utils.js"></script>
 
     <link href="dates.css" rel="stylesheet" />
     <script src="dates.js"></script>
@@ -40,13 +40,13 @@
             <div></div>
             <div class="bloc-content">
                 <h2>date formats</h2>
-                <div data-win-bind="innerText : curDate MCNEXT.Bindings.formatDate" data-win-bind-args='{ "formatDate" : "L"}'></div>
-                <div data-win-bind="innerText : curDate MCNEXT.Bindings.formatDate" data-win-bind-args='{ "formatDate" : "DD-MM-YYYY HH:mm:ss"}'></div>
-                <div>it is <span data-win-bind="innerText : curDate MCNEXT.Bindings.formatDate" data-win-bind-args='{ "formatDate" : "HH:mm:ss"}'></span></div>
-                <div>we are on <span data-win-bind="innerText : curDate MCNEXT.Bindings.formatDate" data-win-bind-args='{ "formatDate" : "dddd"}'></span></div>
+                <div data-win-bind="innerText : curDate WinJSContrib.Bindings.formatDate" data-win-bind-args='{ "formatDate" : "L"}'></div>
+                <div data-win-bind="innerText : curDate WinJSContrib.Bindings.formatDate" data-win-bind-args='{ "formatDate" : "DD-MM-YYYY HH:mm:ss"}'></div>
+                <div>it is <span data-win-bind="innerText : curDate WinJSContrib.Bindings.formatDate" data-win-bind-args='{ "formatDate" : "HH:mm:ss"}'></span></div>
+                <div>we are on <span data-win-bind="innerText : curDate WinJSContrib.Bindings.formatDate" data-win-bind-args='{ "formatDate" : "dddd"}'></span></div>
 
                 <h2>days since date</h2>
-                <div>it was <span data-win-bind="innerText : longAgo MCNEXT.Bindings.daysSinceDate" data-win-bind-args='{ "formatDate" : "L"}'></span> days ago</div>
+                <div>it was <span data-win-bind="innerText : longAgo WinJSContrib.Bindings.daysSinceDate" data-win-bind-args='{ "formatDate" : "L"}'></span> days ago</div>
             </div>
         </section>
     </div>

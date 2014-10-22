@@ -58,6 +58,7 @@ The library contains the following elements :
 
 ## Wanna deep dive ?
 We are still shaping libraries, samples and documentation. The github project is made of samles for the various platforms, it is a nice way to start looking at features. The sample applications are available in Windows Store, and Windows Phone Store.
+
 It's still under construction but a look at [API Documentation](http://gleborgne.github.io/winjscontrib/api/index.html) might help.
 
 ## Anything wrong ?

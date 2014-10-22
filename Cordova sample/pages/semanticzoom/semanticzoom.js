@@ -13,7 +13,7 @@
             this.zoomedinGrid = page.element.querySelector("#zoomedingrid").winControl;
             this.zoomedout = page.element.querySelector("#zoomedout").winControl;
             this.zoomedoutGrid = page.element.querySelector("#zoomedoutgrid").winControl;
-            if (MCNEXT.CrossPlatform && (MCNEXT.CrossPlatform.isMobile.Android() || MCNEXT.CrossPlatform.isMobile.iOS())) {
+            if (WinJSContrib.CrossPlatform && (WinJSContrib.CrossPlatform.isMobile.Android() || WinJSContrib.CrossPlatform.isMobile.iOS())) {
                 page.zoom.forceLayout();
             }
             this.zoomedinGrid.layout();

@@ -9,13 +9,13 @@
         },
 
         simpleMessage: function () {
-            MCNEXT.Alert.message("this is a simple message", "this is content for a simple message").done(function () {
+            WinJSContrib.Alert.message("this is a simple message", "this is content for a simple message").done(function () {
                 console.log("message was shown");
             });
         },
 
         confirm: function () {
-            MCNEXT.Alert.confirm("this is a confirmation request", "are you sure ?", "Yes", "No").done(function confirmed(e) {
+            WinJSContrib.Alert.confirm("this is a confirmation request", "are you sure ?", "Yes", "No").done(function confirmed(e) {
                 console.log("confirmed");
             }, function canceled(e){
                 console.log("canceled");
@@ -23,7 +23,7 @@
         },
 
         rawMessage: function () {
-            MCNEXT.Alert.messageBox({
+            WinJSContrib.Alert.messageBox({
                 title: "this is a confirmation request",
                 content: "are you sure ?",
                 commands: [
@@ -41,15 +41,15 @@
         },
 
         simpleToast: function () {
-            MCNEXT.Alert.toast("this is a toast");
+            WinJSContrib.Alert.toast("this is a toast");
         },
 
         simpleToastWithPic: function () {
-            MCNEXT.Alert.toast("this is a toast", "ms-appx:///images/logo.png");
+            WinJSContrib.Alert.toast("this is a toast", "ms-appx:///images/logo.png");
         },
 
         rawToast: function () {
-            MCNEXT.Alert.toastNotification({
+            WinJSContrib.Alert.toastNotification({
                 text: "this is a toast...",
                 text2: "...really",
                 template: Windows.UI.Notifications.ToastTemplateType.toastImageAndText02,

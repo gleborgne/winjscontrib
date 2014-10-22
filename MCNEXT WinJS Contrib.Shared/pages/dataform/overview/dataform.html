@@ -6,15 +6,15 @@
                                                              
     <!-- WinJSContrib.Core references -->
     <script src="../../../scripts/jquery-2.1.1.js"></script>
-    <script src="../../../scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
-    <script src="../../../scripts/winjscontrib/mcnext.ui.utils.js"></script>
+    <script src="../../../scripts/winjscontrib/jquery.winjscontrib.js"></script>
+    <script src="../../../scripts/winjscontrib/winjscontrib.core.js"></script>
 
     <!-- WinJSContrib.DataForm references -->
     <link href="../../../scripts/tooltipster/tooltipster.css" rel="stylesheet" />
     <script src="../../../scripts/tooltipster/jquery.tooltipster.js"></script>
     <script src="../../../scripts/jquery.validate.js"></script>
-    <link href="../../../css/winjscontrib/mcnext.ui.dataform.css" rel="stylesheet" />
-    <script src="../../../scripts/winjscontrib/mcnext.ui.dataform.js"></script>
+    <link href="../../../css/winjscontrib/WinJSContrib.ui.dataform.css" rel="stylesheet" />
+    <script src="../../../scripts/winjscontrib/WinJSContrib.ui.dataform.js"></script>
 
     <link href="dataform.css" rel="stylesheet" />
     <script src="dataform.js"></script>
@@ -40,15 +40,15 @@
             <div class="bloc-content">
                 <div class="split">
                     <div>
-                        <form id="formHorizontal" class="mcn-dataform form-horizontal label140" data-win-control="MCNEXT.UI.DataForm">
+                        <form id="formHorizontal" class="mcn-dataform form-horizontal label140" data-win-control="WinJSContrib.UI.DataForm">
                             <h2>horizontal form</h2>
                             <p>
                                 <label>name</label>
-                                <input name="name" type="text" data-win-bind="value: item.name MCNEXT.UI.DataFormBinding" required />
+                                <input name="name" type="text" data-win-bind="value: item.name WinJSContrib.UI.DataFormBinding" required />
                             </p>
                             <p>
                                 <label>gender</label>
-                                <select name="gender" data-win-bind="value: item.gender MCNEXT.UI.DataFormBinding">
+                                <select name="gender" data-win-bind="value: item.gender WinJSContrib.UI.DataFormBinding">
                                     <option value="male">male</option>
                                     <option value="female">female</option>
                                     <option value="unknown">unknown</option>
@@ -57,18 +57,18 @@
                             <p>
                                 <label>gender</label>
                                 <span class="controlgroup">
-                                    <input type="radio" name="radiogender" id="male" value="male" data-win-bind="value: item.gender MCNEXT.UI.DataFormBinding" /> <label for="male">male</label><br />
-                                    <input type="radio" name="radiogender" id="female" value="female" data-win-bind="value: item.gender MCNEXT.UI.DataFormBinding" /> <label for="female">female</label><br />
-                                    <input type="radio" name="radiogender" id="unknown" value="unknown" data-win-bind="value: item.gender MCNEXT.UI.DataFormBinding" /> <label for="unknown">unknown</label><br />
+                                    <input type="radio" name="radiogender" id="male" value="male" data-win-bind="value: item.gender WinJSContrib.UI.DataFormBinding" /> <label for="male">male</label><br />
+                                    <input type="radio" name="radiogender" id="female" value="female" data-win-bind="value: item.gender WinJSContrib.UI.DataFormBinding" /> <label for="female">female</label><br />
+                                    <input type="radio" name="radiogender" id="unknown" value="unknown" data-win-bind="value: item.gender WinJSContrib.UI.DataFormBinding" /> <label for="unknown">unknown</label><br />
                                 </span>
                             </p>
                             <p>
                                 <label>address</label>
                                 <span class="controlgroup">
-                                    <input name="street" type="text" data-win-bind="value: item.address.street MCNEXT.UI.DataFormBinding" required /><br />
+                                    <input name="street" type="text" data-win-bind="value: item.address.street WinJSContrib.UI.DataFormBinding" required /><br />
                                     <span class="grid grid1-2">
-                                        <input name="zipcode" type="number" class="col1" data-win-bind="value: item.address.zipcode MCNEXT.UI.DataFormBinding" required minlength="5" />
-                                        <input name="city" type="text" class="col2" data-win-bind="value: item.address.city MCNEXT.UI.DataFormBinding" required />
+                                        <input name="zipcode" type="number" class="col1" data-win-bind="value: item.address.zipcode WinJSContrib.UI.DataFormBinding" required minlength="5" />
+                                        <input name="city" type="text" class="col2" data-win-bind="value: item.address.city WinJSContrib.UI.DataFormBinding" required />
                                     </span>
                                 </span>
                             </p>
@@ -77,21 +77,21 @@
                                 <textarea></textarea>
                             </p>
                             <p class="actions">
-                                <button class="mcn-dataform-submit" data-win-bind="value: isValid MCNEXT.Bindings.enableIf">save</button>
+                                <button class="mcn-dataform-submit" data-win-bind="value: isValid WinJSContrib.Bindings.enableIf">save</button>
                                 <button class="mcn-dataform-cancel">cancel</button>
                             </p>
                         </form>
                     </div>
                     <div>
-                        <form id="formVertical" class="mcn-dataform form-vertical" data-win-control="MCNEXT.UI.DataForm">
+                        <form id="formVertical" class="mcn-dataform form-vertical" data-win-control="WinJSContrib.UI.DataForm">
                             <h2>vertical form</h2>
                             <p>
                                 <label>name</label>
-                                <input name="name" type="text" data-win-bind="value: item.name MCNEXT.UI.DataFormBinding" required />
+                                <input name="name" type="text" data-win-bind="value: item.name WinJSContrib.UI.DataFormBinding" required />
                             </p>
                             <p>
                                 <label>gender</label>
-                                <select name="gender" data-win-bind="value: item.gender MCNEXT.UI.DataFormBinding">
+                                <select name="gender" data-win-bind="value: item.gender WinJSContrib.UI.DataFormBinding">
                                     <option value="male">male</option>
                                     <option value="female">female</option>
                                     <option value="unknown">unknown</option>
@@ -100,18 +100,18 @@
                             <p>
                                 <label>gender</label>
                                 <span class="controlgroup">
-                                    <input type="radio" name="radiogender" id="male2" value="male" data-win-bind="value: item.gender MCNEXT.UI.DataFormBinding" /> <label for="male2">male</label><br />
-                                    <input type="radio" name="radiogender" id="female2" value="female" data-win-bind="value: item.gender MCNEXT.UI.DataFormBinding" /> <label for="female2">female</label><br />
-                                    <input type="radio" name="radiogender" id="unknown2" value="unknown" data-win-bind="value: item.gender MCNEXT.UI.DataFormBinding" /> <label for="unknown2">unknown</label><br />
+                                    <input type="radio" name="radiogender" id="male2" value="male" data-win-bind="value: item.gender WinJSContrib.UI.DataFormBinding" /> <label for="male2">male</label><br />
+                                    <input type="radio" name="radiogender" id="female2" value="female" data-win-bind="value: item.gender WinJSContrib.UI.DataFormBinding" /> <label for="female2">female</label><br />
+                                    <input type="radio" name="radiogender" id="unknown2" value="unknown" data-win-bind="value: item.gender WinJSContrib.UI.DataFormBinding" /> <label for="unknown2">unknown</label><br />
                                 </span>
                             </p>
                             <p>
                                 <label>address</label>
                                 <span class="controlgroup">
-                                    <input name="street" type="text" data-win-bind="value: item.address.street MCNEXT.UI.DataFormBinding" required /><br />
+                                    <input name="street" type="text" data-win-bind="value: item.address.street WinJSContrib.UI.DataFormBinding" required /><br />
                                     <span class="grid grid1-2">
-                                        <input name="zipcode" type="number" class="col1" data-win-bind="value: item.address.zipcode MCNEXT.UI.DataFormBinding" required minlength="5" />
-                                        <input name="city" type="text" class="col2" data-win-bind="value: item.address.city MCNEXT.UI.DataFormBinding" required />
+                                        <input name="zipcode" type="number" class="col1" data-win-bind="value: item.address.zipcode WinJSContrib.UI.DataFormBinding" required minlength="5" />
+                                        <input name="city" type="text" class="col2" data-win-bind="value: item.address.city WinJSContrib.UI.DataFormBinding" required />
                                     </span>
                                 </span>
                             </p>
@@ -120,7 +120,7 @@
                                 <textarea></textarea>
                             </p>
                             <p class="actions">
-                                <button class="mcn-dataform-submit" data-win-bind="value: isValid MCNEXT.Bindings.enableIf">save</button>
+                                <button class="mcn-dataform-submit" data-win-bind="value: isValid WinJSContrib.Bindings.enableIf">save</button>
                                 <button class="mcn-dataform-cancel">cancel</button>
                             </p>
                         </form>

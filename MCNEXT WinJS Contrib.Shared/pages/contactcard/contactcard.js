@@ -6,11 +6,11 @@
 
     WinJS.UI.Pages.define("./pages/contactcard/contactcard.html", {
         simpleContact: function (arg) {
-            MCNEXT.Contacts.showContact({ firstName: "John", lastName: "Doe", email: "johndoe@doe.com", phone: "0123456789" }, arg.elt);
+            WinJSContrib.Contacts.showContact({ firstName: "John", lastName: "Doe", email: "johndoe@doe.com", phone: "0123456789" }, arg.elt);
         },
 
         advancedContact: function (arg) {
-            MCNEXT.Contacts.showContact({
+            WinJSContrib.Contacts.showContact({
                 firstName: "John",
                 lastName: "Doe",
                 email: "johndoe@doe.com",
@@ -33,7 +33,7 @@
 
         searchContact: function (arg) {
             var txtMail = this.element.querySelector("#txtMail");
-            MCNEXT.Contacts.showContact({ email: txtMail.value }, arg.elt);
+            WinJSContrib.Contacts.showContact({ email: txtMail.value }, arg.elt);
         }
     });
 })();

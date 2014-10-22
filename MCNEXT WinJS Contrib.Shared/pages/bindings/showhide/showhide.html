@@ -7,10 +7,10 @@
 
     <!-- WinJSContrib.Core references -->
     <script src="../../../scripts/jquery-2.1.1.js"></script>
-    <script src="../../../scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
-    <script src="../../../scripts/winjscontrib/mcnext.ui.utils.js"></script>
-    <script src="../../../scripts/winjscontrib/mcnext.ui.bindings.js"></script>
-    <script src="../../../scripts/winjscontrib/mcnext.ui.twowaybindings.js"></script>
+    <script src="../../../scripts/winjscontrib/jquery.winjscontrib.js"></script>
+    <script src="../../../scripts/winjscontrib/winjscontrib.core.js"></script>
+    <script src="../../../scripts/winjscontrib/WinJSContrib.bindings.js"></script>
+    <script src="../../../scripts/winjscontrib/WinJSContrib.bindings.twowaybindings.js"></script>
 
     <link href="showhide.css" rel="stylesheet" />
     <script src="showhide.js"></script>
@@ -33,7 +33,7 @@
             </div>
             <div class="bloc-content">
                 <div>
-                    <input type="checkbox" id="cbxstate" data-win-bind="checked: isActive MCNEXT.Bindings.twoWayOnChange" /> <label for="cbxstate">I'm in</label>
+                    <input type="checkbox" id="cbxstate" data-win-bind="checked: isActive WinJSContrib.Bindings.twoWayOnChange" /> <label for="cbxstate">I'm in</label>
                 </div>
                 <div class="split">
                     <div>
@@ -41,19 +41,19 @@
                             The following element is put to display 'none' if you're not in
                         </p>
                         <p>
-                            &nbsp;<b data-win-bind="display : isActive MCNEXT.Bindings.showIf">I'm visible because I'm defined or true</b>
+                            &nbsp;<b data-win-bind="display : isActive WinJSContrib.Bindings.showIf">I'm visible because I'm defined or true</b>
                         </p>
                         <p>
                             The following element is put to opacity=0 if you're not in
                         </p>
                         <p>
-                            &nbsp;<b data-win-bind="opacity : isActive MCNEXT.Bindings.showIf">I'm visible because I'm defined or true</b>
+                            &nbsp;<b data-win-bind="opacity : isActive WinJSContrib.Bindings.showIf">I'm visible because I'm defined or true</b>
                         </p>
                         <p>
                             The following button is disabled if you're not in
                         </p>
                         <p>
-                            <button data-win-bind="disabled : isActive MCNEXT.Bindings.enableIf">My button</button>
+                            <button data-win-bind="disabled : isActive WinJSContrib.Bindings.enableIf">My button</button>
                         </p>
                     </div>
                     <div>
@@ -61,19 +61,19 @@
                             The following element is put to display 'none' if  you're in
                         </p>
                         <p>
-                            &nbsp;<b data-win-bind="display : isActive MCNEXT.Bindings.hideIf">I'm visible because I'm undefined or false</b>
+                            &nbsp;<b data-win-bind="display : isActive WinJSContrib.Bindings.hideIf">I'm visible because I'm undefined or false</b>
                         </p>
                         <p>
                             The following element is put to opacity=0 if  you're in
                         </p>
                         <p>
-                            &nbsp;<b data-win-bind="opacity : isActive MCNEXT.Bindings.hideIf">I'm visible because I'm undefined or false</b>
+                            &nbsp;<b data-win-bind="opacity : isActive WinJSContrib.Bindings.hideIf">I'm visible because I'm undefined or false</b>
                         </p>
                         <p>
                             The following button is disabled if you're in
                         </p>
                         <p>
-                            <button data-win-bind="disabled : isActive MCNEXT.Bindings.disableIf">My button</button>
+                            <button data-win-bind="disabled : isActive WinJSContrib.Bindings.disableIf">My button</button>
                         </p>
                     </div>
                 </div>

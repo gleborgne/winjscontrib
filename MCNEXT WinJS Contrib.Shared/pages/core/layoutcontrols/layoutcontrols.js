@@ -11,7 +11,7 @@
             this.setMenu();
         },
         setMenu: function () {
-            MCNEXT.mainmenu = [
+            WinJSContrib.mainmenu = [
                 {
                     link: "./pages/home/home.html",
                     title: "Home",

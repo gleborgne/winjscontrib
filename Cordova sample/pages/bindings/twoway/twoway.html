@@ -9,10 +9,10 @@
 
     <!-- WinJSContrib.Core references -->
     <script src="../../../scripts/jquery-2.1.1.js"></script>
-    <script src="../../../scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
-    <script src="../../../scripts/winjscontrib/mcnext.ui.utils.js"></script>
-    <script src="../../../scripts/winjscontrib/mcnext.ui.bindings.js"></script>
-    <script src="../../../scripts/winjscontrib/mcnext.ui.twowaybindings.js"></script>
+    <script src="../../../scripts/winjscontrib/jquery.winjscontrib.js"></script>
+    <script src="../../../scripts/winjscontrib/winjscontrib.core.js"></script>
+    <script src="../../../scripts/winjscontrib/WinJSContrib.ui.bindings.js"></script>
+    <script src="../../../scripts/winjscontrib/WinJSContrib.ui.twowaybindings.js"></script>
 
     <link href="twoway.css" rel="stylesheet" />
     <script src="twoway.js"></script>
@@ -41,19 +41,19 @@
                     <div class="mcn-dataform form-vertical">
                         <p>
                             <label>First name</label>
-                            <input type="text" data-win-bind="value : firstName  MCNEXT.Bindings.twoWayOnChange" />
+                            <input type="text" data-win-bind="value : firstName  WinJSContrib.Bindings.twoWayOnChange" />
                         </p>
                         <p>
                             <label>Last name</label>
-                            <input type="text" data-win-bind="value : lastName  MCNEXT.Bindings.twoWayOnChange" />
+                            <input type="text" data-win-bind="value : lastName  WinJSContrib.Bindings.twoWayOnChange" />
                         </p>
                         <p>
                             <label>email</label>
-                            <input type="email" data-win-bind="value : mail  MCNEXT.Bindings.twoWayOnChange" />
+                            <input type="email" data-win-bind="value : mail  WinJSContrib.Bindings.twoWayOnChange" />
                         </p>
                         <p>
                             <label>phone</label>
-                            <input type="tel" data-win-bind="value : phone  MCNEXT.Bindings.twoWayOnChange" />
+                            <input type="tel" data-win-bind="value : phone  WinJSContrib.Bindings.twoWayOnChange" />
                         </p>
                     </div>
                 </div>

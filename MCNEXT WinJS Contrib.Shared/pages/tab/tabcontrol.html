@@ -5,13 +5,13 @@
     <title>tabcontrol</title>
                                                               
     <!-- WinJSContrib.Core references -->
-    <script src="./scripts/jquery-2.1.1.js"></script>
-    <script src="./scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
-    <script src="./scripts/winjscontrib/mcnext.ui.utils.js"></script>
+    <script src="../../scripts/jquery-2.1.1.js"></script>
+    <script src="../../scripts/winjscontrib/jquery.winjscontrib.js"></script>
+    <script src="../../scripts/winjscontrib/winjscontrib.core.js"></script>
 
     <!-- WinJSContrib.Tab references -->
-    <link href="/css/winjscontrib/mcnext.ui.tab-pages.css" rel="stylesheet" />
-    <script src="./scripts/winjscontrib/mcnext.ui.tab-pages.js"></script>
+    <link href="../../css/winjscontrib/WinJSContrib.ui.tabcontrol.css" rel="stylesheet" />
+    <script src="../../scripts/winjscontrib/WinJSContrib.ui.tabcontrol.js"></script>
 
     <link href="tabcontrol.css" rel="stylesheet" />
     <script src="tabcontrol.js"></script>
@@ -25,7 +25,7 @@
             </h1>
             <div class="codelink" data-codepage="./pages/tab/tabcontrol"><span class="symbol">&#xE160;</span><span class="text">show me the code !</span></div>
         </header>
-        <section id="tabctrl" aria-label="Main content" role="main" class="arrowright" data-win-control="MCNEXT.UI.TabPages" data-win-options="{ headerTemplate: select('#tabheaderTemplate')}"></section>
+        <section id="tabctrl" aria-label="Main content" role="main" class="arrowright" data-win-control="WinJSContrib.UI.TabPages" data-win-options="{ headerTemplate: select('#tabheaderTemplate')}"></section>
         <div id="tabheaderTemplate" data-win-control="WinJS.Binding.Template">
             <div>
                 <div class="title" data-win-bind="innerText : title"></div>

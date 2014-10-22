@@ -10,7 +10,7 @@
         },
 
         openPage: function () {
-            var nav = MCNEXT.UI.parentChildView(this.element);
+            var nav = WinJSContrib.UI.parentChildView(this.element);
             nav.navigate('./pages/childviewflyout/basics/page1/page1.html')
         },
 

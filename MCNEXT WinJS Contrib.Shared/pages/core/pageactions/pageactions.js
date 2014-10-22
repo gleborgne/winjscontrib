@@ -3,7 +3,7 @@
 
     WinJS.UI.Pages.define("./pages/core/pageactions/pageactions.html", {
         alertMe: function (pageActionArg) {
-            MCNEXT.Alert.messageBox({
+            WinJSContrib.Alert.messageBox({
                 title: pageActionArg.args.title,
                 content: "Do you like what you have seen of WinJS contrib so far ?",
                 commands: [

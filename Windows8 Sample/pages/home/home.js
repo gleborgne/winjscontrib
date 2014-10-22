@@ -5,7 +5,7 @@
              var target = $(this).data('page-weblink');
 
             if (target && target.indexOf('/') < 0) {
-                var tmp = MCNEXT.Utils.readProperty(window, target);
+                var tmp = WinJSContrib.Utils.readProperty(window, target);
                 if (tmp) {
                     target = tmp;
                 }
@@ -16,7 +16,7 @@
                     var actionArgs = $(eltarg).data('page-action-args');
                     if (actionArgs && typeof actionArgs == 'string') {
                         try {
-                            var tmp = MCNEXT.Utils.readValue(eltarg, actionArgs);
+                            var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
                             if (tmp) {
                                 actionArgs = tmp;
                             }
@@ -46,7 +46,7 @@
             //        page.controls.hub.renderItemsContent();
             //    //});
             //}
-            //MCNEXT.UI.Application.progress.show();
+            //WinJSContrib.UI.Application.progress.show();
         },
         openFixedHub: function (clickArg) {
             var items = window[clickArg.args.items];

@@ -11,19 +11,19 @@
             var page = this;
             page.refreshViews();
 
-            MCNEXT.MultipleViews.manager.secondaryViews.onitemremoved = page.refreshViews.bind(page);
+            WinJSContrib.MultipleViews.manager.secondaryViews.onitemremoved = page.refreshViews.bind(page);
 
             $('#views', page.element).change(function () {
                 var id = $('#views', page.element).val();
                 page.currentView = parseInt(id);
             });
 
-            MCNEXT.MultipleViews.manager.addEventListener("helloworld", page.treathelloworld.bind(page), false);
+            WinJSContrib.MultipleViews.manager.addEventListener("helloworld", page.treathelloworld.bind(page), false);
         },
 
         openView: function () {
             var page = this;
-            MCNEXT.MultipleViews.manager.openView("./pages/multiview/childview.html").done(function () {
+            WinJSContrib.MultipleViews.manager.openView("./pages/multiview/childview.html").done(function () {
                 page.refreshViews();
             });
         },
@@ -31,7 +31,7 @@
         closeView: function () {
             var page = this;
             if (page.currentView) {
-                var view = MCNEXT.MultipleViews.manager.findViewByViewId(page.currentView);
+                var view = WinJSContrib.MultipleViews.manager.findViewByViewId(page.currentView);
                 view.close().done(function () {
                     page.currentView = undefined;
                     page.refreshViews();
@@ -42,7 +42,7 @@
         sendMessage: function () {
             var page = this;
             if (page.currentView) {
-                var view = MCNEXT.MultipleViews.manager.findViewByViewId(page.currentView);
+                var view = WinJSContrib.MultipleViews.manager.findViewByViewId(page.currentView);
                 var txt = $('#txtMessage').val();
                 view.send('helloworld', { text: txt });
             }
@@ -56,22 +56,22 @@
             var page = this;
             var views = $('#views', page.element);
             views.html('');
-            MCNEXT.MultipleViews.manager.secondaryViews.forEach(function (view) {
+            WinJSContrib.MultipleViews.manager.secondaryViews.forEach(function (view) {
                 var item = $('<option value="' + view.viewId + '">' + view.viewId + '</option>');
-                if (page.currentView == view.viewId || MCNEXT.MultipleViews.manager.secondaryViews.length == 1) {
+                if (page.currentView == view.viewId || WinJSContrib.MultipleViews.manager.secondaryViews.length == 1) {
                     item.attr('selected', 'true');
                     if (!page.currentView)
                         page.currentView = view.viewId;
                 }
                 views.append(item);
             });
-            if (MCNEXT.MultipleViews.manager.secondaryViews.length == 0) {
+            if (WinJSContrib.MultipleViews.manager.secondaryViews.length == 0) {
                 page.currentView = undefined;
             }
         },
 
         unload: function () {
-            MCNEXT.MultipleViews.manager.secondaryViews.onitemremoved = null;
+            WinJSContrib.MultipleViews.manager.secondaryViews.onitemremoved = null;
         },
 
         updateLayout: function (element) {

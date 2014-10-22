@@ -6,7 +6,7 @@
         openPage: function () {
             var page = this;
             //parent navigator can be fetched
-            var nav = MCNEXT.UI.parentChildView(this.element);
+            var nav = WinJSContrib.UI.parentChildView(this.element);
             nav.pick('./pages/childviewflyout/picker/page1/page1.html').done(function (arg) {
                 if (arg.completed) {
                     $('#pickResult', page.element).text('you picked ' + arg.data.title);

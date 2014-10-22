@@ -1,4 +1,4 @@
-﻿/// <reference path="../../scripts/winjscontrib/mcnext.search.js" />
+﻿/// <reference path="../../scripts/winjscontrib/WinJSContrib.search.js" />
 
 (function () {
     "use strict";
@@ -9,7 +9,7 @@
 
             //define an index and specify which properties must be indexed
             //on your objects
-            page.index = new MCNEXT.Search.Index('persistentTest', {
+            page.index = new WinJSContrib.Search.Index('persistentTest', {
                 fields: {
                     "desc.title": 1,
                     "title": 2

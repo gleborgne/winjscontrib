@@ -7,9 +7,9 @@
 
     <!-- WinJSContrib.Core references -->
     <script src="../../../scripts/jquery-2.1.1.js"></script>
-    <script src="../../../scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
-    <script src="../../../scripts/winjscontrib/mcnext.ui.utils.js"></script>
-    <script src="../../../scripts/winjscontrib/mcnext.ui.bindings.js"></script>
+    <script src="../../../scripts/winjscontrib/jquery.winjscontrib.js"></script>
+    <script src="../../../scripts/winjscontrib/winjscontrib.core.js"></script>
+    <script src="../../../scripts/winjscontrib/WinJSContrib.bindings.js"></script>
 
     <link href="images.css" rel="stylesheet" />
     <script src="images.js"></script>
@@ -42,7 +42,7 @@
                         <p>
                             or use a custom binding for background images.
                         </p>
-                        <div class="picture small" data-win-bind="img : pic MCNEXT.Bindings.toBgImage" style=""></div>
+                        <div class="picture small" data-win-bind="img : pic WinJSContrib.Bindings.toBgImage" style=""></div>
                     </div>
                     <div id="bgimage">
                         <p>
@@ -51,8 +51,8 @@
                             to your images.
                         </p>
                         <p><button data-page-action="bgImage">bind bg image</button></p>
-                        <img class="picture animate" data-win-bind="src : pic MCNEXT.Bindings.toSmartBgImage" />
-                        <div class="picture animate" data-win-bind="img : pic MCNEXT.Bindings.toSmartBgImage" style=""></div>
+                        <img class="picture animate" data-win-bind="src : pic WinJSContrib.Bindings.toSmartBgImage" />
+                        <div class="picture animate" data-win-bind="img : pic WinJSContrib.Bindings.toSmartBgImage" style=""></div>
                     </div>
                 </div>
             </div>

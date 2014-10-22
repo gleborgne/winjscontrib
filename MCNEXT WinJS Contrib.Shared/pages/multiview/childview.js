@@ -8,9 +8,9 @@
         // populates the page elements with the app's data.
         ready: function (element, options) {
             var page = this;
-            MCNEXT.MultipleViews.currentView.addEventListener("helloworld", page.treathelloworld.bind(page), false);
+            WinJSContrib.MultipleViews.currentView.addEventListener("helloworld", page.treathelloworld.bind(page), false);
             $('#btnHello').tap(function () {
-                MCNEXT.MultipleViews.currentView.send('helloworld', { text: 'youpi' });
+                WinJSContrib.MultipleViews.currentView.send('helloworld', { text: 'youpi' });
             });
         },
 
@@ -19,7 +19,7 @@
         },
 
         closeView : function(){
-            MCNEXT.MultipleViews.currentView.close();
+            WinJSContrib.MultipleViews.currentView.close();
         },
 
         unload: function () {

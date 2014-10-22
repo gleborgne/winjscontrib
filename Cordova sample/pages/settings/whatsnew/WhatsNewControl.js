@@ -1,5 +1,5 @@
 ﻿(function () {
-    WinJS.Namespace.define("MCNEXT.UI", {
+    WinJS.Namespace.define("WinJSContrib.UI", {
         WhatsNewControl: WinJS.Class.define(
            function (element, options) {
                element.winControl = this;

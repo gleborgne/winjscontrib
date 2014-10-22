@@ -6,11 +6,11 @@
 
     <!-- WinJSContrib.Core references -->
     <script src="../../scripts/jquery-2.1.1.js"></script>
-    <script src="../../scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
-    <script src="../../scripts/winjscontrib/mcnext.ui.utils.js"></script>
+    <script src="../../scripts/winjscontrib/jquery.winjscontrib.js"></script>
+    <script src="../../scripts/winjscontrib/winjscontrib.core.js"></script>
 
     <!-- WinJSContrib.SemanticZoom references -->
-    <script src="../../scripts/winjscontrib/mcnext.ui.semanticzoom-wrapper.js"></script>
+    <script src="../../scripts/winjscontrib/WinJSContrib.ui.semanticzoom-wrapper.js"></script>
 
     <link href="semanticzoom.css" rel="stylesheet" />
     <script src="semanticzoom.js"></script>
@@ -26,9 +26,9 @@
         </header>
         <section aria-label="Main content" role="main">
             <div id="semanticzoom" data-win-control="WinJS.UI.SemanticZoom">
-                <div id="zoomedin" data-win-control="MCNEXT.UI.SemanticZoomWrapper">
+                <div id="zoomedin" data-win-control="WinJSContrib.UI.SemanticZoomWrapper">
                     <div class="container">
-                        <div id="zoomedingrid" data-win-control="MCNEXT.UI.GridControl">
+                        <div id="zoomedingrid" data-win-control="WinJSContrib.UI.GridControl">
                             <div id="item1" class="item">Item 1</div>
                             <div id="item2" class="item">Item 2</div>
                             <div id="item3" class="item">Item 3</div>
@@ -36,9 +36,9 @@
                         </div>
                     </div>
                 </div>
-                <div id="zoomedout" data-win-control="MCNEXT.UI.SemanticZoomWrapper">
+                <div id="zoomedout" data-win-control="WinJSContrib.UI.SemanticZoomWrapper">
                     <div class="container">
-                        <div id="zoomedoutgrid" data-win-control="MCNEXT.UI.GridControl">
+                        <div id="zoomedoutgrid" data-win-control="WinJSContrib.UI.GridControl">
                             <div class="item" data-target="item1">Item 1</div>
                             <div class="item" data-target="item2">Item 2</div>
                             <div class="item" data-target="item3">Item 3</div>

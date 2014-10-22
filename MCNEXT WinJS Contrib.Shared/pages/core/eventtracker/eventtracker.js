@@ -14,7 +14,7 @@
             //the event tracker can also manage bind events on observable objects
 
             //anf of course, you could create your own instance : 
-            var mytracker = new MCNEXT.UI.EventTracker();
+            var mytracker = new WinJSContrib.UI.EventTracker();
             mytracker.dispose();
         },
         setMenu: function () {

@@ -1,0 +1,334 @@
+﻿.mcn-navigator {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.mcn-navigator > .pagecontrol {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.mcn-fullsize {
+  width: 100%;
+  height: 100%;
+}
+.clear {
+  clear: both;
+}
+.symbol {
+  font-family: 'Segoe UI Symbol';
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+/* Full Width Animation Bar */
+@-moz-keyframes fullexpand {
+  0% {
+    width: 0px;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+@-webkit-keyframes fullexpand {
+  0% {
+    width: 0px;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+.mcn-cordova progress.win-ring {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border: solid 30px;
+  margin-left: 10px;
+  border-radius: 5em;
+  border-color: transparent transparent white transparent;
+  -webkit-animation: spin 1s linear infinite;
+}
+.mcn-cordova progress.bar {
+  width: 100%;
+  height: 2px !important;
+  margin: 2px 0;
+  margin-top: 0;
+  background-color: red;
+  box-sizing: border-box;
+  position: absolute;
+  box-shadow: none;
+  /*0px 0px 10px 1px rgba(0,198,255,0.7);*/
+  -moz-animation: fullexpand 3s linear infinite;
+  -webkit-animation: fullexpand 3s linear infinite;
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideFromBottom {
+  from {
+    -webkit-transform: translate3d(0, 120%, 0);
+    transform: translate3d(0, 120%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-slideFromBottom {
+  from {
+    -webkit-transform: translate3d(0, 120%, 0);
+    transform: translate3d(0, 120%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideToBottom {
+  to {
+    -webkit-transform: translate3d(0, 120%, 0);
+    transform: translate3d(0, 120%, 0);
+  }
+}
+@keyframes WinJSContrib-slideToBottom {
+  to {
+    -webkit-transform: translate3d(0, 120%, 0);
+    transform: translate3d(0, 120%, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideFromTop {
+  from {
+    -webkit-transform: translate3d(0, -120%, 0);
+    transform: translate3d(0, -120%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-slideFromTop {
+  from {
+    -webkit-transform: translate3d(0, -120%, 0);
+    transform: translate3d(0, -120%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideToTop {
+  to {
+    -webkit-transform: translate3d(0, -120%, 0);
+    transform: translate3d(0, -120%, 0);
+  }
+}
+@keyframes WinJSContrib-slideToTop {
+  to {
+    -webkit-transform: translate3d(0, -120%, 0);
+    transform: translate3d(0, -120%, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideFromRight {
+  from {
+    -webkit-transform: translateX(120%);
+    transform: translateX(120%);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-slideFromRight {
+  from {
+    -webkit-transform: translate3d(120%, 0, 0);
+    transform: translate3d(120%, 0, 0);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideToRight {
+  to {
+    -webkit-transform: translate3d(120%, 0, 0);
+    transform: translate3d(120%, 0, 0);
+  }
+}
+@keyframes WinJSContrib-slideToRight {
+  to {
+    -webkit-transform: translate3d(120%, 0, 0);
+    transform: translate3d(120%, 0, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideFromLeft {
+  from {
+    -webkit-transform: translate3d(-120%, 0, 0);
+    transform: translate3d(-120%, 0, 0);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-slideFromLeft {
+  from {
+    -webkit-transform: translate3d(-120%, 0, 0);
+    transform: translate3d(-120%, 0, 0);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideToLeft {
+  to {
+    -webkit-transform: translate3d(-120%, 0, 0);
+    transform: translate3d(-120%, 0, 0);
+  }
+}
+@keyframes WinJSContrib-slideToLeft {
+  to {
+    -webkit-transform: translate3d(-120%, 0, 0);
+    transform: translate3d(-120%, 0, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-tabExitPage {
+  from {
+    -webkit-transform: none;
+    transform: none;
+  }
+  to {
+    -webkit-transform: translate3d(0, 60%, 0);
+    transform: translate3d(0, 60%, 0);
+  }
+}
+@keyframes WinJSContrib-tabExitPage {
+  from {
+    -webkit-transform: none;
+    transform: none;
+  }
+  to {
+    -webkit-transform: translate3d(0, 60%, 0);
+    transform: translate3d(0, 60%, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-tabEnterPage {
+  from {
+    -webkit-transform: translate3d(0, -80%, 0);
+    transform: translate3d(0, -80%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-tabEnterPage {
+  from {
+    -webkit-transform: translate3d(0, -80%, 0);
+    transform: translate3d(0, -80%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-exitGrow {
+  from {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
+  }
+}
+@keyframes WinJSContrib-exitGrow {
+  from {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-exitShrink {
+  from {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(0.75);
+    transform: scale(0.75);
+  }
+}
+@keyframes WinJSContrib-exitShrink {
+  from {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(0.75);
+    transform: scale(0.75);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-enterShrink {
+  from {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+  to {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes WinJSContrib-enterShrink {
+  from {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+  to {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-shrinkAndFall {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  25% {
+    -webkit-transform: scale(0.75);
+    transform: scale(0.75);
+  }
+  90% {
+    -webkit-transform: scale(0.7) translate3d(0, 110%, 0);
+    transform: scale(0.7) translate3d(0, 110%, 0);
+  }
+}
+@keyframes WinJSContrib-shrinkAndFall {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  25% {
+    -webkit-transform: scale(0.75);
+    transform: scale(0.75);
+  }
+  90% {
+    -webkit-transform: scale(0.7) translate3d(0, 110%, 0);
+    transform: scale(0.7) translate3d(0, 110%, 0);
+  }
+}
+/*# sourceMappingURL=winjscontrib.ui.css.map */

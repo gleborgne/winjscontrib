@@ -6,11 +6,11 @@
 
 
     <!-- WinJSContrib.Core references -->
-    <script src="./scripts/jquery-2.1.1.js"></script>
-    <script src="./scripts/winjscontrib/jquery.mcnext.WinJS.js"></script>
-    <script src="./scripts/winjscontrib/mcnext.ui.utils.js"></script>
-    <script src="./scripts/winjscontrib/mcnext.ui.bindings.js"></script>
-
+    <script src="../../../scripts/jquery-2.1.1.js"></script>
+    <script src="../../../scripts/winjscontrib/jquery.winjscontrib.js"></script>
+    <script src="../../../scripts/winjscontrib/winjscontrib.core.js"></script>
+    <script src="../../../scripts/winjscontrib/winjscontrib.core.js"></script>
+    <script src="../../../scripts/winjscontrib/WinJSContrib.bindings.js"></script>
     <link href="objectproperties.css" rel="stylesheet" />
     <script src="objectproperties.js"></script>
 </head>
@@ -37,7 +37,7 @@
                     <div>
                         <h3>Sample binding using object properties</h3>
                         function addClass(source, sourceProperty, dest, destProperty) {<br />
-                        &nbsp;&nbsp;var data = MCNEXT.Utils.readProperty(source, sourceProperty);<br />
+                        &nbsp;&nbsp;var data = WinJSContrib.Utils.readProperty(source, sourceProperty);<br />
                         &nbsp;&nbsp;var formatParameter = bindingArguments(dest, 'format');<br />
                         &nbsp;&nbsp;if (formatParameter) {<br />
                         &nbsp;&nbsp;&nbsp;&nbsp;dest.classList.add(formatParameter.format(data));<br />

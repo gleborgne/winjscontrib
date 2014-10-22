@@ -5,12 +5,12 @@
         ready: function (element, options) {
             var page = this;
             page.iframe = element.querySelector('#messagingframe');
-            page.iframeMessenger = new MCNEXT.UI.Messenger(window, page.iframe.contentWindow);
+            page.iframeMessenger = new WinJSContrib.UI.Messenger(window, page.iframe.contentWindow);
 
             page.worker = new Worker('./pages/core/messenger/worker.js');
-            page.workerMessenger = new MCNEXT.UI.Messenger(page.worker, page.worker);
+            page.workerMessenger = new WinJSContrib.UI.Messenger(page.worker, page.worker);
 
-            page.smartWorker = new MCNEXT.UI.Messenger.SmartWorker();
+            page.smartWorker = new WinJSContrib.UI.Messenger.SmartWorker();
         },
 
         iframeOp: function (triggerError) {
@@ -61,9 +61,9 @@
         smartworkerTreatment: function () {
             var page = this;
 
-            page.smartWorker.importScripts('/Scripts/winjscontrib/mcnext.ui.utils.js').then(function () {
+            page.smartWorker.importScripts('/Scripts/winjscontrib/winjscontrib.core.js').then(function () {
                 return page.smartWorker.execute(function (a, b) {
-                    return (a + b) + ' & ' + MCNEXT.Utils.guid();
+                    return (a + b) + ' & ' + WinJSContrib.Utils.guid();
                 }, 42, 42).then(function (result) {
                     console.log('worker dynamic function result : ' + JSON.stringify(result));
                     $('.smartworkerTreatmentMessage', page.element).text('worker dynamic function result : ' + JSON.stringify(result));
@@ -73,11 +73,11 @@
 
         smartworkerTreatmentWithError: function () {
             var page = this;
-            var worker = new MCNEXT.UI.Messenger.SmartWorker();
+            var worker = new WinJSContrib.UI.Messenger.SmartWorker();
 
-            //in this case we did not import "MCNEXT.Utils" so "MCNEXT.Utils.guid()" will fail if you have not clicked
+            //in this case we did not import "WinJSContrib.Utils" so "WinJSContrib.Utils.guid()" will fail if you have not clicked
             worker.execute(function (a, b) {
-                return (a + b) + ' & ' + MCNEXT.Utils.guid();
+                return (a + b) + ' & ' + WinJSContrib.Utils.guid();
             }, 42, 42).then(function (result) {
                 console.log('worker dynamic function result : ' + JSON.stringify(result));
                 $('.smartworkerTreatmentMessage', page.element).text('worker dynamic function result : ' + JSON.stringify(result));

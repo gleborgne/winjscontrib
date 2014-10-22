@@ -10,20 +10,20 @@
     var nav = WinJS.Navigation;
 
     // Client logging configuration
-    MCNEXT.Logger.Config = {
-        "level": MCNEXT.Logger.Levels.all,
+    WinJSContrib.Logger.Config = {
+        "level": WinJSContrib.Logger.Levels.all,
         "displayLevelInMessage": true,
         "displayGroupInMessage": true,
         "plugToWinJSLog": false
     };
 
     function prepareApp(args) {
-        app.queueEvent({ type: 'mcnext.app.started', startArgs : args });
+        app.queueEvent({ type: 'WinJSContrib.app.started', startArgs : args });
     }
 
     app.addEventListener("activated", function (args) {
         var dataloading = function () {
-            //MCNEXT.Utils.momentFr();
+            //WinJSContrib.Utils.momentFr();
             return WinJS.Promise.timeout(2000);
         }
 
@@ -43,13 +43,13 @@
             
             
             var preparepage = WinJS.UI.processAll().then(function () {
-                return MCNEXT.UI.Application.splashscreen.init(args);
+                return WinJSContrib.UI.Application.splashscreen.init(args);
             });
 
             args.setPromise(preparepage);
 
             preparepage.then(function () {
-                return MCNEXT.UI.Application.splashscreen.show(dataloading());
+                return WinJSContrib.UI.Application.splashscreen.show(dataloading());
             }).then(function appInitSuccess() {
                 return WinJS.Navigation.navigate("/pages/home/home.html")
             }, function appInitError(err) {
@@ -57,8 +57,8 @@
             }).then(function () {
                 var ratecontr = document.getElementById('ratecontr');
                 ratecontr.winControl.check();
-                MCNEXT.UI.Application.splashscreen.hide();
-                MCNEXT.UI.Application.navigator.addEventListener('pageContentReady', function (arg) {
+                WinJSContrib.UI.Application.splashscreen.hide();
+                WinJSContrib.UI.Application.navigator.addEventListener('pageContentReady', function (arg) {
                     setImmediate(function () { 
                         $('.codelink', arg.detail.page.element).addClass('visible').tap(function (elt) {
                             var target = $(elt).data('codepage')
@@ -86,8 +86,8 @@
         // complete an asynchronous operation before your application is 
         // suspended, call args.setPromise().
         app.sessionState.history = nav.history;
-        if (MCNEXT.MultipleViews)
-            MCNEXT.MultipleViews.manager.closeAll();
+        if (WinJSContrib.MultipleViews)
+            WinJSContrib.MultipleViews.manager.closeAll();
     };
 
     app.start();

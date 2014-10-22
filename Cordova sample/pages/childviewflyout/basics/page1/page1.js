@@ -4,7 +4,7 @@
     WinJS.UI.Pages.define("./pages/childviewflyout/basics/page1/page1.html", {
         openPage: function () {
             //parent navigator can be fetched
-            var nav = MCNEXT.UI.parentChildView(this.element);
+            var nav = WinJSContrib.UI.parentChildView(this.element);
             nav.navigate('./pages/childviewflyout/basics/page2/page2.html')
         },
 

@@ -83,7 +83,7 @@
             var page = this;
             $('.viewKindName', this.element).text(arg.elt.innerText);
             page.semanticListViews.dataManager.apply({
-                groupKind: MCNEXT.UI.DataSources.Grouping.byField,
+                groupKind: WinJSContrib.UI.DataSources.Grouping.byField,
                 field: 'metadata.genre'
             });
             this.viewSelectionFlyout.hide();
@@ -94,7 +94,7 @@
             var page = this;
             $('.viewKindName', this.element).text(arg.elt.innerText);
             page.semanticListViews.dataManager.apply({
-                groupKind: MCNEXT.UI.DataSources.Grouping.byYear,
+                groupKind: WinJSContrib.UI.DataSources.Grouping.byYear,
                 field: 'year'
             });
             this.viewSelectionFlyout.hide();
@@ -105,7 +105,7 @@
             var page = this;
             $('.viewKindName', this.element).text(arg.elt.innerText);
             page.semanticListViews.dataManager.apply({
-                groupKind: MCNEXT.UI.DataSources.Grouping.alphabetic,
+                groupKind: WinJSContrib.UI.DataSources.Grouping.alphabetic,
                 field: 'title'
             });
             this.viewSelectionFlyout.hide();
