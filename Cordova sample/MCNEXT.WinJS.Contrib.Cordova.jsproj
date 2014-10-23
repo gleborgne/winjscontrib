@@ -174,105 +174,6 @@
     <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\moment.min.js">
       <Link>scripts\moment.min.js</Link>
     </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\jquery.mcnext.WinJS.js">
-      <Link>scripts\winjscontrib\jquery.mcnext.WinJS.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.bgtask.js">
-      <Link>scripts\winjscontrib\mcnext.bgtask.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.contacts.js">
-      <Link>scripts\winjscontrib\mcnext.contacts.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.date.utils.js">
-      <Link>scripts\winjscontrib\mcnext.date.utils.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.logger.js">
-      <Link>scripts\winjscontrib\mcnext.logger.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.search.js">
-      <Link>scripts\winjscontrib\mcnext.search.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.search.worker.js">
-      <Link>scripts\winjscontrib\mcnext.search.worker.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ssm.js">
-      <Link>scripts\winjscontrib\mcnext.ssm.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.animation.js">
-      <Link>scripts\winjscontrib\mcnext.ui.animation.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.bindings.js">
-      <Link>scripts\winjscontrib\mcnext.ui.bindings.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.boilerplatecontrol.js">
-      <Link>scripts\winjscontrib\mcnext.ui.boilerplatecontrol.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.boilerplateobservable.js">
-      <Link>scripts\winjscontrib\mcnext.ui.boilerplateobservable.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.childViewFlyout.js">
-      <Link>scripts\winjscontrib\mcnext.ui.childViewFlyout.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.dataform.js">
-      <Link>scripts\winjscontrib\mcnext.ui.dataform.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.datasourcemanager.js">
-      <Link>scripts\winjscontrib\mcnext.ui.datasourcemanager.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.extended-splashscreen.js">
-      <Link>scripts\winjscontrib\mcnext.ui.extended-splashscreen.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.flipviewpager.js">
-      <Link>scripts\winjscontrib\mcnext.ui.flipviewpager.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.globalProgress.js">
-      <Link>scripts\winjscontrib\mcnext.ui.globalProgress.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.grid.js">
-      <Link>scripts\winjscontrib\mcnext.ui.grid.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.hubcontrol.js">
-      <Link>scripts\winjscontrib\mcnext.ui.hubcontrol.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.multipass-renderer.js">
-      <Link>scripts\winjscontrib\mcnext.ui.multipass-renderer.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.multipleviews.child.js">
-      <Link>scripts\winjscontrib\mcnext.ui.multipleviews.child.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.multipleviews.js">
-      <Link>scripts\winjscontrib\mcnext.ui.multipleviews.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.multipleviews.main.js">
-      <Link>scripts\winjscontrib\mcnext.ui.multipleviews.main.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.navigator.js">
-      <Link>scripts\winjscontrib\mcnext.ui.navigator.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.pivotmultidevice.js">
-      <Link>scripts\winjscontrib\mcnext.ui.pivotmultidevice.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.semanticzoom-wrapper.js">
-      <Link>scripts\winjscontrib\mcnext.ui.semanticzoom-wrapper.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.smartlistlayout.js">
-      <Link>scripts\winjscontrib\mcnext.ui.smartlistlayout.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.swipeslide.js">
-      <Link>scripts\winjscontrib\mcnext.ui.swipeslide.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.tab-pages.js">
-      <Link>scripts\winjscontrib\mcnext.ui.tab-pages.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.twowaybindings.js">
-      <Link>scripts\winjscontrib\mcnext.ui.twowaybindings.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.utils.js">
-      <Link>scripts\winjscontrib\mcnext.ui.utils.js</Link>
-    </Content>
-    <Content Include="..\MCNEXT WinJS Contrib.Shared\Scripts\winjscontrib\mcnext.ui.windowsphone.flyoutpage.js">
-      <Link>scripts\winjscontrib\mcnext.ui.windowsphone.flyoutpage.js</Link>
-    </Content>
     <Content Include="css\apptheme.css" />
     <Content Include="css\apptheme.less" />
     <Content Include="css\defaultcordovaphone.css">
@@ -304,7 +205,6 @@
     <Content Include="pages\mainmenu\mainmenu.html" />
     <Content Include="pages\mainmenu\mainmenu.js" />
     <Content Include="pages\mainmenu\mainmenu.less" />
-    <Folder Include="css\mcnext\" />
     <Folder Include="css\winjscontrib\" />
     <Folder Include="pages\datasources\customcontrol\" />
     <Folder Include="pages\datasources\simple\" />

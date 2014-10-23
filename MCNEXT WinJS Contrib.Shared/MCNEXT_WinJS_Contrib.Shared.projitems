@@ -249,7 +249,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\syntaxhighlighter\styles\shThemeRDark.css" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\tooltipster\jquery.tooltipster.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\tooltipster\tooltipster.css" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\jquery.WinJSContrib.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.jquery.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.audiorecording.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.bgtask.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.contacts.js" />
@@ -259,7 +259,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.logger.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.search.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.search.worker.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.ssm.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.ssm.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.animation.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.bindings.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.Boilerplate.control.js" />
@@ -276,9 +276,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.messenger.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.messenger.worker.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.multipass-renderer.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.multipleviews.child.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.multipleviews.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.multipleviews.main.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.multipleviews.child.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.multipleviews.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.multipleviews.main.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.navigator.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.pivotmultidevice.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.semanticzoom-wrapper.js" />

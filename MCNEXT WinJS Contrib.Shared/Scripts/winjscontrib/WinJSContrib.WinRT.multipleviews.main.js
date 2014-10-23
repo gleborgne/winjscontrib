@@ -4,5 +4,5 @@
 //project is available at http://winjscontrib.codeplex.com
 
 WinJS.Namespace.define("WinJSContrib.MultipleViews", {
-    manager: new SecondaryViewsHelper.ViewManager("ms-appx:///defaultchild.html")
+    manager: new WinJSContrib.MultipleViews.ViewManager("ms-appx:///defaultchild.html")
 });

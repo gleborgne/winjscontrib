@@ -32,21 +32,21 @@
             var preparepage = WinJS.UI.processAll().then(function () {
                 return WinJS.Resources.processAll()
             }).then(function () {
-                return MCNEXT.UI.Application.splashscreen.init(args);
+                return WinJSContrib.UI.Application.splashscreen.init(args);
             });
 
             args.setPromise(preparepage);
             ui.disableAnimations();
             preparepage.then(function () {
-                return MCNEXT.UI.Application.splashscreen.show(dataloading());
+                return WinJSContrib.UI.Application.splashscreen.show(dataloading());
             }).then(function appInitSuccess() {
                 return WinJS.Navigation.navigate("/pages/home/home.html")
             }, function appInitError(err) {
                 return WinJS.Navigation.navigate("/pages/errorPage/errorPage.html");
             }).then(function () {
                 ui.enableAnimations();
-                MCNEXT.UI.Application.splashscreen.hide();
-                MCNEXT.UI.Application.navigator.addEventListener('pageContentReady', function (arg) {
+                WinJSContrib.UI.Application.splashscreen.hide();
+                WinJSContrib.UI.Application.navigator.addEventListener('pageContentReady', function (arg) {
                     setImmediate(function () {
                         $('.codelink', arg.detail.page.element).addClass('visible').tap(function (elt) {
                             var target = $(elt).data('codepage')

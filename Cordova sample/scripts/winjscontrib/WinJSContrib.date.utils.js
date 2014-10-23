@@ -70,7 +70,7 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
             }
         }
 
-        Bindings.formatDate = WinJS.Utilities.markSupportedForProcessing(formatDateBinding);
+        WinJSContrib.Bindings.formatDate = WinJS.Utilities.markSupportedForProcessing(formatDateBinding);
 
         function daysSince(m, d, y) {
             if (d == '' || m == '' || y == '') {
@@ -104,7 +104,7 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
             }
         }
 
-        Bindings.daysSinceDate = WinJS.Utilities.markSupportedForProcessing(daysSinceDateBinding);
+        WinJSContrib.Bindings.daysSinceDate = WinJS.Utilities.markSupportedForProcessing(daysSinceDateBinding);
 
         function humanizeDate(source, sourceProperty, dest, destProperty) {
             var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
@@ -116,7 +116,7 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
                 dest.innerText = moment.duration(sourcedata, arg).humanize(addSuffix);
             }
         }
-        Bindings.humanizeDate = WinJS.Utilities.markSupportedForProcessing(humanizeDate);
+        WinJSContrib.Bindings.humanizeDate = WinJS.Utilities.markSupportedForProcessing(humanizeDate);
 
     
 })();

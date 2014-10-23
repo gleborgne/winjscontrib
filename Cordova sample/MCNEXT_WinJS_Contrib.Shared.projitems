@@ -24,9 +24,6 @@
     <Content Include="$(MSBuildThisFileDirectory)css\defaultphone.css">
       <DependentUpon>defaultphone.less</DependentUpon>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\defaultphone.css.map">
-      <DependentUpon>defaultphone.css</DependentUpon>
-    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\defaultphone.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\items.css">
       <DependentUpon>items.less</DependentUpon>
@@ -35,85 +32,27 @@
     <Content Include="$(MSBuildThisFileDirectory)css\items.min.css">
       <DependentUpon>items.css</DependentUpon>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.css">
-      <DependentUpon>mcnext.ui.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.dataform.css">
-      <DependentUpon>mcnext.ui.dataform.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.dataform.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.dataform.min.css">
-      <DependentUpon>mcnext.ui.dataform.css</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.extended-splashscreen.css">
-      <DependentUpon>mcnext.ui.extended-splashscreen.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.extended-splashscreen.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.flipviewpager.css">
-      <DependentUpon>mcnext.ui.flipviewpager.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.flipviewpager.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.flipviewpager.min.css">
-      <DependentUpon>mcnext.ui.flipviewpager.css</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.globalprogress.css">
-      <DependentUpon>mcnext.ui.globalprogress.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.globalprogress.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.hub.css">
-      <DependentUpon>mcnext.ui.hub.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.hub.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.tab-pages.css">
-      <DependentUpon>mcnext.ui.tab-pages.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.tab-pages.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\mcnext\mcnext.ui.tab-pages.min.css">
-      <DependentUpon>mcnext.ui.tab-pages.css</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.childviewflyout.css" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.childviewflyout.css.map">
-      <DependentUpon>mcnext.ui.childviewflyout.css</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.childviewflyout.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.css" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.css.map">
-      <DependentUpon>mcnext.ui.css</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.dataform.css">
-      <DependentUpon>mcnext.ui.dataform.less</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.dataform.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.dataform.min.css">
-      <DependentUpon>mcnext.ui.dataform.css</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.datetimescroller.css" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.datetimescroller.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.extended-splashscreen.css" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.extended-splashscreen.css.map">
-      <DependentUpon>mcnext.ui.extended-splashscreen.css</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.extended-splashscreen.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.flipviewpager.css" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.flipviewpager.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.globalprogress.css" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.globalprogress.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.hub.css" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.hub.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.tab-pages.css" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.tab-pages.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.windowsphone.flyoutpage.css" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.windowsphone.flyoutpage.css.map">
-      <DependentUpon>mcnext.ui.windowsphone.flyoutpage.css</DependentUpon>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\mcnext.ui.windowsphone.flyoutpage.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.css" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.css.map">
-      <DependentUpon>segoe.symbol.css</DependentUpon>
-    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.dataform.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.datetimescroller.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.dataform.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.extended-splashscreen.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.extended-splashscreen.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flyoutpage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flyoutpage.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.globalprogress.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.globalprogress.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.hub.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.hub.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.less" />
     <Content Include="$(MSBuildThisFileDirectory)images\mcnstore.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)pages\alerts\alerts.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\alerts\alerts.html" />
@@ -310,17 +249,17 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\syntaxhighlighter\styles\shThemeRDark.css" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\tooltipster\jquery.tooltipster.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\tooltipster\tooltipster.css" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\jquery.WinJSContrib.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.jquery.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.audiorecording.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.bgtask.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.contacts.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.date.utils.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.dynamicscripts.html" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.dynamicscripts.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.logger.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.logger.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.search.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.search.worker.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.ssm.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.ssm.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.animation.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.bindings.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.Boilerplate.control.js" />
@@ -337,9 +276,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.messenger.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.messenger.worker.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.multipass-renderer.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.multipleviews.child.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.multipleviews.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.multipleviews.main.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.multipleviews.child.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.multipleviews.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.multipleviews.main.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.navigator.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.pivotmultidevice.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.semanticzoom-wrapper.js" />
