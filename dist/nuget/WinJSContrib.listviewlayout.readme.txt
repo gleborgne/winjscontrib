@@ -3,10 +3,10 @@
 This control is for managing the layout of WinJS.UI.ListView in a declarative way.
 
 First, you need to add a reference to the control in your page or in default.html :
-<script src="/scripts/winjscontrib/mcnext.ui.smartlistlayout.js"></script>
+<script src="/scripts/winjscontrib/winjscontrib.ui.smartlistlayout.js"></script>
 
 Then declare the control :
-<div id="listlayout" data-win-control="MCNEXT.UI.SmartListLayout" data-win-options="{
+<div id="listlayout" data-win-control="WinJSContrib.UI.SmartListLayout" data-win-options="{
                     listView: select('#mylistview'),
                     layouts:{
                         default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},

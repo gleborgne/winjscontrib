@@ -273,8 +273,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.globalProgress.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.grid.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.hubcontrol.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.messenger.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.messenger.worker.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.messenger.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.messenger.worker.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.multipass-renderer.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.multipleviews.child.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.multipleviews.js" />

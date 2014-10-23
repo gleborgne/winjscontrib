@@ -3,7 +3,7 @@
 This library is a search engine implemented in javascript for local searches. It works very well with a few thousands of items but it is not intended to be used for indexing billions of content (it will work though).
 
 To work with it, just add the following script :
-<script src="/scripts/winjscontrib/mcnext.search.js"></script>
+<script src="/scripts/winjscontrib/winjscontrib.search.js"></script>
 
 The search engine will index your content and use stemming to provide some fault tolerance. The built-in stemming pipeline is designed for english and french. Implementing one for other languages will be very easy. If you build one, do not hesitate to provide it and we will integrate it.
 
@@ -16,7 +16,7 @@ var myObject = {
 }
 
 Building an index is straightforward :
-var myindex = new MCNEXT.Search.Index('myobjects', { fields: { "title": 10, "description": 1 } });
+var myindex = new WinJSContrib.Search.Index('myobjects', { fields: { "title": 10, "description": 1 } });
 
 Now if you want to index content :
 myindex.add(myObject);
@@ -32,7 +32,7 @@ var result = myindex.search('title ever');
 The search engine could work asynchronously through a worker thread. The worker could be used for indexing (addRangeAsync) or search (searchAsync);
 
 If you want to partition your data in multiple indexes and search in all at once, you could use the IndexGroup object.
-var indexGroup = new MCNEXT.Search.IndexGroup({ 
+var indexGroup = new WinJSContrib.Search.IndexGroup({ 
 	myIndexName : {
 		title : 'the best title ever',
 		description: 'the item description'

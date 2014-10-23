@@ -4,11 +4,11 @@ This control is meant to provide a progress indicator at the application level. 
 
 To use this control, reference the javascript and css, and declare it in your default.html, after the navigation control:
 
-<script src="/scripts/winjscontrib/mcnext.ui.globalProgress.js"></script>
-<link href="/css/winjscontrib/mcnext.ui.globalProgress.css" rel="stylesheet" />
+<script src="/scripts/winjscontrib/winjscontrib.ui.globalProgress.js"></script>
+<link href="/css/winjscontrib/winjscontrib.ui.globalProgress.css" rel="stylesheet" />
 
 Then declare the control in your default.html at the end of the body tag 
-<div class="top-wide" data-win-control="MCNEXT.UI.GlobalProgress" data-win-options="{global: true, text: 'global progress...', delay: 250}"></div>
+<div class="top-wide" data-win-control="WinJSContrib.UI.GlobalProgress" data-win-options="{global: true, text: 'global progress...', delay: 250}"></div>
 
 If you want to know more, or need some help, look at the samples or start a new discussion at :
 http://winjscontrib.codeplex.com

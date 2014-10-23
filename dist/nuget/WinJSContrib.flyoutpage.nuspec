@@ -3,7 +3,7 @@
   <metadata> 
     <id>WinJSContrib.WindowsPhone.FlyoutPage</id>
     <title>WinJSContrib.WindowsPhone.FlyoutPage</title> 
-    <version>1.0.0.22</version> 
+    <version>2.0.0.0</version> 
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>Control for showing page flyout on Windows Phone. Usefull for implementing searchbox, custom menus, etc</description>
     <copyright>MCNEXT</copyright>
@@ -12,14 +12,14 @@
     <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
     <language>en-US</language>
     <dependencies>
-      <dependency id="WinJSContrib.Core" version="[1.0.0.13, 2.0.0)" />
+      <dependency id="WinJSContrib.Core" version="[2, 3)" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\js\mcnext.ui.windowsphone.flyoutpage.js" target="content\scripts\winjscontrib" />  
-    <file src="..\bin\js\mcnext.ui.windowsphone.flyoutpage.min.js" target="content\scripts\winjscontrib" />  
-    <file src="..\bin\css\mcnext.ui.windowsphone.flyoutpage.css" target="content\css\winjscontrib" />
-    <file src="..\bin\css\mcnext.ui.windowsphone.flyoutpage.min.css" target="content\css\winjscontrib" />
-    <file src="WinJSContrib.datasourcemanager.readme.txt" target="readme.txt" />  
+    <file src="..\bin\js\winjscontrib.ui.flyoutpage.js" target="content\scripts\winjscontrib" />  
+    <file src="..\bin\js\winjscontrib.ui.flyoutpage.min.js" target="content\scripts\winjscontrib" />  
+    <file src="..\bin\css\winjscontrib.ui.flyoutpage.css" target="content\css\winjscontrib" />
+    <file src="..\bin\css\winjscontrib.ui.flyoutpage.min.css" target="content\css\winjscontrib" />
+    <file src="WinJSContrib.flyoutpage.readme.txt" target="readme.txt" />  
   </files>
 </package>

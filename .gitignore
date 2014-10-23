@@ -8,3 +8,4 @@ Cordova sample/WinJSContrib.csproj
 Cordova sample/WinJSContrib.csproj.user
 MCNEXT WinJS Contrib.Shared/MCNEXT WinJS Contrib.Shared.shproj.user
 MCNEXT WinJS Contrib.v12.suo
+*.nupkg

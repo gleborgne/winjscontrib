@@ -14,21 +14,21 @@ Levels enum :
 
 Default configuration:
 {
-    "level": MCNEXT.Logger.Levels.all,
+    "level": WinJSContrib.Logger.Levels.all,
     "displayLevelInMessage": false,
     "displayGroupInMessage": true,
     "plugToWinJSLog": false
 }
 
-* Configuration.level: indicates at which level messages will be logged. This is a flag enum. You can mix bitwise multiple values (ex: MCNEXT.Logger.Levels.error | MCNEXT.Logger.Levels.warn). Set it to MCNEXT.Logger.Levels.none if you want to disable logging.
+* Configuration.level: indicates at which level messages will be logged. This is a flag enum. You can mix bitwise multiple values (ex: WinJSContrib.Logger.Levels.error | WinJSContrib.Logger.Levels.warn). Set it to WinJSContrib.Logger.Levels.none if you want to disable logging.
 * Configuration.displayLevelInMessage : indicates if the log message level should be concatenated at the beggining of the log message.
 * Configuration.displayGroupInMessage : indicates if the group of the message (if any) should be concated at the beggining of the log message.
 * Configuration.plugToWinJSLog : indicates if the interface should be plugged to WinJS.log method to handle messages coming from the WinJS API.
 
 You can override the default configuration settings through the Config property, like so (this should be set in default.js file) :
 
-MCNEXT.Logger.Config = {
-    "level": MCNEXT.Logger.Levels.error | MCNEXT.Logger.Levels.info,
+WinJSContrib.Logger.Config = {
+    "level": WinJSContrib.Logger.Levels.error | WinJSContrib.Logger.Levels.info,
     "displayGroupInMessage": false,
     "plugToWinJSLog": true
 };
@@ -36,15 +36,15 @@ MCNEXT.Logger.Config = {
 Configurations properties not being set will be kept to their last value.
 
 There are five methods to log:
-MCNEXT.Logger.log(MESSAGE, GROUP, LOG_LEVEL)
-MCNEXT.Logger.debug(MESSAGE, GROUP)
-MCNEXT.Logger.info(MESSAGE, GROUP)
-MCNEXT.Logger.warn(MESSAGE, GROUP)
-MCNEXT.Logger.error(MESSAGE, GROUP)
+WinJSContrib.Logger.log(MESSAGE, GROUP, LOG_LEVEL)
+WinJSContrib.Logger.debug(MESSAGE, GROUP)
+WinJSContrib.Logger.info(MESSAGE, GROUP)
+WinJSContrib.Logger.warn(MESSAGE, GROUP)
+WinJSContrib.Logger.error(MESSAGE, GROUP)
 
 Default log level for a message is always 'debug'. The 'log' method takes a third parameter which allows you to precise a particular log level. You can use either a string ('log', 'debug', 'info', 'warn', 'error') or a value from the enmueration itself (except for 'all' and 'none' which are disallowed for message logging).
 
 Here is a typical logged message in the console:
-MCNEXT.Logger.info("Application has started", "StartUp");
+WinJSContrib.Logger.info("Application has started", "StartUp");
 INFO - StartUp: Application has started
 {LOG_LEVEL} - {GROUP}: {MESSAGE}

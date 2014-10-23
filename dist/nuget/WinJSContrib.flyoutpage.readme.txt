@@ -3,13 +3,13 @@ WinJSContrib.WindowsPhone.FlyoutPage
 This control is for building flyouts that fills the screen entirely (or mostly). It's a common UI pattern on smartphones for building search boxes, or displaying custom menus (like the menus in the Facebook app).
 
 To use it, declare both javascript and css
-<link href="css/winjscontrib/mcnext.ui.windowsphone.flyoutpage.css" rel="stylesheet" />
-<link href="css/winjscontrib/mcnext.ui.css" rel="stylesheet" />
-<script src="/scripts/winjscontrib/mcnext.ui.windowsphone.flyoutpage.js"></script>
-<script src="/scripts/winjscontrib/mcnext.ui.animation.js"></script>
+<link href="css/winjscontrib/winjscontrib.ui.flyoutpage.css" rel="stylesheet" />
+<link href="css/winjscontrib/winjscontrib.ui.css" rel="stylesheet" />
+<script src="/scripts/winjscontrib/winjscontrib.ui.flyoutpage.js"></script>
+<script src="/scripts/winjscontrib/winjscontrib.ui.animation.js"></script>
 
 Then add a control to your page
-<div id="mainMenu" data-win-control="MCNEXT.UI.WindowsPhone.FlyoutPage" data-win-options="{ placement: 'right'}">
+<div id="mainMenu" data-win-control="WinJSContrib.UI.WindowsPhone.FlyoutPage" data-win-options="{ placement: 'right'}">
 	<h2>menu item 1</h2>
 	<h2>menu item 2</h2>
 	<h2>menu item 3</h2>

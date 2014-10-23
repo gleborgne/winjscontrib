@@ -13,7 +13,7 @@ app.addEventListener("settings", function (e) {
 });
 
 If you want this screen to popup at application start up, you must add the following control in default.html
-<div id="ratecontr" data-win-control="MCNEXT.UI.WhatsNewControl" data-win-options="{nbLaunch:20}"></div>
+<div id="ratecontr" data-win-control="WinJSContrib.UI.WhatsNewControl" data-win-options="{nbLaunch:20}"></div>
 
 You will also have to call:
 var ratecontr = document.getElementById('ratecontr');

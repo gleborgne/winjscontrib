@@ -3,11 +3,11 @@
 To use this control, reference the javascript and css, and declare it in your default.html, after the navigation control:
 
 add this in your header 
-<script src="/scripts/winjscontrib/mcnext.ui.extended-splashscreen.js"></script>
-<link href="/css/winjscontrib/mcnext.ui.extended-splashscreen.css" rel="stylesheet" />
+<script src="/scripts/winjscontrib/winjscontrib.ui.extended-splashscreen.js"></script>
+<link href="/css/winjscontrib/winjscontrib.ui.extended-splashscreen.css" rel="stylesheet" />
 
 add this at the end of body
-<div data-win-control="MCNEXT.UI.ExtendedSplash" data-win-options="{text: 'extended splash screen...'}"></div>
+<div data-win-control="WinJSContrib.UI.ExtendedSplash" data-win-options="{text: 'extended splash screen...'}"></div>
 
 You should also plug it in default.js. To load data during the extended splash screen, you will have to provide a callback function that return a promise, like this :
 			var dataloading = function () {
@@ -16,19 +16,19 @@ You should also plug it in default.js. To load data during the extended splash s
 
 Then, you must plug the splash screen in the activated event code like this :
 			var preparepage = WinJS.UI.processAll().then(function () {
-                return MCNEXT.UI.Application.splashscreen.init(args);
+                return WinJSContrib.UI.Application.splashscreen.init(args);
             });
 
             args.setPromise(preparepage);
 
             preparepage.then(function () {
-                return MCNEXT.UI.Application.splashscreen.show(dataloading());
+                return WinJSContrib.UI.Application.splashscreen.show(dataloading());
             }).then(function appInitSuccess() {
                 return WinJS.Navigation.navigate("/pages/home/home.html")
             }, function appInitError(err) {
                 return WinJS.Navigation.navigate("/pages/errorPage/errorPage.html");
             }).then(function () {
-                MCNEXT.UI.Application.splashscreen.hide();
+                WinJSContrib.UI.Application.splashscreen.hide();
             });
 
 

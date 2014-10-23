@@ -4,8 +4,8 @@
 //project is available at http://winjscontrib.codeplex.com
 
 var WinJSContrib = WinJSContrib || {};
-WinJSContrib.UI = WinJSContrib.UI || {};
-(function (UI) {
+
+(function () {
 
     function Messenger(receiver, sender) {
         var messenger = this;
@@ -19,19 +19,19 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             messenger._receiver.addEventListener('message', messenger._bindedProcessEvent);
     };
 
-    UI.Messenger = WinJS.Class.mix(Messenger, WinJS.Utilities.eventMixin);
-    UI.Messenger.SmartWorkerPath = '/scripts/winjscontrib/WinJSContrib.ui.messenger.worker.js';
-    UI.Messenger.SmartWorker = function (path) {
+    WinJSContrib.Messenger = WinJS.Class.mix(Messenger, WinJS.Utilities.eventMixin);
+    WinJSContrib.Messenger.SmartWorkerPath = '/scripts/winjscontrib/WinJSContrib.messenger.worker.js';
+    WinJSContrib.Messenger.SmartWorker = function (path) {
         if (window.Worker) {
-            var w = new window.Worker(path || UI.Messenger.SmartWorkerPath);
-            return new UI.Messenger(w, w);
+            var w = new window.Worker(path || WinJSContrib.Messenger.SmartWorkerPath);
+            return new WinJSContrib.Messenger(w, w);
         }
 
-        return new UI.Messenger(null, null);
+        return new WinJSContrib.Messenger(null, null);
     }
 
 
-    Messenger.prototype._send = function (obj) {
+    WinJSContrib.Messenger.prototype._send = function (obj) {
         if (this.isWorker) {
             this._sender.postMessage(JSON.stringify(obj));
         }
@@ -40,14 +40,14 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         }
     };
 
-    Messenger.prototype.importScripts = function (scriptPaths) {
+    WinJSContrib.Messenger.prototype.importScripts = function (scriptPaths) {
         if (!this._receiver)
             return WinJS.Promise.wrap();
 
         return this.start('_doImportScripts', scriptPaths);
     }
 
-    Messenger.prototype._doImportScripts = function (scriptPaths) {
+    WinJSContrib.Messenger.prototype._doImportScripts = function (scriptPaths) {
         return new WinJS.Promise(function (c) {
             if (typeof scriptPaths == 'string') {
                 importScripts(scriptPaths);
@@ -60,7 +60,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         });
     }
 
-    Messenger.prototype.execute = function (func) {
+    WinJSContrib.Messenger.prototype.execute = function (func) {
         var messenger = this;
         var args = [];
         if (arguments.length > 1) {
@@ -81,7 +81,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         }
     }
 
-    Messenger.prototype._runFunction = function (functionArgs) {
+    WinJSContrib.Messenger.prototype._runFunction = function (functionArgs) {
         var messenger = this;
         return new WinJS.Promise(function (c, e) {
             try {
@@ -94,7 +94,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         });
     }
 
-    Messenger.prototype.start = function (eventName, data) {
+    WinJSContrib.Messenger.prototype.start = function (eventName, data) {
         var messenger = this;
 
         if (!messenger._receiver)
@@ -110,7 +110,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             id: wrapper.id,
             type: 'run',
             data: data,
-            sender: 'WinJSContrib.ui.messenger'
+            sender: 'WinJSContrib.WinJSContrib.Messenger'
         };
 
         wrapper.promise = new WinJS.Promise(function (c, e, p) {
@@ -129,7 +129,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         return wrapper.promise;
     };
 
-    Messenger.prototype._processEvent = function (arg) {
+    WinJSContrib.Messenger.prototype._processEvent = function (arg) {
         var messenger = this;
         var details = typeof (arg.data) == 'string' ? JSON.parse(arg.data) : arg.data;
         var name = details.name;
@@ -145,14 +145,14 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             if (name && messenger[name]) {
                 try {
                     WinJS.Promise.as(messenger[name](data)).then(function (arg) {
-                        messenger._send({ name: name, id: details.id, type: 'complete', sender: 'WinJSContrib.ui.messenger', data: arg });
+                        messenger._send({ name: name, id: details.id, type: 'complete', sender: 'WinJSContrib.WinJSContrib.Messenger', data: arg });
                     }, function (arg) {
-                        messenger._send({ name: name, id: details.id, type: 'error', sender: 'WinJSContrib.ui.messenger', data: arg });
+                        messenger._send({ name: name, id: details.id, type: 'error', sender: 'WinJSContrib.WinJSContrib.Messenger', data: arg });
                     }, function (arg) {
-                        messenger._send({ name: name, id: details.id, type: 'progress', sender: 'WinJSContrib.ui.messenger', data: arg });
+                        messenger._send({ name: name, id: details.id, type: 'progress', sender: 'WinJSContrib.WinJSContrib.Messenger', data: arg });
                     });
                 } catch (exception) {
-                    messenger._send({ name: name, id: details.id, type: 'error', sender: 'WinJSContrib.ui.messenger', data: { description: exception.description, message: exception.message, stack: exception.stack } });
+                    messenger._send({ name: name, id: details.id, type: 'error', sender: 'WinJSContrib.WinJSContrib.Messenger', data: { description: exception.description, message: exception.message, stack: exception.stack } });
                 }
 
                 return;
@@ -168,7 +168,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     };
 
 
-    Messenger.prototype.dispose = function () {
+    WinJSContrib.Messenger.prototype.dispose = function () {
         var messenger = this;
         if (messenger._receiver) {
             if (messenger._receiver.terminate)
@@ -177,4 +177,4 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             messenger._receiver.removeEventListener('message', messenger._bindedProcessEvent);
         }
     };
-})(WinJSContrib.UI);
+})();

@@ -3,7 +3,7 @@
   <metadata> 
     <id>WinJSContrib.ExtendedSplashScreen</id> 
     <title>WinJSContrib.ExtendedSplashScreen</title> 
-    <version>1.0.0.12</version> 
+    <version>2.0.0.0</version> 
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>Control for managing an extended splash screen in WinRT apps</description>
     <copyright>MCNEXT</copyright>
@@ -12,14 +12,14 @@
     <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps, Cordova</tags>
     <language>en-US</language>
     <dependencies>
-      <dependency id="WinJSContrib.Core" version="[1.0.0, 2.0.0)" />
+      <dependency id="WinJSContrib.Core" version="[2, 3)" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\js\mcnext.ui.extended-splashscreen.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\js\mcnext.ui.extended-splashscreen.min.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\css\mcnext.ui.extended-splashscreen.css" target="content\css\winjscontrib" />
-    <file src="..\bin\css\mcnext.ui.extended-splashscreen.min.css" target="content\css\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.ui.extended-splashscreen.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.ui.extended-splashscreen.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\css\winjscontrib.ui.extended-splashscreen.css" target="content\css\winjscontrib" />
+    <file src="..\bin\css\winjscontrib.ui.extended-splashscreen.min.css" target="content\css\winjscontrib" />
     <file src="WinJSContrib.ExtendedSplash.readme.txt" target="readme.txt" />
   </files>
 </package>

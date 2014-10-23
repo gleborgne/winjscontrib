@@ -2,7 +2,7 @@
 <package> 
   <metadata> 
     <id>WinJSContrib.Messenger</id> 
-    <version>1.0.0.2</version> 
+    <version>2.0.0.0</version> 
     <title>WinJSContrib.Messenger</title>
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>Wrapper for communication between main code web workers or iframes</description>
@@ -12,13 +12,14 @@
     <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
     <language>en-US</language>
     <dependencies>
+      <dependency id="WinJSContrib.Navigator" version="[2, 3)" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\js\mcnext.ui.messenger.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\js\mcnext.ui.messenger.min.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\js\mcnext.ui.messenger.worker.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\js\mcnext.ui.messenger.worker.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.messenger.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.messenger.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.messenger.worker.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.messenger.worker.min.js" target="content\scripts\winjscontrib" />
     <file src="WinJSContrib.Messenger.readme.txt" target="readme.txt" />    
   </files>
 </package>

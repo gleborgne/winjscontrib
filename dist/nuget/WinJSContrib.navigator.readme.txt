@@ -1,10 +1,10 @@
 ﻿WinJSContrib.Navigator
 
 To use this control, reference the javascript file in your default.html
-<script src="/scripts/winjscontrib/mcnext.ui.navigator.js"></script>
+<script src="/scripts/winjscontrib/winjscontrib.ui.navigator.js"></script>
 
 Then replace the navigator control by this one :
-<div id="contenthost" data-win-control="MCNEXT.UI.PageControlNavigator" data-win-options="{global:true, home: '/pages/home/home.html'}"></div>
+<div id="contenthost" data-win-control="WinJSContrib.UI.PageControlNavigator" data-win-options="{global:true, home: '/pages/home/home.html'}"></div>
 
 This custom navigator add new feature on your pages, the most significant are :
 

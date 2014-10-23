@@ -3,7 +3,7 @@
   <metadata> 
     <id>WinJSContrib.FlipviewPager</id>
     <title>WinJSContrib.FlipviewPager</title>
-    <version>1.0.0.4</version> 
+    <version>2.0.0.0</version> 
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>Control to provide page-like navigation with FlipView</description>
     <copyright>MCNEXT</copyright>
@@ -12,14 +12,14 @@
     <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
     <language>en-US</language>
     <dependencies>
-      <dependency id="WinJSContrib.Navigator" version="[1.0.0, 2.0.0)" />
+      <dependency id="WinJSContrib.Navigator" version="[2, 3)" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\js\mcnext.ui.flipviewpager.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\js\mcnext.ui.flipviewpager.min.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\css\mcnext.ui.flipviewpager.css" target="content\css\winjscontrib" />
-    <file src="..\bin\css\mcnext.ui.flipviewpager.min.css" target="content\css\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.ui.flipviewpager.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.ui.flipviewpager.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\css\winjscontrib.ui.flipviewpager.css" target="content\css\winjscontrib" />
+    <file src="..\bin\css\winjscontrib.ui.flipviewpager.min.css" target="content\css\winjscontrib" />
     <file src="WinJSContrib.FlipviewPager.readme.txt" target="readme.txt" />
   </files>
 </package>

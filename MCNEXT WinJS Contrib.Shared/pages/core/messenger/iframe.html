@@ -4,14 +4,14 @@
     <title></title>
     <script src="//Microsoft.WinJS.2.0/js/base.js"></script>
     <script src="//Microsoft.WinJS.2.0/js/ui.js"></script>
-    <script src="/Scripts/winjscontrib/WinJSContrib.ui.messenger.js"></script>
+    <script src="/Scripts/winjscontrib/WinJSContrib.messenger.js"></script>
 </head>
 <body>
     <script type="text/javascript">
         (function () {
             'use strict';
 
-            var messenger = new WinJSContrib.UI.Messenger(window, window.parent);
+            var messenger = new WinJSContrib.Messenger(window, window.parent);
 
             messenger.applyance = function (arg) {
                 if (arg.triggerError) {

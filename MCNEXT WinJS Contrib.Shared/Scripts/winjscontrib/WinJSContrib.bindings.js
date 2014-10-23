@@ -232,13 +232,25 @@ var WinJSContrib;
         });
 
         /**
-         * Alias for {@link WinJSContrib.Bindings.showIf}
+         * Alias for {@link WinJSContrib.Bindings.showIf}, just for semantic purpose
          * @function
          * @see WinJSContrib.Bindings.showIf
+         * @param {Object} source object owning data
+         * @param {string[]} sourceProperty path to object data
+         * @param {HTMLElement} dest DOM element targeted by binding
+         * @param {string[]} destProperty path to DOM element property targeted by binding
          */
         WinJSContrib.Bindings.hideIfNot = WinJSContrib.Bindings.showIf;
         WinJSContrib.Bindings.hideIfNotDefined = WinJSContrib.Bindings.showIf;//warning, deprecated
 
+        /**
+         * hide element
+         * @function
+         * @param {Object} source object owning data
+         * @param {string[]} sourceProperty path to object data
+         * @param {HTMLElement} dest DOM element targeted by binding
+         * @param {string[]} destProperty path to DOM element property targeted by binding
+         */
         WinJSContrib.Bindings.hideIf = WinJS.Binding.initializer(function showUndefined(source, sourceProperty, dest, destProperty) {
             function setVisibility() {
                 var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
@@ -269,6 +281,18 @@ var WinJSContrib;
             bindingDesc[sourceProperty] = setVisibility;
             return WinJS.Binding.bind(source, bindingDesc);
         });
+
+        /**
+         * Alias for {@link WinJSContrib.Bindings.hideIf}, just for semantic purpose
+         * @function
+         * @see WinJSContrib.Bindings.hideIf
+         * @param {Object} source object owning data
+         * @param {string[]} sourceProperty path to object data
+         * @param {HTMLElement} dest DOM element targeted by binding
+         * @param {string[]} destProperty path to DOM element property targeted by binding
+         */
+        WinJSContrib.Bindings.showIfNot = WinJSContrib.Bindings.hideIf; //warning, deprecated
+
         WinJSContrib.Bindings.showIfNotDefined = WinJSContrib.Bindings.hideIf; //warning, deprecated
 
         WinJSContrib.Bindings.enableIf = WinJS.Binding.initializer(function disableUndefined(source, sourceProperty, dest, destProperty) {

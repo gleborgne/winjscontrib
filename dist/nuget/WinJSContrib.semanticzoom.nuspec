@@ -3,7 +3,7 @@
   <metadata>
     <id>WinJSContrib.SemanticZoom</id>
     <title>WinJSContrib.SemanticZoom</title>
-    <version>1.0.0.4</version>
+    <version>2.0.0.0</version>
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>control implementing semantic zoom interface. It's usefull for wrapping custom controls in a SemanticZoom control</description>
     <copyright>MCNEXT</copyright>
@@ -12,12 +12,12 @@
     <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
     <language>en-US</language>
     <dependencies>
-      <dependency id="WinJSContrib.Core" version="[1.0.0, 2.0.0)" />
+      <dependency id="WinJSContrib.Core" version="[2, 3)" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\js\mcnext.ui.semanticzoom-wrapper.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\js\mcnext.ui.semanticzoom-wrapper.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.ui.semanticzoom-wrapper.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.ui.semanticzoom-wrapper.min.js" target="content\scripts\winjscontrib" />
     <file src="WinJSContrib.SemanticZoom.readme.txt" target="readme.txt" />
   </files>
 </package>

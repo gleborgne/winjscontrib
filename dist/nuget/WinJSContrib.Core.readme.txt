@@ -29,8 +29,8 @@ Parameterized and custom animations
 
 
 The core package also contains two files intended to serve as starting point for your own javascript objects :
-winjscontrib.ui.boilerplatecontrol.js
-winjscontrib.ui.boilerplateobservable.js
+winjscontrib.ui.boilerplate.control.js
+winjscontrib.ui.boilerplate.observable.js
 
 
 

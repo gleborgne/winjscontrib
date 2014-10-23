@@ -5,7 +5,7 @@ and wrap operations within promises
 
 Within your app you will have something like :
 var worker = new Worker('myworker.js');
-var messenger = new MCNEXT.UI.Messenger(worker);
+var messenger = new WinJSContrib.Messenger(worker);
 messenger.start('longRunningOperation', { foo: 'bar' }).done(function(arg){
 	console.log(arg); //42
 }, function(err){
@@ -14,9 +14,9 @@ messenger.start('longRunningOperation', { foo: 'bar' }).done(function(arg){
 
 In "myworker.js" you may have something like :
 importScripts("//Microsoft.WinJS.2.0/js/base.js");
-importScripts("/Scripts/winjscontrib/mcnext.ui.messenger.js");
+importScripts("/Scripts/winjscontrib/winjscontrib.messenger.js");
 
-var messenger = new MCNEXT.UI.Messenger(this);
+var messenger = new WinJSContrib.Messenger(this);
 
 messenger.longRunningOperation = function (arg) {
 	//arg.foo == 'bar'
@@ -30,17 +30,17 @@ The component also offer a convenience for smart use of workers. You write regul
  the function is still executed in the main thread.
 
 For example : 
-var worker = new MCNEXT.UI.Messenger.SmartWorker();
-smartWorker.importScripts('/Scripts/winjscontrib/mcnext.ui.utils.js').then(function () {
+var worker = new WinJSContrib.Messenger.SmartWorker();
+smartWorker.importScripts('/Scripts/winjscontrib/winjscontrib.core.js').then(function () {
     return page.smartWorker.execute(function (a, b) {
-        return (a + b) + ' & ' + MCNEXT.Utils.guid();
+        return (a + b) + ' & ' + WinJSContrib.Utils.guid();
     }, 42, 42).then(function (result) {
         console.log('worker dynamic function result : ' + JSON.stringify(result));
         $('.smartworkerTreatmentMessage', page.element).text('worker dynamic function result : ' + JSON.stringify(result));
     });
 });
 
-In that case you do not even need to write a separate file for your worker. It will run with "mcnext.ui.messenger.worker.js".
+In that case you do not even need to write a separate file for your worker. It will run with "WinJSContrib.ui.messenger.worker.js".
 The function given to "execute" is turned into a string and executed within the worker.
 
 

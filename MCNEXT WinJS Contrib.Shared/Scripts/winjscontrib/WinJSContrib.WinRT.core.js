@@ -1,4 +1,8 @@
 ﻿var WinJSContrib = WinJSContrib || {};
+
+/**
+ * @namespace
+ */
 WinJSContrib.WinRT = WinJSContrib.WinRT || {};
 
 /**
@@ -7,6 +11,68 @@ WinJSContrib.WinRT = WinJSContrib.WinRT || {};
 WinJSContrib.WinRT.Alerts = WinJSContrib.WinRT.Alerts || {};
 
 (function () {
+
+    /**
+     * WORK ONLY FOR WINRT
+     * read protocol arguments from application activation event arguments
+     * @param {Object} args WinJS application activation argument
+     * @returns {Object} protocol arguments
+     */
+    WinJSContrib.WinRT.readProtocol = function (args) {
+        if (args.detail.kind === Windows.ApplicationModel.Activation.ActivationKind.protocol && args.detail.uri) {
+            var navArgs = { action: undefined };
+            var protocolArgs = {};
+            var queryargs = args.detail.uri.query;
+            if (queryargs[0] == '?') {
+                queryargs = queryargs.substr(1);
+            }
+            if (queryargs) {
+                queryargs.split('&').forEach(function (item) {
+                    var arg = item.split('=');
+
+                    protocolArgs[arg[0]] = decodeURIComponent(arg[1]);
+                });
+            }
+
+            navArgs.protocol = {
+                action: args.detail.uri.host,
+                args: protocolArgs
+            };
+
+            return navArgs;
+        }
+    };
+
+    /**
+     * WORK ONLY FOR WINRT
+     * Indicate if a valid internet connection is available, even with constrained access
+     * @returns {boolean}
+     */
+    WinJSContrib.WinRT.isConnected = function () {
+        var nlvl = Windows.Networking.Connectivity.NetworkConnectivityLevel;
+        var profile = Windows.Networking.Connectivity.NetworkInformation.getInternetConnectionProfile();
+        if (profile !== null) {
+            var level = profile.getNetworkConnectivityLevel();
+            return level === nlvl.constrainedInternetAccess || level === nlvl.internetAccess;
+        }
+        return false;
+    };
+
+    /**
+     * WORK ONLY FOR WINRT
+     * Indicate if a valid internet connection is available
+     * @returns {boolean}
+     */
+    WinJSContrib.WinRT.hasInternetAccess = function () {
+        var nlvl = Windows.Networking.Connectivity.NetworkConnectivityLevel;
+        var profile = Windows.Networking.Connectivity.NetworkInformation.getInternetConnectionProfile();
+        if (profile !== null) {
+            var level = profile.getNetworkConnectivityLevel();
+            return level === nlvl.internetAccess;
+        }
+        return false;
+    };
+
     WinJSContrib.WinRT.Alerts.messageBox = function messageBox(opt, isPhone) {
 		if (opt) {
 			if (window.Windows) {

@@ -3,7 +3,7 @@
   <metadata> 
     <id>WinJSContrib.Tab</id> 
     <title>WinJSContrib.Tab</title> 
-    <version>1.0.0.5</version> 
+    <version>2.0.0.0</version> 
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>Tab control based on html fragments</description>
     <copyright>MCNEXT</copyright>
@@ -12,14 +12,14 @@
     <tags>WinJS, HTML5, WinRT, Windows 8, Windows 8.1</tags>
     <language>en-US</language>
     <dependencies>
-      <dependency id="WinJSContrib.Core" version="[1.0.0, 2.0.0)" />
+      <dependency id="WinJSContrib.Core" version="[2, 3)" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\js\mcnext.ui.tab-pages.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\js\mcnext.ui.tab-pages.min.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\css\mcnext.ui.tab-pages.css" target="content\css\winjscontrib" />
-    <file src="..\bin\css\mcnext.ui.tab-pages.min.css" target="content\css\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.ui.tabcontrol.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\js\winjscontrib.ui.tabcontrol.min.js" target="content\scripts\winjscontrib" />
+    <file src="..\bin\css\winjscontrib.ui.tabcontrol.css" target="content\css\winjscontrib" />
+    <file src="..\bin\css\winjscontrib.ui.tabcontrol.min.css" target="content\css\winjscontrib" />
     <file src="WinJSContrib.Tab.readme.txt" target="readme.txt" />
   </files>
 </package>
