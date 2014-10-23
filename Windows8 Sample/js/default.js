@@ -86,8 +86,8 @@
         // complete an asynchronous operation before your application is 
         // suspended, call args.setPromise().
         app.sessionState.history = nav.history;
-        if (WinJSContrib.MultipleViews)
-            WinJSContrib.MultipleViews.manager.closeAll();
+        if (WinJSContrib.WinRT.MultipleViews)
+            WinJSContrib.WinRT.MultipleViews.manager.closeAll();
     };
 
     app.start();

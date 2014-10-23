@@ -1,11 +1,13 @@
 ﻿var WinJSContrib = WinJSContrib || {};
+WinJSContrib.WinRT = WinJSContrib.WinRT || {};
 
 /**
  * @namespace
  */
-WinJSContrib.Alert = WinJSContrib.Alert || {};
-(function (Alert) {
-	WinJSContrib.Alert.messageBox = function messageBox(opt, isPhone) {
+WinJSContrib.WinRT.Alerts = WinJSContrib.WinRT.Alerts || {};
+
+(function () {
+    WinJSContrib.WinRT.Alerts.messageBox = function messageBox(opt, isPhone) {
 		if (opt) {
 			if (window.Windows) {
 				var md = new Windows.UI.Popups.MessageDialog(opt.content);
@@ -88,11 +90,11 @@ WinJSContrib.Alert = WinJSContrib.Alert || {};
 		return WinJS.Promise.wrapError("you must specify commands as an array of objects with properties text and callback such as {text: '', callback: function(c){}}");
 	};
 
-	WinJSContrib.Alert.message = function (title, content) {
+    WinJSContrib.WinRT.Alerts.message = function (title, content) {
 		return Alert.messageBox({ title: title, content: content });
 	}
 
-	WinJSContrib.Alert.confirm = function (title, content, yes, no) {
+    WinJSContrib.WinRT.Alerts.confirm = function (title, content, yes, no) {
 		return new WinJS.Promise(function (complete, error) {
 			Alert.messageBox({
 				title: title,
@@ -116,7 +118,7 @@ WinJSContrib.Alert = WinJSContrib.Alert || {};
 		});
 	}
 
-	WinJSContrib.Alert.toastNotification = function (data) {
+    WinJSContrib.WinRT.Alerts.toastNotification = function (data) {
 		if (window.Windows) {
 			var notifications = Windows.UI.Notifications;
 			var template = data.template || (data.picture ? notifications.ToastTemplateType.toastImageAndText01 : notifications.ToastTemplateType.toastText01);
@@ -167,7 +169,7 @@ WinJSContrib.Alert = WinJSContrib.Alert || {};
 		}
 	}
 
-	WinJSContrib.Alert.toast = function (text, picture) {
+    WinJSContrib.WinRT.Alerts.toast = function (text, picture) {
 		Alert.toastNotification({ text: text, picture: picture });
 	}
-})(WinJSContrib.Alert);
+})();

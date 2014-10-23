@@ -39,52 +39,19 @@
                 ctrl.iframe.style.visibility = 'hidden';
                 ctrl.iframe.src = ctrl.path;
                 ctrl.element.appendChild(ctrl.iframe);
-                ctrl.iframe.onload = function (arg) {
-                    ctrl.iframe.onload = null;
-                    window.addEventListener('message', ctrl._receiveMessage.bind(ctrl));
-                    ctrl._sendMessage('initialisation');                    
-                }
+                ctrl.messenger = new WinJSContrib.UI.Messenger(window, ctrl.iframe.contentWindow);
             },
 
-            _sendMessage: function (type, data) {
-                var ctrl = this;
-                ctrl.iframe.contentWindow.postMessage({ type: type, data: data }, '*');
-            },
-
-            _receiveMessage: function (arg) {
-                var ctrl = this;
-                if (arg.data && arg.data.sender == 'WinJSContrib.dynamicscripts') {
-                    if (arg.data.type == 'applyscript') {
-                        if (arg.data.data.session && ctrl.sessions[arg.data.data.session]) {
-                            var session = ctrl.sessions[arg.data.data.session];
-                            if (arg.data.data.error) {
-                                session.error(arg.data.data.error)
-                            } else {
-                                session.complete(arg.data.data.data);
-                            }
-                            delete ctrl.sessions[arg.data.data.session];
-                        }
-                    } 
-                        ctrl.dispatchEvent(arg.data.type, arg.data.data);
-                    
-                }
-            },
 
             applyScript: function (script, data) {
                 var ctrl = this;
-                var session = { complete: null, error:null, id: WinJSContrib.Utils.guid() };
-                var p = new WinJS.Promise(function (c, e) {
-                    session.complete = c;
-                    session.error = e;
-                    ctrl.sessions[session.id] = session;
-                    ctrl._sendMessage("applyscript", { session: session.id, script: script, data: data });
-                });
-
-                return p;
+                return ctrl.messenger.start("applyScript", { script: script, data: data });
             },
 
             dispose: function () {
-                this.eventTracker.dispose();
+                var ctrl = this;
+                ctrl.eventTracker.dispose();
+                ctrl.messenger.dispose();
                 WinJS.Utilities.disposeSubTree(this.element);
             }
         }),

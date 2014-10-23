@@ -1,7 +1,8 @@
 ﻿/// <reference path="//Microsoft.WinJS.2.0/js/ui.js" />
 /// <reference path="//Microsoft.WinJS.2.0/js/base.js" />
 var WinJSContrib = WinJSContrib || {};
-WinJSContrib.SSM = WinJSContrib.SSM || {};
+WinJSContrib.WinRT = WinJSContrib.WinRT || {};
+WinJSContrib.WinRT.SSM = WinJSContrib.WinRT.SSM || {};
 
 (function (SSM) {
     "use strict";
@@ -20,13 +21,14 @@ WinJSContrib.SSM = WinJSContrib.SSM || {};
 
     var SSMStatus = WinJS.Binding.define({ status: '', bitrate: 0, videoW: 0, videoH: 0, time: '', available: '' });
     var manager;
-    SSM.currentStatus = new SSMStatus();
+    var currentStatus = new SSMStatus();
+    WinJSContrib.WinRT.SSM.currentStatus = currentStatus;
 
-    SSM.log = function (msg) {
+    WinJSContrib.WinRT.SSM.log = function (msg) {
         if (WinJS && WinJS.log) WinJS.log(msg);
     }
 
-    SSM.registerSSM = function (track) {
+    WinJSContrib.WinRT.SSM.registerSSM = function (track) {
         //http://blogs.iis.net/cenkd/archive/2012/08/09/how-to-build-a-smooth-streaming-windows-8-javascript-application-with-advanced-features.aspx
         //manager = new Microsoft.AdaptiveStreaming.AdaptiveStreamingManager();
         var plugins = new Windows.Media.MediaExtensionManager();
@@ -45,7 +47,7 @@ WinJSContrib.SSM = WinJSContrib.SSM || {};
         plugins.registerByteStreamHandler("Microsoft.Media.AdaptiveStreaming.SmoothByteStreamHandler", ".ism", "application/vnd.ms-ss", property);
     };
 
-    SSM.unregisterSSM = function () {
+    WinJSContrib.WinRT.SSM.unregisterSSM = function () {
         var mgr = Microsoft.Media.AdaptiveStreaming.AdaptiveSourceManager.getDefault();
         mgr.removeEventListener("adaptivesourceopenedevent", mgrOpenedEventHandler);
         mgr.removeEventListener("adaptivesourceclosedevent", mgrClosedEventHandler);
@@ -55,11 +57,11 @@ WinJSContrib.SSM = WinJSContrib.SSM || {};
     function mgrOpenedEventHandler(e) {
         try {
             var displayedUri = e.adaptiveSource.uri.displayUri.toString();
-            SSM.currentStatus.bitrate = 0;
-            SSM.currentStatus.videoH = 0;
-            SSM.currentStatus.videoW = 0;
-            SSM.currentStatus.available = '';
-            SSM.currentStatus.status = 'opened';
+            currentStatus.bitrate = 0;
+            currentStatus.videoH = 0;
+            currentStatus.videoW = 0;
+            currentStatus.available = '';
+            currentStatus.status = 'opened';
             SSM.log('SSM AdaptiveSource Opened: ' + displayedUri);
         }
         catch (error) {
@@ -70,11 +72,11 @@ WinJSContrib.SSM = WinJSContrib.SSM || {};
     function mgrClosedEventHandler(e) {
         try {
             SSM.log('SSM AdaptiveSource Closed: ');
-            SSM.currentStatus.bitrate = 0;
-            SSM.currentStatus.videoH = 0;
-            SSM.currentStatus.videoW = 0;
-            SSM.currentStatus.available = '';
-            SSM.currentStatus.status = 'closed';
+            currentStatus.bitrate = 0;
+            currentStatus.videoH = 0;
+            currentStatus.videoW = 0;
+            currentStatus.available = '';
+            currentStatus.status = 'closed';
         }
         catch (error) {
             log('SSM close error' + error.number.toString());
@@ -85,7 +87,7 @@ WinJSContrib.SSM = WinJSContrib.SSM || {};
         //RestrictTracks can only be called during ManifestReadyEvent and not allowed during playback.
         try {
             SSM.log("SSM manifestready");
-            SSM.currentStatus.status = 'manifest ready';
+            currentStatus.status = 'manifest ready';
             //saveManifest = e.adaptiveSource.manifest;
             //addStreamstoListBox();
         }
@@ -105,7 +107,7 @@ WinJSContrib.SSM = WinJSContrib.SSM || {};
                     state = "BitrateChanged";
                     if (e.additionalInfo) {
                         var data = e.additionalInfo.split(';');
-                        SSM.currentStatus.bitrate = data[0] / 1000;
+                        currentStatus.bitrate = data[0] / 1000;
                     }
                     break;
                 case 5:
@@ -144,7 +146,7 @@ WinJSContrib.SSM = WinJSContrib.SSM || {};
             }
 
             if (state != "Unknown") {
-                SSM.currentStatus.status = state;
+                currentStatus.status = state;
                 SSM.log(state + ": " + /*e.additionalInfo.toString() +*/ " Startime: " + e.startTime.toString() + " Endtime: " + e.endTime.toString());
             }
             updateSSMStatus(e);
@@ -158,30 +160,30 @@ WinJSContrib.SSM = WinJSContrib.SSM || {};
     function updateSSMStatus(arg) {
         var stream = arg.adaptiveSource.manifest.selectedStreams.filter(function (stream) { return stream.name.indexOf("video") >= 0 });
         if (stream && stream.length) {
-            SSM.currentStatus.videoH = stream[0].maxHeight;
-            SSM.currentStatus.videoW = stream[0].maxWidth;
+            currentStatus.videoH = stream[0].maxHeight;
+            currentStatus.videoW = stream[0].maxWidth;
             if (stream[0].availableTracks && stream[0].availableTracks.length) {
-                if (!SSM.currentStatus.available) {
+                if (!currentStatus.available) {
                     var buffer = [];
                     stream[0].availableTracks.forEach(function (track) {
                         buffer.push('[' + track.maxWidth + ', ' + track.maxHeight + ']');
                     });
-                    SSM.currentStatus.available = buffer.join(',');
+                    currentStatus.available = buffer.join(',');
                 }
             }
             else {
-                SSM.currentStatus.available = '';
+                currentStatus.available = '';
             }
 
             //if (stream[0].selectedTracks && stream[0].selectedTracks.length) {
-            //    SSM.currentStatus.bitrate = stream[0].selectedTracks[0].bitrate / 1000;
+            //    currentStatus.bitrate = stream[0].selectedTracks[0].bitrate / 1000;
             //}
         }
         else {
-            SSM.currentStatus.videoH = 0;
-            SSM.currentStatus.videoW = 0;
-            SSM.currentStatus.available = '';
+            currentStatus.videoH = 0;
+            currentStatus.videoW = 0;
+            currentStatus.available = '';
         }
-        SSM.currentStatus.time = new Date().toTimeString();
+        currentStatus.time = new Date().toTimeString();
     }
-})(WinJSContrib.SSM);
+})(WinJSContrib.WinRT.SSM);

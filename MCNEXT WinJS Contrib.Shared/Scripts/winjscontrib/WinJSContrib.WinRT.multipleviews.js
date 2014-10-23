@@ -6,7 +6,7 @@
 (function () {
     var ViewManagement = Windows.UI.ViewManagement;
 
-    var messageTypePrefix = "McnViewHelper_"
+    var messageTypePrefix = "WinJSContribViewHelper_"
     var messageTypes = {
         queryProxyReadyForRelease: messageTypePrefix + "queryProxyReadyForRelease",
         proxyReadyForRelease: messageTypePrefix + "proxyReadyForRelease",
@@ -15,7 +15,7 @@
         navigateTo: messageTypePrefix + "navigateTo"
     };
 
-    WinJS.Namespace.define("WinJSContrib.MultipleViews", {
+    WinJS.Namespace.define("WinJSContrib.WinRT.MultipleViews", {
         thisDomain: document.location.protocol + "//" + document.location.host,
 
         ViewManager: WinJS.Class.mix(WinJS.Class.define(function ViewManager_ctor(pagewrapper) {
@@ -27,7 +27,7 @@
         },
         {
             _handleMessage: function ViewManager_handleMessage(e) {
-                if (e.origin === WinJSContrib.MultipleViews.thisDomain && e.data.type) {
+                if (e.origin === WinJSContrib.WinRT.MultipleViews.thisDomain && e.data.type) {
                     var i = this.findViewIndexByViewId(e.data.viewId);
                     if (i !== null) {
                         this.secondaryViews.getItem(i).data._handleMessage(e);
@@ -154,9 +154,9 @@
                 newView.postMessage({
                     type: messageTypes.initialize,
                     initData: { location: { uri: page, state: initData } }
-                }, WinJSContrib.MultipleViews.thisDomain);
+                }, WinJSContrib.WinRT.MultipleViews.thisDomain);
 
-                var newProxy = new WinJSContrib.MultipleViews.ViewLifetimeControlProxy(newView);
+                var newProxy = new WinJSContrib.WinRT.MultipleViews.ViewLifetimeControlProxy(newView);
                 newProxy.addEventListener("released", this._viewReleasedWrapper, false);
                 this.secondaryViews.push(newProxy);
                 return newProxy;
@@ -179,7 +179,7 @@
                 data = data || {};
                 data.type = type;
 
-                this.appView.postMessage(data, WinJSContrib.MultipleViews.thisDomain);
+                this.appView.postMessage(data, WinJSContrib.WinRT.MultipleViews.thisDomain);
             },
 
             navigateTo: function (page, data, clearHistory) {
@@ -279,12 +279,12 @@
                 data.type = type;
                 data.viewId = this.viewId;
 
-                this.opener.postMessage(data, WinJSContrib.MultipleViews.thisDomain);
+                this.opener.postMessage(data, WinJSContrib.WinRT.MultipleViews.thisDomain);
             },
 
 
             _handleMessage: function ViewLifetimeControlProxy_handleMessage(e) {
-                if (e.origin === WinJSContrib.MultipleViews.thisDomain && e.data.type) {
+                if (e.origin === WinJSContrib.WinRT.MultipleViews.thisDomain && e.data.type) {
                     var data = e.data;
                     switch (data.type) {
 

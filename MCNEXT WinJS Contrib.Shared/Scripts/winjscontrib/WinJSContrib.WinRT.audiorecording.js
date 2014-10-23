@@ -1,10 +1,14 @@
 ﻿/// <reference path="winjscontrib.core.js" />
 var WinJSContrib = WinJSContrib || {};
-WinJSContrib.Audio = WinJSContrib.Audio || {};
-(function (Audio) {
-    Audio.RecorderState = WinJS.Binding.define({ "isRecording": false, "ellapsedTime": 0, "startedAt": null });   
+WinJSContrib.WinRT = WinJSContrib.WinRT || {};
+WinJSContrib.WinRT.Audio = WinJSContrib.WinRT.Audio || {};
 
-    Audio.Recorder = WinJS.Class.mix(WinJS.Class.define(function () {
+(function () {
+    'use strict';
+
+    WinJSContrib.WinRT.Audio.RecorderState = WinJS.Binding.define({ "isRecording": false, "ellapsedTime": 0, "startedAt": null });
+
+    WinJSContrib.WinRT.Audio.Recorder = WinJS.Class.mix(WinJS.Class.define(function () {
         this.state = new Audio.RecorderState();
         this.state.isRecording = false;
     }, {
@@ -86,7 +90,7 @@ WinJSContrib.Audio = WinJSContrib.Audio || {};
     }),
     WinJS.Utilities.eventMixin);
 
-    Audio.Recorder.getMicrophones = function () {
+    WinJSContrib.WinRT.Audio.Recorder.getMicrophones = function () {
         var microphoneDeviceInfo = Windows.Devices.Enumeration.DeviceInformation;
         return microphoneDeviceInfo.findAllAsync(Windows.Media.Devices.MediaDevice.getAudioCaptureSelector(), null).then(function (devicesInformation) {
             var devices = [];
@@ -102,4 +106,4 @@ WinJSContrib.Audio = WinJSContrib.Audio || {};
             return [];
         });
     }
-})(WinJSContrib.Audio);
+})();

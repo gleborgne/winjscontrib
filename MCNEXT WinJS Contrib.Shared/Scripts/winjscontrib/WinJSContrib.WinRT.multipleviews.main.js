@@ -3,6 +3,6 @@
 //This code is provided as is and we could not be responsible for what you are making with it
 //project is available at http://winjscontrib.codeplex.com
 
-WinJS.Namespace.define("WinJSContrib.MultipleViews", {
-    manager: new WinJSContrib.MultipleViews.ViewManager("ms-appx:///defaultchild.html")
+WinJS.Namespace.define("WinJSContrib.WinRT.MultipleViews", {
+    manager: new WinJSContrib.WinRT.MultipleViews.ViewManager("ms-appx:///defaultchild.html")
 });

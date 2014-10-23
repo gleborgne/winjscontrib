@@ -8,9 +8,9 @@
         // populates the page elements with the app's data.
         ready: function (element, options) {
             var page = this;
-            WinJSContrib.MultipleViews.currentView.addEventListener("helloworld", page.treathelloworld.bind(page), false);
+            WinJSContrib.WinRT.MultipleViews.currentView.addEventListener("helloworld", page.treathelloworld.bind(page), false);
             $('#btnHello').tap(function () {
-                WinJSContrib.MultipleViews.currentView.send('helloworld', { text: 'youpi' });
+                WinJSContrib.WinRT.MultipleViews.currentView.send('helloworld', { text: 'youpi' });
             });
         },
 
@@ -19,7 +19,7 @@
         },
 
         closeView : function(){
-            WinJSContrib.MultipleViews.currentView.close();
+            WinJSContrib.WinRT.MultipleViews.currentView.close();
         },
 
         unload: function () {

@@ -71,7 +71,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
 
         if (messenger._receiver) {
             var f = 'var messengerFunction=' + func;
-            
+
             return this.start('_runFunction', { f: f, args: args });
         }
         else {
@@ -84,7 +84,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     Messenger.prototype._runFunction = function (functionArgs) {
         var messenger = this;
         return new WinJS.Promise(function (c, e) {
-            try{
+            try {
                 eval(functionArgs.f);
                 var res = messengerFunction.apply(null, functionArgs.args);
                 c(res);
@@ -131,7 +131,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
 
     Messenger.prototype._processEvent = function (arg) {
         var messenger = this;
-        var details = JSON.parse(arg.data);
+        var details = typeof (arg.data) == 'string' ? JSON.parse(arg.data) : arg.data;
         var name = details.name;
         var data = details.data;
 

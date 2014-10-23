@@ -8,11 +8,11 @@
 
     var ViewManagement = Windows.UI.ViewManagement;
 
-    WinJS.Namespace.define("WinJSContrib.MultipleViews", {
-        currentView: new WinJSContrib.MultipleViews.ViewLifetimeControl()
+    WinJS.Namespace.define("WinJSContrib.WinRT.MultipleViews", {
+        currentView: new WinJSContrib.WinRT.MultipleViews.ViewLifetimeControl()
     });
 
-    WinJSContrib.MultipleViews.currentView.addEventListener("initialize", function (e) {
+    WinJSContrib.WinRT.MultipleViews.currentView.addEventListener("initialize", function (e) {
         WinJS.UI.processAll(document.body).then(function () {
             WinJS.Application.queueEvent({ type: 'mcnchildview.init' });
             if (e.detail.location && e.detail.location.uri) {
@@ -21,16 +21,16 @@
         });
     }, false);
 
-    WinJSContrib.MultipleViews.currentView.addEventListener("navigateTo", function (e) {
+    WinJSContrib.WinRT.MultipleViews.currentView.addEventListener("navigateTo", function (e) {
         if (e.detail.location && e.detail.location.uri) {
             WinJS.Navigation.navigate(e.detail.location.uri, e.detail.location.state);
         }
     }, false);
 
-    WinJSContrib.MultipleViews.currentView.initialize();
+    WinJSContrib.WinRT.MultipleViews.currentView.initialize();
 
     window.addEventListener("message", function (e) {
-        if (e.origin === WinJSContrib.MultipleViews.thisDomain) {
+        if (e.origin === WinJSContrib.WinRT.MultipleViews.thisDomain) {
             if (e.data.doAnimateAndSwitch) {
                 animateAndSwitch();
             } else if (e.data.handleProtocolLaunch) {
