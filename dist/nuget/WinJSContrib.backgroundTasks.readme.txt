@@ -1,4 +1,4 @@
-﻿WinJSContrib.BackgroundTasks
+﻿WinJSContrib.WinRT.BackgroundTasks
 
 This package simplifies the setup of background tasks in your application.
 
@@ -21,14 +21,14 @@ importScripts("//Microsoft.WinJS.2.0/js/base.js");
 Within Visual Studio, open the manifest of your application and go to the "declarations" tab. In "available declarations", select "Background Tasks" and click "Add". In "Supported task types", select "System event". In "App settings" fill in the "entry point" field with the path to the javascript file you just created. For example "/js/mybackgroundtask.js". Refer to the MSDN documentation for further information.
 
 In default.html, add a reference to the WinJSContrib library :
-<script src="/scripts/winjscontrib/mcnext.bgtask.js"></script>
+<script src="/scripts/winjscontrib/WinJSContrib.WinRT.BgTask.js"></script>
 
 Now, the background task should be registered at runtime. Within registration, we will provide triggers and conditions to our background task.
 
 Add the following function to default.js
 
 function checkBgTasks() {
-    MCNEXT.BgTask.registerTimeTriggerBackgroundTask(
+    WinJSContrib.WinRT.BgTask.registerTimeTriggerBackgroundTask(
         'js\\mybackgroundtask.js',
         'BgTask',
         [

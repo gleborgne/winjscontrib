@@ -285,7 +285,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.smartlistlayout.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.swipeslide.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.tabcontrol.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.bindings.twowaybindings.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.bindings.twoway.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.core.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.flyoutpage.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.core.js" />

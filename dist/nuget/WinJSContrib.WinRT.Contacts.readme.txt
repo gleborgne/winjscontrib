@@ -1,17 +1,17 @@
-﻿WinJSContrib.Contactcard
+﻿WinJSContrib.WinRT.Contacts
 
 This is a wrapper around the contact card API in WinRT. It allows for a more friendly way to interact with user's contacts
 
 To use it, add a reference in your page or in default.html
-<script src="/scripts/winjscontrib/mcnext.contacts.js"></script>
+<script src="/scripts/winjscontrib/WinJSContrib.WinRT.Contacts.js"></script>
 
 now you just need to call it like this :
-MCNEXT.Contacts.showContact({ firstName: 'John', lastName: 'Doe', email: 'johndoe@doe.com', phone: '0123456789'}, element);
+WinJSContrib.WinRT.Contacts.showContact({ firstName: 'John', lastName: 'Doe', email: 'johndoe@doe.com', phone: '0123456789'}, element);
 
 element is the DOM element used by the system to position the contact card.
 
 You could define work/home phone/mail/addresses like this :
-MCNEXT.Contacts.showContact({ 
+WinJSContrib.WinRT.Contacts.show({ 
 	firstName: 'John', 
 	lastName: 'Doe', 
 	email: 'johndoe@doe.com', 

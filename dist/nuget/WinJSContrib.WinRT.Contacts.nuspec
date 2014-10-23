@@ -3,7 +3,7 @@
   <metadata> 
     <id>WinJSContrib.ContactCard</id> 
     <title>WinJSContrib.ContactCard</title> 
-    <version>1.0.0.3</version> 
+    <version>1.1.0.0</version> 
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>javascript friendly wrapper around Windows contact card API</description>
     <copyright>MCNEXT</copyright>
@@ -16,8 +16,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\js\mcnext.contacts.js" target="content\scripts\winjscontrib" />  
-    <file src="..\bin\js\mcnext.contacts.min.js" target="content\scripts\winjscontrib" />  
-    <file src="WinJSContrib.ContactCard.readme.txt" target="readme.txt" />  
+    <file src="..\bin\js\winjscontrib.winrt.contacts.js" target="content\scripts\winjscontrib" />  
+    <file src="..\bin\js\winjscontrib.winrt.contacts.min.js" target="content\scripts\winjscontrib" />  
+    <file src="WinJSContrib.WinRT.Contacts.readme.txt" target="readme.txt" />  
   </files>
 </package>
