@@ -332,6 +332,24 @@ var MCNEXT;
                 dest[destProperty] = data;
             }
         });
+
+        /**
+         * cleans up a binding list by returning its items as non-observable
+         * @function
+         * @param {Object[]} bindingList binding list to clean up
+         * @returns {Object[]} array containing the cleaned up items
+         */
+        Bindings.cleanUpBindingList = function (bindingList) {
+            var result = [];
+
+            bindingList.forEach(function (item) {
+                var unwrappedItem = WinJS.Binding.unwrap(item);
+                result.push(unwrappedItem);
+            });
+
+            return result;
+        };
+
     })(MCNEXT.Bindings || (MCNEXT.Bindings = {}));
     var Bindings = MCNEXT.Bindings;
 })(MCNEXT || (MCNEXT = {}));
