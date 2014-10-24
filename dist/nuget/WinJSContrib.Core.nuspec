@@ -24,8 +24,6 @@
     <file src="..\bin\js\winjscontrib.core.min.js" target="content\scripts\winjscontrib" />
     <file src="..\bin\js\winjscontrib.bindings.js" target="content\scripts\winjscontrib" />
     <file src="..\bin\js\winjscontrib.bindings.min.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\js\winjscontrib.bindings.twoway.js" target="content\scripts\winjscontrib" />
-    <file src="..\bin\js\winjscontrib.bindings.twoway.min.js" target="content\scripts\winjscontrib" />
     <file src="..\bin\js\winjscontrib.ui.animation.js" target="content\scripts\winjscontrib" />
     <file src="..\bin\js\winjscontrib.ui.animation.min.js" target="content\scripts\winjscontrib" />
     <file src="..\bin\js\winjscontrib.crossplatform.js" target="content\scripts\winjscontrib" />

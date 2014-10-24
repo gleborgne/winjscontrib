@@ -21,8 +21,8 @@
                     WinJSContrib.UI.Application.progress = ctrl;
                 }
                 ctrl.element.className = 'mcn-globalprogress-ctrl ' + element.className;
-                if (WinJSContrib.CrossPlatform)
-                    WinJSContrib.CrossPlatform.cordovaClass(ctrl.element.classList);
+                if (WinJSContrib.CrossPlatform && WinJSContrib.CrossPlatform.crossPlatformClass)
+                    WinJSContrib.CrossPlatform.crossPlatformClass(ctrl.element);
                 ctrl.element.style.display = 'none';
                 ctrl.element.style.opacity = '0';
                 element.innerHTML = '<div class="mcn-globalprogress-content"><progress class="bar"></progress><div class="mcn-globalprogress-text">' + (options.text || '') + '</div></div>'

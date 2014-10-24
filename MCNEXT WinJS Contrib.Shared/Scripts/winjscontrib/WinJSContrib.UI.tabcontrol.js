@@ -16,8 +16,8 @@
                 options = options || {};
                 ctrl.element = element || document.createElement("div");
                 ctrl.element.className = 'mcn-tabpages ' + ctrl.element.className;
-                if (WinJSContrib.CrossPlatform)
-                    WinJSContrib.CrossPlatform.cordovaClass(ctrl.element.classList);
+                if (WinJSContrib.CrossPlatform && WinJSContrib.CrossPlatform.crossPlatformClass)
+                    WinJSContrib.CrossPlatform.crossPlatformClass(ctrl.element);
                 ctrl.tabHeader = options.header || element.querySelector('.mcn-tabpages-header');
                 ctrl.tabHeaderTemplate = options.headerTemplate;
                 ctrl.tabContent = options.content || element.querySelector('.mcn-tabpages-content');

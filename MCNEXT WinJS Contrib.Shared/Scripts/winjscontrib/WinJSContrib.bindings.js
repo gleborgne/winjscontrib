@@ -406,6 +406,44 @@ var WinJSContrib;
                 dest[destProperty] = data;
             }
         });
+
+
+        /**
+         * Two way binding triggered by "change" event on inputs
+         * @function
+         * @param {Object} source object owning data
+         * @param {string[]} sourceProperty path to object data
+         * @param {HTMLElement} dest DOM element targeted by binding
+         * @param {string[]} destProperty path to DOM element property targeted by binding
+         */
+        WinJSContrib.Bindings.twoWayOnChange = WinJS.Binding.initializer(function twoWayOnChangeBinding(source, sourceProperty, dest, destProperty) {
+            function setVal() {
+                var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
+                WinJSContrib.Utils.writeProperty(dest, destProperty, data || '');
+            }
+
+            function getVal() {
+                var val = WinJSContrib.Utils.getProperty(dest, destProperty);
+                WinJSContrib.Utils.writeProperty(source, sourceProperty, val.propValue);
+            }
+
+            dest.addEventListener('change', getVal, false);
+            if (!dest.winControl) {
+                dest.classList.add('win-disposable');
+                dest.winControl = {
+                    dispose: function () {
+                        dest.removeEventListener('change', getVal);
+                    }
+                }
+            }
+
+            var bindingDesc = {
+            };
+
+            bindingDesc[sourceProperty] = setVal;
+            return WinJS.Binding.bind(source, bindingDesc);
+        });
+
     })(WinJSContrib.Bindings || (WinJSContrib.Bindings = {}));
     var Bindings = WinJSContrib.Bindings;
 })(WinJSContrib || (WinJSContrib = {}));

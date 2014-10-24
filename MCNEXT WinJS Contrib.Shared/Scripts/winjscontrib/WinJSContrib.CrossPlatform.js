@@ -5,14 +5,30 @@
  */
 WinJSContrib.CrossPlatform = WinJSContrib.Cross || {};
 (function () {
-    WinJSContrib.CrossPlatform.cordovaClass = function (classList) {
-        if (WinJSContrib.Utils.isMobile.Android() || WinJSContrib.Utils.isMobile.iOS()) {
-            classList.add("mcn-cordova");
+    
+    /**
+     * add css class corresponding to cross platform devices
+     */
+    WinJSContrib.CrossPlatform.crossPlatformClass = function (element) {
+        element.classList.add("mcn-xplat");
+        if (WinJSContrib.CrossPlatform.isMobile.Android()) {
+            element.classList.add("mcn-xplat-android");
         }
-
+        if (WinJSContrib.CrossPlatform.isMobile.iOS()) {
+            element.classList.add("mcn-xplat-ios");
+        }
+        if (WinJSContrib.CrossPlatform.isMobile.BlackBerry()) {
+            element.classList.add("mcn-xplat-blackberry");
+        }
+        if (WinJSContrib.CrossPlatform.isMobile.Windows()) {
+            element.classList.add("mcn-xplat-windows");
+        }
         return classList
     }
 
+    /**
+     * check user agent for identifying platform device
+     */
     WinJSContrib.CrossPlatform.isMobile = {
         Android: function () {
             return navigator.userAgent.match(/Android/i);

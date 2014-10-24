@@ -10,9 +10,12 @@ var WinJSContrib;
 WinJSContrib.Utils = WinJSContrib.Utils || {};
 WinJSContrib.Bindings = WinJSContrib.Bindings || {};
 
-(function () {
-    
-        'use strict';
+(function () {    
+    'use strict';
+
+        /**
+         * configure moment.js for french
+         */
         WinJSContrib.Utils.momentFr = function () {
             moment.locale('fr', {
                 months: "janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),
@@ -60,7 +63,14 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
             });
         }
 
-        function formatDateBinding(source, sourceProperty, dest, destProperty) {
+        /** 
+         * format date using binding argument 'formatDate'
+         * @param {Object} source object owning data
+         * @param {string[]} sourceProperty path to object data
+         * @param {HTMLElement} dest DOM element targeted by binding
+         * @param {string[]} destProperty path to DOM element property targeted by binding
+         */
+        WinJSContrib.Bindings.formatDate = WinJS.Utilities.markSupportedForProcessing(function formatDateBinding(source, sourceProperty, dest, destProperty) {
             var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
             if (!sourcedata) {
                 dest.innerText = '';
@@ -68,9 +78,7 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
                 var arg = WinJSContrib.Bindings.bindingArguments(dest, 'formatDate');
                 dest.innerText = moment(sourcedata).format(arg);
             }
-        }
-
-        WinJSContrib.Bindings.formatDate = WinJS.Utilities.markSupportedForProcessing(formatDateBinding);
+        });
 
         function daysSince(m, d, y) {
             if (d == '' || m == '' || y == '') {
@@ -92,8 +100,14 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
         }
 
 
-
-        function daysSinceDateBinding(source, sourceProperty, dest, destProperty) {
+        /**
+         * display number of days since a date
+         * @param {Object} source object owning data
+         * @param {string[]} sourceProperty path to object data
+         * @param {HTMLElement} dest DOM element targeted by binding
+         * @param {string[]} destProperty path to DOM element property targeted by binding
+         */
+        WinJSContrib.Bindings.daysSinceDate = WinJS.Utilities.markSupportedForProcessing(function daysSinceDateBinding(source, sourceProperty, dest, destProperty) {
             var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
             if (!sourcedata) {
                 dest.innerText = '';
@@ -102,11 +116,16 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
                 var fromdate = daysSince(m, d, y);
                 dest.innerText = fromdate;
             }
-        }
+        });
 
-        WinJSContrib.Bindings.daysSinceDate = WinJS.Utilities.markSupportedForProcessing(daysSinceDateBinding);
-
-        function humanizeDate(source, sourceProperty, dest, destProperty) {
+        /**
+         * apply moment.js humanize formatting on a date. Use 'humanizeFormat' and 'addSuffix' arguments to configure binding
+         * @param {Object} source object owning data
+         * @param {string[]} sourceProperty path to object data
+         * @param {HTMLElement} dest DOM element targeted by binding
+         * @param {string[]} destProperty path to DOM element property targeted by binding
+         */
+        WinJSContrib.Bindings.humanizeDate = WinJS.Utilities.markSupportedForProcessing(function humanizeDate(source, sourceProperty, dest, destProperty) {
             var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
             if (!sourcedata) {
                 dest.innerText = '';
@@ -115,8 +134,7 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
                     addSuffix = WinJSContrib.Bindings.bindingArguments(dest, "addSuffix");
                 dest.innerText = moment.duration(sourcedata, arg).humanize(addSuffix);
             }
-        }
-        WinJSContrib.Bindings.humanizeDate = WinJS.Utilities.markSupportedForProcessing(humanizeDate);
+        });
 
     
 })();

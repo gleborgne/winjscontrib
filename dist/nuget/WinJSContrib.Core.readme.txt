@@ -13,11 +13,7 @@ Utility functions wrapped as jquery plugins
 
 
 <script src="/scripts/winjscontrib/winjscontrib.bindings.js"></script>
-This file contains custom bindings, for example, you have bindings for showing/hiding/disabling elements, managing images, etc
-
-
-<script src="/scripts/winjscontrib/winjscontrib.bindings.twoway.js"></script>
-two way binding implementations
+This file contains custom bindings, for example, you have bindings for showing/hiding/disabling elements, managing images, two way binding, etc
 
 
 <link href="/css/winjscontrib/winjscontrib.ui.css" rel="stylesheet" />

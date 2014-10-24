@@ -27,8 +27,8 @@
             this.element.winControl = this;
             this.element.mcnDataForm = true;
             this.element.classList.add('win-disposable');
-            if (WinJSContrib.CrossPlatform)
-                WinJSContrib.CrossPlatform.cordovaClass(this.element.classList);
+            if (WinJSContrib.CrossPlatform && WinJSContrib.CrossPlatform.crossPlatformClass)
+                WinJSContrib.CrossPlatform.crossPlatformClass(this.element);
             WinJS.UI.setOptions(this, options);
             WinJS.UI.processAll(this.element).done(function () {
                 WinJS.Binding.processAll(ctrl.element, ctrl.state);
