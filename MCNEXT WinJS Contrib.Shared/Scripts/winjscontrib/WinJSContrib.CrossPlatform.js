@@ -28,20 +28,37 @@ WinJSContrib.CrossPlatform = WinJSContrib.Cross || {};
 
     /**
      * check user agent for identifying platform device
+     * @namespace
      */
     WinJSContrib.CrossPlatform.isMobile = {
+        /**
+         * Check if Android
+         */
         Android: function () {
             return navigator.userAgent.match(/Android/i);
         },
+        /**
+         * Check if Blackberry
+         */
         BlackBerry: function () {
             return navigator.userAgent.match(/BlackBerry/i);
         },
+        /**
+         * Check if iOS
+         */
         iOS: function () {
             return navigator.userAgent.match(/iPhone|iPad|iPod/i);
         },
+        /**
+         * Check if Opera mini
+         */
         Opera: function () {
             return navigator.userAgent.match(/Opera Mini/i);
         },
+
+        /**
+         * Check if Windows
+         */
         Windows: function () {
             return navigator.userAgent.match(/IEMobile/i);
         },

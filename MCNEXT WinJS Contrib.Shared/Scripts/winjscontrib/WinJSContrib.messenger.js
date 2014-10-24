@@ -19,8 +19,19 @@ var WinJSContrib = WinJSContrib || {};
             messenger._receiver.addEventListener('message', messenger._bindedProcessEvent);
     };
 
+    /**
+     * @class
+     */
     WinJSContrib.Messenger = WinJS.Class.mix(Messenger, WinJS.Utilities.eventMixin);
+
+    /**
+     * default path for smart worker js file
+     */
     WinJSContrib.Messenger.SmartWorkerPath = '/scripts/winjscontrib/WinJSContrib.messenger.worker.js';
+
+    /**
+     * @class
+     */
     WinJSContrib.Messenger.SmartWorker = function (path) {
         if (window.Worker) {
             var w = new window.Worker(path || WinJSContrib.Messenger.SmartWorkerPath);
@@ -40,6 +51,10 @@ var WinJSContrib = WinJSContrib || {};
         }
     };
 
+    /**
+     * import script files
+     * @param {Array} scriptPaths an array of string paths to js files
+     */
     WinJSContrib.Messenger.prototype.importScripts = function (scriptPaths) {
         if (!this._receiver)
             return WinJS.Promise.wrap();
@@ -60,6 +75,14 @@ var WinJSContrib = WinJSContrib || {};
         });
     }
 
+    /**
+     * run the callback in the web worker. The callback is serialized to string so you must pass all variable used inside the function as arguments
+     * @param {function} func function callback
+     * @param {Object} arg1
+     * @param {Object} arg2
+     * @param {Object} ...
+     * @returns {WinJS.Promise}
+     */
     WinJSContrib.Messenger.prototype.execute = function (func) {
         var messenger = this;
         var args = [];
@@ -94,6 +117,12 @@ var WinJSContrib = WinJSContrib || {};
         });
     }
 
+    /**
+     * start an operation within iframe or worker and get a promise for completion
+     * @param {string} eventName name of the event/function to call
+     * @param {Object} data event/function passed as argument
+     * @returns {WinJS.Promise}
+     */
     WinJSContrib.Messenger.prototype.start = function (eventName, data) {
         var messenger = this;
 
@@ -167,7 +196,9 @@ var WinJSContrib = WinJSContrib || {};
         }
     };
 
-
+    /**
+     * release messenger and associated resources (if using webworker, worker is terminated
+     */
     WinJSContrib.Messenger.prototype.dispose = function () {
         var messenger = this;
         if (messenger._receiver) {

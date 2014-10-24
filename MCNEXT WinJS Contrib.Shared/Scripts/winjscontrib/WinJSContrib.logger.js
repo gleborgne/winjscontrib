@@ -6,25 +6,26 @@
 var WinJSContrib = WinJSContrib || {};
 
 /**
- * @namespace WinJSContrib.Logger
+ * @class WinJSContrib.Logger
  */
 
-WinJSContrib.Logger = (function (Logger) {
+WinJSContrib.Logger = (function () {
     "use strict";
 
     /**
-     * @class
+     * @class WinJSContrib.Logger.LoggerClass
+     * @property {Object} Config logger configuration
      */
-    WinJSContrib.LoggerClass = function (config) {
+    var LoggerClass = function (config) {
         this.config = config || defaultConfig;
         this.initWinJSLog();
     }
 
     /**
     * flag enumeration for log levels
-    * @field 
+    * @field WinJSContrib.Logger.LoggerClass.Levels
     */
-    WinJSContrib.LoggerClass.prototype.Levels = {
+    LoggerClass.prototype.Levels = {
         "off": 0,
         "error": 1,
         "warn": 2,
@@ -32,7 +33,7 @@ WinJSContrib.Logger = (function (Logger) {
         "debug": 8,
         "all": 15
     };
-    var levels = WinJSContrib.LoggerClass.prototype.Levels
+    var levels = LoggerClass.prototype.Levels
 
     // Default config
     var defaultConfig = {
@@ -44,7 +45,7 @@ WinJSContrib.Logger = (function (Logger) {
 
 
 
-    Object.defineProperty(WinJSContrib.Logger.prototype, "Config", {
+    Object.defineProperty(LoggerClass.prototype, "Config", {
         "get": function () { return this.config; },
         "set": function (newValue) {
             newValue = newValue || {};
@@ -60,11 +61,12 @@ WinJSContrib.Logger = (function (Logger) {
 
     /**
      * Add log entry
+     * @function WinJSContrib.Logger.LoggerClass#log
      * @param {string} message log message
      * @param {string} group group/category for the entry
      * @param {number} log level
      */
-    WinJSContrib.LoggerClass.prototype.log = function (message, group, level) {
+    LoggerClass.prototype.log = function (message, group, level) {
         // Message logging level can be passed as a string (and will be by WinJS API)
         if (typeof level === "string") level = this.loggingLevelStringToEnum(level);
 
@@ -88,49 +90,87 @@ WinJSContrib.Logger = (function (Logger) {
         loggingMethod(finalMessage);
     };
 
-    WinJSContrib.LoggerClass.prototype.debug = function (message, group) {
+    /**
+     * add debug log entry
+     * @function WinJSContrib.Logger.LoggerClass#debug
+     * @param {string} message log message
+     * @param {string} group log group name
+     */
+    LoggerClass.prototype.debug = function (message, group) {
         this.log(message, group, levels.debug);
     };
 
-    WinJSContrib.LoggerClass.prototype.info = function (message, group) {
+    /**
+     * add info log entry
+     * @function WinJSContrib.Logger.LoggerClass#info
+     * @param {string} message log message
+     * @param {string} group log group name
+     */
+    LoggerClass.prototype.info = function (message, group) {
         this.log(message, group, levels.info);
     };
 
-    WinJSContrib.LoggerClass.prototype.warn = function (message, group) {
+    /**
+     * add warn log entry
+     * @function WinJSContrib.Logger.LoggerClass#warn
+     * @param {string} message log message
+     * @param {string} group log group name
+     */
+    LoggerClass.prototype.warn = function (message, group) {
         this.log(message, group, levels.warn);
     };
 
-    WinJSContrib.LoggerClass.prototype.error = function (message, group) {
+    /**
+     * add error log entry
+     * @function WinJSContrib.Logger.LoggerClass#error
+     * @param {string} message log message
+     * @param {string} group log group name
+     */
+    LoggerClass.prototype.error = function (message, group) {
         this.log(message, group, levels.error);
     };
 
-    WinJSContrib.LoggerClass.prototype.group = function (title) {
+    /**
+     * create a group
+     * @function WinJSContrib.Logger.LoggerClass#group
+     * @param {string} title group title
+     */
+    LoggerClass.prototype.group = function (title) {
         if (console && console.group) {
             console.group(title);
         }
     }
 
-    WinJSContrib.LoggerClass.prototype.groupCollapsed = function (title) {
+    /**
+     * create a collapsed group
+     * @function WinJSContrib.Logger.LoggerClass#groupCollapsed
+     * @param {string} title group title
+     */
+    LoggerClass.prototype.groupCollapsed = function (title) {
         if (console && console.groupCollapsed) {
             console.groupCollapsed(title);
         }
     }
 
-    WinJSContrib.LoggerClass.prototype.groupEnd = function () {
+    /**
+     * end current group
+     * @function WinJSContrib.Logger.LoggerClass#groupEnd
+     */
+    LoggerClass.prototype.groupEnd = function () {
         if (console && console.groupEnd) {
             console.groupEnd();
         }
     }
 
-    WinJSContrib.LoggerClass.prototype.initWinJSLog = function () {
+    LoggerClass.prototype.initWinJSLog = function () {
         if (this.config.plugToWinJSLog) {
             WinJS.log = Logger.log;
         } else {
             WinJS.log = null;
         }
     }
-
-    WinJSContrib.LoggerClass.prototype.loggingLevelStringToEnum = function (level) {
+    
+    LoggerClass.prototype.loggingLevelStringToEnum = function (level) {
         switch (level.toLowerCase()) {
             default:
             case "log":
@@ -145,7 +185,7 @@ WinJSContrib.Logger = (function (Logger) {
         }
     }
 
-    WinJSContrib.LoggerClass.prototype.logginLevelToString = function (level) {
+    LoggerClass.prototype.logginLevelToString = function (level) {
         switch (level) {
             default:
             case levels.debug:
@@ -161,7 +201,7 @@ WinJSContrib.Logger = (function (Logger) {
         }
     }
 
-    WinJSContrib.LoggerClass.prototype.loggingLevelToMethod = function (level) {
+    LoggerClass.prototype.loggingLevelToMethod = function (level) {
         switch (level) {
             case levels.debug:
                 return console.log.bind(console);
@@ -180,7 +220,11 @@ WinJSContrib.Logger = (function (Logger) {
         }
     }
 
-    WinJSContrib.LoggerClass.prototype.getLogger = function (level) {
+    /**
+     * Get a child logger
+     * @function WinJSContrib.Logger.LoggerClass#getLogger
+     */
+    LoggerClass.prototype.getLogger = function (level) {
         var res = new Logger(JSON.parse(JSON.stringify(this.config)));
         if (level)
             res.config.level = level;
@@ -188,5 +232,7 @@ WinJSContrib.Logger = (function (Logger) {
         return res;
     }
 
-    return new WinJSContrib.LoggerClass(defaultConfig);
+    var res = new LoggerClass(defaultConfig);
+    res.LoggerClass = LoggerClass;
+    return res;
 })();
