@@ -16,6 +16,14 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     "use strict";
 
     /**
+     * @typedef {Object} WinJSContrib.Search.IndexDefinition
+     * @property {string} key name of the property considered as a key for the items
+     * @property {Object} fields object containing item's property path as name, and weight as value
+     * @example
+     * { key: 'id', fields: { "title": 5, "description.detail": 2}}
+     */
+
+    /**
      * path for search worker script file
      */
     WinJSContrib.Search.workerPath = './scripts/winjscontrib/WinJSContrib.search.worker.js';
@@ -23,7 +31,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     /**
      * get a proxy for search worker
      * @param {string} name index name
-     * @param {Object} definition index definition
+     * @param {WinJSContrib.Search.IndexDefinition} definition index definition
      * @param {string} workerPath path for worker script file
      * @returns {WinJSContrib.Search.IndexWorkerProxy}
      * 
@@ -49,6 +57,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     /**
      * group of indexes
      * @class
+     * @param {Array} array of definitions
      */
     WinJSContrib.Search.IndexGroup = function (definitions) {
         this.indexes = {};
@@ -62,7 +71,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     /**
      * add an index to group
      * @param {string} name index name
-     * @param {Object} definition index definition
+     * @param {WinJSContrib.Search.IndexDefinition} definition index definition
      * @params {Array} items items to index
      * @returns {WinJSContrib.Search.Index}
      */
@@ -139,7 +148,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
      * Search index
      * @class
      * @param {string} name index name
-     * @param {Object} definition index definition
+     * @param {WinJSContrib.Search.IndexDefinition} definition index definition
      */
     WinJSContrib.Search.Index = function (name, definition) {
         var index = this;
@@ -350,7 +359,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     /**
      * add an object to index
      * @param {Object} obj object to index
-     * @param {Object} definition index definition (optional), use index's definition if not defined
+     * @param {WinJSContrib.Search.IndexDefinition} definition index definition (optional), use index's definition if not defined
      */
     WinJSContrib.Search.Index.prototype.add = function (obj, definition) {
         var index = this;
@@ -388,7 +397,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     /**
      * add an array of objects to index
      * @param {Array} items items array
-     * @param {Object} definition index definition (optional), use index's definition if not defined
+     * @param {WinJSContrib.Search.IndexDefinition} definition index definition (optional), use index's definition if not defined
      */
     WinJSContrib.Search.Index.prototype.addRange = function (arr, definition) {
         var index = this;
@@ -413,7 +422,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     /**
      * index items from web worker
      * @param {Array} items items array
-     * @param {Object} definition index definition (optional), use index's definition if not defined
+     * @param {WinJSContrib.Search.IndexDefinition} definition index definition (optional), use index's definition if not defined
      * @param {WinJSContrib.Search.IndexWorkerProxy} worker (optional)
      * @returns {WinJS.Promise}
      */
