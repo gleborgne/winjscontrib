@@ -6,27 +6,51 @@
 //this provide a basic search and indexing algorythms to implement local search in your apps
 
 var WinJSContrib = WinJSContrib || {};
+
+/**
+ * @namespace
+ */
 WinJSContrib.Search = WinJSContrib.Search || {};
 
-(function (Search) {
+(function () {
     "use strict";
 
-    Search.workerPath = './scripts/winjscontrib/WinJSContrib.search.worker.js';
+    /**
+     * path for search worker script file
+     */
+    WinJSContrib.Search.workerPath = './scripts/winjscontrib/WinJSContrib.search.worker.js';
 
-    Search.getWorker = function (name, definition, workerPath) {
-        var wrk = new WorkerPromise(name, workerPath || Search.workerPath);
+    /**
+     * get a proxy for search worker
+     * @param {string} name index name
+     * @param {Object} definition index definition
+     * @param {string} workerPath path for worker script file
+     * @returns {WinJSContrib.Search.IndexWorkerProxy}
+     * 
+     */
+    WinJSContrib.Search.getWorker = function (name, definition, workerPath) {
+        var wrk = new WinJSContrib.Search.IndexWorkerProxy(name, workerPath || Search.workerPath);
         wrk.init(name, definition);
         return wrk;
     }
 
-    Search.load = function (name) {
+    /**
+     * load index by name
+     * @param {string} name
+     * @returns {WinJS.Promise} load completion
+     */
+    WinJSContrib.Search.load = function (name) {
         var idx = new Search.Index(name);
         return idx.load().then(function () {;
             return idx;
         });
     }
 
-    Search.IndexGroup = function (definitions) {
+    /**
+     * group of indexes
+     * @class
+     */
+    WinJSContrib.Search.IndexGroup = function (definitions) {
         this.indexes = {};
         if (definitions) {
             for (var n in definitions) {
@@ -35,8 +59,15 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         }
     }
 
-    Search.IndexGroup.prototype.addIndex = function (name, definition, items) {
-        var idx = new Search.Index(name, definition);
+    /**
+     * add an index to group
+     * @param {string} name index name
+     * @param {Object} definition index definition
+     * @params {Array} items items to index
+     * @returns {WinJSContrib.Search.Index}
+     */
+    WinJSContrib.Search.IndexGroup.prototype.addIndex = function (name, definition, items) {
+        var idx = new WinJSContrib.Search.Index(name, definition);
         this.indexes[name] = idx;
         if (items && items.length) {
             idx.addRange(items);
@@ -44,7 +75,11 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         return idx;
     }
 
-    Search.IndexGroup.prototype.search = function (querytext) {
+    /**
+     * search group's indexes
+     * @param {string} querytext search query
+     */
+    WinJSContrib.Search.IndexGroup.prototype.search = function (querytext) {
         var searchresult = { hasResult: false, allResults: [] };
         for (var n in this.indexes) {
             var res = this.indexes[n].search(querytext);
@@ -66,7 +101,11 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         return searchresult;
     };
 
-    Search.IndexGroup.prototype.save = function () {
+    /**
+     * save group indexes
+     * @returns {WinJS.Promise}
+     */
+    WinJSContrib.Search.IndexGroup.prototype.save = function () {
         var promises = [];
         for (var n in this.indexes) {
             promises.push(this.indexes[n].save());
@@ -74,7 +113,11 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         return WinJS.Promise.join(promises);
     };
 
-    Search.IndexGroup.prototype.load = function () {
+    /**
+     * load group indexes
+     * @returns {WinJS.Promise}
+     */
+    WinJSContrib.Search.IndexGroup.prototype.load = function () {
         var promises = [];
         for (var n in this.indexes) {
             promises.push(this.indexes[n].load());
@@ -82,14 +125,23 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         return WinJS.Promise.join(promises);
     };
 
-    Search.IndexGroup.prototype.dispose = function () {
+    /**
+     * release all indexes
+     */
+    WinJSContrib.Search.IndexGroup.prototype.dispose = function () {
         for (var n in this.indexes) {
             this.indexes[n].dispose();
         }
         this.indexes = {};
     };
 
-    Search.Index = function (name, definition) {
+    /**
+     * Search index
+     * @class
+     * @param {string} name index name
+     * @param {Object} definition index definition
+     */
+    WinJSContrib.Search.Index = function (name, definition) {
         var index = this;
         index.name = name || 'defaultIndex';
         index.definition = definition || {};
@@ -107,7 +159,10 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         });
     };
 
-    Search.Index.prototype.dispose = function () {
+    /**
+     * release index
+     */
+    WinJSContrib.Search.Index.prototype.dispose = function () {
         this.items = [];
         this.definition = undefined;
         this.stopWords = undefined;
@@ -115,17 +170,30 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         this.pipeline = undefined;
         this.onprogress = undefined;
         this.folderPromise = undefined;
+        if (this.worker) {
+            this.worker.dispose();
+            this.worker = undefined;
+        }
     }
 
-    Search.Index.prototype.export = function () {
+    /**
+     * export index
+     */
+    WinJSContrib.Search.Index.prototype.export = function () {
         return { definition: this.definition, items: this.items };
     }
 
-    Search.Index.prototype.toString = function () {
+    /**
+     * serialize index to string
+     */
+    WinJSContrib.Search.Index.prototype.toString = function () {
         return JSON.stringify(this.export());
     }
 
-    Search.Index.prototype.loadData = function (indexString) {
+    /**
+     * load index from serialized string
+     */
+    WinJSContrib.Search.Index.prototype.loadData = function (indexString) {
         var tmp = indexString;
 
         if (typeof tmp == 'String')
@@ -139,7 +207,10 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         }
     }
 
-    Search.Index.prototype.save = function () {
+    /**
+     * save index to storage
+     */
+    WinJSContrib.Search.Index.prototype.save = function () {
         var idx = this;
         var exp = idx.export();
         return idx.folderPromise.then(function (folder) {
@@ -149,7 +220,10 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         });
     }
 
-    Search.Index.prototype.load = function () {
+    /**
+     * load index from storage
+     */
+    WinJSContrib.Search.Index.prototype.load = function () {
         var idx = this;
         return idx.folderPromise.then(function (folder) {
             return openFile(folder, idx.name).then(function (savedidx) {
@@ -158,7 +232,12 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         });
     }
 
-    Search.Index.prototype.search = function (querytext) {
+    /**
+     * search index
+     * @param {string} querytext
+     * @returns {Object} search result
+     */
+    WinJSContrib.Search.Index.prototype.search = function (querytext) {
         var index = this;
         var preparedTokens = index.processText(querytext);
         var searchResult = [];
@@ -183,18 +262,48 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         return searchResult;
     }
 
-    Search.Index.prototype.searchAsync = function (searchTerm) {
+    /**
+     * create a worker for this index, and add it to index's "worker" property
+     * @param {string} path worker file path (optional)
+     * @returns {WinJSContrib.Search.IndexWorkerProxy}
+     */
+    WinJSContrib.Search.Index.prototype.registerWorker = function (path) {
         var index = this;
-        var wrk = new WorkerPromise(index.name, Search.workerPath);
+        if (index.worker) {
+            index.worker.dispose();
+            index.worker = undefined;
+        }
+        index.worker = index.getWorker(path);
+    }
+
+    /**
+     * create a worker for this index
+     * @param {string} path worker file path (optional)
+     * @returns {WinJSContrib.Search.IndexWorkerProxy}
+     */
+    WinJSContrib.Search.Index.prototype.getWorker = function (path) {
+        var index = this;
+        return new WinJSContrib.Search.IndexWorkerProxy(index.name, path || Search.workerPath)
+    }
+
+    /**
+     * search index from web worker
+     * @param {string} querytext search query
+     * @param {WinJSContrib.Search.IndexWorkerProxy} worker (optional)
+     * @returns {WinJS.Promise}
+     */
+    WinJSContrib.Search.Index.prototype.searchAsync = function (searchTerm, worker) {
+        var index = this;
+        var wrk = worker || new WinJSContrib.Search.IndexWorkerProxy(index.name, Search.workerPath);
         return new WinJS.Promise(function (complete, error, progress) {
             wrk.search(searchTerm, true, index.name).done(function (res) {
-                wrk.dispose();
+                if (!worker) wrk.dispose();
                 complete(res);
             }, error, progress);
         });
     }
 
-    Search.Index.prototype._searchItem = function (searchtokens, indexitem) {
+    WinJSContrib.Search.Index.prototype._searchItem = function (searchtokens, indexitem) {
         var index = this;
         var size = indexitem.items.length;
         var points = 0;
@@ -231,11 +340,19 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         }
     }
 
-    Search.Index.prototype.define = function (obj) {
+    /**
+     * set index definition
+     */
+    WinJSContrib.Search.Index.prototype.define = function (obj) {
         this.definition = obj;
     }
 
-    Search.Index.prototype.add = function (obj, definition) {
+    /**
+     * add an object to index
+     * @param {Object} obj object to index
+     * @param {Object} definition index definition (optional), use index's definition if not defined
+     */
+    WinJSContrib.Search.Index.prototype.add = function (obj, definition) {
         var index = this;
         var key = undefined;
         var def = definition || index.definition;
@@ -268,7 +385,12 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         return res;
     }
 
-    Search.Index.prototype.addRange = function (arr, definition) {
+    /**
+     * add an array of objects to index
+     * @param {Array} items items array
+     * @param {Object} definition index definition (optional), use index's definition if not defined
+     */
+    WinJSContrib.Search.Index.prototype.addRange = function (arr, definition) {
         var index = this;
         var size = arr.length;
         var indexed = [];
@@ -288,9 +410,16 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         return indexed;
     }
 
-    Search.Index.prototype.addRangeAsync = function (arr, definition) {
+    /**
+     * index items from web worker
+     * @param {Array} items items array
+     * @param {Object} definition index definition (optional), use index's definition if not defined
+     * @param {WinJSContrib.Search.IndexWorkerProxy} worker (optional)
+     * @returns {WinJS.Promise}
+     */
+    WinJSContrib.Search.Index.prototype.addRangeAsync = function (arr, definition, worker) {
         var index = this;
-        var wrk = new WorkerPromise(index.name, Search.workerPath);
+        var wrk = worker || new WinJSContrib.Search.IndexWorkerProxy(index.name, Search.workerPath);
 
         return new WinJS.Promise(function (complete, error, progress) {
             wrk.index(arr, definition || index.definition, index.name, { load: true, save: true }).done(function (idx) {
@@ -302,8 +431,8 @@ WinJSContrib.Search = WinJSContrib.Search || {};
                     }
                 }
 
-
-                wrk.dispose();
+                if (!worker)
+                    wrk.dispose();
                 //index.load().done(function () {
                 complete();
                 //}, error);
@@ -311,7 +440,11 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         });
     }
 
-    function WorkerPromise(name, workerpath) {
+    /**
+     * Proxy for search worker
+     * @class
+     */
+    WinJSContrib.Search.IndexWorkerProxy = function (name, workerpath) {
         var wrapper = this;
         wrapper.worker = new Worker(workerpath);
         wrapper.promises = [];
@@ -387,7 +520,10 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         }
     }
 
-    Search.Index.prototype.refresh = function (obj) {
+    /**
+     * reindex all index's items
+     */
+    WinJSContrib.Search.Index.prototype.refresh = function () {
         var index = this;
         var old = index.items;
         var size = old.length;
@@ -400,7 +536,11 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         index.items.push(res);
     }
 
-    Search.Index.prototype.processText = function (text) {
+    /**
+     * prepare a text for search by applying stemming and tokenizing text
+     * @param {string} text
+     */
+    WinJSContrib.Search.Index.prototype.processText = function (text) {
         var tokens = this.tokenize(text);
         var res = [];
         var size = tokens.length;
@@ -413,7 +553,11 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         return { items: res, untokenized: this.pipeline.run(text) };
     }
 
-    Search.Index.prototype.checkWord = function (token) {
+    /**
+     * Check if a word is a stopword
+     * @param {string} word
+     */
+    WinJSContrib.Search.Index.prototype.checkWord = function (token) {
         var size = this.stopWords.length;
         for (var i = 0 ; i < size; i++) {
             if (token == this.stopWords[i])
@@ -423,7 +567,11 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         return token;
     }
 
-    Search.Index.prototype.tokenize = function (token) {
+    /**
+     * split a string into words
+     * @param {string} text
+     */
+    WinJSContrib.Search.Index.prototype.tokenize = function (token) {
         var index = this;
         var tokens = [];
         if (!token)
@@ -438,21 +586,39 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         return tokens;
     }
 
-    Search.Stemming = {};
+    /**
+     * @namespace
+     */
+    WinJSContrib.Search.Stemming = {};
 
-    Search.Stemming.Pipeline = function () {
+    /**
+     * stemming pipeline
+     * @class
+     */
+    WinJSContrib.Search.Stemming.Pipeline = function () {
         this._processors = [];
     };
 
-    Search.Stemming.Pipeline.prototype.add = function (callback) {
+    /**
+     * add a stemming function to pipeline
+     * @param {function} callback stemming function
+     */
+    WinJSContrib.Search.Stemming.Pipeline.prototype.add = function (callback) {
         this._processors.push(callback);
     };
 
-    Search.Stemming.Pipeline.prototype.clear = function (callback) {
+    /**
+     * remove all stemming functions from pipeline
+     */
+    WinJSContrib.Search.Stemming.Pipeline.prototype.clear = function () {
         this._processors = [];
     };
 
-    Search.Stemming.Pipeline.prototype.run = function (text) {
+    /**
+     * apply stemming pipeline to text
+     * @param {string} text
+     */
+    WinJSContrib.Search.Stemming.Pipeline.prototype.run = function (text) {
         var size = this._processors.length;
         var res = text;
         for (var i = 0 ; i < size; i++) {
@@ -462,7 +628,13 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         return res;
     };
 
-    Search.Stemming.StopWords = {
+    /**
+     * @namespace
+     */
+    WinJSContrib.Search.Stemming.StopWords = {
+        /**
+         * list of common stopwords for french and english
+         */
         common: [
             //french
                "de",
@@ -608,7 +780,10 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         ]
     }
 
-    Search.Stemming.Pipeline.prototype.registerDefault = function (text) {
+    /**
+     * register default stemmings in pipeline
+     */
+    WinJSContrib.Search.Stemming.Pipeline.prototype.registerDefault = function () {
         var pipe = this;
         pipe.add(Search.Stemming.Op.lowerCase);
         pipe.add(Search.Stemming.Op.removeDiacritics);
@@ -634,26 +809,41 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         pipe.add(Search.Stemming.Op.transformZ);
     }
 
-    Search.Stemming.Op = {
+    /**
+     * built-in stemmings
+     * @namespace
+     */
+    WinJSContrib.Search.Stemming.Op = {
+        /**
+         * 
+         */
         lowerCase: function (token) {
             return token.toLowerCase();
         },
-
+        /**
+         * 
+         */
         dedup: function (token) {
             return token.replace(/([^c])\1/g, '$1');
         },
-
+        /**
+         * 
+         */
         dropInitialLetters: function (token) {
             if (token.match(/^(kn|gn|pn|ae|wr)/))
                 return token.substr(1, token.length - 1);
 
             return token;
         },
-
+        /**
+         * 
+         */
         dropBafterMAtEnd: function (token) {
             return token.replace(/mb$/, 'm');
         },
-
+        /**
+         * 
+         */
         cTransform: function (token) {
             token = token.replace(/([^s]|^)(c)(h)/g, '$1x$3').trim();
             token = token.replace(/cia/g, 'xia');
@@ -662,21 +852,27 @@ WinJSContrib.Search = WinJSContrib.Search || {};
 
             return token;
         },
-
+        /**
+         * 
+         */
         dTransform: function (token) {
             token = token.replace(/d(ge|gy|gi)/g, 'j$1');
             token = token.replace(/d/g, 't');
 
             return token;
         },
-
+        /**
+         * 
+         */
         dropG: function (token) {
             token = token.replace(/gh(^$|[^aeiou])/g, 'h$1');
             token = token.replace(/g(n|ned)$/g, '$1');
 
             return token;
         },
-
+        /**
+         * 
+         */
         transformG: function (token) {
             token = token.replace(/([^g]|^)(g)(i|e|y)/g, '$1j$3');
             token = token.replace(/gg/g, 'g');
@@ -684,67 +880,98 @@ WinJSContrib.Search = WinJSContrib.Search || {};
 
             return token;
         },
-
+        /**
+         * 
+         */
         dropH: function (token) {
             return token.replace(/([aeiou])h([^aeiou])/g, '$1$2');
         },
-
+        /**
+         * 
+         */
         transformCK: function (token) {
             return token.replace(/ck/g, 'k');
         },
+        /**
+         * 
+         */
         transformPH: function (token) {
             return token.replace(/ph/g, 'f');
         },
-
+        /**
+         * 
+         */
         transformQ: function (token) {
             return token.replace(/q/g, 'k');
         },
-
+        /**
+         * 
+         */
         transformS: function (token) {
             return token.replace(/s(h|io|ia)/g, 'x$1');
         },
-
+        /**
+         * 
+         */
         transformT: function (token) {
             token = token.replace(/t(ia|io)/g, 'x$1');
             token = token.replace(/th/, '0');
 
             return token;
         },
-
+        /**
+         * 
+         */
         dropT: function (token) {
             return token.replace(/tch/g, 'ch');
         },
-
+        /**
+         * 
+         */
         transformV: function (token) {
             return token.replace(/v/g, 'f');
         },
-
+        /**
+         * 
+         */
         transformWH: function (token) {
             return token.replace(/^wh/, 'w');
         },
-
+        /**
+         * 
+         */
         dropW: function (token) {
             return token.replace(/w([^aeiou]|$)/g, '$1');
         },
-
+        /**
+         * 
+         */
         transformX: function (token) {
             token = token.replace(/^x/, 's');
             token = token.replace(/x/g, 'ks');
             return token;
         },
-
+        /**
+         * 
+         */
         dropY: function (token) {
             return token.replace(/y([^aeiou]|$)/g, '$1');
         },
-
+        /**
+         * 
+         */
         transformZ: function (token) {
             return token.replace(/z/, 's');
         },
-
+        /**
+         * 
+         */
         dropVowels: function (token) {
             return token.charAt(0) + token.substr(1, token.length).replace(/[aeiou]/g, '');
         },
-
+        /**
+         * 
+         */
         removeDiacritics: function (s) {
             var r = s.toLowerCase();
             r = r.replace(new RegExp("/.../g", 'g'), " ");
@@ -762,8 +989,6 @@ WinJSContrib.Search = WinJSContrib.Search || {};
             return r;
         }
     };
-
-
 
     function writeFile(folder, fileName, CreationCollisionOption, objectGraph) {
         return new WinJS.Promise(function (complete, error) {
@@ -789,4 +1014,4 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         });
     }
 
-})(WinJSContrib.Search);
+})();
