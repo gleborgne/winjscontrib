@@ -159,9 +159,12 @@
     <Content Include="$(MSBuildThisFileDirectory)pages\multiview\multiview.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\multiview\multiview.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\multiview\multiview.js" />
-    <Content Include="$(MSBuildThisFileDirectory)pages\search\search.css" />
-    <Content Include="$(MSBuildThisFileDirectory)pages\search\search.html" />
-    <Content Include="$(MSBuildThisFileDirectory)pages\search\search.js" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchAsync\search.css" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchAsync\search.html" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchAsync\search.js" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchClassic\search.css" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchClassic\search.html" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchClassic\search.js" />
     <Content Include="$(MSBuildThisFileDirectory)pages\semanticzoom\semanticzoom.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\semanticzoom\semanticzoom.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\semanticzoom\semanticzoom.js" />

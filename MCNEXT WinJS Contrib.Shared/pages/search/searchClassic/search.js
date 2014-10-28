@@ -1,0 +1,154 @@
+﻿/// <reference path="../../scripts/winjscontrib/WinJSContrib.search.js" />
+
+(function () {
+    "use strict";
+
+    WinJS.UI.Pages.define("./pages/search/searchClassic/search.html", {
+        ready: function (element, options) {
+            var page = this;
+
+            //define an index and specify which properties must be indexed
+            //on your objects
+            page.index = new WinJSContrib.Search.Index('persistentTest', {
+                fields: {
+                    "desc.title": 1,
+                    "title": 2
+                }
+            });
+
+            page.progress = element.querySelector("#progress");
+            $('#searchtxt', element).pressEnterDefaultTo('#btnSearch', element);
+
+            //load index from disc
+            page.index.load().done(function () {
+                page.refreshCount(page.index);
+                if (page.index.items.length == 0) {
+                    page.addAsync(searchitems);
+                }
+            });
+        },
+
+        addToIndex: function () {
+            var page = this;
+            var items = [{ title: $('#indexbox', page.element).val() }];
+            this.addAsync(items).done(function () {
+                $('#indexbox', page.element).val('');
+            });
+        },
+
+        doSearch: function () {
+            var page = this;
+            var txt = $('#searchtxt', page.element).val();
+            var container = $('#searchresults', page.element);
+            container.html('');
+            setImmediate(function () {
+                var search = page.index.search(txt);
+                page.showSearchResult(search);
+            });
+        },
+
+        showSearchResult: function (search) {
+            var page = this;
+            var container = $('#searchresults', page.element);
+            container.html('');
+            if (!search || !search.length) {
+                container.append('<li>no result found</li>');
+                return;
+            }
+
+            if (search.length > 20)
+                search = search.slice(0, 20);
+
+            search.forEach(function (item) {
+                container.append('<li>' + item.rank + ' : ' + item.item.title + '</li>');
+            });
+            page.progress.value = 0;
+        },
+
+        clearIndex: function () {
+            var page = this;
+            page.index.items = [];
+            page.index.save();
+            page.refreshCount(page.index);
+        },
+
+        addAsync: function (items) {
+            var page = this;
+            var container = $('#searchresults', page.element);
+            page.progress.value = 0;
+            page.progress.style.opacity = '1';
+            container.html('');
+            
+            return page.index.addRangeAsync(items, { load: true, save: true }).then(function (res) {
+                page.progress.style.opacity = '0';
+                container.append('<li>indexing done</li>');
+                page.progress.value = 0;
+            }, function (err) {
+                page.progress.style.opacity = '0';
+                container.append('<li>indexing error</li>');
+                page.progress.value = 0;
+            }, function (progress) {
+                page.progress.value = progress;
+            }).then(function () {
+                //return page.index.save();
+            }).then(function(){
+                page.refreshCount(page.index);                
+            });
+        },
+
+        searchAsync: function () {
+            var page = this;
+            var container = $('#searchresults', page.element);
+            container.html('');
+            var txt = $('#searchtxt', page.element).val();
+            page.progress.style.opacity = '1';
+            page.progress.value = 0;
+            
+            page.index.searchAsync(txt).done(function (res) {
+                page.progress.style.opacity = '0';
+                page.showSearchResult(res);
+                page.progress.value = 0;
+            }, function (err) {
+                page.progress.style.opacity = '0';
+                container.append('<li>async search error</li>');
+                page.progress.value = 0;
+            }, function (progress) {
+                page.progress.value = progress;
+            });
+        },
+
+        addItems: function (elt) {
+            var page = this;
+            var sz = (elt && elt.args && elt.args.size) ? elt.args.size : 500;
+            var items = [];
+            for (var i = 0 ; i < sz ; i++) {
+                var item = { title: "abcd efgh ijkl", desc: { title: "mnop qrstu vwxyz" } };
+                items.push(item);
+            }
+
+            page.addAsync(items);
+        },
+
+        indexMovies: function () {
+        },
+
+        refreshCount: function (idx) {
+            var page = this;
+            if (idx)
+                $('#indexCount', page.element).text(idx.items.length);
+        },
+
+        unload: function () {
+            var page = this;
+            page.progress = undefined;
+            page.index.dispose();
+            page.index = undefined;
+        }
+    });
+})();
+
+var searchitems = [
+        { title: "mon TiTre" },
+        { title: "un autre titré", desc: { title: "plein de choses et d'autres" } },
+        { title: "encore un titre", desc: { title: "du titre et encore du Titre" } },
+];

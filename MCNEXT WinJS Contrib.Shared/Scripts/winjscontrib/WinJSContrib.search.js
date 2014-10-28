@@ -157,8 +157,8 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         index.items = [];
         index.storeData = true;
         index.onprogress = undefined;
-        index.stopWords = Search.Stemming.StopWords.common;
-        index.pipeline = new Search.Stemming.Pipeline();
+        index.stopWords = WinJSContrib.Search.Stemming.StopWords.common;
+        index.pipeline = new WinJSContrib.Search.Stemming.Pipeline();
         index.pipeline.registerDefault();
 
         index.folderPromise = Windows.Storage.ApplicationData.current.localFolder.createFolderAsync("WinJSContrib\\Search", Windows.Storage.CreationCollisionOption.openIfExists).then(function (folder) {
@@ -301,11 +301,12 @@ WinJSContrib.Search = WinJSContrib.Search || {};
      * @param {WinJSContrib.Search.IndexWorkerProxy} worker (optional)
      * @returns {WinJS.Promise}
      */
-    WinJSContrib.Search.Index.prototype.searchAsync = function (searchTerm, worker) {
+    WinJSContrib.Search.Index.prototype.searchAsync = function (searchTerm, options, worker) {
         var index = this;
-        var wrk = worker || new WinJSContrib.Search.IndexWorkerProxy(index.name, Search.workerPath);
+        options = options || {load: true};
+        var wrk = worker || new WinJSContrib.Search.IndexWorkerProxy(index.name, WinJSContrib.Search.workerPath);
         return new WinJS.Promise(function (complete, error, progress) {
-            wrk.search(searchTerm, true, index.name).done(function (res) {
+            wrk.search(searchTerm, { load: options.load, index: { name: index.name, definition: index.definition } }).done(function (res) {
                 if (!worker) wrk.dispose();
                 complete(res);
             }, error, progress);
@@ -426,12 +427,13 @@ WinJSContrib.Search = WinJSContrib.Search || {};
      * @param {WinJSContrib.Search.IndexWorkerProxy} worker (optional)
      * @returns {WinJS.Promise}
      */
-    WinJSContrib.Search.Index.prototype.addRangeAsync = function (arr, definition, worker) {
+    WinJSContrib.Search.Index.prototype.addRangeAsync = function (arr, options, worker) {
         var index = this;
-        var wrk = worker || new WinJSContrib.Search.IndexWorkerProxy(index.name, Search.workerPath);
+        options = options || { load: false, save: false };
+        var wrk = worker || new WinJSContrib.Search.IndexWorkerProxy(index.name, WinJSContrib.Search.workerPath);
 
         return new WinJS.Promise(function (complete, error, progress) {
-            wrk.index(arr, definition || index.definition, index.name, { load: true, save: true }).done(function (idx) {
+            wrk.index(arr, { index: { definition: options.definition || index.definition, name: index.name }, load: options.load, save: options.save }).done(function (idx) {
                 var indexed = idx.items;
 
                 if (indexed && indexed.length) {
@@ -455,79 +457,42 @@ WinJSContrib.Search = WinJSContrib.Search || {};
      */
     WinJSContrib.Search.IndexWorkerProxy = function (name, workerpath) {
         var wrapper = this;
-        wrapper.worker = new Worker(workerpath);
-        wrapper.promises = [];
-
-        var newpromise = function () {
-            var prom = new WinJS.Promise(function (complete, error, progress) {
-                var processmsg = function (event) {
-                    if (event.data.msgType === 'progress') {
-                        progress(event.data.msgData.progressPercent);
-                    }
-                    else if (event.data.msgType === 'complete') {
-                        wrapper.worker.removeEventListener('message', processmsg);
-                        //wrapper.worker.onmessage = undefined;
-                        complete(event.data.msgData);
-                    }
-                    else if (event.data.msgType === 'error') {
-                        wrapper.worker.removeEventListener('message', processmsg);
-                        //wrapper.worker.onmessage = undefined;
-                        error(event.data.msgData);
-                    }
-                }
-                wrapper.worker.addEventListener('message', processmsg);
-            });
-            wrapper.promises.push(prom);
-            return prom;
-        }
-
-        wrapper.init = function (name, definition) {
-            wrapper.worker.postMessage({ msgType: 'init', msgData: { name: name, definition: definition } });
-            return newpromise();
-        }
-
-        wrapper.search = function (searchTerm, loaddata, name) {
-            wrapper.worker.postMessage({ msgType: 'search', msgData: { name: name, searchTerm: searchTerm, loaddata: loaddata } });
-            return newpromise();
-        }
-
-        //wrapper.setDefinition = function (definition) {
-        //    wrapper.worker.postMessage({ msgType: 'definition', msgData: definition });
-        //    return newpromise();
-        //}
-
-        wrapper.index = function (data, definition, name, options) {
-            wrapper.worker.postMessage({ msgType: 'index', msgData: { name: name, items: data, definition: definition, options: options } });
-            return newpromise();
-        }
-
-        wrapper.dispose = function () {
-            wrapper.worker.postMessage({ msgType: 'dispose' });
-            return newpromise().then(function () {
-                wrapper.worker.onmessage = undefined;
-                wrapper.promises.forEach(function (p) {
-                    p.cancel();
-                });
-                wrapper.worker.terminate();
-                wrapper.worker = undefined;
-            });
-        }
-
-        wrapper.clear = function () {
-            wrapper.worker.postMessage({ msgType: 'clear' });
-            return newpromise();
-        }
-
-        wrapper.load = function () {
-            wrapper.worker.postMessage({ msgType: 'load' });
-            return newpromise();
-        }
-
-        wrapper.save = function () {
-            wrapper.worker.postMessage({ msgType: 'save' });
-            return newpromise();
-        }
+        wrapper.worker = new WinJSContrib.Messenger.SmartWorker(workerpath || WinJSContrib.Search.workerPath);
     }
+
+    WinJSContrib.Search.IndexWorkerProxy.prototype.init = function (name, load, definition) {
+        return this.worker.start('init', { name: name, load: load, definition: definition });
+    }
+
+    WinJSContrib.Search.IndexWorkerProxy.prototype.search = function (searchTerm, options) {
+        return this.worker.start('search', { searchTerm: searchTerm, options: options });
+    }
+
+    //wrapper.setDefinition = function (definition) {
+    //    wrapper.worker.postMessage({ msgType: 'definition', msgData: definition });
+    //    return newpromise();
+    //}
+
+    WinJSContrib.Search.IndexWorkerProxy.prototype.index = function (data, options) {
+        return this.worker.start('index', { items: data, options: options });
+    }
+
+    WinJSContrib.Search.IndexWorkerProxy.prototype.dispose = function () {
+        this.worker.dispose();
+    }
+
+    WinJSContrib.Search.IndexWorkerProxy.prototype.clear = function () {
+        return this.worker.start('clear');
+    }
+
+    WinJSContrib.Search.IndexWorkerProxy.prototype.load = function () {
+        return this.worker.start('load');
+    }
+
+    WinJSContrib.Search.IndexWorkerProxy.prototype.save = function () {
+        return this.worker.start('save');
+    }
+
 
     /**
      * reindex all index's items
@@ -545,482 +510,482 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         index.items.push(res);
     }
 
-    /**
-     * prepare a text for search by applying stemming and tokenizing text
-     * @param {string} text
-     */
-    WinJSContrib.Search.Index.prototype.processText = function (text) {
-        var tokens = this.tokenize(text);
-        var res = [];
-        var size = tokens.length;
-        for (var i = 0 ; i < size; i++) {
-            var txt = this.pipeline.run(tokens[i]);
-            if (txt.length > 1)
-                res.push(txt);
-        }
-
-        return { items: res, untokenized: this.pipeline.run(text) };
+/**
+ * prepare a text for search by applying stemming and tokenizing text
+ * @param {string} text
+ */
+WinJSContrib.Search.Index.prototype.processText = function (text) {
+    var tokens = this.tokenize(text);
+    var res = [];
+    var size = tokens.length;
+    for (var i = 0 ; i < size; i++) {
+        var txt = this.pipeline.run(tokens[i]);
+        if (txt.length > 1)
+            res.push(txt);
     }
 
-    /**
-     * Check if a word is a stopword
-     * @param {string} word
-     */
-    WinJSContrib.Search.Index.prototype.checkWord = function (token) {
-        var size = this.stopWords.length;
-        for (var i = 0 ; i < size; i++) {
-            if (token == this.stopWords[i])
-                return '';
+    return { items: res, untokenized: this.pipeline.run(text) };
+}
+
+/**
+ * Check if a word is a stopword
+ * @param {string} word
+ */
+WinJSContrib.Search.Index.prototype.checkWord = function (token) {
+    var size = this.stopWords.length;
+    for (var i = 0 ; i < size; i++) {
+        if (token == this.stopWords[i])
+            return '';
+    }
+
+    return token;
+}
+
+/**
+ * split a string into words
+ * @param {string} text
+ */
+WinJSContrib.Search.Index.prototype.tokenize = function (token) {
+    var index = this;
+    var tokens = [];
+    if (!token)
+        return tokens;
+
+    var words = token.split(/\W+/);
+    for (var i = 0 ; i < words.length; i++) {
+        if (words[i].length > 0) {
+            tokens.push(words[i]);
         }
+    }
+    return tokens;
+}
+
+/**
+ * @namespace
+ */
+WinJSContrib.Search.Stemming = {};
+
+/**
+ * stemming pipeline
+ * @class
+ */
+WinJSContrib.Search.Stemming.Pipeline = function () {
+    this._processors = [];
+};
+
+/**
+ * add a stemming function to pipeline
+ * @param {function} callback stemming function
+ */
+WinJSContrib.Search.Stemming.Pipeline.prototype.add = function (callback) {
+    this._processors.push(callback);
+};
+
+/**
+ * remove all stemming functions from pipeline
+ */
+WinJSContrib.Search.Stemming.Pipeline.prototype.clear = function () {
+    this._processors = [];
+};
+
+/**
+ * apply stemming pipeline to text
+ * @param {string} text
+ */
+WinJSContrib.Search.Stemming.Pipeline.prototype.run = function (text) {
+    var size = this._processors.length;
+    var res = text;
+    for (var i = 0 ; i < size; i++) {
+        res = this._processors[i](res);
+    }
+
+    return res;
+};
+
+/**
+ * @namespace
+ */
+WinJSContrib.Search.Stemming.StopWords = {
+    /**
+     * list of common stopwords for french and english
+     */
+    common: [
+        //french
+           "de",
+           "du",
+           "des",
+           "le",
+           "la",
+           "les",
+           "te",
+           "ta",
+           "ton",
+           "tes",
+           "un",
+           "une",
+           "et",
+           "ou",
+           "mais",
+           "pour",
+           "par",
+           "avec",
+           "si",
+
+        //english
+          "a",
+          "able",
+          "about",
+          "across",
+          "after",
+          "all",
+          "almost",
+          "also",
+          "am",
+          "among",
+          "an",
+          "and",
+          "any",
+          "are",
+          "as",
+          "at",
+          "be",
+          "because",
+          "been",
+          "but",
+          "by",
+          "can",
+          "cannot",
+          "could",
+          "dear",
+          "did",
+          "do",
+          "does",
+          "either",
+          "else",
+          "ever",
+          "every",
+          "for",
+          "from",
+          "get",
+          "got",
+          "had",
+          "has",
+          "have",
+          "he",
+          "her",
+          "hers",
+          "him",
+          "his",
+          "how",
+          "however",
+          "i",
+          "if",
+          "in",
+          "into",
+          "is",
+          "it",
+          "its",
+          "just",
+          "least",
+          "let",
+          "like",
+          "likely",
+          "may",
+          "me",
+          "might",
+          "most",
+          "must",
+          "my",
+          "neither",
+          "no",
+          "nor",
+          "not",
+          "of",
+          "off",
+          "often",
+          "on",
+          "only",
+          "or",
+          "other",
+          "our",
+          "own",
+          "rather",
+          "said",
+          "say",
+          "says",
+          "she",
+          "should",
+          "since",
+          "so",
+          "some",
+          "than",
+          "that",
+          "the",
+          "their",
+          "them",
+          "then",
+          "there",
+          "these",
+          "they",
+          "this",
+          "tis",
+          "to",
+          "too",
+          "twas",
+          "us",
+          "wants",
+          "was",
+          "we",
+          "were",
+          "what",
+          "when",
+          "where",
+          "which",
+          "while",
+          "who",
+          "whom",
+          "why",
+          "will",
+          "with",
+          "would",
+          "yet",
+          "you",
+          "your"
+    ]
+}
+
+/**
+ * register default stemmings in pipeline
+ */
+WinJSContrib.Search.Stemming.Pipeline.prototype.registerDefault = function () {
+    var pipe = this;
+    pipe.add(WinJSContrib.Search.Stemming.Op.lowerCase);
+    pipe.add(WinJSContrib.Search.Stemming.Op.removeDiacritics);
+    pipe.add(WinJSContrib.Search.Stemming.Op.dedup);
+    pipe.add(WinJSContrib.Search.Stemming.Op.dropInitialLetters);
+    pipe.add(WinJSContrib.Search.Stemming.Op.dropBafterMAtEnd);
+    pipe.add(WinJSContrib.Search.Stemming.Op.transformCK);
+    pipe.add(WinJSContrib.Search.Stemming.Op.cTransform);
+    pipe.add(WinJSContrib.Search.Stemming.Op.dTransform);
+    pipe.add(WinJSContrib.Search.Stemming.Op.dropG);
+    pipe.add(WinJSContrib.Search.Stemming.Op.transformG);
+    pipe.add(WinJSContrib.Search.Stemming.Op.dropH);
+    pipe.add(WinJSContrib.Search.Stemming.Op.transformPH);
+    pipe.add(WinJSContrib.Search.Stemming.Op.transformQ);
+    pipe.add(WinJSContrib.Search.Stemming.Op.transformS);
+    pipe.add(WinJSContrib.Search.Stemming.Op.transformX);
+    pipe.add(WinJSContrib.Search.Stemming.Op.transformT);
+    pipe.add(WinJSContrib.Search.Stemming.Op.dropT);
+    pipe.add(WinJSContrib.Search.Stemming.Op.transformV);
+    pipe.add(WinJSContrib.Search.Stemming.Op.transformWH);
+    pipe.add(WinJSContrib.Search.Stemming.Op.dropW);
+    pipe.add(WinJSContrib.Search.Stemming.Op.dropY);
+    pipe.add(WinJSContrib.Search.Stemming.Op.transformZ);
+}
+
+/**
+ * built-in stemmings
+ * @namespace
+ */
+WinJSContrib.Search.Stemming.Op = {
+    /**
+     * 
+     */
+    lowerCase: function (token) {
+        return token.toLowerCase();
+    },
+    /**
+     * 
+     */
+    dedup: function (token) {
+        return token.replace(/([^c])\1/g, '$1');
+    },
+    /**
+     * 
+     */
+    dropInitialLetters: function (token) {
+        if (token.match(/^(kn|gn|pn|ae|wr)/))
+            return token.substr(1, token.length - 1);
 
         return token;
+    },
+    /**
+     * 
+     */
+    dropBafterMAtEnd: function (token) {
+        return token.replace(/mb$/, 'm');
+    },
+    /**
+     * 
+     */
+    cTransform: function (token) {
+        token = token.replace(/([^s]|^)(c)(h)/g, '$1x$3').trim();
+        token = token.replace(/cia/g, 'xia');
+        token = token.replace(/c(i|e|y)/g, 's$1');
+        token = token.replace(/c/g, 'k');
+
+        return token;
+    },
+    /**
+     * 
+     */
+    dTransform: function (token) {
+        token = token.replace(/d(ge|gy|gi)/g, 'j$1');
+        token = token.replace(/d/g, 't');
+
+        return token;
+    },
+    /**
+     * 
+     */
+    dropG: function (token) {
+        token = token.replace(/gh(^$|[^aeiou])/g, 'h$1');
+        token = token.replace(/g(n|ned)$/g, '$1');
+
+        return token;
+    },
+    /**
+     * 
+     */
+    transformG: function (token) {
+        token = token.replace(/([^g]|^)(g)(i|e|y)/g, '$1j$3');
+        token = token.replace(/gg/g, 'g');
+        token = token.replace(/g/g, 'k');
+
+        return token;
+    },
+    /**
+     * 
+     */
+    dropH: function (token) {
+        return token.replace(/([aeiou])h([^aeiou])/g, '$1$2');
+    },
+    /**
+     * 
+     */
+    transformCK: function (token) {
+        return token.replace(/ck/g, 'k');
+    },
+    /**
+     * 
+     */
+    transformPH: function (token) {
+        return token.replace(/ph/g, 'f');
+    },
+    /**
+     * 
+     */
+    transformQ: function (token) {
+        return token.replace(/q/g, 'k');
+    },
+    /**
+     * 
+     */
+    transformS: function (token) {
+        return token.replace(/s(h|io|ia)/g, 'x$1');
+    },
+    /**
+     * 
+     */
+    transformT: function (token) {
+        token = token.replace(/t(ia|io)/g, 'x$1');
+        token = token.replace(/th/, '0');
+
+        return token;
+    },
+    /**
+     * 
+     */
+    dropT: function (token) {
+        return token.replace(/tch/g, 'ch');
+    },
+    /**
+     * 
+     */
+    transformV: function (token) {
+        return token.replace(/v/g, 'f');
+    },
+    /**
+     * 
+     */
+    transformWH: function (token) {
+        return token.replace(/^wh/, 'w');
+    },
+    /**
+     * 
+     */
+    dropW: function (token) {
+        return token.replace(/w([^aeiou]|$)/g, '$1');
+    },
+    /**
+     * 
+     */
+    transformX: function (token) {
+        token = token.replace(/^x/, 's');
+        token = token.replace(/x/g, 'ks');
+        return token;
+    },
+    /**
+     * 
+     */
+    dropY: function (token) {
+        return token.replace(/y([^aeiou]|$)/g, '$1');
+    },
+    /**
+     * 
+     */
+    transformZ: function (token) {
+        return token.replace(/z/, 's');
+    },
+    /**
+     * 
+     */
+    dropVowels: function (token) {
+        return token.charAt(0) + token.substr(1, token.length).replace(/[aeiou]/g, '');
+    },
+    /**
+     * 
+     */
+    removeDiacritics: function (s) {
+        var r = s.toLowerCase();
+        r = r.replace(new RegExp("/.../g", 'g'), " ");
+        r = r.replace(new RegExp("[àáâãäå]", 'g'), "a");
+        r = r.replace(new RegExp("æ", 'g'), "ae");
+        r = r.replace(new RegExp("ç", 'g'), "c");
+        r = r.replace(new RegExp("[èéêë]", 'g'), "e");
+        r = r.replace(new RegExp("[ìíîï]", 'g'), "i");
+        r = r.replace(new RegExp("ñ", 'g'), "n");
+        r = r.replace(new RegExp("[òóôõö]", 'g'), "o");
+        r = r.replace(new RegExp("œ", 'g'), "oe");
+        r = r.replace(new RegExp("[ùúûü]", 'g'), "u");
+        r = r.replace(new RegExp("[ýÿ]", 'g'), "y");
+        r = r.replace(new RegExp("['\"]", 'g'), " ");
+        return r;
     }
+};
 
-    /**
-     * split a string into words
-     * @param {string} text
-     */
-    WinJSContrib.Search.Index.prototype.tokenize = function (token) {
-        var index = this;
-        var tokens = [];
-        if (!token)
-            return tokens;
+function writeFile(folder, fileName, CreationCollisionOption, objectGraph) {
+    return new WinJS.Promise(function (complete, error) {
+        folder.createFileAsync(fileName, CreationCollisionOption).done(function (docfile) {
+            Windows.Storage.FileIO.writeTextAsync(docfile, JSON.stringify(objectGraph)).done(function () {
+                if (WinJS && WinJS.log) WinJS.log("File written " + docfile.path);
+                complete();
+            }, error);
+        }, error);
+    });
+}
 
-        var words = token.split(/\W+/);
-        for (var i = 0 ; i < words.length; i++) {
-            if (words[i].length > 0) {
-                tokens.push(words[i]);
-            }
-        }
-        return tokens;
-    }
-
-    /**
-     * @namespace
-     */
-    WinJSContrib.Search.Stemming = {};
-
-    /**
-     * stemming pipeline
-     * @class
-     */
-    WinJSContrib.Search.Stemming.Pipeline = function () {
-        this._processors = [];
-    };
-
-    /**
-     * add a stemming function to pipeline
-     * @param {function} callback stemming function
-     */
-    WinJSContrib.Search.Stemming.Pipeline.prototype.add = function (callback) {
-        this._processors.push(callback);
-    };
-
-    /**
-     * remove all stemming functions from pipeline
-     */
-    WinJSContrib.Search.Stemming.Pipeline.prototype.clear = function () {
-        this._processors = [];
-    };
-
-    /**
-     * apply stemming pipeline to text
-     * @param {string} text
-     */
-    WinJSContrib.Search.Stemming.Pipeline.prototype.run = function (text) {
-        var size = this._processors.length;
-        var res = text;
-        for (var i = 0 ; i < size; i++) {
-            res = this._processors[i](res);
-        }
-
-        return res;
-    };
-
-    /**
-     * @namespace
-     */
-    WinJSContrib.Search.Stemming.StopWords = {
-        /**
-         * list of common stopwords for french and english
-         */
-        common: [
-            //french
-               "de",
-               "du",
-               "des",
-               "le",
-               "la",
-               "les",
-               "te",
-               "ta",
-               "ton",
-               "tes",
-               "un",
-               "une",
-               "et",
-               "ou",
-               "mais",
-               "pour",
-               "par",
-               "avec",
-               "si",
-
-            //english
-              "a",
-              "able",
-              "about",
-              "across",
-              "after",
-              "all",
-              "almost",
-              "also",
-              "am",
-              "among",
-              "an",
-              "and",
-              "any",
-              "are",
-              "as",
-              "at",
-              "be",
-              "because",
-              "been",
-              "but",
-              "by",
-              "can",
-              "cannot",
-              "could",
-              "dear",
-              "did",
-              "do",
-              "does",
-              "either",
-              "else",
-              "ever",
-              "every",
-              "for",
-              "from",
-              "get",
-              "got",
-              "had",
-              "has",
-              "have",
-              "he",
-              "her",
-              "hers",
-              "him",
-              "his",
-              "how",
-              "however",
-              "i",
-              "if",
-              "in",
-              "into",
-              "is",
-              "it",
-              "its",
-              "just",
-              "least",
-              "let",
-              "like",
-              "likely",
-              "may",
-              "me",
-              "might",
-              "most",
-              "must",
-              "my",
-              "neither",
-              "no",
-              "nor",
-              "not",
-              "of",
-              "off",
-              "often",
-              "on",
-              "only",
-              "or",
-              "other",
-              "our",
-              "own",
-              "rather",
-              "said",
-              "say",
-              "says",
-              "she",
-              "should",
-              "since",
-              "so",
-              "some",
-              "than",
-              "that",
-              "the",
-              "their",
-              "them",
-              "then",
-              "there",
-              "these",
-              "they",
-              "this",
-              "tis",
-              "to",
-              "too",
-              "twas",
-              "us",
-              "wants",
-              "was",
-              "we",
-              "were",
-              "what",
-              "when",
-              "where",
-              "which",
-              "while",
-              "who",
-              "whom",
-              "why",
-              "will",
-              "with",
-              "would",
-              "yet",
-              "you",
-              "your"
-        ]
-    }
-
-    /**
-     * register default stemmings in pipeline
-     */
-    WinJSContrib.Search.Stemming.Pipeline.prototype.registerDefault = function () {
-        var pipe = this;
-        pipe.add(Search.Stemming.Op.lowerCase);
-        pipe.add(Search.Stemming.Op.removeDiacritics);
-        pipe.add(Search.Stemming.Op.dedup);
-        pipe.add(Search.Stemming.Op.dropInitialLetters);
-        pipe.add(Search.Stemming.Op.dropBafterMAtEnd);
-        pipe.add(Search.Stemming.Op.transformCK);
-        pipe.add(Search.Stemming.Op.cTransform);
-        pipe.add(Search.Stemming.Op.dTransform);
-        pipe.add(Search.Stemming.Op.dropG);
-        pipe.add(Search.Stemming.Op.transformG);
-        pipe.add(Search.Stemming.Op.dropH);
-        pipe.add(Search.Stemming.Op.transformPH);
-        pipe.add(Search.Stemming.Op.transformQ);
-        pipe.add(Search.Stemming.Op.transformS);
-        pipe.add(Search.Stemming.Op.transformX);
-        pipe.add(Search.Stemming.Op.transformT);
-        pipe.add(Search.Stemming.Op.dropT);
-        pipe.add(Search.Stemming.Op.transformV);
-        pipe.add(Search.Stemming.Op.transformWH);
-        pipe.add(Search.Stemming.Op.dropW);
-        pipe.add(Search.Stemming.Op.dropY);
-        pipe.add(Search.Stemming.Op.transformZ);
-    }
-
-    /**
-     * built-in stemmings
-     * @namespace
-     */
-    WinJSContrib.Search.Stemming.Op = {
-        /**
-         * 
-         */
-        lowerCase: function (token) {
-            return token.toLowerCase();
-        },
-        /**
-         * 
-         */
-        dedup: function (token) {
-            return token.replace(/([^c])\1/g, '$1');
-        },
-        /**
-         * 
-         */
-        dropInitialLetters: function (token) {
-            if (token.match(/^(kn|gn|pn|ae|wr)/))
-                return token.substr(1, token.length - 1);
-
-            return token;
-        },
-        /**
-         * 
-         */
-        dropBafterMAtEnd: function (token) {
-            return token.replace(/mb$/, 'm');
-        },
-        /**
-         * 
-         */
-        cTransform: function (token) {
-            token = token.replace(/([^s]|^)(c)(h)/g, '$1x$3').trim();
-            token = token.replace(/cia/g, 'xia');
-            token = token.replace(/c(i|e|y)/g, 's$1');
-            token = token.replace(/c/g, 'k');
-
-            return token;
-        },
-        /**
-         * 
-         */
-        dTransform: function (token) {
-            token = token.replace(/d(ge|gy|gi)/g, 'j$1');
-            token = token.replace(/d/g, 't');
-
-            return token;
-        },
-        /**
-         * 
-         */
-        dropG: function (token) {
-            token = token.replace(/gh(^$|[^aeiou])/g, 'h$1');
-            token = token.replace(/g(n|ned)$/g, '$1');
-
-            return token;
-        },
-        /**
-         * 
-         */
-        transformG: function (token) {
-            token = token.replace(/([^g]|^)(g)(i|e|y)/g, '$1j$3');
-            token = token.replace(/gg/g, 'g');
-            token = token.replace(/g/g, 'k');
-
-            return token;
-        },
-        /**
-         * 
-         */
-        dropH: function (token) {
-            return token.replace(/([aeiou])h([^aeiou])/g, '$1$2');
-        },
-        /**
-         * 
-         */
-        transformCK: function (token) {
-            return token.replace(/ck/g, 'k');
-        },
-        /**
-         * 
-         */
-        transformPH: function (token) {
-            return token.replace(/ph/g, 'f');
-        },
-        /**
-         * 
-         */
-        transformQ: function (token) {
-            return token.replace(/q/g, 'k');
-        },
-        /**
-         * 
-         */
-        transformS: function (token) {
-            return token.replace(/s(h|io|ia)/g, 'x$1');
-        },
-        /**
-         * 
-         */
-        transformT: function (token) {
-            token = token.replace(/t(ia|io)/g, 'x$1');
-            token = token.replace(/th/, '0');
-
-            return token;
-        },
-        /**
-         * 
-         */
-        dropT: function (token) {
-            return token.replace(/tch/g, 'ch');
-        },
-        /**
-         * 
-         */
-        transformV: function (token) {
-            return token.replace(/v/g, 'f');
-        },
-        /**
-         * 
-         */
-        transformWH: function (token) {
-            return token.replace(/^wh/, 'w');
-        },
-        /**
-         * 
-         */
-        dropW: function (token) {
-            return token.replace(/w([^aeiou]|$)/g, '$1');
-        },
-        /**
-         * 
-         */
-        transformX: function (token) {
-            token = token.replace(/^x/, 's');
-            token = token.replace(/x/g, 'ks');
-            return token;
-        },
-        /**
-         * 
-         */
-        dropY: function (token) {
-            return token.replace(/y([^aeiou]|$)/g, '$1');
-        },
-        /**
-         * 
-         */
-        transformZ: function (token) {
-            return token.replace(/z/, 's');
-        },
-        /**
-         * 
-         */
-        dropVowels: function (token) {
-            return token.charAt(0) + token.substr(1, token.length).replace(/[aeiou]/g, '');
-        },
-        /**
-         * 
-         */
-        removeDiacritics: function (s) {
-            var r = s.toLowerCase();
-            r = r.replace(new RegExp("/.../g", 'g'), " ");
-            r = r.replace(new RegExp("[àáâãäå]", 'g'), "a");
-            r = r.replace(new RegExp("æ", 'g'), "ae");
-            r = r.replace(new RegExp("ç", 'g'), "c");
-            r = r.replace(new RegExp("[èéêë]", 'g'), "e");
-            r = r.replace(new RegExp("[ìíîï]", 'g'), "i");
-            r = r.replace(new RegExp("ñ", 'g'), "n");
-            r = r.replace(new RegExp("[òóôõö]", 'g'), "o");
-            r = r.replace(new RegExp("œ", 'g'), "oe");
-            r = r.replace(new RegExp("[ùúûü]", 'g'), "u");
-            r = r.replace(new RegExp("[ýÿ]", 'g'), "y");
-            r = r.replace(new RegExp("['\"]", 'g'), " ");
-            return r;
-        }
-    };
-
-    function writeFile(folder, fileName, CreationCollisionOption, objectGraph) {
-        return new WinJS.Promise(function (complete, error) {
-            folder.createFileAsync(fileName, CreationCollisionOption).done(function (docfile) {
-                Windows.Storage.FileIO.writeTextAsync(docfile, JSON.stringify(objectGraph)).done(function () {
-                    if (WinJS && WinJS.log) WinJS.log("File written " + docfile.path);
+function openFile(folder, fileName) {
+    return new WinJS.Promise(function (complete, error) {
+        folder.createFileAsync(fileName, Windows.Storage.CreationCollisionOption.openIfExists).then(function (file) {
+            Windows.Storage.FileIO.readTextAsync(file).done(function (text) {
+                if (text)
+                    complete(JSON.parse(text));
+                else
                     complete();
-                }, error);
             }, error);
-        });
-    }
-
-    function openFile(folder, fileName) {
-        return new WinJS.Promise(function (complete, error) {
-            folder.createFileAsync(fileName, Windows.Storage.CreationCollisionOption.openIfExists).then(function (file) {
-                Windows.Storage.FileIO.readTextAsync(file).done(function (text) {
-                    if (text)
-                        complete(JSON.parse(text));
-                    else
-                        complete();
-                }, error);
-            }, error);
-        });
-    }
+        }, error);
+    });
+}
 
 })();

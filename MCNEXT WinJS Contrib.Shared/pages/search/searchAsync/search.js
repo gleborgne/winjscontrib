@@ -3,7 +3,7 @@
 (function () {
     "use strict";
 
-    WinJS.UI.Pages.define("./pages/search/search.html", {
+    WinJS.UI.Pages.define("./pages/search/searchasync/search.html", {
         ready: function (element, options) {
             var page = this;
 
@@ -78,8 +78,8 @@
             page.progress.value = 0;
             page.progress.style.opacity = '1';
             container.html('');
-            
-            return page.index.addRangeAsync(items).then(function (res) {
+
+            return page.index.addRangeAsync(items, { load: true, save: true }).then(function (res) {
                 page.progress.style.opacity = '0';
                 container.append('<li>indexing done</li>');
                 page.progress.value = 0;
@@ -91,8 +91,8 @@
                 page.progress.value = progress;
             }).then(function () {
                 //return page.index.save();
-            }).then(function(){
-                page.refreshCount(page.index);                
+            }).then(function () {
+                page.refreshCount(page.index);
             });
         },
 
@@ -103,7 +103,7 @@
             var txt = $('#searchtxt', page.element).val();
             page.progress.style.opacity = '1';
             page.progress.value = 0;
-            
+
             page.index.searchAsync(txt).done(function (res) {
                 page.progress.style.opacity = '0';
                 page.showSearchResult(res);
@@ -129,57 +129,7 @@
             page.addAsync(items);
         },
 
-        indexWiktionary: function () {
-            var page = this;
-            var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
-            openPicker.viewMode = Windows.Storage.Pickers.PickerViewMode.thumbnail;
-            openPicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.picturesLibrary;
-            
-            openPicker.fileTypeFilter.replaceAll([".xml"]);
-
-            return openPicker.pickSingleFileAsync().then(function (file) {
-                return new WinJS.Promise(function (complete, error) {
-                    if (file) {
-                        try{
-                            Windows.Storage.FileIO.readTextAsync(file).done(function (data) {
-                                page.parseWiktionary(data);
-                            });
-                        } catch (exception) {
-                            $('#searchresults', page.element).html("doesn't looks like a wiktionnary dump...");
-                        }
-                    }
-                });
-            });
-        },
-
-        parseWiktionary: function (text) {
-            var page = this;
-            var items = [];
-            var wdoc = new Windows.Data.Xml.Dom.XmlDocument();
-            wdoc.loadXml(text);
-            var entries = wdoc.getElementsByTagName('entry');
-            for (var i = 0 ; i < entries.length ; i++) {
-                var e = entries.item(i);
-                var item = { title: e.attributes.getNamedItem('form').innerText, lexems: [] };
-                var elts = e.getElementsByTagName('lexeme') //; selectNodes('/lexem/defs/toplevel-def');
-                for (var j = 0 ; j < elts.length ; j++) {
-                    var lexemNode = elts.item(j);
-                    var lex = { type: lexemNode.attributes.getNamedItem('pos').innerText, defs: [] }
-                    var defs = lexemNode.getElementsByTagName('gloss');
-                    for (var k = 0 ; k < defs.length ; k++) {
-                        //if (k < 3) {
-                            var glossnode = defs.item(k);
-                            lex.defs.push(glossnode.innerText);
-                        //}
-                    }
-
-                    item.lexems.push(lex);
-                }
-                items.push(item);
-            }
-            if (items.length > 0) {
-                page.addAsync(items);
-            }
+        indexMovies: function () {
         },
 
         refreshCount: function (idx) {
