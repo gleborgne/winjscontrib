@@ -31,13 +31,9 @@
             <p>
                 <input type="search" id="searchtxt" />
                 <button id="btnSearch" data-page-action="doSearch">search</button>
-                <button id="btnSearchAsync" data-page-action="searchAsync">async search</button>
             </p>
             <p>
                 <input type="text" id="indexbox" /><button data-page-action="addToIndex">Index this</button>
-            </p>
-            <p>
-                <button data-page-action="indexWiktionary">Index wiktionary dump</button>
             </p>
             <p><input type="range" id="progress" min="0" max="100" readonly style="opacity:0" /></p>
             <p>index has <span id="indexCount"></span> items</p>
@@ -45,7 +41,7 @@
                 <button data-page-action="clearIndex">Clear</button>
                 <button data-page-action="addItems" data-page-action-args='{ "size":500 }'>Add 500 items</button>
                 <button data-page-action="addItems" data-page-action-args='{ "size": 2000 }'>Add 2 000 items</button>
-                <button data-page-action="addItems" data-page-action-args='{ "size": 20000 }' >Add 20 000 items</button>
+                <button data-page-action="addItems" data-page-action-args='{ "size": 20000 }'>Add 20 000 items</button>
                 <button data-page-action="addItems" data-page-action-args='{ "size": 100000 }'>Add 100 000 items</button>
                 <button data-page-action="addItems" data-page-action-args='{ "size": 1000000 }'>Add 1 000 000 items</button>
 

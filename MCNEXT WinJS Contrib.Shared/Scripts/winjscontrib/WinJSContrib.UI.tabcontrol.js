@@ -34,7 +34,8 @@
                     ctrl.tabContent.className = 'mcn-tabpages-content';
                     ctrl.element.appendChild(ctrl.tabContent);
                 }
-                ctrl.navigator = new WinJSContrib.UI.PageControlNavigator(ctrl.tabContent, { global: false, delay: 40 });
+                ctrl.navigator = new WinJSContrib.UI.PageControlNavigator(ctrl.tabContent, { global: false, delay: 10 });
+                ctrl.navigator.animationWaitForPreviousPageClose = false;
                 ctrl.navigator.animations.exitPage = WinJSContrib.UI.Animation.tabExitPage;
                 ctrl.navigator.animations.enterPage = WinJSContrib.UI.Animation.tabEnterPage;
 

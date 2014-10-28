@@ -1,4 +1,4 @@
-﻿/// <reference path="../../scripts/winjscontrib/WinJSContrib.search.js" />
+﻿/// <reference path="../../../Scripts/winjscontrib/WinJSContrib.search.js" />
 
 (function () {
     "use strict";
@@ -9,7 +9,7 @@
 
             //define an index and specify which properties must be indexed
             //on your objects
-            page.index = new WinJSContrib.Search.Index('persistentTest', {
+            page.index = new WinJSContrib.Search.IndexWorkerProxy('persistentTest', {
                 fields: {
                     "desc.title": 1,
                     "title": 2
@@ -21,18 +21,22 @@
 
             //load index from disc
             page.index.load().done(function () {
-                page.refreshCount(page.index);
-                if (page.index.items.length == 0) {
-                    page.addAsync(searchitems);
-                }
+                page.refreshCount().then(function (nb) {
+                    if (nb == 0) {
+                        page.indexItems(searchitems);
+                    }
+                });
+
             });
         },
 
         addToIndex: function () {
             var page = this;
-            var items = [{ title: $('#indexbox', page.element).val() }];
-            this.addAsync(items).done(function () {
+            var item = { title: $('#indexbox', page.element).val() };
+            page.index.add(items).done(function () {
                 $('#indexbox', page.element).val('');
+                page.index.save();
+                page.refreshCount();
             });
         },
 
@@ -42,8 +46,9 @@
             var container = $('#searchresults', page.element);
             container.html('');
             setImmediate(function () {
-                var search = page.index.search(txt);
-                page.showSearchResult(search);
+                page.index.search(txt).then(function (search) {
+                    page.showSearchResult(search);
+                });
             });
         },
 
@@ -67,19 +72,22 @@
 
         clearIndex: function () {
             var page = this;
-            page.index.items = [];
-            page.index.save();
-            page.refreshCount(page.index);
+            page.index.clear().then(function () {
+                page.index.save();
+                page.refreshCount();
+            });
+            
         },
 
-        addAsync: function (items) {
+        indexItems: function (items) {
             var page = this;
             var container = $('#searchresults', page.element);
             page.progress.value = 0;
             page.progress.style.opacity = '1';
             container.html('');
 
-            return page.index.addRangeAsync(items, { load: true, save: true }).then(function (res) {
+            return page.index.addRange(items).then(function (res) {
+                page.index.save();
                 page.progress.style.opacity = '0';
                 container.append('<li>indexing done</li>');
                 page.progress.value = 0;
@@ -92,28 +100,7 @@
             }).then(function () {
                 //return page.index.save();
             }).then(function () {
-                page.refreshCount(page.index);
-            });
-        },
-
-        searchAsync: function () {
-            var page = this;
-            var container = $('#searchresults', page.element);
-            container.html('');
-            var txt = $('#searchtxt', page.element).val();
-            page.progress.style.opacity = '1';
-            page.progress.value = 0;
-
-            page.index.searchAsync(txt).done(function (res) {
-                page.progress.style.opacity = '0';
-                page.showSearchResult(res);
-                page.progress.value = 0;
-            }, function (err) {
-                page.progress.style.opacity = '0';
-                container.append('<li>async search error</li>');
-                page.progress.value = 0;
-            }, function (progress) {
-                page.progress.value = progress;
+                page.refreshCount();
             });
         },
 
@@ -126,16 +113,15 @@
                 items.push(item);
             }
 
-            page.addAsync(items);
+            page.indexItems(items);
         },
 
-        indexMovies: function () {
-        },
-
-        refreshCount: function (idx) {
+        refreshCount: function () {
             var page = this;
-            if (idx)
-                $('#indexCount', page.element).text(idx.items.length);
+            return page.index.count().then(function (nb) {
+                $('#indexCount', page.element).text(nb);
+                return nb;
+            });
         },
 
         unload: function () {

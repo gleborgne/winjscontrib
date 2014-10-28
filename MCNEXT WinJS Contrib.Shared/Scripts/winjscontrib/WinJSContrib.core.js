@@ -364,6 +364,26 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     };
 
     /**
+     * bind an element to a property of the supplyed control
+     * @param {HTMLElement} element root node crawled for page actions
+     * @param {Object} control control owning functions to call
+     */
+    WinJSContrib.bindMembers = function (element, control) {
+        $('*[data-page-member]', element).each(function () {
+            var memberName = $(this).addClass('page-member').data('page-member');
+            if (!memberName)
+                memberName = this.id;
+
+            if (memberName && !control[memberName]) {
+                control[memberName] = this;
+                if (this.winControl) {
+                    control[memberName] = this.winControl;
+                }
+            }
+        });
+    }
+
+    /**
      * setup declarative binding to parent control function and to navigation links
      * @param {HTMLElement} element root node crawled for page actions
      * @param {Object} control control owning functions to call

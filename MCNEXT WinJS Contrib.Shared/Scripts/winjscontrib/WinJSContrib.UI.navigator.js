@@ -1,4 +1,6 @@
-﻿//you may use this code freely as long as you keep the copyright notice and don't 
+﻿/// <reference path="WinJSContrib.core.js" />
+
+//you may use this code freely as long as you keep the copyright notice and don't 
 // alter the file name and the namespaces
 //This code is provided as is and we could not be responsible for what you are making with it
 //project is available at http://winjscontrib.codeplex.com
@@ -43,7 +45,8 @@
                 this._element.mcnNavigator = true;
                 this._element.classList.add('mcn-navigator');
                 this.eventTracker = new WinJSContrib.UI.EventTracker();
-                this.delay = options.delay || 100;
+                this.delay = options.delay || 0;
+                this.animationWaitForPreviousPageClose = options.animationWaitForPreviousPageClose || true;
                 this.animations = {};
                 this.locks = 0;
 
@@ -428,7 +431,15 @@
                     newElement.style.opacity = '0';
                     var layoutCtrls = [];
 
-                    var tempo = WinJS.Promise.timeout(navigator.delay);
+                    
+                    if (navigator.animationWaitForPreviousPageClose) {
+                        var tempo = closeOldPagePromise.then(function () {
+                            return WinJS.Promise.timeout(navigator.delay);
+                        });
+                    } else {
+                        var tempo = WinJS.Promise.timeout(navigator.delay);
+                    }
+
                     navigator.currentPageDetails = args.detail;
 
                     var openNewPagePromise = WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented).then(function () {
@@ -466,6 +477,7 @@
                         return newElementCtrl.dataPromise;
                     }).then(function (data) {
                         newElementCtrl.pagedata = data;
+                        WinJSContrib.bindMembers(newElementCtrl.element, newElementCtrl);
                         layoutCtrls = navigator._getPageLayoutControls(newElement);
                         return navigator._pagePrepare(newElementCtrl, layoutCtrls, args);
                     }).then(function () {
@@ -486,14 +498,13 @@
                         layoutCtrls = navigator._getPageLayoutControls(newElement);
                         return navigator._pageLayout(newElementCtrl, layoutCtrls, args);
                     }).then(function () {
-                        return navigator._registerPageActions(newElementCtrl);
-                    }).then(function (control) {
                         if (WinJSContrib.UI.Application.progress)
                             WinJSContrib.UI.Application.progress.hide();
-
-                        parentedComplete();
+                        return navigator._registerPageActions(newElementCtrl);
                     }).then(function () {
                         return tempo;
+                    }).then(function () {
+                        parentedComplete();
                     }).then(function () {
                         layoutCtrls = navigator._getPageLayoutControls(newElement);
                         return navigator._pageContentReady(newElementCtrl, layoutCtrls, args);

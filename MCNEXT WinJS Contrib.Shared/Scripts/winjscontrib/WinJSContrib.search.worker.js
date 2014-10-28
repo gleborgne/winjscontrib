@@ -17,10 +17,11 @@ var worker = this;
     importScripts('/scripts/winjscontrib/winjscontrib.messenger.js');
     importScripts('/scripts/winjscontrib/WinJSContrib.search.js');
 
-    var idx = new WinJSContrib.Search.Index();
+    var idx = null;
     var messenger = new WinJSContrib.Messenger(worker, worker);
 
     messenger.init = function (arg) {
+        idx = new WinJSContrib.Search.Index();
         idx.name = arg.name;
         idx.definition = arg.definition;
         if (arg.load) {
@@ -42,11 +43,17 @@ var worker = this;
         return idx.load();
     }
 
-    messenger.index = function (data) {
-        
+    messenger.count = function (data) {
+        if (!idx.name || !idx.definition)
+            return WinJS.Promise.wrapError({ message: 'index not initialized' });
+
+        return idx.items.length;
+    }
+
+    messenger.index = function (data) {        
         return new WinJS.Promise(function (complete, error, progress) {
             try {
-                if (data.options.index) {
+                if (data.options && data.options.index) {
                     idx.name = data.options.index.name;
                     if (data.options.index.definition) {
                         idx.definition = data.options.index.definition;
@@ -58,7 +65,7 @@ var worker = this;
                     return 
                 }
 
-                if (data.options.load) {
+                if (data.options && data.options.load) {
                     var p = idx.load();
                 }
                 else {
@@ -66,9 +73,9 @@ var worker = this;
                 }
                 
                 p.done(function () {
-                    var indexed = idx.addRange(data.items);
+                    var indexed = idx.addRange(data.items, null, progress);
 
-                    if (data.options.save) {
+                    if (data.options && data.options.save) {
                         idx.save().done(function () {
                             complete({ name: idx.name, items: indexed });
                         },error);
@@ -87,7 +94,7 @@ var worker = this;
     messenger.search = function (data) {
         return new WinJS.Promise(function (complete, error, progress) {
             try {
-                if (data.options.index) {
+                if (data.options && data.options.index) {
                     idx.name = data.options.index.name;
                     if (data.options.index.definition) {
                         idx.definition = data.options.index.definition;
@@ -99,7 +106,7 @@ var worker = this;
                     return
                 }
 
-                if (data.options.load) {
+                if (data.options && data.options.load) {
                     var p = idx.load();
                 }
                 else {
