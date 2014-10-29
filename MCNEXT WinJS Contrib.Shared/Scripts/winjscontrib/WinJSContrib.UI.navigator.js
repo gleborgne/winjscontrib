@@ -294,7 +294,7 @@
                         if (page.winControl.exitPageAnimation) {
                             page.winControl.exitPagePromise = WinJS.Promise.as(page.winControl.exitPageAnimation);
                         } else {
-                            page.winControl.exitPagePromise = navigator.animations.exitPage(navigator._getAnimationElements(true));
+                            page.winControl.exitPagePromise = WinJS.Promise.as(navigator.animations.exitPage(navigator._getAnimationElements(true)));
                         }
 
                         page.winControl.exitPagePromise = page.winControl.exitPagePromise.then(function () {
@@ -431,7 +431,7 @@
                     newElement.style.opacity = '0';
                     var layoutCtrls = [];
 
-                    
+
                     if (navigator.animationWaitForPreviousPageClose) {
                         var tempo = closeOldPagePromise.then(function () {
                             return WinJS.Promise.timeout(navigator.delay);

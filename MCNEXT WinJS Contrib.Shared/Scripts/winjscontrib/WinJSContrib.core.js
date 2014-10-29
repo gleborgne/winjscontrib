@@ -57,7 +57,7 @@ if (!String.prototype.padLeft) {
  * @namespace WinJSContrib
  */
 var WinJSContrib = WinJSContrib || {};
-var MCNEXT = WinJSContrib;
+var WinJSContrib = WinJSContrib;
 
 /** @namespace */
 WinJSContrib.UI = WinJSContrib.UI || {};

@@ -39,7 +39,7 @@
                 ctrl.iframe.style.visibility = 'hidden';
                 ctrl.iframe.src = ctrl.path;
                 ctrl.element.appendChild(ctrl.iframe);
-                ctrl.messenger = new WinJSContrib.UI.Messenger(window, ctrl.iframe.contentWindow);
+                ctrl.messenger = new WinJSContrib.Messenger(window, ctrl.iframe.contentWindow);
             },
 
 

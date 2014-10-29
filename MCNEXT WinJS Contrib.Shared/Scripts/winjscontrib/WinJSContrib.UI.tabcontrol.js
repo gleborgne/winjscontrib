@@ -84,7 +84,7 @@
                         ctrl.right = 'right';
                     }
                     ctrl.swipeSlide = new WinJSContrib.UI.SwipeSlide(ctrl.tabContent);
-                    ctrl.navigator.animations.exitPage = WinJSContrib.UI.Animation.fadeOut;
+                    ctrl.navigator.animations.exitPage = function (elt) { return WinJSContrib.UI.Animation.fadeOut(elt, 100) };
 
                     ctrl.swipeSlide.onswipe = function (arg) {
                         if (ctrl.currentTab != null)

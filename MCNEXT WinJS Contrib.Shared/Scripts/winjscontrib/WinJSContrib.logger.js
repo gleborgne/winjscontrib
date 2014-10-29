@@ -225,7 +225,7 @@ WinJSContrib.Logger = (function () {
      * @function WinJSContrib.Logger.LoggerClass#getLogger
      */
     LoggerClass.prototype.getLogger = function (level) {
-        var res = new Logger(JSON.parse(JSON.stringify(this.config)));
+        var res = new LoggerClass(JSON.parse(JSON.stringify(this.config)));
         if (level)
             res.config.level = level;
 

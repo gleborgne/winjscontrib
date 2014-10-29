@@ -112,6 +112,7 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
             if (!sourcedata) {
                 dest.innerText = '';
             } else {
+                sourcedata = new Date(sourcedata);
                 var m = sourcedata.getMonth() + 1, d = sourcedata.getDate(), y = sourcedata.getFullYear();
                 var fromdate = daysSince(m, d, y);
                 dest.innerText = fromdate;

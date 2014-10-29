@@ -64,7 +64,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
             }
             return ret;
         };
-    }    
+    }
 
     /**
      * configurable page exit effect
@@ -77,7 +77,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
         var args = {
             property: "opacity",
             delay: options.delay || staggerDelay(5, 83, 1, 333),
-            duration: duration || options.duration || 450,
+            duration: duration || options.duration || 160,
             timing: options.easing || "ease-in",
             to: 0
         };
@@ -108,7 +108,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
         var offsetArray;
         var options = options || {};
 
-        var duration = options.duration || 400;
+        var duration = options.duration || isIn ? 250 : 150;
         var delay = options.delay || 5;
         var stagger = staggerDelay(delay, 83, 1, duration - 2 * delay);
         var animationParams = {
@@ -227,7 +227,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
             keyframe: "WinJSContrib-tabExitPage",
             property: equivalents.transform.cssName,
             delay: stagger,
-            duration: options.duration || 200,
+            duration: options.duration || 160,
             timing: "ease-in"
         }
 
@@ -236,7 +236,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
         var transitionParams = {
             property: "opacity",
             delay: stagger,
-            duration: options.duration || 200,
+            duration: options.duration || 160,
             timing: "linear",
             from: 1,
             to: 0
@@ -324,7 +324,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
                 keyframe: "WinJSContrib-exitShrink",
                 property: equivalents.transform.cssName,
                 delay: stagger,
-                duration: duration || options.duration || 300,
+                duration: duration || options.duration || 160,
                 timing: options.easing || "ease-in"
             });
         var promise2 = WinJS.UI.executeTransition(
@@ -332,7 +332,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
             {
                 property: "opacity",
                 delay: stagger,
-                duration: duration || options.duration || 300,
+                duration: duration || options.duration || 160,
                 timing: options.easing || "ease-in",
                 from: 1,
                 to: 0
@@ -354,7 +354,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
                 keyframe: "WinJSContrib-shrinkAndFall",
                 property: equivalents.transform.cssName,
                 delay: staggerDelay(10, 30, 1, 50),
-                duration: options.duration || 400,
+                duration: options.duration || 250,
                 timing: "ease-in"
             });
         var promise2 = WinJS.UI.executeTransition(
@@ -362,7 +362,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
             {
                 property: "opacity",
                 delay: staggerDelay(10, 30, 1, 50),
-                duration: options.duration || 400,
+                duration: options.duration || 250,
                 timing: "ease-in",
                 from: 1,
                 to: 0
@@ -396,7 +396,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
             {
                 property: "opacity",
                 delay: stagger,
-                duration: duration || options.duration || 500,
+                duration: duration || options.duration || 300,
                 timing: options.easing || "ease-out",
                 from: 0,
                 to: 1

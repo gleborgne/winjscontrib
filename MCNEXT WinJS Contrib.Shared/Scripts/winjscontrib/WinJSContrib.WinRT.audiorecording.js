@@ -9,7 +9,7 @@ WinJSContrib.WinRT.Audio = WinJSContrib.WinRT.Audio || {};
     WinJSContrib.WinRT.Audio.RecorderState = WinJS.Binding.define({ "isRecording": false, "ellapsedTime": 0, "startedAt": null });
 
     WinJSContrib.WinRT.Audio.Recorder = WinJS.Class.mix(WinJS.Class.define(function () {
-        this.state = new Audio.RecorderState();
+        this.state = new WinJSContrib.WinRT.Audio.RecorderState();
         this.state.isRecording = false;
     }, {
         start: function (file, options) {

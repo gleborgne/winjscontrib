@@ -269,8 +269,8 @@
     transform: scale(1);
   }
   to {
-    -webkit-transform: scale(0.75);
-    transform: scale(0.75);
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
   }
 }
 @keyframes WinJSContrib-exitShrink {
@@ -279,14 +279,14 @@
     transform: scale(1);
   }
   to {
-    -webkit-transform: scale(0.75);
-    transform: scale(0.75);
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
   }
 }
 @-webkit-keyframes -webkit-WinJSContrib-enterShrink {
   from {
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
   }
   to {
     -webkit-transform: scale(1);
@@ -295,8 +295,8 @@
 }
 @keyframes WinJSContrib-enterShrink {
   from {
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
   }
   to {
     -webkit-transform: scale(1);

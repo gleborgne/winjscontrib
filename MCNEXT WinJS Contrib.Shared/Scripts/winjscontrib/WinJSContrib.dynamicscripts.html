@@ -5,13 +5,13 @@
     <script src="//Microsoft.WinJS.2.0/js/base.js"></script>
     <script src="//Microsoft.WinJS.2.0/js/ui.js"></script>
     <script src="WinJSContrib.core.js"></script>
-    <script src="WinJSContrib.UI.messenger.js"></script>
+    <script src="WinJSContrib.messenger.js"></script>
 
     <script type="text/javascript">
         (function () {
             'use strict';
 
-            var messenger = new WinJSContrib.UI.Messenger(window, window.parent);
+            var messenger = new WinJSContrib.Messenger(window, window.parent);
 
             messenger.applyScript = function (arg) {
                 var context = {
@@ -44,6 +44,7 @@
                         return context.result;
                     });
                 } catch (exception) {
+                    exception.description = exception.description + " for script " + arg.script;
                     return WinJS.Promise.wrapError(exception);
                 }
             }

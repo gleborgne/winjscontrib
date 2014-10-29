@@ -80,7 +80,7 @@ WinJSContrib.WinRT.BgTask = WinJSContrib.WinRT.BgTask || {};
             Windows.ApplicationModel.Background.BackgroundExecutionManager.requestAccessAsync().done(function (bgmgr) {
                 var e = bgmgr;
                 if (bgmgr === Windows.ApplicationModel.Background.BackgroundAccessStatus.allowedWithAlwaysOnRealTimeConnectivity || bgmgr === Windows.ApplicationModel.Background.BackgroundAccessStatus.allowedMayUseActiveRealTimeConnectivity) {
-                    BgTask.registerBackgroundTask(taskEntryPoint, taskName, triggers, conditions);
+                    WinJSContrib.WinRT.BgTask.registerBackgroundTask(taskEntryPoint, taskName, triggers, conditions);
                 }
             });
         } catch (exception) {
