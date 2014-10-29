@@ -1,44 +1,59 @@
 ﻿(function () {
     'use strict';
+    
     var DataFormState = WinJS.Class.mix(WinJS.Class.define(function () {
         this._initObservable();
     }, {
     }), WinJS.Binding.mixin, WinJS.Binding.expandProperties({ isValid: false, updated: false }));
 
     WinJS.Namespace.define("WinJSContrib.UI", {
-        DataForm: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
-            var ctrl = this;
-            this.element = element || document.createElement('FORM');
-            //$(this.element).submit(function (e) {
-            //    e.preventDefault()
-            //})
-            options = options || {};
-            this.groups = options.groups;
-            this.messages = options.messages;
-            this.rules = options.rules;
-            this.state = new DataFormState();
-            this.state.item = {};
-            this.allowTooltip = options.allowTooltip || true;
-            this.workOnCopy = options.workOnCopy || true;
-            this.tooltipDelay = options.tooltipDelay || 4000;
-            this.tooltipPosition = options.tooltipPosition || 'right';
-            this.tooltipTheme = options.tooltipTheme || 'tooltipster-error';
-            this.initValidator();
-            this.element.winControl = this;
-            this.element.mcnDataForm = true;
-            this.element.classList.add('win-disposable');
-            if (WinJSContrib.CrossPlatform && WinJSContrib.CrossPlatform.crossPlatformClass)
-                WinJSContrib.CrossPlatform.crossPlatformClass(this.element);
-            WinJS.UI.setOptions(this, options);
-            WinJS.UI.processAll(this.element).done(function () {
-                WinJS.Binding.processAll(ctrl.element, ctrl.state);
-            });
+        DataForm: WinJS.Class.mix(WinJS.Class.define(
+            /**
+             * @class WinJSContrib.UI.DataForm
+             */
+            function ctor(element, options) {
+                var ctrl = this;
+                this.element = element || document.createElement('FORM');
+                //$(this.element).submit(function (e) {
+                //    e.preventDefault()
+                //})
+                options = options || {};
+                this.groups = options.groups;
+                this.messages = options.messages;
+                this.rules = options.rules;
+                /**
+                 * @member {Object} WinJSContrib.UI.DataForm#state
+                 */
+                this.state = new DataFormState();
+                this.state.item = {};
+                this.allowTooltip = options.allowTooltip || true;
+                this.workOnCopy = options.workOnCopy || true;
+                this.tooltipDelay = options.tooltipDelay || 4000;
+                this.tooltipPosition = options.tooltipPosition || 'right';
+                this.tooltipTheme = options.tooltipTheme || 'tooltipster-error';
+                this.initValidator();
+                this.element.winControl = this;
+                this.element.mcnDataForm = true;
+                this.element.classList.add('win-disposable');
+                if (WinJSContrib.CrossPlatform && WinJSContrib.CrossPlatform.crossPlatformClass)
+                    WinJSContrib.CrossPlatform.crossPlatformClass(this.element);
+                WinJS.UI.setOptions(this, options);
+                WinJS.UI.processAll(this.element).done(function () {
+                    WinJS.Binding.processAll(ctrl.element, ctrl.state);
+                });
 
-            $('.mcn-dataform-cancel', this.element).click(function (arg) {
-                arg.preventDefault();
-                ctrl.cancel();
-            });
-        }, {
+                $('.mcn-dataform-cancel', this.element).click(function (arg) {
+                    arg.preventDefault();
+                    ctrl.cancel();
+                });
+            },
+            /**
+             * @lends WinJSContrib.UI.DataForm.prototype
+             */
+        {
+            /**
+             * @member
+             */
             messages: {
                 get: function () {
                     return this._messages;
@@ -47,6 +62,9 @@
                     this._messages = val;
                 }
             },
+            /**
+             * @member
+             */
             rules: {
                 get: function () {
                     return this._rules;
@@ -55,6 +73,9 @@
                     this._rules = val;
                 }
             },
+            /**
+             * @member
+             */
             groups: {
                 get: function () {
                     return this._groups;
@@ -63,6 +84,10 @@
                     this._groups = val;
                 }
             },
+            /**
+             * object bound to data form
+             * @member
+             */
             item: {
                 get: function () {
                     return this.state.item;
@@ -92,7 +117,10 @@
                     dataform.dispatchEvent("itemchanged", { dataform: this, item: val });
                 }
             },
-
+            /**
+             * indicate if form has updates
+             * @member {boolean}
+             */
             updated: {
                 get: function () {
                     return this.state.updated;
@@ -116,11 +144,17 @@
                 });
             },
 
+            /**
+             * check form state
+             */
             checkState: function () {
                 var nbInvalids = this.validator.numberOfInvalids();
                 this.state.isValid = nbInvalids == 0;
             },
 
+            /**
+             * cancel updates on form item
+             */
             cancel: function () {
                 var dataform = this;
                 if (dataform.workOnCopy) {
@@ -128,6 +162,9 @@
                 }
             },
 
+            /**
+             * apply changes to source object (relevant only if using workOnCopy)
+             */
             save: function () {
                 var dataform = this;
                 if (dataform.workOnCopy) {
@@ -194,16 +231,32 @@
                 });
             },
 
+            /**
+             * validate form
+             */
             validate: function () {
                 var res = this.validator.form();
                 return res;
             },
 
+            /**
+             * release form
+             */
             dispose: function () {
                 WinJS.Utilities.disposeSubTree(this.element);
             }
-        }, {
+        },
+        /**
+         * @lends WinJSContrib.UI.DataForm
+         */
+        {
+            /**
+             * @namespace WinJSContrib.UI.DataForm.Converters
+             */
             Converters: {
+                /**
+                 * @member
+                 */
                 "none": {
                     fromObject: function (val) {
                         return val.toString();
@@ -212,6 +265,9 @@
                         return val;
                     }
                 },
+                /**
+                 * @member
+                 */
                 "text": {
                     fromObject: function (val) {
                         if (typeof val === "undefined" || val === null)
@@ -223,6 +279,9 @@
                         return val;
                     }
                 },
+                /**
+                 * @member
+                 */
                 "number": {
                     fromObject: function (val) {
                         if (typeof val !== "number")
@@ -235,6 +294,9 @@
                             return parseFloat(val);
                     }
                 },
+                /**
+                 * @member
+                 */
                 "boolean": {
                     fromObject: function (val) {
                         if (typeof val === "undefined" || val === null)
@@ -251,6 +313,9 @@
                         return null;
                     }
                 },
+                /**
+                 * @member
+                 */
                 "object": {
                     fromObject: function (val) {
                         return val;
@@ -275,6 +340,14 @@
             }
         },
 
+        /**
+         * bi-directional binding for working with input fields
+         * @function WinJSContrib.UI.DataFormBinding
+         * @param {Object} source object owning data
+         * @param {string[]} sourceProperty path to object data
+         * @param {HTMLElement} dest DOM element targeted by binding
+         * @param {string[]} destProperty path to DOM element property targeted by binding
+         */
         DataFormBinding: WinJS.Binding.initializer(function (source, sourceProperty, dest, destProperty) {
             var dataform = WinJSContrib.UI.parentDataForm(dest);
             var fieldUpdated = false;

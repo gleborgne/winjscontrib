@@ -302,9 +302,7 @@
                                that.clear();
                                $(that.element).removeClass('visible');
                                that.dispatchEvent('afterhide', arg);
-
                            });
-
 
                            that.$overlay.removeClass("visible");
                            that.$contentPlaceholder.removeClass("visible");
