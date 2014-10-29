@@ -2,19 +2,41 @@
 
 (function () {
     "use strict";
-
+    var indexDefinition =  {
+                    fields: {
+                        "desc.title": { weight: 1 },
+                        "title": { weight: 2 }
+                    }
+                }
     WinJS.UI.Pages.define("./pages/search/searchClassic/search.html", {
+        setIndex: function () {
+            var page = this;
+            var kind = $('#indexkind', page.element).val();
+
+            if (page.index) {
+                page.index.dispose();
+            }
+
+            if (kind == "worker") {
+                page.index = new WinJSContrib.Search.IndexWorkerProxy('persistentTest', indexDefinition);
+
+            } else {
+                page.index = new WinJSContrib.Search.Index('persistentTest', indexDefinition);
+            }
+
+            return page.index.load().then(function () {
+                page.refreshCount();
+            })
+        },
+
         ready: function (element, options) {
             var page = this;
 
-            //define an index and specify which properties must be indexed
-            //on your objects
-            page.index = new WinJSContrib.Search.Index('persistentTest', {
-                fields: {
-                    "desc.title": 1,
-                    "title": 2
-                }
-            });
+            page.setIndex();
+
+            $('#indexkind', page.element).change(function () {
+                page.setIndex();
+            })
 
             page.progress = element.querySelector("#progress");
             $('#searchtxt', element).pressEnterDefaultTo('#btnSearch', element);

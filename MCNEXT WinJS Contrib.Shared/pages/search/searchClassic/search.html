@@ -29,6 +29,13 @@
         </header>
         <section aria-label="Main content" role="main">
             <p>
+                Choose how your index works<br />
+                <select id="indexkind">
+                    <option value="synchronous" selected>Synchronous</option>
+                    <option value="worker">Web worker</option>
+                </select>
+            </p>
+            <p>
                 <input type="search" id="searchtxt" />
                 <button id="btnSearch" data-page-action="doSearch">search</button>
             </p>

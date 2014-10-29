@@ -37,7 +37,7 @@ var worker = this;
     }
 
     messenger.load = function (data) {
-        if (!idx.name || !idx.definition)
+        if (!idx.name)
             return WinJS.Promise.wrapError({ message: 'index not initialized' });
 
         return idx.load();

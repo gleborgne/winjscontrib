@@ -8,6 +8,8 @@
 var WinJSContrib = WinJSContrib || {};
 
 /**
+ * Small text search features based on objet indexing and text stemming. It's inspired by tools like Lucene.
+ * For now indexes are stored with WinRT files, but it will soon be extended to support an extensible storage mecanism
  * @namespace
  */
 WinJSContrib.Search = WinJSContrib.Search || {};
@@ -20,7 +22,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
      * @property {string} key name of the property considered as a key for the items
      * @property {Object} fields object containing item's property path as name, and weight as value
      * @example
-     * { key: 'id', fields: { "title": 5, "description.detail": 2}}
+     * { key: 'id', fields: { "title": { weight : 5}, "description.detail": { weight : 2}}}
      */
 
     /**
@@ -29,41 +31,19 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     WinJSContrib.Search.workerPath = './scripts/winjscontrib/WinJSContrib.search.worker.js';
 
     /**
-     * get a proxy for search worker
-     * @param {string} name index name
-     * @param {WinJSContrib.Search.IndexDefinition} definition index definition
-     * @param {string} workerPath path for worker script file
-     * @returns {WinJSContrib.Search.IndexWorkerProxy}
-     * 
-     */
-    WinJSContrib.Search.getWorker = function (name, definition, workerPath) {
-        var wrk = new WinJSContrib.Search.IndexWorkerProxy(name, workerPath || Search.workerPath);
-        wrk.init(name, definition);
-        return wrk;
-    }
-
-    /**
-     * load index by name
-     * @param {string} name
-     * @returns {WinJS.Promise} load completion
-     */
-    WinJSContrib.Search.load = function (name) {
-        var idx = new Search.Index(name);
-        return idx.load().then(function () {;
-            return idx;
-        });
-    }
-
-    /**
      * group of indexes
      * @class
-     * @param {Array} array of definitions
+     * @param {Object} definitions object containing definitions
      */
     WinJSContrib.Search.IndexGroup = function (definitions) {
         this.indexes = {};
         if (definitions) {
             for (var n in definitions) {
-                this.indexes[n] = new Search.Index(n, definitions[n]);
+                var elt = definitions[n];
+                if (elt.async)
+                    this.indexes[n] = new WinJSContrib.Search.Index(n, elt.definition);
+                else
+                    this.indexes[n] = new WinJSContrib.Search.IndexWorkerProxy(n, elt.definition);
             }
         }
     }
@@ -72,44 +52,74 @@ WinJSContrib.Search = WinJSContrib.Search || {};
      * add an index to group
      * @param {string} name index name
      * @param {WinJSContrib.Search.IndexDefinition} definition index definition
-     * @params {Array} items items to index
-     * @returns {WinJSContrib.Search.Index}
+     * @params {boolean} async true if index must operate on a web worker
+     * @params {Array} items array of items to index
+     * @returns {WinJS.Promise}
      */
-    WinJSContrib.Search.IndexGroup.prototype.addIndex = function (name, definition, items) {
-        var idx = new WinJSContrib.Search.Index(name, definition);
+    WinJSContrib.Search.IndexGroup.prototype.addIndex = function (name, definition, async, items) {
+        if (async)
+            var idx = new WinJSContrib.Search.IndexWorkerProxy(name, definition);
+        else
+            var idx = new WinJSContrib.Search.Index(name, definition);
+
+
         this.indexes[name] = idx;
         if (items && items.length) {
-            idx.addRange(items);
+            return idx.addRange(items).then(function () {
+                return idx;
+            });
         }
-        return idx;
+        return WinJS.Promise.wrap(idx);
     }
 
-
+    /**
+     * add items to an index
+     * @param {string} name index name
+     * @params {Array} items array of items to index
+     * @returns {WinJS.Promise}
+     */
+    WinJSContrib.Search.IndexGroup.prototype.addRange = function (name, items) {
+        var idx =  this.indexes[name];
+        if (idx && items && items.length) {
+            return idx.addRange(items);
+        }
+        return WinJS.Promise.wrapError({ message: 'search index ' + name + ' not found' });
+    }
 
     /**
      * search group's indexes
      * @param {string} querytext search query
      */
     WinJSContrib.Search.IndexGroup.prototype.search = function (querytext) {
+        var group = this;
         var searchresult = { hasResult: false, allResults: [] };
-        for (var n in this.indexes) {
-            var res = this.indexes[n]._runSearch(querytext);
-            if (res && res.length) {
-                res.forEach(function (item) {
-                    item.searchItemType = n;
-                    searchresult.allResults.push(item);
-                });
-            }
-            searchresult[n] = res;
+
+        function searchindex(name, index) {
+            return index.search(querytext).then(function (res) {
+                if (res && res.length) {
+                    res.forEach(function (item) {
+                        item.searchItemType = n;
+                        searchresult.allResults.push(item);
+                    });
+                }
+                searchresult[name] = res;
+            });
         }
 
-        searchresult.allResults.sort(function (a, b) {
-            return b.rank - a.rank;
+        var promises = [];
+
+        for (var n in this.indexes) {
+            promises.push(searchindex(n, this.indexes[n]));
+        }
+
+        return WinJS.Promise.join(promises).then(function () {
+            searchresult.allResults.sort(function (a, b) {
+                return b.rank - a.rank;
+            });
+
+            searchresult.hasResult = searchresult.allResults.length > 0;
+            return searchresult;
         });
-
-        searchresult.hasResult = searchresult.allResults.length > 0;
-
-        return WinJS.Promise.wrap(searchresult);
     };
 
     /**
@@ -197,7 +207,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         this.pipeline.clear();
         this.pipeline = undefined;
         this.onprogress = undefined;
-        this.folderPromise = undefined;        
+        this.folderPromise = undefined;
     }
 
     /**
@@ -358,7 +368,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
 
         for (var elt in def.fields) {
             if (def.fields.hasOwnProperty(elt)) {
-                var weight = def.fields[elt] || 1;
+                var weight = def.fields[elt].weight || 1;
                 var value = WinJSContrib.Utils.readProperty(obj, elt.split('.'));
 
                 if (value)
