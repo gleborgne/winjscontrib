@@ -38,6 +38,8 @@
                this.$element.addClass("childNavigator");
                this._createContent();
                this.isOpened = false;
+               this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
+               this.cancelNavigationBinded = this.cancelNavigation.bind(this);
            },
            /**
             * @lends WinJSContrib.UI.ChildViewFlyout.prototype 
@@ -142,14 +144,47 @@
                    }
                },
 
+               hardwareBackBtnPressed: function (arg) {
+                   var ctrl = this;
+                   var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
+                   if (idx == WinJSContrib.UI.FlyoutPage.openPages.length - 1) {
+                       ctrl.hide();
+                       arg.handled = true;
+                       if (arg.preventDefault)
+                           arg.preventDefault();
+                   }
+               },
+
+               cancelNavigation: function (args) {
+                   //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
+                   var p = new WinJS.Promise(function (c) { });
+                   args.detail.setPromise(p);
+                   setImmediate(function () {
+                       p.cancel();
+                   });
+               },
+
                show: function (skipshowcontainer) {
-                   var that = this;
-                   document.body.addEventListener('keyup', that.childContentKeyUp);
-                   that.isOpened = true;
-                   $(that.element).addClass("visible");
-                   that.$overlay.addClass("visible");
-                   if (!skipshowcontainer)
-                       that.$contentPlaceholder.addClass("visible");
+                   var that = this;                   
+
+                   if (!that.isOpened) {
+                       document.body.addEventListener('keyup', that.childContentKeyUp);
+                       that.isOpened = true;
+
+                       $(that.element).addClass("visible");
+                       that.$overlay.addClass("visible");
+                       if (!skipshowcontainer)
+                           that.$contentPlaceholder.addClass("visible");
+
+                       WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
+                       if (window.Windows && window.Windows.Phone)
+                           Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
+                       else
+                           document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
+
+                       if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+                           WinJSContrib.UI.Application.navigator.addLock();
+                   }
                },
 
                pick: function (uri, options, skipHistory) {
@@ -243,25 +278,37 @@
                 */
                hide: function (arg) {
                    var that = this;
-                   if (!that.canClose()) {
-                       return false;
-                   }
+                   if (that.isOpened) {
 
-                   document.body.removeEventListener('keyup', that.childContentKeyUp);
-                   that.isOpened = false;
-                   that.dispatchEvent('beforehide', arg);
+                       if (!that.canClose()) {
+                           return false;
+                       }
 
-                   if (that.$overlay.hasClass("visible")) {
-                       that.$contentPlaceholder.afterTransition(function () {
-                           that.clear();
-                           $(that.element).removeClass('visible');
-                           that.dispatchEvent('afterhide', arg);
+                       document.body.removeEventListener('keyup', that.childContentKeyUp);
+                       that.isOpened = false;
+                       that.dispatchEvent('beforehide', arg);
 
-                       });
+                       if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+                           WinJSContrib.UI.Application.navigator.removeLock();
+
+                       WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
+                       if (window.Windows && window.Windows.Phone)
+                           Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", this.hardwareBackBtnPressedBinded);
+                       else
+                           document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
+
+                       if (that.$overlay.hasClass("visible")) {
+                           that.$contentPlaceholder.afterTransition(function () {
+                               that.clear();
+                               $(that.element).removeClass('visible');
+                               that.dispatchEvent('afterhide', arg);
+
+                           });
 
 
-                       that.$overlay.removeClass("visible");
-                       that.$contentPlaceholder.removeClass("visible");
+                           that.$overlay.removeClass("visible");
+                           that.$contentPlaceholder.removeClass("visible");
+                       }
                    }
                    return true;
                }
