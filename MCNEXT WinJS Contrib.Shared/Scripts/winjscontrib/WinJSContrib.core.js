@@ -368,7 +368,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
      * @param {HTMLElement} element root node crawled for page actions
      * @param {Object} control control owning functions to call
      */
-    WinJSContrib.bindMembers = function (element, control) {
+    WinJSContrib.UI.bindMembers = function (element, control) {
         $('*[data-page-member]', element).each(function () {
             var memberName = $(this).addClass('page-member').data('page-member');
             if (!memberName)

@@ -70,6 +70,19 @@ var WinJSContrib;
         });
 
         /**
+         * Binding function to remove HTML from data and add it to destination with an ellipse after X characters. The number of characters is specified with "ellipsisize" argument
+         * @function
+         * @param {Object} source object owning data
+         * @param {string[]} sourceProperty path to object data
+         * @param {HTMLElement} dest DOM element targeted by binding
+         * @param {string[]} destProperty path to DOM element property targeted by binding
+         */
+        WinJSContrib.Bindings.staticHTML = WinJS.Binding.initializer(function (source, sourceProperty, dest, destProperty) {
+            var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
+            dest[destProperty] = toStaticHTML(data);
+        });
+
+        /**
          * Binding function to add a data-* attribute to the element. Use the destination name to specifiy attribute name
          * @function
          * @param {Object} source object owning data

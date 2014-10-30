@@ -65,6 +65,7 @@
             if (options.uri) {
                 new WinJS.UI.HtmlControl(ctrl._content, { uri: options.uri }, function (elt) {
                     ctrl.contentCtrl = elt;
+                    WinJSContrib.UI.bindMembers(elt.element, elt);
                     elt.flyoutPage = ctrl;
                     ctrl.bindLinks();
                 });
@@ -164,6 +165,7 @@
                             ctrl.hide(result);
                         }
                         elt.flyoutPage = ctrl;
+                        WinJSContrib.UI.bindMembers(elt.element, elt);
                         ctrl.bindLinks();
                         ctrl.show();
 
@@ -258,6 +260,7 @@
 
             bindLinks: function () {
                 var ctrl = this;
+
                 $('*[data-flyout]', ctrl.element).each(function () {
                     var target = $(this).data('flyout');
 
@@ -348,11 +351,7 @@
         WinJS.Utilities.eventMixin,
         WinJS.Utilities.createEventProperties("beforeshow", "beforehide", "aftershow", "afterhide"))
     });
-    WinJSContrib.UI.FlyoutPage.openPages = [];
-
-    WinJS.Namespace.define("WinJSContrib.UI.WindowsPhone", {
-        FlyoutPage: WinJSContrib.UI.FlyoutPage
-    });
+    WinJSContrib.UI.FlyoutPage.openPages = [];    
 
     WinJS.Namespace.define("WinJSContrib.UI", {
         FlyoutPicker: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {

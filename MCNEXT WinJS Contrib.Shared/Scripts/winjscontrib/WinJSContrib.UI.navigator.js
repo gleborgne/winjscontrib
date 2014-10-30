@@ -477,7 +477,7 @@
                         return newElementCtrl.dataPromise;
                     }).then(function (data) {
                         newElementCtrl.pagedata = data;
-                        WinJSContrib.bindMembers(newElementCtrl.element, newElementCtrl);
+                        WinJSContrib.UI.bindMembers(newElementCtrl.element, newElementCtrl);
                         layoutCtrls = navigator._getPageLayoutControls(newElement);
                         return navigator._pagePrepare(newElementCtrl, layoutCtrls, args);
                     }).then(function () {
