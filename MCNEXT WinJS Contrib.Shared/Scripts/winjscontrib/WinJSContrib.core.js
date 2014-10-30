@@ -529,7 +529,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
     if (!String.prototype.startsWith) {
         String.prototype.startsWith = function (str) {
-            return Utils.startsWith(this, str);
+            return WinJSContrib.Utils.startsWith(this, str);
         };
     }
 
@@ -547,7 +547,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
     if (!String.prototype.endsWith) {
         String.prototype.endsWith = function (str) {
-            return Utils.endsWith(this, str);
+            return WinJSContrib.Utils.endsWith(this, str);
         };
     }
 
