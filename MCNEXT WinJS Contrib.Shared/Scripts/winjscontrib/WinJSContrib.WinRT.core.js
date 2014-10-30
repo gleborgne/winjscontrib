@@ -157,25 +157,25 @@ WinJSContrib.WinRT.Alerts = WinJSContrib.WinRT.Alerts || {};
 	};
 
     WinJSContrib.WinRT.Alerts.message = function (title, content) {
-		return Alert.messageBox({ title: title, content: content });
+        return WinJSContrib.WinRT.Alerts.messageBox({ "title": title, "content": content });
 	}
 
     WinJSContrib.WinRT.Alerts.confirm = function (title, content, yes, no) {
 		return new WinJS.Promise(function (complete, error) {
-			Alert.messageBox({
-				title: title,
-				content: content,
-				commands: [
+		    WinJSContrib.WinRT.Alerts.messageBox({
+				"title": title,
+				"content": content,
+				"commands": [
 					{
-						label: yes,
-						callback: function (e) {
+						"label": yes,
+						"callback": function (e) {
 							complete(true);
 						},
-						isDefault: true
+						"isDefault": true
 					},
 					{
-						label: no,
-						callback: function (e) {
+						"label": no,
+						"callback": function (e) {
 							complete(false);
 						}
 					}
