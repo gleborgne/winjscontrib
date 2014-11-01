@@ -217,6 +217,9 @@
                 if (ctrl.contentCtrl && ctrl.contentCtrl.beforeshow) {
                     ctrl.contentCtrl.beforeshow();
                 }
+
+
+
                 this.dispatchEvent("beforeshow");
                 ctrl.element.style.display = '';
                 ctrl._wrapper.style.opacity = '0';
@@ -238,7 +241,21 @@
                     p = WinJS.Promise.as(ctrl.contentCtrl.beforeShowContent());
                 }
 
+                $('.mcn-flyoutpage-contentwrapper', ctrl.element).css('width', '').css('height', '');
+
                 return p.then(function () {
+                    if (ctrl.autosize) {
+                        if (ctrl.placement == 'top' || ctrl.placement == 'bottom') {
+                            var elt = $('.mcn-flyoutpage-content', ctrl.element).children().first();
+                            var h = elt.outerHeight();
+                            $('.mcn-flyoutpage-contentwrapper', ctrl.element).height(h);
+                        }
+                        else if (ctrl.placement == 'left' || ctrl.placement == 'right') {
+                            var elt = $('.mcn-flyoutpage-content', ctrl.element).children().first();
+                            var h = elt.outerWidth();
+                            $('.mcn-flyoutpage-contentwrapper', ctrl.element).width(h);
+                        }
+                    }
                     return ctrl.enterAnimation(ctrl._wrapper)
                 }).then(function () {
                     WinJSContrib.UI.FlyoutPage.openPages.push(ctrl);
@@ -268,14 +285,11 @@
                 else
                     document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
 
-                return ctrl.exitAnimation(ctrl._wrapper).then(function () {
+                return WinJS.Promise.join([ctrl.exitAnimation(ctrl._wrapper), WinJS.UI.Animation.fadeOut(ctrl._overlay)]).then(function () {
                     ctrl._wrapper.style.display = 'none';
-                    return WinJS.UI.Animation.fadeOut(ctrl._overlay);
                 }).then(function () {
                     var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
                     WinJSContrib.UI.FlyoutPage.openPages.splice(idx, 1);
-
-
 
                     ctrl.element.style.display = 'none';
                     if (ctrl.contentCtrl && ctrl.contentCtrl.afterhide) {
