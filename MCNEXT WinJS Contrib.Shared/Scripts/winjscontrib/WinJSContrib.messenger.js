@@ -20,7 +20,11 @@ var WinJSContrib = WinJSContrib || {};
     };
 
     /**
+     * @classdesc
+     * Wrapper for messaging between main code and iframe or web worker. All returns are wrapped as WinJS.Promise to enable asynchronous scenarios     
      * @class
+     * @param {DOMElement} receiver element that will receive messages
+     * @param {DOMElement} sender element that will send messages
      */
     WinJSContrib.Messenger = WinJS.Class.mix(Messenger, WinJS.Utilities.eventMixin);
 
@@ -30,7 +34,10 @@ var WinJSContrib = WinJSContrib || {};
     WinJSContrib.Messenger.SmartWorkerPath = '/scripts/winjscontrib/WinJSContrib.messenger.worker.js';
 
     /**
+     * @classdesc
+     * Wrapper for {@link WinJSContrib.Messenger} when using it with a webworker
      * @class
+     * @param {string} [path] path to web worker file
      */
     WinJSContrib.Messenger.SmartWorker = function (path) {
         if (window.Worker) {

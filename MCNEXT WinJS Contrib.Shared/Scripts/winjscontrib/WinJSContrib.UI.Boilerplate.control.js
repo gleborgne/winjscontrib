@@ -3,7 +3,10 @@
 //This code is provided as is and we could not be responsible for what you are making with it
 //project is available at http://winjscontrib.codeplex.com
 
+
+
 //this is a blank WinJS control structure. It's intended to use as a startup for new controls
+
 
 (function () {
 	'use strict';

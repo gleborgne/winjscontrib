@@ -1026,7 +1026,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
     /**
      * get a function from an expression, for example 'page:myAction' will return the myAction function from the parent page.
-     * The returned function will be bound to it's owner. This function relies on {link WinJSContrib.Utils.resolveValue}, see this for details about how data are crawled
+     * The returned function will be bound to it's owner. This function relies on {@link WinJSContrib.Utils.resolveValue}, see this for details about how data are crawled
      * @param {HTMLElement} element DOM element to look
      * @param {string} text expression like 'page:something' or 'ctrl:something' or 'something'
      * @returns {function}

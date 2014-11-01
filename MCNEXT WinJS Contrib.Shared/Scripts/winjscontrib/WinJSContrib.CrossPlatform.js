@@ -1,6 +1,7 @@
 ﻿var WinJSContrib = WinJSContrib || {};
 
 /**
+ * Helpers for cross platform development
  * @namespace
  */
 WinJSContrib.CrossPlatform = WinJSContrib.Cross || {};

@@ -9,6 +9,14 @@
 
     WinJS.Namespace.define("WinJSContrib.UI", {
         GlobalProgress: WinJS.Class.define(
+            /**
+             * @classdesc 
+             * Control for displaying a global progress indicator. The global progress takes care of keeping count of show and hide calls, and it will hide it only when matching
+             * @class WinJSContrib.UI.GlobalProgress
+             * @param {HTMLElement} element DOM element containing the control
+             * @param {Object} options
+             * @property {number} throttlingDelay
+             */
            function ctor(element, options) {
                 var ctrl = this;
                 options = options || {};
@@ -26,7 +34,15 @@
                 ctrl.element.style.display = 'none';
                 ctrl.element.style.opacity = '0';
                 element.innerHTML = '<div class="mcn-globalprogress-content"><progress class="bar"></progress><div class="mcn-globalprogress-text">' + (options.text || '') + '</div></div>'
-            }, {
+           },
+           /**
+            *  @lends WinJSContrib.UI.GlobalProgress.prototype
+            */
+           {
+               /**
+                * show progress after the throttling delay
+                * @param {number} [timeout] custom throttling delay
+                */
                 show: function (timeout) {
                     var ctrl = this;
 
@@ -43,6 +59,9 @@
                     }
                 },
 
+               /**
+                * show progress immediately
+                */
                 showNow: function () {
                     var ctrl = this;
                     ctrl.refCount = ctrl.refCount + 1;
@@ -55,6 +74,10 @@
                     ctrl.isVisible = true;
                 },
 
+                /**
+                 * hide progress indicator
+                 * @param {boolean} [force] force hiding progress indicator and reset calls count
+                 */
                 hide: function (force) {
                     var ctrl = this;
 

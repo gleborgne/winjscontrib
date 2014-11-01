@@ -10,6 +10,10 @@
         DataForm: WinJS.Class.mix(WinJS.Class.define(
             /**
              * @class WinJSContrib.UI.DataForm
+             * @classdesc
+             * This control enhance data form management by adding validation mecanism and form state helpers. It must be placed on a form element
+             * @param {HTMLElement} element DOM element containing the control
+             * @param {Object} options
              */
             function ctor(element, options) {
                 var ctrl = this;
@@ -341,7 +345,7 @@
         },
 
         /**
-         * bi-directional binding for working with input fields
+         * bi-directional binding for working with input fields and custom input controls. This binding expect a {@link WinJSContrib.UI.DataForm} to be found on the parent form
          * @function WinJSContrib.UI.DataFormBinding
          * @param {Object} source object owning data
          * @param {string[]} sourceProperty path to object data

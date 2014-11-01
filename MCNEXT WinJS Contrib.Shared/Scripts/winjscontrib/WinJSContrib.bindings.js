@@ -8,6 +8,7 @@ var WinJSContrib;
     'use strict';
 
     /**
+     * Custom WinJS Bindings
      * @namespace WinJSContrib.Bindings
      */
     (function (Bindings) {

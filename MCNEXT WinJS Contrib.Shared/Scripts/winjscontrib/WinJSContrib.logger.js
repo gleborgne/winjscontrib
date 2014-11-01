@@ -6,6 +6,7 @@
 var WinJSContrib = WinJSContrib || {};
 
 /**
+ * logger abstraction to enable logging levels and global configuration
  * @class WinJSContrib.Logger
  */
 

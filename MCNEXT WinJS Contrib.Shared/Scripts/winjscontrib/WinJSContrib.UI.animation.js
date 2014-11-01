@@ -7,6 +7,7 @@ var WinJSContrib = WinJSContrib || {};
 WinJSContrib.UI = WinJSContrib.UI || {};
 
 /**
+ * Custom animations, and rewrite of some animations from WinJS with configurable settings (like duration, delays, ...)
  * @namespace
  */
 WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};

@@ -159,6 +159,9 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     /**
      * Search index
      * @class
+     * @classdesc
+     * This class is the heart of the search engine. operations performed by this object are synchronous but exposes as promises.
+     * This way Index is almost interchangeable with {@link WinJSContrib.Search.IndexWorkerProxy}
      * @param {string} name index name
      * @param {WinJSContrib.Search.IndexDefinition} definition index definition
      */
@@ -480,7 +483,8 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     }
 
     /**
-     * Proxy for search worker
+     * @classdesc
+     * Proxy for a {@link WinJSContrib.Search.Index} running in a web worker
      * @class
      * @param {string} name index name
      * @param {WinJSContrib.Search.IndexDefinition} definition index definition

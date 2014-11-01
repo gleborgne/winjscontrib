@@ -14,7 +14,15 @@
                 current = current.parentNode;
             }
         },
-        FlyoutPage: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
+        FlyoutPage: WinJS.Class.mix(WinJS.Class.define(
+        /**
+         * @classdesc 
+         * display html content or target html fragment as a sidebar flyout page
+         * @class WinJSContrib.UI.FlyoutPage
+         * @param {HTMLElement} element DOM element containing the control
+         * @param {Object} options
+         */
+        function ctor(element, options) {
             var ctrl = this;
             ctrl.element = element || document.createElement('DIV');
             options = options || {};
@@ -76,13 +84,26 @@
             }
             ctrl.element.appendChild(ctrl._container);
 
-        }, {
+        },
+        /**
+         * @lends WinJSContrib.UI.FlyoutPage.prototype
+         */
+        {
+            /**
+             * @field {
+             * @type HTMLElement
+             */
             content: {
                 get: function () {
                     return this._content;
                 }
             },
 
+            /**
+             * left | right | top | bottom
+             * @field
+             * @type string
+             */
             placement: {
                 get: function () {
                     return this._placement;
@@ -211,7 +232,15 @@
                     document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
 
                 WinJS.UI.Animation.fadeIn(ctrl._overlay);
-                return ctrl.enterAnimation(ctrl._wrapper).then(function () {
+
+                var p = WinJS.Promise.wrap();
+                if (ctrl.contentCtrl && ctrl.contentCtrl.beforeShowContent) {
+                    p = WinJS.Promise.as(ctrl.contentCtrl.beforeShowContent());
+                }
+
+                return p.then(function () {
+                    return ctrl.enterAnimation(ctrl._wrapper)
+                }).then(function () {
                     WinJSContrib.UI.FlyoutPage.openPages.push(ctrl);
                     if (ctrl.contentCtrl && ctrl.contentCtrl.aftershow) {
                         ctrl.contentCtrl.aftershow();
@@ -351,7 +380,7 @@
         WinJS.Utilities.eventMixin,
         WinJS.Utilities.createEventProperties("beforeshow", "beforehide", "aftershow", "afterhide"))
     });
-    WinJSContrib.UI.FlyoutPage.openPages = [];    
+    WinJSContrib.UI.FlyoutPage.openPages = [];
 
     WinJS.Namespace.define("WinJSContrib.UI", {
         FlyoutPicker: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {

@@ -37,7 +37,11 @@
         },
 
         PageControlNavigator: WinJS.Class.mix(WinJS.Class.define(
-            // Define the constructor function for the PageControlNavigator.
+            /**
+             * @class WinJSContrib.UI.PageControlNavigator
+             * @param {HTMLElement} element DOM element containing the control
+             * @param {Object} options
+             */
             function PageControlNavigator(element, options) {
                 var options = options || {};
                 this._element = element || document.createElement("div");
@@ -82,7 +86,11 @@
                     this.history = { backstack: [] };
                 }
                 this.eventTracker.addEvent(window, 'resize', this._resized.bind(this));
-            }, {
+            },
+            /**
+             * @lends WinJSContrib.UI.PageControlNavigator.prototype
+             */
+            {
                 home: "",
                 /// <field domElement="true" />
                 _element: null,
