@@ -3,9 +3,6 @@
 //This code is provided as is and we could not be responsible for what you are making with it
 //project is available at http://winjscontrib.codeplex.com
 
-/**
- * @fileOverview test from api
- */
 
 if (!Object.map) {
     Object.map = function (obj, mapping) {
@@ -54,6 +51,7 @@ if (!String.prototype.padLeft) {
 }
 
 /**
+ * WinJSContrib is a set of helpers, bindings, and controls for WinJS
  * @namespace WinJSContrib
  */
 var WinJSContrib = WinJSContrib || {};

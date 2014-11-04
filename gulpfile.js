@@ -90,7 +90,7 @@ gulp.task('doc', ['cleandoc'], function() {
 	    inverseNav      : false
 	  };
 
-	return gulp.src(['MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/**/*.js'])        
+	return gulp.src(['MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/**/*.js', 'readme.md'])        
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(jsdoc.parser(infos))
   	.pipe(jsdoc.generator('dist/documentation/', template));

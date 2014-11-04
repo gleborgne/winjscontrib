@@ -1,5 +1,3 @@
-# WinJS Contrib
-
 WinJS Contrib is salt and pepper to get your WinJS applications more tasty.
 It provides some utilities, helpers and controls to make your developers life happyer (or at least that's what we try to do).
 
