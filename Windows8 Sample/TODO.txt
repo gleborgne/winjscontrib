@@ -1,4 +1,5 @@
-﻿mécanisme de gestion des fichiers en bgdownload/bgupload
+﻿couleur en argument splash screen
+mécanisme de gestion des fichiers en bgdownload/bgupload
 réorganiser les sources, utiliser gulp pour faire un script de build
 rectifier description apps winjscontrib
 wrapper pour les messages iframe et workers

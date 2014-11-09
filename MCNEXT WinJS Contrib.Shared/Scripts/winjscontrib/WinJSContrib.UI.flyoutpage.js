@@ -226,8 +226,6 @@
                 ctrl._wrapper.style.display = '';
                 ctrl._overlay.style.opacity = '0';
 
-
-
                 WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
                 if (window.Windows && window.Windows.Phone)
                     Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
@@ -256,6 +254,8 @@
                             $('.mcn-flyoutpage-contentwrapper', ctrl.element).width(h);
                         }
                     }
+                    return WinJS.Promise.timeout();
+                }).then(function () {
                     return ctrl.enterAnimation(ctrl._wrapper)
                 }).then(function () {
                     WinJSContrib.UI.FlyoutPage.openPages.push(ctrl);
