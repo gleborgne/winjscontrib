@@ -218,8 +218,6 @@
                     ctrl.contentCtrl.beforeshow();
                 }
 
-
-
                 this.dispatchEvent("beforeshow");
                 ctrl.element.style.display = '';
                 ctrl._wrapper.style.opacity = '0';
@@ -237,23 +235,12 @@
                 var p = WinJS.Promise.wrap();
                 if (ctrl.contentCtrl && ctrl.contentCtrl.beforeShowContent) {
                     p = WinJS.Promise.as(ctrl.contentCtrl.beforeShowContent());
-                }
-
-                $('.mcn-flyoutpage-contentwrapper', ctrl.element).css('width', '').css('height', '');
+                }                
 
                 return p.then(function () {
-                    if (ctrl.autosize) {
-                        if (ctrl.placement == 'top' || ctrl.placement == 'bottom') {
-                            var elt = $('.mcn-flyoutpage-content', ctrl.element).children().first();
-                            var h = elt.outerHeight();
-                            $('.mcn-flyoutpage-contentwrapper', ctrl.element).height(h);
-                        }
-                        else if (ctrl.placement == 'left' || ctrl.placement == 'right') {
-                            var elt = $('.mcn-flyoutpage-content', ctrl.element).children().first();
-                            var h = elt.outerWidth();
-                            $('.mcn-flyoutpage-contentwrapper', ctrl.element).width(h);
-                        }
-                    }
+                    return WinJS.Promise.timeout();
+                }).then(function () {
+                    ctrl.calcAutosize();
                     return WinJS.Promise.timeout();
                 }).then(function () {
                     return ctrl.enterAnimation(ctrl._wrapper)
@@ -266,6 +253,22 @@
                     if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
                         WinJSContrib.UI.Application.navigator.addLock();
                 });
+            },
+
+            calcAutosize: function () {
+                var ctrl = this;
+                if (ctrl.autosize) {
+                    if (ctrl.placement == 'top' || ctrl.placement == 'bottom') {
+                        var elt = $('.mcn-flyoutpage-content', ctrl.element).children().first();
+                        var h = elt.outerHeight();
+                        $('.mcn-flyoutpage-contentwrapper', ctrl.element).height(h);
+                    }
+                    else if (ctrl.placement == 'left' || ctrl.placement == 'right') {
+                        var elt = $('.mcn-flyoutpage-content', ctrl.element).children().first();
+                        var h = elt.outerWidth();
+                        $('.mcn-flyoutpage-contentwrapper', ctrl.element).width(h);
+                    }
+                }
             },
 
             hide: function (result) {
@@ -287,6 +290,7 @@
 
                 return WinJS.Promise.join([ctrl.exitAnimation(ctrl._wrapper), WinJS.UI.Animation.fadeOut(ctrl._overlay)]).then(function () {
                     ctrl._wrapper.style.display = 'none';
+                    $('.mcn-flyoutpage-contentwrapper', ctrl.element).css('width', '').css('height', '');
                 }).then(function () {
                     var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
                     WinJSContrib.UI.FlyoutPage.openPages.splice(idx, 1);
