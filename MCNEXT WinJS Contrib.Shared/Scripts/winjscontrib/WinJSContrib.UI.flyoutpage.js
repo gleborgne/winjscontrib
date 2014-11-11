@@ -235,7 +235,7 @@
                 var p = WinJS.Promise.wrap();
                 if (ctrl.contentCtrl && ctrl.contentCtrl.beforeShowContent) {
                     p = WinJS.Promise.as(ctrl.contentCtrl.beforeShowContent());
-                }                
+                }
 
                 return p.then(function () {
                     return WinJS.Promise.timeout();
