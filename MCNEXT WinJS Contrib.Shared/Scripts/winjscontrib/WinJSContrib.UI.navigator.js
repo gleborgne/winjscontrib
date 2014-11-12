@@ -364,9 +364,7 @@
                         if (oldElement) {
                             oldElement.style.opacity = '0';
                             oldElement.style.display = 'none';
-                            if (WinJS.Utilities.disposeSubTree)
-                                WinJS.Utilities.disposeSubTree(oldElement);
-
+                            
                             if (oldElement.winControl) {
                                 oldElement.winControl.stackedOn = null;
                                 oldElement.winControl.stackedBy = null;
@@ -378,6 +376,9 @@
                                     oldElement.winControl.unload();
                                 }
                             }
+
+                            if (WinJS.Utilities.disposeSubTree)
+                                WinJS.Utilities.disposeSubTree(oldElement);
 
                             oldElement.innerHTML = '';
                             setImmediate(function () {
