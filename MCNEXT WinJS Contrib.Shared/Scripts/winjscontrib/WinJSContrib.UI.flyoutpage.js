@@ -230,7 +230,7 @@
                 else
                     document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
 
-                WinJS.UI.Animation.fadeIn(ctrl._overlay);
+                WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, 250);
 
                 var p = WinJS.Promise.wrap();
                 if (ctrl.contentCtrl && ctrl.contentCtrl.beforeShowContent) {
@@ -288,7 +288,9 @@
                 else
                     document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
 
-                return WinJS.Promise.join([ctrl.exitAnimation(ctrl._wrapper), WinJS.UI.Animation.fadeOut(ctrl._overlay)]).then(function () {
+                return WinJS.Promise.join([ctrl.exitAnimation(ctrl._wrapper), WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, 200)]).then(function () {
+                    return WinJS.Promise.timeout(100);
+                }).then(function () {
                     ctrl._wrapper.style.display = 'none';
                     $('.mcn-flyoutpage-contentwrapper', ctrl.element).css('width', '').css('height', '');
                 }).then(function () {

@@ -359,12 +359,13 @@
 
                     navigator._pageElement = null;
                     return oldPageExitPromise.then(function () {
-                        return WinJS.Promise.timeout();
-                    }).then(function () {
                         if (oldElement) {
                             oldElement.style.opacity = '0';
                             oldElement.style.display = 'none';
-                            
+                        }
+                        return WinJS.Promise.timeout();
+                    }).then(function () {
+                        if (oldElement) {
                             if (oldElement.winControl) {
                                 oldElement.winControl.stackedOn = null;
                                 oldElement.winControl.stackedBy = null;

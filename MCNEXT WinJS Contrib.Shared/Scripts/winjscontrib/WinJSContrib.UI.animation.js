@@ -7,7 +7,6 @@ var WinJSContrib = WinJSContrib || {};
 WinJSContrib.UI = WinJSContrib.UI || {};
 
 /**
- * Custom animations, and rewrite of some animations from WinJS with configurable settings (like duration, delays, ...)
  * @namespace
  */
 WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
@@ -25,7 +24,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
         options = options || {};
         var args = {
             property: "opacity",
-            delay: options.delay || 0,
+            delay: staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333),
             duration: duration || options.duration || 167,
             timing: options.easing || "ease-in-out",
             to: 0
@@ -46,7 +45,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
             hidden,
             {
                 property: "opacity",
-                delay: options.delay || 0,
+                delay: staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333),
                 duration: duration || options.duration || 167,
                 timing: options.easing || "ease-in-out",
                 to: 1
@@ -77,7 +76,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
         options = options || {};
         var args = {
             property: "opacity",
-            delay: options.delay || staggerDelay(5, 83, 1, 333),
+            delay: staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333),
             duration: duration || options.duration || 160,
             timing: options.easing || "ease-in",
             to: 0
@@ -94,15 +93,28 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
      */
     WinJSContrib.UI.Animation.enterPage = function (elements, duration, options) {
         options = options || {};
+        var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 120, 1, options.maxdelay != undefined ? options.maxdelay : 333);
+        var animationParams = {
+            keyframe: 'WinJSContrib-EnterPage',
+            property: equivalents.transform.cssName,
+            delay: stagger,
+            duration: duration || options.duration || 600,
+            timing: options.easing || "cubic-bezier(0.1, 0.9, 0.2, 1)"
+        }
+
+        var promise1 = WinJS.UI.executeAnimation(elements, animationParams);
+
         var args = {
             property: "opacity",
-            delay: options.delay || staggerDelay(5, 83, 1, 333),
-            duration: duration || options.duration || 700,
+            delay: stagger,
+            duration: duration || options.duration || 600,
             timing: options.easing || "ease-out",
             to: 1
         };
 
-        return WinJS.UI.executeTransition(elements, args);
+        var promise2 = WinJS.UI.executeTransition(elements, args);
+
+        return WinJS.Promise.join([promise1, promise2]);
     }
 
     function slideAnim(element, keyframeName, isIn, options) {
@@ -111,7 +123,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
 
         var duration = options.duration || isIn ? 250 : 150;
         var delay = options.delay || 5;
-        var stagger = staggerDelay(delay, 83, 1, duration - 2 * delay);
+        var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
         var animationParams = {
             keyframe: keyframeName,
             property: equivalents.transform.cssName,
@@ -223,7 +235,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
     WinJSContrib.UI.Animation.tabExitPage = function (element, options) {
         var offsetArray;
         options = options || {};
-        var stagger = staggerDelay(options.delay || 5, 83, 1, 333)
+        var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
         var animationParams = {
             keyframe: "WinJSContrib-tabExitPage",
             property: equivalents.transform.cssName,
@@ -254,7 +266,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
     WinJSContrib.UI.Animation.tabEnterPage = function (element, options) {
         var offsetArray;
         options = options || {};
-        var stagger = staggerDelay(options.delay || 10, 83, 1, 333);
+        var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
         var promise1 = WinJS.UI.executeAnimation(
             element,
             {
@@ -286,7 +298,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
     WinJSContrib.UI.Animation.exitGrow = function (element, duration, options) {
         var offsetArray;
         options = options || {};
-        var stagger = staggerDelay(options.delay || 0, 10, 1, 50);
+        var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
         var promise1 = WinJS.UI.executeAnimation(
             element,
             {
@@ -318,7 +330,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
     WinJSContrib.UI.Animation.exitShrink = function (element, duration, options) {
         var offsetArray;
         options = options || {};
-        var stagger = staggerDelay(options.delay || 10, 30, 1, 50);
+        var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
         var promise1 = WinJS.UI.executeAnimation(
             element,
             {
@@ -349,12 +361,13 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
     WinJSContrib.UI.Animation.shrinkAndFall = WinJS.Utilities.markSupportedForProcessing(function (element, options) {
         var offsetArray;
         var options = options || {};
+        var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
         var promise1 = WinJS.UI.executeAnimation(
             element,
             {
                 keyframe: "WinJSContrib-shrinkAndFall",
                 property: equivalents.transform.cssName,
-                delay: staggerDelay(10, 30, 1, 50),
+                delay: stagger,
                 duration: options.duration || 250,
                 timing: "ease-in"
             });
@@ -362,7 +375,7 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
             element,
             {
                 property: "opacity",
-                delay: staggerDelay(10, 30, 1, 50),
+                delay: stagger,
                 duration: options.duration || 250,
                 timing: "ease-in",
                 from: 1,
@@ -380,7 +393,11 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
     WinJSContrib.UI.Animation.enterShrink = function (element, duration, options) {
         var offsetArray;
         options = options || {};
-        var stagger = staggerDelay(options.delay || 10, 40, 1, 350);
+        var stagger = staggerDelay(
+            options.delay != undefined ? options.delay : 5,
+            options.itemdelay != undefined ? options.itemdelay : 83,
+            1,
+            options.maxdelay != undefined ? options.maxdelay : 333);
 
         var promise1 = WinJS.UI.executeAnimation(
             element,
