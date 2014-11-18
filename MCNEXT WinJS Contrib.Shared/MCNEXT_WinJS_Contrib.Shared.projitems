@@ -48,6 +48,9 @@
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flyoutpage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flyoutpage.css.map">
+      <DependentUpon>winjscontrib.ui.flyoutpage.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flyoutpage.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.globalprogress.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.globalprogress.less" />

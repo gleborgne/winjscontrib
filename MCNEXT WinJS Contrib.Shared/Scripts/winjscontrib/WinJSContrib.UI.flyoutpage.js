@@ -26,7 +26,6 @@
             var ctrl = this;
             ctrl.element = element || document.createElement('DIV');
             options = options || {};
-            ctrl.element.style.display = 'none';
 
             ctrl.element.mcnFlyoutPage = true;
             ctrl.element.winControl = ctrl;
@@ -219,18 +218,18 @@
                 }
 
                 this.dispatchEvent("beforeshow");
-                ctrl.element.style.display = '';
+                ctrl.element.classList.add('visible');
+                ctrl._wrapper.classList.add('visible');
                 ctrl._wrapper.style.opacity = '0';
-                ctrl._wrapper.style.display = '';
                 ctrl._overlay.style.opacity = '0';
-
+                ctrl._overlay.classList.add('visible');
                 WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
                 if (window.Windows && window.Windows.Phone)
                     Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
                 else
                     document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
 
-                WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, 250);
+                WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, 400);
 
                 var p = WinJS.Promise.wrap();
                 if (ctrl.contentCtrl && ctrl.contentCtrl.beforeShowContent) {
@@ -243,7 +242,7 @@
                     ctrl.calcAutosize();
                     return WinJS.Promise.timeout();
                 }).then(function () {
-                    return ctrl.enterAnimation(ctrl._wrapper)
+                    return ctrl.enterAnimation(ctrl._wrapper);
                 }).then(function () {
                     WinJSContrib.UI.FlyoutPage.openPages.push(ctrl);
                     if (ctrl.contentCtrl && ctrl.contentCtrl.aftershow) {
@@ -291,13 +290,15 @@
                 return WinJS.Promise.join([ctrl.exitAnimation(ctrl._wrapper), WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, 200)]).then(function () {
                     return WinJS.Promise.timeout(100);
                 }).then(function () {
-                    ctrl._wrapper.style.display = 'none';
+                    ctrl._wrapper.classList.remove('visible');
                     $('.mcn-flyoutpage-contentwrapper', ctrl.element).css('width', '').css('height', '');
                 }).then(function () {
                     var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
                     WinJSContrib.UI.FlyoutPage.openPages.splice(idx, 1);
-
-                    ctrl.element.style.display = 'none';
+                    ctrl._wrapper.style.opacity = '';
+                    ctrl._overlay.style.opacity = '';
+                    ctrl._overlay.classList.remove('visible');
+                    ctrl.element.classList.remove('visible');
                     if (ctrl.contentCtrl && ctrl.contentCtrl.afterhide) {
                         ctrl.contentCtrl.afterhide();
                     }
