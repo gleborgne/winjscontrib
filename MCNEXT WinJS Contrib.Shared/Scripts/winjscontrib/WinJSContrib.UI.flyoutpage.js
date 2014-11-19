@@ -360,8 +360,9 @@
                                 }
                             }
 
-                            ctrl.hide();
-                            WinJS.Navigation.navigate(target, actionArgs);
+                            ctrl.hide().then(function () {
+                                WinJS.Navigation.navigate(target, actionArgs);
+                            });
                         });
                     }
                 });
@@ -387,8 +388,10 @@
                                     return;
                                 }
                             }
-                            ctrl.hide();
-                            ctrl._content.winControl[actionName].bind(ctrl._content.winControl)({ elt: eltarg, args: actionArgs });
+
+                            ctrl.hide().then(function () {
+                                ctrl._content.winControl[actionName].bind(ctrl._content.winControl)({ elt: eltarg, args: actionArgs });
+                            });
                         });
                     }
                 });

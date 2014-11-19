@@ -4,11 +4,11 @@
   position: relative;
 }
 .mcn-navigator > .pagecontrol {
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
   position: absolute;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
 }
 .mcn-fullsize {
   width: 100%;
