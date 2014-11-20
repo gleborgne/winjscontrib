@@ -1,1 +1,0 @@
-﻿var DummyClass = WinJS.Binding.define({ firstName: 'John', lastName: 'Doe', phone: '00 00 00 00 00', mail: 'johndoe@me.com' });

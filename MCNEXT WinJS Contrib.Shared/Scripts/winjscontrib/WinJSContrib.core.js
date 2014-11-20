@@ -3,6 +3,9 @@
 //This code is provided as is and we could not be responsible for what you are making with it
 //project is available at http://winjscontrib.codeplex.com
 
+/**
+ * @fileOverview test from api
+ */
 
 if (!Object.map) {
     Object.map = function (obj, mapping) {
@@ -51,7 +54,6 @@ if (!String.prototype.padLeft) {
 }
 
 /**
- * WinJSContrib is a set of helpers, bindings, and controls for WinJS
  * @namespace WinJSContrib
  */
 var WinJSContrib = WinJSContrib || {};
@@ -480,31 +482,39 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
         return dataPromise.then(function (items) {
             var resultPromise = WinJS.Promise.wrap();
-            var promises = [];
+            var batcheditems = [];
             var results = [];
+            var hasErrors = false;
 
-            var queueBatch = function (p, batch) {
+            var queueBatch = function (p, items) {
+                //var batchresults = [];
                 return p.then(function (r) {
-                    return WinJS.Promise.join(batch).then(function (r) {
-                        results = results.concat(r);
+                    return WinJS.Promise.join(items.map(function(item){ return WinJS.Promise.as(promiseCallback(item)); })).then(function (results) {
+                        results = results.concat(results);
+                    }, function (errors) {
+                        results = results.concat(errors);
+                        hasErrors = true;
                     });
                 });
             }
 
             for (var i = 0, l = items.length; i < l; i++) {
-                promises.push(WinJS.Promise.as(promiseCallback(items[i])));
+                batcheditems.push(items[i]);
                 if (i > 0 && i % batchSize == 0) {
-                    resultPromise = queueBatch(resultPromise, promises);
-                    promises = [];
+                    resultPromise = queueBatch(resultPromise, batcheditems);
+                    batcheditems = [];
                 }
 
             }
 
-            if (promises.length) {
-                resultPromise = queueBatch(resultPromise, promises);
+            if (batcheditems.length) {
+                resultPromise = queueBatch(resultPromise, batcheditems);
             }
 
             return resultPromise.then(function () {
+                if (hasErrors)
+                    return WinJS.Promise.wrapError(results);
+
                 return results;
             });
         });
@@ -527,7 +537,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
     if (!String.prototype.startsWith) {
         String.prototype.startsWith = function (str) {
-            return WinJSContrib.Utils.startsWith(this, str);
+            return Utils.startsWith(this, str);
         };
     }
 
@@ -545,7 +555,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
     if (!String.prototype.endsWith) {
         String.prototype.endsWith = function (str) {
-            return WinJSContrib.Utils.endsWith(this, str);
+            return Utils.endsWith(this, str);
         };
     }
 
@@ -1024,7 +1034,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
     /**
      * get a function from an expression, for example 'page:myAction' will return the myAction function from the parent page.
-     * The returned function will be bound to it's owner. This function relies on {@link WinJSContrib.Utils.resolveValue}, see this for details about how data are crawled
+     * The returned function will be bound to it's owner. This function relies on {link WinJSContrib.Utils.resolveValue}, see this for details about how data are crawled
      * @param {HTMLElement} element DOM element to look
      * @param {string} text expression like 'page:something' or 'ctrl:something' or 'something'
      * @returns {function}

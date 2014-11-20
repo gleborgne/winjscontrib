@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MCNEXT WinJS Contrib", "MCN
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MCNEXT WinJS Contrib.Shared", "MCNEXT WinJS Contrib.Shared\MCNEXT WinJS Contrib.Shared.shproj", "{54087230-87DD-4A3A-BC3A-C939DB16EF31}"
 EndProject
-Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "MCNEXT.WinJS.Contrib.Cordova", "Cordova sample\MCNEXT.WinJS.Contrib.Cordova.jsproj", "{BAF4EBB2-F02F-4F4D-862E-64BD5C186EE1}"
+Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "MCNEXT.WinJS.Contrib.Cordova", "CordovaSample\MCNEXT.WinJS.Contrib.Cordova.jsproj", "{BAF4EBB2-F02F-4F4D-862E-64BD5C186EE1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
