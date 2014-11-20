@@ -33,13 +33,13 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         this.filters.onitemchanged = this.init.bind(this);
         this.filters.oniteminserted = this.init.bind(this);
         this.filters.onitemremoved = this.init.bind(this);
-        this._apply(options);
+        this.apply(options);
     },
     /**
      * @lends WinJSContrib.UI.DataSources.DataSourceManager.prototype
      */
     {
-        _apply: function (options) {
+        apply: function (options) {
             options = options || {};
 
             if (options.field) this.field = options.field;
@@ -83,7 +83,7 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
             set: function (val) {
                 if (val && val != this._groupKind) {
                     this._groupKind = val;
-                    this._apply({ groupKind: val });
+                    this.apply({ groupKind: val });
                     this.init();
                 }
             }
