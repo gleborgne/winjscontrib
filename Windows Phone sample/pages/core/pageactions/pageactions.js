@@ -3,7 +3,7 @@
 
     WinJS.UI.Pages.define("/pages/core/pageactions/pageactions.html", {
         alertMe: function (pageActionArg) {
-            WinJSContrib.Alert.messageBox({
+            WinJSContrib.Alerts.messageBox({
                 title: pageActionArg.args.title,
                 content: "Do you like what you have seen of WinJS contrib so far ?",
                 commands: [    // maximun 2 commands on WP

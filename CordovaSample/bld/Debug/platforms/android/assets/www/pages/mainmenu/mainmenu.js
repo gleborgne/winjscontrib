@@ -45,7 +45,7 @@
             var ctrl = this;
             var items = $('.menu-item', ctrl.element);
             items.css('opacity', '0');
-            WinJS.Promise.timeout(180).then(function () {
+            WinJS.Promise.timeout(120).then(function () {
                 WinJS.UI.Animation.enterPage(items.toArray());
             });
             

@@ -57,13 +57,13 @@
 
 
         simpleMessage: function () {
-            WinJSContrib.Alert.message("this is a simple message", "this is content for a simple message").done(function () {
+            WinJSContrib.Alerts.message("this is a simple message", "this is content for a simple message").done(function () {
                 console.log("message was shown");
             });
         },
 
         confirm: function () {
-            WinJSContrib.Alert.confirm("this is a confirmation request", "are you sure ?", "Yes", "No").done(function confirmed(e) {
+            WinJSContrib.Alerts.confirm("this is a confirmation request", "are you sure ?", "Yes", "No").done(function confirmed(e) {
                 console.log("confirmed");
             }, function canceled(e) {
                 console.log("canceled");
@@ -71,7 +71,7 @@
         },
 
         rawMessage: function () {
-            WinJSContrib.Alert.messageBox({
+            WinJSContrib.Alerts.messageBox({
                 title: "this is a confirmation request",
                 content: "are you sure ?",
                 commands: [     // maximun 2 commands on WP
@@ -95,15 +95,15 @@
         },
 
         simpleToast: function () {
-            WinJSContrib.Alert.toast("this is a toast");
+            WinJSContrib.Alerts.toast("this is a toast");
         },
 
         simpleToastWithPic: function () {
-            WinJSContrib.Alert.toast("this is a toast", "ms-appx:///images/logo.png");
+            WinJSContrib.Alerts.toast("this is a toast", "ms-appx:///images/logo.png");
         },
 
         rawToast: function () {
-            WinJSContrib.Alert.toastNotification({
+            WinJSContrib.Alerts.toastNotification({
                 text: "this is a toast...",
                 text2: "...really",
                 template: Windows.UI.Notifications.ToastTemplateType.toastImageAndText02,

@@ -12,7 +12,7 @@
             this.element = element || document.createElement('DIV');
             this.eventTracker = new WinJSContrib.UI.EventTracker();
             options = options || {};
-            options.path = options.path || "ms-appx-web:///scripts/winjscontrib/WinJSContrib.dynamicscripts.html";
+            options.path = options.path || "ms-appx-web:///scripts/winjscontrib/winjscontrib.dynamicscripts.html";
             this.element.winControl = this;
             this.sessions = {};
             this.element.classList.add('win-disposable');

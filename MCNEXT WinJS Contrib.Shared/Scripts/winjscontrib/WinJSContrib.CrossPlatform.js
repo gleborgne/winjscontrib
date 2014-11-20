@@ -74,9 +74,9 @@ WinJSContrib.CrossPlatform = WinJSContrib.Cross || {};
         });
     }
 
-    WinJSContrib.CrossPlatform.Alerts = WinJSContrib.CrossPlatform.Alerts || {};
+    WinJSContrib.Alerts = WinJSContrib.Alerts || {};
 
-    WinJSContrib.CrossPlatform.Alerts.messageBox = function messageBox(opt, isPhone) {
+    WinJSContrib.Alerts.messageBox = function messageBox(opt, isPhone) {
         if (opt) {
             return new WinJS.Promise(function (complete, error) {
                 var title = "";
@@ -133,13 +133,13 @@ WinJSContrib.CrossPlatform = WinJSContrib.Cross || {};
         return WinJS.Promise.wrapError("you must specify commands as an array of objects with properties text and callback such as {text: '', callback: function(c){}}");
     };
 
-    WinJSContrib.CrossPlatform.Alerts.message = function (title, content) {
-        return WinJSContrib.CrossPlatform.Alerts.messageBox({ title: title, content: content });
+    WinJSContrib.Alerts.message = function (title, content) {
+        return WinJSContrib.Alerts.messageBox({ title: title, content: content });
     }
 
-    WinJSContrib.CrossPlatform.Alerts.confirm = function (title, content, yes, no) {
+    WinJSContrib.Alerts.confirm = function (title, content, yes, no) {
         return new WinJS.Promise(function (complete, error) {
-            WinJSContrib.CrossPlatform.Alerts.messageBox({
+            WinJSContrib.Alerts.messageBox({
                 title: title,
                 content: content,
                 commands: [
@@ -161,7 +161,7 @@ WinJSContrib.CrossPlatform = WinJSContrib.Cross || {};
         });
     }
 
-    WinJSContrib.CrossPlatform.Alerts.toastNotification = function (data) {
+    WinJSContrib.Alerts.toastNotification = function (data) {
         if (window.plugin && window.plugin.notification) {
             window.plugin.notification.local.add({
                 id: WinJSContrib.Utils.guid(), // A unique id of the notifiction
@@ -181,7 +181,7 @@ WinJSContrib.CrossPlatform = WinJSContrib.Cross || {};
         }
     }
 
-    WinJSContrib.CrossPlatform.Alerts.toast = function (text, picture) {
-        Alert.toastNotification({ text: text, picture: picture });
+    WinJSContrib.Alerts.toast = function (text, picture) {
+        WinJSContrib.Alerts.toastNotification({ text: text, picture: picture });
     }
 })();

@@ -1,4 +1,4 @@
-﻿/// <reference path="../../../Scripts/winjscontrib/WinJSContrib.search.js" />
+﻿/// <reference path="../../../Scripts/winjscontrib/winjscontrib.search.js" />
 
 (function () {
     "use strict";

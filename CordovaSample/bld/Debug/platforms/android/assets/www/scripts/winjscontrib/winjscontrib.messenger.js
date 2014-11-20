@@ -31,7 +31,7 @@ var WinJSContrib = WinJSContrib || {};
     /**
      * default path for smart worker js file
      */
-    WinJSContrib.Messenger.SmartWorkerPath = '/scripts/winjscontrib/WinJSContrib.messenger.worker.js';
+    WinJSContrib.Messenger.SmartWorkerPath = '/scripts/winjscontrib/winjscontrib.messenger.worker.js';
 
     /**
      * @classdesc

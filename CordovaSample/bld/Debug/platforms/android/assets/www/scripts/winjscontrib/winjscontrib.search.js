@@ -28,7 +28,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     /**
      * path for search worker script file
      */
-    WinJSContrib.Search.workerPath = './scripts/winjscontrib/WinJSContrib.search.worker.js';
+    WinJSContrib.Search.workerPath = './scripts/winjscontrib/winjscontrib.search.worker.js';
 
     /**
      * group of indexes

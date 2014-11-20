@@ -123,6 +123,15 @@
     <Content Include="..\MCNEXT WinJS Contrib.Shared\css\items.min.css">
       <Link>css\items.min.css</Link>
     </Content>
+    <Content Include="..\MCNEXT WinJS Contrib.Shared\pages\core\pageactions\pageactions.css">
+      <Link>pages\core\pageactions\pageactions.css</Link>
+    </Content>
+    <Content Include="..\MCNEXT WinJS Contrib.Shared\pages\core\pageactions\pageactions.html">
+      <Link>pages\core\pageactions\pageactions.html</Link>
+    </Content>
+    <Content Include="..\MCNEXT WinJS Contrib.Shared\pages\core\pageactions\pageactions.js">
+      <Link>pages\core\pageactions\pageactions.js</Link>
+    </Content>
     <Content Include="..\MCNEXT WinJS Contrib.Shared\pages\datasources\customcontrol\datasources.css">
       <Link>pages\datasources\customcontrol\datasources.css</Link>
     </Content>
@@ -131,6 +140,9 @@
     </Content>
     <Content Include="..\MCNEXT WinJS Contrib.Shared\pages\datasources\customcontrol\datasources.js">
       <Link>pages\datasources\customcontrol\datasources.js</Link>
+    </Content>
+    <Content Include="..\MCNEXT WinJS Contrib.Shared\pages\datasources\movies.js">
+      <Link>pages\datasources\movies.js</Link>
     </Content>
     <Content Include="..\MCNEXT WinJS Contrib.Shared\pages\datasources\simple\datasources.css">
       <Link>pages\datasources\simple\datasources.css</Link>
@@ -215,8 +227,6 @@
     <Content Include="images\AppLogoSmallWhite.png" />
     <Content Include="images\SplashScreen.png" />
     <Content Include="pages\alerts\alerts.js" />
-    <Content Include="pages\core\pageactions\pageactions.js" />
-    <Content Include="pages\datasources\movies.js" />
     <Content Include="pages\home\home.css" />
     <Content Include="pages\home\home.css.map">
       <DependentUpon>home.css</DependentUpon>
@@ -319,6 +329,7 @@
     <Content Include="scripts\winjscontrib\winjscontrib.winrt.multipleviews.main.js" />
     <Content Include="scripts\winjscontrib\winjscontrib.winrt.ssm.js" />
     <Content Include="templates\article.html" />
+    <Folder Include="pages\core\pageactions\" />
     <Folder Include="pages\datasources\customcontrol\" />
     <Folder Include="pages\datasources\simple\" />
     <None Include="PreBuildCordova.bat" />

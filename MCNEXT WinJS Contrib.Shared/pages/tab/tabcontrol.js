@@ -46,7 +46,7 @@
         },
 
         actionClicked: function(ctrl, tab){
-            WinJSContrib.Alert.message('tab action', 'you clicked ' + tab.item.title);
+            WinJSContrib.Alerts.message('tab action', 'you clicked ' + tab.item.title);
         }
     });
 })();

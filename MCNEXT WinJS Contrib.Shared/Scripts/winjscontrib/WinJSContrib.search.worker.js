@@ -15,7 +15,7 @@ var worker = this;
     importScripts('//Microsoft.WinJS.2.0/js/base.js');
     importScripts('/scripts/winjscontrib/winjscontrib.core.js');
     importScripts('/scripts/winjscontrib/winjscontrib.messenger.js');
-    importScripts('/scripts/winjscontrib/WinJSContrib.search.js');
+    importScripts('/scripts/winjscontrib/winjscontrib.search.js');
 
     var idx = null;
     var messenger = new WinJSContrib.Messenger(worker, worker);
