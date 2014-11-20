@@ -8,6 +8,13 @@
 
     WinJS.Namespace.define("WinJSContrib.UI", {
         GridControl: WinJS.Class.define(
+            /**
+             * @classdesc
+             * Control that layout it's children with different algorythms. Used with {@link WinJSContrib.UI.Hub}, The Grid could rely on multipass rendering to optimize large hub pages load.
+             * @class WinJSContrib.UI.GridControl
+             * @param {HTMLElement} element DOM element containing the control
+             * @param {Object} options
+             */
             function GridControl(element, options) {
                 var grid = this;
                 options = options || {};
@@ -36,7 +43,16 @@
                     cellWidth: (options.cellWidth) ? options.cellWidth : undefined,
                     cellHeight: (options.cellHeight) ? options.cellHeight : undefined,
                 };
-            }, {
+            },
+            /**
+             * @lends WinJSContrib.UI.GridControl.prototype
+             */
+            {
+                /**
+                 * render HTML for items
+                 * @param {Array} items array of items to render
+                 * @param {Object} renderOptions
+                 */
                 prepareItems: function (items, renderOptions) {
                     var parent = WinJSContrib.Utils.getParentControlByClass('mcn-layout-ctrl', this.element);
                     var parentMultipass = undefined;
@@ -46,14 +62,23 @@
 
                     this.renderer.prepareItems(items, renderOptions);
                 },
+
                 pageLayout: function () {
                     if (this.autolayout) {
                         this.layout();
                     }
                 },
+
+                /**
+                 * force items content to render
+                 */
                 renderItemsContent: function () {
                     this.renderer.renderItemsContent();
                 },
+
+                /**
+                 * Clear all layout and position styles on items
+                 */
                 clear: function () {
                     var ctrl = this;
                     ctrl.$element.css('position', '').css('display', '').css('width', '').css('height', '');
@@ -61,6 +86,7 @@
                         $(this).css('position', '').css('left', '').css('top', '').css('width', '').css('height', '');
                     });
                 },
+
                 fill: function (matrix, x, y, w, h) {
                     if (matrix.length < x + w) {
                         for (var i = matrix.length ; i < x + w ; i++) {
@@ -265,6 +291,10 @@
                     var elementHeight = gridCellsMatrix.length * (cellH + space);
                     ctrl.$element.css('height', elementHeight + 'px');
                 },
+
+                /**
+                 * layout content items
+                 */
                 layout: function () {
                     var ctrl = this;
                     var oldlayout = ctrl.data;
@@ -297,6 +327,10 @@
                         }
                     }
                 },
+
+                /**
+                 * update grid layout
+                 */
                 updateLayout: function (element, viewState, lastViewState) {
                     var ctrl = this;
                     ctrl.clear();
@@ -304,6 +338,10 @@
                         ctrl.layout();
                     });
                 },
+
+                /**
+                 * get layout applicable to the current context
+                 */
                 getLayout: function () {
                     var ctrl = this;
                     var matchingLayout = undefined;
@@ -333,6 +371,9 @@
                     return JSON.parse(JSON.stringify(matchingLayout));
                 },
 
+                /**
+                 * Release grid resources
+                 */
                 dispose: function () {
                     if (WinJS.Utilities.disposeSubTree)
                         WinJS.Utilities.disposeSubTree(this.element);

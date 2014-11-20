@@ -35,6 +35,9 @@
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.css.map">
+      <DependentUpon>winjscontrib.ui.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.dataform.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.datetimescroller.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.less" />
@@ -45,6 +48,9 @@
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flyoutpage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flyoutpage.css.map">
+      <DependentUpon>winjscontrib.ui.flyoutpage.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flyoutpage.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.globalprogress.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.globalprogress.less" />
@@ -159,9 +165,12 @@
     <Content Include="$(MSBuildThisFileDirectory)pages\multiview\multiview.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\multiview\multiview.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\multiview\multiview.js" />
-    <Content Include="$(MSBuildThisFileDirectory)pages\search\search.css" />
-    <Content Include="$(MSBuildThisFileDirectory)pages\search\search.html" />
-    <Content Include="$(MSBuildThisFileDirectory)pages\search\search.js" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchAsync\search.css" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchAsync\search.html" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchAsync\search.js" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchClassic\search.css" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchClassic\search.html" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\search\searchClassic\search.js" />
     <Content Include="$(MSBuildThisFileDirectory)pages\semanticzoom\semanticzoom.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\semanticzoom\semanticzoom.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\semanticzoom\semanticzoom.js" />
@@ -273,8 +282,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.globalProgress.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.grid.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.hubcontrol.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.messenger.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.messenger.worker.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.messenger.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.messenger.worker.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.multipass-renderer.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.multipleviews.child.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.multipleviews.js" />
@@ -285,7 +294,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.smartlistlayout.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.swipeslide.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.tabcontrol.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.bindings.twowaybindings.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.core.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.UI.flyoutpage.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\WinJSContrib.WinRT.core.js" />

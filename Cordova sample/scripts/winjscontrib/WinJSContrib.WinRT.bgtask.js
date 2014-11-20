@@ -4,9 +4,10 @@
 //project is available at http://winjscontrib.codeplex.com
 
 var WinJSContrib = WinJSContrib || {};
-WinJSContrib.BgTask = WinJSContrib.BgTask || {};
+WinJSContrib.WinRT = WinJSContrib.WinRT || {};
+WinJSContrib.WinRT.BgTask = WinJSContrib.WinRT.BgTask || {};
 
-(function (BgTask) {
+(function () {
     "use strict";
 
     function hasTask(taskName) {
@@ -29,7 +30,7 @@ WinJSContrib.BgTask = WinJSContrib.BgTask || {};
         return false;
     }
 
-    BgTask.registerBackgroundTask = function (taskEntryPoint, taskName, triggers, conditions) {
+    WinJSContrib.WinRT.BgTask.registerBackgroundTask = function (taskEntryPoint, taskName, triggers, conditions) {
         var existing = hasTask(taskName);
         if (existing) {
             attachProgressAndCompletedHandlers(existing);
@@ -73,17 +74,17 @@ WinJSContrib.BgTask = WinJSContrib.BgTask || {};
         });
     }
 
-    BgTask.registerTimeTriggerBackgroundTask = function (taskEntryPoint, taskName, triggers, conditions) {
+    WinJSContrib.WinRT.BgTask.registerTimeTriggerBackgroundTask = function (taskEntryPoint, taskName, triggers, conditions) {
         try {
             //cet appel plante dans le simulateur
             Windows.ApplicationModel.Background.BackgroundExecutionManager.requestAccessAsync().done(function (bgmgr) {
                 var e = bgmgr;
                 if (bgmgr === Windows.ApplicationModel.Background.BackgroundAccessStatus.allowedWithAlwaysOnRealTimeConnectivity || bgmgr === Windows.ApplicationModel.Background.BackgroundAccessStatus.allowedMayUseActiveRealTimeConnectivity) {
-                    BgTask.registerBackgroundTask(taskEntryPoint, taskName, triggers, conditions);
+                    WinJSContrib.WinRT.BgTask.registerBackgroundTask(taskEntryPoint, taskName, triggers, conditions);
                 }
             });
         } catch (exception) {
 
         }
     }
-})(WinJSContrib.BgTask);
+})();

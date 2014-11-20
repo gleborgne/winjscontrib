@@ -1,7 +1,5 @@
-﻿// For an introduction to the Blank template, see the following documentation:
-// http://go.microsoft.com/fwlink/?LinkID=397704
-// To debug code on page load in Ripple or on Android devices/emulators: launch your app, set breakpoints, 
-// and then run "window.location.reload()" in the JavaScript Console.
+﻿/// <reference path="winjscontrib/WinJSContrib.CrossPlatform.js" />
+
 (function () {
     "use strict";
 
@@ -25,13 +23,17 @@
                 if (!window.clearImmediate)
                     window.clearImmediate = function (handler) { clearTimeout(handler); }
             }
+            if (!window.toStaticHTML) {
+                window.toStaticHTML = function (html) { return html; }
+            }
+
             var dataloading = function () {
                 return WinJS.Promise.timeout(2000);
             }
-            if (MCNEXT.Utils.isMobile.Android()) {
+            if (WinJSContrib.CrossPlatform.isMobile.Android()) {
                 document.getElementById('phone').classList.add('android');
             }
-            else if (MCNEXT.Utils.isMobile.iOS()) {
+            else if (WinJSContrib.CrossPlatform.isMobile.iOS()) {
                 document.getElementById('phone').classList.add('iOS');
                 StatusBar.hide();
             }
@@ -42,21 +44,21 @@
             var preparepage = WinJS.UI.processAll().then(function () {
                 return WinJS.Resources.processAll()
             }).then(function () {
-                return MCNEXT.UI.Application.splashscreen.init(args);
+                return WinJSContrib.UI.Application.splashscreen.init(args);
             });
 
             args.setPromise(preparepage);
             ui.disableAnimations();
             preparepage.then(function () {
-                return MCNEXT.UI.Application.splashscreen.show(dataloading());
+                return WinJSContrib.UI.Application.splashscreen.show(dataloading());
             }).then(function appInitSuccess() {
                 return WinJS.Navigation.navigate("./pages/home/home.html")
             }, function appInitError(err) {
                 return WinJS.Navigation.navigate("./pages/errorPage/errorPage.html");
             }).then(function () {
                 ui.enableAnimations();
-                MCNEXT.UI.Application.splashscreen.hide();
-                MCNEXT.UI.Application.navigator.addEventListener('pageContentReady', function (arg) {
+                WinJSContrib.UI.Application.splashscreen.hide();
+                WinJSContrib.UI.Application.navigator.addEventListener('pageContentReady', function (arg) {
                     setImmediate(function () {
                         $('.codelink', arg.detail.page.element).addClass('visible').tap(function (elt) {
                             var target = $(elt).data('codepage')
@@ -71,7 +73,7 @@
                 if (!WinJS.Navigation.isFlyout) {
                     if (WinJS.Navigation.canGoBack)
                         WinJS.Navigation.back();
-                    else if (MCNEXT.UI.FlyoutPage.openPages.length > 0) {
+                    else if (WinJSContrib.UI.FlyoutPage.openPages.length > 0) {
                         //do nothing
                     } else {
                         navigator.app.exitApp();

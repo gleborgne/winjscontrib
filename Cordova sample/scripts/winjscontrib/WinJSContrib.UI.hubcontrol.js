@@ -8,7 +8,12 @@
 
     WinJS.Namespace.define("WinJSContrib.UI", {
         HubControl: WinJS.Class.define(
-            // Define the constructor function for the PageControlNavigator.
+            /**
+             * Hub control replacement intended to be used with {@link WinJSContrib.UI.GridControl}
+             * @class WinJSContrib.UI.HubControl
+             * @param {HTMLElement} element DOM element containing the control
+             * @param {Object} options
+             */
             function HubControl(element, options) {
                 var hub = this;
                 options = options || {};
@@ -38,10 +43,18 @@
                 //    hub.autoRegisterSections();
                 //    //hub.layout(Windows.UI.ViewManagement.ApplicationView.value);
                 //});
-            }, {
+            },
+            /**
+             * @lends WinJSContrib.UI.HubControl.prototype
+             */
+            {
                 prepare: function () {
                     this.autoRegisterSections();
                 },
+
+                /**
+                 * configure multipass rendering (for using in conjunction with {@link WinJSContrib.UI.GridControl}
+                 */
                 multipass: {
                     get: function () {
                         return this._multipass;
@@ -56,6 +69,7 @@
                         }
                     }
                 },
+
                 autoRegisterSections: function () {
                     var hub = this;
                     hub.sections = [];
@@ -68,11 +82,13 @@
                         }
                     }
                 },
+
                 registerSection: function (selector, parentElement) {
                     var sec = new Section(selector, parentElement);
                     this.sections.push(sec);
                     return sec;
                 },
+
                 layout: function (viewState) {
                     var hub = this;
                     hub.element.style.display = '';

@@ -1,7 +1,7 @@
-﻿.mcn-cordova.mcn-globalprogress-ctrl.top-wide {
+﻿.mcn-xplat.mcn-globalprogress-ctrl.top-wide {
   top: -5px;
 }
-.mcn-cordova.mcn-globalprogress-ctrl.top-wide .mcn-globalprogress-text {
+.mcn-xplat.mcn-globalprogress-ctrl.top-wide .mcn-globalprogress-text {
   margin-top: 5px;
 }
 .mcn-globalprogress-ctrl progress {

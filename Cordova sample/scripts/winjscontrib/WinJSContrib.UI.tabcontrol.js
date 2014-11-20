@@ -16,8 +16,8 @@
                 options = options || {};
                 ctrl.element = element || document.createElement("div");
                 ctrl.element.className = 'mcn-tabpages ' + ctrl.element.className;
-                if (WinJSContrib.CrossPlatform)
-                    WinJSContrib.CrossPlatform.cordovaClass(ctrl.element.classList);
+                if (WinJSContrib.CrossPlatform && WinJSContrib.CrossPlatform.crossPlatformClass)
+                    WinJSContrib.CrossPlatform.crossPlatformClass(ctrl.element);
                 ctrl.tabHeader = options.header || element.querySelector('.mcn-tabpages-header');
                 ctrl.tabHeaderTemplate = options.headerTemplate;
                 ctrl.tabContent = options.content || element.querySelector('.mcn-tabpages-content');
@@ -34,7 +34,8 @@
                     ctrl.tabContent.className = 'mcn-tabpages-content';
                     ctrl.element.appendChild(ctrl.tabContent);
                 }
-                ctrl.navigator = new WinJSContrib.UI.PageControlNavigator(ctrl.tabContent, { global: false, delay: 40 });
+                ctrl.navigator = new WinJSContrib.UI.PageControlNavigator(ctrl.tabContent, { global: false, delay: 10 });
+                ctrl.navigator.animationWaitForPreviousPageClose = false;
                 ctrl.navigator.animations.exitPage = WinJSContrib.UI.Animation.tabExitPage;
                 ctrl.navigator.animations.enterPage = WinJSContrib.UI.Animation.tabEnterPage;
 
@@ -83,7 +84,7 @@
                         ctrl.right = 'right';
                     }
                     ctrl.swipeSlide = new WinJSContrib.UI.SwipeSlide(ctrl.tabContent);
-                    ctrl.navigator.animations.exitPage = WinJSContrib.UI.Animation.fadeOut;
+                    ctrl.navigator.animations.exitPage = function (elt) { return WinJSContrib.UI.Animation.fadeOut(elt, 100) };
 
                     ctrl.swipeSlide.onswipe = function (arg) {
                         if (ctrl.currentTab != null)

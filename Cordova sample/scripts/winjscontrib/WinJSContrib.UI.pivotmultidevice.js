@@ -14,7 +14,7 @@
                 this.element.classList.add('win-disposable');
                 var ctrl = this;
                 WinJS.UI.process(ctrl.element).then(function () {
-                    if (WinJSContrib.Utils.isMobile.Android() || WinJSContrib.Utils.isMobile.iOS()) {
+                    if (WinJSContrib.CrossPlatform && (WinJSContrib.CrossPlatform.isMobile.Android() || WinJSContrib.CrossPlatform.isMobile.iOS())) {
                         var pageHub = element.parentElement.querySelector('.win-pivot-viewport');
                         ctrl.pivotviewport = element.querySelector('.win-pivot-viewport');
                         //ctrl.element.winControl.onitemanimationstart = function () {

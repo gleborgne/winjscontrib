@@ -9,8 +9,8 @@
     <script src="//Microsoft.Phone.WinJS.2.1/js/ui.js"></script>-->
 
     <link href="../../css/default.css" rel="stylesheet" />
-    <link href="./home.css" rel="stylesheet" />
-    <script src="./home.js"></script>
+    <link href="home.css" rel="stylesheet" />
+    <script src="home.js"></script>
 </head>
 <body>
     <!-- The content that will be loaded and displayed. -->
@@ -21,9 +21,9 @@
             </h1>
         </header>
         <section aria-label="Main content" role="main">
-            <div data-win-control="MCNEXT.UI.PivotMultiDevice" id="pageHub" class="mcn-fullsize">
+            <div data-win-control="WinJSContrib.UI.PivotMultiDevice" id="pageHub" class="mcn-fullsize">
                 <div class="listviewpivotitem" id="sectionIntro" data-win-control="WinJS.UI.PivotItem" data-win-options="{ 'header': 'What is it ?', managedLV: true }">
-                    <div class="mcn-hub-section-content" data-win-control="MCNEXT.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
                         <div class="sectionSummary">
                             <p>WinJS Contrib is a set of tools, helpers and controls to complement WinJS, and help you build native HTML5 applications for Windows 8 and Windows Phone 8.1.</p>
                             <p>Embedded in Windows, and soon being available separately, WinJS is a great framework to build your native applications, but it lacks some features that we find valuable for expressiveness or productivity.</p>
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="listviewpivotitem" id="sectionBindings" data-win-control="WinJS.UI.PivotItem" data-win-options="{ 'header': 'Core'}">
-                    <div class="mcn-hub-section-content" data-win-control="MCNEXT.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
                         <div class="sectionSummary">
                             <p>The core package contains many useful bits, like helpers and custom bindings.</p>
                             <p>Those Bindings help provide some common feature (ellipses on text, dates, images, etc). You will also find some two way binding to help you manage dataforms</p>
@@ -75,7 +75,7 @@
                 </div>
 
                 <div class="listviewpivotitem" id="sectionCore" data-win-control="WinJS.UI.PivotItem" data-win-options="{ 'header': 'Navigator', managedLV: true }">
-                    <div class="mcn-hub-section-content" data-win-control="MCNEXT.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
                         <div class="sectionSummary">
                             <p>Our custom navigator adds small features aggregated to your pages through a custom control. This navigator manages a lot more than the one you find in Visual Studio project templates.</p>
                             <p>With this custom navigator, you will have exit page transitions, binding for interactive elements on page's functions, or manage your event listeners to avoid memory leaks.</p>
@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="listviewpivotitem" id="sectionListView" data-win-control="WinJS.UI.PivotItem" data-win-options="{ 'header': 'ListView'}">
-                    <div class="mcn-hub-section-content" data-win-control="MCNEXT.UI.GridControl" data-win-options="{layouts: HomeGridLayout}">
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{layouts: HomeGridLayout}">
                         <div class="link big" data-page-link="./pages/listlayout/home.html">
                             <h3>Declarative layout</h3>
                             <p>Ever wanted to manage ListView layouts without code when your screen resize ?</p>
@@ -112,7 +112,7 @@
                 </div>
                 <!--
                 <div class="listviewpivotitem" id="sectionGrid" data-win-control="WinJS.UI.PivotItem" data-win-options="{ 'header': 'Grid samples (WinJSContrib.Grid)'}">
-                    <div class="mcn-hub-section-content" data-win-control="MCNEXT.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
                         <div class="sectionSummary">
                             <p>This control helps you layout items based on a grid matrix, or flexbox. With the grid matrix, items will be arranged to fill all spaces.</p>
                             <p>If the grid is used with the custom navigator, you will not even have to think about changing the layout on screen resize.</p>
@@ -130,7 +130,7 @@
                 </div>
 
                 <div class="listviewpivotitem" id="sectionHub" data-win-control="WinJS.UI.PivotItem" data-win-options="{ 'header': 'Hub samples (WinJSContrib.Hub)'}">
-                    <div class="mcn-hub-section-content" data-win-control="MCNEXT.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
                         <div class="sectionSummary">
                             <p>This control is a hub control alternative. It's meant to be used in conjonction with the custom navigator because it relies on the page events to orchestrate the building of the page.</p>
                             <p>When you navigate, the hub remember your position when you get back.</p>
@@ -161,7 +161,7 @@
                 </div>
                            -->
                 <div class="listviewpivotitem" id="sectionDataForms" data-win-control="WinJS.UI.PivotItem" data-win-options="{ 'header': 'Data forms'}">
-                    <div class="mcn-hub-section-content" data-win-control="MCNEXT.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{ layouts: HomeGridLayout }">
                         <div class="sectionSummary">
                             <p>This control is for managing and styling data forms.</p>
                             <p>It wraps form validation, error notifications, and a small css framework to layout your dataform</p>
@@ -174,7 +174,7 @@
 
 
                 <!--  <div class="listviewpivotitem" id="sectionChildViewFlyout" data-win-control="WinJS.UI.PivotItem" data-win-options="{ 'header': 'ChildView Flyout (WinJSContrib.ChildViewFlyout)'}">
-                    <div class="mcn-hub-section-content" data-win-control="MCNEXT.UI.GridControl" data-win-options="{layouts: HomeGridLayout}">
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{layouts: HomeGridLayout}">
                         <div class="sectionSummary">
                             <p>This control is intended to provide a sub navigation system. A child view is opening as a side flyout and is based on the custom navigator provided in WinJS Contrib.</p>
                             <p>It's very usefull in a lot of user experience scenarios where a WinJS flyout is to small or to limited, like master-detail views, picking an item in a list, etc.</p>
@@ -188,7 +188,7 @@
                     </div>
                 </div>  -->
                 <div class="listviewpivotitem" id="sectionMiscControls" data-win-control="WinJS.UI.PivotItem" data-win-options="{ 'header': 'Other controls'}">
-                    <div class="mcn-hub-section-content" data-win-control="MCNEXT.UI.GridControl" data-win-options="{layouts: HomeGridLayout}">
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{layouts: HomeGridLayout}">
                         <div class="link" data-page-link="./pages/tab/tabcontrol.html">
                             tab control <p>loading tabs from external child pages</p>
                         </div>
@@ -199,7 +199,7 @@
                     </div>
                 </div>
                 <!--<div class="listviewpivotitem" id="sectionMiscHelpers" data-win-control="WinJS.UI.PivotItem" data-win-options="{ 'header': 'Helpers'}">
-                    <div class="mcn-hub-section-content" data-win-control="MCNEXT.UI.GridControl" data-win-options="{layouts: HomeGridLayout}">
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{layouts: HomeGridLayout}">
                         <div class="link big" data-page-link="./pages/multiview/multiview.html">
                             <h3>multi-views</h3>
                             <p>objects to help manage and bootstrap multi-view implementation</p>
@@ -213,7 +213,7 @@
 
                 <div class="listviewpivotitem" id="sectionMisc" data-win-control="WinJS.UI.PivotItem" data-win-options="{ 'header': 'Search (WinJSContrib.Search)'}">
                     <h2>Search (WinJSContrib.Search)</h2>
-                    <div class="mcn-hub-section-content" data-win-control="MCNEXT.UI.GridControl" data-win-options="{layouts: HomeGridLayout}">
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{layouts: HomeGridLayout}">
                         <div class="link" data-page-link="./pages/search/search.html">
                             index and search content
                         </div>

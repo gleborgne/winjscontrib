@@ -1,7 +1,7 @@
 ﻿importScripts("//Microsoft.WinJS.2.0/js/base.js");
-importScripts("/Scripts/winjscontrib/WinJSContrib.ui.messenger.js");
+importScripts("/Scripts/winjscontrib/WinJSContrib.messenger.js");
 
-var messenger = new WinJSContrib.UI.Messenger(this, this);
+var messenger = new WinJSContrib.Messenger(this, this);
 
 //functions added on the messenger can be called remotely
 messenger.applyance = function (arg) {

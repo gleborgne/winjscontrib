@@ -35,17 +35,17 @@
             width: 30px;
             top: 15px;
             height: 30px;
-            background: #3498db;
+            background: rgba(255,255,255,1);
             border-radius: 50px;
-            -webkit-animation: cordova-ring 1.5s infinite linear;
+            -webkit-animation: cordova-ring 3s infinite linear;
         }
 
         .cordova-ring:after {
             position: absolute;
             width: 50px;
             height: 50px;
-            border-top: 10px solid #9b59b6;
-            border-bottom: 10px solid #9b59b6;
+            border-top: 10px solid rgba(255,255,255,1);
+            border-bottom: 10px solid rgba(255,255,255,1);
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
             border-radius: 50px;
@@ -54,38 +54,39 @@
             left: -20px;
             -webkit-animation: cordova-ring_after 1.5s infinite linear;
         }
+        
+@-webkit-keyframes cordova-ring {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
 
-        @-webkit-keyframes cordova-ring {
-            0% {
-                -webkit-transform: rotate(0deg);
-            }
+    50% {
+        -webkit-transform: rotate(180deg);
+        background: rgba(255,255,255,1);
+    }
 
-            50% {
-                -webkit-transform: rotate(180deg);
-                background: #2ecc71;
-            }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
 
-            100% {
-                -webkit-transform: rotate(360deg);
-            }
-        }
+@-webkit-keyframes cordova-ring_after {
+    0% {
+        border-top: 10px solid rgba(255,255,255,1);
+        border-bottom: 10px solid rgba(255,255,255,1);
+    }
 
-        @-webkit-keyframes cordova-ring_after {
-            0% {
-                border-top: 10px solid #9b59b6;
-                border-bottom: 10px solid #9b59b6;
-            }
+    50% {
+        border-top: 10px solid rgba(255,255,255,0.2);
+        border-bottom: 10px solid rgba(255,255,255,0.2);
+        -webkit-transform: scale(1.2);
+    }
 
-            50% {
-                border-top: 10px solid #3498db;
-                border-bottom: 10px solid #3498db;
-            }
-
-            100% {
-                border-top: 10px solid #9b59b6;
-                border-bottom: 10px solid #9b59b6;
-            }
-        }
+    100% {
+        border-top: 10px solid rgba(255,255,255,1);
+        border-bottom: 10px solid rgba(255,255,255,1);
+    }
+}
 
         progress {
             width: 40px;
@@ -103,6 +104,6 @@
 }
 
 
-.mcn-cordova.mcn-splashcreen #mcn-splashcreen-loader {
+.mcn-xplat.mcn-splashcreen #mcn-splashcreen-loader {
     display: flex;
 }

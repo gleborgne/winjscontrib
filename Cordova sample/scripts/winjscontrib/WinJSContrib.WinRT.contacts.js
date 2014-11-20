@@ -5,7 +5,9 @@
 
 /// <reference path="//Microsoft.WinJS.2.0/js/base.js" />
 /// <reference path="//Microsoft.WinJS.2.0/js/ui.js" />
-var MCNEXT = MCNEXT || {};
+var WinJSContrib = WinJSContrib || {};
+WinJSContrib.WinRT = WinJSContrib.WinRT || {};
+WinJSContrib.WinRT.Contacts = WinJSContrib.WinRT.Contacts || {};
 
 (function () {
     "use strict";
@@ -69,39 +71,37 @@ var MCNEXT = MCNEXT || {};
         }
     }
 
-    WinJSContrib.Contacts = {
-        showContact: function (ct, elt) {
-            var contact = new ContactsNS.Contact();
+    WinJSContrib.WinRT.Contacts.show = function (ct, elt) {
+        var contact = new ContactsNS.Contact();
 
-            if (ct.firstName && ct.firstName.length > 0) {
-                contact.firstName = ct.firstName;
-            }
-
-            if (ct.lastName && ct.lastName.length > 0) {
-                contact.lastName = ct.lastName;
-            }
-
-            addMail(contact, ct.email);
-            addPhone(contact, ct.phone);
-            addAddress(contact, ct.address);
-
-            if (ct.work) {
-                addMail(contact, ct.work.email, ContactsNS.ContactEmailKind.work);
-                addPhone(contact, ct.work.phone, ContactsNS.ContactPhoneKind.work);
-                addAddress(contact, ct.work.address, ContactsNS.ContactAddressKind.work);
-            }
-
-            if (ct.home) {
-                addMail(contact, ct.home.email, ContactsNS.ContactEmailKind.home);
-                addPhone(contact, ct.home.phone, ContactsNS.ContactPhoneKind.home);
-                addAddress(contact, ct.home.address, ContactsNS.ContactAddressKind.home);
-            }
-
-            var boundingRect = elt.getBoundingClientRect();
-            var selectionRect = { x: boundingRect.left, y: boundingRect.top, width: boundingRect.width, height: boundingRect.height };
-
-            ContactsNS.ContactManager.showContactCard(contact, selectionRect, Windows.UI.Popups.Placement.default);
-            WinJS.log && WinJS.log("ContactManager.showContactCard() was called.", "sample", "status");
+        if (ct.firstName && ct.firstName.length > 0) {
+            contact.firstName = ct.firstName;
         }
-    };
+
+        if (ct.lastName && ct.lastName.length > 0) {
+            contact.lastName = ct.lastName;
+        }
+
+        addMail(contact, ct.email);
+        addPhone(contact, ct.phone);
+        addAddress(contact, ct.address);
+
+        if (ct.work) {
+            addMail(contact, ct.work.email, ContactsNS.ContactEmailKind.work);
+            addPhone(contact, ct.work.phone, ContactsNS.ContactPhoneKind.work);
+            addAddress(contact, ct.work.address, ContactsNS.ContactAddressKind.work);
+        }
+
+        if (ct.home) {
+            addMail(contact, ct.home.email, ContactsNS.ContactEmailKind.home);
+            addPhone(contact, ct.home.phone, ContactsNS.ContactPhoneKind.home);
+            addAddress(contact, ct.home.address, ContactsNS.ContactAddressKind.home);
+        }
+
+        var boundingRect = elt.getBoundingClientRect();
+        var selectionRect = { x: boundingRect.left, y: boundingRect.top, width: boundingRect.width, height: boundingRect.height };
+
+        ContactsNS.ContactManager.showContactCard(contact, selectionRect, Windows.UI.Popups.Placement.default);
+        WinJS.log && WinJS.log("ContactManager.showContactCard() was called.", "sample", "status");
+    }
 })();

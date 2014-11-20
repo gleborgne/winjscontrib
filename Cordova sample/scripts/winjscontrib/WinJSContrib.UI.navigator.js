@@ -1,4 +1,6 @@
-﻿//you may use this code freely as long as you keep the copyright notice and don't 
+﻿/// <reference path="WinJSContrib.core.js" />
+
+//you may use this code freely as long as you keep the copyright notice and don't 
 // alter the file name and the namespaces
 //This code is provided as is and we could not be responsible for what you are making with it
 //project is available at http://winjscontrib.codeplex.com
@@ -35,7 +37,11 @@
         },
 
         PageControlNavigator: WinJS.Class.mix(WinJS.Class.define(
-            // Define the constructor function for the PageControlNavigator.
+            /**
+             * @class WinJSContrib.UI.PageControlNavigator
+             * @param {HTMLElement} element DOM element containing the control
+             * @param {Object} options
+             */
             function PageControlNavigator(element, options) {
                 var options = options || {};
                 this._element = element || document.createElement("div");
@@ -43,7 +49,8 @@
                 this._element.mcnNavigator = true;
                 this._element.classList.add('mcn-navigator');
                 this.eventTracker = new WinJSContrib.UI.EventTracker();
-                this.delay = options.delay || 100;
+                this.delay = options.delay || 0;
+                this.animationWaitForPreviousPageClose = options.animationWaitForPreviousPageClose || true;
                 this.animations = {};
                 this.locks = 0;
 
@@ -79,7 +86,11 @@
                     this.history = { backstack: [] };
                 }
                 this.eventTracker.addEvent(window, 'resize', this._resized.bind(this));
-            }, {
+            },
+            /**
+             * @lends WinJSContrib.UI.PageControlNavigator.prototype
+             */
+            {
                 home: "",
                 /// <field domElement="true" />
                 _element: null,
@@ -291,7 +302,7 @@
                         if (page.winControl.exitPageAnimation) {
                             page.winControl.exitPagePromise = WinJS.Promise.as(page.winControl.exitPageAnimation);
                         } else {
-                            page.winControl.exitPagePromise = navigator.animations.exitPage(navigator._getAnimationElements(true));
+                            page.winControl.exitPagePromise = WinJS.Promise.as(navigator.animations.exitPage(navigator._getAnimationElements(true)));
                         }
 
                         page.winControl.exitPagePromise = page.winControl.exitPagePromise.then(function () {
@@ -348,14 +359,13 @@
 
                     navigator._pageElement = null;
                     return oldPageExitPromise.then(function () {
-                        return WinJS.Promise.timeout();
-                    }).then(function () {
                         if (oldElement) {
                             oldElement.style.opacity = '0';
                             oldElement.style.display = 'none';
-                            if (WinJS.Utilities.disposeSubTree)
-                                WinJS.Utilities.disposeSubTree(oldElement);
-
+                            //    }
+                            //    return WinJS.Promise.timeout();
+                            //}).then(function () {
+                            //    if (oldElement) {
                             if (oldElement.winControl) {
                                 oldElement.winControl.stackedOn = null;
                                 oldElement.winControl.stackedBy = null;
@@ -368,15 +378,18 @@
                                 }
                             }
 
-                            oldElement.innerHTML = '';
-                            setImmediate(function () {
-                                try {
-                                    $(oldElement).remove();
-                                }
-                                catch (exception) {
-                                    console.log('cannot remove page, WTF ????????')
-                                }
-                            });
+                            if (WinJS.Utilities.disposeSubTree)
+                                WinJS.Utilities.disposeSubTree(oldElement);
+
+                            //oldElement.innerHTML = '';
+                            //setImmediate(function () {
+                            try {
+                                $(oldElement).remove();
+                            }
+                            catch (exception) {
+                                console.log('cannot remove page, WTF ????????')
+                            }
+                            //});
                         }
                     });
                 },
@@ -428,7 +441,15 @@
                     newElement.style.opacity = '0';
                     var layoutCtrls = [];
 
-                    var tempo = WinJS.Promise.timeout(navigator.delay);
+
+                    if (navigator.animationWaitForPreviousPageClose) {
+                        var tempo = closeOldPagePromise.then(function () {
+                            return WinJS.Promise.timeout(navigator.delay);
+                        });
+                    } else {
+                        var tempo = WinJS.Promise.timeout(navigator.delay);
+                    }
+
                     navigator.currentPageDetails = args.detail;
 
                     var openNewPagePromise = WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented).then(function () {
@@ -466,6 +487,7 @@
                         return newElementCtrl.dataPromise;
                     }).then(function (data) {
                         newElementCtrl.pagedata = data;
+                        WinJSContrib.UI.bindMembers(newElementCtrl.element, newElementCtrl);
                         layoutCtrls = navigator._getPageLayoutControls(newElement);
                         return navigator._pagePrepare(newElementCtrl, layoutCtrls, args);
                     }).then(function () {
@@ -486,14 +508,13 @@
                         layoutCtrls = navigator._getPageLayoutControls(newElement);
                         return navigator._pageLayout(newElementCtrl, layoutCtrls, args);
                     }).then(function () {
-                        return navigator._registerPageActions(newElementCtrl);
-                    }).then(function (control) {
                         if (WinJSContrib.UI.Application.progress)
                             WinJSContrib.UI.Application.progress.hide();
-
-                        parentedComplete();
+                        return navigator._registerPageActions(newElementCtrl);
                     }).then(function () {
                         return tempo;
+                    }).then(function () {
+                        parentedComplete();
                     }).then(function () {
                         layoutCtrls = navigator._getPageLayoutControls(newElement);
                         return navigator._pageContentReady(newElementCtrl, layoutCtrls, args);

@@ -5,12 +5,12 @@
         ready: function (element, options) {
             var page = this;
             page.iframe = element.querySelector('#messagingframe');
-            page.iframeMessenger = new WinJSContrib.UI.Messenger(window, page.iframe.contentWindow);
+            page.iframeMessenger = new WinJSContrib.Messenger(window, page.iframe.contentWindow);
 
             page.worker = new Worker('./pages/core/messenger/worker.js');
-            page.workerMessenger = new WinJSContrib.UI.Messenger(page.worker, page.worker);
+            page.workerMessenger = new WinJSContrib.Messenger(page.worker, page.worker);
 
-            page.smartWorker = new WinJSContrib.UI.Messenger.SmartWorker();
+            page.smartWorker = new WinJSContrib.Messenger.SmartWorker();
         },
 
         iframeOp: function (triggerError) {

@@ -42,8 +42,8 @@
                 WinJSContrib.UI.Application = WinJSContrib.UI.Application || {};
                 WinJSContrib.UI.Application.splashscreen = ctrl;
                 ctrl.element.className = 'mcn-splashcreen ' + ctrl.element.className;
-                if (WinJSContrib.CrossPlatform)
-                    WinJSContrib.CrossPlatform.cordovaClass(ctrl.element.classList);
+                if (WinJSContrib.CrossPlatform && WinJSContrib.CrossPlatform.crossPlatformClass)
+                    WinJSContrib.CrossPlatform.crossPlatformClass(ctrl.element);
                 ctrl.splashImageFile = options.image || '/images/splashscreen.png';
 
                 if (!ctrl.element.innerHTML) {                    

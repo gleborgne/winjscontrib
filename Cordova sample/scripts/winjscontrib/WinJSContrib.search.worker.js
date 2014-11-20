@@ -14,109 +14,76 @@ var worker = this;
 
     importScripts('//Microsoft.WinJS.2.0/js/base.js');
     importScripts('/scripts/winjscontrib/winjscontrib.core.js');
+    importScripts('/scripts/winjscontrib/winjscontrib.messenger.js');
     importScripts('/scripts/winjscontrib/WinJSContrib.search.js');
 
-    function sendMessage(msgType, data) {
-        postMessage({ msgType: msgType, msgData: data });
-    }
+    var idx = null;
+    var messenger = new WinJSContrib.Messenger(worker, worker);
 
-    function completed(data) {
-        postMessage({ msgType: 'complete', msgData: data });
-    }
-
-    function error(data) {
-        postMessage({ msgType: 'error', msgData: data });
-    }
-
-    function sendProgress(data) {
-        postMessage({ msgType: 'progress', msgData: data });
-    }
-
-     var idx = new WinJSContrib.Search.Index();
-    idx.onprogress = function (p) {
-        sendProgress(p);
-    }
-
-    function processMessage(arg) {
-        var msgData = arg.data;
-        if (msgData.msgType === 'init') {
-            idx.name = msgData.msgData.name;
-            idx.definition = msgData.msgData.definition;
-            completed();
-        }
-        else if (msgData.msgType === 'index') {
-            workerPromise(indexData(msgData.msgData));
-        }
-        else if (msgData.msgType === 'search') {
-            workerPromise(searchData(msgData.msgData));
-        }
-        else if (msgData.msgType === 'definition') {
-            idx.definition = msgData.msgData;
-            completed();
-        }
-        else if (msgData.msgType === 'clear') {
-            idx.items = [];
-            completed();
-        }
-
-        else if (msgData.msgType === 'dispose') {
-            idx.dispose();
-
-            removeEventListener("message", processMessage);
-            completed();
-            worker.close();
-        }
-        else if (msgData.msgType === 'save') {
-            workerPromise(saveIndex(msgData.msgData));
-        }
-        else if (msgData.msgType === 'load') {
-            workerPromise(loadIndex(msgData.msgData));
+    messenger.init = function (arg) {
+        idx = new WinJSContrib.Search.Index();
+        idx.name = arg.name;
+        idx.definition = arg.definition;
+        if (arg.load) {
+            return idx.load();
         }
     }
 
-    addEventListener("message", processMessage, false);
+    messenger.save = function (data) {
+        if (!idx.name || !idx.definition)
+            return WinJS.Promise.wrapError({ message: 'index not initialized' });
 
-    function workerPromise(promise) {
-        promise.done(function (res) {
-            completed(res);
-        }, function (err) {
-            error(err);
-        }, function (p) {
-            sendProgress(p);
-        });
+        return idx.save();
     }
 
-    function indexData(data) {
+    messenger.load = function (data) {
+        if (!idx.name)
+            return WinJS.Promise.wrapError({ message: 'index not initialized' });
+
+        return idx.load();
+    }
+
+    messenger.count = function (data) {
+        if (!idx.name || !idx.definition)
+            return WinJS.Promise.wrapError({ message: 'index not initialized' });
+
+        return idx.items.length;
+    }
+
+    messenger.index = function (data) {        
         return new WinJS.Promise(function (complete, error, progress) {
             try {
-                if (data.name) {
-                    idx.name = data.name;
+                if (data.options && data.options.index) {
+                    idx.name = data.options.index.name;
+                    if (data.options.index.definition) {
+                        idx.definition = data.options.index.definition;
+                    }
                 }
 
-                if (data.options.load) {
-                    idx.load().done(function () {
-                        var indexed = idx.addRange(data.items, data.definition);
-                        if (data.options.save) {
-                            idx.save().done(function () {
-                                complete({ name: idx.name, items: indexed });
-                            });
-                        }
-                        else {
-                            complete({ name: idx.name, items: indexed });
-                        }
-                    });
+                if (!idx.name || !idx.definition) {
+                    error({ message: 'index not initialized' });
+                    return 
+                }
+
+                if (data.options && data.options.load) {
+                    var p = idx.load();
                 }
                 else {
-                    var indexed = idx.addRange(data.items, data.definition);
-                    if (data.options.save) {
+                    var p = WinJS.Promise.wrap();
+                }
+                
+                p.done(function () {
+                    var indexed = idx.addRange(data.items, null, progress);
+
+                    if (data.options && data.options.save) {
                         idx.save().done(function () {
                             complete({ name: idx.name, items: indexed });
-                        });
+                        },error);
                     }
                     else {
                         complete({ name: idx.name, items: indexed });
                     }
-                }
+                },error);
             }
             catch (exception) {
                 error(exception);
@@ -124,34 +91,31 @@ var worker = this;
         });
     }
 
-    function searchData(data) {
+    messenger.search = function (data) {
         return new WinJS.Promise(function (complete, error, progress) {
             try {
-                if (data.name) {
-                    idx.name = data.name;
+                if (data.options && data.options.index) {
+                    idx.name = data.options.index.name;
+                    if (data.options.index.definition) {
+                        idx.definition = data.options.index.definition;
+                    }
                 }
-                if (data.loaddata) {
-                    idx.load().done(function () {
-                        var res = idx.search(data.searchTerm);
-                        complete(res);
-                    });
+
+                if (!idx.name || !idx.definition) {
+                    error({ message: 'index not initialized' });
+                    return
+                }
+
+                if (data.options && data.options.load) {
+                    var p = idx.load();
                 }
                 else {
+                    var p = WinJS.Promise.wrap();
+                }
+
+                p.done(function () {
                     var res = idx.search(data.searchTerm);
                     complete(res);
-                }
-            }
-            catch (exception) {
-                error(exception);
-            }
-        });
-    }
-
-    function loadIndex(data) {
-        return new WinJS.Promise(function (complete, error, progress) {
-            try {
-                idx.load().done(function () {
-                    complete();
                 }, error);
             }
             catch (exception) {
@@ -160,16 +124,10 @@ var worker = this;
         });
     }
 
-    function saveIndex(data) {
-        return new WinJS.Promise(function (complete, error, progress) {
-            try {
-                idx.save().done(function () {
-                    complete();
-                }, error);
-            }
-            catch (exception) {
-                error(exception);
-            }
-        });
+    messenger.clear = function (arg) {
+        if (!idx.name || !idx.definition)
+            return WinJS.Promise.wrapError({ message: 'index not initialized' });
+
+        return idx.clear();
     }
 })();

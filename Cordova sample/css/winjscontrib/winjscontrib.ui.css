@@ -4,11 +4,11 @@
   position: relative;
 }
 .mcn-navigator > .pagecontrol {
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
   position: absolute;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
 }
 .mcn-fullsize {
   width: 100%;
@@ -51,7 +51,7 @@
     width: 0%;
   }
 }
-.mcn-cordova progress.win-ring {
+.mcn-xplat progress.win-ring {
   content: "";
   display: inline-block;
   width: 0;
@@ -62,7 +62,7 @@
   border-color: transparent transparent white transparent;
   -webkit-animation: spin 1s linear infinite;
 }
-.mcn-cordova progress.bar {
+.mcn-xplat progress.bar {
   width: 100%;
   height: 2px !important;
   margin: 2px 0;
@@ -269,8 +269,8 @@
     transform: scale(1);
   }
   to {
-    -webkit-transform: scale(0.75);
-    transform: scale(0.75);
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
   }
 }
 @keyframes WinJSContrib-exitShrink {
@@ -279,14 +279,14 @@
     transform: scale(1);
   }
   to {
-    -webkit-transform: scale(0.75);
-    transform: scale(0.75);
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
   }
 }
 @-webkit-keyframes -webkit-WinJSContrib-enterShrink {
   from {
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
   }
   to {
     -webkit-transform: scale(1);
@@ -295,8 +295,8 @@
 }
 @keyframes WinJSContrib-enterShrink {
   from {
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
   }
   to {
     -webkit-transform: scale(1);
@@ -329,6 +329,26 @@
   90% {
     -webkit-transform: scale(0.7) translate3d(0, 110%, 0);
     transform: scale(0.7) translate3d(0, 110%, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-EnterPage {
+  from {
+    -webkit-transform: translate3d(15%, 0, 0);
+    transform: translate3d(15%, 0, 0);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-EnterPage {
+  from {
+    -webkit-transform: translate3d(15%, 0, 0);
+    transform: translate3d(15%, 0, 0);
+  }
+  to {
+    -webkit-transform: none;
+    transform: none;
   }
 }
 /*# sourceMappingURL=winjscontrib.ui.css.map */

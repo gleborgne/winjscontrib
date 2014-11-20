@@ -1,7 +1,15 @@
 ﻿(function () {
     'use strict';
     WinJS.Namespace.define("WinJSContrib.UI", {
-        FlipViewPager: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
+        FlipViewPager: WinJS.Class.mix(WinJS.Class.define(
+        /**
+         * @classdesc
+         * Flipview companion to display pages markers (like carousels)
+         * @class WinJSContrib.UI.FlipViewPager
+         * @param {HTMLElement} element DOM element containing the control
+         * @param {Object} options
+         */
+        function ctor(element, options) {
             this.element = element || document.createElement('DIV');
             options = options || {};
             this.element.className = 'mcn-flipviewpager';
@@ -12,7 +20,14 @@
             this.pageSelectedBinded = this.pageSelected.bind(this);
             this.countChangedBinded = this.countChanged.bind(this);
             WinJS.UI.setOptions(this, options);
-        }, {
+        },
+        /**
+         * @lends WinJSContrib.UI.FlipViewPager.prototype
+         */
+        {
+            /**
+             * attached flipview
+             */
             flipView: {
                 get: function () {
                     return this._flipView;

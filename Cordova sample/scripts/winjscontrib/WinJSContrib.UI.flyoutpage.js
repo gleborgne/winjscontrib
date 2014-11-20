@@ -14,11 +14,18 @@
                 current = current.parentNode;
             }
         },
-        FlyoutPage: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
+        FlyoutPage: WinJS.Class.mix(WinJS.Class.define(
+        /**
+         * @classdesc 
+         * display html content or target html fragment as a sidebar flyout page
+         * @class WinJSContrib.UI.FlyoutPage
+         * @param {HTMLElement} element DOM element containing the control
+         * @param {Object} options
+         */
+        function ctor(element, options) {
             var ctrl = this;
             ctrl.element = element || document.createElement('DIV');
             options = options || {};
-            ctrl.element.style.display = 'none';
 
             ctrl.element.mcnFlyoutPage = true;
             ctrl.element.winControl = ctrl;
@@ -65,6 +72,7 @@
             if (options.uri) {
                 new WinJS.UI.HtmlControl(ctrl._content, { uri: options.uri }, function (elt) {
                     ctrl.contentCtrl = elt;
+                    WinJSContrib.UI.bindMembers(elt.element, elt);
                     elt.flyoutPage = ctrl;
                     ctrl.bindLinks();
                 });
@@ -75,13 +83,26 @@
             }
             ctrl.element.appendChild(ctrl._container);
 
-        }, {
+        },
+        /**
+         * @lends WinJSContrib.UI.FlyoutPage.prototype
+         */
+        {
+            /**
+             * @field {
+             * @type HTMLElement
+             */
             content: {
                 get: function () {
                     return this._content;
                 }
             },
 
+            /**
+             * left | right | top | bottom
+             * @field
+             * @type string
+             */
             placement: {
                 get: function () {
                     return this._placement;
@@ -164,6 +185,7 @@
                             ctrl.hide(result);
                         }
                         elt.flyoutPage = ctrl;
+                        WinJSContrib.UI.bindMembers(elt.element, elt);
                         ctrl.bindLinks();
                         ctrl.show();
 
@@ -194,22 +216,34 @@
                 if (ctrl.contentCtrl && ctrl.contentCtrl.beforeshow) {
                     ctrl.contentCtrl.beforeshow();
                 }
+
                 this.dispatchEvent("beforeshow");
-                ctrl.element.style.display = '';
+                ctrl.element.classList.add('visible');
+                ctrl._wrapper.classList.add('visible');
                 ctrl._wrapper.style.opacity = '0';
-                ctrl._wrapper.style.display = '';
                 ctrl._overlay.style.opacity = '0';
-
-
-
+                ctrl._overlay.classList.add('visible');
                 WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
                 if (window.Windows && window.Windows.Phone)
                     Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
                 else
                     document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
 
-                WinJS.UI.Animation.fadeIn(ctrl._overlay);
-                return ctrl.enterAnimation(ctrl._wrapper).then(function () {
+                WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, 400);
+
+                var p = WinJS.Promise.wrap();
+                if (ctrl.contentCtrl && ctrl.contentCtrl.beforeShowContent) {
+                    p = WinJS.Promise.as(ctrl.contentCtrl.beforeShowContent());
+                }
+
+                return p.then(function () {
+                    return WinJS.Promise.timeout();
+                }).then(function () {
+                    ctrl.calcAutosize();
+                    return WinJS.Promise.timeout();
+                }).then(function () {
+                    return ctrl.enterAnimation(ctrl._wrapper);
+                }).then(function () {
                     WinJSContrib.UI.FlyoutPage.openPages.push(ctrl);
                     if (ctrl.contentCtrl && ctrl.contentCtrl.aftershow) {
                         ctrl.contentCtrl.aftershow();
@@ -218,6 +252,22 @@
                     if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
                         WinJSContrib.UI.Application.navigator.addLock();
                 });
+            },
+
+            calcAutosize: function () {
+                var ctrl = this;
+                if (ctrl.autosize) {
+                    if (ctrl.placement == 'top' || ctrl.placement == 'bottom') {
+                        var elt = $('.mcn-flyoutpage-content', ctrl.element).children().first();
+                        var h = elt.outerHeight();
+                        $('.mcn-flyoutpage-contentwrapper', ctrl.element).height(h);
+                    }
+                    else if (ctrl.placement == 'left' || ctrl.placement == 'right') {
+                        var elt = $('.mcn-flyoutpage-content', ctrl.element).children().first();
+                        var h = elt.outerWidth();
+                        $('.mcn-flyoutpage-contentwrapper', ctrl.element).width(h);
+                    }
+                }
             },
 
             hide: function (result) {
@@ -237,16 +287,18 @@
                 else
                     document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
 
-                return ctrl.exitAnimation(ctrl._wrapper).then(function () {
-                    ctrl._wrapper.style.display = 'none';
-                    return WinJS.UI.Animation.fadeOut(ctrl._overlay);
+                return WinJS.Promise.join([ctrl.exitAnimation(ctrl._wrapper), WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, 200)]).then(function () {
+                    return WinJS.Promise.timeout(100);
+                }).then(function () {
+                    ctrl._wrapper.classList.remove('visible');
+                    $('.mcn-flyoutpage-contentwrapper', ctrl.element).css('width', '').css('height', '');
                 }).then(function () {
                     var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
                     WinJSContrib.UI.FlyoutPage.openPages.splice(idx, 1);
-
-
-
-                    ctrl.element.style.display = 'none';
+                    ctrl._wrapper.style.opacity = '';
+                    ctrl._overlay.style.opacity = '';
+                    ctrl._overlay.classList.remove('visible');
+                    ctrl.element.classList.remove('visible');
                     if (ctrl.contentCtrl && ctrl.contentCtrl.afterhide) {
                         ctrl.contentCtrl.afterhide();
                     }
@@ -258,6 +310,7 @@
 
             bindLinks: function () {
                 var ctrl = this;
+
                 $('*[data-flyout]', ctrl.element).each(function () {
                     var target = $(this).data('flyout');
 
@@ -307,8 +360,9 @@
                                 }
                             }
 
-                            ctrl.hide();
-                            WinJS.Navigation.navigate(target, actionArgs);
+                            ctrl.hide().then(function () {
+                                WinJS.Navigation.navigate(target, actionArgs);
+                            });
                         });
                     }
                 });
@@ -334,8 +388,10 @@
                                     return;
                                 }
                             }
-                            ctrl.hide();
-                            ctrl._content.winControl[actionName].bind(ctrl._content.winControl)({ elt: eltarg, args: actionArgs });
+
+                            ctrl.hide().then(function () {
+                                ctrl._content.winControl[actionName].bind(ctrl._content.winControl)({ elt: eltarg, args: actionArgs });
+                            });
                         });
                     }
                 });
@@ -349,10 +405,6 @@
         WinJS.Utilities.createEventProperties("beforeshow", "beforehide", "aftershow", "afterhide"))
     });
     WinJSContrib.UI.FlyoutPage.openPages = [];
-
-    WinJS.Namespace.define("WinJSContrib.UI.WindowsPhone", {
-        FlyoutPage: WinJSContrib.UI.FlyoutPage
-    });
 
     WinJS.Namespace.define("WinJSContrib.UI", {
         FlyoutPicker: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
