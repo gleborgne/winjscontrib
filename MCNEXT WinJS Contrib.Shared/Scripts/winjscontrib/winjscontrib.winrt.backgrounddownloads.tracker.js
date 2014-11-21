@@ -22,7 +22,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
             this.createFolder = options.createFolder;
         }
         this.items = new WinJS.Binding.List();
-        tracker.ready = false;               
+        tracker.ready = false;
     }, {
         _getFolder: function (allowCreate) {
             if (this.folder)
@@ -31,14 +31,14 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                 return this.createFolder();
             } else {
                 return this.getFolder();
-            }            
+            }
         },
 
-        getFolder : function(){
+        getFolder: function () {
             return localFolder.getFolderAsync("downloads\\" + this.name, Windows.Storage.CreationCollisionOption.openIfExists);
         },
 
-        createFolder : function(collision){
+        createFolder: function (collision) {
             return localFolder.createFolderAsync("downloads\\" + this.name, Windows.Storage.CreationCollisionOption.openIfExists);
         },
 
@@ -64,7 +64,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
 
             var processItems = function (downloads) {
                 tracker.items.splice(0, tracker.items.length)
-                return tracker._loadItemsFile().then(function (readedItems) {                    
+                return tracker._loadItemsFile().then(function (readedItems) {
                     if (readedItems && readedItems.items && readedItems.items.length) {
                         readedItems.items.forEach(function (item) {
                             if (item) {
@@ -106,7 +106,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                 tracker._checkItem(item).then(function () {
                     tracker.saveItems();
                 })
-                
+
                 tracker.dispatchEvent('downloadcomplete', { data: item.data });
             }
 
@@ -123,7 +123,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
             }
         },
 
-        _wrap: function(item, downloads){
+        _wrap: function (item, downloads) {
             var tracker = this;
             var observable = new ObservableItem()
             observable.data = item.data;
@@ -139,11 +139,11 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                     observable.download = downloads[0];
                     tracker.attach(observable, downloads[0]);
                 }
-            } else {                
+            } else {
                 tracker._checkItem(observable);
             }
 
-            
+
 
             return observable;
         },
@@ -171,7 +171,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
             });
         },
 
-        _unwrap: function(observable){
+        _unwrap: function (observable) {
             var item = {
                 itemid: observable.itemid,
                 data: observable.data,
@@ -230,6 +230,18 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                 return i.itemid == itemid;
             });
             return matches.length > 0;
+        },
+
+        get: function (itemid) {
+            var tracker = this;
+            var matches = tracker.items.filter(function (i) {
+                return i.itemid == itemid;
+            });
+
+            if (!matches || !matches.length)
+                return null;
+
+            return matches[0];
         }
     }), WinJS.Utilities.eventMixin, WinJS.Utilities.createEventProperties(['downloadcomplete', 'downloaderror']));
 })();
