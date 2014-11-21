@@ -291,6 +291,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.tabcontrol.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.audiorecording.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.tracker.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.bgtask.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.contacts.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.core.js" />

@@ -1,6 +1,7 @@
 ﻿var WinJSContrib = WinJSContrib || {};
 (function () {
     WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
+    WinJSContrib.BgDownloads.currentDownloads = new WinJS.Binding.List();
 
     function initDownloads() {
         return new WinJS.Promise(function (complete, error) {
@@ -46,6 +47,9 @@
         });
     }
 
+    WinJSContrib.BgDownloads.initDownloads = initDownloads;
+    WinJSContrib.BgDownloads.initUploads = initUploads;
+
     WinJSContrib.BgDownloads.init = function () {
         return WinJS.Promise.join([initDownloads(), initUploads()]);
     }
@@ -64,6 +68,9 @@
     }, {
         start: function (uri, fileName, folder, collision, priority, disablePowerSavingLimitations) {
             var operation = this;
+
+            if (typeof uri == 'string')
+                uri = new Windows.Foundation.Uri(uri);
 
             folder = folder || Windows.Storage.ApplicationData.current.localFolder;
             priority = priority || Windows.Networking.BackgroundTransfer.BackgroundTransferPriority.default;
@@ -182,6 +189,9 @@
         _progressCallback: function (arg) {
             var operation = this;
             operation.progress = (100 * operation.download.progress.bytesReceived / operation.download.progress.totalBytesToReceive) << 0;
+            if (operation.onprogress) {
+                operation.onprogress(operation.progress);
+            }
         },
 
         // Completion callback.
