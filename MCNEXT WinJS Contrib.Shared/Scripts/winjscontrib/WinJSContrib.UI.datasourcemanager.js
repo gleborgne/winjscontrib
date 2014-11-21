@@ -466,7 +466,7 @@ WinJSContrib.UI.DataSources.Grouping = WinJSContrib.UI.DataSources.Grouping || {
             if (!val)
                 return this.defaultGroupName;
 
-            var key = val.toUpperCase();
+            var key = val.toString().toUpperCase();
             return key;
         }
 
