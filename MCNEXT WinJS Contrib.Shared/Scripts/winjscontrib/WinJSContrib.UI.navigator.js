@@ -307,6 +307,7 @@
 
                         page.winControl.exitPagePromise = page.winControl.exitPagePromise.then(function () {
                             page.style.display = 'none';
+                            return WinJS.Promise.timeout();
                         });
 
                         if (page.winControl.exitPage) {
@@ -483,6 +484,8 @@
                         return WinJS.Promise.timeout(10);
                     }).then(function () {
                         return WinJS.Resources.processAll(newElement);
+                    }).then(function () {
+                        return closeOldPagePromise;
                     }).then(function () {
                         return newElementCtrl.dataPromise;
                     }).then(function (data) {
