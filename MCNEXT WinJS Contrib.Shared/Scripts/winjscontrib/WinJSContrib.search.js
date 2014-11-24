@@ -470,7 +470,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     WinJSContrib.Search.Index.prototype.tokenize = function (token) {
         var index = this;
         var tokens = [];
-        if (!token)
+        if (!token || !token.split)
             return tokens;
 
         var words = token.split(/\W+/);
@@ -479,6 +479,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
                 tokens.push(words[i]);
             }
         }
+
         return tokens;
     }
 
