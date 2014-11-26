@@ -57,7 +57,6 @@ if (!String.prototype.padLeft) {
  * @namespace WinJSContrib
  */
 var WinJSContrib = WinJSContrib || {};
-var WinJSContrib = WinJSContrib;
 
 /** @namespace */
 WinJSContrib.UI = WinJSContrib.UI || {};
@@ -489,7 +488,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             var queueBatch = function (p, items) {
                 //var batchresults = [];
                 return p.then(function (r) {
-                    return WinJS.Promise.join(items.map(function(item){ return WinJS.Promise.as(promiseCallback(item)); })).then(function (results) {
+                    return WinJS.Promise.join(items.map(function (item) { return WinJS.Promise.as(promiseCallback(item)); })).then(function (results) {
                         results = results.concat(results);
                     }, function (errors) {
                         results = results.concat(errors);

@@ -20,6 +20,9 @@
     <Content Include="$(MSBuildThisFileDirectory)css\default.css">
       <DependentUpon>default.less</DependentUpon>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\default.css.map">
+      <DependentUpon>default.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\default.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\defaultphone.css">
       <DependentUpon>defaultphone.less</DependentUpon>
@@ -44,6 +47,9 @@
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.dataform.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.extended-splashscreen.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.extended-splashscreen.css.map">
+      <DependentUpon>winjscontrib.ui.extended-splashscreen.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.extended-splashscreen.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.less" />

@@ -421,4 +421,42 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
             });
         return WinJS.Promise.join([promise1, promise2]);
     }
+
+    /**
+     * enter and shrink animation
+     * @param {Object} elements element or array of elements
+     * @param {number} duration transition duration
+     * @param {Object} options options like delay, easing
+     */
+    WinJSContrib.UI.Animation.enterGrow = function (element, duration, options) {
+        var offsetArray;
+        options = options || {};
+        var stagger = staggerDelay(
+            options.delay != undefined ? options.delay : 5,
+            options.itemdelay != undefined ? options.itemdelay : 83,
+            1,
+            options.maxdelay != undefined ? options.maxdelay : 333);
+
+        var promise1 = WinJS.UI.executeAnimation(
+            element,
+            {
+                keyframe: "WinJSContrib-enterGrow",
+                property: equivalents.transform.cssName,
+                delay: stagger,
+                duration: duration || options.duration || 350,
+                timing: options.easing || "ease-out"
+            });
+
+        var promise2 = WinJS.UI.executeTransition(
+            element,
+            {
+                property: "opacity",
+                delay: stagger,
+                duration: duration || options.duration || 300,
+                timing: options.easing || "ease-out",
+                from: 0,
+                to: 1
+            });
+        return WinJS.Promise.join([promise1, promise2]);
+    }
 })(WinJSContrib.UI.Animation);
