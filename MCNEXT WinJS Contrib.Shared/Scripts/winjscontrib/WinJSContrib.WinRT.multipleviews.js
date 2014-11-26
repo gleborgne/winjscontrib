@@ -94,6 +94,7 @@
                 return null;
             },
 
+
             openViewFor: function (title, page, data, currentWindowSize, newWindowSize) {
                 var view = this.findViewByTitle(title);
                 if (!view) {
@@ -139,6 +140,49 @@
                             view.stopViewInUse();
                             complete({ view: view, pointer: pointer });
                         }, error);
+                });
+
+            },
+
+            projectViewFor: function (title, page, data) {
+                if (!Windows.UI.ViewManagement.ProjectionManager.projectionDisplayAvailable)
+                    return this.openViewFor(title, page, data);
+
+
+                var view = this.findViewByTitle(title);
+                if (!view) {
+                    return this.projectView(page, data).then(function (r) {
+                        r.view.title = title;
+                    });
+                }
+
+
+                view.navigateTo(page, data, true);
+
+
+                view.startViewInUse();
+                return new WinJS.Promise(function (complete, error) {
+                    Windows.UI.ViewManagement.ApplicationViewSwitcher.startProjectingAsync(view.viewId, Windows.UI.ViewManagement.ApplicationView.getForCurrentView().id).done(function (pointer) {
+                        view.stopViewInUse();
+                        complete({ view: view, pointer: pointer });
+                    }, error);
+                });
+            },
+
+            projectView: function (page, data) {
+                if (!Windows.UI.ViewManagement.ProjectionManager.projectionDisplayAvailable)
+                    return this.openView(page, data);
+
+                var view = this.createNewView(page, data);
+
+                //Windows.UI.ViewManagement.ProjectionManager.projectionDisplayAvailable
+                view.startViewInUse();
+
+                return new WinJS.Promise(function (complete, error) {
+                    Windows.UI.ViewManagement.ProjectionManager.startProjectingAsync(view.viewId, Windows.UI.ViewManagement.ApplicationView.getForCurrentView().id).done(function (pointer) {
+                        view.stopViewInUse();
+                        complete({ view: view, pointer: pointer });
+                    }, error);
                 });
 
             },

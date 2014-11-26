@@ -16,7 +16,11 @@
         WinJS.UI.processAll(document.body).then(function () {
             WinJS.Application.queueEvent({ type: 'mcnchildview.init' });
             if (e.detail.location && e.detail.location.uri) {
-                WinJS.Navigation.navigate(e.detail.location.uri, e.detail.location.state);
+                WinJS.Navigation.navigate(e.detail.location.uri, e.detail.location.state).then(function () {
+                    if (WinJSContrib.UI && WinJSContrib.UI.Application && WinJSContrib.UI.Application.splashscreen) {
+                        WinJSContrib.UI.Application.splashscreen.hide();
+                    }
+                });
             }
         });
     }, false);
