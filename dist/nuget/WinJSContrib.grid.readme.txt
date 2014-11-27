@@ -34,4 +34,4 @@ If you define a template, you coud call prepareItems to render items.
 
 
 If you want to know more, or need some help, look at the samples or start a new discussion at :
-http://winjscontrib.codeplex.com
+https://github.com/gleborgne/winjscontrib

@@ -11,4 +11,4 @@ Then declare the control in your default.html at the end of the body tag
 <div class="top-wide" data-win-control="WinJSContrib.UI.GlobalProgress" data-win-options="{global: true, text: 'global progress...', delay: 250}"></div>
 
 If you want to know more, or need some help, look at the samples or start a new discussion at :
-http://winjscontrib.codeplex.com
+https://github.com/gleborgne/winjscontrib

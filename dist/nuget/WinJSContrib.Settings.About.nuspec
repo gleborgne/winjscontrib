@@ -7,8 +7,8 @@
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>About page in the settings charms</description>
     <copyright>MCNEXT</copyright>
-    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontribDownloadId=909840</iconUrl>
-    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
+    <projectUrl>https://github.com/gleborgne/winjscontrib</projectUrl>
+    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>    
     <tags>WinJS, HTML5, WinRT, Windows 8, Windows 8.1</tags>
     <language>en-US</language>    
   </metadata>

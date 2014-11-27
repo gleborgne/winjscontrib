@@ -7,9 +7,9 @@
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>Smooth Streaming probe for displaying bitrate, current resolution, available resolutions, etc</description>
     <copyright>MCNEXT</copyright>
+    <projectUrl>https://github.com/gleborgne/winjscontrib</projectUrl>
     <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
-    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
-    <tags>WinJS, HTML5, WinRT, Windows 8, Windows 8.1</tags>
+    <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
     <language>en-US</language>
     <dependencies>
       <dependency id="WinJSContrib.Core" version="[2, 3)" />

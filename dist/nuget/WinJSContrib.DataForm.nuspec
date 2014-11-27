@@ -7,9 +7,9 @@
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>Control and css framework for handling data forms with validation</description>
     <copyright>MCNEXT</copyright>
-    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
+    <projectUrl>https://github.com/gleborgne/winjscontrib</projectUrl>
     <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
-    <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
+    <tags>WinJS, HTML5, WinRT, Cordova, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
     <language>en-US</language>
     <dependencies>
       <dependency id="jQuery.Validation" version="[1, 3)" />

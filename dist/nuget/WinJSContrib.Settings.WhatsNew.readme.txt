@@ -24,3 +24,6 @@ WinJS.Navigation.navigate("/pages/home/home.html").done(function(){
   var ratecontr = document.getElementById('ratecontr');
   ratecontr.winControl.check();
 });
+
+If you need more, or need some help, look at the samples or start a new discussion at :
+https://github.com/gleborgne/winjscontrib

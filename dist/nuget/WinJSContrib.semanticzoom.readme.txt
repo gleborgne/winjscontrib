@@ -2,5 +2,5 @@
 
 We are working hard at getting usefull help in this file
 
-In the meantime, please have a look at the sample application or start a new discussion to get help :
-http://winjscontrib.codeplex.com
+If you need more, or need some help, look at the samples or start a new discussion at :
+https://github.com/gleborgne/winjscontrib

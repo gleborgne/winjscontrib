@@ -21,4 +21,4 @@ This control really on window.matchMedia API, please not that you will not have 
 
 
 If you need more, or need some help, look at the sample or start a new discussion at :
-http://winjscontrib.codeplex.com
+https://github.com/gleborgne/winjscontrib

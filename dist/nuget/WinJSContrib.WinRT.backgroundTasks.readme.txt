@@ -44,5 +44,5 @@ function checkBgTasks() {
 In the "activated" event, call this function to register your background task.
 Please note that background tasks may not work in the Simulator (especially with TimeTrigger)
 
-If you want to know more, or need some help, look at the samples or start a new discussion at :
-http://winjscontrib.codeplex.com
+If you need more, or need some help, look at the samples or start a new discussion at :
+https://github.com/gleborgne/winjscontrib

@@ -50,4 +50,4 @@ see http://jqueryvalidation.org/documentation/ for details about validation opti
 
 
 If you want to know more, or need some help, look at the samples or start a new discussion at :
-http://winjscontrib.codeplex.com
+https://github.com/gleborgne/winjscontrib

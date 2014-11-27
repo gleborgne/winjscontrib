@@ -48,3 +48,7 @@ Here is a typical logged message in the console:
 WinJSContrib.Logger.info("Application has started", "StartUp");
 INFO - StartUp: Application has started
 {LOG_LEVEL} - {GROUP}: {MESSAGE}
+
+
+If you need more, or need some help, look at the samples or start a new discussion at :
+https://github.com/gleborgne/winjscontrib

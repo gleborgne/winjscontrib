@@ -7,12 +7,12 @@
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>Helpers that simplifies Bing Map use and API calls</description>
     <copyright>MCNEXT</copyright>
-    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
+    <projectUrl>https://github.com/gleborgne/winjscontrib</projectUrl>
     <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
     <tags>WinJS, HTML5, WinRT, Windows 8, Windows 8.1</tags>
     <language>en-US</language>
     <dependencies>
-      <dependency id="WinJSContrib.Core" version="[1.0.0, 2.0.0)" />
+      <dependency id="WinJSContrib.Core" version="[2.0.0, 3.0.0)" />
     </dependencies>
   </metadata>
   <files>

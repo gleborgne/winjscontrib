@@ -11,3 +11,6 @@ app.addEventListener("settings", function (e) {
   };
   WinJS.UI.SettingsFlyout.populateSettings(e);        
 });
+
+If you need more, or need some help, look at the samples or start a new discussion at :
+https://github.com/gleborgne/winjscontrib

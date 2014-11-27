@@ -7,9 +7,9 @@
     <authors>MCNEXT, Guillaume Leborgne, Mehdi Lahlou</authors>
     <description>Control wrap Pivot control of WinJS to provide sliding effect on swipe on Cordova apps.</description>
     <copyright>MCNEXT</copyright>
-     <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
-   <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
-    <tags>WinJS, HTML5, Cordova</tags>
+    <projectUrl>https://github.com/gleborgne/winjscontrib</projectUrl>
+    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
+    <tags>WinJS, HTML5, WinRT, Cordova, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
     <language>en-US</language>
     <dependencies>
       <dependency id="WinJSContrib.Core" version="[2, 3)" />     

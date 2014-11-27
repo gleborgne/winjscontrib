@@ -7,9 +7,9 @@
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>Control to provide page-like navigation with FlipView</description>
     <copyright>MCNEXT</copyright>
+   <projectUrl>https://github.com/gleborgne/winjscontrib</projectUrl>
     <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
-    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
-    <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
+    <tags>WinJS, HTML5, WinRT, Cordova, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
     <language>en-US</language>
     <dependencies>
       <dependency id="WinJSContrib.Navigator" version="[2, 3)" />

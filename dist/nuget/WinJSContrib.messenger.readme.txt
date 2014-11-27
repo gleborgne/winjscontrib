@@ -44,5 +44,5 @@ In that case you do not even need to write a separate file for your worker. It w
 The function given to "execute" is turned into a string and executed within the worker.
 
 
-If you want to know more, or need some help, look at the samples or start a new discussion at :
-http://winjscontrib.codeplex.com
+If you need more, or need some help, look at the samples or start a new discussion at :
+https://github.com/gleborgne/winjscontrib

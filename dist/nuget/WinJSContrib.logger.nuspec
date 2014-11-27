@@ -7,9 +7,9 @@
     <authors>MCNEXT, François Guillot</authors>
     <description>Interface to handle logging work</description>
     <copyright>MCNEXT</copyright>
+    <projectUrl>https://github.com/gleborgne/winjscontrib</projectUrl>
     <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
-    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
-    <tags>WinJS, HTML5, WinRT, Windows 8, Windows 8.1, log, console</tags>
+    <tags>WinJS, HTML5, WinRT, Cordova, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
     <language>en-US</language>
     <dependencies/>
   </metadata>

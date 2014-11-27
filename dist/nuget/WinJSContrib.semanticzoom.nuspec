@@ -7,9 +7,9 @@
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>control implementing semantic zoom interface. It's usefull for wrapping custom controls in a SemanticZoom control</description>
     <copyright>MCNEXT</copyright>
-    <projectUrl>http://winjscontrib.codeplex.com</projectUrl>
-    <tags>WinJS, HTML5, WinRT, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
+    <projectUrl>https://github.com/gleborgne/winjscontrib</projectUrl>
     <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=winjscontrib&amp;DownloadId=909840</iconUrl>
+    <tags>WinJS, HTML5, WinRT, Cordova, 8.1, Windows, Windows Phone, WindowsPhone, UniversalApps</tags>
     <language>en-US</language>
     <dependencies>
       <dependency id="WinJSContrib.Core" version="[2, 3)" />

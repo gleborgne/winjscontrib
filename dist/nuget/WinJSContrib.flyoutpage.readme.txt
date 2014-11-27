@@ -21,4 +21,4 @@ The flyout is dismissed by clicking on the backbutton on the phone.
 In options, you could also specify a uri. In that case, the content of the flyout will be loaded from a fragment (with WinJS.UI.HtmlControl).
 
 If you need more details, or need some help, look at the sample or start a new discussion at :
-http://winjscontrib.codeplex.com
+https://github.com/gleborgne/winjscontrib

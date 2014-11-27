@@ -46,6 +46,8 @@ gulp.task('styles', function() {
 
 
 gulp.task('scripts', function() {
+	gulp.src(['MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/winjscontrib.dynamicscripts.html']).pipe(gulp.dest('dist/bin/js/'));
+	   
 	return gulp.src(['MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/**/*.js'])        
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(jshint())
