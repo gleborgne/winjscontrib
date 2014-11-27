@@ -1,6 +1,7 @@
 ﻿
 var WinJSContrib = WinJSContrib || {};
 WinJSContrib.UI = WinJSContrib.UI || {};
+
 /** @namespace */
 WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
 
