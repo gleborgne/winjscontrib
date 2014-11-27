@@ -37,6 +37,9 @@
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.css.map">
+      <DependentUpon>winjscontrib.ui.childviewflyout.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.css.map">
       <DependentUpon>winjscontrib.ui.css</DependentUpon>
