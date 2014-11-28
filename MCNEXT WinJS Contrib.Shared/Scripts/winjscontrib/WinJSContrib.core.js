@@ -1390,35 +1390,20 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             layoutCtrls = _getPageLayoutControls(element);
             return _pagePrepare(elementCtrl, layoutCtrls, args, options);
         }).then(function () {
-            //on raffraichit la liste des controles enfant au cas où le prepare en aurait ajouté
-            layoutCtrls = _getPageLayoutControls(element);
-        }).then(function () {
             container.appendChild(element);
+            return WinJS.Promise.timeout();
+        }).then(function (control) {
             if (options.onafterlayout) {
                 options.onafterlayout(elementCtrl);
             }
-            //if (args.detail.state && args.detail.state.clearNavigationHistory) {
-            //    if (navigator.global) {
-            //        WinJS.Navigation.history.backStack = [];
-            //    } else {
-            //        navigator.history.backstack = [];
-            //    }
-            //}
-            //_updateBackButton(element);
-            return WinJS.Promise.timeout();
-        }).then(function (control) {
             layoutCtrls = _getPageLayoutControls(element);
             return _pageLayout(elementCtrl, layoutCtrls, args, options);
         }).then(function () {
-            if (WinJSContrib.UI.Application.progress)
-                WinJSContrib.UI.Application.progress.hide();
-            return WinJSContrib.UI.bindActions(elementCtrl.element, elementCtrl);
-        }).then(function () {
-            //if (options.delay)
-            //    return WinJS.Promise.as(options.delay);
-        }).then(function () {
             parentedComplete();
-        }).then(function () {
+            WinJSContrib.UI.bindActions(elementCtrl.element, elementCtrl);
+            if (options.onafterready) {
+                options.onafterready(elementCtrl);
+            }
             layoutCtrls = _getPageLayoutControls(element);
             return _pageContentReady(elementCtrl, layoutCtrls, args, options);
         }).then(function () {

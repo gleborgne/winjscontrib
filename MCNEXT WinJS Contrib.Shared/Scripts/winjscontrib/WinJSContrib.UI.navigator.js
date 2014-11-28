@@ -474,6 +474,10 @@
                                 }
                            }
                            navigator._updateBackButton(control);
+                        },
+                        onafterready: function (control) {
+                            if (WinJSContrib.UI.Application.progress)
+                                WinJSContrib.UI.Application.progress.hide();
                         }
                     }).then(function () {
                         navigator._lastNavigationPromise = undefined;
