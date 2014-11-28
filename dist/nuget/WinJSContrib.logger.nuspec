@@ -3,7 +3,7 @@
   <metadata> 
     <id>WinJSContrib.Logger</id> 
     <title>WinJSContrib.Logger</title> 
-    <version>2.0.0.0</version> 
+    <version>2.1.0.0</version> 
     <authors>MCNEXT, François Guillot</authors>
     <description>Interface to handle logging work</description>
     <copyright>MCNEXT</copyright>

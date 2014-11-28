@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <package> 
   <metadata> 
-    <id>WinJSContrib.WindowsPhone.FlyoutPage</id>
-    <title>WinJSContrib.WindowsPhone.FlyoutPage</title> 
+    <id>WinJSContrib.FlyoutPage</id>
+    <title>WinJSContrib.FlyoutPage</title> 
     <version>2.0.0.0</version> 
     <authors>MCNEXT, Guillaume Leborgne</authors>
     <description>Control for showing page flyout on Windows Phone. Usefull for implementing searchbox, custom menus, etc</description>

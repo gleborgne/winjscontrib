@@ -1354,13 +1354,13 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         var elementCtrl = null;
         var layoutCtrls = [];
 
-        return WinJS.UI.Pages.render(location, element, args, parented).then(function () {            
-            
+        return WinJS.UI.Pages.render(location, element, args, parented).then(function () {
+
             if (element.winControl) {
                 elementCtrl = element.winControl;
                 elementCtrl.navigationState = args;
                 WinJSContrib.UI.addFragmentProperties(elementCtrl);
-                
+
                 if (args && args.injectToPage) {
                     WinJSContrib.Utils.inject(elementCtrl, args.injectToPage);
                 }
@@ -1380,10 +1380,10 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         }).then(function () {
             return WinJS.Resources.processAll(element);
         }).then(function () {
+            return elementCtrl.dataPromise;
+        }).then(function () {
             if (options.closeOldPagePromise)
                 return WinJS.Promise.as(options.closeOldPagePromise);
-        }).then(function () {
-            return elementCtrl.dataPromise;
         }).then(function (data) {
             elementCtrl.pagedata = data;
             WinJSContrib.UI.bindMembers(elementCtrl.element, elementCtrl);
