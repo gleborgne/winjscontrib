@@ -1,3 +1,4 @@
+*.suo
 $tf/
 node_modules/
 packages/
