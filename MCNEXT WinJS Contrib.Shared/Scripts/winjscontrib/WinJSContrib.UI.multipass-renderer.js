@@ -14,6 +14,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         this.items = [];
         this.element = element;
         this._scrollProcessor = null;
+        this._tolerance = 1;
         this._scrollContainer = options.scrollContainer || null;
         this._multipass = options.multipass || false;
         this._orientation = options.orientation || '';
@@ -24,7 +25,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         this._onScrollBinded = this._onScroll.bind(this);
         
         if (element) {
-            element.className = element.className + ' mcn-items-ctrl win-disposable';
+            element.className = element.className + ' mcn-items-ctrl mcn-layout-ctrl win-disposable';
         }
 
         //element.mcnRenderer = this;
@@ -41,13 +42,22 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             }
         },
 
+        tolerance: {
+            get: function () {
+                return this._tolerance;
+            },
+            set: function (val) {
+                this._tolerance = val;
+            }
+        },
+
         orientation: {
             get: function () {
                 return this._orientation;
             },
             set: function (val) {
                 this._orientation = val;
-                this.refreshScrollEvents();
+                this.refreshScrollEvents();                
             }
         },
 
@@ -56,9 +66,10 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                 return this._scrollContainer;
             },
             set: function (val) {
-                this.unregisterScrollEvents();
+                this._unregisterScrollEvents();
                 this._scrollContainer = val;
-                this.registerScrollEvents();
+                this._registerScrollEvents();
+                this.checkRendering();
             }
         },
 
@@ -70,14 +81,14 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                 }
 
                 ctrl._scrollRequest = requestAnimationFrame(function () {
-                    if (ctrl._scrollProcessor)
-                        ctrl._scrollProcessor();
+                    ctrl.checkRendering();
                 });
             }
         },
 
         _unregisterScrollEvents: function () {
             this._scrollProcessor = null;
+            this.clearOffsets();
             if (this.scrollContainer) {
                 this.scrollContainer.removeEventListener('scroll', this._onScrollBinded);
             }
@@ -109,40 +120,88 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             this._registerScrollEvents();
         },
 
-        _vIsInView: function (element, scrollContainer, tolerance) {
-            if (element.offsetTop > scrollContainer.scrollTop && element.offsetTop < scrollContainer.scrollTop + scrollContainer.clientHeight)
+        _vIsInView: function (rect, scrollContainer, tolerance) {
+            var pxTolerance = scrollContainer.clientHeight * tolerance;
+            if (rect.y > scrollContainer.scrollTop - pxTolerance && rect.y < scrollContainer.scrollTop + scrollContainer.clientHeight + pxTolerance)
                 return true;
 
-            if (element.offsetTop + element.clientHeight > scrollContainer.scrollTop && element.offsetTop + element.clientHeight < scrollContainer.scrollTop + scrollContainer.clientHeight)
-                return true;
-
-            return false;
-        },
-
-        _hIsInView: function (element, scrollContainer, tolerance) {
-            if (element.offsetLeft > scrollContainer.scrollLeft && element.offsetLeft < scrollContainer.scrollLeft + scrollContainer.clientWidth)
-                return true;
-
-            if (element.offsetLeft + element.clientWidth > scrollContainer.scrollLeft && element.offsetLeft + element.clientWidth < scrollContainer.scrollLeft + scrollContainer.clientWidth)
+            if (rect.y + rect.height > scrollContainer.scrollTop - pxTolerance && rect.y + rect.height < scrollContainer.scrollTop + scrollContainer.clientHeight + pxTolerance)
                 return true;
 
             return false;
         },
 
-        _checkSection: function (check) {
+        _hIsInView: function (rect, scrollContainer, tolerance) {
+            var pxTolerance = scrollContainer.clientWidth * (tolerance || 0);
+            if (rect.x > scrollContainer.scrollLeft - pxTolerance && rect.x < scrollContainer.scrollLeft + scrollContainer.clientWidth + pxTolerance)
+                return true;
+
+            if (rect.x + rect.width > scrollContainer.scrollLeft - pxTolerance && rect.x + rect.width < scrollContainer.scrollLeft + scrollContainer.clientWidth + pxTolerance)
+                return true;
+
+            return false;
+        },
+
+        clearOffsets : function(){
             var ctrl = this;
-            if (check(ctrl.element, ctrl.scrollContainer)) {
+            ctrl.rect = null;
+            ctrl.items.forEach(function (item) {
+                item.rect = null;
+            });
+        },
+
+        pageLayout: function () {
+            var ctrl = this;
+            ctrl.clearOffsets();
+        },
+
+        updateLayout : function(){
+            var ctrl = this;
+            ctrl.clearOffsets();
+        },
+
+        _checkSection: function (check, tolerance) {
+            var ctrl = this;
+            tolerance = tolerance || 0;
+
+            if (!ctrl.rect) {
+                ctrl.rect = WinJSContrib.UI.offsetFrom(ctrl.element, ctrl.scrollContainer);
+            }
+
+            if (check(ctrl.rect, ctrl.scrollContainer, tolerance)) {                
                 ctrl.renderItemsContent();
+                if (ctrl.onrendersection) {
+                    ctrl.onrendersection();
+                }
+            }
+
+            if (tolerance == 0 && ctrl.tolerance > 0) {
+                setImmediate(function () {
+                    ctrl._checkSection(check, ctrl.tolerance);
+                });
             }
         },
 
-        _checkItem: function (check) {
+        _checkItem: function (check, tolerance) {
             var ctrl = this;
+            tolerance = tolerance || 0;
+            var allRendered = true;
             ctrl.items.forEach(function (item) {
-                if (!item.rendered && check(item.element, ctrl.scrollContainer)) {
+                if (!item.rect) {
+                    item.rect = WinJSContrib.UI.offsetFrom(item.element, ctrl.scrollContainer);
+                }
+                allRendered = allRendered & item.rendered;
+                if (!item.rendered && check(item.rect, ctrl.scrollContainer, tolerance)) {
                     item.render();
                 }
             });
+            ctrl.allRendered = allRendered;
+
+            if (tolerance == 0 && ctrl.tolerance > 0) {
+                setImmediate(function () {
+                    ctrl._checkItem(check, ctrl.tolerance);
+                });
+            }
         },
 
         prepareItems: function (items, renderOptions) {
@@ -178,8 +237,12 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                 ctrl.renderItemsContent();
             }
             //ctrl.element.style.display = '';
+        },
 
-
+        checkRendering: function () {
+            var ctrl = this;
+            if (ctrl._scrollProcessor)
+                ctrl._scrollProcessor();
         },
 
         renderItemsContent: function () {
@@ -191,6 +254,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                     //});
                 }
             });
+            ctrl.allRendered = true;
         },
 
         dispose: function () {

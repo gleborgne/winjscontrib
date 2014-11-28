@@ -61,12 +61,15 @@
                     },
                     set: function (val) {
                         this._multipass = val;
-                        if (val) {
-                            if (val == 'item')
-                                this.multipassStrategy = new MultipassByItemsStrategy();
-                            else if (val == 'section')
-                                this.multipassStrategy = new MultipassBySectionStrategy();
-                        }
+                    }
+                },
+
+                orientation: {
+                    get: function () {
+                        return this._orientation;
+                    },
+                    set: function (val) {
+                        this._orientation = val;
                     }
                 },
 
@@ -101,10 +104,20 @@
                     }
 
                     this.sections.forEach(function (section) {
+                        section.hub = hub;
                         section.layout(viewState);
+                        section._attachItemsControls();
                     });
-
                 },
+
+                _attachItemsControls: function () {
+                    var hub = this;
+                    hub.sections.forEach(function (section) {
+                        section.hub = hub;
+                        section._attachItemsControls();
+                    });
+                },
+
                 renderItemsContent: function (forceRendering) {
                     var hub = this;
                     //console.log('render item content multipass:' + hub.multipass);
@@ -115,19 +128,15 @@
 
                     if (!hub.multipass) {
                         hub.sections.forEach(function (section) {
+                            section.hub = hub;
                             section.renderItemsContent(forceRendering);
                         });
-                    }
-                    else if (hub.multipassStrategy) {
-                        hub.multipassStrategy.processSections(this, forceRendering);
-                        hub.scrollContainer.addEventListener('scroll', hub.hubScrolledBind);
-                    } else {
-                        //console.log('no rendering...')
-                    }
+                    }                    
                 },
+
                 renderSection: function (section, sectionTemplate, hasTitle) {
                     var hub = this;
-
+                    section.hub = hub;
                     return new WinJS.Promise(function (complete, error) {
                         var template = WinJSContrib.Utils.getTemplate(sectionTemplate);
                         if (template) {
@@ -151,6 +160,7 @@
                     });
 
                 },
+
                 removeSection: function (section) {
                     var hub = this;
                     var index = hub.sections.indexOf(val);
@@ -158,6 +168,7 @@
                         hub.sections.splice(index, 1);
                     }
                 },
+
                 saveCtrlState: function () {
                     var hub = this;
                     var state = WinJS.Navigation.history.current.state || { hub: {} };
@@ -173,6 +184,7 @@
                     WinJS.Navigation.history.current.state = state;
                     return state;
                 },
+
                 restoreCtrlState: function (state) {
                     var hub = this;
                     state = state || WinJS.Navigation.history.current.state || { hub: {} };
@@ -189,6 +201,7 @@
                         }
                     }
                 },
+
                 hubScrolled: function () {
                     if (!this.rendering.size) {
                         this.rendering.size = {
@@ -204,10 +217,12 @@
                     }
 
                 },
+
                 exitPage: function () {
                     if (this.savestate)
                         this.saveCtrlState();
                 },
+
                 pageLayout: function () {
                     var hub = this;
                     hub.layout();
@@ -239,6 +254,7 @@
 
                     hub.LastLayoutState = state;
                 },
+
                 dispose: function () {
                     var hub = this;
                     hub.scrollContainer.removeEventListener('scroll', hub.hubScrolledBind);
@@ -286,6 +302,22 @@
                         section.onlayout(viewState);
                     }
                 },
+
+                _attachItemsControls: function () {
+                    var section = this;
+                    var itemsctrls = this.element.querySelectorAll('.mcn-items-ctrl');
+                    if (itemsctrls && itemsctrls.length) {
+                        for (var i = 0 ; i < itemsctrls.length ; i++) {
+                            var ctrl = itemsctrls[i].winControl;
+                            if (ctrl) {
+                                ctrl.multipass = section.hub.multipass;
+                                if (ctrl.scrollContainer !== section.hub.scrollContainer)
+                                    ctrl.scrollContainer = section.hub.scrollContainer;
+                            }
+                        }
+                    }
+                },
+
                 renderItemsContent: function () {
                     var itemsctrls = this.element.querySelectorAll('.mcn-items-ctrl');
                     if (itemsctrls && itemsctrls.length) {
@@ -296,6 +328,7 @@
                         }
                     }
                 },
+
                 dispose: function () {
                     if (WinJS.Utilities.disposeSubTree)
                         WinJS.Utilities.disposeSubTree(this.element);
@@ -303,176 +336,4 @@
             })
     });
 
-    function MultipassBySectionStrategy(options) {
-        options = options || {};
-        this.scrollOffset = this.scrollOffset || 100;
-    }
-
-    MultipassBySectionStrategy.prototype.isSectionInView = function (hub, section, vertical) {
-        if (vertical) {
-            var sectionOffset = section.element.offsetTop;
-            var sectionSize = section.element.clientHeight;
-            var tolerance = hub.rendering.size.height;
-
-            var sectionStartPassed = (sectionOffset <= hub.scrollContainer.scrollTop + hub.rendering.size.height + tolerance);
-            var sectionEndNotPassed = (sectionOffset + sectionSize + tolerance >= hub.scrollContainer.scrollTop);
-
-            var isInView = sectionStartPassed && sectionEndNotPassed;
-        }
-        else {
-            var sectionOffset = section.element.offsetLeft;
-            var sectionSize = section.element.clientWidth;
-            var tolerance = hub.rendering.size.width;
-
-            var sectionStartPassed = (sectionOffset <= hub.scrollContainer.scrollLeft + hub.rendering.size.width + tolerance);
-            var sectionEndNotPassed = (sectionOffset + sectionSize + tolerance >= hub.scrollContainer.scrollLeft);
-
-            var isInView = sectionStartPassed && sectionEndNotPassed;
-        }
-        return isInView;
-    }
-
-    MultipassBySectionStrategy.prototype.processSections = function (hub, forceRendering) {
-        if (hub.rendering.completed) {
-            return;
-        }
-
-        var delayed = [];
-        var strategy = this;
-        var hasUnrendered = false;
-        var vertical = hub.scrollContainer.scrollHeight > hub.scrollContainer.scrollWidth || hub.scrollContainer.scrollTop > 0;
-        hub.sections.forEach(function (section, index) {
-            if (!section.rendered && strategy.isSectionInView(hub, section, vertical)) {
-                section.renderItemsContent();
-                section.rendered = true;
-            }
-            else {
-                hasUnrendered = true;
-            }
-        });
-
-        if (!hasUnrendered) {
-            hub.rendering.completed = true;
-        }
-    }
-
-    function MultipassByItemsStrategy(options) {
-        options = options || {};
-        this.scrollOffset = this.scrollOffset || 100;
-        this.pagesLoaded = 2;
-    }
-
-    MultipassByItemsStrategy.prototype.isSectionInView = MultipassBySectionStrategy.prototype.isSectionInView;
-    MultipassByItemsStrategy.prototype.isItemInView = function (hub, section, item, vertical) {
-        if (vertical) {
-            var itemOffset = section.element.offsetTop + item.element.offsetTop;
-            var itemSize = item.element.clientHeight;
-            var tolerance = hub.rendering.size.height * this.pagesLoaded;
-
-            var res = {
-                isInView: false,
-                isInViewWithTolerance: false
-            }
-
-            var itemStartPassed = (itemOffset <= hub.scrollContainer.scrollTop + hub.rendering.size.height);
-            var itemEndNotPassed = (itemOffset + itemSize >= hub.scrollContainer.scrollTop);
-
-            res.isInView = itemStartPassed && itemEndNotPassed;
-
-            itemStartPassed = (itemOffset <= hub.scrollContainer.scrollTop + hub.rendering.size.height + tolerance);
-            itemEndNotPassed = (itemOffset + itemSize + tolerance >= hub.scrollContainer.scrollTop);
-
-            res.isInViewWithTolerance = itemStartPassed && itemEndNotPassed;
-
-            if (!res.isInView && !res.isInViewWithTolerance)
-                return;
-        }
-        else {
-            var itemOffset = section.element.offsetLeft + item.element.offsetLeft;
-            var itemSize = item.element.clientWidth;
-            var tolerance = hub.rendering.size.width * this.pagesLoaded;
-
-            var res = {
-                isInView: false,
-                isInViewWithTolerance: false
-            }
-
-            var itemStartPassed = (itemOffset <= hub.scrollContainer.scrollLeft + hub.rendering.size.width);
-            var itemEndNotPassed = (itemOffset + itemSize >= hub.scrollContainer.scrollLeft);
-
-            res.isInView = itemStartPassed && itemEndNotPassed;
-
-            itemStartPassed = (itemOffset <= hub.scrollContainer.scrollLeft + hub.rendering.size.width + tolerance);
-            itemEndNotPassed = (itemOffset + itemSize + tolerance >= hub.scrollContainer.scrollLeft);
-
-            res.isInViewWithTolerance = itemStartPassed && itemEndNotPassed;
-
-            if (!res.isInView && !res.isInViewWithTolerance)
-                return;
-        }
-
-        return res;
-    };
-
-    MultipassByItemsStrategy.prototype.processSections = function (hub, forceRendering) {
-        //if (hub.rendering.completed)
-        //    return;
-        //console.log('process hub section, sections: ' + hub.sections.length + ' force:' + forceRendering);
-        var delayed = [];
-        var strategy = this;
-        var hasUnrendered = false;
-        var vertical = hub.scrollContainer.scrollHeight > hub.scrollContainer.scrollWidth || hub.scrollContainer.scrollTop > 0;
-        hub.sections.forEach(function (section, index) {
-            if (section.items.length && (forceRendering || !section.rendered) && strategy.isSectionInView(hub, section, vertical)) {
-                //console.log('process hub section ' + index);
-                strategy.processSection(hub, section, vertical);
-            }
-            else {
-                //console.log('skipped hub section ' + index);
-                hasUnrendered = true;
-            }
-        });
-
-        if (hub.sections.length && !hasUnrendered) {
-            hub.rendering.completed = true;
-        }
-    };
-
-    MultipassByItemsStrategy.prototype.getSectionItems = function (hub, section) {
-        var items = [];
-        var allitems = section.element.querySelectorAll('.mcn-multipass-item');
-        var numitems = allitems.length;
-        for (var i = 0 ; i < numitems ; i++) {
-            var itemCtrl = allitems[i].winControl;
-            if (itemCtrl)
-                items.push(itemCtrl);
-        }
-        return items;
-    };
-
-    MultipassByItemsStrategy.prototype.processSection = function (hub, section, vertical) {
-        var strategy = this;
-        if (!section.items)
-            return;
-
-        //if (!section.renderingItems)
-        //    section.renderingItems = this.getSectionItems(hub, section);
-
-        var hasUnrendered = false;
-        var numitems = section.items.length;
-        for (var i = 0 ; i < numitems ; i++) {
-            var itemCtrl = section.items[i];
-            var iteminview = strategy.isItemInView(hub, section, itemCtrl, vertical);
-            if (!itemCtrl.rendered && iteminview) {
-                itemCtrl.render(!iteminview.isInView && iteminview.isInViewWithTolerance);
-            }
-            else {
-                hasUnrendered = true;
-            }
-        }
-
-        if (!hasUnrendered) {
-            section.rendered = true;
-        }
-    };
 })();

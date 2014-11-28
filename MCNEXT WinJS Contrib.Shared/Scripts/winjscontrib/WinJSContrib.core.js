@@ -71,6 +71,21 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 (function () {
     'use strict';
 
+    WinJSContrib.UI.offsetFrom = function (element, parent) {
+        var xPosition = 0;
+        var yPosition = 0;
+
+        while (element && element != parent) {
+            xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+            yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+            element = element.offsetParent;
+            
+        }
+
+        return { x: xPosition, y: yPosition, width: element.clientWidth, height: element.clientHeight };
+    }
+
+
     /**
      * @class
      * @classdesc object to register and release events from addEventListener or bind
