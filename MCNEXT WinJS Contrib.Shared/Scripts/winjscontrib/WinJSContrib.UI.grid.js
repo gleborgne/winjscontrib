@@ -73,6 +73,7 @@
                 },
 
                 pageLayout: function () {
+                    this.renderer.pageLayout();
                     if (this.autolayout) {
                         this.layout();
                     }

@@ -1161,6 +1161,9 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         };
     };
 
+    /**
+     * inject properties from source object to target object
+     */
     WinJSContrib.Utils.inject = function (target, source) {
         if (source) {
             for (var k in source) {
@@ -1343,6 +1346,13 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         //return WinJS.Promise.timeout(); //setImmediate
     }
 
+    /**
+     * render a html fragment with winjs contrib pipeline and properties
+     * @param {HTMLElement} container element that will contain the fragment
+     * @param {string} location url for the fragment
+     * @param {Object} args arguments to the fragment
+     * @param {Object} options rendering options
+     */
     WinJSContrib.UI.renderFragment = function (container, location, args, options) {
         var parentedComplete;
         options = options || {};

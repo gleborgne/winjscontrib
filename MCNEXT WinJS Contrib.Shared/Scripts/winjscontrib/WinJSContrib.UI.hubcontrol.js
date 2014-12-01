@@ -311,7 +311,7 @@
                             var ctrl = itemsctrls[i].winControl;
                             if (ctrl) {
                                 ctrl.multipass = section.hub.multipass;
-                                if (ctrl.scrollContainer !== section.hub.scrollContainer)
+                                if (ctrl.scrollContainer == undefined)
                                     ctrl.scrollContainer = section.hub.scrollContainer;
                             }
                         }
