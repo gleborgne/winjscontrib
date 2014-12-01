@@ -48,6 +48,15 @@
              * @lends WinJSContrib.UI.GridControl.prototype
              */
             {
+                scrollContainer: {
+                    get: function () {
+                        return this.renderer.scrollContainer;
+                    },
+                    set: function (val) {
+                        this.renderer.scrollContainer = val;
+                    }
+                },
+
                 /**
                  * render HTML for items
                  * @param {Array} items array of items to render
@@ -64,6 +73,7 @@
                 },
 
                 pageLayout: function () {
+                    this.renderer.pageLayout();
                     if (this.autolayout) {
                         this.layout();
                     }
@@ -155,6 +165,7 @@
 
                 flexhorizontallayout: function () {
                     var ctrl = this;
+                    ctrl.renderer.orientation = 'horizontal';
                     ctrl.element.style.position = 'relative';
                     ctrl.element.style.display = 'flex';
                     ctrl.element.style.flexFlow = 'column wrap';
@@ -168,6 +179,7 @@
 
                 flexverticallayout: function () {
                     var ctrl = this;
+                    ctrl.renderer.orientation = 'vertical';
                     ctrl.element.style.position = 'relative';
                     ctrl.element.style.display = 'flex';
                     ctrl.element.style.flexFlow = 'row wrap';
@@ -182,6 +194,7 @@
 
                 horizontallayout: function () {
                     var ctrl = this;
+                    ctrl.renderer.orientation = 'horizontal';
                     ctrl.element.style.position = 'relative';
                     ctrl.element.style.height = '';
                     var _containerH = ctrl.element.clientHeight;
@@ -237,6 +250,7 @@
 
                 verticallayout: function (plugin) {
                     var ctrl = this;
+                    ctrl.renderer.orientation = 'vertical';
                     ctrl.element.style.width = '';
                     ctrl.element.style.position = 'relative';
                     //Be aware that in this case, we invert the matrix to crawl data in lines
@@ -325,6 +339,8 @@
                             layoutfunc.bind(ctrl)();
                             ctrl.data.applyed = true;
                         }
+                        
+                        ctrl.renderer.checkRendering();
                     }
                 },
 
@@ -334,6 +350,7 @@
                 updateLayout: function (element, viewState, lastViewState) {
                     var ctrl = this;
                     ctrl.clear();
+                    ctrl.renderer.updateLayout();
                     setImmediate(function () {
                         ctrl.layout();
                     });

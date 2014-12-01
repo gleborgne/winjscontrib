@@ -18,11 +18,11 @@
   height: 100%;
   width: 100%;
 }
-.phone .mcn-splashcreen progress {
+.phone .mcn-splashscreen progress {
   margin-left: 10px;
   -ms-grid-row-align: center;
 }
-.phone .mcn-splashcreen #mcn-splashcreen-loader .mcn-splashcreen-loader-text {
+.phone .mcn-splashscreen #mcn-splashscreen-loader .mcn-splashscreen-loader-text {
   text-align: center;
 }
 .phone .desc-screen .bloc-description {

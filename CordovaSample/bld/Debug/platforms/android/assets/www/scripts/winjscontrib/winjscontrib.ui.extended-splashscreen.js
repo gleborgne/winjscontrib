@@ -30,7 +30,7 @@
                 };
                 ctrl.exitAnimation = options.enterAnimation || function () {
                     var ctrl = this;
-                    var prom1 = WinJSContrib.UI.Animation.fadeOut(ctrl.element.querySelector('#mcn-splashcreen-loader'), 500);
+                    var prom1 = WinJSContrib.UI.Animation.fadeOut(ctrl.element.querySelector('#mcn-splashscreen-loader'), 500);
                     var prom2 = WinJSContrib.UI.Animation.fadeOut(ctrl.element, 500, { delay: 200 });
 
                     return WinJS.Promise.join([prom1, prom2]).then(function () {
@@ -41,7 +41,7 @@
                 ctrl.isVisible = false;
                 WinJSContrib.UI.Application = WinJSContrib.UI.Application || {};
                 WinJSContrib.UI.Application.splashscreen = ctrl;
-                ctrl.element.className = 'mcn-splashcreen ' + ctrl.element.className;
+                ctrl.element.className = 'mcn-splashscreen ' + ctrl.element.className;
                 if (WinJSContrib.CrossPlatform && WinJSContrib.CrossPlatform.crossPlatformClass)
                     WinJSContrib.CrossPlatform.crossPlatformClass(ctrl.element);
                 ctrl.splashImageFile = options.image || '/images/splashscreen.png';
@@ -49,9 +49,9 @@
                 if (!ctrl.element.innerHTML) {                    
                     ctrl.element.innerHTML = ctrl.defaultSplashContent(options.text || 'chargement en cours', options.description);
                 }
-                ctrl.textElement = ctrl.element.querySelector('.mcn-splashcreen-loader-text');
-                ctrl.splashImage = ctrl.element.querySelector('#mcn-splashcreen-image');
-                ctrl.splashLoader = ctrl.element.querySelector('#mcn-splashcreen-loader');
+                ctrl.textElement = ctrl.element.querySelector('.mcn-splashscreen-loader-text');
+                ctrl.splashImage = ctrl.element.querySelector('#mcn-splashscreen-image');
+                ctrl.splashLoader = ctrl.element.querySelector('#mcn-splashscreen-loader');
                 ctrl.handleResizeBinded = ctrl.handleResize.bind(ctrl);
                 ctrl.handleDismissedBinded = ctrl.handleDismissed.bind(ctrl);
             },
@@ -66,20 +66,20 @@
                  */
                 defaultSplashContent: function (text) {
                     if (WinJSContrib.CrossPlatform && (WinJSContrib.CrossPlatform.isMobile.Android() || WinJSContrib.CrossPlatform.isMobile.iOS())) {
-                        return '<img id="mcn-splashcreen-image" src="' + this.splashImageFile + '" alt="Splash screen image" />' +
-                            //'<div id="mcn-splashcreen-description" style="display: none">' + (description || '') + '<div>' +         
-                            '<div id="mcn-splashcreen-loader" style="opacity: 0">' +
+                        return '<img id="mcn-splashscreen-image" src="' + this.splashImageFile + '" alt="Splash screen image" />' +
+                            //'<div id="mcn-splashscreen-description" style="display: none">' + (description || '') + '<div>' +         
+                            '<div id="mcn-splashscreen-loader" style="opacity: 0">' +
                             '<div class="cordova-ring"></div>' +
-                            '<div class="mcn-splashcreen-loader-text">' + (text || '') + '</div>' +
+                            '<div class="mcn-splashscreen-loader-text">' + (text || '') + '</div>' +
                             '<div>';
 
                     }
                     else {
-                        return '<img id="mcn-splashcreen-image" src="' + this.splashImageFile + '" alt="Splash screen image" />' +
-                               //'<div id="mcn-splashcreen-description" style="display: none">' + (description || '') + '<div>' +
-                               '<div id="mcn-splashcreen-loader" style="opacity: 0">' +
+                        return '<img id="mcn-splashscreen-image" src="' + this.splashImageFile + '" alt="Splash screen image" />' +
+                               //'<div id="mcn-splashscreen-description" style="display: none">' + (description || '') + '<div>' +
+                               '<div id="mcn-splashscreen-loader" style="opacity: 0">' +
                                    '<progress class="win-ring"></progress>' +
-                                   '<div class="mcn-splashcreen-loader-text">' + (text || '') + '</div>' +
+                                   '<div class="mcn-splashscreen-loader-text">' + (text || '') + '</div>' +
                                '<div>';
                     }
                 },

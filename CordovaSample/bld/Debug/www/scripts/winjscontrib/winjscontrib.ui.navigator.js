@@ -307,6 +307,7 @@
 
                         page.winControl.exitPagePromise = page.winControl.exitPagePromise.then(function () {
                             page.style.display = 'none';
+                            return WinJS.Promise.timeout();
                         });
 
                         if (page.winControl.exitPage) {
@@ -433,12 +434,11 @@
                         date: new Date()
                     };
 
-                    var newElement = this._createPageElement();
-                    newElement.mcnPage = true;
-                    var newElementCtrl = undefined;
+                    //var newElement = null; //this._createPageElement();
+                    //var newElementCtrl = null;
                     var parentedComplete;
                     var parented = new WinJS.Promise(function (c) { parentedComplete = c; });
-                    newElement.style.opacity = '0';
+                    //newElement.style.opacity = '0';
                     var layoutCtrls = [];
 
 
@@ -452,74 +452,33 @@
 
                     navigator.currentPageDetails = args.detail;
 
-                    var openNewPagePromise = WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented).then(function () {
-                        navigator._pageElement = newElement;
-                        if (newElement.winControl) {
-                            newElementCtrl = newElement.winControl;
-                            newElementCtrl.navigator = navigator;
-                            newElementCtrl.eventTracker = new WinJSContrib.UI.EventTracker();
-                            newElementCtrl.navigationState = args.detail;
-                            navigator._buildPage(newElementCtrl);
-                            args.detail.page = newElementCtrl;
-
-                            if (args.detail.state && args.detail.state.injectToPage) {
-                                navigator._injectInto(newElementCtrl, args.detail.state.injectToPage);
-                            }
-
+                    var openNewPagePromise = WinJSContrib.UI.renderFragment(pagecontainer, args.detail.location, args.detail.state, {
+                        delay: tempo,
+                        enterPage: navigator.animations.enterPage,
+                        closeOldPagePromise: closeOldPagePromise,
+                        onfragmentinit: function (control) {
+                            control.element.mcnPage = true;
                             if (openStacked) {
-                                newElementCtrl.stackedOn = oldPage;
+                                control.stackedOn = oldPage;
                                 if (oldPage) {
-                                    oldPage.stackedBy = newElementCtrl;
+                                    oldPage.stackedBy = control;
                                 }
                             }
-
-                            if (newElementCtrl.prepareData) {
-                                newElementCtrl.dataPromise = WinJS.Promise.as(newElementCtrl.prepareData(newElement, args.detail.state));
-                                newElementCtrl.promises.push(newElementCtrl.dataPromise);
-                            }
+                        },
+                        onafterlayout: function (control) {
+                           if (args.detail.state && args.detail.state.clearNavigationHistory) {
+                                if (navigator.global) {
+                                    WinJS.Navigation.history.backStack = [];
+                                } else {
+                                    navigator.history.backstack = [];
+                                }
+                           }
+                           navigator._updateBackButton(control);
+                        },
+                        onafterready: function (control) {
+                            if (WinJSContrib.UI.Application.progress)
+                                WinJSContrib.UI.Application.progress.hide();
                         }
-
-                        //délai pour que la transition de sortie se déclenche
-                        return WinJS.Promise.timeout(10);
-                    }).then(function () {
-                        return WinJS.Resources.processAll(newElement);
-                    }).then(function () {
-                        return newElementCtrl.dataPromise;
-                    }).then(function (data) {
-                        newElementCtrl.pagedata = data;
-                        WinJSContrib.UI.bindMembers(newElementCtrl.element, newElementCtrl);
-                        layoutCtrls = navigator._getPageLayoutControls(newElement);
-                        return navigator._pagePrepare(newElementCtrl, layoutCtrls, args);
-                    }).then(function () {
-                        //on raffraichit la liste des controles enfant au cas où le prepare en aurait ajouté
-                        layoutCtrls = navigator._getPageLayoutControls(newElement);
-                    }).then(function () {
-                        pagecontainer.appendChild(newElement);
-                        if (args.detail.state && args.detail.state.clearNavigationHistory) {
-                            if (navigator.global) {
-                                WinJS.Navigation.history.backStack = [];
-                            } else {
-                                navigator.history.backstack = [];
-                            }
-                        }
-                        navigator._updateBackButton(args);
-                        return WinJS.Promise.timeout();
-                    }).then(function (control) {
-                        layoutCtrls = navigator._getPageLayoutControls(newElement);
-                        return navigator._pageLayout(newElementCtrl, layoutCtrls, args);
-                    }).then(function () {
-                        if (WinJSContrib.UI.Application.progress)
-                            WinJSContrib.UI.Application.progress.hide();
-                        return navigator._registerPageActions(newElementCtrl);
-                    }).then(function () {
-                        return tempo;
-                    }).then(function () {
-                        parentedComplete();
-                    }).then(function () {
-                        layoutCtrls = navigator._getPageLayoutControls(newElement);
-                        return navigator._pageContentReady(newElementCtrl, layoutCtrls, args);
-                    }).then(function () {
-                        return navigator._pageReady(newElementCtrl, layoutCtrls, args);
                     }).then(function () {
                         navigator._lastNavigationPromise = undefined;
                     });
@@ -528,157 +487,6 @@
 
 
                     args.detail.setPromise(WinJS.Promise.join([closeOldPagePromise, openNewPagePromise]));
-                },
-
-                _buildPage: function (newElementCtrl) {
-                    if (!newElementCtrl.eventTracker) {
-                        newElementCtrl.eventTracker = new WinJSContrib.UI.EventTracker();
-                    }
-
-                    if (!newElementCtrl.promises) {
-                        newElementCtrl.promises = [];
-                    }
-
-                    if (!newElementCtrl.addPromise) {
-                        newElementCtrl.addPromise = function (prom) {
-                            this.promises.push(prom);
-                        }
-                    }
-
-                    if (!newElementCtrl.cancelPromises) {
-                        newElementCtrl.cancelPromises = function () {
-                            var page = this;
-                            if (page.promises) {
-                                for (var i = 0; i < page.promises.length; i++) {
-                                    if (page.promises[i]) {
-                                        page.promises[i].cancel();
-                                    }
-                                }
-                            }
-                        };
-                    }
-                },
-
-                _getPageLayoutControls: function (newElement) {
-                    var layoutCtrls = [];
-                    var pagelayoutCtrls = newElement.querySelectorAll('.mcn-layout-ctrl');
-                    if (pagelayoutCtrls && pagelayoutCtrls.length) {
-                        for (var i = 0 ; i < pagelayoutCtrls.length; i++) {
-                            var ctrl = pagelayoutCtrls[i].winControl;
-                            if (ctrl) {
-                                layoutCtrls.push(ctrl);
-                            }
-                        }
-                    }
-
-                    return layoutCtrls;
-                },
-
-                _injectInto: function (page, items) {
-                    if (items) {
-                        for (var k in items) {
-                            page[k] = items[k];
-                        }
-                    }
-                },
-
-                _pagePrepare: function (newElementCtrl, layoutCtrls, navargs) {
-                    var promises = [];
-
-                    if (layoutCtrls && layoutCtrls.length) {
-                        for (var i = 0 ; i < layoutCtrls.length; i++) {
-                            var ctrl = layoutCtrls[i];
-                            if (ctrl.prepare) {
-                                promises.push(WinJS.Promise.as(ctrl.prepare(newElementCtrl.element, navargs.detail.state)));
-                            }
-                        }
-                    }
-
-                    if (newElementCtrl && newElementCtrl.prepare) {
-                        promises.push(WinJS.Promise.as(newElementCtrl.prepare(newElementCtrl.element, navargs.detail.state)));
-                    }
-
-                    var result = WinJS.Promise.join(promises);
-                    newElementCtrl.addPromise(result);
-
-                    return result;
-                },
-
-                _pageLayout: function (newElementCtrl, layoutCtrls, navargs) {
-                    var result = WinJS.Promise.wrap();
-                    var promises = [];
-
-                    if (layoutCtrls && layoutCtrls.length) {
-                        for (var i = 0 ; i < layoutCtrls.length; i++) {
-                            var ctrl = layoutCtrls[i];
-                            if (ctrl.pageLayout) {
-                                promises.push(WinJS.Promise.as(ctrl.pageLayout(newElementCtrl.element, navargs.detail.state)));
-                            }
-                        }
-                        result = WinJS.Promise.join(promises);
-                    }
-
-                    if (newElementCtrl && newElementCtrl.layoutPage) {
-                        var pageLayoutPromise = WinJS.Promise.as(newElementCtrl.layoutPage(newElementCtrl.element, navargs.detail.state));
-                        if (!promises.length) {
-                            result = pageLayoutPromise;
-                        }
-                        else {
-                            result = result.then(function () {
-                                return pageLayoutPromise;
-                            });
-                        }
-                    }
-                    newElementCtrl.addPromise(result);
-
-                    return result;
-                },
-
-                _pageContentReady: function (newElementCtrl, layoutCtrls, navargs) {
-                    if (newElementCtrl && newElementCtrl.contentReady) {
-                        newElementCtrl.contentReady(newElementCtrl.element, navargs.detail.state);
-                    }
-
-                    if (layoutCtrls && layoutCtrls.length) {
-                        for (var i = 0 ; i < layoutCtrls.length; i++) {
-                            var ctrl = layoutCtrls[i];
-                            if (ctrl.contentReady) {
-                                ctrl.contentReady(newElementCtrl.element, navargs.detail.state);
-                            }
-                        }
-                    }
-
-                    if (newElementCtrl.enterPageAnimation) {
-                        return WinJS.Promise.as(newElementCtrl.enterPageAnimation());
-                    }
-
-                    newElementCtrl.element.style.opacity = '';
-                    var elts = this._getAnimationElements();
-
-                    this.dispatchEvent("pageContentReady", navargs.detail);
-                    if (elts)
-                        return this.animations.enterPage(elts);
-                },
-
-                _pageReady: function (newElementCtrl, layoutCtrls, navargs) {
-                    if (newElementCtrl && newElementCtrl.pageReady) {
-                        newElementCtrl.pageReady(newElementCtrl.element, navargs.detail.state);
-                    }
-
-                    if (layoutCtrls && layoutCtrls.length) {
-                        for (var i = 0 ; i < layoutCtrls.length; i++) {
-                            var ctrl = layoutCtrls[i];
-                            if (ctrl.pageReady) {
-                                ctrl.pageReady(newElementCtrl.element, navargs.detail.state);
-                            }
-                        }
-                    }
-                    this.dispatchEvent("pageReady", navargs.detail);
-                    //return WinJS.Promise.timeout(); //setImmediate
-                },
-
-                _registerPageActions: function (newElementCtrl) {
-                    WinJSContrib.UI.bindActions(newElementCtrl.element, newElementCtrl);
                 },
 
                 // Responds to resize events and call the updateLayout function
@@ -712,9 +520,9 @@
 
                 // Updates the back button state. Called after navigation has
                 // completed.
-                _updateBackButton: function (args) {
+                _updateBackButton: function (control) {
                     var ctrl = this;
-                    var backButton = $(".win-backbutton", this.pageElement);
+                    var backButton = $(".win-backbutton", control.element);
                     //var backButton = this.pageElement.querySelector("header[role=banner] .win-backbutton");
 
                     if (backButton && backButton.length > 0) {

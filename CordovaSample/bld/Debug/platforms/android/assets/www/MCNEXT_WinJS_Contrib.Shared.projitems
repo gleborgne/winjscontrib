@@ -20,6 +20,9 @@
     <Content Include="$(MSBuildThisFileDirectory)css\default.css">
       <DependentUpon>default.less</DependentUpon>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\default.css.map">
+      <DependentUpon>default.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\default.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\defaultphone.css">
       <DependentUpon>defaultphone.less</DependentUpon>
@@ -34,6 +37,9 @@
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.css.map">
+      <DependentUpon>winjscontrib.ui.childviewflyout.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.css.map">
       <DependentUpon>winjscontrib.ui.css</DependentUpon>
@@ -44,6 +50,9 @@
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.dataform.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.extended-splashscreen.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.extended-splashscreen.css.map">
+      <DependentUpon>winjscontrib.ui.extended-splashscreen.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.extended-splashscreen.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.less" />
@@ -291,6 +300,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.tabcontrol.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.audiorecording.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.tracker.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.bgtask.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.contacts.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.core.js" />

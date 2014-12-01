@@ -5,11 +5,11 @@
 .phone .mcn-cordova progress.bar {
   background-color: white;
 }
-.mcn-splashcreen {
+.mcn-splashscreen {
   z-index: 5000;
   background-color: #a12121;
 }
-.mcn-splashcreen #mcn-splashcreen-image {
+.mcn-splashscreen #mcn-splashscreen-image {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -18,11 +18,11 @@
   margin-top: -187px;
   margin-left: -107px;
 }
-.mcn-splashcreen {
+.mcn-splashscreen {
   z-index: 5000;
   background-color: #a12121;
 }
-.mcn-splashcreen #mcn-splashcreen-image {
+.mcn-splashscreen #mcn-splashscreen-image {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -36,6 +36,9 @@
 }
 .phone.android #contenthost .win-backbutton {
   display: none;
+}
+.phone .fragment header[role="banner"] .titlearea {
+  margin-right: 20px;
 }
 .phone.iOS .fragment header[role=banner] .win-backbutton,
 .phone.iOS .fragment header[role=banner] .win-navigation-backbutton,
@@ -51,11 +54,6 @@
   padding-top: 20px;
   padding-bottom: 20px;
 }
-
-.phone .fragment header[role="banner"] .titlearea {
-    margin-right: 20px;
-}
-
 .phone .fragment header[role="banner"] {
   position: absolute;
   color: white;

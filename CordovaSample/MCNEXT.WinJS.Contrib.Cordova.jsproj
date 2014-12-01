@@ -191,6 +191,9 @@
     <Content Include="css\defaultcordovaphone.css">
       <DependentUpon>defaultcordovaphone.less</DependentUpon>
     </Content>
+    <Content Include="css\defaultcordovaphone.css.map">
+      <DependentUpon>defaultcordovaphone.css</DependentUpon>
+    </Content>
     <Content Include="css\defaultcordovaphone.less" />
     <Content Include="css\ui-themed.css" />
     <Content Include="css\ui-themed.theme-dark.css" />

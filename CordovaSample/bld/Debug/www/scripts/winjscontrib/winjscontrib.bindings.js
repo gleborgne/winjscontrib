@@ -118,7 +118,7 @@ var WinJSContrib;
                     dest.classList.add(formatParameter.format(data));
                 }
                 else {
-                    dest.classList.add(oldval);
+                    dest.classList.remove(oldval);
                     dest.classList.add(data);
                 }
             }

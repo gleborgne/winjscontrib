@@ -282,8 +282,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                 });
                 ctrl.allRendered = allRendered;
                 //countR();
-            } else if (tolerance > 0 && ctrl.items[0].rendered || ctrl.items[ctrl.items.length - 1].rendered) {
-                
+            } else if (tolerance > 0 && ctrl.items[0].rendered || ctrl.items[ctrl.items.length - 1].rendered) {                
                 ctrl.items.forEach(function (item) {
                     if (!item.rect) {
                         item.rect = WinJSContrib.UI.offsetFrom(item.element, ctrl.scrollContainer);
@@ -423,6 +422,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             var ctrl = this;
             if (ctrl.rendered) {
                 $(ctrl.element).untap();
+                ctrl.element.classList.remove('loaded');
                 ctrl.element.innerHTML = '';
                 ctrl.rendered = false;
             }

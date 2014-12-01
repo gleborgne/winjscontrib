@@ -5,6 +5,7 @@
 #contenthost {
   height: 100%;
   width: 100%;
+  margin: 0;
 }
 .fragment {
   /* Define a grid with rows for a banner and a body */
@@ -55,7 +56,7 @@
   height: 100%;
   width: 100%;
 }
-.mcn-splashcreen {
+.mcn-splashscreen {
   background-color: #a12121;
 }
 .split {
