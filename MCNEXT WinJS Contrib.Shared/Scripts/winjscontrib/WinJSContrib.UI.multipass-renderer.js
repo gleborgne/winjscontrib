@@ -281,7 +281,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                     }
                 });
                 ctrl.allRendered = allRendered;
-                countR();
+                //countR();
             } else if (tolerance > 0 && ctrl.items[0].rendered || ctrl.items[ctrl.items.length - 1].rendered) {
                 
                 ctrl.items.forEach(function (item) {
@@ -292,7 +292,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                         item.empty();
                     }
                 });
-                countR();
+                //countR();
             }
 
             if (tolerance == 0 && ctrl.tolerance > 0) {
