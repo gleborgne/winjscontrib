@@ -11,15 +11,18 @@
             options = options || {};
             this.threshold = options.threshold || 40;
             this.direction = options.direction || 'horizontal';
-            this.element.winControl = this;
+            if (!this.element.winControl)
+                this.element.winControl = this;
+
+            this.element.classList.add('mcn-swipeslide');
             this.element.classList.add('win-disposable');
             this.target = this.element;
-            WinJS.UI.setOptions(this, options);
             this.eventTracker = new WinJSContrib.UI.EventTracker();
             this.ptDown = null;
             this.registerEvents();
-            this.allowed = { left: true, right: true };
+            this.allowed = options.allowed || { left: true, right: true };
             this.disabled = false;
+            WinJS.UI.setOptions(this, options);
         }, {
             //someProperty: {
             //    get: function () {
@@ -53,6 +56,8 @@
                 if (this.disabled)
                     return;
 
+                
+
                 if (event.changedTouches) {
                     this.ptDown = { x: event.changedTouches[0].screenX, y: event.changedTouches[0].screenY, confirmed: false };
                     //event.preventDefault();
@@ -63,34 +68,54 @@
             },
 
             _processUp: function (event) {
+                var ctrl = this;
                 var elt = event.currentTarget || event.target;
-                if (event.pointerId && this.element.releasePointerCapture) {
-                    this.element.releasePointerCapture(event.pointerId);
+                if (event.pointerId && ctrl.element.releasePointerCapture) {
+                    ctrl.element.releasePointerCapture(event.pointerId);
                 }
 
-                if (this.ptDown) {
+                if (ctrl.ptDown) {
                     if (event.changedTouches) {
-                        var dX = this.ptDown.x - event.changedTouches[0].screenX;
-                        var dY = this.ptDown.y - event.changedTouches[0].screenY;
+                        var dX = ctrl.ptDown.x - event.changedTouches[0].screenX;
+                        var dY = ctrl.ptDown.y - event.changedTouches[0].screenY;
                     } else {
-                        var dX = this.ptDown.x - event.screenX;
-                        var dY = this.ptDown.y - event.screenY;
+                        var dX = ctrl.ptDown.x - event.screenX;
+                        var dY = ctrl.ptDown.y - event.screenY;
                     }
-                    if (Math.abs(dX) > this.element.clientWidth / 6) {
-                        var arg = { dX: dX, dY: dY, move: (-dX - this.threshold), direction: dX > 0 ? 'left' : 'right', handled: false };
-                        this.dispatchEvent('swipe', arg);
-                        if (!arg.handled) {
-                            this.setMove(0);
-                        }
+
+                    if (Math.abs(dX) > ctrl.element.clientWidth / 6) {
+                        var arg = { dX: dX, dY: dY, move: (-dX - ctrl.threshold), screenMove: ctrl.ptDown.screenMove, direction: dX > 0 ? 'left' : 'right', handled: false };
+                        ctrl.dispatchEvent('swipe', arg);
+                        setImmediate(function () {
+                            console.log('swipe slide, swipeHandled ' + ctrl.swipeHandled + '/' + arg.handled + '/' + ctrl.zurgl);
+                            if (!ctrl.swipeHandled) {
+                                ctrl._cancelMove();
+                            }
+                        });
                     } else {
-                        this.setMove(0);
+                        ctrl._cancelMove();
                     }
                 } else {
-                    this.setMove(0);
+                    ctrl._cancelMove();
                 }
 
-                this.ptDown = null;
+                ctrl.ptDown = null;
+            },
 
+            _cancelMove: function () {
+                var target = this.target;
+                console.log('swipe slide, cancel move')
+                if (target) {
+                    WinJS.UI.executeTransition(target, {
+                        property: "transform",
+                        delay: 10,
+                        duration: 400,
+                        easing: 'ease-in',
+                        to: 'translate(0,0)'
+                    }).then(function () {
+                        target.style.transform = '';
+                    });
+                }
             },
 
             _processMove: function (event) {
@@ -101,7 +126,6 @@
                     if (event.changedTouches) {
                         var dX = this.ptDown.x - event.changedTouches[0].screenX;
                         var dY = this.ptDown.y - event.changedTouches[0].screenY;
-
 
                     } else {
                         var dX = this.ptDown.x - event.screenX;
@@ -120,6 +144,9 @@
                         }
                         if (Math.abs(dX) > this.threshold) {
                             this.ptDown.confirmed = true;
+                            this.swipeHandled = false;
+                            console.log('start swipe');
+                            this.dispatchEvent('swipestart');
                             var elt = event.currentTarget || event.target;
                             if (event.pointerId && this.element.setPointerCapture) {
                                 this.element.setPointerCapture(event.pointerId);
@@ -128,28 +155,42 @@
                     }
 
                     if (this.ptDown.confirmed) {
-                        this.setMove((-dX - this.threshold) / 2);
+                        var screenMove = this.setMove((-dX - this.threshold) / 2);
+                        this.dispatchEvent('swipeprogress', { screenMove: screenMove, move: (-dX - this.threshold) });
                     }
                 }
             },
 
             setMove: function (move) {
-                if (move > 0 && !this.allowed.left) {
+                //console.log('raw move ' + move);
+                if (move > 0 && !this.allowed.right) {
                     move = Math.sqrt(move);
                     if (move > this.element.clientWidth / 6)
                         move = this.element.clientWidth / 6;
                 }
-                else if (move < 0 && !this.allowed.right) {
+                else if (move < 0 && !this.allowed.left) {
                     move = -Math.sqrt(-move);
                     if (move < -(this.element.clientWidth / 6))
                         move = -(this.element.clientWidth / 6);
                 }
 
-                if (this.target.style.webkitTransform !== undefined) {
-                    this.target.style.webkitTransform = 'translate3d(' + move + 'px, 0, 0)';
-                } else {
-                    this.target.style.transform = 'translate3d(' + move + 'px, 0, 0)';
+                if (this.minMoveBounds && move < this.minMoveBounds) {
+                    move = this.minMoveBounds;
                 }
+                if (this.maxMoveBounds && move > this.maxMoveBounds) {
+                    move = this.maxMoveBounds;
+                }
+
+                //console.log('move ' + move);
+                if (this.ptDown) this.ptDown.screenMove = move;
+
+                if (this.target.style.webkitTransform !== undefined) {
+                    this.target.style.webkitTransform = 'translate(' + move + 'px, 0)';
+                } else {
+                    this.target.style.transform = 'translate(' + move + 'px, 0)';
+                }
+
+                return move;
             },
 
             dispose: function () {
@@ -162,6 +203,6 @@
             }
         }),
         WinJS.UI.DOMEventMixin,
-        WinJS.Utilities.createEventProperties("swipe"))
+        WinJS.Utilities.createEventProperties(["swipe", "swipeprogress", "swipestart"]))
     });
 })();

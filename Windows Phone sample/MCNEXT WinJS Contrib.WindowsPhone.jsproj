@@ -58,6 +58,13 @@
       <DependentUpon>apptheme.less</DependentUpon>
     </Content>
     <Content Include="css\apptheme.less" />
+    <Content Include="css\defaultphone.css">
+      <DependentUpon>defaultphone.less</DependentUpon>
+    </Content>
+    <Content Include="css\defaultphone.css.map">
+      <DependentUpon>defaultphone.css</DependentUpon>
+    </Content>
+    <Content Include="css\defaultphone.less" />
     <Content Include="css\winJS\ui-dark.css" />
     <Content Include="css\winJS\ui-light.css" />
     <Content Include="default.html" />

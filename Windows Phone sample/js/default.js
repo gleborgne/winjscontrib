@@ -8,8 +8,6 @@
     var sched = WinJS.Utilities.Scheduler;
     var ui = WinJS.UI;
 
-
-
     app.addEventListener("activated", function (args) {
         var dataloading = function () {
             return WinJS.Promise.timeout(2000);
@@ -46,6 +44,7 @@
             }).then(function () {
                 ui.enableAnimations();
                 WinJSContrib.UI.Application.splashscreen.hide();
+                
                 WinJSContrib.UI.Application.navigator.addEventListener('pageContentReady', function (arg) {
                     setImmediate(function () {
                         $('.codelink', arg.detail.page.element).addClass('visible').tap(function (elt) {

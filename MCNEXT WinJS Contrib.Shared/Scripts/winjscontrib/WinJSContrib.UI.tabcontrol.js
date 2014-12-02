@@ -51,7 +51,7 @@
                     ctrl.registerTabs();
                 }
 
-                if (options.swipeSlide) {
+                if (options.swipeSlide && WinJSContrib.UI.SwipeSlide) {
                     ctrl.setSwipeSlideOnDefaultTab(options.rightbar);
                 }
 
@@ -91,12 +91,12 @@
                         if (ctrl.currentTab && ctrl.navigator.pageElement) {
                             if (arg.detail.direction == 'left') {
                                 ctrl.navigator.pageElement.getAnimationElements = function () { return null; }
-                                ctrl.navigator.pageElement.exitPage = function () { return WinJS.Promise.wrap(); };
+                                //ctrl.navigator.pageElement.exitPage = function () { return WinJS.Promise.wrap(); };
                                 WinJSContrib.UI.Animation.slideToLeft(ctrl.navigator.pageElement);
                             }
-                            if (arg.detail.direction == 'right') {
+                            else if (arg.detail.direction == 'right') {
                                 ctrl.navigator.pageElement.getAnimationElements = function () { return null; }
-                                ctrl.navigator.pageElement.exitPage = function () { return WinJS.Promise.wrap(); };
+                                //ctrl.navigator.pageElement.exitPage = function () { return WinJS.Promise.wrap(); };
                                 WinJSContrib.UI.Animation.slideToRight(ctrl.navigator.pageElement);
                             }
                             //ctrl.navigator.pageElement.style.opacity = 0;

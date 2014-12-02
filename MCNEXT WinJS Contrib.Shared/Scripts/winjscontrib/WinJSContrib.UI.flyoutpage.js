@@ -1,4 +1,5 @@
-﻿(function () {
+﻿/// <reference path="winjscontrib.core.js" />
+(function () {
     'use strict';
     WinJS.Namespace.define("WinJSContrib.UI", {
         parentFlyoutPage: function (element) {
@@ -24,6 +25,7 @@
          */
         function ctor(element, options) {
             var ctrl = this;
+            ctrl.eventTracker = new WinJSContrib.UI.EventTracker();
             ctrl.element = element || document.createElement('DIV');
             options = options || {};
 
@@ -35,12 +37,6 @@
 
             ctrl.hardwareBackBtnPressedBinded = ctrl.hardwareBackBtnPressed.bind(ctrl);
             ctrl.cancelNavigationBinded = ctrl.cancelNavigation.bind(ctrl);
-            WinJS.UI.setOptions(this, options);
-
-            if (!ctrl.enterAnimation)
-                ctrl.enterAnimation = options.enterAnimation || WinJS.UI.Animation.enterPage;
-            if (!ctrl.exitAnimation)
-                ctrl.exitAnimation = options.exitAnimation || WinJS.UI.Animation.exitPage;
 
             ctrl._container = document.createElement('DIV');
             ctrl._container.className = 'mcn-flyoutpage-area';
@@ -69,6 +65,33 @@
             ctrl._content.className = 'mcn-flyoutpage-content';
             ctrl._wrapperArea.appendChild(ctrl._content);
 
+            if (options.edgeSwipe && WinJSContrib.UI.SwipeSlide) {
+                console.log('flyout page edge swipe');
+                ctrl.edgeSwipeCtrl = new WinJSContrib.UI.SwipeSlide(null, { threshold: 4, allowed: { left: false, right: false } });
+                ctrl.edgeSwipeCtrl.element.classList.add('mcn-edgeswipe');
+                document.body.appendChild(ctrl.edgeSwipeCtrl.element);
+
+                ctrl.eventTracker.addEvent(ctrl.edgeSwipeCtrl, 'swipestart', function (arg) { ctrl._edgeSwipeStart(arg); });
+                ctrl.eventTracker.addEvent(ctrl.edgeSwipeCtrl, 'swipe', function (arg) { ctrl._edgeSwipeCompleted(arg); });
+            }
+
+            if (options.swipeToClose && WinJSContrib.UI.SwipeSlide) {
+                console.log('flyout page swipe to close');
+                ctrl.swipeToCloseCtrl = new WinJSContrib.UI.SwipeSlide(ctrl._wrapper, { allowed: { left: false, right: false }});
+                
+                ctrl.eventTracker.addEvent(ctrl.swipeToCloseCtrl, 'swipe', function (arg) { ctrl._swipeToCloseCompleted(arg); });
+            }
+
+            WinJS.UI.setOptions(this, options);
+
+            if (!ctrl.enterAnimation)
+                ctrl.enterAnimation = options.enterAnimation || WinJS.UI.Animation.enterPage;
+            if (!ctrl.exitAnimation)
+                ctrl.exitAnimation = options.exitAnimation || WinJS.UI.Animation.exitPage;
+
+            
+
+            
             if (options.uri) {
                 new WinJS.UI.HtmlControl(ctrl._content, { uri: options.uri }, function (elt) {
                     ctrl.contentCtrl = elt;
@@ -82,6 +105,14 @@
                 ctrl.bindLinks();
             }
             ctrl.element.appendChild(ctrl._container);
+
+            if (ctrl.edgeSwipeCtrl) {
+                ctrl.edgeSwipeCtrl.target = ctrl._container;
+            }
+
+            if (ctrl.swipeToCloseCtrl) {
+                ctrl.swipeToCloseCtrl.target = ctrl._wrapper;
+            }
 
         },
         /**
@@ -111,6 +142,13 @@
                     var ctrl = this;
                     this._placement = value;
                     if (this._placement == 'right') {
+                        if (ctrl.edgeSwipeCtrl) {
+                            ctrl.edgeSwipeCtrl.allowed.left = true;
+                            ctrl.edgeSwipeCtrl.element.classList.remove('mcn-edgeswipe-left');
+                            ctrl.edgeSwipeCtrl.element.classList.add('mcn-edgeswipe-right');
+                        }
+                        if (ctrl.swipeToCloseCtrl) ctrl.swipeToCloseCtrl.allowed.right = true;
+
                         ctrl.element.classList.add('partial-right');
                         if (!ctrl.enterAnimation) {
                             ctrl.enterAnimation = function (elements) { return WinJSContrib.UI.Animation.slideFromRight(elements, { duration: 300 }) };
@@ -120,6 +158,13 @@
                         }
                     }
                     else if (this._placement == 'left') {
+                        if (ctrl.edgeSwipeCtrl) {
+                            ctrl.edgeSwipeCtrl.allowed.right = true;
+                            ctrl.edgeSwipeCtrl.element.classList.remove('mcn-edgeswipe-right');
+                            ctrl.edgeSwipeCtrl.element.classList.add('mcn-edgeswipe-left');
+                        }
+                        if (ctrl.swipeToCloseCtrl) ctrl.swipeToCloseCtrl.allowed.left = true;
+
                         ctrl.element.classList.add('partial-left');
                         if (!ctrl.enterAnimation) {
                             ctrl.enterAnimation = function (elements) { return WinJSContrib.UI.Animation.slideFromLeft(elements, { duration: 300 }) };
@@ -397,7 +442,91 @@
                 });
             },
 
+            _edgeSwipeStart: function () {
+                var ctrl = this;
+                ctrl.edgeSwipeCtrl.minMoveBounds = null;
+                ctrl.edgeSwipeCtrl.maxMoveBounds = null;
+
+                if (ctrl.placement == 'right') {
+                    ctrl.edgeSwipeCtrl.minMoveBounds = ctrl.edgeSwipeCtrl.target.clientWidth * -1;
+                }
+            },
+
+            _edgeSwipeCompleted: function (arg) {
+                var ctrl = this;
+                console.log('swiped by ' + arg.move + '/' + arg.screenMove + ' ' + (document.body.clientWidth / 3));
+                if (Math.abs(arg.screenMove) > (document.body.clientWidth / 3)) {
+                    ctrl.edgeSwipeCtrl.swipeHandled = true;
+                    
+                    ctrl.element.classList.add('visible');
+                    ctrl._wrapper.classList.add('visible');
+                    ctrl.edgeSwipeCtrl.target.style.transform = '';
+                    if (ctrl.placement == 'right') {
+                        ctrl._wrapper.style.transform = 'translate(' + (document.body.clientWidth + arg.screenMove) + 'px, 0)';
+                    } else if (ctrl.placement == 'left') {
+                        ctrl._wrapper.style.transform = 'translate(' + (arg.screenMove) + 'px, 0)';
+                    }
+
+                    WinJS.UI.executeTransition(ctrl._wrapper, {
+                        property: "transform",
+                        delay: 10,
+                        duration: 600 * (1 - (document.body.clientWidth + arg.screenMove) / document.body.clientWidth),
+                        easing: 'ease-out',
+                        to: 'translate(0,0)'
+                    });
+
+                    ctrl._overlay.style.opacity = '0';
+                    ctrl._overlay.classList.add('visible');
+                    WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, 400);
+                }
+            },
+
+            _swipeToCloseCompleted: function (arg) {
+                var ctrl = this;
+                var swiper = ctrl.swipeToCloseCtrl;
+                console.log(swiper);
+                console.log('swiped back by ' + arg.move + '/' + arg.screenMove + ' ' + (document.body.clientWidth / 4) + '(' + swiper.swipeHandled + ')');
+                if (Math.abs(arg.screenMove) > (document.body.clientWidth / 4)) {
+                    swiper.swipeHandled = true;
+
+                    WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, 300).then(function () {
+                        ctrl._overlay.classList.remove('visible');
+                    });
+                    var targetX = '0', targetY = '0';
+                    if (ctrl.placement == 'right') {
+                        targetX = '100%';
+                    } else if (ctrl.placement == 'left') {
+                        targetX = '-100%';
+                    }
+
+
+                    WinJS.UI.executeTransition(ctrl._wrapper, {
+                        property: "transform",
+                        delay: 10,
+                        duration: 500 * (1 - (document.body.clientWidth - arg.screenMove) / document.body.clientWidth),
+                        easing: 'ease-out',
+                        to: 'translate(' + targetX + ',' + targetY + ')'
+                    }).then(function () {
+                        ctrl._wrapper.classList.remove('visible');
+                        ctrl.element.classList.remove('visible');
+                        ctrl._wrapper.style.transform = '';
+                        return ctrl.hide();
+                    });
+                } 
+            },
+
             dispose: function () {
+                var ctrl = this;
+                ctrl.eventTracker.dispose();
+                if (ctrl.edgeSwipeCtrl) {
+                    ctrl.edgeSwipeCtrl.dispose();
+                    $(ctrl.edgeSwipeCtrl.element).remove();
+                }
+
+                if (ctrl.swipeToCloseCtrl) {
+                    ctrl.swipeToCloseCtrl.dispose();
+                }
+
                 WinJS.Utilities.disposeSubTree(this.element);
             }
         }),
