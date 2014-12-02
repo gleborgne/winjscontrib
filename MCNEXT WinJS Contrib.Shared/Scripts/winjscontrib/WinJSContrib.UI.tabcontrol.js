@@ -89,37 +89,51 @@
 
                     ctrl.swipeSlide.onswipe = function (arg) {
                         if (ctrl.currentTab && ctrl.navigator.pageElement) {
-                            ctrl.navigator.pageElement.style.opacity = 0;
+                            if (arg.detail.direction == 'left') {
+                                ctrl.navigator.pageElement.getAnimationElements = function () { return null; }
+                                ctrl.navigator.pageElement.exitPage = function () { return WinJS.Promise.wrap(); };
+                                WinJSContrib.UI.Animation.slideToLeft(ctrl.navigator.pageElement);
+                            }
+                            if (arg.detail.direction == 'right') {
+                                ctrl.navigator.pageElement.getAnimationElements = function () { return null; }
+                                ctrl.navigator.pageElement.exitPage = function () { return WinJS.Promise.wrap(); };
+                                WinJSContrib.UI.Animation.slideToRight(ctrl.navigator.pageElement);
+                            }
+                            //ctrl.navigator.pageElement.style.opacity = 0;
                         }
 
                         if (ctrl.currentTab == null)
                             ctrl.selectFirst();
                         else if (arg.detail.direction == ctrl.left) {
+                            ctrl.navigator.animations.enterPage = function () {
+                                if (ctrl.left == 'left')
+                                    return WinJSContrib.UI.Animation.slideFromRight(ctrl.tabContent);
+                                else
+                                    return WinJSContrib.UI.Animation.slideFromLeft(ctrl.tabContent);
+                            }
+
                             if (ctrl.currentTab.item.index == 0) {
                                 ctrl.selectByIndex(ctrl.tabs.default.length - 1)
                             }
                             else {
                                 ctrl.selectByIndex(ctrl.currentTab.item.index - 1);
                             }
-                            ctrl.navigator.animations.enterPage = function () {
-                                if (ctrl.left == 'left')
-                                    WinJSContrib.UI.Animation.slideFromRight(ctrl.tabContent);
-                                else
-                                    WinJSContrib.UI.Animation.slideFromLeft(ctrl.tabContent);
-                            }
+
                         } else if (arg.detail.direction == ctrl.right) {
+                            ctrl.navigator.animations.enterPage = function () {
+                                if (ctrl.right == "right")
+                                    return WinJSContrib.UI.Animation.slideFromLeft(ctrl.tabContent);
+                                else
+                                    return WinJSContrib.UI.Animation.slideFromRight(ctrl.tabContent);
+                            }
+
                             if (ctrl.currentTab.item.index == ctrl.tabs.default.length - 1) {
                                 ctrl.selectByIndex(0)
                             }
                             else {
                                 ctrl.selectByIndex(ctrl.currentTab.item.index + 1);
                             }
-                            ctrl.navigator.animations.enterPage = function () {
-                                if (ctrl.right == "right")
-                                    WinJSContrib.UI.Animation.slideFromLeft(ctrl.tabContent);
-                                else
-                                    WinJSContrib.UI.Animation.slideFromRight(ctrl.tabContent);
-                            }
+
                         }
 
                     }
@@ -163,7 +177,6 @@
                 selectTabHeader: function () {
                     var ctrl = this;
                     if (ctrl.currentTab) {
-
                         WinJS.Utilities.addClass(ctrl.currentTab.element, 'current');
                     }
                 },
