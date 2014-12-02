@@ -74,6 +74,7 @@
                     ctrl.left = 'right';
                     ctrl.right = 'left';
                 },
+
                 setSwipeSlideOnDefaultTab: function (rightbar) {
                     var ctrl = this;
                     if (rightbar) {
@@ -87,8 +88,10 @@
                     ctrl.navigator.animations.exitPage = function (elt) { return WinJSContrib.UI.Animation.fadeOut(elt, 100) };
 
                     ctrl.swipeSlide.onswipe = function (arg) {
-                        if (ctrl.currentTab != null)
-                            ctrl.tabContent.style.opacity = 0;
+                        if (ctrl.currentTab && ctrl.navigator.pageElement) {
+                            ctrl.navigator.pageElement.style.opacity = 0;
+                        }
+
                         if (ctrl.currentTab == null)
                             ctrl.selectFirst();
                         else if (arg.detail.direction == ctrl.left) {

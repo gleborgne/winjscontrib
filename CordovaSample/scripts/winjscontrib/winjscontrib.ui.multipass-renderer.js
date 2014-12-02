@@ -422,6 +422,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             var ctrl = this;
             if (ctrl.rendered) {
                 $(ctrl.element).untap();
+                ctrl.element.classList.remove('loaded');
                 ctrl.element.innerHTML = '';
                 ctrl.rendered = false;
             }

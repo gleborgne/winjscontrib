@@ -1318,7 +1318,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         if (options.enterPage) {
             var elts = null;
             if (newElementCtrl && newElementCtrl.getAnimationElements) {
-                elts = newElementCtrl.getAnimationElements(isExit);
+                elts = newElementCtrl.getAnimationElements(false);
             } else {
                 elts = newElementCtrl.element;
             }
