@@ -81,14 +81,13 @@ function HSL(hVal, sVal, lVal) {
         var elt = event.currentTarget || event.target;
         if (event.button === undefined || event.button === 0 || event.button === 2) {
             var $this = $(elt);
-            $this.removeClass('tapped');
 
             event.stopPropagation();
             if (elt.releasePointerCapture)
                 elt.releasePointerCapture(event.pointerId);
 
             if (elt.mcnTapTracking && !elt.mcnTapTracking.tapOnDown) {
-                elt.mcnTapTracking.animUp(elt).done(function () {
+                var resolveTap = function () {
                     if (elt.mcnTapTracking && elt.mcnTapTracking.pointerdown) {
                         if (event.changedTouches) {
                             var dX = Math.abs(elt.mcnTapTracking.pointerdown.x - event.changedTouches[0].clientX);
@@ -107,8 +106,20 @@ function HSL(hVal, sVal, lVal) {
                         if (elt.mcnTapTracking && elt.mcnTapTracking.pointerdown)
                             elt.mcnTapTracking.pointerdown = undefined;
                     }
-                });
+                }
+
+                if (elt.mcnTapTracking.awaitAnim) {
+                    elt.mcnTapTracking.animUp(elt).done(resolveTap);
+                }
+                else {
+                    elt.mcnTapTracking.animUp(elt);
+                    resolveTap();
+                }
+                //.done(function () {
+
+                //});
             }
+            $this.removeClass('tapped');
         }
     }
 
@@ -130,6 +141,7 @@ function HSL(hVal, sVal, lVal) {
             this.mcnTapTracking.element = this;
             this.mcnTapTracking.callback = callback;
             this.mcnTapTracking.lock = opt.lock;
+            this.mcnTapTracking.awaitAnim = opt.awaitAnim || false;
             this.mcnTapTracking.disableAnimation = opt.disableAnimation;
             this.mcnTapTracking.tapOnDown = opt.tapOnDown;
             this.mcnTapTracking.pointerModel = 'none';
