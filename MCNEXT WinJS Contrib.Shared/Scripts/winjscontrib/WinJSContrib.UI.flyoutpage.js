@@ -1,6 +1,10 @@
 ﻿/// <reference path="winjscontrib.core.js" />
 (function () {
     'use strict';
+    function debugLog(msg) {
+        console.log(msg);
+    }
+
     WinJS.Namespace.define("WinJSContrib.UI", {
         parentFlyoutPage: function (element) {
             if (!element)
@@ -66,7 +70,7 @@
             ctrl._wrapperArea.appendChild(ctrl._content);
 
             if (options.edgeSwipe && WinJSContrib.UI.SwipeSlide) {
-                console.log('flyout page edge swipe');
+                debugLog('flyout page edge swipe');
                 ctrl.edgeSwipeCtrl = new WinJSContrib.UI.SwipeSlide(null, { moveDivider: 1, threshold: 4, allowed: { left: false, right: false } });
                 ctrl.edgeSwipeCtrl.element.classList.add('mcn-edgeswipe');
                 document.body.appendChild(ctrl.edgeSwipeCtrl.element);
@@ -76,7 +80,7 @@
             }
 
             if (options.swipeToClose && WinJSContrib.UI.SwipeSlide) {
-                console.log('flyout page swipe to close');
+                debugLog('flyout page swipe to close');
                 ctrl.swipeToCloseCtrl = new WinJSContrib.UI.SwipeSlide(ctrl._wrapper, { moveDivider: 1, allowed: { left: false, right: false } });
 
                 ctrl.eventTracker.addEvent(ctrl.swipeToCloseCtrl, 'swipe', function (arg) { ctrl._swipeToCloseCompleted(arg); });
@@ -258,6 +262,10 @@
 
             registerBack: function () {
                 var ctrl = this;
+                if (ctrl.edgeSwipeCtrl) {
+                    ctrl.edgeSwipeCtrl.disabled = true;
+                }
+
                 WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
                 if (window.Windows && window.Windows.Phone)
                     Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
@@ -335,6 +343,10 @@
 
                 if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
                     WinJSContrib.UI.Application.navigator.removeLock();
+
+                if (ctrl.edgeSwipeCtrl) {
+                    ctrl.edgeSwipeCtrl.disabled = false;
+                }
 
                 WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
                 if (window.Windows && window.Windows.Phone)
@@ -454,20 +466,27 @@
 
             _edgeSwipeStart: function () {
                 var ctrl = this;
+
+                
+
                 ctrl.edgeSwipeCtrl.minMoveBounds = null;
                 ctrl.edgeSwipeCtrl.maxMoveBounds = null;
 
                 if (ctrl.placement == 'right') {
-                    ctrl.edgeSwipeCtrl.minMoveBounds = ctrl.edgeSwipeCtrl.target.clientWidth * -1;
+                    var bound = ctrl._content.clientWidth * -1;
+                    debugLog('minBounds ' + bound);
+                    ctrl.edgeSwipeCtrl.minMoveBounds = bound;
                 }
                 else if (ctrl.placement == 'left') {
-                    ctrl.edgeSwipeCtrl.maxMoveBounds = ctrl.edgeSwipeCtrl.target.clientWidth;
+                    var bound = ctrl._content.clientWidth;
+                    debugLog('maxBounds ' + bound);
+                    ctrl.edgeSwipeCtrl.maxMoveBounds = bound;
                 }
             },
 
             _edgeSwipeCompleted: function (arg) {
                 var ctrl = this;
-                console.log('swiped by ' + arg.move + '/' + arg.screenMove + ' ' + (document.body.clientWidth / 3));
+                debugLog('swiped by ' + arg.move + '/' + arg.screenMove + ' ' + (document.body.clientWidth / 3));
                 if (Math.abs(arg.screenMove) > (document.body.clientWidth / 3)) {
                     ctrl.edgeSwipeCtrl.swipeHandled = true;
 
@@ -501,7 +520,7 @@
             _swipeToCloseCompleted: function (arg) {
                 var ctrl = this;
                 var swiper = ctrl.swipeToCloseCtrl;
-                console.log('swiped back by ' + arg.move + '/' + arg.screenMove + ' ' + (document.body.clientWidth / 4) + '(' + swiper.swipeHandled + ')');
+                debugLog('swiped back by ' + arg.move + '/' + arg.screenMove + ' ' + (document.body.clientWidth / 4) + '(' + swiper.swipeHandled + ')');
                 if (Math.abs(arg.screenMove) > (document.body.clientWidth / 4)) {
                     swiper.swipeHandled = true;
 

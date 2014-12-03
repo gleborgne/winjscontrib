@@ -162,7 +162,7 @@
 
                 view.startViewInUse();
                 return new WinJS.Promise(function (complete, error) {
-                    Windows.UI.ViewManagement.ApplicationViewSwitcher.startProjectingAsync(view.viewId, Windows.UI.ViewManagement.ApplicationView.getForCurrentView().id).done(function (pointer) {
+                    Windows.UI.ViewManagement.ProjectionManager.startProjectingAsync(view.viewId, Windows.UI.ViewManagement.ApplicationView.getForCurrentView().id).done(function (pointer) {
                         view.stopViewInUse();
                         complete({ view: view, pointer: pointer });
                     }, error);

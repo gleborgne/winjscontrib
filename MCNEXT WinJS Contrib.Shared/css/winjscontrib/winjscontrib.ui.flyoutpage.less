@@ -72,6 +72,7 @@
     bottom: 0;
     width: 15px;
     background-color: rgba(0, 255, 0, 0.6);
+    z-index: 200;
 
     &.mcn-edgeswipe-left {
         left: 0;
@@ -85,13 +86,15 @@
 .mcn-flyoutpage.partial-right {
     left: 100%;
 
+    & > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper {
+        width: 80%;
+        top: 0;
+    }
+
     &.visible {
         left: 0;
 
         & > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper {
-            width: 80%;
-            top: 0;
-
             &.visible {
                 right: 0;
             }
@@ -102,10 +105,18 @@
 .mcn-flyoutpage.partial-left {
     left: -100%;
 
+    & > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper {
+            width: 80%;
+            right: 0;
+            top: 0;
+        }
+
     &.visible {
         left: 0;
+
         & > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper {
             width: 80%;
+            right: auto;
             left: 0;
             top: 0;
         }

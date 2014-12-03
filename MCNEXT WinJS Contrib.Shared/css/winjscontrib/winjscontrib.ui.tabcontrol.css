@@ -86,7 +86,11 @@
   text-align: center;
   opacity: 0.8;
 }
+.mcn-tabpages {
+  overflow: hidden;
+}
 .mcn-tabpages .mcn-tabpages-header {
+  position: relative;
   background-color: #444444;
   color: white;
 }

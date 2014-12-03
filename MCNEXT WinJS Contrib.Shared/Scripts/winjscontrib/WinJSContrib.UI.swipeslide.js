@@ -5,11 +5,16 @@
 
 (function () {
     'use strict';
+
+    function debugLog(msg) {
+        console.log(msg);
+    }
+
     WinJS.Namespace.define("WinJSContrib.UI", {
         SwipeSlide: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
             this.element = element || document.createElement('DIV');
             options = options || {};
-            this.moveDivider = options.moveDivider || 2;
+            this.moveDivider = options.moveDivider || 1;
             this.threshold = options.threshold || 40;
             this.direction = options.direction || 'horizontal';
             if (!this.element.winControl)
@@ -72,7 +77,9 @@
                 var ctrl = this;
                 var elt = event.currentTarget || event.target;
                 if (event.pointerId && ctrl.element.releasePointerCapture) {
-                    ctrl.element.releasePointerCapture(event.pointerId);
+                    try{
+                        ctrl.element.releasePointerCapture(event.pointerId);
+                    }catch(exception){}
                 }
 
                 if (ctrl.ptDown) {
@@ -88,7 +95,7 @@
                         var arg = { dX: dX, dY: dY, move: (-dX - ctrl.threshold), screenMove: ctrl.ptDown.screenMove, direction: dX > 0 ? 'left' : 'right', handled: false };
                         ctrl.dispatchEvent('swipe', arg);
                         //setImmediate(function () {
-                        console.log('swipe slide, swipeHandled ' + ctrl.swipeHandled + '/' + arg.handled + '/' + ctrl.zurgl);
+                        debugLog('swipe slide, swipeHandled ' + ctrl.swipeHandled + '/' + arg.handled + '/' + ctrl.zurgl);
                         if (!ctrl.swipeHandled) {
                             ctrl._cancelMove();
                         }
@@ -105,13 +112,13 @@
 
             _cancelMove: function () {
                 var target = this.target;
-                console.log('swipe slide, cancel move')
+                debugLog('swipe slide, cancel move')
                 if (target) {
                     WinJS.UI.executeTransition(target, {
                         property: "transform",
                         delay: 10,
                         duration: 400,
-                        easing: 'ease-in',
+                        easing: 'ease-out',
                         to: 'translate(0,0)'
                     }).then(function () {
                         target.style.transform = '';
@@ -152,7 +159,7 @@
                         if (Math.abs(dX) > this.threshold) {
                             this.ptDown.confirmed = true;
                             this.swipeHandled = false;
-                            console.log('start swipe');
+                            debugLog('start swipe');
                             this.dispatchEvent('swipestart');
                             var elt = event.currentTarget || event.target;
                             if (event.pointerId && this.element.setPointerCapture) {
@@ -162,17 +169,19 @@
                     }
 
                     if (this.ptDown.confirmed) {
-                        var screenMove = this.setMove((-dX - this.threshold) / this.moveDivider);
+                        var moveval = (-dX - this.threshold) / (window.devicePixelRatio * this.moveDivider);
+                        debugLog('swipe move ' + dX + ' / ' + moveval);
+                        var screenMove = this.setMove(moveval);
                         this.dispatchEvent('swipeprogress', { screenMove: screenMove, move: (-dX - this.threshold) });
                     }
                 }
                 else {
-                    console.log('swipe move');
+                    debugLog('swipe move');
                 }
             },
 
             setMove: function (move) {
-                //console.log('raw move ' + move);
+                //debugLog('raw move ' + move);
                 if (move > 0 && !this.allowed.right) {
                     move = Math.sqrt(move);
                     if (move > this.element.clientWidth / 6)
@@ -191,7 +200,7 @@
                     move = this.maxMoveBounds;
                 }
 
-                //console.log('move ' + move);
+                //debugLog('move ' + move);
                 if (this.ptDown) this.ptDown.screenMove = move;
 
                 if (this.target.style.webkitTransform !== undefined) {

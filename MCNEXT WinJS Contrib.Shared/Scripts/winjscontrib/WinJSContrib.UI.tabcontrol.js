@@ -69,6 +69,7 @@
                     ctrl.tabs[group].tabGroup = defaultgroup;
                     ctrl.tabHeader.appendChild(defaultgroup);
                 },
+
                 setSwipeRightbar: function () {
                     var ctrl = this;
                     ctrl.left = 'right';
@@ -85,6 +86,7 @@
                         ctrl.left = 'left';
                         ctrl.right = 'right';
                     }
+
                     ctrl.swipeSlide = new WinJSContrib.UI.SwipeSlide(ctrl.tabContent);
                     ctrl.navigator.animations.exitPage = function (elt) { return WinJSContrib.UI.Animation.fadeOut(elt, 100) };
 
@@ -123,34 +125,29 @@
 
                         if (ctrl.currentTab == null)
                             ctrl.selectFirst();
-                        else if (arg.detail.direction == ctrl.left) {
+
+                        else if (arg.detail.direction == 'right') {
                             ctrl.navigator.animations.enterPage = function () {
-                                if (ctrl.left == 'left')
-                                    return WinJSContrib.UI.Animation.slideFromRight(ctrl.tabContent);
-                                else
-                                    return WinJSContrib.UI.Animation.slideFromLeft(ctrl.tabContent);
+                                return WinJSContrib.UI.Animation.slideFromLeft(ctrl.tabContent);
                             }
 
-                            if (ctrl.currentTab.item.index == 0) {
+                            if (ctrl.currentTab.index == 0) {
                                 ctrl.selectByIndex(ctrl.tabs.default.length - 1)
                             }
                             else {
-                                ctrl.selectByIndex(ctrl.currentTab.item.index - 1);
+                                ctrl.selectByIndex(ctrl.currentTab.index - 1);
                             }
 
-                        } else if (arg.detail.direction == ctrl.right) {
+                        } else if (arg.detail.direction == 'left') {
                             ctrl.navigator.animations.enterPage = function () {
-                                if (ctrl.right == "right")
-                                    return WinJSContrib.UI.Animation.slideFromLeft(ctrl.tabContent);
-                                else
-                                    return WinJSContrib.UI.Animation.slideFromRight(ctrl.tabContent);
+                                return WinJSContrib.UI.Animation.slideFromRight(ctrl.tabContent);
                             }
 
-                            if (ctrl.currentTab.item.index == ctrl.tabs.default.length - 1) {
+                            if (ctrl.currentTab.index == ctrl.tabs.default.length - 1) {
                                 ctrl.selectByIndex(0)
                             }
                             else {
-                                ctrl.selectByIndex(ctrl.currentTab.item.index + 1);
+                                ctrl.selectByIndex(ctrl.currentTab.index + 1);
                             }
 
                         }
@@ -205,6 +202,7 @@
 
                     var grp = ctrl.tabs[group || 'default'];
                     var tab = grp[index];
+
                     if (tab)
                         ctrl.selectTab(tab, skipHeader);
                 },
@@ -241,6 +239,8 @@
                             };
                             element.mcnTab = tab;
                             grp.tabGroup.appendChild(element);
+                            tab.index = grp.length;
+                            tab.group = group;
                             grp.push(tab);
                             $(tab.element).tap(function () {
                                 ctrl.selectTab(tab);
@@ -282,6 +282,8 @@
                         };
 
                         tabelt.mcnTab = tab;
+                        tab.index = grp.length;
+                        tab.group = group;
                         grp.push(tab);
                         $(tabelt).tap(function () {
                             if (tab.link.oninvoked) {

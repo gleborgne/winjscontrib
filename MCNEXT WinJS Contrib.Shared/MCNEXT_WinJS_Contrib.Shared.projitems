@@ -67,6 +67,9 @@
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.hub.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.css.map">
+      <DependentUpon>winjscontrib.ui.tabcontrol.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.less" />
     <Content Include="$(MSBuildThisFileDirectory)images\mcnstore.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)pages\alerts\alerts.css" />
