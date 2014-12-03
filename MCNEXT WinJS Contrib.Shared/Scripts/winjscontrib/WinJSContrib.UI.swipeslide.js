@@ -131,7 +131,7 @@
                     y = this.ptDown.transformOffsetY;
                 }
 
-                debugLog('swipe slide, cancel move');
+                debugLog('swipe slide, cancel move ' + x + '/' + y);
                 if (target) {
                     WinJS.UI.executeTransition(target, {
                         property: "transform",
@@ -139,11 +139,15 @@
                         duration: 400,
                         easing: 'ease-out',
                         to: 'translate(' + x + 'px,' + y + 'px)'
-                    }).then(function () {
-                        target.style.transform = '';
-                        if (target.style.hasOwnProperty('webkitTransform'))
-                            target.style.webkitTransform = '';
                     });
+                    
+                    //.then(function () {
+                    //    if (x === 0 && y === 0) {
+                    //        target.style.transform = '';
+                    //        if (target.style.hasOwnProperty('webkitTransform'))
+                    //            target.style.webkitTransform = '';
+                    //    }
+                    //});
                 }
             },
 

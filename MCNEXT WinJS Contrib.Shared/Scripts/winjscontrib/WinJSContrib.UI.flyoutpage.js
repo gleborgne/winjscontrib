@@ -39,6 +39,7 @@
             ctrl.element.classList.add('mcn-flyout');
             ctrl.element.classList.add('win-disposable');
 
+            
             ctrl.hardwareBackBtnPressedBinded = ctrl.hardwareBackBtnPressed.bind(ctrl);
             ctrl.cancelNavigationBinded = ctrl.cancelNavigation.bind(ctrl);
 
@@ -110,7 +111,8 @@
             }
             ctrl.element.appendChild(ctrl._container);
             ctrl._swipeTargets();
-
+            if (!ctrl.display)
+                ctrl.display = 'overlay';
         },
         /**
          * @lends WinJSContrib.UI.FlyoutPage.prototype
@@ -354,23 +356,7 @@
                     ctrl.contentCtrl.beforehide();
                 }
                 this.dispatchEvent("beforehide");
-
-                if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
-                    WinJSContrib.UI.Application.navigator.removeLock();
-
-                if (ctrl.edgeSwipeCtrl) {
-                    ctrl.edgeSwipeCtrl.disabled = false;
-                }
-
-                if (ctrl.display == 'move') {
-                    ctrl.element.parentElement.style.transform = '';
-                }
-
-                WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
-                if (window.Windows && window.Windows.Phone)
-                    Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", this.hardwareBackBtnPressedBinded);
-                else
-                    document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
+                this._removeNavigationLocks();
 
                 return WinJS.Promise.join([ctrl.exitAnimation(ctrl._wrapper), WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, 200)]).then(function () {
                     return WinJS.Promise.timeout(100);
@@ -389,8 +375,26 @@
                     }
                     ctrl.dispatchEvent("afterhide");
                 });
+            },
 
+            _removeNavigationLocks: function () {
+                var ctrl = this;
+                if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+                    WinJSContrib.UI.Application.navigator.removeLock();
 
+                WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
+                if (window.Windows && window.Windows.Phone)
+                    Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", this.hardwareBackBtnPressedBinded);
+                else
+                    document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
+
+                if (ctrl.edgeSwipeCtrl) {
+                    ctrl.edgeSwipeCtrl.disabled = false;
+                }
+
+                //if (ctrl.display == 'move') {
+                //    ctrl.element.parentElement.style.transform = '';
+                //}
             },
 
             bindLinks: function () {
@@ -572,8 +576,7 @@
                 debugLog('swiped back by ' + arg.move + '/' + arg.screenMove + ' ' + (document.body.clientWidth / 4) + '(' + swiper.swipeHandled + ')');
                 if (Math.abs(arg.screenMove) > (document.body.clientWidth / 4)) {
                     swiper.swipeHandled = true;
-                    if (ctrl.edgeSwipeCtrl)
-                        ctrl.edgeSwipeCtrl.disabled = false;
+                    ctrl._removeNavigationLocks();
 
                     WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, 300).then(function () {
                         ctrl._overlay.classList.remove('visible');
