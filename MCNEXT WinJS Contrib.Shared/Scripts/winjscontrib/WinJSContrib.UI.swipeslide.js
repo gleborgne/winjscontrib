@@ -9,6 +9,7 @@
         SwipeSlide: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
             this.element = element || document.createElement('DIV');
             options = options || {};
+            this.moveDivider = options.moveDivider || 2;
             this.threshold = options.threshold || 40;
             this.direction = options.direction || 'horizontal';
             if (!this.element.winControl)
@@ -56,7 +57,7 @@
                 if (this.disabled)
                     return;
 
-                
+
 
                 if (event.changedTouches) {
                     this.ptDown = { x: event.changedTouches[0].screenX, y: event.changedTouches[0].screenY, confirmed: false };
@@ -86,12 +87,12 @@
                     if (Math.abs(dX) > ctrl.element.clientWidth / 6) {
                         var arg = { dX: dX, dY: dY, move: (-dX - ctrl.threshold), screenMove: ctrl.ptDown.screenMove, direction: dX > 0 ? 'left' : 'right', handled: false };
                         ctrl.dispatchEvent('swipe', arg);
-                        setImmediate(function () {
-                            console.log('swipe slide, swipeHandled ' + ctrl.swipeHandled + '/' + arg.handled + '/' + ctrl.zurgl);
-                            if (!ctrl.swipeHandled) {
-                                ctrl._cancelMove();
-                            }
-                        });
+                        //setImmediate(function () {
+                        console.log('swipe slide, swipeHandled ' + ctrl.swipeHandled + '/' + arg.handled + '/' + ctrl.zurgl);
+                        if (!ctrl.swipeHandled) {
+                            ctrl._cancelMove();
+                        }
+                        //});
                     } else {
                         ctrl._cancelMove();
                     }
@@ -114,6 +115,8 @@
                         to: 'translate(0,0)'
                     }).then(function () {
                         target.style.transform = '';
+                        if (target.style.hasOwnProperty('webkitTransform'))
+                            target.style.webkitTransform = '';
                     });
                 }
             },
@@ -121,6 +124,10 @@
             _processMove: function (event) {
                 if (this.disabled)
                     return;
+
+                if (!this.ptDown && event.changedTouches) {
+                    this.ptDown = { x: event.changedTouches[0].screenX, y: event.changedTouches[0].screenY, confirmed: false };
+                }
 
                 if (this.ptDown) {
                     if (event.changedTouches) {
@@ -155,9 +162,12 @@
                     }
 
                     if (this.ptDown.confirmed) {
-                        var screenMove = this.setMove((-dX - this.threshold) / 2);
+                        var screenMove = this.setMove((-dX - this.threshold) / this.moveDivider);
                         this.dispatchEvent('swipeprogress', { screenMove: screenMove, move: (-dX - this.threshold) });
                     }
+                }
+                else {
+                    console.log('swipe move');
                 }
             },
 
@@ -203,6 +213,6 @@
             }
         }),
         WinJS.UI.DOMEventMixin,
-        WinJS.Utilities.createEventProperties(["swipe", "swipeprogress", "swipestart"]))
+        WinJS.Utilities.createEventProperties("swipe", "swipeprogress", "swipestart"))
     });
 })();

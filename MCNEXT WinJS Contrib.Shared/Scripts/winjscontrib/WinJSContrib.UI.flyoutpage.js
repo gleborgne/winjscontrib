@@ -67,7 +67,7 @@
 
             if (options.edgeSwipe && WinJSContrib.UI.SwipeSlide) {
                 console.log('flyout page edge swipe');
-                ctrl.edgeSwipeCtrl = new WinJSContrib.UI.SwipeSlide(null, { threshold: 4, allowed: { left: false, right: false } });
+                ctrl.edgeSwipeCtrl = new WinJSContrib.UI.SwipeSlide(null, { moveDivider: 1, threshold: 4, allowed: { left: false, right: false } });
                 ctrl.edgeSwipeCtrl.element.classList.add('mcn-edgeswipe');
                 document.body.appendChild(ctrl.edgeSwipeCtrl.element);
 
@@ -77,8 +77,8 @@
 
             if (options.swipeToClose && WinJSContrib.UI.SwipeSlide) {
                 console.log('flyout page swipe to close');
-                ctrl.swipeToCloseCtrl = new WinJSContrib.UI.SwipeSlide(ctrl._wrapper, { allowed: { left: false, right: false }});
-                
+                ctrl.swipeToCloseCtrl = new WinJSContrib.UI.SwipeSlide(ctrl._wrapper, { moveDivider: 1, allowed: { left: false, right: false } });
+
                 ctrl.eventTracker.addEvent(ctrl.swipeToCloseCtrl, 'swipe', function (arg) { ctrl._swipeToCloseCompleted(arg); });
             }
 
@@ -89,9 +89,9 @@
             if (!ctrl.exitAnimation)
                 ctrl.exitAnimation = options.exitAnimation || WinJS.UI.Animation.exitPage;
 
-            
 
-            
+
+
             if (options.uri) {
                 new WinJS.UI.HtmlControl(ctrl._content, { uri: options.uri }, function (elt) {
                     ctrl.contentCtrl = elt;
@@ -256,6 +256,21 @@
                 return p;
             },
 
+            registerBack: function () {
+                var ctrl = this;
+                WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
+                if (window.Windows && window.Windows.Phone)
+                    Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
+                else
+                    document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
+
+            },
+
+            lockNavigation: function () {
+                if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+                    WinJSContrib.UI.Application.navigator.addLock();
+            },
+
             show: function () {
                 var ctrl = this;
                 if (ctrl.contentCtrl && ctrl.contentCtrl.beforeshow) {
@@ -268,11 +283,7 @@
                 ctrl._wrapper.style.opacity = '0';
                 ctrl._overlay.style.opacity = '0';
                 ctrl._overlay.classList.add('visible');
-                WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
-                if (window.Windows && window.Windows.Phone)
-                    Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
-                else
-                    document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
+                ctrl.registerBack();
 
                 WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, 400);
 
@@ -294,8 +305,7 @@
                         ctrl.contentCtrl.aftershow();
                     }
                     ctrl.dispatchEvent("aftershow");
-                    if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
-                        WinJSContrib.UI.Application.navigator.addLock();
+                    ctrl.lockNavigation();
                 });
             },
 
@@ -450,6 +460,9 @@
                 if (ctrl.placement == 'right') {
                     ctrl.edgeSwipeCtrl.minMoveBounds = ctrl.edgeSwipeCtrl.target.clientWidth * -1;
                 }
+                else if (ctrl.placement == 'left') {
+                    ctrl.edgeSwipeCtrl.maxMoveBounds = ctrl.edgeSwipeCtrl.target.clientWidth;
+                }
             },
 
             _edgeSwipeCompleted: function (arg) {
@@ -457,10 +470,12 @@
                 console.log('swiped by ' + arg.move + '/' + arg.screenMove + ' ' + (document.body.clientWidth / 3));
                 if (Math.abs(arg.screenMove) > (document.body.clientWidth / 3)) {
                     ctrl.edgeSwipeCtrl.swipeHandled = true;
-                    
+
                     ctrl.element.classList.add('visible');
                     ctrl._wrapper.classList.add('visible');
                     ctrl.edgeSwipeCtrl.target.style.transform = '';
+                    if (ctrl.edgeSwipeCtrl.target.style.hasOwnProperty('webkitTransform'))
+                        ctrl.edgeSwipeCtrl.target.style.webkitTransform = '';
                     if (ctrl.placement == 'right') {
                         ctrl._wrapper.style.transform = 'translate(' + (document.body.clientWidth + arg.screenMove) + 'px, 0)';
                     } else if (ctrl.placement == 'left') {
@@ -478,13 +493,14 @@
                     ctrl._overlay.style.opacity = '0';
                     ctrl._overlay.classList.add('visible');
                     WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, 400);
+                    ctrl.registerBack();
+                    ctrl.lockNavigation();
                 }
             },
 
             _swipeToCloseCompleted: function (arg) {
                 var ctrl = this;
                 var swiper = ctrl.swipeToCloseCtrl;
-                console.log(swiper);
                 console.log('swiped back by ' + arg.move + '/' + arg.screenMove + ' ' + (document.body.clientWidth / 4) + '(' + swiper.swipeHandled + ')');
                 if (Math.abs(arg.screenMove) > (document.body.clientWidth / 4)) {
                     swiper.swipeHandled = true;
@@ -499,7 +515,6 @@
                         targetX = '-100%';
                     }
 
-
                     WinJS.UI.executeTransition(ctrl._wrapper, {
                         property: "transform",
                         delay: 10,
@@ -509,10 +524,14 @@
                     }).then(function () {
                         ctrl._wrapper.classList.remove('visible');
                         ctrl.element.classList.remove('visible');
-                        ctrl._wrapper.style.transform = '';
+
                         return ctrl.hide();
+                    }).then(function () {
+                        ctrl._wrapper.style.transform = '';
+                        if (ctrl._wrapper.style.hasOwnProperty('webkitTransform'))
+                            ctrl._wrapper.style.webkitTransform = '';
                     });
-                } 
+                }
             },
 
             dispose: function () {

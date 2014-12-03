@@ -77,6 +77,7 @@
 
                 setSwipeSlideOnDefaultTab: function (rightbar) {
                     var ctrl = this;
+
                     if (rightbar) {
                         ctrl.setSwipeRightbar();
                     }
@@ -88,19 +89,37 @@
                     ctrl.navigator.animations.exitPage = function (elt) { return WinJSContrib.UI.Animation.fadeOut(elt, 100) };
 
                     ctrl.swipeSlide.onswipe = function (arg) {
+                        var targetStyle = ctrl.swipeSlide.target.style;
+                        if (targetStyle.hasOwnProperty('webkitTransform')) {
+                            console.log('running on webkit');
+                        }
+
+                        ctrl.swipeSlide.swipeHandled = true;
                         if (ctrl.currentTab && ctrl.navigator.pageElement) {
+                            var pageElt = ctrl.navigator.pageElement;
+                            pageElt.style.transform = targetStyle.transform;
+                            if (targetStyle.hasOwnProperty('webkitTransform')) {
+                                pageElt.style.webkitTransform = targetStyle.webkitTransform;
+                                targetStyle.webkitTransform = '';
+                            }
+                            targetStyle.transform = '';
+
+
                             if (arg.detail.direction == 'left') {
-                                ctrl.navigator.pageElement.getAnimationElements = function () { return null; }
+                                pageElt.winControl.getAnimationElements = function () { return null; }
                                 //ctrl.navigator.pageElement.exitPage = function () { return WinJS.Promise.wrap(); };
-                                WinJSContrib.UI.Animation.slideToLeft(ctrl.navigator.pageElement);
+                                WinJSContrib.UI.Animation.slideToLeft(pageElt);
                             }
                             else if (arg.detail.direction == 'right') {
-                                ctrl.navigator.pageElement.getAnimationElements = function () { return null; }
+                                pageElt.winControl.getAnimationElements = function () { return null; }
                                 //ctrl.navigator.pageElement.exitPage = function () { return WinJS.Promise.wrap(); };
-                                WinJSContrib.UI.Animation.slideToRight(ctrl.navigator.pageElement);
+                                WinJSContrib.UI.Animation.slideToRight(pageElt);
                             }
                             //ctrl.navigator.pageElement.style.opacity = 0;
                         }
+                        targetStyle.transform = '';
+                        if (targetStyle.hasOwnProperty('webkitTransform'))
+                            targetStyle.webkitTransform = '';
 
                         if (ctrl.currentTab == null)
                             ctrl.selectFirst();
