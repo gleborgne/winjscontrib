@@ -58,19 +58,32 @@
                 }
             },
 
+            _initPtDown: function(event){
+                var transformOffsetX = 0, transformOffsetY = 0; //[0][0].getFloatValue(CSSPrimitiveValue.CSS_PX);
+
+                if (event.changedTouches) {
+                    if (window.WebKitCSSMatrix) {
+                        var matrix = new window.WebKitCSSMatrix(this.target.style.transform);
+                        transformOffsetX = matrix.m41;
+                        transformOffsetY = matrix.m42;
+                    }
+                    this.ptDown = { x: event.changedTouches[0].screenX, y: event.changedTouches[0].screenY, confirmed: false, transformOffsetX: transformOffsetX, transformOffsetY: transformOffsetY };
+                    //event.preventDefault();
+                } else {
+                    if (window.MSCSSMatrix) {
+                        var matrix = new window.MSCSSMatrix(this.target.style.transform);
+                        transformOffsetX = matrix.m41;
+                        transformOffsetY = matrix.m42;
+                    }
+                    this.ptDown = { x: event.screenX, y: event.screenY, confirmed: false, transformOffsetX: transformOffsetX, transformOffsetY: transformOffsetY };
+                }
+            },
+
             _processDown: function (event) {
                 if (this.disabled)
                     return;
 
-
-
-                if (event.changedTouches) {
-                    this.ptDown = { x: event.changedTouches[0].screenX, y: event.changedTouches[0].screenY, confirmed: false };
-                    //event.preventDefault();
-                } else {
-                    this.ptDown = { x: event.screenX, y: event.screenY, confirmed: false };
-                }
-
+                this._initPtDown(event);
             },
 
             _processUp: function (event) {
@@ -112,14 +125,20 @@
 
             _cancelMove: function () {
                 var target = this.target;
-                debugLog('swipe slide, cancel move')
+                var x = 0, y = 0;
+                if (this.ptDown) {
+                    x = this.ptDown.transformOffsetX;
+                    y = this.ptDown.transformOffsetY;
+                }
+
+                debugLog('swipe slide, cancel move');
                 if (target) {
                     WinJS.UI.executeTransition(target, {
                         property: "transform",
                         delay: 10,
                         duration: 400,
                         easing: 'ease-out',
-                        to: 'translate(0,0)'
+                        to: 'translate(' + x + 'px,' + y + 'px)'
                     }).then(function () {
                         target.style.transform = '';
                         if (target.style.hasOwnProperty('webkitTransform'))
@@ -133,7 +152,7 @@
                     return;
 
                 if (!this.ptDown && event.changedTouches) {
-                    this.ptDown = { x: event.changedTouches[0].screenX, y: event.changedTouches[0].screenY, confirmed: false };
+                    this._initPtDown(event);
                 }
 
                 if (this.ptDown) {
@@ -169,9 +188,9 @@
                     }
 
                     if (this.ptDown.confirmed) {
-                        var moveval = (-dX - this.threshold) / (window.devicePixelRatio * this.moveDivider);
+                        var moveval = this.ptDown.transformOffsetX + (-dX - this.threshold) / (window.devicePixelRatio * this.moveDivider);
                         debugLog('swipe move ' + dX + ' / ' + moveval);
-                        var screenMove = this.setMove(moveval);
+                        var screenMove = this.setMove(moveval, -dX);
                         this.dispatchEvent('swipeprogress', { screenMove: screenMove, move: (-dX - this.threshold) });
                     }
                 }
@@ -180,14 +199,14 @@
                 }
             },
 
-            setMove: function (move) {
+            setMove: function (move, dX) {
                 //debugLog('raw move ' + move);
-                if (move > 0 && !this.allowed.right) {
+                if (dX > 0 && !this.allowed.right) {
                     move = Math.sqrt(move);
                     if (move > this.element.clientWidth / 6)
                         move = this.element.clientWidth / 6;
                 }
-                else if (move < 0 && !this.allowed.left) {
+                else if (dX < 0 && !this.allowed.left) {
                     move = -Math.sqrt(-move);
                     if (move < -(this.element.clientWidth / 6))
                         move = -(this.element.clientWidth / 6);
@@ -202,7 +221,7 @@
 
                 //debugLog('move ' + move);
                 if (this.ptDown) this.ptDown.screenMove = move;
-
+                debugLog('transform to ' + move);
                 if (this.target.style.webkitTransform !== undefined) {
                     this.target.style.webkitTransform = 'translate(' + move + 'px, 0)';
                 } else {

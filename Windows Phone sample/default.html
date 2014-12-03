@@ -65,21 +65,24 @@
 
 </head>
 <body class="phone" id="phone">
-    <div id="contenthost" data-win-control="WinJSContrib.UI.PageControlNavigator" data-win-options="{
+    <div id="appcontainer">
+        <div id="contenthost" data-win-control="WinJSContrib.UI.PageControlNavigator" data-win-options="{
          home: '/pages/home/home.html',
          delay: 150,
          enterPageAnimation: 'WinJSContrib.UI.Animation.enterShrink',
          exitPageAnimation: 'WinJSContrib.UI.Animation.exitShrink',
      }"></div>
+        <div id="mainMenu" data-win-control="WinJSContrib.UI.FlyoutPage" data-win-options="{ display: 'overlay', placement: 'right', edgeSwipe: true, swipeToClose: true, disableTapAnimation: true, uri: './pages/mainmenu/mainmenu.html'}">
+
+        </div>
+        <div id="mainMenuLeft" data-win-control="WinJSContrib.UI.FlyoutPage" data-win-options="{ display: 'overlay', placement: 'left', edgeSwipe: true, swipeToClose: true, disableTapAnimation: true, uri: './pages/mainmenu/mainmenu.html'}">
+
+        </div>
+    </div>
     <div data-win-control="WinJSContrib.UI.ExtendedSplash" data-win-options="{ text: 'extended splash screen control in action...'}"></div>
     <div id="codeviewFlyout" data-win-control="WinJSContrib.UI.ChildViewFlyout">  </div>
     <div class="top-wide" data-win-control="WinJSContrib.UI.GlobalProgress" data-win-options="{global: true, text: 'global progress...', delay: 150}"></div>
-    <div id="mainMenu" data-win-control="WinJSContrib.UI.FlyoutPage" data-win-options="{ placement: 'right', edgeSwipe: true, swipeToClose: true, disableTapAnimation: true, uri: './pages/mainmenu/mainmenu.html'}">
 
-    </div>
-    <div id="mainMenuLeft" data-win-control="WinJSContrib.UI.FlyoutPage" data-win-options="{ placement: 'left', edgeSwipe: true, swipeToClose: true, disableTapAnimation: true, uri: './pages/mainmenu/mainmenu.html'}">
-
-    </div>
-    <div id="mainMenuTrigger" class="symbol" onclick="$('#mainMenu')[0].winControl.show()">&#xe169;</div>    
+    <div id="mainMenuTrigger" class="symbol" onclick="$('#mainMenu')[0].winControl.show()">&#xe169;</div>
 </body>
 </html>

@@ -1,4 +1,8 @@
-﻿.phone #contenthost .win-backbutton {
+﻿#appcontainer {
+  width: 100%;
+  height: 100%;
+}
+.phone #contenthost .win-backbutton {
   display: none;
 }
 .phone .fragment header[role=banner] {

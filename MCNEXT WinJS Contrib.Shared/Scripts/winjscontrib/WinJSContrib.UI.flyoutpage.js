@@ -109,14 +109,7 @@
                 ctrl.bindLinks();
             }
             ctrl.element.appendChild(ctrl._container);
-
-            if (ctrl.edgeSwipeCtrl) {
-                ctrl.edgeSwipeCtrl.target = ctrl._container;
-            }
-
-            if (ctrl.swipeToCloseCtrl) {
-                ctrl.swipeToCloseCtrl.target = ctrl._wrapper;
-            }
+            ctrl._swipeTargets();
 
         },
         /**
@@ -130,6 +123,27 @@
             content: {
                 get: function () {
                     return this._content;
+                }
+            },
+
+            /**
+             * @field {
+             * @type HTMLElement
+             */
+            display: {
+                get: function () {
+                    return this._display;
+                },
+                set: function (value) {
+                    var val = 'overlay';
+                    if (value == 'move')
+                        val = 'move';
+
+                    this.element.classList.remove('mcn-overlay');
+                    this.element.classList.remove('mcn-move');
+                    this.element.classList.add('mcn-' + val);
+                    this._display = val;
+                    this._swipeTargets();
                 }
             },
 
@@ -348,6 +362,10 @@
                     ctrl.edgeSwipeCtrl.disabled = false;
                 }
 
+                if (ctrl.display == 'move') {
+                    ctrl.element.parentElement.style.transform = '';
+                }
+
                 WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
                 if (window.Windows && window.Windows.Phone)
                     Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", this.hardwareBackBtnPressedBinded);
@@ -464,10 +482,28 @@
                 });
             },
 
+            _swipeTargets: function () {
+                var ctrl = this;
+                if (ctrl.edgeSwipeCtrl) {
+                    if (ctrl.display == 'overlay') {
+                        ctrl.edgeSwipeCtrl.target = ctrl._container;
+                    } else if (ctrl.display == 'move') {
+                        ctrl.edgeSwipeCtrl.target = ctrl.element.parentElement;
+                    }
+                }
+
+                if (ctrl.swipeToCloseCtrl) {
+                    
+                    if (ctrl.display == 'overlay') {
+                        ctrl.swipeToCloseCtrl.target = ctrl._wrapper;
+                    } else if (ctrl.display == 'move') {
+                        ctrl.swipeToCloseCtrl.target = ctrl.element.parentElement;
+                    }
+                }
+            },
+
             _edgeSwipeStart: function () {
                 var ctrl = this;
-
-                
 
                 ctrl.edgeSwipeCtrl.minMoveBounds = null;
                 ctrl.edgeSwipeCtrl.maxMoveBounds = null;
@@ -492,22 +528,35 @@
 
                     ctrl.element.classList.add('visible');
                     ctrl._wrapper.classList.add('visible');
-                    ctrl.edgeSwipeCtrl.target.style.transform = '';
-                    if (ctrl.edgeSwipeCtrl.target.style.hasOwnProperty('webkitTransform'))
-                        ctrl.edgeSwipeCtrl.target.style.webkitTransform = '';
-                    if (ctrl.placement == 'right') {
-                        ctrl._wrapper.style.transform = 'translate(' + (document.body.clientWidth + arg.screenMove) + 'px, 0)';
-                    } else if (ctrl.placement == 'left') {
-                        ctrl._wrapper.style.transform = 'translate(' + (arg.screenMove) + 'px, 0)';
-                    }
 
-                    WinJS.UI.executeTransition(ctrl._wrapper, {
-                        property: "transform",
-                        delay: 10,
-                        duration: 600 * (1 - (document.body.clientWidth + arg.screenMove) / document.body.clientWidth),
-                        easing: 'ease-out',
-                        to: 'translate(0,0)'
-                    });
+                    if (ctrl.display == 'overlay') {
+                        ctrl.edgeSwipeCtrl.target.style.transform = '';
+                        if (ctrl.edgeSwipeCtrl.target.style.hasOwnProperty('webkitTransform'))
+                            ctrl.edgeSwipeCtrl.target.style.webkitTransform = '';
+                        if (ctrl.placement == 'right') {
+                            ctrl._wrapper.style.transform = 'translate(' + (document.body.clientWidth + arg.screenMove) + 'px, 0)';
+                        } else if (ctrl.placement == 'left') {
+                            ctrl._wrapper.style.transform = 'translate(' + (arg.screenMove) + 'px, 0)';
+                        }
+
+                        WinJS.UI.executeTransition(ctrl._wrapper, {
+                            property: "transform",
+                            delay: 10,
+                            duration: 600 * (1 - (document.body.clientWidth + arg.screenMove) / document.body.clientWidth),
+                            easing: 'ease-out',
+                            to: 'translate(0,0)'
+                        });
+                    }
+                    else if (ctrl.display == 'move') {
+                        var bound = ctrl.edgeSwipeCtrl.minMoveBounds || ctrl.edgeSwipeCtrl.maxMoveBounds;
+                        WinJS.UI.executeTransition(ctrl.edgeSwipeCtrl.target, {
+                            property: "transform",
+                            delay: 10,
+                            duration: 600 * (1 - (document.body.clientWidth + arg.screenMove) / document.body.clientWidth),
+                            easing: 'ease-out',
+                            to: 'translate(' + bound + 'px,0)'
+                        });
+                    }
 
                     ctrl._overlay.style.opacity = '0';
                     ctrl._overlay.classList.add('visible');
@@ -523,33 +572,55 @@
                 debugLog('swiped back by ' + arg.move + '/' + arg.screenMove + ' ' + (document.body.clientWidth / 4) + '(' + swiper.swipeHandled + ')');
                 if (Math.abs(arg.screenMove) > (document.body.clientWidth / 4)) {
                     swiper.swipeHandled = true;
+                    if (ctrl.edgeSwipeCtrl)
+                        ctrl.edgeSwipeCtrl.disabled = false;
 
                     WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, 300).then(function () {
                         ctrl._overlay.classList.remove('visible');
                     });
-                    var targetX = '0', targetY = '0';
-                    if (ctrl.placement == 'right') {
-                        targetX = '100%';
-                    } else if (ctrl.placement == 'left') {
-                        targetX = '-100%';
+
+                    if (ctrl.display == 'overlay') {
+                        var targetX = '0', targetY = '0';
+                        if (ctrl.placement == 'right') {
+                            targetX = '100%';
+                        } else if (ctrl.placement == 'left') {
+                            targetX = '-100%';
+                        }
+
+                        WinJS.UI.executeTransition(ctrl._wrapper, {
+                            property: "transform",
+                            delay: 10,
+                            duration: 500 * (1 - (document.body.clientWidth - arg.screenMove) / document.body.clientWidth),
+                            easing: 'ease-out',
+                            to: 'translate(' + targetX + ',' + targetY + ')'
+                        }).then(function () {
+                            ctrl._wrapper.classList.remove('visible');
+                            ctrl.element.classList.remove('visible');
+
+                            return ctrl.hide();
+                        }).then(function () {
+                            ctrl._wrapper.style.transform = '';
+                            if (ctrl._wrapper.style.hasOwnProperty('webkitTransform'))
+                                ctrl._wrapper.style.webkitTransform = '';
+                        });
+                    } else if (ctrl.display == 'move') {
+                        WinJS.UI.executeTransition(ctrl.element.parentElement, {
+                            property: "transform",
+                            delay: 10,
+                            duration: 500 * (1 - (document.body.clientWidth - arg.screenMove) / document.body.clientWidth),
+                            easing: 'ease-out',
+                            to: 'translate(0,0)'
+                        }).then(function () {
+                            ctrl._wrapper.classList.remove('visible');
+                            ctrl.element.classList.remove('visible');
+
+                            return ctrl.hide();
+                        }).then(function () {
+                            ctrl._wrapper.style.transform = '';
+                            if (ctrl._wrapper.style.hasOwnProperty('webkitTransform'))
+                                ctrl._wrapper.style.webkitTransform = '';
+                        });
                     }
-
-                    WinJS.UI.executeTransition(ctrl._wrapper, {
-                        property: "transform",
-                        delay: 10,
-                        duration: 500 * (1 - (document.body.clientWidth - arg.screenMove) / document.body.clientWidth),
-                        easing: 'ease-out',
-                        to: 'translate(' + targetX + ',' + targetY + ')'
-                    }).then(function () {
-                        ctrl._wrapper.classList.remove('visible');
-                        ctrl.element.classList.remove('visible');
-
-                        return ctrl.hide();
-                    }).then(function () {
-                        ctrl._wrapper.style.transform = '';
-                        if (ctrl._wrapper.style.hasOwnProperty('webkitTransform'))
-                            ctrl._wrapper.style.webkitTransform = '';
-                    });
                 }
             },
 
