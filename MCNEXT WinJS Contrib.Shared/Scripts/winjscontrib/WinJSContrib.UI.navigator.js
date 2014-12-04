@@ -457,6 +457,7 @@
                         enterPage: navigator.animations.enterPage,
                         closeOldPagePromise: closeOldPagePromise,
                         onfragmentinit: function (control) {
+                            control.navigator = navigator;
                             control.element.mcnPage = true;
                             if (openStacked) {
                                 control.stackedOn = oldPage;
@@ -466,14 +467,14 @@
                             }
                         },
                         onafterlayout: function (control) {
-                           if (args.detail.state && args.detail.state.clearNavigationHistory) {
+                            if (args.detail.state && args.detail.state.clearNavigationHistory) {
                                 if (navigator.global) {
                                     WinJS.Navigation.history.backStack = [];
                                 } else {
                                     navigator.history.backstack = [];
                                 }
-                           }
-                           navigator._updateBackButton(control);
+                            }
+                            navigator._updateBackButton(control);
                         },
                         onafterready: function (control) {
                             if (WinJSContrib.UI.Application.progress)
