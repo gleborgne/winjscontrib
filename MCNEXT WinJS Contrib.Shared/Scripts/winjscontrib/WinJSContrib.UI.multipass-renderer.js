@@ -227,6 +227,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             if (!ctrl.rect && ctrl.items && ctrl.items.length) {
                 ctrl.rect = WinJSContrib.UI.offsetFrom(ctrl.element, ctrl.scrollContainer);
             } else {
+                ctrl.rect = ctrl.rect || {};
                 ctrl.rect.width = ctrl.element.clientWidth;
                 ctrl.rect.height = ctrl.element.clientHeight;
             }
@@ -282,7 +283,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                 });
                 ctrl.allRendered = allRendered;
                 //countR();
-            } else if (tolerance > 0 && ctrl.items[0].rendered || ctrl.items[ctrl.items.length - 1].rendered) {                
+            } else if (tolerance > 0 && ctrl.items.length && (ctrl.items[0].rendered || ctrl.items[ctrl.items.length - 1].rendered)) {
                 ctrl.items.forEach(function (item) {
                     if (!item.rect) {
                         item.rect = WinJSContrib.UI.offsetFrom(item.element, ctrl.scrollContainer);
