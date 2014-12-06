@@ -71,7 +71,9 @@
       <DependentUpon>winjscontrib.ui.tabcontrol.css</DependentUpon>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.less" />
+    <Content Include="$(MSBuildThisFileDirectory)images\iconset.svg" />
     <Content Include="$(MSBuildThisFileDirectory)images\mcnstore.jpg" />
+    <Content Include="$(MSBuildThisFileDirectory)images\mediaplayer-iconset.svg" />
     <Content Include="$(MSBuildThisFileDirectory)pages\alerts\alerts.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\alerts\alerts.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\bindings\arguments\arguments.css" />
@@ -198,6 +200,15 @@
     <Content Include="$(MSBuildThisFileDirectory)pages\showcode\showcode.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\showcode\showcode.js" />
     <Content Include="$(MSBuildThisFileDirectory)pages\showcode\showcode.less" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\statebutton\statebutton.css">
+      <DependentUpon>statebutton.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)pages\statebutton\statebutton.css.map">
+      <DependentUpon>statebutton.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)pages\statebutton\statebutton.less" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\statebutton\statebutton.html" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\statebutton\statebutton.js" />
     <Content Include="$(MSBuildThisFileDirectory)pages\tab\page1\page.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\tab\page1\page.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\tab\page1\page.js" />
@@ -212,7 +223,6 @@
     <Content Include="$(MSBuildThisFileDirectory)pages\tab\tabcontrol.js" />
     <Content Include="$(MSBuildThisFileDirectory)pages\tab\tabcontrol.less" />
     <Content Include="$(MSBuildThisFileDirectory)pages\tab\tabcontrol.min.css" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\jquery-2.1.1.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\jquery-2.1.1.min.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\jquery-2.1.1.min.map" />
@@ -223,6 +233,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\moment-with-langs.min.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\moment.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\moment.min.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\svg-morpheus.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\syntaxhighlighter\scripts\shAutoloader.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\syntaxhighlighter\scripts\shBrushAppleScript.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\syntaxhighlighter\scripts\shBrushAS3.js" />
@@ -270,6 +281,10 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\syntaxhighlighter\styles\shThemeRDark.css" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\tooltipster\jquery.tooltipster.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\tooltipster\tooltipster.css" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\velocity\velocity.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\velocity\velocity.min.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\velocity\velocity.ui.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\velocity\velocity.ui.min.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.bindings.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.core.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.crossplatform.js" />
@@ -294,11 +309,13 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.grid.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.hubcontrol.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.jquery.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.morph.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.navigator.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.pivotmultidevice.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.semanticzoom-wrapper.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.smartlistlayout.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.statebutton.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.swipeslide.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.tabcontrol.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.winrt.audiorecording.js" />
