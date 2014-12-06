@@ -21,7 +21,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         this.element = element;
         this._scrollProcessor = null;
         this._tolerance = 1;
-        this._virtualize = true;
+        this._virtualize = false;
         this._scrollContainer = options.scrollContainer || null;
         this._multipass = options.multipass || false;
         this._orientation = options.orientation || '';
@@ -288,7 +288,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                     if (!item.rect) {
                         item.rect = WinJSContrib.UI.offsetFrom(item.element, ctrl.scrollContainer);
                     }
-                    if (!check(item.rect, ctrl.scrollContainer, tolerance)) {
+                    if (ctrl.virtualize && !check(item.rect, ctrl.scrollContainer, tolerance)) {
                         item.empty();
                     }
                 });

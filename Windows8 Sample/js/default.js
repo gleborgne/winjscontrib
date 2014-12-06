@@ -59,14 +59,14 @@
                 ratecontr.winControl.check();
                 WinJSContrib.UI.Application.splashscreen.hide();
                 WinJSContrib.UI.Application.navigator.addEventListener('pageContentReady', function (arg) {
-                    setImmediate(function () { 
+                    //setImmediate(function () { 
                         $('.codelink', arg.detail.page.element).addClass('visible').tap(function (elt) {
                             var target = $(elt).data('codepage')
                             var codeview = document.getElementById('codeviewFlyout');
                             var html = $('section[role=main]', arg.detail.page.element).html();
                             codeview.winControl.open('/pages/showcode/showcode.html', { target: target, html: html });
                         });
-                    });
+                    //});
                 });
             });
         }
