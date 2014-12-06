@@ -12,11 +12,11 @@
             ctrl.element.classList.add('win-disposable');
             ctrl.states = {};
             $(ctrl.element).tap(ctrl._buttonClicked.bind(ctrl));
-            
+
             ctrl._loadContent(options);
-            
+
             WinJS.UI.setOptions(ctrl, options);
-            ctrl.duration = ctrl.duration || 300;
+            ctrl.duration = ctrl.duration || 500;
         }, {
             _loadObjContent: function (options) {
                 var ctrl = this;
@@ -33,7 +33,7 @@
 
             _loadSvgContent: function (options) {
                 var ctrl = this;
-                
+
                 return WinJS.xhr({ url: options.iconset }).then(function (r) {
                     var e = r;
                     if (r.responseXML) {
@@ -42,35 +42,70 @@
                         ctrl.element.appendChild(ctrl.svg);
                         //ctrl.svg.classList.add('mcn-statebutton-icon');
                         ctrl.morpheus = new SVGMorpheus(ctrl.svg);
-                        ctrl.state = ctrl.defaultState;
+                        ctrl._stateName = ctrl.defaultState;
                         ctrl.morpheus.to(ctrl.state, { duration: 1, rotation: 'none' });
                     }
                 }, function (err) {
-                });                
+                });
             },
 
             _loadContent: function (options) {
-                return this._loadSvgContent(options);
+                if (options.iconset) {
+                    return this._loadSvgContent(options);
+                }
+            },
+
+            _runState: function (stateName) {
+                var ctrl = this;
+                if (!stateName && ctrl.action) {
+                    var meth = WinJSContrib.Utils.resolveMethod(ctrl.element, ctrl.action);
+                    if (meth)
+                        return WinJS.Promise.as(meth(ctrl.element));
+                }
+
+                if (ctrl.morpheus) {
+                    var currentState = ctrl.states[stateName];
+                    if (currentState) {
+                        var p = WinJS.Promise.wrap();
+                        if (currentState.action) {
+                            var meth = WinJSContrib.Utils.resolveMethod(ctrl.element, currentState.action);
+                            if (meth)
+                                p = WinJS.Promise.as(meth(ctrl.element));
+                        }
+
+                        return p.then(function () {
+                            if (currentState.goto && ctrl.states[currentState.goto]) {
+                                ctrl._stateName = currentState.goto;
+                                ctrl.morpheus.to(currentState.goto, { duration: ctrl.duration, rotation: ctrl.rotation });
+                            }
+                        });
+
+                    }
+                }
+
+                return WinJS.Promise.wrapError();
             },
 
             _buttonClicked: function () {
                 var ctrl = this;
-                var duration = 400;
-                if (ctrl.morpheus) {
-                    var currentState = ctrl.states[ctrl.state];
-                    if (currentState) {
-                        if (currentState.action) {
-                            var meth = WinJSContrib.Utils.resolveMethod(ctrl.element, currentState.action);
-                            if (meth)
-                                meth(ctrl.element);
-                        }
 
-                        if (currentState.goto && ctrl.states[currentState.goto]) {
-                            ctrl.state = currentState.goto;
-                            ctrl.morpheus.to(currentState.goto, { duration: ctrl.duration, rotation: ctrl.rotation });
-                        }
-                    }
-                }
+                clearTimeout(ctrl.clearError);
+                ctrl.element.classList.remove('mcn-success');
+                ctrl.element.classList.remove('mcn-error');
+                ctrl.clearPending = setTimeout(function () {
+                    ctrl.element.classList.add('mcn-pending');
+                }, 50);
+
+                ctrl._runState(ctrl.state).then(function (arg) {
+                    clearTimeout(ctrl.clearPending);
+                    ctrl.element.classList.remove('mcn-pending');
+                    ctrl.element.classList.add('mcn-success');
+                    ctrl.dispatchEvent('success', arg);
+                }, function (err) {
+                    ctrl.dispatchEvent('error', err);
+                    clearTimeout(ctrl.clearPending);
+                    ctrl.element.classList.add('mcn-error');
+                });
             },
 
             state: {
@@ -78,11 +113,12 @@
                     return this._stateName;
                 },
                 set: function (val) {
-                    this._stateName = val;
+                    var ctrl = this;
+                    ctrl._stateName = val;
                 }
             },
 
-            addState : function(name, action){
+            addState: function (name, action) {
 
             },
 
@@ -90,7 +126,7 @@
                 WinJS.Utilities.disposeSubTree(this.element);
             }
         }),
-        WinJS.UI.DOMEventMixin,
+        WinJS.Utilities.eventMixin,
         WinJS.Utilities.createEventProperties("myevent"))
     });
 })();

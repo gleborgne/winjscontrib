@@ -3,7 +3,24 @@
 (function () {
     "use strict";
 
-    WinJS.UI.Pages.define("/pages/statebutton/statebutton.html", {        
+    WinJS.UI.Pages.define("/pages/statebutton/statebutton.html", {
+        activateActionWithPromise: function () {
+            var page = this;
+            $('#message', page.element).text('pending call...');
+            return WinJS.Promise.timeout(4000).then(function () {
+                $('#message', page.element).text('call success');
+            });
+        },
+
+        activatePlayWithError: function () {
+            var page = this;
+            $('#message', page.element).text('pending call...');
+            return WinJS.Promise.timeout(2000).then(function () {
+                $('#message', page.element).text('call error');
+                return WinJS.Promise.wrapError({ message: 'simulating some error' });
+            });
+        },
+
         activatePlay: function () {
             var page = this;
             $('#message', page.element).text('you clicked play');

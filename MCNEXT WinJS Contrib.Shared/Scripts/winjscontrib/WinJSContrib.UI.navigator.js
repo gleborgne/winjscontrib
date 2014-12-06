@@ -477,6 +477,7 @@
                             navigator._updateBackButton(control);
                         },
                         onafterready: function (control) {
+                            navigator.dispatchEvent('pageContentReady', { page: control });
                             if (WinJSContrib.UI.Application.progress)
                                 WinJSContrib.UI.Application.progress.hide();
                         }
