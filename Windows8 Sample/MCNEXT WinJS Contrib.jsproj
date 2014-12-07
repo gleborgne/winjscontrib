@@ -62,8 +62,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="defaultchild.html" />
-    <Content Include="images\AppLogo.png" />
-    <Content Include="images\AppLogoSmall.png" />
     <Content Include="images\logo.png" />
     <Content Include="images\logowide.png" />
     <Content Include="images\smalllogo.png" />

@@ -78,7 +78,8 @@
                             header.appendChild(headerBack);
                             var headerTitle = document.createElement('DIV');
                             headerTitle.className = 'title';
-                            headerTitle.innerText = data.title;
+                            if (data)
+                                headerTitle.innerText = data.title;
                             header.appendChild(headerTitle);
                             if (container) container.appendChild(header);
                             c(header);
@@ -87,19 +88,37 @@
                 }
             },
 
-            
-            _renderDetailHeader: function (data) {
+
+            _renderDetailHeader: function (data, options) {
                 var ctrl = this;
                 ctrl.detailViewHeader.innerHTML = '';
                 var template = ctrl.headerTemplate || ctrl._defaultHeaderTemplate();
-                return template.render(data, ctrl.detailViewHeader);
+                return template.render(data, ctrl.detailViewHeader).then(function (rendered) {
+                    if (options && options.prepareHeader) {
+                        options.prepareHeader({ header: rendered });
+                    }
+
+                    return rendered;
+                });
+            },
+
+            _clearDetailContent: function(){
+                var ctrl = this;
+                if (ctrl.detailViewContentCtrl) {
+                    if (ctrl.detailViewContentCtrl.unload)
+                        ctrl.detailViewContentCtrl.unload();
+                    if (ctrl.detailViewContentCtrl.dispose)
+                        ctrl.detailViewContentCtrl.dispose();
+                    $(ctrl.detailViewContentCtrl.element).remove();
+                    ctrl.detailViewContentCtrl = null;
+                }
+                ctrl.detailViewContent.innerHTML = '';
             },
 
             _loadDetailContent: function (uri, data) {
                 var ctrl = this;
-                if (ctrl.detailViewContentCtrl) {
-                    $(ctrl.detailViewContentCtrl.element).remove();
-                }
+                ctrl._clearDetailContent();
+
                 var elt = document.createElement('DIV');
                 elt.style.width = "100%";
                 elt.style.height = "100%";
@@ -121,18 +140,17 @@
                 var morph = WinJSContrib.UI.Morph.from(element);
                 ctrl.morph = morph;
 
-                ctrl.detailViewContent.style.opacity = '0';
+//                ctrl.detailViewContent.style.opacity = '0';
 
-                WinJSContrib.UI.Animation.fadeOut(ctrl.masterView, 200, { delay: 150 }).then(function () {
-                    ctrl.masterView.style.opacity = '';
-                    ctrl.masterView.classList.remove('visible');
-                });
-
-                morph.fadeIn(160).then(function () {
+                morph.fadeIn(100).then(function () {
+                    WinJSContrib.UI.Animation.fadeOut(ctrl.masterView, 160).then(function () {
+                        ctrl.masterView.style.opacity = '';
+                        ctrl.masterView.classList.remove('visible');
+                    });
                     morph.morphToElt(ctrl.detailViewHeader);
-                    morph.apply().then(function () {
+                    morph.apply({ duration : 400 }).then(function () {
                         ctrl.detailView.classList.add('visible');
-                        WinJSContrib.UI.Animation.fadeIn(ctrl.detailViewContent, 160, { delay: 170 });
+                        WinJSContrib.UI.Animation.fadeIn(ctrl.detailViewContent, 160, { delay: 200 });
                         return morph.fadeOut(200);
                     });
                 });
@@ -141,7 +159,7 @@
             _animateToMaster: function () {
                 var ctrl = this;
 
-                ctrl.morph.fadeIn(160).then(function () {
+                return ctrl.morph.fadeIn(160).then(function () {
                     return WinJSContrib.UI.Animation.fadeOut(ctrl.detailView, 160).then(function () {
                         ctrl.detailView.classList.remove('visible');
                         ctrl.detailView.style.opacity = '';
@@ -150,8 +168,9 @@
                     return ctrl.morph.revert({ duration: 300 });
                 }).then(function () {
                     ctrl.masterView.classList.add('visible');
-                    WinJSContrib.UI.Animation.fadeIn(ctrl.masterView, 200);
-                    return ctrl.morph.fadeOut(160, { delay: 70 });
+                    ctrl.masterView.style.opacity = '0';
+                    WinJSContrib.UI.Animation.fadeIn(ctrl.masterView, 300);
+                    return ctrl.morph.fadeOut(90, { delay: 240 });
                 }).then(function () {
                     ctrl.morph.dispose();
                     ctrl.morph = null;
@@ -161,7 +180,8 @@
             openDetail: function (element, data, options) {
                 var ctrl = this;
 
-                ctrl._renderDetailHeader(data).then(function () {
+                ctrl._renderDetailHeader(data, options).then(function (rendered) {
+                    
                     ctrl._animateToDetail(element);
 
                     if (options.uri) {
@@ -169,11 +189,13 @@
                     }
                 });
             },
-            
+
             returnToMaster: function () {
                 var ctrl = this;
 
-                ctrl._animateToMaster();
+                ctrl._animateToMaster().then(function () {
+                    ctrl._clearDetailContent();
+                });
             },
 
             dispose: function () {

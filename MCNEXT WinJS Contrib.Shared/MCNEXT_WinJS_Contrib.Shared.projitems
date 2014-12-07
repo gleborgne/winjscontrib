@@ -13,6 +13,13 @@
     <SharedGUID>54087230-87dd-4a3a-bc3a-c939db16ef31</SharedGUID>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)css\app.css">
+      <DependentUpon>app.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\app.css.map">
+      <DependentUpon>app.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\app.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\apptheme.css">
       <DependentUpon>apptheme.less</DependentUpon>
     </Content>
@@ -78,6 +85,87 @@
       <DependentUpon>winjscontrib.ui.tabcontrol.css</DependentUpon>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\corefeatures.css">
+      <DependentUpon>corefeatures.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\corefeatures.css.map">
+      <DependentUpon>corefeatures.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\corefeatures.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\corefeatures.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\corefeatures.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\helpers.css">
+      <DependentUpon>helpers.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\helpers.css.map">
+      <DependentUpon>helpers.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\helpers.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\helpers.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\helpers.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\home.css">
+      <DependentUpon>home.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\home.css.map">
+      <DependentUpon>home.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\home.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\home.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\home.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.css">
+      <DependentUpon>navigation.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.css.map">
+      <DependentUpon>navigation.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.css">
+      <DependentUpon>ui.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.css.map">
+      <DependentUpon>ui.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\winrt.css">
+      <DependentUpon>winrt.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\winrt.css.map">
+      <DependentUpon>winrt.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\winrt.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\winrt.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\winrt.js" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-Bold-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-BoldItalic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondBold-webfont.eot" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondBold-webfont.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondBold-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLight-webfont.eot" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLight-webfont.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLight-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLightItalic-webfont.eot" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLightItalic-webfont.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLightItalic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-ExtraBold-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-ExtraBoldItalic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-Italic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-Light-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-LightItalic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-Regular-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-Semibold-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-SemiboldItalic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\opensans.css" />
+    <Content Include="$(MSBuildThisFileDirectory)images\AppLogo-White.png" />
+    <Content Include="$(MSBuildThisFileDirectory)images\AppLogo.png" />
+    <Content Include="$(MSBuildThisFileDirectory)images\AppLogoSmall-White.png" />
+    <Content Include="$(MSBuildThisFileDirectory)images\AppLogoSmall.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\iconset.svg" />
     <Content Include="$(MSBuildThisFileDirectory)images\mcnstore.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)images\mediaplayer-iconset.svg" />

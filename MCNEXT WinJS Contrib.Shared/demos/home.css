@@ -1,0 +1,48 @@
+﻿.home {
+  height: 100%;
+  width: 100%;
+}
+.home .home-sections {
+  height: calc(100% - 40px);
+  margin-left: 40px;
+  margin-top: 40px;
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+}
+.home .home-sections .section {
+  height: 40%;
+  width: 220px;
+  color: white;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.home .home-sections .section .title {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  font-size: 2.2em;
+  font-family: 'Open Sans Condensed';
+  text-align: right;
+}
+.home #corefeatures {
+  background-color: #e24242;
+}
+.home #navigation {
+  background-color: #a162e4;
+}
+.home #ui {
+  background-color: #ef7c45;
+}
+.home #helpers {
+  background-color: #2685d5;
+}
+.home #winrt {
+  background-color: #34b08b;
+}
+.home #whatisthis {
+  background-color: #b1b636;
+}
+/*# sourceMappingURL=home.css.map */
