@@ -1,0 +1,45 @@
+﻿.mcn-masterdetailview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.mcn-masterdetailview .mcn-masterdetailview-master,
+.mcn-masterdetailview .mcn-masterdetailview-detail {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+}
+.mcn-masterdetailview .mcn-masterdetailview-master.visible,
+.mcn-masterdetailview .mcn-masterdetailview-detail.visible {
+  visibility: visible;
+}
+.mcn-masterdetailview .mcn-masterdetailview-detail {
+  display: flex;
+  visibility: hidden;
+}
+.mcn-masterdetailview .mcn-masterdetailview-detail.visible {
+  visibility: visible;
+}
+.mcn-masterdetailview .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header {
+  background-color: yellow;
+}
+.mcn-masterdetailview .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content {
+  flex: 1;
+  background-color: green;
+}
+.mcn-masterdetailview.mcn-vertical .mcn-masterdetailview-detail {
+  flex-flow: column;
+}
+.mcn-masterdetailview.mcn-vertical .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header {
+  height: 60px;
+}
+.mcn-masterdetailview.mcn-horizontal .mcn-masterdetailview-detail {
+  flex-flow: row;
+}
+.mcn-masterdetailview.mcn-horizontal .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header {
+  width: 60px;
+}
+/*# sourceMappingURL=winjscontrib.ui.masterdetailview.css.map */

@@ -66,6 +66,13 @@
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.hub.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.hub.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.masterdetailview.css">
+      <DependentUpon>winjscontrib.ui.masterdetailview.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.masterdetailview.css.map">
+      <DependentUpon>winjscontrib.ui.masterdetailview.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.masterdetailview.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.css.map">
       <DependentUpon>winjscontrib.ui.tabcontrol.css</DependentUpon>
@@ -173,6 +180,27 @@
     <Content Include="$(MSBuildThisFileDirectory)pages\listlayout\home.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\listlayout\home.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\listlayout\home.js" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\detail\detail.css" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\detail\detail.html" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\detail\detail.js" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\masterdetailview.css">
+      <DependentUpon>masterdetailview.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\masterdetailview.css.map">
+      <DependentUpon>masterdetailview.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\masterdetailview.less" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\masterdetailview.html" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\masterdetailview.js" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\master\master.css">
+      <DependentUpon>master.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\master\master.css.map">
+      <DependentUpon>master.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\master\master.less" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\master\master.html" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\masterdetailview\master\master.js" />
     <Content Include="$(MSBuildThisFileDirectory)pages\multiview\childview.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\multiview\childview.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\multiview\childview.js" />
@@ -309,6 +337,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.grid.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.hubcontrol.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.jquery.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.masterdetailview.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.morph.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\winjscontrib\winjscontrib.ui.navigator.js" />

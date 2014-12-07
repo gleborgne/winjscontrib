@@ -81,6 +81,8 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     WinJSContrib.UI.offsetFrom = function (element, parent) {
         var xPosition = 0;
         var yPosition = 0;
+        var w = element.clientWidth;
+        var h = element.clientHeight;
 
         while (element && element != parent) {
             xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
@@ -89,7 +91,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
         }
 
-        return { x: xPosition, y: yPosition, width: element.clientWidth, height: element.clientHeight };
+        return { x: xPosition, y: yPosition, width: w, height: h };
     }
 
 
