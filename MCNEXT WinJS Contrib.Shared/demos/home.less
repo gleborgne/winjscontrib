@@ -1,4 +1,6 @@
-﻿.home {
+﻿@import "../css/apptheme";
+
+.home {
     height: 100%;
     width: 100%;
 
@@ -11,6 +13,7 @@
         display: flex;
         flex-flow: column wrap;
         align-content: flex-start;
+        box-sizing: border-box;
 
         .section {
             height: 40%;
@@ -19,6 +22,7 @@
             margin-right: 10px;
             margin-bottom: 10px;
             position: relative;
+            box-sizing: border-box;
 
             .title {
                 position: absolute;
@@ -33,26 +37,60 @@
     }
 
     #corefeatures {
-        background-color: #e24242;
+        background-color: @color-corefeatures;
     }
 
     #navigation {
-        background-color: #a162e4;
+        background-color: @color-navigation;
     }
 
     #ui {
-        background-color: #ef7c45;
+        background-color: @color-ui;
     }
 
     #helpers {
-        background-color: #2685d5;
+        background-color: @color-helpers;
     }
 
     #winrt {
-        background-color: #34b08b;
+        background-color: @color-winrt;
     }
 
     #whatisthis {
-        background-color: #b1b636;
+        background-color: @color-whatisthis;
+    }
+}
+
+@media screen and (orientation: portrait) {
+    .home {
+        overflow-y: auto;
+
+        .home-sections {
+            height: 100%;
+            margin: 0;
+            padding: 20px 0 20px 20px;
+            /*display: block;*/
+            flex-flow: row wrap;
+
+            .section {
+                height: auto;
+                width: 100%;
+                color: white;
+                /*margin: 0;*/
+                padding : 20px 20px;                
+                /*margin-bottom: 10px;*/
+
+                .title {
+                    position: static;
+                    left: 10px;
+                    right: 10px;
+                    bottom: 10px;
+                    font-size: 1.5em;
+                    font-family: 'Open Sans Condensed';
+                    text-align: left;
+                    line-height: 1.1em;
+                }
+            }
+        }
     }
 }

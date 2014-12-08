@@ -1,1 +1,8 @@
-﻿
+﻿.section-winrt .mcn-hub-section h2 {
+  color: #34b08b;
+}
+.section-winrt .feature.active {
+  background-color: #4dcaa5;
+  color: white;
+}
+/*# sourceMappingURL=winrt.css.map */

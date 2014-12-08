@@ -20,8 +20,8 @@
   margin-left: 40px;
 }
 #app-mainpage #app-header #app-header-logo .logo {
-  height: 80%;
-  margin-top: 6px;
+  height: 75%;
+  margin-top: 9px;
 }
 #app-mainpage #app-content {
   position: absolute;
@@ -29,9 +29,98 @@
   top: 80px;
   right: 0;
   bottom: 0;
+  height: calc(100% - 80px);
+}
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header {
+  color: white;
+}
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header .title {
+  font-size: 1.8em;
+  text-transform: uppercase;
+  font-family: 'Open Sans Condensed';
 }
 #app-mainpage #app-content > .mcn-masterdetailview-detail > .mcn-masterdetailview-detail-header {
-  min-width: 90px;
-  min-height: 90px;
+  min-width: 80px;
+  min-height: 60px;
+}
+#app-mainpage #app-content > .mcn-masterdetailview-detail > .mcn-masterdetailview-detail-header .title {
+  font-size: 3em;
+}
+#app-mainpage #app-content .mcn-masterdetailview-defaultheader .back:after {
+  font-size: 28pt;
+  margin-left: -4px;
+  padding-top: 15px;
+}
+#app-mainpage #app-content.mcn-vertical .mcn-masterdetailview-defaultheader .back {
+  margin-left: 40px;
+}
+#app-mainpage #app-content.mcn-horizontal .mcn-masterdetailview-defaultheader .back:after {
+  margin-left: -4px;
+  padding-top: 15px;
+}
+#app-mainpage #app-content.mcn-horizontal > .mcn-masterdetailview-detail > .mcn-masterdetailview-detail-header .title {
+  line-height: 90px;
+}
+.itemslist {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+}
+.sectionlist {
+  display: flex;
+  flex-flow: row nowrap;
+  align-content: flex-start;
+}
+.feature-section {
+  height: 100%;
+  width: 100%;
+}
+.feature-section .mcn-hub-section h2 {
+  font-family: 'Open Sans Condensed';
+}
+.feature-section .mcn-hub-section-titled {
+  -ms-grid-rows: 130px 1fr 40px;
+}
+.feature-section .mcn-hub-section-content {
+  background-color: white;
+  border: 1px solid #BBB;
+}
+.feature {
+  width: 250px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+@media screen and (orientation: portrait) and (max-width: 1024px) {
+  #app-mainpage #app-header {
+    height: 60px;
+  }
+  #app-mainpage #app-content {
+    top: 60px;
+    height: calc(100% - 60px);
+  }
+  #app-mainpage #app-header #app-header-logo {
+    margin-left: 15px;
+  }
+  #app-mainpage #app-content.mcn-vertical .mcn-masterdetailview-defaultheader .back {
+    min-width: 0;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  .feature-section .mcn-hub-section {
+    margin-left: 15px;
+    width: calc(100% - 30px);
+  }
+  .feature-section .mcn-hub-section-titled {
+    display: block;
+  }
+  .feature-section .mcn-hub-section-titled > h2 {
+    margin-top: 15px;
+  }
+  #app-mainpage #app-header #app-header-logo .logo {
+    margin-top: 7px;
+  }
+  #app-mainpage #app-content > .mcn-masterdetailview-detail > .mcn-masterdetailview-detail-header .title {
+    font-size: 1.8em;
+  }
 }
 /*# sourceMappingURL=app.css.map */

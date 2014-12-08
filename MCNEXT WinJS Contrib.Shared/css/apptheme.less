@@ -2,3 +2,21 @@
 @titleColor: @baseColor;
 
 @itemsSpace: 10px;
+
+@color-corefeatures: #e24242;
+@color-navigation: #a162e4;
+@color-ui: #ef7c45;
+@color-helpers: #2685d5;
+@color-winrt: #34b08b;
+@color-whatisthis: #b1b636;
+
+.featuresection(@color) {
+    .mcn-hub-section h2 {
+        color: @color;
+    }
+
+    .feature.active {
+        background-color: lighten(@color, 10%);
+        color: white;
+    }
+}

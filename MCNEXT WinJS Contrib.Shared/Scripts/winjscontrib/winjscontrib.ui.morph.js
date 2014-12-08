@@ -17,27 +17,31 @@ WinJSContrib.UI.Morph = WinJSContrib.UI.Morph || {};
     }
 
     function MorphOp(sourceElt) {
-        var origin = WinJSContrib.UI.offsetFrom(sourceElt);
-        var style = getComputedStyle(sourceElt);
+        this.sourceElement = sourceElt;
+        this.checkSource();
+
         var elt = document.createElement('DIV');
         elt.className = 'mcn-morph';
         elt.style.position = 'fixed';
-        elt.style.left = origin.x + 'px';
-        elt.style.top = origin.y + 'px';
-        elt.style.width = origin.width + 'px';
-        elt.style.height = origin.height + 'px';
+        elt.style.left = this.origin.x + 'px';
+        elt.style.top = this.origin.y + 'px';
+        elt.style.width = this.origin.width + 'px';
+        elt.style.height = this.origin.height + 'px';
 
-        if (style.backgroundColor) elt.style.backgroundColor = style.backgroundColor;
-        if (style.color) elt.style.color = style.color;
+        if (this.sourceStyle.backgroundColor) elt.style.backgroundColor = this.sourceStyle.backgroundColor;
+        if (this.sourceStyle.color) elt.style.color = this.sourceStyle.color;
 
         elt.style.opacity = 0;
         document.body.appendChild(elt);
 
         this.element = elt;
         this.$element = $(elt);
-        this.sourceElement = sourceElt;
-        this.origin = origin;
-        this.sourceStyle = style;
+
+    }
+
+    MorphOp.prototype.checkSource = function () {
+        this.origin = WinJSContrib.UI.offsetFrom(this.sourceElement);
+        this.sourceStyle = getComputedStyle(this.sourceElement);
     }
 
     MorphOp.prototype.hide = function () {
@@ -69,23 +73,71 @@ WinJSContrib.UI.Morph = WinJSContrib.UI.Morph || {};
 
     MorphOp.prototype.morphToElt = function (targetElt) {
         var morph = this;
-        var target = WinJSContrib.UI.offsetFrom(targetElt);
         morph.targetElement = targetElt;
+        morph.checkTarget(false);
+    }
+
+    MorphOp.prototype.checkTarget = function (reposition) {
+        var morph = this;
+        var target = WinJSContrib.UI.offsetFrom(morph.targetElement);
         morph.target = target;
+        if (reposition) {
+            morph.element.style.left = morph.target.x + 'px';
+            morph.element.style.top = morph.target.y + 'px';
+            morph.element.style.width = morph.target.width + 'px';
+            morph.element.style.height = morph.target.height + 'px';
+        }
     }
 
     MorphOp.prototype.apply = function (options) {
         var morph = this;
         options = options || {};
-        return new WinJS.Promise(function (c, e) {
-            morph.$element.velocity(
-                {
-                    left: morph.target.x + 'px',
-                    top: morph.target.y + 'px',
-                    width: morph.target.width + 'px',
-                    height: morph.target.height + 'px'
-                }, options.duration || 300, options.easing || 'easeOutQuart').promise().then(c, e);
+        var duration = options.duration || 350;
+        var easing = options.easing || 'cubic-bezier(0.1, 0.9, 0.2, 1)';
+        var delay = options.delay || 0;
+
+
+        //var args = {
+        //    delay: delay,
+        //    duration: duration,
+        //    timing: easing
+        //};
+        //var items = [
+        //    $.extend({ property: 'left', to: morph.target.x }, args),
+        //    $.extend({ property: 'top', to: morph.target.y }, args),
+        //    $.extend({ property: 'width', to: morph.target.width }, args),
+        //    $.extend({ property: 'height', to: morph.target.height }, args)
+        //];
+        //var obj = $.extend({ property: 'left', to: morph.target.x }, args);
+        //return WinJS.UI.executeTransition(morph.element, items[2]);
+
+        var p = null;
+        p = new WinJS.Promise(function (c, e) {
+            morph.element.style.transition = 'all ' + duration + 'ms ' + easing;
+            setImmediate(function () {
+                morph.element.style.left = morph.target.x + 'px';
+                morph.element.style.top = morph.target.y + 'px';
+                morph.element.style.width = morph.target.width + 'px';
+                morph.element.style.height = morph.target.height + 'px';
+            });
+
+            morph.$element.afterTransition(null, duration + 100).then(function () {
+                morph.element.style.transition = '';
+                c();
+            });
         });
+
+        return p;
+
+        //return new WinJS.Promise(function (c, e) {
+        //    morph.$element.velocity(
+        //        {
+        //            left: morph.target.x + 'px',
+        //            top: morph.target.y + 'px',
+        //            width: morph.target.width + 'px',
+        //            height: morph.target.height + 'px'
+        //        }, options.duration || 300, options.easing || 'easeOutQuart').promise().then(c, e);
+        //});
     }
 
     MorphOp.prototype.applyWith = function (properties, options) {
@@ -99,16 +151,36 @@ WinJSContrib.UI.Morph = WinJSContrib.UI.Morph || {};
     MorphOp.prototype.revert = function (options) {
         var morph = this;
         options = options || {};
+        this.checkSource();
+        this.checkTarget();
+        var duration = options.duration || 350;
+        var easing = options.easing || 'cubic-bezier(0.1, 0.9, 0.2, 1)';
+        var delay = options.delay || 0;
 
         return new WinJS.Promise(function (c, e) {
-            morph.$element.velocity(
-                {
-                    left: morph.origin.x + 'px',
-                    top: morph.origin.y + 'px',
-                    width: morph.origin.width + 'px',
-                    height: morph.origin.height + 'px'
-                }, options.duration || 350, options.easing || 'easeOutQuart').promise().then(c, e);
+            morph.element.style.transition = 'all ' + duration + 'ms ' + easing + ' ' + delay + 'ms';
+            setImmediate(function () {
+                morph.element.style.left = morph.origin.x + 'px';
+                morph.element.style.top = morph.origin.y + 'px';
+                morph.element.style.width = morph.origin.width + 'px';
+                morph.element.style.height = morph.origin.height + 'px';
+            });
+
+            morph.$element.afterTransition(null, duration + 50).then(function () {
+                morph.element.style.transition = '';
+                c();
+            });
         });
+
+        //return new WinJS.Promise(function (c, e) {
+        //    morph.$element.velocity(
+        //        {
+        //            left: morph.origin.x + 'px',
+        //            top: morph.origin.y + 'px',
+        //            width: morph.origin.width + 'px',
+        //            height: morph.origin.height + 'px'
+        //        }, options.duration || 350, options.easing || 'easeOutQuart').promise().then(c, e);
+        //});
     }
 
 })();

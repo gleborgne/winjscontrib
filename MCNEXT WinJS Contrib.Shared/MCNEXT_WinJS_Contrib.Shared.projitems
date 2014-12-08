@@ -23,6 +23,9 @@
     <Content Include="$(MSBuildThisFileDirectory)css\apptheme.css">
       <DependentUpon>apptheme.less</DependentUpon>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\apptheme.css.map">
+      <DependentUpon>apptheme.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\apptheme.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\default.css">
       <DependentUpon>default.less</DependentUpon>
@@ -34,9 +37,15 @@
     <Content Include="$(MSBuildThisFileDirectory)css\defaultphone.css">
       <DependentUpon>defaultphone.less</DependentUpon>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\defaultphone.css.map">
+      <DependentUpon>defaultphone.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\defaultphone.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\items.css">
       <DependentUpon>items.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\items.css.map">
+      <DependentUpon>items.css</DependentUpon>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\items.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\items.min.css">
@@ -121,6 +130,7 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\shell.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.css">
       <DependentUpon>ui.less</DependentUpon>
     </Content>
@@ -130,6 +140,12 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.css">
+      <DependentUpon>whatisthis.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.css.map">
+      <DependentUpon>whatisthis.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.js" />
@@ -251,16 +267,25 @@
     <Content Include="$(MSBuildThisFileDirectory)pages\errorPage\errorPage.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\errorPage\errorPage.js" />
     <Content Include="$(MSBuildThisFileDirectory)pages\fixedhub\home.css" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\fixedhub\home.css.map">
+      <DependentUpon>home.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)pages\fixedhub\home.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\fixedhub\home.js" />
     <Content Include="$(MSBuildThisFileDirectory)pages\fixedhub\home.less" />
     <Content Include="$(MSBuildThisFileDirectory)pages\fixedhub\home.min.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\flexgrid\home.css" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\flexgrid\home.css.map">
+      <DependentUpon>home.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)pages\flexgrid\home.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\flexgrid\home.js" />
     <Content Include="$(MSBuildThisFileDirectory)pages\flexgrid\home.less" />
     <Content Include="$(MSBuildThisFileDirectory)pages\flexgrid\home.min.css" />
     <Content Include="$(MSBuildThisFileDirectory)pages\hub\home.css" />
+    <Content Include="$(MSBuildThisFileDirectory)pages\hub\home.css.map">
+      <DependentUpon>home.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)pages\hub\home.html" />
     <Content Include="$(MSBuildThisFileDirectory)pages\hub\home.js" />
     <Content Include="$(MSBuildThisFileDirectory)pages\hub\home.less" />

@@ -16,7 +16,9 @@
             ctrl._loadContent(options);
 
             WinJS.UI.setOptions(ctrl, options);
-            ctrl.duration = ctrl.duration || 500;
+            ctrl.duration = ctrl.duration || 600;
+            ctrl.rotation = ctrl.rotation || 'none';
+            ctrl.easing = ctrl.easing || 'elastic-out';
         }, {
             _loadObjContent: function (options) {
                 var ctrl = this;
@@ -76,7 +78,7 @@
                         return p.then(function () {
                             if (currentState.goto && ctrl.states[currentState.goto]) {
                                 ctrl._stateName = currentState.goto;
-                                ctrl.morpheus.to(currentState.goto, { duration: ctrl.duration, rotation: ctrl.rotation });
+                                ctrl.morpheus.to(currentState.goto, { duration: ctrl.duration, rotation: ctrl.rotation, easing: ctrl.easing });
                             }
                         });
 

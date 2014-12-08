@@ -1423,4 +1423,73 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         });
     }
 
+    WinJSContrib.UI.MediaTrigger = WinJS.Class.mix(WinJS.Class.define(
+    /**
+     * Trigger events on media queries. This class is usefull as a component for other controls to change some properties based on media queries
+     * @class WinJSContrib.UI.MediaTrigger
+     * @param {Object} items object containing one property for each query
+     */
+    function (items, linkedControl) {
+        var ctrl = this;
+        ctrl.queries = [];
+        ctrl.linkedControl = linkedControl;
+
+        for (var name in items) {
+            var e = items[name];
+            if (e.query) {
+                ctrl.registerMediaEvent(name, e.query, e);
+            }
+        }
+    },
+    {
+        dispose : function () {
+            var ctrl = this;
+            this.queries.forEach(function (q) {
+                q.dispose();
+            });
+        },
+
+        registerMediaEvent: function (name, query, data) {
+            var ctrl = this;
+            var mq = window.matchMedia(query);
+            var query = {
+                name: name,
+                query: query,
+                data: data,
+                mq : mq
+            }
+
+            var f = function (arg) {
+                if (arg.matches) {
+                    ctrl._mediaEvent(arg, query);
+                }
+            };
+            
+            mq.addListener(f);
+            query.dispose = function () {
+                mq.removeListener(f);
+            }
+
+            ctrl.queries.push(query);
+        },
+
+        _mediaEvent: function (arg, query) {
+            var ctrl = this;
+            if (ctrl.linkedControl) {
+                WinJS.UI.setOptions(ctrl.linkedControl, query.data);
+            }
+            ctrl.dispatchEvent('media', query);
+        },
+
+        check: function () {
+            var ctrl = this;
+            ctrl.queries.forEach(function (q) {
+                var mq = window.matchMedia(q.query);
+                if (mq.matches) {
+                    ctrl._mediaEvent({ matches : true }, q);
+                }                
+            });
+        }
+    }), WinJS.Utilities.eventMixin);
+
 })(WinJSContrib);

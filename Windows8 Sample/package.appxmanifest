@@ -17,7 +17,7 @@
     <Application Id="App" StartPage="default.html">
       <m2:VisualElements DisplayName="WinJS Contrib Samples" Description="WinJS Contrib Samples" BackgroundColor="#a12121" ForegroundText="light" Square150x150Logo="images\logo.png" Square30x30Logo="images\smalllogo.png" ToastCapable="true">
         <m2:SplashScreen Image="images\splashscreen.png" BackgroundColor="#a12121" />
-        <m2:ApplicationView MinWidth="width500" />
+        <m2:ApplicationView MinWidth="width320" />
       </m2:VisualElements>
     </Application>
   </Applications>

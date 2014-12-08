@@ -9,6 +9,7 @@
   display: flex;
   flex-flow: column wrap;
   align-content: flex-start;
+  box-sizing: border-box;
 }
 .home .home-sections .section {
   height: 40%;
@@ -17,6 +18,7 @@
   margin-right: 10px;
   margin-bottom: 10px;
   position: relative;
+  box-sizing: border-box;
 }
 .home .home-sections .section .title {
   position: absolute;
@@ -44,5 +46,35 @@
 }
 .home #whatisthis {
   background-color: #b1b636;
+}
+@media screen and (orientation: portrait) {
+  .home {
+    overflow-y: auto;
+  }
+  .home .home-sections {
+    height: 100%;
+    margin: 0;
+    padding: 20px 0 20px 20px;
+    /*display: block;*/
+    flex-flow: row wrap;
+  }
+  .home .home-sections .section {
+    height: auto;
+    width: 100%;
+    color: white;
+    /*margin: 0;*/
+    padding: 20px 20px;
+    /*margin-bottom: 10px;*/
+  }
+  .home .home-sections .section .title {
+    position: static;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    font-size: 1.5em;
+    font-family: 'Open Sans Condensed';
+    text-align: left;
+    line-height: 1.1em;
+  }
 }
 /*# sourceMappingURL=home.css.map */

@@ -433,20 +433,29 @@ function HSL(hVal, sVal, lVal) {
 
         this.each(function () {
             var currentElement = this;
-            var onaftertransition;
-            var timeOutRef;
-
+            
             var prom = new WinJS.Promise(function (complete, error) {
-                onaftertransition = function () {
+                var onaftertransition = function (event) {
+                    if (event.srcElement === currentElement) {
+                        close();
+                    }
+                };
+                var close = function () {
                     clearTimeout(timeOutRef);
                     currentElement.removeEventListener("transitionend", onaftertransition, false);
                     complete();
-                };
+                }
 
                 currentElement.addEventListener("transitionend", onaftertransition, false);
-                timeOutRef = setTimeout(onaftertransition, timeout || 1000);
+                timeOutRef = setTimeout(close, timeout || 1000);
             });
             promises.push(prom);
+        });
+
+        var success = null, error = null;
+        var resultPromise = new WinJS.Promise(function (c, e) {
+            success = c;
+            error = e;
         });
 
         var p = WinJS.Promise.join(promises);
@@ -456,11 +465,14 @@ function HSL(hVal, sVal, lVal) {
                 if (callback) {
                     callback();
                 }
+                success();
+                return;
             }
             p.cancel();
-        });
+            error();
+        }, error);
 
-        return this;
+        return resultPromise;
     };
 
     $.fn.afterAnimation = function (callback) {
@@ -468,9 +480,11 @@ function HSL(hVal, sVal, lVal) {
         this.each(function () {
             var ctrl = this;
             var prom = new WinJS.Promise(function (complete, error) {
-                function ontransition() {
-                    ctrl.removeEventListener("animationend", ontransition);
-                    complete();
+                function ontransition(event) {
+                    if (event.srcElement === currentElement) {
+                        ctrl.removeEventListener("animationend", ontransition);
+                        complete();
+                    }
                 }
 
                 ctrl.addEventListener("animationend", ontransition);

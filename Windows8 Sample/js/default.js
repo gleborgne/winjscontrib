@@ -51,23 +51,27 @@
             preparepage.then(function () {
                 return WinJSContrib.UI.Application.splashscreen.show(dataloading());
             }).then(function appInitSuccess() {
-                return WinJS.Navigation.navigate("/pages/home/home.html")
+                var page = "/pages/home/home.html";
+                //page = "/demos/shell.html";
+                return WinJS.Navigation.navigate(page)
             }, function appInitError(err) {
                 return WinJS.Navigation.navigate("/pages/errorPage/errorPage.html");
             }).then(function () {
                 var ratecontr = document.getElementById('ratecontr');
                 ratecontr.winControl.check();
                 WinJSContrib.UI.Application.splashscreen.hide();
-                //WinJSContrib.UI.Application.navigator.addEventListener('pageContentReady', function (arg) {
-                //    //setImmediate(function () { 
-                //        $('.codelink', arg.detail.page.element).addClass('visible').tap(function (elt) {
-                //            var target = $(elt).data('codepage')
-                //            var codeview = document.getElementById('codeviewFlyout');
-                //            var html = $('section[role=main]', arg.detail.page.element).html();
-                //            codeview.winControl.open('/pages/showcode/showcode.html', { target: target, html: html });
-                //        });
-                //    //});
-                //});
+                if (WinJSContrib.UI.Application.navigator) {
+                    WinJSContrib.UI.Application.navigator.addEventListener('pageContentReady', function (arg) {
+                        //setImmediate(function () { 
+                        $('.codelink', arg.detail.page.element).addClass('visible').tap(function (elt) {
+                            var target = $(elt).data('codepage')
+                            var codeview = document.getElementById('codeviewFlyout');
+                            var html = $('section[role=main]', arg.detail.page.element).html();
+                            codeview.winControl.open('/pages/showcode/showcode.html', { target: target, html: html });
+                        });
+                        //});
+                    });
+                }
             });
         }
     });
@@ -92,3 +96,13 @@
 
     app.start();
 })();
+
+var HubGridLayout = {
+    vertical: { query: '(orientation: portrait)', layout: 'flexvertical' },
+    horizontal: { query: '(orientation: landscape)', layout: 'flexhorizontal' }
+};
+
+var MenuViewsOrientations = {
+    vertical: { query: '(orientation: portrait)', orientation: 'vertical' },
+    horizontal: { query: '(orientation: landscape)', orientation: 'horizontal' }
+};

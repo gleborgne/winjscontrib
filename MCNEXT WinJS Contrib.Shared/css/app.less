@@ -23,8 +23,8 @@ body {
             margin-left: 40px;
 
             .logo {
-                height: 80%;
-                margin-top: 6px;
+                height: 75%;
+                margin-top: 9px;
             }
         }
     }
@@ -35,12 +35,176 @@ body {
         top: 80px;
         right: 0;
         bottom: 0;
+        height: ~"calc(100% - 80px)";
 
-        >.mcn-masterdetailview-detail{
-            >.mcn-masterdetailview-detail-header{
-                min-width: 90px;
-                min-height: 90px;
+        .mcn-masterdetailview-detail {
+            .mcn-masterdetailview-detail-header {
+                color: white;
 
+                .title {
+                    font-size: 1.8em;
+                    text-transform: uppercase;
+                    font-family: 'Open Sans Condensed';
+                }
+            }
+        }
+
+        > .mcn-masterdetailview-detail {
+            > .mcn-masterdetailview-detail-header {
+                min-width: 80px;
+                min-height: 60px;
+
+                .title {
+                    font-size: 3em;
+                }
+            }
+        }
+
+        .mcn-masterdetailview-defaultheader {
+            .back:after {
+                font-size: 28pt;
+                margin-left: -4px;
+                padding-top: 15px;
+            }
+        }
+
+        &.mcn-vertical {
+            .mcn-masterdetailview-defaultheader {
+                .back {
+                    margin-left: 40px;
+
+                    &:after {
+                    }
+                }
+            }
+        }
+
+        &.mcn-horizontal {
+            .mcn-masterdetailview-defaultheader {
+                .back:after {
+                    margin-left: -4px;
+                    padding-top: 15px;
+                }
+
+                .title {
+                }
+            }
+
+            > .mcn-masterdetailview-detail {
+                > .mcn-masterdetailview-detail-header {
+                    .title {
+                        line-height: 90px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.itemslist {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: flex-start;
+}
+
+.sectionlist {
+    display: flex;
+    flex-flow: row nowrap;
+    align-content: flex-start;
+}
+
+.feature-section {
+    height: 100%;
+    width: 100%;
+
+    .mcn-hub-section h2 {
+        font-family: 'Open Sans Condensed';
+    }
+
+    .mcn-hub-section-titled {
+        -ms-grid-rows: 130px 1fr 40px;
+    }
+
+    .mcn-hub-section-content {
+        background-color: white;
+        border: 1px solid #BBB;
+    }
+}
+
+.feature {
+    width: 250px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.headerSize(@size, @calc) {
+    #app-mainpage {
+        #app-header {
+            height: @size;
+        }
+
+        #app-content {
+            top: @size;
+            height: @calc;
+        }
+    }
+}
+
+.contentMargin(@margin, @calc) {
+    #app-mainpage {
+        #app-header {
+            #app-header-logo {
+                margin-left: @margin;
+            }
+        }
+
+        #app-content.mcn-vertical {
+            .mcn-masterdetailview-defaultheader {
+                .back {
+                    min-width: 0;
+                    margin-left: @margin;
+                    margin-right: @margin;
+                }
+            }
+        }
+    }
+
+    .feature-section {
+        .mcn-hub-section {
+            margin-left: @margin;
+            width: @calc;
+        }
+
+        .mcn-hub-section-titled {
+            display: block;
+
+            > h2 {
+                margin-top: @margin;
+            }
+        }
+    }
+}
+
+@media screen and (orientation: portrait) and (max-width: 1024px) {
+    .headerSize(60px, ~"calc(100% - 60px)");
+    .contentMargin(15px, ~"calc(100% - 30px)");
+
+    #app-mainpage {
+        #app-header {
+            #app-header-logo {
+                .logo {
+                    margin-top: 7px;
+                }
+            }
+        }
+
+        #app-content {
+            > .mcn-masterdetailview-detail {
+                > .mcn-masterdetailview-detail-header {
+                    .title {
+                        font-size: 1.8em;
+                    }
+                }
             }
         }
     }
