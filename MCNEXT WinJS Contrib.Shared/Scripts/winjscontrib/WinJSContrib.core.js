@@ -1370,7 +1370,8 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
             if (element.winControl) {
                 elementCtrl = element.winControl;
-                elementCtrl.navigationState = args;
+                
+                elementCtrl.navigationState = { location: location, state: args };
                 WinJSContrib.UI.addFragmentProperties(elementCtrl);
 
                 if (args && args.injectToPage) {
@@ -1517,11 +1518,6 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             }
         }
 
-        //while ((navigationCtrl = WinJSContrib.Utils.getParentControlByClass("mcn-navigation-ctrl", navigationCtrl.element || navigationCtrl._element)) != null) {
-        //    navigationCtrl.navLocks = navigationCtrl.navLocks || [];
-        //    navigationCtrl.navLocks.push(control);
-        //}
-
         function cancelNavigation(args) {
             //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
             var p = new WinJS.Promise(function (c) { });
@@ -1538,12 +1534,6 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             document.addEventListener("backbutton", backhandler);
 
         return function () {
-            //navigationCtrl = control;
-            //while ((navigationCtrl = WinJSContrib.Utils.getParentControlByClass("mcn-navigation-ctrl", navigationCtrl.element || navigationCtrl._element)) != null) {
-            //    var idx = navigationCtrl.navLocks.indexOf(control);
-            //    if (idx >= 0)
-            //        navigationCtrl.navLocks.splice(idx, 1);
-            //}
             control.navLocks.isActive = false;
             locked.forEach(function (navigationCtrl) {
                 var idx = navigationCtrl.navLocks.indexOf(control);

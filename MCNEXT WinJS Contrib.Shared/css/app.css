@@ -36,7 +36,7 @@
 }
 #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment {
   -ms-grid-rows: 40px 1fr;
-  background-color: white;
+  background-color: #EEE;
 }
 #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment header[role=banner] {
   background-color: #DDD;

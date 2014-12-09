@@ -572,7 +572,7 @@
                     ctrl._overlay.classList.add('visible');
                     WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, 400);
                     ctrl.registerBack();
-                    ctrl.lockNavigation();
+                    //ctrl.lockNavigation();
                 }
             },
 

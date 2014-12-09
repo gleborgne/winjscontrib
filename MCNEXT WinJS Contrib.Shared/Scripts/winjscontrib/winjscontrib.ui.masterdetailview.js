@@ -136,13 +136,21 @@
 
             _clearDetailContent: function () {
                 var ctrl = this;
+                
                 if (ctrl.detailViewContentCtrl) {
+                    var elt = ctrl.detailViewContentCtrl.element;
+                    
+
                     if (ctrl.detailViewContentCtrl.unload)
                         ctrl.detailViewContentCtrl.unload();
                     if (ctrl.detailViewContentCtrl.dispose)
                         ctrl.detailViewContentCtrl.dispose();
-                    $(ctrl.detailViewContentCtrl.element).remove();
+
+                    $(elt).remove();
+
                     ctrl.detailViewContentCtrl = null;
+                    
+                    
                 }
                 ctrl.detailViewContent.innerHTML = '';
             },
@@ -171,10 +179,7 @@
 
             _animateToDetail: function (element, data, options) {
                 var ctrl = this;
-
-                if (ctrl.morph)
-                    ctrl.morph.dispose();
-
+                
                 var morph = WinJSContrib.UI.Morph.from(element);
                 ctrl.morph = morph;
                 ctrl.detailViewContent.style.opacity = '0';
@@ -183,7 +188,7 @@
 
                 //                ctrl.detailViewContent.style.opacity = '0';
 
-                return morph.fadeIn(100).then(function () {
+                return morph.fadeIn(160).then(function () {
                     WinJSContrib.UI.Animation.fadeOut(ctrl.masterView, 160).then(function () {
                         ctrl.masterView.style.opacity = '';
                         ctrl.masterView.classList.remove('visible');
@@ -197,7 +202,7 @@
 
                     //WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, 700, { delay: 470 });
 
-                    return morph.apply({ duration: 600 }).then(function () {
+                    return morph.apply({ duration: 400 }).then(function () {
                         return ctrl._loadDetailContent(options.uri, data, options).then(function () {
                             WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, 700);
                             ctrl.detailViewHeader.style.opacity = '';
@@ -209,8 +214,15 @@
 
             _animateToMaster: function () {
                 var ctrl = this;
-                ctrl.morph.checkTarget(true);
-                ctrl.morph.fadeIn(160);
+                var morph = ctrl.morph;
+                ctrl.morph = null;
+
+                if (!morph) {
+                    return;
+                }
+
+                morph.checkTarget(true);
+                morph.fadeIn(160);
                 return WinJSContrib.UI.Animation.fadeOut(ctrl.detailView, 250).then(function () {
                     ctrl.detailView.classList.remove('visible');
                     ctrl.detailView.style.display = 'none';
@@ -218,16 +230,17 @@
                     ctrl.masterView.classList.add('visible');
                     ctrl.masterView.style.opacity = '0';
                     
-                    ctrl.morph.revert({ duration: 300 });
-                    return WinJSContrib.UI.Animation.fadeIn(ctrl.masterView, 350, { delay: 250 });
+                    return morph.revert({ duration: 250 });                    
                 }).then(function () {
-                    return ctrl.morph.fadeOut(90);
+                    return WinJSContrib.UI.Animation.fadeIn(ctrl.masterView, 300, { easing: 'ease-in' });
+                }).then(function () {
+                    return morph.fadeOut(160);
                 }).then(function () {
                     ctrl.detailView.style.display = '';
                     ctrl.detailView.style.opacity = '';
                     ctrl._clearDetailContent();
-                    ctrl.morph.dispose();
-                    ctrl.morph = null;
+                    morph.dispose();
+                    
                 });
             },
 

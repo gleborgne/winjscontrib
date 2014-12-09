@@ -55,7 +55,7 @@ WinJSContrib.UI.Morph = WinJSContrib.UI.Morph || {};
     MorphOp.prototype.fadeOut = function (duration, options) {
         var morph = this;
         return WinJSContrib.UI.Animation.fadeOut(morph.element, duration, options).then(function () {
-            morph.element.style.display = 'none';
+            if (morph.element) morph.element.style.display = 'none';
         });
     }
 
@@ -68,6 +68,7 @@ WinJSContrib.UI.Morph = WinJSContrib.UI.Morph || {};
     MorphOp.prototype.dispose = function () {
         $(this.element).remove();
         this.element = null;
+        this.$element = null;
         this.targetElement = null;
     }
 
@@ -111,33 +112,33 @@ WinJSContrib.UI.Morph = WinJSContrib.UI.Morph || {};
         //var obj = $.extend({ property: 'left', to: morph.target.x }, args);
         //return WinJS.UI.executeTransition(morph.element, items[2]);
 
-        var p = null;
-        p = new WinJS.Promise(function (c, e) {
-            morph.element.style.transition = 'all ' + duration + 'ms ' + easing;
-            setImmediate(function () {
-                morph.element.style.left = morph.target.x + 'px';
-                morph.element.style.top = morph.target.y + 'px';
-                morph.element.style.width = morph.target.width + 'px';
-                morph.element.style.height = morph.target.height + 'px';
-            });
+        //var p = null;
+        //p = new WinJS.Promise(function (c, e) {
+        //    morph.element.style.transition = 'all ' + duration + 'ms ' + easing;
+        //    setImmediate(function () {
+        //        morph.element.style.left = morph.target.x + 'px';
+        //        morph.element.style.top = morph.target.y + 'px';
+        //        morph.element.style.width = morph.target.width + 'px';
+        //        morph.element.style.height = morph.target.height + 'px';
+        //    });
 
-            morph.$element.afterTransition(null, duration + 100).then(function () {
-                morph.element.style.transition = '';
-                c();
-            });
-        });
-
-        return p;
-
-        //return new WinJS.Promise(function (c, e) {
-        //    morph.$element.velocity(
-        //        {
-        //            left: morph.target.x + 'px',
-        //            top: morph.target.y + 'px',
-        //            width: morph.target.width + 'px',
-        //            height: morph.target.height + 'px'
-        //        }, options.duration || 300, options.easing || 'easeOutQuart').promise().then(c, e);
+        //    morph.$element.afterTransition(null, duration + 100).then(function () {
+        //        morph.element.style.transition = '';
+        //        c();
+        //    });
         //});
+
+        //return p;
+
+        return new WinJS.Promise(function (c, e) {
+            morph.$element.velocity(
+                {
+                    left: morph.target.x + 'px',
+                    top: morph.target.y + 'px',
+                    width: morph.target.width + 'px',
+                    height: morph.target.height + 'px'
+                }, options.duration || 300, options.easing || 'easeOutQuart').promise().then(c, e);
+        });
     }
 
     MorphOp.prototype.applyWith = function (properties, options) {
@@ -157,30 +158,30 @@ WinJSContrib.UI.Morph = WinJSContrib.UI.Morph || {};
         var easing = options.easing || 'cubic-bezier(0.1, 0.9, 0.2, 1)';
         var delay = options.delay || 0;
 
-        return new WinJS.Promise(function (c, e) {
-            morph.element.style.transition = 'all ' + duration + 'ms ' + easing + ' ' + delay + 'ms';
-            setImmediate(function () {
-                morph.element.style.left = morph.origin.x + 'px';
-                morph.element.style.top = morph.origin.y + 'px';
-                morph.element.style.width = morph.origin.width + 'px';
-                morph.element.style.height = morph.origin.height + 'px';
-            });
-
-            morph.$element.afterTransition(null, duration + 50).then(function () {
-                morph.element.style.transition = '';
-                c();
-            });
-        });
-
         //return new WinJS.Promise(function (c, e) {
-        //    morph.$element.velocity(
-        //        {
-        //            left: morph.origin.x + 'px',
-        //            top: morph.origin.y + 'px',
-        //            width: morph.origin.width + 'px',
-        //            height: morph.origin.height + 'px'
-        //        }, options.duration || 350, options.easing || 'easeOutQuart').promise().then(c, e);
+        //    morph.element.style.transition = 'all ' + duration + 'ms ' + easing + ' ' + delay + 'ms';
+        //    setImmediate(function () {
+        //        morph.element.style.left = morph.origin.x + 'px';
+        //        morph.element.style.top = morph.origin.y + 'px';
+        //        morph.element.style.width = morph.origin.width + 'px';
+        //        morph.element.style.height = morph.origin.height + 'px';
+        //    });
+
+        //    morph.$element.afterTransition(null, duration + 50).then(function () {
+        //        morph.element.style.transition = '';
+        //        c();
+        //    });
         //});
+
+        return new WinJS.Promise(function (c, e) {
+            morph.$element.velocity(
+                {
+                    left: morph.origin.x + 'px',
+                    top: morph.origin.y + 'px',
+                    width: morph.origin.width + 'px',
+                    height: morph.origin.height + 'px'
+                }, options.duration || 350, options.easing || 'easeOutQuart').promise().then(c, e);
+        });
     }
 
 })();

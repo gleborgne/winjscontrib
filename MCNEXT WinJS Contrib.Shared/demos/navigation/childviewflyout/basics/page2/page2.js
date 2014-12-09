@@ -1,7 +1,7 @@
 ﻿(function () {
     "use strict";
 
-    WinJS.UI.Pages.define("./demos/navigation/controls/childviewflyout/basics/page2/page2.html", {
+    WinJS.UI.Pages.define("./demos/navigation/childviewflyout/basics/page2/page2.html", {
         //this function defines if you can close the page
         canClose: function () {
             var page = this;
@@ -11,7 +11,7 @@
 
         openPage: function () {
             var nav = WinJSContrib.UI.parentChildView(this.element);
-            nav.navigate('./demos/navigation/controls/childviewflyout/basics/page1/page1.html')
+            nav.navigate('./demos/navigation/childviewflyout/basics/page1/page1.html')
         },
 
         closeFlyout: function () {

@@ -34,9 +34,18 @@
                element.winControl = this;
                options = options || {};
                this.element = element || document.createElement("div");
+               this.rootElement = document.createElement("div");
+               this.rootElement.mcnChildnav = true;
+               this.rootElement.winControl = this;
+
+               document.body.appendChild(this.rootElement);
                this.$element = $(element);
+               this.element.style.display = 'none';
                this.element.mcnChildnav = true;
-               this.element.classList.add("childNavigator");
+               
+               this.element.classList.add("mcn-childview");
+               this.element.classList.add("win-disposable");
+               this.rootElement.classList.add("childNavigator");
                this.element.classList.add('mcn-navigation-ctrl');
                this._createContent();
                this.isOpened = false;
@@ -54,7 +63,7 @@
                    this.overlay.className = "childNavigator-overlay";
                    this.$overlay = $(this.overlay);
                    this.$overlay.removeClass('visible');
-                   this.element.appendChild(this.overlay);
+                   this.rootElement.appendChild(this.overlay);
                    this.$overlay.click(function () {
                        that.hide();
                    });
@@ -69,7 +78,7 @@
                    }
                    this.$contentPlaceholder = $(this.contentPlaceholder);
                    
-                   this.element.appendChild(this.contentPlaceholder);
+                   this.rootElement.appendChild(this.contentPlaceholder);
                },
 
                /**
@@ -173,7 +182,7 @@
                        document.body.addEventListener('keyup', that.childContentKeyUp);
                        that.isOpened = true;
 
-                       $(that.element).addClass("visible");
+                       $(that.rootElement).addClass("visible");
                        that.$overlay.addClass("visible");
                        if (!skipshowcontainer)
                            that.$contentPlaceholder.addClass("visible");
@@ -216,7 +225,7 @@
                                if (page)
                                    page.removeEventListener("closing", manageClose);
                                ctrl.removeEventListener("beforehide", manageClose);
-                               ctrl.closePage(arg, this.element).then(function () {
+                               ctrl.closePage(arg, this.rootElement).then(function () {
                                    complete({ completed: true, data: arg });
                                });
                            },
@@ -244,7 +253,7 @@
                 */
                open: function (uri, options, skipHistory) {
                    var that = this;
-                   $(that.element).addClass("visible");
+                   $(that.rootElement).addClass("visible");
                    that.dispatchEvent('beforeshow');
                    that.$overlay.addClass("visible");
                    that.$contentPlaceholder.addClass("visible");
@@ -307,7 +316,7 @@
                        if (that.$overlay.hasClass("visible")) {
                            that.$contentPlaceholder.afterTransition(function () {
                                that.clear();
-                               $(that.element).removeClass('visible');
+                               $(that.rootElement).removeClass('visible');
                                that.dispatchEvent('afterhide', arg);
                            });
 
@@ -316,6 +325,14 @@
                        }
                    }
                    return true;
+               },
+
+               dispose: function () {
+                   var ctrl = this;
+                   this.rootElement.winControl = null;
+                   WinJS.Utilities.disposeSubTree(this.rootElement);
+                   WinJS.Utilities.disposeSubTree(this.element);
+                   $(this.rootElement).remove();
                }
            }),
            WinJS.Utilities.eventMixin,
