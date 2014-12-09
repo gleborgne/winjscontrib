@@ -1,4 +1,5 @@
-﻿//you may use this code freely as long as you keep the copyright notice and don't 
+﻿/// <reference path="winjscontrib.core.js" />
+//you may use this code freely as long as you keep the copyright notice and don't 
 // alter the file name and the namespaces
 //This code is provided as is and we could not be responsible for what you are making with it
 //project is available at http://winjscontrib.codeplex.com
@@ -35,11 +36,12 @@
                this.element = element || document.createElement("div");
                this.$element = $(element);
                this.element.mcnChildnav = true;
-               this.$element.addClass("childNavigator");
+               this.element.classList.add("childNavigator");
+               this.element.classList.add('mcn-navigation-ctrl');
                this._createContent();
                this.isOpened = false;
                this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
-               this.cancelNavigationBinded = this.cancelNavigation.bind(this);
+               //this.cancelNavigationBinded = this.cancelNavigation.bind(this);
            },
            /**
             * @lends WinJSContrib.UI.ChildViewFlyout.prototype 
@@ -155,14 +157,14 @@
                    }
                },
 
-               cancelNavigation: function (args) {
-                   //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
-                   var p = new WinJS.Promise(function (c) { });
-                   args.detail.setPromise(p);
-                   setImmediate(function () {
-                       p.cancel();
-                   });
-               },
+               //cancelNavigation: function (args) {
+               //    //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
+               //    var p = new WinJS.Promise(function (c) { });
+               //    args.detail.setPromise(p);
+               //    setImmediate(function () {
+               //        p.cancel();
+               //    });
+               //},
 
                show: function (skipshowcontainer) {
                    var that = this;                   
@@ -176,14 +178,15 @@
                        if (!skipshowcontainer)
                            that.$contentPlaceholder.addClass("visible");
 
-                       WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
-                       if (window.Windows && window.Windows.Phone)
-                           Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
-                       else
-                           document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
+                       that.navEventsHandler = WinJSContrib.UI.registerNavigationEvents(that, this.hardwareBackBtnPressedBinded);
+                       //WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
+                       //if (window.Windows && window.Windows.Phone)
+                       //    Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
+                       //else
+                       //    document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
 
-                       if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
-                           WinJSContrib.UI.Application.navigator.addLock();
+                       //if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+                       //    WinJSContrib.UI.Application.navigator.addLock();
                    }
                },
 
@@ -288,14 +291,18 @@
                        that.isOpened = false;
                        that.dispatchEvent('beforehide', arg);
 
-                       if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
-                           WinJSContrib.UI.Application.navigator.removeLock();
+                       if (that.navEventsHandler) {
+                           that.navEventsHandler();
+                           that.navEventsHandler = null;
+                       }
+                       //if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+                       //    WinJSContrib.UI.Application.navigator.removeLock();
 
-                       WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
-                       if (window.Windows && window.Windows.Phone)
-                           Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", this.hardwareBackBtnPressedBinded);
-                       else
-                           document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
+                       //WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
+                       //if (window.Windows && window.Windows.Phone)
+                       //    Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", this.hardwareBackBtnPressedBinded);
+                       //else
+                       //    document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
 
                        if (that.$overlay.hasClass("visible")) {
                            that.$contentPlaceholder.afterTransition(function () {

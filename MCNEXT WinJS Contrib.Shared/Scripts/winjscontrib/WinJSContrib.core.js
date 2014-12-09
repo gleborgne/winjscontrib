@@ -988,7 +988,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         var current = element.parentNode;
 
         while (current) {
-            if (current.classList.contains(className) && current.winControl) {
+            if (current.classList && current.classList.contains(className) && current.winControl) {
                 return current.winControl;
             }
             current = current.parentNode;
@@ -1442,7 +1442,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         }
     },
     {
-        dispose : function () {
+        dispose: function () {
             var ctrl = this;
             this.queries.forEach(function (q) {
                 q.dispose();
@@ -1456,7 +1456,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                 name: name,
                 query: query,
                 data: data,
-                mq : mq
+                mq: mq
             }
 
             var f = function (arg) {
@@ -1464,7 +1464,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                     ctrl._mediaEvent(arg, query);
                 }
             };
-            
+
             mq.addListener(f);
             query.dispose = function () {
                 mq.removeListener(f);
@@ -1486,10 +1486,78 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             ctrl.queries.forEach(function (q) {
                 var mq = window.matchMedia(q.query);
                 if (mq.matches) {
-                    ctrl._mediaEvent({ matches : true }, q);
-                }                
+                    ctrl._mediaEvent({ matches: true }, q);
+                }
             });
         }
     }), WinJS.Utilities.eventMixin);
+
+    WinJSContrib.UI.registerNavigationEvents = function (control, callback) {
+        var navigationCtrl = control;
+        var locked = [];
+
+        control.navLocks = control.navLocks || [];
+        control.navLocks.isActive = true;
+
+        var backhandler = function (arg) {
+            if (!control.navLocks || control.navLocks.length == 0) {
+                callback.bind(control)(arg);
+            }
+        }
+
+        var navcontrols = document.querySelectorAll('.mcn-navigation-ctrl');
+        for (var i = 0 ; i < navcontrols.length; i++) {
+            var navigationCtrl = navcontrols[i].winControl;
+            if (navigationCtrl && navigationCtrl != control) {
+                navigationCtrl.navLocks = navigationCtrl.navLocks || [];
+                if (navigationCtrl.navLocks.isActive && (!navigationCtrl.navLocks.length || navigationCtrl.navLocks.indexOf(control) < 0)) {
+                    navigationCtrl.navLocks.push(control);
+                    locked.push(navigationCtrl);
+                }
+            }
+        }
+
+        //while ((navigationCtrl = WinJSContrib.Utils.getParentControlByClass("mcn-navigation-ctrl", navigationCtrl.element || navigationCtrl._element)) != null) {
+        //    navigationCtrl.navLocks = navigationCtrl.navLocks || [];
+        //    navigationCtrl.navLocks.push(control);
+        //}
+
+        function cancelNavigation(args) {
+            //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
+            var p = new WinJS.Promise(function (c) { });
+            args.detail.setPromise(p);
+            setImmediate(function () {
+                p.cancel();
+            });
+        }
+
+        WinJS.Navigation.addEventListener('beforenavigate', cancelNavigation);
+        if (window.Windows && window.Windows.Phone)
+            Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", backhandler);
+        else
+            document.addEventListener("backbutton", backhandler);
+
+        return function () {
+            //navigationCtrl = control;
+            //while ((navigationCtrl = WinJSContrib.Utils.getParentControlByClass("mcn-navigation-ctrl", navigationCtrl.element || navigationCtrl._element)) != null) {
+            //    var idx = navigationCtrl.navLocks.indexOf(control);
+            //    if (idx >= 0)
+            //        navigationCtrl.navLocks.splice(idx, 1);
+            //}
+            control.navLocks.isActive = false;
+            locked.forEach(function (navigationCtrl) {
+                var idx = navigationCtrl.navLocks.indexOf(control);
+                if (idx >= 0)
+                    navigationCtrl.navLocks.splice(idx, 1);
+            });
+
+            WinJS.Navigation.removeEventListener('beforenavigate', cancelNavigation);
+            if (window.Windows && window.Windows.Phone)
+                Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", backhandler);
+            else
+                document.removeEventListener("backbutton", backhandler);
+        }
+    }
+
 
 })(WinJSContrib);

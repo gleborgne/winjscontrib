@@ -36,12 +36,13 @@
             ctrl.element.mcnFlyoutPage = true;
             ctrl.element.winControl = ctrl;
             ctrl.element.classList.add('mcn-flyoutpage');
+            ctrl.element.classList.add('mcn-navigation-ctrl');            
             ctrl.element.classList.add('mcn-flyout');
             ctrl.element.classList.add('win-disposable');
 
             
             ctrl.hardwareBackBtnPressedBinded = ctrl.hardwareBackBtnPressed.bind(ctrl);
-            ctrl.cancelNavigationBinded = ctrl.cancelNavigation.bind(ctrl);
+            //ctrl.cancelNavigationBinded = ctrl.cancelNavigation.bind(ctrl);
 
             ctrl._container = document.createElement('DIV');
             ctrl._container.className = 'mcn-flyoutpage-area';
@@ -225,14 +226,14 @@
                 }
             },
 
-            cancelNavigation: function (args) {
-                //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
-                var p = new WinJS.Promise(function (c) { });
-                args.detail.setPromise(p);
-                setImmediate(function () {
-                    p.cancel();
-                });
-            },
+            //cancelNavigation: function (args) {
+            //    //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
+            //    var p = new WinJS.Promise(function (c) { });
+            //    args.detail.setPromise(p);
+            //    setImmediate(function () {
+            //        p.cancel();
+            //    });
+            //},
 
             addContentElement: function (element) {
                 var ctrl = this;
@@ -281,19 +282,20 @@
                 if (ctrl.edgeSwipeCtrl) {
                     ctrl.edgeSwipeCtrl.disabled = true;
                 }
+                ctrl.navEventsHandler = WinJSContrib.UI.registerNavigationEvents(ctrl, this.hardwareBackBtnPressedBinded);
 
-                WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
-                if (window.Windows && window.Windows.Phone)
-                    Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
-                else
-                    document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
+                //WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
+                //if (window.Windows && window.Windows.Phone)
+                //    Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
+                //else
+                //    document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
 
             },
 
-            lockNavigation: function () {
-                if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
-                    WinJSContrib.UI.Application.navigator.addLock();
-            },
+            //lockNavigation: function () {
+            //    if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+            //        WinJSContrib.UI.Application.navigator.addLock();
+            //},
 
             show: function () {
                 var ctrl = this;
@@ -329,7 +331,7 @@
                         ctrl.contentCtrl.aftershow();
                     }
                     ctrl.dispatchEvent("aftershow");
-                    ctrl.lockNavigation();
+                    //ctrl.lockNavigation();
                 });
             },
 
@@ -379,14 +381,18 @@
 
             _removeNavigationLocks: function () {
                 var ctrl = this;
-                if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
-                    WinJSContrib.UI.Application.navigator.removeLock();
+                if (ctrl.navEventsHandler) {
+                    ctrl.navEventsHandler();
+                    ctrl.navEventsHandler = null;
+                }
+                //if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+                //    WinJSContrib.UI.Application.navigator.removeLock();
 
-                WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
-                if (window.Windows && window.Windows.Phone)
-                    Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", this.hardwareBackBtnPressedBinded);
-                else
-                    document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
+                //WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
+                //if (window.Windows && window.Windows.Phone)
+                //    Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", this.hardwareBackBtnPressedBinded);
+                //else
+                //    document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
 
                 if (ctrl.edgeSwipeCtrl) {
                     ctrl.edgeSwipeCtrl.disabled = false;

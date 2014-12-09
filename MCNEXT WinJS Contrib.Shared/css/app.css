@@ -34,10 +34,29 @@
 #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header {
   color: white;
 }
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header .title {
-  font-size: 1.8em;
-  text-transform: uppercase;
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment {
+  -ms-grid-rows: 40px 1fr;
+  background-color: white;
+}
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment header[role=banner] {
+  background-color: #DDD;
+  border-bottom: 1px solid #BBB;
+  -ms-grid-columns: 0 0 1fr auto;
+}
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment header[role=banner] .titlearea {
   font-family: 'Open Sans Condensed';
+}
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment header[role=banner] .codelink {
+  opacity: 1;
+  margin: 0;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 8px;
+}
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment .desc-screen .bloc-description {
+  border-radius: 0;
+  background-color: white;
+  border: 1px solid #BBB;
 }
 #app-mainpage #app-content > .mcn-masterdetailview-detail > .mcn-masterdetailview-detail-header {
   min-width: 80px;
@@ -50,6 +69,11 @@
   font-size: 28pt;
   margin-left: -4px;
   padding-top: 15px;
+}
+#app-mainpage #app-content .mcn-masterdetailview-defaultheader .title {
+  font-size: 1.8em;
+  text-transform: uppercase;
+  font-family: 'Open Sans Condensed';
 }
 #app-mainpage #app-content.mcn-vertical .mcn-masterdetailview-defaultheader .back {
   margin-left: 40px;
@@ -89,8 +113,15 @@
   width: 250px;
   margin-right: 10px;
   margin-bottom: 10px;
+  line-height: 1.2em;
+  box-sizing: border-box;
+  padding: 10px;
 }
-@media screen and (orientation: portrait) and (max-width: 1024px) {
+.feature .title {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+@media screen and (orientation: portrait) {
   #app-mainpage #app-header {
     height: 60px;
   }
@@ -119,8 +150,33 @@
   #app-mainpage #app-header #app-header-logo .logo {
     margin-top: 7px;
   }
+  #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header .title {
+    font-size: 1.4em;
+  }
   #app-mainpage #app-content > .mcn-masterdetailview-detail > .mcn-masterdetailview-detail-header .title {
     font-size: 1.8em;
+  }
+  #app-mainpage #app-content.mcn-vertical .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header {
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+  #app-mainpage #app-content.mcn-vertical .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header .mcn-masterdetailview-defaultheader .back {
+    min-height: 40px;
+    display: none;
+  }
+  #app-mainpage #app-content.mcn-vertical .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header .mcn-masterdetailview-defaultheader .back:after {
+    font-size: 24pt;
+  }
+  #app-mainpage #app-content.mcn-vertical .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header .mcn-masterdetailview-defaultheader .title {
+    line-height: 36px;
+    margin-left: 15px;
+  }
+  .feature {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 5px;
+    padding: 5px;
   }
 }
 /*# sourceMappingURL=app.css.map */

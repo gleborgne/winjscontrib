@@ -11,7 +11,8 @@
             this.element.winControl = this;
             this.element.classList.add('win-disposable');
             this.element.classList.add('mcn-layout-ctrl');
-            
+            this.element.classList.add('mcn-navigation-ctrl');
+
             this.element.classList.add('mcn-masterdetailview');
             this._initContent();
 
@@ -19,6 +20,9 @@
             if (this.mediaTrigger) {
                 this.mediaTrigger.check();
             }
+            //this._cancelNavigationBinded = this._cancelNavigation.bind(this);
+            //this._returnToMasterBinded = this.returnToMaster.bind(this);
+
         }, {
             orientation: {
                 get: function () {
@@ -193,7 +197,7 @@
 
                     //WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, 700, { delay: 470 });
 
-                    return morph.apply({ duration: 500 }).then(function () {
+                    return morph.apply({ duration: 600 }).then(function () {
                         return ctrl._loadDetailContent(options.uri, data, options).then(function () {
                             WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, 700);
                             ctrl.detailViewHeader.style.opacity = '';
@@ -235,11 +239,20 @@
                     //if (options.uri) {
                     //    ctrl._loadDetailContent(options.uri, data);
                     //}
+                }).then(function () {
+                    ctrl.navEventsHandler = WinJSContrib.UI.registerNavigationEvents(ctrl, ctrl.returnToMaster);
                 });
             },
 
-            returnToMaster: function () {
-                var ctrl = this;
+            returnToMaster: function (arg) {
+                var ctrl = this;                                
+
+                if (arg) arg.handled = true;
+
+                if (ctrl.navEventsHandler) {
+                    ctrl.navEventsHandler();
+                    ctrl.navEventsHandler = null;
+                }
 
                 ctrl._animateToMaster().then(function () {
                     ctrl._clearDetailContent();

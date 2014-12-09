@@ -52,7 +52,7 @@
                 return WinJSContrib.UI.Application.splashscreen.show(dataloading());
             }).then(function appInitSuccess() {
                 var page = "/pages/home/home.html";
-                //page = "/demos/shell.html";
+                page = "/demos/shell.html";
                 return WinJS.Navigation.navigate(page)
             }, function appInitError(err) {
                 return WinJS.Navigation.navigate("/pages/errorPage/errorPage.html");
@@ -96,13 +96,3 @@
 
     app.start();
 })();
-
-var HubGridLayout = {
-    vertical: { query: '(orientation: portrait)', layout: 'flexvertical' },
-    horizontal: { query: '(orientation: landscape)', layout: 'flexhorizontal' }
-};
-
-var MenuViewsOrientations = {
-    vertical: { query: '(orientation: portrait)', orientation: 'vertical' },
-    horizontal: { query: '(orientation: landscape)', orientation: 'horizontal' }
-};

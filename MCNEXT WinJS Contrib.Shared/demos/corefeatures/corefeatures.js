@@ -8,19 +8,7 @@
         // populates the page elements with the app's data.
         ready: function (element, options) {
             var page = this;
-            $('.feature', element).tap(function (elt) {
-                elt.classList.add('active');
-                var title = $(elt).text().trim();
-                page.masterDetailView.openDetail(elt, { title: title }, {
-                    uri: './demos/navigation/navigation.html',
-                    prepareHeader: function (arg) {
-                        var s = getComputedStyle(elt);
-                        arg.header.style.backgroundColor = s.backgroundColor;
-                    }
-                }).then(function () {
-                    elt.classList.remove('active');
-                });
-            });
+            registerSection(page);
         },
 
         unload: function () {

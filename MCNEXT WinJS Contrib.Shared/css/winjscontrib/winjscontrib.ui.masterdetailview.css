@@ -57,6 +57,7 @@
 }
 .mcn-masterdetailview.mcn-vertical .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header .mcn-masterdetailview-defaultheader .back {
   display: inline-block;
+  float: left;
 }
 .mcn-masterdetailview.mcn-vertical .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header .mcn-masterdetailview-defaultheader .title {
   display: inline-block;

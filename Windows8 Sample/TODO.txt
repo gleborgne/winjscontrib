@@ -1,5 +1,12 @@
-﻿couleur en argument splash screen
-mécanisme de gestion des fichiers en bgdownload/bgupload
+﻿finaliser layout phone
+gestion back sur phone et clavier
+corriger layout datasourcemanager
+samples navigator
+sample media trigger
+api doc json
+layout child view flyout
+what is...
+
 réorganiser les sources, utiliser gulp pour faire un script de build
 rectifier description apps winjscontrib
 wrapper pour les messages iframe et workers

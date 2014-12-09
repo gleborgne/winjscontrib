@@ -48,6 +48,7 @@
                 this._element.winControl = this;
                 this._element.mcnNavigator = true;
                 this._element.classList.add('mcn-navigator');
+                this._element.classList.add('mcn-navigation-ctrl');
                 this.eventTracker = new WinJSContrib.UI.EventTracker();
                 this.delay = options.delay || 0;
                 this.animationWaitForPreviousPageClose = options.animationWaitForPreviousPageClose || true;

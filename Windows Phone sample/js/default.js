@@ -39,7 +39,7 @@
                 return WinJSContrib.UI.Application.splashscreen.show(dataloading());
             }).then(function appInitSuccess() {
                 var page = "/pages/home/home.html";
-                //page = "/demos/shell.html";
+                page = "/demos/shell.html";
                 return WinJS.Navigation.navigate(page)
             }, function appInitError(err) {
                 return WinJS.Navigation.navigate("/pages/errorPage/errorPage.html");
