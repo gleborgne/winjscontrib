@@ -80,6 +80,9 @@
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.globalprogress.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.globalprogress.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.hub.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.hub.css.map">
+      <DependentUpon>winjscontrib.ui.hub.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.hub.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.masterdetailview.css">

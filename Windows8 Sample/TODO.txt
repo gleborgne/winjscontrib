@@ -1,4 +1,5 @@
-﻿finaliser layout phone
+﻿bouton close dans childview
+finaliser layout phone
 gestion back sur phone et clavier
 corriger layout datasourcemanager
 samples navigator

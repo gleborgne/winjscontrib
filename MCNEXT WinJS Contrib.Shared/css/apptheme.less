@@ -19,4 +19,19 @@
         background-color: lighten(@color, 10%);
         color: white;
     }
+
+    button, .button {
+        background-color: @color;
+        border : none;
+        color: white;
+        font-family: 'Open Sans Condensed';
+
+        &:hover {
+            background-color: lighten(@color, 20%);
+        }
+
+        &:active{
+            background-color: darken(@color, 20%);
+        }
+    }
 }

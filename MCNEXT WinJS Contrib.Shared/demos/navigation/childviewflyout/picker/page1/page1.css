@@ -2,7 +2,7 @@
     background-color: white;
 }
 
-    .picker-page1 section[role=main] {
+    /*.picker-page1 section[role=main] {
         display: -ms-grid;
         -ms-grid-columns: 1fr;
         -ms-grid-rows: auto 1fr;
@@ -38,4 +38,4 @@
 .phone  .picker-page1 section[role=main] #listitems .win-surface {
         margin-left: 20px;
         margin-right: 20px;
-    }
+    }*/

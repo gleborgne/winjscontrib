@@ -5,4 +5,19 @@
   background-color: #f39d74;
   color: white;
 }
+.section-ui button,
+.section-ui .button {
+  background-color: #ef7c45;
+  border: none;
+  color: white;
+  font-family: 'Open Sans Condensed';
+}
+.section-ui button:hover,
+.section-ui .button:hover {
+  background-color: #f7bea3;
+}
+.section-ui button:active,
+.section-ui .button:active {
+  background-color: #be4810;
+}
 /*# sourceMappingURL=ui.css.map */

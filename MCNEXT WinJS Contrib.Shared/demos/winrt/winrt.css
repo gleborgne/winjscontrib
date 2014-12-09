@@ -5,4 +5,19 @@
   background-color: #4dcaa5;
   color: white;
 }
+.section-winrt button,
+.section-winrt .button {
+  background-color: #34b08b;
+  border: none;
+  color: white;
+  font-family: 'Open Sans Condensed';
+}
+.section-winrt button:hover,
+.section-winrt .button:hover {
+  background-color: #74d6b9;
+}
+.section-winrt button:active,
+.section-winrt .button:active {
+  background-color: #1d614d;
+}
 /*# sourceMappingURL=winrt.css.map */

@@ -5,4 +5,19 @@
   background-color: #bb8eeb;
   color: white;
 }
+.section-navigation button,
+.section-navigation .button {
+  background-color: #a162e4;
+  border: none;
+  color: white;
+  font-family: 'Open Sans Condensed';
+}
+.section-navigation button:hover,
+.section-navigation .button:hover {
+  background-color: #d5b9f3;
+}
+.section-navigation button:active,
+.section-navigation .button:active {
+  background-color: #6e21bf;
+}
 /*# sourceMappingURL=navigation.css.map */

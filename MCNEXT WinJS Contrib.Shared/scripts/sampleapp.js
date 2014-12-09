@@ -9,7 +9,10 @@ var MenuViewsOrientations = {
     horizontal: { query: '(orientation: landscape)', orientation: 'horizontal' }
 };
 
-function registerSection(page) {
+function registerSection(page, classname) {
+    if (classname) {
+        page.masterDetailView.element.classList.add(classname)
+    }
     $('.feature', page.element).tap(function (elt) {
         elt.classList.add('active');
         var target = $(elt).data('target');

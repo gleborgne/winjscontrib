@@ -8,7 +8,7 @@
         // populates the page elements with the app's data.
         ready: function (element, options) {
             var page = this;
-            registerSection(page);
+            registerSection(page, 'section-winrt');
         },
 
         unload: function () {

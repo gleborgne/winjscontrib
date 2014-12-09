@@ -98,34 +98,22 @@ WinJSContrib.UI.Morph = WinJSContrib.UI.Morph || {};
         var delay = options.delay || 0;
 
 
-        //var args = {
-        //    delay: delay,
-        //    duration: duration,
-        //    timing: easing
-        //};
-        //var items = [
-        //    $.extend({ property: 'left', to: morph.target.x }, args),
-        //    $.extend({ property: 'top', to: morph.target.y }, args),
-        //    $.extend({ property: 'width', to: morph.target.width }, args),
-        //    $.extend({ property: 'height', to: morph.target.height }, args)
-        //];
-        //var obj = $.extend({ property: 'left', to: morph.target.x }, args);
-        //return WinJS.UI.executeTransition(morph.element, items[2]);
-
         //var p = null;
         //p = new WinJS.Promise(function (c, e) {
         //    morph.element.style.transition = 'all ' + duration + 'ms ' + easing;
         //    setImmediate(function () {
-        //        morph.element.style.left = morph.target.x + 'px';
-        //        morph.element.style.top = morph.target.y + 'px';
-        //        morph.element.style.width = morph.target.width + 'px';
-        //        morph.element.style.height = morph.target.height + 'px';
+        //        morph.$element.afterTransition(null, duration + 100).then(function () {
+        //            morph.element.style.transition = '';
+        //            c();
+        //        });
+        //        setImmediate(function () {
+        //            morph.element.style.left = morph.target.x + 'px';
+        //            morph.element.style.top = morph.target.y + 'px';
+        //            morph.element.style.width = morph.target.width + 'px';
+        //            morph.element.style.height = morph.target.height + 'px';
+        //        });
         //    });
 
-        //    morph.$element.afterTransition(null, duration + 100).then(function () {
-        //        morph.element.style.transition = '';
-        //        c();
-        //    });
         //});
 
         //return p;
@@ -161,15 +149,17 @@ WinJSContrib.UI.Morph = WinJSContrib.UI.Morph || {};
         //return new WinJS.Promise(function (c, e) {
         //    morph.element.style.transition = 'all ' + duration + 'ms ' + easing + ' ' + delay + 'ms';
         //    setImmediate(function () {
-        //        morph.element.style.left = morph.origin.x + 'px';
-        //        morph.element.style.top = morph.origin.y + 'px';
-        //        morph.element.style.width = morph.origin.width + 'px';
-        //        morph.element.style.height = morph.origin.height + 'px';
-        //    });
+        //        morph.$element.afterTransition(null, duration + 50).then(function () {
+        //            morph.element.style.transition = '';
+        //            c();
+        //        });
 
-        //    morph.$element.afterTransition(null, duration + 50).then(function () {
-        //        morph.element.style.transition = '';
-        //        c();
+        //        setImmediate(function () {                    
+        //            morph.element.style.left = morph.origin.x + 'px';
+        //            morph.element.style.top = morph.origin.y + 'px';
+        //            morph.element.style.width = morph.origin.width + 'px';
+        //            morph.element.style.height = morph.origin.height + 'px';
+        //        });
         //    });
         //});
 

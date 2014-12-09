@@ -5,4 +5,19 @@
   background-color: #c7cc53;
   color: white;
 }
+.section-whatisthis button,
+.section-whatisthis .button {
+  background-color: #b1b636;
+  border: none;
+  color: white;
+  font-family: 'Open Sans Condensed';
+}
+.section-whatisthis button:hover,
+.section-whatisthis .button:hover {
+  background-color: #d4d87a;
+}
+.section-whatisthis button:active,
+.section-whatisthis .button:active {
+  background-color: #65671f;
+}
 /*# sourceMappingURL=whatisthis.css.map */

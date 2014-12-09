@@ -5,7 +5,7 @@ body {
     background-color: #DDD;
 }
 
-#contenthost {
+#contenthost, #appcontainer {
     height: 100%;
     width: 100%;
     margin: 0;
@@ -40,12 +40,7 @@ body {
         margin-top: 37px;
         margin-right: 40px;
         font-size: 20pt;
-        opacity: 0;
-        transition: all 200ms ease-in;
-
-        &.visible {
-            opacity: 1;
-        }
+        color: #777;
     }
 
     .titlearea {
@@ -86,7 +81,7 @@ body {
 
 .desc-screen {
     display: -ms-grid;
-    -ms-grid-rows: 5px 1fr 40px;
+    -ms-grid-rows: 40px 1fr 40px;
     -ms-grid-columns: 40px 300px 40px 1fr 40px;
     font-size: 14pt;
 
@@ -115,6 +110,22 @@ body {
     }
 }
 
+.childNavigator {
+    .fragment {
+        header[role=banner] {
+            -ms-grid-columns: 19px 61px 1fr auto;
+        }
+
+        section[role=main] {
+            &.content {
+                padding: 20px 80px 40px 80px;
+                box-sizing: border-box;
+                overflow-y: auto;
+            }
+        }
+    }
+}
+
 
 #codeviewFlyout.childNavigator .childNavigator-contentPlaceholder {
     max-width: 900px;
@@ -132,39 +143,6 @@ body {
     }
 }
 
-@media screen and (orientation: portrait) and (max-width: 500px) {
-    .fragment header[role=banner] {
-        -ms-grid-columns: auto 1fr;
-        margin-left: 15px;
-        margin-right: 15px;
-    }
-
-    .phone .fragment header[role=banner] {
-        padding-left: 15px;
-        padding-right: 15px;
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    .fragment header[role=banner] .win-backbutton {
-        -ms-grid-column: 1;
-        margin-bottom: 0;
-        margin-left: 5px;
-        margin-right: 5px;
-        margin-top: 76px;
-    }
-
-    .fragment header[role=banner] .win-backbutton:disabled {
-        display: none;
-    }
-
-    .fragment header[role=banner] .titlearea {
-        margin-bottom: 0;
-        margin-left: 5px;
-        margin-right: 5px;
-        margin-top: 68px;
-    }
-}
 
 @media screen and (orientation: portrait) {
     .fragment {
@@ -182,22 +160,13 @@ body {
             margin-top: 17px;
             font-size: 32pt;
         }
-
-        .codelink {
-            .text {
-                display: none;
-            }
-
-            &.visible {
-                opacity: 1;
-            }
-        }
     }
 
     .desc-screen {
-        -ms-grid-rows: 5px auto 10px 1fr;
-        -ms-grid-columns: 40px 1fr 40px;
+        -ms-grid-rows: 15px auto 10px 1fr;
+        -ms-grid-columns: 15px 1fr 15px;
         font-size: 12pt;
+        overflow-y: auto;
 
         .bloc-description {
             padding: 10px 20px;
@@ -208,6 +177,36 @@ body {
         .bloc-content {
             -ms-grid-row: 4;
             -ms-grid-column: 2;
+        }
+    }
+}
+
+
+@media screen and (orientation: portrait) and (max-width: 500px) {
+    .fragment {
+        -ms-grid-rows: 80px 1fr;
+
+        header[role=banner] {
+            -ms-grid-columns: 15px auto 1fr auto;
+
+            .win-backbutton {
+                margin-bottom: 0;
+                margin-left: 15px;
+                margin-right: 10px;
+                margin-top: 11px;
+
+                &:disabled {
+                    display: none;
+                }
+            }
+
+            .titlearea {
+                margin: 0;
+                margin-left: 5px;
+                margin-right: 5px;
+                margin-top: 18px;
+                font-size: 24pt;
+            }
         }
     }
 }
