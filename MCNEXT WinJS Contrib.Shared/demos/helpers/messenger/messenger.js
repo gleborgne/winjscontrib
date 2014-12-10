@@ -73,7 +73,7 @@
 
         smartworkerTreatmentWithError: function () {
             var page = this;
-            var worker = new WinJSContrib.UI.Messenger.SmartWorker();
+            var worker = new WinJSContrib.Messenger.SmartWorker();
 
             //in this case we did not import "WinJSContrib.Utils" so "WinJSContrib.Utils.guid()" will fail if you have not clicked
             worker.execute(function (a, b) {

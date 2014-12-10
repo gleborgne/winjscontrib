@@ -174,9 +174,18 @@ function HSL(hVal, sVal, lVal) {
             if (this.mcnTapTracking);
             this.mcnTapTracking = undefined;
 
-            this.onmspointerdown = null;
-            this.onmspointerout = null;
-            this.onmspointerup = null;
+            if (this.hasOwnProperty('onpointerdown')) {
+                this.onpointerdown = null;
+                this.onpointerout = null;
+                this.onpointerup = null;
+            }
+            this.onmousedown = null;
+            this.onmouseleave = null;
+            this.onmouseup = null;
+            if (this.hasOwnProperty('ontouchstart')) {
+                this.ontouchstart = null;
+                this.ontouchend = null;
+            }
         });
     };
 

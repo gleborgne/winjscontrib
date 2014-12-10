@@ -19,6 +19,23 @@
                 current = current.parentNode;
             }
         },
+
+        FlyoutPageTrigger: WinJS.Class.define(function(element, options){
+            var ctrl = this;
+            ctrl.element = element || document.createElement('DIV');
+            options = options || {};
+            ctrl.element.classList.add('win-disposable');
+            WinJS.UI.setOptions(this, options);
+            $(ctrl.element).tap(function () {
+                ctrl.openFlyout();
+            }, options.tapOptions);
+        }, {
+            openFlyout: function () {
+                if (this.flyoutpage && this.flyoutpage.winControl)
+                    this.flyoutpage.winControl.show();
+            }
+        }),
+
         FlyoutPage: WinJS.Class.mix(WinJS.Class.define(
         /**
          * @classdesc 

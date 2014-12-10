@@ -61,6 +61,9 @@
   -ms-grid-rows: auto;
   -ms-grid-columns: 1fr 1fr;
 }
+.split > div {
+  min-width: 300px;
+}
 .split div:nth-child(2) {
   -ms-grid-column: 2;
 }
@@ -140,6 +143,12 @@
   .desc-screen .bloc-content {
     -ms-grid-row: 4;
     -ms-grid-column: 2;
+  }
+  .split {
+    display: block;
+  }
+  .split > div {
+    min-width: 0;
   }
 }
 @media screen and (orientation: portrait) and (max-width: 500px) {

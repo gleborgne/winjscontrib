@@ -32,21 +32,27 @@
 }
 .home #corefeatures {
   background-color: #e24242;
+  border-left: 6px solid #d12020;
 }
 .home #navigation {
   background-color: #a162e4;
+  border-left: 6px solid #8736dd;
 }
 .home #ui {
   background-color: #ef7c45;
+  border-left: 6px solid #eb5b16;
 }
 .home #helpers {
   background-color: #2685d5;
+  border-left: 6px solid #1e6aaa;
 }
 .home #winrt {
   background-color: #34b08b;
+  border-left: 6px solid #28896c;
 }
 .home #whatisthis {
   background-color: #b1b636;
+  border-left: 6px solid #8b8f2a;
 }
 @media screen and (orientation: portrait) {
   .home {

@@ -34,10 +34,13 @@
                element.winControl = this;
                options = options || {};
                this.element = element || document.createElement("div");
-               this.rootElement = document.createElement("div");
-               this.rootElement.mcnChildnav = true;
-               this.rootElement.winControl = this;
-
+               if (options.inplace) {
+                   this.rootElement = this.element;
+               } else {
+                   this.rootElement = document.createElement("div");
+                   this.rootElement.mcnChildnav = true;
+                   this.rootElement.winControl = this;
+               }
                document.body.appendChild(this.rootElement);
                this.$element = $(element);
                this.element.style.display = 'none';
@@ -64,8 +67,10 @@
                    this.$overlay = $(this.overlay);
                    this.$overlay.removeClass('visible');
                    this.rootElement.appendChild(this.overlay);
-                   this.$overlay.click(function () {
+                   this.$overlay.tap(function () {
                        that.hide();
+                   }, {
+                       disableAnimation: true
                    });
 
                    this.contentPlaceholder = document.createElement("div");

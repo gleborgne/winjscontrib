@@ -4,10 +4,12 @@
   height: 100%;
   visibility: hidden;
   top: 0;
-  z-index: 500;
+  z-index: 1007;
+  pointer-events: none;
 }
 .childNavigator.visible {
   visibility: visible;
+  pointer-events: auto;
 }
 .childNavigator .childNavigator-overlay {
   position: absolute;

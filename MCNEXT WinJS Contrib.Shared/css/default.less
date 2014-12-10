@@ -74,6 +74,10 @@ body {
     -ms-grid-rows: auto;
     -ms-grid-columns: 1fr 1fr;
 
+    >div{
+        min-width: 300px;
+    }
+
     div:nth-child(2) {
         -ms-grid-column: 2;
     }
@@ -178,6 +182,13 @@ body {
             -ms-grid-row: 4;
             -ms-grid-column: 2;
         }
+    }
+
+    .split {
+        display: block;  
+        >div{
+            min-width: 0;
+        }      
     }
 }
 

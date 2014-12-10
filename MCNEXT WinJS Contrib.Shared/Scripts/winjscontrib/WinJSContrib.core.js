@@ -1370,7 +1370,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
             if (element.winControl) {
                 elementCtrl = element.winControl;
-                
+
                 elementCtrl.navigationState = { location: location, state: args };
                 WinJSContrib.UI.addFragmentProperties(elementCtrl);
 
@@ -1522,9 +1522,9 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
             var p = new WinJS.Promise(function (c) { });
             args.detail.setPromise(p);
-            setImmediate(function () {
-                p.cancel();
-            });
+            //setImmediate(function () {
+            p.cancel();
+            //});
         }
 
         WinJS.Navigation.addEventListener('beforenavigate', cancelNavigation);
@@ -1533,7 +1533,13 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         else
             document.addEventListener("backbutton", backhandler);
 
+        if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+            WinJSContrib.UI.Application.navigator.addLock();
+
         return function () {
+            if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+                WinJSContrib.UI.Application.navigator.removeLock();
+
             control.navLocks.isActive = false;
             locked.forEach(function (navigationCtrl) {
                 var idx = navigationCtrl.navLocks.indexOf(control);

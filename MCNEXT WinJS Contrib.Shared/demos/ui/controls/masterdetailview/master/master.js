@@ -3,7 +3,7 @@
 (function () {
     "use strict";
 
-    WinJS.UI.Pages.define("/pages/masterdetailview/master/master.html", {        
+    WinJS.UI.Pages.define("./demos/ui/controls/masterdetailview/master/master.html", {
         ready: function (element, options) {
             var page = this;
             $(page.masterDetailView.detailViewHeader).tap(function () {
@@ -11,7 +11,7 @@
             });
 
             $('li', element).tap(function (elt) {
-                page.masterDetailView.openDetail(elt, { title : elt.innerText },{ uri: '/pages/masterdetailview/detail/detail.html' });
+                page.masterDetailView.openDetail(elt, { title: elt.innerText }, { uri: './demos/ui/controls/masterdetailview/detail/detail.html' });
                 
             });
         }
