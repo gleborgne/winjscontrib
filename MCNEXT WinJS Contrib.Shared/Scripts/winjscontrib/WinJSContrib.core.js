@@ -1175,6 +1175,32 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     },
 
     WinJSContrib.UI.addFragmentProperties = function (control) {
+        control.$ = function (selector) {
+            return $(selector, control.element || control._element);
+        }
+
+        control.q = function (selector) {
+            return control.element.querySelector(selector);
+        }
+
+        control.qAll = function (selector) {
+            var res = control.element.querySelectorAll(selector);
+            if (res && !res.forEach) {
+                res.forEach = function (callback) {
+                    for (var i = 0 ; i < res.length; i++) {
+                        callback(res[i], i);
+                    }
+                }
+            }
+        }
+
+        var basedispose = control.dispose;
+        control.dispose = function () {
+            control.eventTracker.dispose();
+            if (basedispose)
+                basedispose.bind(control)();
+        }
+
         if (!control.eventTracker) {
             control.eventTracker = new WinJSContrib.UI.EventTracker();
         }

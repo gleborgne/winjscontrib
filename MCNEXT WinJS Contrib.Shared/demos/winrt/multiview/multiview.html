@@ -14,28 +14,42 @@
             <h1 class="titlearea win-type-ellipsis">
                 <span class="pagetitle">multiview parent</span>
             </h1>
+            <div data-win-control="WinJSContrib.Sample.CodeLink" data-win-options="{ pagelink: './demos/winrt/multiview/multiview' }"></div>
         </header>
-        <section aria-label="Main content" role="main">
-            <div>
-                <button data-page-action="openView">Open view</button><button data-page-action="closeView">close current</button>
+        <section class="desc-screen" aria-label="Main content" role="main">
+            <div class="bloc-description">
+                <p>
+                    Since Windows 8.1, a modern app could have multiple screens. It's one application from Windows perspective but each screen has it's own UI thread.
+                </p>
+                <p>
+                    Each screen is isolated but the API allows for communication between screens based on messaging (postMessage).
+                </p>
+                <p>
+                    The wrapper in WinJS Contrib exposes screens and messaging capabilities, to make it very easy, and avoid setting up plumbing each time you want to implement multi-screen apps.
+                </p>
             </div>
-            <div>
-                <div id="hellobloc">
-                    <p>
-                        <label>Selected view</label>
-                        <select id="views"></select>
-                    </p>
-                    <p>
-                        <label>Message</label>
-                        <input type="text" id="txtMessage" />
-                    </p>
-                    <p>
-                        <button data-page-action="sendMessage">Send to current</button>
-                    </p>
-</div>
-            </div>
-            <div id="messages">
+            <div class="bloc-content">
+                <div>
+                    <button data-page-action="openView">Open view</button><button data-page-action="closeView">close current</button>
+                </div>
+                <div>
+                    <div id="hellobloc">
+                        <p>
+                            <label>Selected view</label>
+                            <select id="views"></select>
+                        </p>
+                        <p>
+                            <label>Message</label>
+                            <input type="text" id="txtMessage" />
+                        </p>
+                        <p>
+                            <button data-page-action="sendMessage">Send to current</button>
+                        </p>
+                    </div>
+                </div>
+                <div id="messages">
 
+                </div>
             </div>
         </section>
     </div>

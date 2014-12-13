@@ -11,6 +11,8 @@
   border: none;
   color: white;
   font-family: 'Open Sans Condensed';
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 .section-navigation button:hover,
 .section-navigation .button:hover {

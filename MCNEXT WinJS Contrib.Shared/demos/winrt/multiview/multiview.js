@@ -1,12 +1,7 @@
-﻿// For an introduction to the Page Control template, see the following documentation:
-// http://go.microsoft.com/fwlink/?LinkId=232511
-(function () {
+﻿(function () {
     "use strict";
 
-    WinJS.UI.Pages.define("./pages/multiview/multiview.html", {
-
-        // This function is called whenever a user navigates to this page. It
-        // populates the page elements with the app's data.
+    WinJS.UI.Pages.define("./demos/winrt/multiview/multiview.html", {
         ready: function (element, options) {
             var page = this;
             page.refreshViews();
@@ -23,7 +18,7 @@
 
         openView: function () {
             var page = this;
-            WinJSContrib.WinRT.MultipleViews.manager.openView("./pages/multiview/childview.html").done(function () {
+            WinJSContrib.WinRT.MultipleViews.manager.openView("./demos/winrt/multiview/childview.html").done(function () {
                 page.refreshViews();
             });
         },
@@ -72,12 +67,6 @@
 
         unload: function () {
             WinJSContrib.WinRT.MultipleViews.manager.secondaryViews.onitemremoved = null;
-        },
-
-        updateLayout: function (element) {
-            /// <param name="element" domElement="true" />
-
-            // TODO: Respond to changes in layout.
         }
     });
 })();

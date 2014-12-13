@@ -120,6 +120,9 @@
   box-sizing: border-box;
   padding: 10px;
 }
+.feature.disabled {
+  opacity: 0.5;
+}
 .feature .title {
   font-weight: 500;
   margin-bottom: 4px;

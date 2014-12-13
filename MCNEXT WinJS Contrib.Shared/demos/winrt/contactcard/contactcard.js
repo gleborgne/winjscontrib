@@ -4,7 +4,7 @@
 (function () {
     "use strict";
 
-    WinJS.UI.Pages.define("./pages/contactcard/contactcard.html", {
+    WinJS.UI.Pages.define("./demos/winrt/contactcard/contactcard.html", {
         simpleContact: function (arg) {
             WinJSContrib.WinRT.Contacts.show({ firstName: "John", lastName: "Doe", email: "johndoe@doe.com", phone: "0123456789" }, arg.elt);
         },
@@ -33,7 +33,7 @@
 
         searchContact: function (arg) {
             var txtMail = this.element.querySelector("#txtMail");
-            WinJSContrib.WinRT.Contacts.showContact({ email: txtMail.value }, arg.elt);
+            WinJSContrib.WinRT.Contacts.show({ email: txtMail.value }, arg.elt);
         }
     });
 })();

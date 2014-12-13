@@ -101,7 +101,12 @@ WinJSContrib.WinRT.Contacts = WinJSContrib.WinRT.Contacts || {};
         var boundingRect = elt.getBoundingClientRect();
         var selectionRect = { x: boundingRect.left, y: boundingRect.top, width: boundingRect.width, height: boundingRect.height };
 
-        ContactsNS.ContactManager.showContactCard(contact, selectionRect, Windows.UI.Popups.Placement.default);
-        WinJS.log && WinJS.log("ContactManager.showContactCard() was called.", "sample", "status");
+        if (window.Windows && window.Windows.Phone) {
+            WinJSContrib.Alerts.message('Oupss...', 'this feature is not available on Windows Phone (yet). Run the application on Windows to see it live.')
+        }
+        else {
+            ContactsNS.ContactManager.showContactCard(contact, selectionRect, Windows.UI.Popups.Placement.default);
+            WinJS.log && WinJS.log("ContactManager.showContactCard() was called.", "sample", "status");
+        }
     }
 })();

@@ -27,34 +27,42 @@
             </h1>
             <div data-win-control="WinJSContrib.Sample.CodeLink" data-win-options="{ pagelink: './demos/helpers/search/searchClassic/search' }"></div>
         </header>
-        <section aria-label="Main content" role="main">
-            <p>
-                Choose how your index works<br />
-                <select id="indexkind">
-                    <option value="synchronous" selected>Synchronous</option>
-                    <option value="worker">Web worker</option>
-                </select>
-            </p>
-            <p>
-                <input type="search" id="searchtxt" />
-                <button id="btnSearch" data-page-action="doSearch">search</button>
-            </p>
-            <p>
-                <input type="text" id="indexbox" /><button data-page-action="addToIndex">Index this</button>
-            </p>
-            <p><input type="range" id="progress" min="0" max="100" readonly style="opacity:0" /></p>
-            <p>index has <span id="indexCount"></span> items</p>
-            <p>
-                <button data-page-action="clearIndex">Clear</button>
-                <button data-page-action="addItems" data-page-action-args='{ "size":500 }'>Add 500 items</button>
-                <button data-page-action="addItems" data-page-action-args='{ "size": 2000 }'>Add 2 000 items</button>
-                <button data-page-action="addItems" data-page-action-args='{ "size": 20000 }'>Add 20 000 items</button>
-                <button data-page-action="addItems" data-page-action-args='{ "size": 100000 }'>Add 100 000 items</button>
-                <button data-page-action="addItems" data-page-action-args='{ "size": 1000000 }'>Add 1 000 000 items</button>
+        <section class="desc-screen" aria-label="Main content" role="main">
+            <div class="bloc-description">
+                <p>
+                    The search feature is for managing search with small to medium indexing. The engine relies on stemming to provide
+                    smart search on common spelling mistakes.
+                </p>
+            </div>
+            <div class="bloc-content">
+                <p>
+                    Choose how your index works<br />
+                    <select id="indexkind">
+                        <option value="synchronous" selected>Synchronous</option>
+                        <option value="worker">Web worker</option>
+                    </select>
+                </p>
+                <p>
+                    <input type="search" id="searchtxt" />
+                    <button id="btnSearch" data-page-action="doSearch">search</button>
+                </p>
+                <p>
+                    <input type="text" id="indexbox" /><button data-page-action="addToIndex">Index this</button>
+                </p>
+                <p><input type="range" id="progress" min="0" max="100" readonly style="opacity:0" /></p>
+                <p>index has <span id="indexCount"></span> items</p>
+                <p>
+                    <button data-page-action="clearIndex">Clear</button>
+                    <button data-page-action="addItems" data-page-action-args='{ "size":500 }'>Add 500 items</button>
+                    <button data-page-action="addItems" data-page-action-args='{ "size": 2000 }'>Add 2 000 items</button>
+                    <button data-page-action="addItems" data-page-action-args='{ "size": 20000 }'>Add 20 000 items</button>
+                    <button data-page-action="addItems" data-page-action-args='{ "size": 100000 }'>Add 100 000 items</button>
+                    <button data-page-action="addItems" data-page-action-args='{ "size": 1000000 }'>Add 1 000 000 items</button>
 
-            </p>
-            <p id="searchmessage"></p>
-            <ul id="searchresults"></ul>
+                </p>
+                <p id="searchmessage"></p>
+                <ul id="searchresults"></ul>
+            </div>
         </section>
     </div>
 </body>

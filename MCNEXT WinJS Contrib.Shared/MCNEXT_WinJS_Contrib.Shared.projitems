@@ -282,6 +282,7 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\winrt\alerts\alerts.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\winrt\alerts\alerts.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\alerts\alerts.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\winrt\contactcard\contactcard.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\winrt\contactcard\contactcard.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\winrt\contactcard\contactcard.js" />
@@ -615,5 +616,22 @@
     <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.multipleviews.main.js" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.ssm.js" />
     <Content Include="$(MSBuildThisFileDirectory)templates\article.html" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\css\ui-dark.css" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\css\ui-dark.min.css" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\css\ui-light.css" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\css\ui-light.min.css" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\fonts\Symbols.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\base.js" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\base.min.js" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\base.min.js.map" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\en-US\ui.strings.js" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\ui.js" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\ui.min.js" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\ui.min.js.map" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\WinJS.js" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\WinJS.min.js" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\WinJS.min.js.map" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\License.txt" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\README.md" />
   </ItemGroup>
 </Project>

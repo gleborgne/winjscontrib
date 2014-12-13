@@ -7,7 +7,7 @@
             page.iframe = element.querySelector('#messagingframe');
             page.iframeMessenger = new WinJSContrib.Messenger(window, page.iframe.contentWindow);
 
-            page.worker = new Worker('./pages/core/messenger/worker.js');
+            page.worker = new Worker('./demos/helpers/messenger/worker.js');
             page.workerMessenger = new WinJSContrib.Messenger(page.worker, page.worker);
 
             page.smartWorker = new WinJSContrib.Messenger.SmartWorker();
