@@ -118,6 +118,9 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageactions\pageactions.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageactions\pageactions.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageactions\pageactions.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\dates\dates.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\dates\dates.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\dates\dates.js" />
@@ -192,9 +195,6 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.js" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\pageevents\pageevents.css" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\pageevents\pageevents.html" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\pageevents\pageevents.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\shell.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.html" />
@@ -206,6 +206,9 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\fixedhub\home.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\fixedhub\home.css.map" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\fixedhub\home.html" />

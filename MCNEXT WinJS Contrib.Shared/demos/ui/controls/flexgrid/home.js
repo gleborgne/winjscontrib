@@ -8,6 +8,7 @@
 
     WinJS.UI.Pages.define("./demos/ui/controls/flexgrid/home.html", {
         prepare: function (element, options) {
+            options.items = options.items || items;
             var controls = {
                 hub: element.querySelector("#pageHub").winControl,
                 section1 : {
@@ -45,7 +46,7 @@
 
         //this method is bound declaratively thanks to our custom navigator
         itemClick: function(clickArg){
-            WinJS.Navigation.navigate("./pages/detailPage/detailPage.html", clickArg.itemData);
+            WinJS.Navigation.navigate("./demos/ui/controls/detailPage/detailPage.html", clickArg.itemData);
         }
     });
 })();

@@ -1,7 +1,7 @@
 ﻿(function () {
     "use strict";
 
-    WinJS.UI.Pages.define("./pages/core/pageevents/pageevents.html", {
+    WinJS.UI.Pages.define("./demos/corefeatures/pageevents/pageevents.html", {
         prepareData: function (element, options) {
             //this event is called while the previous page is exiting
             //put data retrieval logic here, like ajax calls, file access, ...
@@ -15,40 +15,8 @@
             //it's the right place to render items because DOM manipulation
             //could not trigger layout or paint
 
-            //the function can return a promise. The page flow will wait for this promise to complete
-            this.setMenu();
+            //the function can return a promise. The page flow will wait for this promise to complete            
             return WinJS.Promise.wrap({ data: 'test' });
-        },
-
-        setMenu: function () {
-            var mainMenu = document.getElementById('mainMenu');
-            if (mainMenu) {
-                var pagecontrol = mainMenu.querySelector('.pagecontrol');
-                if (pagecontrol && pagecontrol.winControl) {
-                    pagecontrol.winControl.setMenu([
-                        {
-                            link: "./pages/home/home.html",
-                            title: "Home",
-                            icon: "&#xe10f;"
-                        },
-                        {
-                            link: "./pages/core/pageactions/pageactions.html",
-                            title: "Page actions and page links"
-                        },
-                        {
-                            link: "./pages/core/pageevents/pageevents.html",
-                            title: "custom page events"
-                        },
-                        {
-                            link: "./pages/core/blockingnavigation/blockingnav.html",
-                            title: "prevent navigation in a page"
-                        },
-                        {
-                            link: "./pages/core/eventtracker/eventtracker.html",
-                            title: "events & Event tracker"
-                        }, ]);
-                }
-            }
         },
 
 
