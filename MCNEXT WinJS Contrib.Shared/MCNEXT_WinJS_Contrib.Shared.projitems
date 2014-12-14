@@ -13,6 +13,7 @@
     <SharedGUID>54087230-87dd-4a3a-bc3a-c939db16ef31</SharedGUID>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)apidoc\winjscontrib.doc.json" />
     <Content Include="$(MSBuildThisFileDirectory)css\app.css">
       <DependentUpon>app.less</DependentUpon>
     </Content>

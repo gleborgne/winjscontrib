@@ -48,6 +48,7 @@
                 this._element.winControl = this;
                 this._element.mcnNavigator = true;
                 this._element.classList.add('mcn-navigator');
+                this._element.classList.add('mcn-navigation-ctrl');
                 this.eventTracker = new WinJSContrib.UI.EventTracker();
                 this.delay = options.delay || 0;
                 this.animationWaitForPreviousPageClose = options.animationWaitForPreviousPageClose || true;
@@ -457,6 +458,7 @@
                         enterPage: navigator.animations.enterPage,
                         closeOldPagePromise: closeOldPagePromise,
                         onfragmentinit: function (control) {
+                            control.navigator = navigator;
                             control.element.mcnPage = true;
                             if (openStacked) {
                                 control.stackedOn = oldPage;
@@ -466,16 +468,17 @@
                             }
                         },
                         onafterlayout: function (control) {
-                           if (args.detail.state && args.detail.state.clearNavigationHistory) {
+                            if (args.detail.state && args.detail.state.clearNavigationHistory) {
                                 if (navigator.global) {
                                     WinJS.Navigation.history.backStack = [];
                                 } else {
                                     navigator.history.backstack = [];
                                 }
-                           }
-                           navigator._updateBackButton(control);
+                            }
+                            navigator._updateBackButton(control);
                         },
                         onafterready: function (control) {
+                            navigator.dispatchEvent('pageContentReady', { page: control });
                             if (WinJSContrib.UI.Application.progress)
                                 WinJSContrib.UI.Application.progress.hide();
                         }

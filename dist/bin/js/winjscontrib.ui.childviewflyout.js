@@ -1,3 +1,4 @@
+/// <reference path="winjscontrib.core.js" />
 //you may use this code freely as long as you keep the copyright notice and don't 
 // alter the file name and the namespaces
 //This code is provided as is and we could not be responsible for what you are making with it
@@ -33,13 +34,26 @@
                element.winControl = this;
                options = options || {};
                this.element = element || document.createElement("div");
+               if (options.inplace) {
+                   this.rootElement = this.element;
+               } else {
+                   this.rootElement = document.createElement("div");
+                   this.rootElement.mcnChildnav = true;
+                   this.rootElement.winControl = this;
+               }
+               document.body.appendChild(this.rootElement);
                this.$element = $(element);
+               this.element.style.display = 'none';
                this.element.mcnChildnav = true;
-               this.$element.addClass("childNavigator");
+               
+               this.element.classList.add("mcn-childview");
+               this.element.classList.add("win-disposable");
+               this.rootElement.classList.add("childNavigator");
+               this.element.classList.add('mcn-navigation-ctrl');
                this._createContent();
                this.isOpened = false;
                this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
-               this.cancelNavigationBinded = this.cancelNavigation.bind(this);
+               //this.cancelNavigationBinded = this.cancelNavigation.bind(this);
            },
            /**
             * @lends WinJSContrib.UI.ChildViewFlyout.prototype 
@@ -52,9 +66,11 @@
                    this.overlay.className = "childNavigator-overlay";
                    this.$overlay = $(this.overlay);
                    this.$overlay.removeClass('visible');
-                   this.element.appendChild(this.overlay);
-                   this.$overlay.click(function () {
+                   this.rootElement.appendChild(this.overlay);
+                   this.$overlay.tap(function () {
                        that.hide();
+                   }, {
+                       disableAnimation: true
                    });
 
                    this.contentPlaceholder = document.createElement("div");
@@ -67,7 +83,7 @@
                    }
                    this.$contentPlaceholder = $(this.contentPlaceholder);
                    
-                   this.element.appendChild(this.contentPlaceholder);
+                   this.rootElement.appendChild(this.contentPlaceholder);
                },
 
                /**
@@ -155,14 +171,14 @@
                    }
                },
 
-               cancelNavigation: function (args) {
-                   //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
-                   var p = new WinJS.Promise(function (c) { });
-                   args.detail.setPromise(p);
-                   setImmediate(function () {
-                       p.cancel();
-                   });
-               },
+               //cancelNavigation: function (args) {
+               //    //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
+               //    var p = new WinJS.Promise(function (c) { });
+               //    args.detail.setPromise(p);
+               //    setImmediate(function () {
+               //        p.cancel();
+               //    });
+               //},
 
                show: function (skipshowcontainer) {
                    var that = this;                   
@@ -171,19 +187,20 @@
                        document.body.addEventListener('keyup', that.childContentKeyUp);
                        that.isOpened = true;
 
-                       $(that.element).addClass("visible");
+                       $(that.rootElement).addClass("visible");
                        that.$overlay.addClass("visible");
                        if (!skipshowcontainer)
                            that.$contentPlaceholder.addClass("visible");
 
-                       WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
-                       if (window.Windows && window.Windows.Phone)
-                           Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
-                       else
-                           document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
+                       that.navEventsHandler = WinJSContrib.UI.registerNavigationEvents(that, this.hardwareBackBtnPressedBinded);
+                       //WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
+                       //if (window.Windows && window.Windows.Phone)
+                       //    Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
+                       //else
+                       //    document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
 
-                       if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
-                           WinJSContrib.UI.Application.navigator.addLock();
+                       //if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+                       //    WinJSContrib.UI.Application.navigator.addLock();
                    }
                },
 
@@ -213,7 +230,7 @@
                                if (page)
                                    page.removeEventListener("closing", manageClose);
                                ctrl.removeEventListener("beforehide", manageClose);
-                               ctrl.closePage(arg, this.element).then(function () {
+                               ctrl.closePage(arg, this.rootElement).then(function () {
                                    complete({ completed: true, data: arg });
                                });
                            },
@@ -241,7 +258,7 @@
                 */
                open: function (uri, options, skipHistory) {
                    var that = this;
-                   $(that.element).addClass("visible");
+                   $(that.rootElement).addClass("visible");
                    that.dispatchEvent('beforeshow');
                    that.$overlay.addClass("visible");
                    that.$contentPlaceholder.addClass("visible");
@@ -288,19 +305,23 @@
                        that.isOpened = false;
                        that.dispatchEvent('beforehide', arg);
 
-                       if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
-                           WinJSContrib.UI.Application.navigator.removeLock();
+                       if (that.navEventsHandler) {
+                           that.navEventsHandler();
+                           that.navEventsHandler = null;
+                       }
+                       //if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+                       //    WinJSContrib.UI.Application.navigator.removeLock();
 
-                       WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
-                       if (window.Windows && window.Windows.Phone)
-                           Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", this.hardwareBackBtnPressedBinded);
-                       else
-                           document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
+                       //WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
+                       //if (window.Windows && window.Windows.Phone)
+                       //    Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", this.hardwareBackBtnPressedBinded);
+                       //else
+                       //    document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
 
                        if (that.$overlay.hasClass("visible")) {
                            that.$contentPlaceholder.afterTransition(function () {
                                that.clear();
-                               $(that.element).removeClass('visible');
+                               $(that.rootElement).removeClass('visible');
                                that.dispatchEvent('afterhide', arg);
                            });
 
@@ -309,6 +330,14 @@
                        }
                    }
                    return true;
+               },
+
+               dispose: function () {
+                   var ctrl = this;
+                   this.rootElement.winControl = null;
+                   WinJS.Utilities.disposeSubTree(this.rootElement);
+                   WinJS.Utilities.disposeSubTree(this.element);
+                   $(this.rootElement).remove();
                }
            }),
            WinJS.Utilities.eventMixin,

@@ -9,6 +9,7 @@ var plumber = require('gulp-plumber');
 var jsdoc = require("gulp-jsdoc");
 var del = require('del');
 var rename = require('gulp-rename');
+var jsFilesPath = 'MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/';
 
 var onError = function(err) {
 	notify.onError({
@@ -48,7 +49,7 @@ gulp.task('styles', function() {
 gulp.task('scripts', function() {
 	gulp.src(['MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/winjscontrib.dynamicscripts.html']).pipe(gulp.dest('dist/bin/js/'));
 	   
-	return gulp.src(['MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/**/*.js'])        
+	return gulp.src([jsFilesPath + '**/*.js'])        
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(jshint())
 	.pipe(jshint.reporter('default'))
@@ -92,7 +93,7 @@ gulp.task('doc', ['cleandoc'], function() {
 	    inverseNav      : false
 	  };
 
-	return gulp.src(['MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/**/*.js', 'readme.md'])        
+	return gulp.src([jsFilesPath +'**/*.js', 'readme.md'])        
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(jsdoc.parser(infos))
   	.pipe(jsdoc.generator('dist/documentation/', template));
@@ -101,7 +102,7 @@ gulp.task('doc', ['cleandoc'], function() {
 
 gulp.task('watch', function() {
 	gulp.watch('MCNEXT WinJS Contrib.Shared/css/winjscontrib/**/*.less', ['styles']);
-	gulp.watch('MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/**/*.js', ['scripts']);
+	gulp.watch(jsFilesPath +'**/*.js', ['scripts']);
 });
 
 

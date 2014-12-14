@@ -51,7 +51,7 @@
                     ctrl.registerTabs();
                 }
 
-                if (options.swipeSlide) {
+                if (options.swipeSlide && WinJSContrib.UI.SwipeSlide) {
                     ctrl.setSwipeSlideOnDefaultTab(options.rightbar);
                 }
 
@@ -69,13 +69,16 @@
                     ctrl.tabs[group].tabGroup = defaultgroup;
                     ctrl.tabHeader.appendChild(defaultgroup);
                 },
+
                 setSwipeRightbar: function () {
                     var ctrl = this;
                     ctrl.left = 'right';
                     ctrl.right = 'left';
                 },
+
                 setSwipeSlideOnDefaultTab: function (rightbar) {
                     var ctrl = this;
+
                     if (rightbar) {
                         ctrl.setSwipeRightbar();
                     }
@@ -83,40 +86,70 @@
                         ctrl.left = 'left';
                         ctrl.right = 'right';
                     }
+
                     ctrl.swipeSlide = new WinJSContrib.UI.SwipeSlide(ctrl.tabContent);
                     ctrl.navigator.animations.exitPage = function (elt) { return WinJSContrib.UI.Animation.fadeOut(elt, 100) };
 
                     ctrl.swipeSlide.onswipe = function (arg) {
-                        if (ctrl.currentTab != null)
-                            ctrl.tabContent.style.opacity = 0;
+                        var targetStyle = ctrl.swipeSlide.target.style;
+                        if (targetStyle.hasOwnProperty('webkitTransform')) {
+                            console.log('running on webkit');
+                        }
+
+                        ctrl.swipeSlide.swipeHandled = true;
+                        if (ctrl.currentTab && ctrl.navigator.pageElement) {
+                            var pageElt = ctrl.navigator.pageElement;
+                            pageElt.style.transform = targetStyle.transform;
+                            if (targetStyle.hasOwnProperty('webkitTransform')) {
+                                pageElt.style.webkitTransform = targetStyle.webkitTransform;
+                                targetStyle.webkitTransform = '';
+                            }
+                            targetStyle.transform = '';
+
+
+                            if (arg.detail.direction == 'left') {
+                                pageElt.winControl.getAnimationElements = function () { return null; }
+                                //ctrl.navigator.pageElement.exitPage = function () { return WinJS.Promise.wrap(); };
+                                WinJSContrib.UI.Animation.slideToLeft(pageElt);
+                            }
+                            else if (arg.detail.direction == 'right') {
+                                pageElt.winControl.getAnimationElements = function () { return null; }
+                                //ctrl.navigator.pageElement.exitPage = function () { return WinJS.Promise.wrap(); };
+                                WinJSContrib.UI.Animation.slideToRight(pageElt);
+                            }
+                            //ctrl.navigator.pageElement.style.opacity = 0;
+                        }
+                        targetStyle.transform = '';
+                        if (targetStyle.hasOwnProperty('webkitTransform'))
+                            targetStyle.webkitTransform = '';
+
                         if (ctrl.currentTab == null)
                             ctrl.selectFirst();
-                        else if (arg.detail.direction == ctrl.left) {
-                            if (ctrl.currentTab.item.index == 0) {
+
+                        else if (arg.detail.direction == 'right') {
+                            ctrl.navigator.animations.enterPage = function () {
+                                return WinJSContrib.UI.Animation.slideFromLeft(ctrl.tabContent);
+                            }
+
+                            if (ctrl.currentTab.index == 0) {
                                 ctrl.selectByIndex(ctrl.tabs.default.length - 1)
                             }
                             else {
-                                ctrl.selectByIndex(ctrl.currentTab.item.index - 1);
+                                ctrl.selectByIndex(ctrl.currentTab.index - 1);
                             }
+
+                        } else if (arg.detail.direction == 'left') {
                             ctrl.navigator.animations.enterPage = function () {
-                                if (ctrl.left == 'left')
-                                    WinJSContrib.UI.Animation.slideFromRight(ctrl.tabContent);
-                                else
-                                    WinJSContrib.UI.Animation.slideFromLeft(ctrl.tabContent);
+                                return WinJSContrib.UI.Animation.slideFromRight(ctrl.tabContent);
                             }
-                        } else if (arg.detail.direction == ctrl.right) {
-                            if (ctrl.currentTab.item.index == ctrl.tabs.default.length - 1) {
+
+                            if (ctrl.currentTab.index == ctrl.tabs.default.length - 1) {
                                 ctrl.selectByIndex(0)
                             }
                             else {
-                                ctrl.selectByIndex(ctrl.currentTab.item.index + 1);
+                                ctrl.selectByIndex(ctrl.currentTab.index + 1);
                             }
-                            ctrl.navigator.animations.enterPage = function () {
-                                if (ctrl.right == "right")
-                                    WinJSContrib.UI.Animation.slideFromLeft(ctrl.tabContent);
-                                else
-                                    WinJSContrib.UI.Animation.slideFromRight(ctrl.tabContent);
-                            }
+
                         }
 
                     }
@@ -160,7 +193,6 @@
                 selectTabHeader: function () {
                     var ctrl = this;
                     if (ctrl.currentTab) {
-
                         WinJS.Utilities.addClass(ctrl.currentTab.element, 'current');
                     }
                 },
@@ -170,6 +202,7 @@
 
                     var grp = ctrl.tabs[group || 'default'];
                     var tab = grp[index];
+
                     if (tab)
                         ctrl.selectTab(tab, skipHeader);
                 },
@@ -206,6 +239,8 @@
                             };
                             element.mcnTab = tab;
                             grp.tabGroup.appendChild(element);
+                            tab.index = grp.length;
+                            tab.group = group;
                             grp.push(tab);
                             $(tab.element).tap(function () {
                                 ctrl.selectTab(tab);
@@ -247,6 +282,8 @@
                         };
 
                         tabelt.mcnTab = tab;
+                        tab.index = grp.length;
+                        tab.group = group;
                         grp.push(tab);
                         $(tabelt).tap(function () {
                             if (tab.link.oninvoked) {

@@ -9,12 +9,19 @@ WinJSContrib.UI = WinJSContrib.UI || {};
 (function () {
     "use strict";
 
-    WinJSContrib.UI.MultiPassRenderer = WinJS.Class.define(function (element, options) {
+    WinJSContrib.UI.MultiPassRenderer = WinJS.Class.define(
+    /**
+     * This control manage multi-pass rendering for improving performances when showing a list of items.
+     * The renderer will render "shells" for the items to enable page layout, and render items content on demand, or when items scrolls to view.  
+     * @class WinJSContrib.UI.MultiPassRenderer
+     */
+    function (element, options) {
         options = options || {};
         this.items = [];
         this.element = element;
         this._scrollProcessor = null;
         this._tolerance = 1;
+        this._virtualize = false;
         this._scrollContainer = options.scrollContainer || null;
         this._multipass = options.multipass || false;
         this._orientation = options.orientation || '';
@@ -30,8 +37,16 @@ WinJSContrib.UI = WinJSContrib.UI || {};
 
         //element.mcnRenderer = this;
         //WinJS.UI.setOptions(this, options);
-    }, {
-
+    },
+    /**
+      * @lends WinJSContrib.UI.MultiPassRenderer.prototype
+      */
+    {
+        /**
+         * kind of multipass, can be 'section', or 'item'
+         * @type {String}
+         * @field
+         */
         multipass: {
             get: function () {
                 return this._multipass;
@@ -42,6 +57,11 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             }
         },
 
+        /**
+         * tolerance for determining if the rendering should apply. Tolerance is expressed in scroll container proportion. For example, 1 means that tolerance is equal to scroll container size
+         * @type {number}
+         * @field
+         */
         tolerance: {
             get: function () {
                 return this._tolerance;
@@ -51,6 +71,25 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             }
         },
 
+        /**
+         * indicate if renderer empty items out of sight
+         * @type {boolean}
+         * @field
+         */
+        virtualize: {
+            get: function () {
+                return this._virtualize;
+            },
+            set: function (val) {
+                this._virtualize = val;
+            }
+        },
+
+        /**
+         * could be 'vertical' or 'horizontal'
+         * @type {String}
+         * @field
+         */
         orientation: {
             get: function () {
                 return this._orientation;
@@ -61,6 +100,11 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             }
         },
 
+        /**
+         * Element containing scroll. If scrollContainer is filled, items content will get rendered when coming into view
+         * @type {HTMLElement}
+         * @field
+         */
         scrollContainer: {
             get: function () {
                 return this._scrollContainer;
@@ -115,17 +159,24 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             }
         },
 
+        /**
+         * refresh scroll events associated to multi pass renderer
+         */
         refreshScrollEvents: function () {
             this._unregisterScrollEvents();
             this._registerScrollEvents();
+            this.clearOffsets();
         },
 
         _vIsInView: function (rect, scrollContainer, tolerance) {
             var pxTolerance = scrollContainer.clientHeight * tolerance;
-            if (rect.y > scrollContainer.scrollTop - pxTolerance && rect.y < scrollContainer.scrollTop + scrollContainer.clientHeight + pxTolerance)
+            if (rect.y >= scrollContainer.scrollTop - pxTolerance && rect.y <= scrollContainer.scrollTop + scrollContainer.clientHeight + pxTolerance)
                 return true;
 
-            if (rect.y + rect.height > scrollContainer.scrollTop - pxTolerance && rect.y + rect.height < scrollContainer.scrollTop + scrollContainer.clientHeight + pxTolerance)
+            if (rect.y + rect.height >= scrollContainer.scrollTop - pxTolerance && rect.y + rect.height <= scrollContainer.scrollTop + scrollContainer.clientHeight + pxTolerance)
+                return true;
+
+            if (rect.y <= scrollContainer.scrollTop - pxTolerance && rect.y + rect.height >= scrollContainer.scrollTop + scrollContainer.clientHeight + pxTolerance)
                 return true;
 
             return false;
@@ -133,15 +184,21 @@ WinJSContrib.UI = WinJSContrib.UI || {};
 
         _hIsInView: function (rect, scrollContainer, tolerance) {
             var pxTolerance = scrollContainer.clientWidth * (tolerance || 0);
-            if (rect.x > scrollContainer.scrollLeft - pxTolerance && rect.x < scrollContainer.scrollLeft + scrollContainer.clientWidth + pxTolerance)
+            if (rect.x >= scrollContainer.scrollLeft - pxTolerance && rect.x <= scrollContainer.scrollLeft + scrollContainer.clientWidth + pxTolerance)
                 return true;
 
-            if (rect.x + rect.width > scrollContainer.scrollLeft - pxTolerance && rect.x + rect.width < scrollContainer.scrollLeft + scrollContainer.clientWidth + pxTolerance)
+            if (rect.x + rect.width >= scrollContainer.scrollLeft - pxTolerance && rect.x + rect.width <= scrollContainer.scrollLeft + scrollContainer.clientWidth + pxTolerance)
+                return true;
+
+            if (rect.x <= scrollContainer.scrollLeft - pxTolerance && rect.x + rect.width >= scrollContainer.scrollLeft + scrollContainer.clientWidth + pxTolerance)
                 return true;
 
             return false;
         },
 
+        /**
+         * Clear cached offsets for bloc and for items
+         */
         clearOffsets : function(){
             var ctrl = this;
             ctrl.rect = null;
@@ -152,27 +209,41 @@ WinJSContrib.UI = WinJSContrib.UI || {};
 
         pageLayout: function () {
             var ctrl = this;
-            ctrl.clearOffsets();
+            ctrl.refreshScrollEvents();
         },
 
+        /**
+         * update ui related properties like cached offsets, scroll events, ...
+         */
         updateLayout : function(){
             var ctrl = this;
-            ctrl.clearOffsets();
+            ctrl.refreshScrollEvents();
         },
 
-        _checkSection: function (check, tolerance) {
+        _checkSection: function (check, tolerance, noRender) {
             var ctrl = this;
             tolerance = tolerance || 0;
 
-            if (!ctrl.rect) {
+            if (!ctrl.rect && ctrl.items && ctrl.items.length) {
                 ctrl.rect = WinJSContrib.UI.offsetFrom(ctrl.element, ctrl.scrollContainer);
+            } else {
+                ctrl.rect = ctrl.rect || {};
+                ctrl.rect.width = ctrl.element.clientWidth;
+                ctrl.rect.height = ctrl.element.clientHeight;
             }
 
             if (check(ctrl.rect, ctrl.scrollContainer, tolerance)) {                
+                if (noRender)
+                    return true;
+
                 ctrl.renderItemsContent();
                 if (ctrl.onrendersection) {
                     ctrl.onrendersection();
                 }
+            } else if (ctrl.virtualize && tolerance > 0 && ctrl.items && ctrl.items.length && ctrl.items[0].rendered) {
+                ctrl.items.forEach(function (item) {
+                    item.empty();
+                });
             }
 
             if (tolerance == 0 && ctrl.tolerance > 0) {
@@ -186,24 +257,58 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             var ctrl = this;
             tolerance = tolerance || 0;
             var allRendered = true;
-            ctrl.items.forEach(function (item) {
-                if (!item.rect) {
-                    item.rect = WinJSContrib.UI.offsetFrom(item.element, ctrl.scrollContainer);
-                }
-                allRendered = allRendered & item.rendered;
-                if (!item.rendered && check(item.rect, ctrl.scrollContainer, tolerance)) {
-                    item.render();
-                }
-            });
-            ctrl.allRendered = allRendered;
+
+            var countR = function(){
+                var countRendered = 0;
+                ctrl.items.forEach(function (item) {
+                    if (item.rendered) {
+                        countRendered++;
+                    }
+                });
+                console.log('rendered ' + countRendered);
+            }
+
+            if (ctrl._checkSection(check, tolerance, true)) {
+                ctrl.items.forEach(function (item) {
+                    if (!item.rect) {
+                        item.rect = WinJSContrib.UI.offsetFrom(item.element, ctrl.scrollContainer);
+                    }
+                    allRendered = allRendered & item.rendered;
+
+                    if (!item.rendered && check(item.rect, ctrl.scrollContainer, tolerance)) {
+                        item.render();
+                    } else if (item.rendered && ctrl.virtualize && tolerance > 0 && !check(item.rect, ctrl.scrollContainer, tolerance)) {
+                        item.empty();
+                    }
+                });
+                ctrl.allRendered = allRendered;
+                //countR();
+            } else if (tolerance > 0 && ctrl.items.length && (ctrl.items[0].rendered || ctrl.items[ctrl.items.length - 1].rendered)) {
+                ctrl.items.forEach(function (item) {
+                    if (!item.rect) {
+                        item.rect = WinJSContrib.UI.offsetFrom(item.element, ctrl.scrollContainer);
+                    }
+                    if (ctrl.virtualize && !check(item.rect, ctrl.scrollContainer, tolerance)) {
+                        item.empty();
+                    }
+                });
+                //countR();
+            }
 
             if (tolerance == 0 && ctrl.tolerance > 0) {
                 setImmediate(function () {
                     ctrl._checkItem(check, ctrl.tolerance);
                 });
             }
+
+            
         },
 
+        /**
+         * render items shells to the page
+         * @param {Array} items array of items to render
+         * @param {Object} renderOptions options for rendering items, can override control options like item template
+         */
         prepareItems: function (items, renderOptions) {
             var ctrl = this;
             items = items || [];
@@ -239,12 +344,18 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             //ctrl.element.style.display = '';
         },
 
+        /**
+         * check rendering of items, based on multipass configuration (force items on screen to render)
+         */
         checkRendering: function () {
             var ctrl = this;
             if (ctrl._scrollProcessor)
                 ctrl._scrollProcessor();
         },
 
+        /**
+         * force rendering of all unrendered items
+         */
         renderItemsContent: function () {
             var ctrl = this;
             ctrl.items.forEach(function (item) {
@@ -257,14 +368,22 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             ctrl.allRendered = true;
         },
 
+        /**
+         * release resources for multipass renderer
+         */
         dispose: function () {
             var ctrl = this;
             ctrl._unregisterScrollEvents();
             WinJS.Utilities.disposeSubTree(ctrl.element);
         }
     });
-
-    WinJSContrib.UI.MultiPassItem = WinJS.Class.define(function (renderer, element, options) {
+   
+    WinJSContrib.UI.MultiPassItem = WinJS.Class.define(
+        /**
+         * Item for multipass rendering
+         * @class WinJSContrib.UI.MultiPassItem
+         */
+    function (renderer, element, options) {
         options = options || {};
         var item = this;
         item.renderer = renderer;
@@ -278,7 +397,13 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         item.itemTemplate = options.template;
         item.rendered = false;
     },
+    /**
+     * @lends WinJSContrib.UI.MultiPassItem
+     */
     {
+        /**
+         * render item content
+         */
         render: function (delayed) {
             var ctrl = this;
 
@@ -291,16 +416,26 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             return WinJS.Promise.wrap(ctrl.contentElement);
         },
 
+        /**
+         * empty item and mark it as unrendered
+         */
+        empty: function () {
+            var ctrl = this;
+            if (ctrl.rendered) {
+                $(ctrl.element).untap();
+                ctrl.element.classList.remove('loaded');
+                ctrl.element.innerHTML = '';
+                ctrl.rendered = false;
+            }
+        },
+
         _renderContent: function () {
             var ctrl = this;
 
             if (ctrl.itemTemplate) {
                 return ctrl.itemDataPromise.then(function (data) {
                     ctrl.itemData = data;
-                    return ctrl.itemTemplate.render(data).then(function (rendered) {
-                        //for (var i = 0 ; i < rendered.children.length; i++) {
-                        //    ctrl.element.appendChild(rendered.children[i]);
-                        //}
+                    return ctrl.itemTemplate.render(data).then(function (rendered) {                        
                         ctrl.element.appendChild(rendered);
 
                         if (ctrl.itemInvoked) {

@@ -81,6 +81,8 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     WinJSContrib.UI.offsetFrom = function (element, parent) {
         var xPosition = 0;
         var yPosition = 0;
+        var w = element.clientWidth;
+        var h = element.clientHeight;
 
         while (element && element != parent) {
             xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
@@ -89,7 +91,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
         }
 
-        return { x: xPosition, y: yPosition, width: element.clientWidth, height: element.clientHeight };
+        return { x: xPosition, y: yPosition, width: w, height: h };
     }
 
 
@@ -986,7 +988,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         var current = element.parentNode;
 
         while (current) {
-            if (current.classList.contains(className) && current.winControl) {
+            if (current.classList && current.classList.contains(className) && current.winControl) {
                 return current.winControl;
             }
             current = current.parentNode;
@@ -1161,6 +1163,9 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         };
     };
 
+    /**
+     * inject properties from source object to target object
+     */
     WinJSContrib.Utils.inject = function (target, source) {
         if (source) {
             for (var k in source) {
@@ -1170,6 +1175,32 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     },
 
     WinJSContrib.UI.addFragmentProperties = function (control) {
+        control.$ = function (selector) {
+            return $(selector, control.element || control._element);
+        }
+
+        control.q = function (selector) {
+            return control.element.querySelector(selector);
+        }
+
+        control.qAll = function (selector) {
+            var res = control.element.querySelectorAll(selector);
+            if (res && !res.forEach) {
+                res.forEach = function (callback) {
+                    for (var i = 0 ; i < res.length; i++) {
+                        callback(res[i], i);
+                    }
+                }
+            }
+        }
+
+        var basedispose = control.dispose;
+        control.dispose = function () {
+            control.eventTracker.dispose();
+            if (basedispose)
+                basedispose.bind(control)();
+        }
+
         if (!control.eventTracker) {
             control.eventTracker = new WinJSContrib.UI.EventTracker();
         }
@@ -1315,7 +1346,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         if (options.enterPage) {
             var elts = null;
             if (newElementCtrl && newElementCtrl.getAnimationElements) {
-                elts = newElementCtrl.getAnimationElements(isExit);
+                elts = newElementCtrl.getAnimationElements(false);
             } else {
                 elts = newElementCtrl.element;
             }
@@ -1343,6 +1374,13 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         //return WinJS.Promise.timeout(); //setImmediate
     }
 
+    /**
+     * render a html fragment with winjs contrib pipeline and properties
+     * @param {HTMLElement} container element that will contain the fragment
+     * @param {string} location url for the fragment
+     * @param {Object} args arguments to the fragment
+     * @param {Object} options rendering options
+     */
     WinJSContrib.UI.renderFragment = function (container, location, args, options) {
         var parentedComplete;
         options = options || {};
@@ -1358,7 +1396,8 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
             if (element.winControl) {
                 elementCtrl = element.winControl;
-                elementCtrl.navigationState = args;
+
+                elementCtrl.navigationState = { location: location, state: args };
                 WinJSContrib.UI.addFragmentProperties(elementCtrl);
 
                 if (args && args.injectToPage) {
@@ -1410,5 +1449,137 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             return _pageReady(elementCtrl, layoutCtrls, args, options);
         });
     }
+
+    WinJSContrib.UI.MediaTrigger = WinJS.Class.mix(WinJS.Class.define(
+    /**
+     * Trigger events on media queries. This class is usefull as a component for other controls to change some properties based on media queries
+     * @class WinJSContrib.UI.MediaTrigger
+     * @param {Object} items object containing one property for each query
+     */
+    function (items, linkedControl) {
+        var ctrl = this;
+        ctrl.queries = [];
+        ctrl.linkedControl = linkedControl;
+
+        for (var name in items) {
+            var e = items[name];
+            if (e.query) {
+                ctrl.registerMediaEvent(name, e.query, e);
+            }
+        }
+    },
+    {
+        dispose: function () {
+            var ctrl = this;
+            this.queries.forEach(function (q) {
+                q.dispose();
+            });
+        },
+
+        registerMediaEvent: function (name, query, data) {
+            var ctrl = this;
+            var mq = window.matchMedia(query);
+            var query = {
+                name: name,
+                query: query,
+                data: data,
+                mq: mq
+            }
+
+            var f = function (arg) {
+                if (arg.matches) {
+                    ctrl._mediaEvent(arg, query);
+                }
+            };
+
+            mq.addListener(f);
+            query.dispose = function () {
+                mq.removeListener(f);
+            }
+
+            ctrl.queries.push(query);
+        },
+
+        _mediaEvent: function (arg, query) {
+            var ctrl = this;
+            if (ctrl.linkedControl) {
+                WinJS.UI.setOptions(ctrl.linkedControl, query.data);
+            }
+            ctrl.dispatchEvent('media', query);
+        },
+
+        check: function () {
+            var ctrl = this;
+            ctrl.queries.forEach(function (q) {
+                var mq = window.matchMedia(q.query);
+                if (mq.matches) {
+                    ctrl._mediaEvent({ matches: true }, q);
+                }
+            });
+        }
+    }), WinJS.Utilities.eventMixin);
+
+    WinJSContrib.UI.registerNavigationEvents = function (control, callback) {
+        var navigationCtrl = control;
+        var locked = [];
+
+        control.navLocks = control.navLocks || [];
+        control.navLocks.isActive = true;
+
+        var backhandler = function (arg) {
+            if (!control.navLocks || control.navLocks.length == 0) {
+                callback.bind(control)(arg);
+            }
+        }
+
+        var navcontrols = document.querySelectorAll('.mcn-navigation-ctrl');
+        for (var i = 0 ; i < navcontrols.length; i++) {
+            var navigationCtrl = navcontrols[i].winControl;
+            if (navigationCtrl && navigationCtrl != control) {
+                navigationCtrl.navLocks = navigationCtrl.navLocks || [];
+                if (navigationCtrl.navLocks.isActive && (!navigationCtrl.navLocks.length || navigationCtrl.navLocks.indexOf(control) < 0)) {
+                    navigationCtrl.navLocks.push(control);
+                    locked.push(navigationCtrl);
+                }
+            }
+        }
+
+        function cancelNavigation(args) {
+            //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
+            var p = new WinJS.Promise(function (c) { });
+            args.detail.setPromise(p);
+            //setImmediate(function () {
+            p.cancel();
+            //});
+        }
+
+        WinJS.Navigation.addEventListener('beforenavigate', cancelNavigation);
+        if (window.Windows && window.Windows.Phone)
+            Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", backhandler);
+        else
+            document.addEventListener("backbutton", backhandler);
+
+        if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+            WinJSContrib.UI.Application.navigator.addLock();
+
+        return function () {
+            if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
+                WinJSContrib.UI.Application.navigator.removeLock();
+
+            control.navLocks.isActive = false;
+            locked.forEach(function (navigationCtrl) {
+                var idx = navigationCtrl.navLocks.indexOf(control);
+                if (idx >= 0)
+                    navigationCtrl.navLocks.splice(idx, 1);
+            });
+
+            WinJS.Navigation.removeEventListener('beforenavigate', cancelNavigation);
+            if (window.Windows && window.Windows.Phone)
+                Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", backhandler);
+            else
+                document.removeEventListener("backbutton", backhandler);
+        }
+    }
+
 
 })(WinJSContrib);

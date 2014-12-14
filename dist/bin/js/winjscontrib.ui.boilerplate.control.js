@@ -30,7 +30,7 @@
 				WinJS.Utilities.disposeSubTree(this.element);
 			}
 		}),
-		WinJS.UI.DOMEventMixin,
+		WinJS.Utilities.eventMixin,
 		WinJS.Utilities.createEventProperties("myevent"))
 	});
 })();
