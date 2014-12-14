@@ -169,6 +169,7 @@
                     ctrl.element.style.position = 'relative';
                     ctrl.element.style.display = 'flex';
                     ctrl.element.style.flexFlow = 'column wrap';
+                    //ctrl.element.style.alignContent = 'flex-start';
                     ctrl.element.style.width = '';
 
                     if (ctrl.element.clientHeight)
