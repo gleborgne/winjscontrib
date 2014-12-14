@@ -175,6 +175,12 @@
                         ctrl.element.style.height = ctrl.element.clientHeight + 'px';
                     else
                         ctrl.element.style.height = '';
+
+                    var _itemsPerColumn = Math.floor(ctrl.element.clientHeight / (ctrl.data.cellHeight + ctrl.data.cellSpace));
+                    if (_itemsPerColumn) {
+                        var columns = Math.ceil(ctrl.$element.children().length / _itemsPerColumn);
+                        ctrl.element.style.width = ((ctrl.data.cellWidth + ctrl.data.cellSpace) * columns) + 'px';
+                    }
                 },
 
                 flexverticallayout: function () {
