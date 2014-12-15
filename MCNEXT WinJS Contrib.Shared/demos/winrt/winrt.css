@@ -1,13 +1,13 @@
 ﻿.section-winrt .mcn-hub-section h2 {
-  color: #34b08b;
+  color: #5e99ca;
 }
 .section-winrt .feature.active {
-  background-color: #4dcaa5;
+  background-color: #84b1d7;
   color: white;
 }
 .section-winrt button,
 .section-winrt .button {
-  background-color: #34b08b;
+  background-color: #5e99ca;
   border: none;
   color: white;
   font-family: 'Open Sans Condensed';
@@ -16,10 +16,10 @@
 }
 .section-winrt button:hover,
 .section-winrt .button:hover {
-  background-color: #74d6b9;
+  background-color: #abcae3;
 }
 .section-winrt button:active,
 .section-winrt .button:active {
-  background-color: #1d614d;
+  background-color: #306692;
 }
 /*# sourceMappingURL=winrt.css.map */

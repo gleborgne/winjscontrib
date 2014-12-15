@@ -22,11 +22,19 @@
         updateLayout: function (element) {
             var page = this;
             var m = window.matchMedia('screen and (orientation: portrait)');
+            var sections = page.$('.home-sections .section');
             if (m.matches) {
-                var w = (($('.home-sections', page.element).innerWidth() - 20) / 2) - 20;
-                $('.home-sections .section', page.element).css('width', w + 'px').css('height', w + 'px');
+                var containerW = page.$('.home-sections').innerWidth() - 40;
+                if (containerW >= 560) {
+                    var w = ((containerW - 20) / 3);
+                } else {
+                    var w = ((containerW - 10) / 2);
+                }
+                sections.css('width', w + 'px').css('height', w + 'px');
+                sections.first().css('width', containerW + 'px')
+
             } else {
-                $('.home-sections .section', page.element).css('width', '').css('height', '');
+                sections.css('width', '').css('height', '');
             }
             var e = element;
         }

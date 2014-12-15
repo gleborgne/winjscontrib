@@ -1,0 +1,25 @@
+﻿.section-crossplatform .mcn-hub-section h2 {
+  color: #34b08b;
+}
+.section-crossplatform .feature.active {
+  background-color: #4dcaa5;
+  color: white;
+}
+.section-crossplatform button,
+.section-crossplatform .button {
+  background-color: #34b08b;
+  border: none;
+  color: white;
+  font-family: 'Open Sans Condensed';
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.section-crossplatform button:hover,
+.section-crossplatform .button:hover {
+  background-color: #74d6b9;
+}
+.section-crossplatform button:active,
+.section-crossplatform .button:active {
+  background-color: #1d614d;
+}
+/*# sourceMappingURL=crossplatform.css.map */
