@@ -13,7 +13,7 @@
                 $(element).tap(function () {
                     var codeview = document.getElementById('codeviewFlyout');
                     var html = $(element).closest('.pagecontrol').html();
-                    codeview.winControl.open('/pages/showcode/showcode.html', { target: options.pagelink, html: html });
+                    codeview.winControl.open('./demos/showcode/showcode.html', { target: options.pagelink, html: html });
                 });
             } else {
                 element.style.display = 'none';

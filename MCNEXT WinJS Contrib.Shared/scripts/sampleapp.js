@@ -13,9 +13,12 @@ function registerSection(page, classname) {
     if (classname) {
         page.masterDetailView.element.classList.add(classname)
     }
+
     $('.feature', page.element).tap(function (elt) {
         
         var target = $(elt).data('target');
+        var weblink = $(elt).data('weblink');
+
         var title = $('.title', elt).text().trim() || $(elt).text().trim();
         if (target) {
             elt.classList.add('active');
@@ -28,7 +31,11 @@ function registerSection(page, classname) {
             }).then(function () {
                 elt.classList.remove('active');
             });
-        } else {
+        } else if (weblink) {
+            var uri = new Windows.Foundation.Uri(weblink);
+            Windows.System.Launcher.launchUriAsync(uri);
+        }
+        else {
             WinJSContrib.Alerts.message('oups...', 'sorry the component is available but the sample is not. We are working hard at making it available but in the meantime, have a look at source code on github.')
         }
     });

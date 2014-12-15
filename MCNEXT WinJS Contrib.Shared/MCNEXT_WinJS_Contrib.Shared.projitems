@@ -203,6 +203,10 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\shell.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.js" />
@@ -240,8 +244,12 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\detail\detail.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\detail\detail.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\detail\detail.js" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.css" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.css.map" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.css">
+      <DependentUpon>masterdetailview.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.css.map">
+      <DependentUpon>masterdetailview.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.less" />
