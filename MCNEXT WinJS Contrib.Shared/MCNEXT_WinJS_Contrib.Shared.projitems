@@ -122,6 +122,12 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.css.map" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\winrt.css.map" />
     <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\dates\dates.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\dates\dates.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\dates\dates.js" />
