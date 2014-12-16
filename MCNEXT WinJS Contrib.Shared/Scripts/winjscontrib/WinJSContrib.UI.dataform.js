@@ -294,8 +294,10 @@
                         return val.toString();
                     },
                     fromInput: function (val) {
-                        if (typeof val !== "undefined" || val !== null)
+                        if (typeof val !== "undefined" && val !== null)
                             return parseFloat(val);
+
+                        return null;
                     }
                 },
                 /**
