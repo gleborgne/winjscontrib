@@ -397,21 +397,22 @@
                 }
             }
 
-            dest.onchange = updateObjectFromInput;
+            function validateObjectOnBlur() {
+                if (fieldUpdated)
+                    dataform.validator.element(dest);
+            }
+
+            dest.addEventListener("change", updateObjectFromInput);
             if (dest.id) {
-                dest.onblur = function () {
-                    if (fieldUpdated)
-                        dataform.validator.element(dest);
-                }
+                dest.addEventListener("blur", validateObjectOnBlur);
             }
 
             if (!dest.winControl) {
                 dest.classList.add('win-disposable');
                 dest.winControl = {
                     dispose: function () {
-                        dest.onchange = null;
-                        dest.onblur = null;
-                        //dest.removeEventListener('change', updateObjectFromInput);
+                        dest.removeEventListener("change", updateObjectFromInput);
+                        dest.removeEventListener("blur", validateObjectOnBlur);
                     }
                 }
             }
