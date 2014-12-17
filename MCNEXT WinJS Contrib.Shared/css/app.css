@@ -46,6 +46,8 @@
 #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] .titlearea {
   font-family: 'Open Sans Condensed';
   display: none;
+  margin-top: 0;
+  font-size: 18pt;
 }
 #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] .codelink {
   opacity: 1;

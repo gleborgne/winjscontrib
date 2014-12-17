@@ -188,15 +188,12 @@
 
                 //                ctrl.detailViewContent.style.opacity = '0';
 
-                return morph.fadeIn(160).then(function () {
-
-                    
+                return morph.fadeIn(100).then(function () {                  
 
                     morph.morphToElt(ctrl.detailViewHeader);
                     ctrl.detailViewHeader.style.opacity = '0';
                     ctrl.detailViewContent.style.display = '';
                     ctrl.detailView.classList.add('visible');
-
 
                     WinJSContrib.UI.Animation.fadeOut(ctrl.masterView, 100).then(function () {
                         ctrl.masterView.style.opacity = '';
@@ -204,12 +201,12 @@
                     }).then(function () {
 
                         //WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, 700, { delay: 470 });
-                        return morph.apply({ duration: 500 }).then(function () {
+                        return morph.apply({ duration: 350 }).then(function () {
                             return ctrl._loadDetailContent(options.uri, data, options);
                         }).then(function(){
                             WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, 700);
                             ctrl.detailViewHeader.style.opacity = '';
-                            return morph.fadeOut(250);
+                            return morph.fadeOut(200);
                         });
                     });
                 });

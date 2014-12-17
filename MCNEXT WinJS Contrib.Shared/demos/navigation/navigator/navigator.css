@@ -1,0 +1,14 @@
+﻿#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .navigator .pagecontrol .fragment header[role=banner] {
+  -ms-grid-columns: 20px auto 1fr auto;
+}
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .navigator .pagecontrol .fragment header[role=banner] .titlearea {
+  display: block;
+}
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .navigator .pagecontrol .fragment header[role=banner] .win-backbutton {
+  margin-top: 2px;
+  width: 34px;
+  height: 34px;
+  line-height: 33px;
+  font-size: 12pt;
+}
+/*# sourceMappingURL=navigator.css.map */

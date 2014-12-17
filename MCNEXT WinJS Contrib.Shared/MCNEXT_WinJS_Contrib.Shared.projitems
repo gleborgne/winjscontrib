@@ -178,9 +178,6 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\home.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\home.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\home.js" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\blockingnavigation\blockingnav.css" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\blockingnavigation\blockingnav.html" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\blockingnavigation\blockingnav.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\childviewflyout.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\childviewflyout.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\childviewflyout.js" />
@@ -199,9 +196,6 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\page2\page2.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\page2\page2.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\page2\page2.js" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\layoutcontrols\layoutcontrols.css" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\layoutcontrols\layoutcontrols.html" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\layoutcontrols\layoutcontrols.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.css">
       <DependentUpon>navigation.less</DependentUpon>
     </Content>
@@ -211,6 +205,24 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\blockingnav\blockingnav.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\blockingnav\blockingnav.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\blockingnav\blockingnav.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\navigator.css">
+      <DependentUpon>navigator.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\navigator.css.map">
+      <DependentUpon>navigator.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\navigator.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\navigator.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\navigator.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage2\stdpage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage2\stdpage.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage2\stdpage.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage\stdpage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage\stdpage.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage\stdpage.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\shell.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.html" />
