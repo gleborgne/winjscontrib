@@ -189,4 +189,12 @@
     padding: 5px;
   }
 }
+.childNavigator .childNavigator-contentPlaceholder {
+  max-width: 90%;
+}
+@media screen and (max-width: 600px) {
+  .childNavigator .childNavigator-contentPlaceholder {
+    max-width: 100%;
+  }
+}
 /*# sourceMappingURL=app.css.map */

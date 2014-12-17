@@ -8,7 +8,7 @@
             //the event will be removed when calling dispose on the event tracker
             //the custom page navigator adds an "eventTracker" property on your pages, and will dispose it for you
             this.eventTracker.addEvent(btn, "click", function (arg) {
-                console.log("clicked");
+                WinJSContrib.Alerts.message('well...', 'Ok, this is not the most impressive sample ever, look at the code (by clicking on the link in the top-right corner) to get a better idea.');
             });
             //the event tracker can also manage bind events on observable objects
 
