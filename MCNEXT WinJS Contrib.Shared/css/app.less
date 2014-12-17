@@ -43,35 +43,29 @@ body {
             }
 
             .mcn-masterdetailview-detail-content {
-                > .pagecontrol {
-                    > .fragment {
-                        -ms-grid-rows: 40px 1fr;
-                        background-color: #EEE;
+                .mcn-masterdetailview-master {
+                    .pagecontrol {
+                        > .fragment {
+                            -ms-grid-rows: 40px 1fr;
+                            background-color: #EEE;
 
-                        header[role=banner] {
-                            background-color: #DDD;
-                            border-bottom: 1px solid #BBB;
-                            -ms-grid-columns: 0 0 1fr auto;
+                            header[role=banner] {
+                                background-color: #DDD;
+                                border-bottom: 1px solid #BBB;
+                                -ms-grid-columns: 0 0 1fr auto;
 
-                            .titlearea {
-                                font-family: 'Open Sans Condensed';
-                                display:none;
-                            }
+                                .titlearea {
+                                    font-family: 'Open Sans Condensed';
+                                    display: none;
+                                }
 
-                            .codelink {
-                                opacity: 1;
-                                margin: 0;
-                                font-size: 1em;
-                                font-weight: 500;
-                                padding: 8px;
-                            }
-                        }
-
-                        .desc-screen {
-                            .bloc-description {
-                                border-radius: 0;
-                                background-color: white;
-                                border: 1px solid #BBB;
+                                .codelink {
+                                    opacity: 1;
+                                    margin: 0;
+                                    font-size: 1em;
+                                    font-weight: 500;
+                                    padding: 8px;
+                                }
                             }
                         }
                     }
@@ -176,13 +170,14 @@ body {
     line-height: 1.2em;
     box-sizing: border-box;
     padding: 10px;
+    overflow-x: hidden;
 
-    h3{
+    h3 {
         font-weight: 500;
     }
 
-    &.disabled{
-        opacity : 0.5;
+    &.disabled {
+        opacity: 0.5;
     }
 
     .title {

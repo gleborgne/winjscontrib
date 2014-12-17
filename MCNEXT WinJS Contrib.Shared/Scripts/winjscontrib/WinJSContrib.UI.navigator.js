@@ -44,6 +44,7 @@
              */
             function PageControlNavigator(element, options) {
                 var options = options || {};
+                var navigator = this;
                 this._element = element || document.createElement("div");
                 this._element.winControl = this;
                 this._element.mcnNavigator = true;
@@ -86,7 +87,16 @@
                 else {
                     this.history = { backstack: [] };
                 }
-                this.eventTracker.addEvent(window, 'resize', this._resized.bind(this));
+
+                this.eventTracker.addEvent(window, 'resize', function (args) {
+                    if (navigator.resizeHandler)
+                        cancelAnimationFrame(navigator.resizeHandler);
+
+                    navigator.resizeHandler = requestAnimationFrame(function () {
+                        navigator.resizeHandler = null;
+                        navigator._resized(args);
+                    });
+                });
             },
             /**
              * @lends WinJSContrib.UI.PageControlNavigator.prototype
@@ -497,7 +507,7 @@
                 _resized: function (args) {
                     if (this.pageControl && this.pageControl.element) {
                         var navigator = this;
-                        navigator.pageControl.element.opacity = '0';
+                        //navigator.pageControl.element.opacity = '0';
                         setImmediate(function () {
                             var vw = appView ? appView.value : null;
                             if (navigator.pageControl.updateLayout) {
@@ -511,7 +521,7 @@
                                         ctrl.updateLayout(ctrl.element, vw, navigator._lastViewstate);
                                 }
                             }
-                            WinJS.UI.Animation.fadeIn(navigator.pageControl.element);
+                            //WinJS.UI.Animation.fadeIn(navigator.pageControl.element);
                         });
                     }
                     this._lastViewstate = appView ? appView.value : null;

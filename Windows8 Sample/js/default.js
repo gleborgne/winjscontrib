@@ -57,8 +57,8 @@
             }, function appInitError(err) {
                 return WinJS.Navigation.navigate("/pages/errorPage/errorPage.html");
             }).then(function () {
-                var ratecontr = document.getElementById('ratecontr');
-                ratecontr.winControl.check();
+                //var ratecontr = document.getElementById('ratecontr');
+                //ratecontr.winControl.check();
                 WinJSContrib.UI.Application.splashscreen.hide();
                 if (WinJSContrib.UI.Application.navigator) {
                     WinJSContrib.UI.Application.navigator.addEventListener('pageContentReady', function (arg) {

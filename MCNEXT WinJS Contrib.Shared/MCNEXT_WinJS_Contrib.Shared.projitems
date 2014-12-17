@@ -98,6 +98,15 @@
       <DependentUpon>winjscontrib.ui.tabcontrol.css</DependentUpon>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.css">
+      <DependentUpon>root.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.css.map">
+      <DependentUpon>root.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\arguments\arguments.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\arguments\arguments.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\arguments\arguments.js" />
@@ -651,5 +660,10 @@
     <Content Include="$(MSBuildThisFileDirectory)WinJS\js\WinJS.min.js.map" />
     <Content Include="$(MSBuildThisFileDirectory)WinJS\License.txt" />
     <Content Include="$(MSBuildThisFileDirectory)WinJS\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)demos\apidoc\classView\" />
+    <Folder Include="$(MSBuildThisFileDirectory)demos\apidoc\functionView\" />
+    <Folder Include="$(MSBuildThisFileDirectory)demos\apidoc\namespaceView\" />
   </ItemGroup>
 </Project>

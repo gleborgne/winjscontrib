@@ -18,51 +18,55 @@ body {
     display: -ms-grid;
     height: 100%;
     width: 100%;
-}
 
-.fragment.fullpage {
-    display: block;
-}
-
-.fragment header[role=banner] {
-    /* Define a grid with columns for the back button and page title. */
-    -ms-grid-columns: 39px 81px 1fr auto;
-    -ms-grid-rows: 1fr;
-    display: -ms-grid;
-
-    .win-backbutton {
-        -ms-grid-column: 2;
-        margin-top: 59px;
+    &.fullpage {
+        display: block;
     }
 
-    .codelink {
-        -ms-grid-column: 4;
-        margin-top: 37px;
-        margin-right: 40px;
-        font-size: 20pt;
-        color: #777;
-    }
+    header[role=banner] {
+        /* Define a grid with columns for the back button and page title. */
+        -ms-grid-columns: 39px 81px 1fr auto;
+        -ms-grid-rows: 1fr;
+        display: -ms-grid;
 
-    .titlearea {
-        -ms-grid-column: 3;
-        margin-top: 37px;
+        .win-backbutton {
+            -ms-grid-column: 2;
+            margin-top: 59px;
+        }
 
-        .pagetitle {
-            width: calc(100% - 20px);
+        .codelink {
+            -ms-grid-column: 4;
+            margin-top: 37px;
+            margin-right: 40px;
+            font-size: 20pt;
+            color: #777;
+        }
 
-            .small {
-                font-size: 0.4em;
-                color: #AAA;
-                margin-top: 8px;
+        .titlearea {
+            -ms-grid-column: 3;
+            margin-top: 37px;
+
+            .pagetitle {
+                width: calc(100% - 20px);
+
+                .small {
+                    font-size: 0.4em;
+                    color: #AAA;
+                    margin-top: 8px;
+                }
             }
         }
     }
+
+    section[role=main] {
+        -ms-grid-row: 2;
+        height: 100%;
+        width: 100%;
+    }
 }
 
-.fragment section[role=main] {
-    -ms-grid-row: 2;
-    height: 100%;
-    width: 100%;
+.tap{
+    cursor: pointer;
 }
 
 .mcn-splashscreen {
@@ -74,7 +78,7 @@ body {
     -ms-grid-rows: auto;
     -ms-grid-columns: 1fr 1fr;
 
-    >div{
+    > div {
         min-width: 300px;
     }
 
@@ -95,9 +99,7 @@ body {
         width: 100%;
         height: 100%;
         padding: 20px;
-        border: 4px solid @baseColor;
-        border-top-right-radius: 25px;
-        border-bottom-left-radius: 25px;
+        border: 1px solid #DDD;
         background-color: white;
         box-sizing: border-box;
 
@@ -185,10 +187,11 @@ body {
     }
 
     .split {
-        display: block;  
-        >div{
+        display: block;
+
+        > div {
             min-width: 0;
-        }      
+        }
     }
 }
 

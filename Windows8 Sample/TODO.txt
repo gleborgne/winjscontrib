@@ -1,19 +1,19 @@
 ﻿bouton close dans childview
 finaliser layout phone
-gestion back sur phone et clavier
-corriger layout datasourcemanager
+corriger layout datasourcemanager, list layout, semantic zoom
+mise en forme what's this
 samples navigator
-sample media trigger
-api doc json
-layout child view flyout
-what is...
+samples crossplatform
 
-réorganiser les sources, utiliser gulp pour faire un script de build
+api doc json
+samples manquants
+layout child view flyout
+state button -> feedback, states sans SVG
+splash screen sur cordova, W10, ...
+mixins less
 rectifier description apps winjscontrib
-wrapper pour les messages iframe et workers
 faire une doc ?
 cross platform css layout framework
-splash screen cordova
 global progress sur cordova
 search sur phone
 naviguer sur samples dans menu phone

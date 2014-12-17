@@ -34,30 +34,25 @@
 #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header {
   color: white;
 }
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment {
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment {
   -ms-grid-rows: 40px 1fr;
   background-color: #EEE;
 }
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment header[role=banner] {
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] {
   background-color: #DDD;
   border-bottom: 1px solid #BBB;
   -ms-grid-columns: 0 0 1fr auto;
 }
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment header[role=banner] .titlearea {
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] .titlearea {
   font-family: 'Open Sans Condensed';
   display: none;
 }
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment header[role=banner] .codelink {
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] .codelink {
   opacity: 1;
   margin: 0;
   font-size: 1em;
   font-weight: 500;
   padding: 8px;
-}
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content > .pagecontrol > .fragment .desc-screen .bloc-description {
-  border-radius: 0;
-  background-color: white;
-  border: 1px solid #BBB;
 }
 #app-mainpage #app-content > .mcn-masterdetailview-detail > .mcn-masterdetailview-detail-header {
   min-width: 80px;
@@ -119,6 +114,7 @@
   line-height: 1.2em;
   box-sizing: border-box;
   padding: 10px;
+  overflow-x: hidden;
 }
 .feature h3 {
   font-weight: 500;

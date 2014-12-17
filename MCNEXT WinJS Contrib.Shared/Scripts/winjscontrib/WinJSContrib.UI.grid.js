@@ -25,8 +25,6 @@
                 grid.element.winControl = grid;
                 grid.autolayout = options.autolayout;
 
-
-
                 grid.renderer = new WinJSContrib.UI.MultiPassRenderer(grid.element, {
                     multipass: options.multipass,
                     itemClassName: options.itemClassName,
@@ -91,7 +89,7 @@
                  */
                 clear: function () {
                     var ctrl = this;
-                    ctrl.$element.css('position', '').css('display', '').css('width', '').css('height', '');
+                    ctrl.$element.css('position', '').css('display', '').css('width', '').css('height', '').css('min-width', '').css('min-height', '');
                     ctrl.$element.children().each(function () {
                         $(this).css('position', '').css('left', '').css('top', '').css('width', '').css('height', '');
                     });
@@ -180,7 +178,7 @@
                     var _itemsPerColumn = Math.floor(ctrl.element.clientHeight / (ctrl.data.cellHeight + ctrl.data.cellSpace));
                     if (_itemsPerColumn) {
                         var columns = Math.ceil(ctrl.$element.children().length / _itemsPerColumn);
-                        ctrl.element.style.width = ((ctrl.data.cellWidth + ctrl.data.cellSpace) * columns) + 'px';
+                        ctrl.element.style.minWidth = ((ctrl.data.cellWidth + ctrl.data.cellSpace) * columns) + 'px';
                     }
                 },
 
@@ -199,12 +197,52 @@
                     ctrl.element.style.height = '';
                 },
 
+                hbloclayout: function () {
+                    var ctrl = this;
+                    ctrl.renderer.orientation = 'horizontal';
+                    ctrl.element.style.position = 'relative';
+                    ctrl.element.style.height = '';
+                    var _containerH = ctrl.element.clientHeight;
+                    if (!_containerH)
+                        return;
+                    
+                    var cellW = ctrl.data.cellWidth;
+                    var space = ctrl.data.cellSpace;
+                    var colCount = 1;
+                    var colOffset = 0;
+                    var topOffset = 0;
+
+                    var childs = ctrl.$element.children();
+                    childs.each(function (index) {
+                        var elt = this;
+                        if (elt.style.display != 'none') {
+                            elt.style.position = 'absolute';
+                            var eltH = elt.clientHeight;
+                            if (topOffset + eltH > _containerH) {
+                                colCount++;
+                                colOffset = colOffset + space + cellW;
+                                topOffset = 0;
+                            }
+                            
+                            elt.style.left = colOffset + 'px';
+                            elt.style.top = topOffset + 'px';                            
+                            topOffset += eltH;
+                        }
+                    });
+                    colOffset = colOffset + cellW;
+
+                    ctrl.$element.css('width', colOffset + 'px');
+                },
+
                 horizontallayout: function () {
                     var ctrl = this;
                     ctrl.renderer.orientation = 'horizontal';
                     ctrl.element.style.position = 'relative';
                     ctrl.element.style.height = '';
                     var _containerH = ctrl.element.clientHeight;
+                    if (!_containerH)
+                        return;
+
                     var _itemsPerColumn = Math.floor(_containerH / (ctrl.data.cellHeight + ctrl.data.cellSpace));
                     if (_itemsPerColumn <= 0)
                         _itemsPerColumn = 1;
@@ -232,8 +270,8 @@
                             elt.style.position = 'absolute';
                             var $elt = $(this);
 
-                            var eltW = $(this).outerWidth() * ratioW;
-                            var eltH = $(this).outerHeight() * ratioH;
+                            var eltW = $elt.outerWidth() * ratioW;
+                            var eltH = $elt.outerHeight() * ratioH;
                             var eltColumns = (eltW / cellW) >> 0;
                             var eltRows = (eltH / cellH) >> 0;
 
@@ -244,15 +282,17 @@
 
                             var left = pos.x * (cellW + space);
                             var top = pos.y * (cellH + space);
-                            $elt.css('left', left + 'px');
-                            $elt.css('top', top + 'px');
-                            $elt.css('width', (eltColumns * cellW + ((eltColumns - 1) * space)) + 'px');
-                            $elt.css('height', (eltRows * cellH + ((eltRows - 1) * space)) + 'px');
+                            var w = (eltColumns * cellW + ((eltColumns - 1) * space));
+                            var h = (eltRows * cellH + ((eltRows - 1) * space));
+                            elt.style.left = left + 'px';
+                            elt.style.top = top + 'px';
+                            elt.style.width = w + 'px';
+                            elt.style.height = h + 'px';
                         }
                     });
 
                     var elementWidth = gridCellsMatrix.length * (cellW + space);
-                    ctrl.$element.css('width', elementWidth + 'px');
+                    ctrl.element.style.width = elementWidth + 'px';
                 },
 
                 verticallayout: function (plugin) {
@@ -262,6 +302,9 @@
                     ctrl.element.style.position = 'relative';
                     //Be aware that in this case, we invert the matrix to crawl data in lines
                     var _containerW = ctrl.element.clientWidth;
+                    if (!_containerW)
+                        return;
+
                     var _itemsPerLine = Math.floor(_containerW / (ctrl.data.cellWidth + ctrl.data.cellSpace));
                     if (_itemsPerLine <= 0)
                         _itemsPerLine = 1;
@@ -289,8 +332,8 @@
                             elt.style.position = 'absolute';
                             var $elt = $(this);
 
-                            var eltW = $(this).outerWidth() * ratioW;
-                            var eltH = $(this).outerHeight() * ratioH;
+                            var eltW = $elt.outerWidth() * ratioW;
+                            var eltH = $elt.outerHeight() * ratioH;
                             var eltColumns = (eltW / cellW) >> 0;
                             var eltRows = (eltH / cellH) >> 0;
 
@@ -302,15 +345,15 @@
 
                             var left = pos.y * (cellW + space);
                             var top = pos.x * (cellH + space);
-                            $elt.css('left', left + 'px');
-                            $elt.css('top', top + 'px');
-                            $elt.css('width', (eltColumns * cellW + ((eltColumns - 1) * space)) + 'px');
-                            $elt.css('height', (eltRows * cellH + ((eltRows - 1) * space)) + 'px');
+                            elt.style.left = left + 'px';
+                            elt.style.top = top + 'px';
+                            elt.style.width = (eltColumns * cellW + ((eltColumns - 1) * space)) + 'px';
+                            elt.style.height = (eltRows * cellH + ((eltRows - 1) * space)) + 'px';
                         }
                     });
 
                     var elementHeight = gridCellsMatrix.length * (cellH + space);
-                    ctrl.$element.css('height', elementHeight + 'px');
+                    ctrl.element.style.height = elementHeight + 'px';
                 },
 
                 /**
@@ -326,7 +369,7 @@
                         //if (ctrl.data == oldlayout && ctrl.data.applyed)
                         //    return;
 
-                        ctrl.data.cellSpace = ctrl.data.cellSpace || ctrl.defaultLayout.cellSpace || 10;
+                        ctrl.data.cellSpace = (ctrl.data.cellSpace != undefined ? ctrl.data.cellSpace : (ctrl.defaultLayout.cellSpace != undefined ? ctrl.defaultLayout.cellSpace : 10));
                         ctrl.data.cellWidth = ctrl.data.cellWidth || ctrl.defaultLayout.cellWidth || 0;
                         ctrl.data.cellHeight = ctrl.data.cellHeight || ctrl.defaultLayout.cellHeight || 0;
 

@@ -31,7 +31,7 @@
                     var w = ((containerW - 10) / 2);
                 }
                 sections.css('width', w + 'px').css('height', w + 'px');
-                sections.first().css('width', containerW + 'px')
+                page.$('.home-sections .section.big').css('width', containerW + 'px')
 
             } else {
                 sections.css('width', '').css('height', '');

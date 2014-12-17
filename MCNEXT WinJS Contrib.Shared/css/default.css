@@ -53,6 +53,9 @@
   height: 100%;
   width: 100%;
 }
+.tap {
+  cursor: pointer;
+}
 .mcn-splashscreen {
   background-color: #a12121;
 }
@@ -79,9 +82,7 @@
   width: 100%;
   height: 100%;
   padding: 20px;
-  border: 4px solid #a12121;
-  border-top-right-radius: 25px;
-  border-bottom-left-radius: 25px;
+  border: 1px solid #DDD;
   background-color: white;
   box-sizing: border-box;
 }

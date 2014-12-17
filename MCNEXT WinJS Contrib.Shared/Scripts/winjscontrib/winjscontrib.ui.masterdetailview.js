@@ -15,7 +15,7 @@
 
             this.element.classList.add('mcn-masterdetailview');
             this._initContent();
-
+            this.uriArgs = options.uriArgs;
             WinJS.UI.setOptions(this, options);
             if (this.mediaTrigger) {
                 this.mediaTrigger.check();
@@ -64,7 +64,7 @@
                         $(ctrl.masterViewContent.element).remove();
                     }
 
-                    WinJSContrib.UI.renderFragment(ctrl.masterView, val, null, {
+                    WinJSContrib.UI.renderFragment(ctrl.masterView, val, ctrl.uriArgs, {
                         onfragmentinit: function (masterCtrl) {
                             masterCtrl.masterDetailView = ctrl;
                             ctrl.masterViewContent = masterCtrl;
@@ -162,9 +162,9 @@
                 if (options.wrapInMasterDetailView) {
                     var elt = document.createElement('DIV');
                     elt.style.width = "100%";
-                    elt.style.height = "100%";
+                    elt.style.height = "100%";                    
 
-                    ctrl.detailViewContentCtrl = new WinJSContrib.UI.MasterDetailView(elt, { uri: uri, parent: ctrl, orientation: ctrl.orientation, orientations: ctrl.orientations });
+                    ctrl.detailViewContentCtrl = new WinJSContrib.UI.MasterDetailView(elt, { uri: uri, uriArgs: data, parent: ctrl, orientation: ctrl.orientation, orientations: ctrl.orientations });
                     ctrl.detailViewContent.appendChild(elt);
                     return WinJS.Promise.wrap();
                 }

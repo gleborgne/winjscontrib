@@ -3,6 +3,7 @@
 .home {
     height: 100%;
     width: 100%;
+    position: relative;
     overflow-y: hidden;
     overflow-x: auto;
 
@@ -30,11 +31,13 @@
             box-sizing: border-box;
             padding: 10px;
 
-            &:first-child {
+            &.big {
                 height: ~"calc(80% + 10px)";
 
-                .title {
-                    display: none;
+                &#whatisthis {
+                    .title {
+                        display: none;
+                    }
                 }
 
                 .desc {
@@ -93,18 +96,23 @@
         background-color: @color-crossplatform;
         border-left: 6px solid darken(@color-crossplatform, 10%);
     }
+
+    #apidoc {
+        background-color: @color-apidoc;
+        border-left: 6px solid darken(@color-apidoc, 10%);
+    }
 }
 
 @media screen and (orientation: portrait) {
     .home {
         overflow-y: auto;
         overflow-x: hidden;
-
+        
         .home-sections {
-            height: 100%;
+            height: auto;
             margin: 0;
-            padding: 20px 0 20px 20px;
-            width: 100%;
+            margin: 20px 0 20px 20px;
+            width: ~"calc(100% - 20px)";
             /*display: block;*/
             flex-flow: row wrap;
 
@@ -118,7 +126,7 @@
                 width: 100%;
                 color: white;
 
-                &:first-child {
+                &.big {
                     .desc {
                         font-size: 1.3em;
                         line-height: 1.2em;
@@ -147,7 +155,7 @@
             .section {
                 padding: 20px;
 
-                &:first-child {
+                &.big {
                     .desc {
                         font-size: 1.6em;
                     }
