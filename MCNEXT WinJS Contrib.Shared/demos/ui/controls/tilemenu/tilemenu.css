@@ -13,7 +13,8 @@
   background-color: #ef7c45;
   border: 1px solid #f5ae8b;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 4px;
+  line-height: 1.1em;
   width: 44px;
   height: 44px;
   color: white;

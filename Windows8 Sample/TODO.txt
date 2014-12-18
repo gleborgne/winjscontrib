@@ -1,9 +1,10 @@
-﻿bouton close dans childview
-finaliser layout phone
-corriger layout datasourcemanager, list layout, semantic zoom
+﻿corriger layout datasourcemanager, list layout, semantic zoom
 mise en forme what's this
-samples navigator
 samples crossplatform
+
+bouton close dans childview
+finaliser layout phone
+samples navigator
 
 api doc json
 samples manquants
