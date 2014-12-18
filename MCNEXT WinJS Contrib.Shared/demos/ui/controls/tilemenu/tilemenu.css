@@ -1,0 +1,13 @@
+﻿.tilemenu .tile {
+  width: 250px;
+  height: 250px;
+  padding: 10px;
+  background-color: #ef7c45;
+}
+#sampleMenuItem .mcn-tilemenu-menu {
+  background-color: #ef7c45;
+  padding: 10px;
+  width: 60px;
+  height: 60px;
+}
+/*# sourceMappingURL=tilemenu.css.map */

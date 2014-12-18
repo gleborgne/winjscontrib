@@ -98,6 +98,13 @@
       <DependentUpon>winjscontrib.ui.tabcontrol.css</DependentUpon>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tilemenu.css">
+      <DependentUpon>winjscontrib.ui.tilemenu.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tilemenu.css.map">
+      <DependentUpon>winjscontrib.ui.tilemenu.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tilemenu.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.css">
       <DependentUpon>root.less</DependentUpon>
     </Content>
@@ -301,6 +308,15 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\tabcontrol.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\tabcontrol.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\tabcontrol.min.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.css">
+      <DependentUpon>tilemenu.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.css.map">
+      <DependentUpon>tilemenu.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.css">
       <DependentUpon>ui.less</DependentUpon>
     </Content>
@@ -644,6 +660,7 @@
     <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.statebutton.js" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.swipeslide.js" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.tabcontrol.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.tilemenu.js" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.audiorecording.js" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.js" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.tracker.js" />
