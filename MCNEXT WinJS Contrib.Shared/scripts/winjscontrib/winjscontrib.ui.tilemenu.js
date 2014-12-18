@@ -32,12 +32,13 @@
                 }
             },
 
-            show: function (elt, items) {
+            show: function (elt, options) {
                 var ctrl = this;
+                options = options || {};
                 ctrl.sourcePosition = WinJSContrib.UI.offsetFrom(elt);
-                ctrl._renderMenu(items || ctrl.items);
+                ctrl._renderMenu(options.items || ctrl.items);
                 setImmediate(function () {
-                    ctrl._layoutItems();
+                    ctrl._layoutItems(options.placement || ctrl.placement, options.fillmode || ctrl.fillmode);
 
                     ctrl.currentElements.overlay.style.opacity = '0';
                     ctrl.currentElements.root.style.opacity = '';
@@ -47,7 +48,7 @@
                         return e.element;
                     });
 
-                    WinJSContrib.UI.Animation.enterGrow(itemsToShow, 200, { itemdelay: 40, maxdelay: 150 });
+                    WinJSContrib.UI.Animation.enterGrow(itemsToShow, 200, { itemdelay: 20, maxdelay: 150, easing: WinJSContrib.UI.Animation.Easings.easeOutBack });
                 });
             },
 
@@ -70,8 +71,8 @@
 
                     var p = [];
                     p.push(WinJSContrib.UI.Animation.fadeOut(elements.overlay, 160));
-                    p.push(WinJSContrib.UI.Animation.exitShrink(clickedElement, 160, { delay: 140 }));
-                    p.push(WinJSContrib.UI.Animation.exitShrink(itemsToHide, 160, { itemdelay: 40, maxDelay: 100 }));
+                    p.push(WinJSContrib.UI.Animation.exitShrink(clickedElement, 260, { delay: 140, easing: WinJSContrib.UI.Animation.Easings.easeInBack }));
+                    p.push(WinJSContrib.UI.Animation.exitShrink(itemsToHide, 160, { itemdelay: 20, maxdelay: 100, easing: WinJSContrib.UI.Animation.Easings.easeInBack }));
                     
                     WinJS.Promise.join(p).then(function () {
                         $(elements.root).remove();
@@ -157,16 +158,187 @@
                 ctrl.currentElements.overlay.innerHTML = svgText;
             },
 
-            _layoutItems: function () {
+            _layoutItems: function (placement, fillmode) {
                 var ctrl = this;
-                var offsetTop = ctrl.sourcePosition.y;
-                var offsetLeft = ctrl.sourcePosition.x + ctrl.sourcePosition.width + ctrl._space;
+                placement = placement || 'right';
+                fillmode = fillmode || 'clockwise';
 
-                ctrl.currentElements.items.forEach(function (item) {
-                    item.element.style.left = offsetLeft + 'px';
+                var directions = ['right', 'bottom', 'left', 'top'];
+                if (fillmode == 'clockwise') {
+                    if (placement == 'top') directions = ['top', 'right', 'bottom', 'left'];
+                    if (placement == 'right') directions = ['right', 'bottom', 'left', 'top'];
+                    if (placement == 'bottom') directions = ['bottom', 'left', 'top', 'right'];
+                    if (placement == 'left') directions = ['left', 'top', 'right', 'bottom'];
+                }
+                else if (fillmode == 'counterclockwise') {
+                    if (placement == 'top') directions = ['top', 'left', 'bottom', 'right'];
+                    if (placement == 'right') directions = ['right', 'top', 'left', 'bottom'];
+                    if (placement == 'bottom') directions = ['bottom', 'right', 'top', 'left'];
+                    if (placement == 'left') directions = ['left', 'bottom', 'right', 'top'];
+                }
+
+                directions.current = -1;
+
+                ctrl._checkLayoutDirection(0, directions);
+
+                //var offsetTop = ctrl.sourcePosition.y;
+                //var offsetLeft = ctrl.sourcePosition.x + ctrl.sourcePosition.width + ctrl._space;
+
+                //ctrl.currentElements.items.forEach(function (item) {
+                //    item.element.style.left = offsetLeft + 'px';
+                //    item.element.style.top = offsetTop + 'px';
+                //    offsetTop += item.element.clientHeight + ctrl.space;
+                //});
+            },
+
+            _checkLayoutDirection: function (idx, directions) {
+                var ctrl = this;
+                directions.current++;
+
+                if (idx >= ctrl.currentElements.items.length) {
+                    return;
+                }
+
+                var prev = directions[directions.current - 1];
+                var current = directions[directions.current];
+                var next = directions[directions.current + 1];
+                
+                var currentItem = ctrl.currentElements.items[idx];
+
+                if (current == 'right') {
+                    if (next == 'bottom' || prev == 'top') {
+                        var offsetTop = ctrl.sourcePosition.y;
+                        var offsetLeft = ctrl.sourcePosition.x + ctrl.sourcePosition.width + ctrl._space;
+                        ctrl._layoutToBottom(idx, offsetLeft, offsetTop, 'left', directions);
+                    }
+                    else if (next == 'top' || prev == 'bottom') {
+                        var offsetTop = ctrl.sourcePosition.y + ctrl.sourcePosition.height - currentItem.element.clientHeight;
+                        var offsetLeft = ctrl.sourcePosition.x + ctrl.sourcePosition.width + ctrl._space;
+                        ctrl._layoutToTop(idx, offsetLeft, offsetTop, 'left', directions);
+                    }
+                }
+
+                if (current == 'left') {
+                    if (next == 'bottom' || prev == 'top') {
+                        var offsetTop = ctrl.sourcePosition.y;
+                        var offsetLeft = ctrl.sourcePosition.x - ctrl._space;
+                        ctrl._layoutToBottom(idx, offsetLeft, offsetTop, 'right', directions);
+                    }
+                    else if (next == 'top' || prev == 'bottom') {
+                        var offsetTop = ctrl.sourcePosition.y + ctrl.sourcePosition.height - currentItem.element.clientHeight;
+                        var offsetLeft = ctrl.sourcePosition.x - ctrl._space;
+                        ctrl._layoutToTop(idx, offsetLeft, offsetTop, 'right', directions);
+                    }
+                }
+
+                if (current == 'bottom') {
+                    if (next == 'left' || prev == 'right') {
+                        var offsetTop = ctrl.sourcePosition.y + ctrl.sourcePosition.height + ctrl._space;
+                        var offsetLeft = ctrl.sourcePosition.x + ctrl.sourcePosition.width - currentItem.element.clientWidth;
+                        ctrl._layoutToLeft(idx, offsetLeft, offsetTop, 'bottom', directions);
+                    }
+                    else if (next == 'right' || prev == 'left') {
+                        var offsetTop = ctrl.sourcePosition.y + ctrl.sourcePosition.height + ctrl._space;
+                        var offsetLeft = ctrl.sourcePosition.x;
+                        ctrl._layoutToRight(idx, offsetLeft, offsetTop, 'bottom', directions);
+                    }
+                }
+
+                if (current == 'top') {
+                    if (next == 'left' || prev == 'right') {
+                        var offsetTop = ctrl.sourcePosition.y - ctrl._space;
+                        var offsetLeft = ctrl.sourcePosition.x + ctrl.sourcePosition.width - currentItem.element.clientWidth;
+                        ctrl._layoutToLeft(idx, offsetLeft, offsetTop, 'top', directions);
+                    }
+                    else if (next == 'right' || prev == 'left') {
+                        var offsetTop = ctrl.sourcePosition.y - ctrl._space;
+                        var offsetLeft = ctrl.sourcePosition.x;
+                        ctrl._layoutToRight(idx, offsetLeft, offsetTop, 'top', directions);
+                    }
+                }
+            },
+
+            _layoutToBottom: function (idx, offsetLeft, offsetTop, align, directions) {
+                var ctrl = this;
+
+                for (var i = idx ; i < ctrl.currentElements.items.length; i++) {
+                    var item = ctrl.currentElements.items[i];
+                    if (align == 'right')
+                        item.element.style.left = (offsetLeft - item.element.clientWidth) + 'px';
+                    else
+                        item.element.style.left = offsetLeft + 'px';
                     item.element.style.top = offsetTop + 'px';
                     offsetTop += item.element.clientHeight + ctrl.space;
-                });
+
+                    if (parseInt(offsetTop, 10) > parseInt(ctrl.sourcePosition.y + ctrl.sourcePosition.height + ctrl.space + 1, 10)) {
+                        ctrl._checkLayoutDirection(i + 1, directions);
+                        break;
+                    }
+                }
+            },
+
+            _layoutToTop: function (idx, offsetLeft, offsetTop, align, directions) {
+                var ctrl = this;
+
+                for (var i = idx ; i < ctrl.currentElements.items.length; i++) {
+                    var item = ctrl.currentElements.items[i];
+                    if (align == 'right')
+                        item.element.style.left = (offsetLeft - item.element.clientWidth) + 'px';
+                    else
+                        item.element.style.left = offsetLeft + 'px';
+                    item.element.style.top = offsetTop + 'px';
+                    offsetTop -= item.element.clientHeight + ctrl.space;
+
+                    if (parseInt(offsetTop + item.element.clientHeight + ctrl.space + 1, 10) < parseInt(ctrl.sourcePosition.y, 10)) {
+                        ctrl._checkLayoutDirection(i + 1, directions);
+                        break;
+                    }
+                }
+            },
+
+            _layoutToRight: function (idx, offsetLeft, offsetTop, align, directions) {
+                var ctrl = this;
+
+                for (var i = idx ; i < ctrl.currentElements.items.length; i++) {
+                    var item = ctrl.currentElements.items[i];
+                    item.element.style.left = offsetLeft + 'px';
+                    if (align == 'top')
+                        item.element.style.top = (offsetTop - item.element.clientHeight) + 'px';
+                    else
+                        item.element.style.top = offsetTop + 'px';
+                    
+                    offsetLeft += item.element.clientWidth + ctrl.space;
+
+                    if (parseInt(offsetLeft, 10) > parseInt(ctrl.sourcePosition.x + ctrl.sourcePosition.width + ctrl.space + 1, 10)) {
+                        ctrl._checkLayoutDirection(i+1, directions);
+                        break;
+                    }
+                }
+            },
+
+            _layoutToLeft: function (idx, offsetLeft, offsetTop, align, directions) {
+                var ctrl = this;
+
+                for (var i = idx ; i < ctrl.currentElements.items.length; i++) {
+                    var item = ctrl.currentElements.items[i];
+                    var nextitem = ctrl.currentElements.items[i+1];
+                    var nextitemW = 0;
+                    if (nextitem)
+                        nextitemW = nextitem.element.clientWidth;
+
+                    item.element.style.left = offsetLeft + 'px';
+                    if (align == 'top')
+                        item.element.style.top = (offsetTop - item.element.clientHeight) + 'px';
+                    else
+                        item.element.style.top = offsetTop + 'px';
+
+                    offsetLeft -= item.element.clientWidth + ctrl.space;
+
+                    if (parseInt(offsetLeft + nextitemW + ctrl.space + 1, 10) < parseInt(ctrl.sourcePosition.x, 10)) {
+                        ctrl._checkLayoutDirection(i+1, directions);
+                        break;
+                    }
+                }
             },
 
             dispose: function () {

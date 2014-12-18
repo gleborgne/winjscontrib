@@ -135,6 +135,7 @@
     -ms-grid-columns: 15px 1fr 15px;
     font-size: 12pt;
     overflow-y: auto;
+    position: relative;
   }
   .desc-screen .bloc-description {
     padding: 10px 20px;

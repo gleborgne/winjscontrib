@@ -53,6 +53,13 @@
       <DependentUpon>items.css</DependentUpon>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.mixin.css">
+      <DependentUpon>winjscontrib.mixin.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.mixin.css.map">
+      <DependentUpon>winjscontrib.mixin.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.mixin.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.css.map">
       <DependentUpon>winjscontrib.ui.childviewflyout.css</DependentUpon>
