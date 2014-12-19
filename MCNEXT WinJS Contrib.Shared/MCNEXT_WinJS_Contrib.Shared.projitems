@@ -245,13 +245,25 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.js" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\customcontrol\datasources.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\customcontrol\datasources.css">
+      <DependentUpon>datasources.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\customcontrol\datasources.css.map">
+      <DependentUpon>datasources.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\customcontrol\datasources.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\customcontrol\datasources.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\customcontrol\datasources.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\movies.js" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.css">
+      <DependentUpon>datasources.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.css.map">
+      <DependentUpon>datasources.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.js" />
@@ -273,7 +285,13 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.min.css" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.css">
+      <DependentUpon>home.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.css.map">
+      <DependentUpon>home.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\detail\detail.css" />

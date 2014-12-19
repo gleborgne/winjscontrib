@@ -23,21 +23,23 @@ function registerSection(page, classname) {
 
         var title = $('.title', elt).text().trim() || $(elt).text().trim();
         if (target) {
-            elt.classList.add('active');
-            args.title = title;
+            if (target != 'none') {
+                elt.classList.add('active');
+                args.title = title;
 
-            var opts = {}
-            opts.uri = target;
-            opts.wrapInMasterDetailView = true;
-            opts.prepareHeader = function (arg) {
-                var s = getComputedStyle(elt);
-                arg.header.style.backgroundColor = s.backgroundColor;
+                var opts = {}
+                opts.uri = target;
+                opts.wrapInMasterDetailView = true;
+                opts.prepareHeader = function (arg) {
+                    var s = getComputedStyle(elt);
+                    arg.header.style.backgroundColor = s.backgroundColor;
+                }
+
+                page.masterDetailView.openDetail(elt, args, opts).then(function () {
+                    elt.classList.remove('active');
+
+                });
             }
-
-            page.masterDetailView.openDetail(elt, args, opts).then(function () {
-                elt.classList.remove('active');
-                
-            });
         } else if (weblink) {
             var uri = new Windows.Foundation.Uri(weblink);
             Windows.System.Launcher.launchUriAsync(uri);

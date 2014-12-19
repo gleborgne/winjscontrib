@@ -1,15 +1,12 @@
 ﻿corriger layout datasourcemanager, list layout, semantic zoom
-mise en forme what's this
-samples crossplatform
 
-codeview -> fichiers additionnels
 bouton close dans childview
 finaliser layout phone
 samples navigator
+codeview -> fichiers additionnels
 
 api doc json
 samples manquants
-layout child view flyout
 state button -> feedback, states sans SVG
 splash screen sur cordova, W10, ...
 mixins less

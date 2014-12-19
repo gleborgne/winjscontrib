@@ -14,6 +14,8 @@
     <!-- WinJSContrib.DataSourceManager references -->
     <script src="../../../../../scripts/winjscontrib/winjscontrib.ui.datasourcemanager.js"></script>
 
+    <script src="../../../../../scripts/winjscontrib/winjscontrib.ui.smartlistlayout.js"></script>
+
     <link href="datasources.css" rel="stylesheet" />
     <script src="datasources.js"></script>
 </head>
@@ -40,9 +42,7 @@
                     <h2 data-win-bind="innerText: title"></h2>
                 </div>
             </div>
-            <div id="filterTrigger" onclick="$('#filterFlyout')[0].winControl.show(this)">
-                <span class="symbol">&#xE16E;</span>
-            </div>
+
             <div id="semanticzoom" data-win-control="WinJSContrib.UI.SemanticListViews" data-win-options="{
                  listview: { itemTemplate: select('#listItemTemplate'), groupHeaderTemplate : select('#groupItemTemplate')},
                  zoomedOutListview: { itemTemplate: select('#semanticItemTemplate')},
@@ -52,6 +52,26 @@
                      field: 'metadata.genre',
                      items: moviesSample
                  }}">
+            </div>
+            <div id="zoomedInListLayout" data-win-control="WinJSContrib.UI.SmartListLayout" data-win-options="{
+                    listView: select('#semanticzoom').winControl.listview,
+                    layouts:{
+                        default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},
+                        vert : { layout : WinJS.UI.GridLayout, query: '(orientation: portrait) and (min-width: 600px)', options: { orientation : 'vertical'}},
+                        snap : { layout : WinJS.UI.ListLayout, query: '(orientation: portrait) and (max-width: 600px)'},
+                    }
+                 }"></div>
+
+            <div id="zoomedOutListLayout" data-win-control="WinJSContrib.UI.SmartListLayout" data-win-options="{
+                    listView: select('#semanticzoom').winControl.zoomedOutListview,
+                    layouts:{
+                        default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},
+                        vert : { layout : WinJS.UI.GridLayout, query: '(orientation: portrait) and (min-width: 600px)', options: { orientation : 'vertical'}},
+                        snap : { layout : WinJS.UI.ListLayout, query: '(orientation: portrait) and (max-width: 600px)'},
+                    }
+                 }"></div>
+            <div id="filterTrigger" onclick="$('#filterFlyout')[0].winControl.show(this)">
+                <span class="symbol">&#xE16E;</span>
             </div>
         </section>
         <div id="viewSelectionFlyout" data-win-control="WinJS.UI.Flyout">
