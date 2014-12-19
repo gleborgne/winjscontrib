@@ -1,0 +1,80 @@
+﻿@import "../../../../../css/apptheme";
+@import url('../../../../../css/apptheme.css');
+.datasources.fragment {
+    .viewKind {
+        font-size: 0.5em;
+        color: #AAA;
+    }
+
+    section[role="main"] {
+        padding-left: 0;
+        padding-right: 0;
+        position: relative;
+    }
+
+    #filterTrigger {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 22pt;
+        z-index: 500;
+    }
+
+    #viewSelectionFlyout .viewOption {
+        font-size: 16pt;
+        margin-bottom: 14px;
+    }
+
+    #semanticzoom {
+        width: 100%;
+        height: 100%;
+    }
+
+    .win-listview > .win-horizontal .win-surface {
+        margin-left: 50px;
+        margin-right: 120px;
+        margin-top: 50px;
+    }
+
+    .win-listview > .win-vertical .win-surface {
+        margin: 40px;
+    }
+
+    .zoomedinlist .listItem {
+        box-sizing: border-box;
+        padding: 10px;
+        color: white;
+        background-color: darken(@color-ui, 10%);
+        width: 260px;
+        height: 80px;
+    }
+
+    .zoomedoutlist .semanticItem {
+        box-sizing: border-box;
+        padding: 10px;
+        color: white;
+        background-color: darken(@color-ui, 20%);
+        width: 260px;
+        height: 80px;
+    }
+
+    #filterFlyout label {
+        display: block;
+    }
+}
+
+@media screen and (orientation: portrait) and (max-width: 600px) {
+    .datasources.fragment {
+        .zoomedinlist .listItem {
+            width: 100%;
+        }
+
+        .zoomedoutlist .semanticItem {
+            width: 100%;
+        }
+
+        .win-listview > .win-vertical .win-surface {
+            margin: 20px;
+        }
+    }
+}
