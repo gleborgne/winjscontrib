@@ -29,12 +29,16 @@
   -ms-grid-column: 2;
   margin-top: 59px;
 }
-.fragment header[role=banner] .codelink {
+.fragment header[role=banner] .actions {
   -ms-grid-column: 4;
-  margin-top: 37px;
+  margin-top: 0;
   margin-right: 40px;
   font-size: 20pt;
   color: #777;
+}
+.fragment header[role=banner] .actions > div {
+  display: inline-block;
+  margin-left: 10px;
 }
 .fragment header[role=banner] .titlearea {
   -ms-grid-column: 3;

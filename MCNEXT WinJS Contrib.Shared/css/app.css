@@ -50,12 +50,13 @@
   margin-top: 0;
   font-size: 18pt;
 }
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] .codelink {
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] .codelink,
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] .doclink {
   opacity: 1;
   margin: 0;
-  font-size: 1em;
+  font-size: 0.7em;
   font-weight: 500;
-  padding: 8px;
+  padding: 0;
 }
 #app-mainpage #app-content > .mcn-masterdetailview-detail > .mcn-masterdetailview-detail-header {
   min-width: 80px;

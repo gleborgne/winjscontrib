@@ -157,9 +157,9 @@ function renderFunctionName(apiDoc) {
         
         name += p.name;
 
-        if (p.type) {
-            name += ':' + p.type;
-        }
+        //if (p.type) {
+        //    name += ':' + p.type;
+        //}
     });
 
     name += ')';
