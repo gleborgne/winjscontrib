@@ -1,45 +1,61 @@
-﻿.semanticzoom #semanticzoom, .semanticzoom #zoomedin, .semanticzoom #zoomedout {
-    width: 100%;
-    height: 100%;
+﻿@import url('../../../../css/apptheme.css');
+.semanticzoom #semanticzoom,
+.semanticzoom #zoomedin,
+.semanticzoom #zoomedout {
+  width: 100%;
+  height: 100%;
 }
-
-.phone .semanticzoom .mcn-grid-ctrl {
-    margin-left: 20px;
-}
-
 .semanticzoom .mcn-grid-ctrl {
-    height: 100%;
-    margin-left: 120px;
+  height: calc(100% - 100px);
+  margin-top: 60px;
+  margin-left: 120px;
 }
-
 .semanticzoom .container {
-    width: 100%;
-    height: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
 }
-
 .semanticzoom .item {
-    box-sizing: border-box;
-    background-color: blue;
-    color: white;
-    padding: 20px;
+  box-sizing: border-box;
+  background-color: #ef7c45;
+  color: white;
+  padding: 20px;
 }
-
 .semanticzoom #zoomedin .item {
-    height: 500px;
-    width: 500px;
-    font-size: 90pt;
+  height: 250px;
+  width: 250px;
+  font-size: 50pt;
 }
-
 .semanticzoom #zoomedout .item {
-    height: 100px;
-    width: 100px;
+  height: 100px;
+  width: 100px;
+  background-color: #eb5b16;
 }
-
-.phone .semanticzoom #zoomedin .item {
-    height: 200px;
-    width: 200px;
-    font-size: 30pt;
+@media screen and (orientation: portrait) {
+  .semanticzoom .mcn-grid-ctrl {
+    height: auto;
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+  .semanticzoom .container {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .semanticzoom .item {
+    padding: 10px;
+  }
+  .semanticzoom #zoomedin .item {
+    height: 90px;
+    width: 100%;
+    font-size: 26pt;
+    margin-bottom: 5px;
+  }
+  .semanticzoom #zoomedout .item {
+    height: 80px;
+    width: 80px;
+  }
 }
+/*# sourceMappingURL=semanticzoom.css.map */

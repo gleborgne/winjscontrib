@@ -1,6 +1,5 @@
-﻿corriger layout datasourcemanager, list layout, semantic zoom
-
-bouton close dans childview
+﻿bouton close dans childview
+gestion back dans sample navigator
 finaliser layout phone
 samples navigator
 codeview -> fichiers additionnels

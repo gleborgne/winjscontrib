@@ -28,7 +28,11 @@
             <div id="semanticzoom" data-win-control="WinJS.UI.SemanticZoom">
                 <div id="zoomedin" data-win-control="WinJSContrib.UI.SemanticZoomWrapper">
                     <div class="container">
-                        <div id="zoomedingrid" data-win-control="WinJSContrib.UI.GridControl">
+                        <div id="zoomedingrid" data-win-control="WinJSContrib.UI.GridControl"
+                             data-win-options="{ layouts: {
+                                vertical: { query: '(orientation: portrait)', layout: 'flexvertical' },
+                                horizontal: { query: '(orientation: landscape)', layout: 'horizontal' }
+                             } }">
                             <div id="item1" class="item">Item 1</div>
                             <div id="item2" class="item">Item 2</div>
                             <div id="item3" class="item">Item 3</div>

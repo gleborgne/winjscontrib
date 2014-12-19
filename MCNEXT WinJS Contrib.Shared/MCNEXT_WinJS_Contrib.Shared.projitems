@@ -311,7 +311,13 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\master\master.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\master\master.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\master\master.less" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\semanticzoom\semanticzoom.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\semanticzoom\semanticzoom.css">
+      <DependentUpon>semanticzoom.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\semanticzoom\semanticzoom.css.map">
+      <DependentUpon>semanticzoom.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\semanticzoom\semanticzoom.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\semanticzoom\semanticzoom.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\semanticzoom\semanticzoom.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\statebutton\statebutton.css" />
