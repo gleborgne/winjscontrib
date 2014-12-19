@@ -40,10 +40,11 @@
                    this.rootElement = document.createElement("div");
                    this.rootElement.mcnChildnav = true;
                    this.rootElement.winControl = this;
+                   this.element.style.display = 'none';
                }
                document.body.appendChild(this.rootElement);
                this.$element = $(element);
-               this.element.style.display = 'none';
+               
                this.element.mcnChildnav = true;
 
                this.element.classList.add("mcn-childview");

@@ -2,6 +2,7 @@
 mise en forme what's this
 samples crossplatform
 
+codeview -> fichiers additionnels
 bouton close dans childview
 finaliser layout phone
 samples navigator

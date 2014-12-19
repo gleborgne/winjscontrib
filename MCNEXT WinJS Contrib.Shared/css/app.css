@@ -1,6 +1,7 @@
 ﻿body {
   /*background-color: white;*/
   font-family: 'Open Sans';
+  font-size: 13pt;
 }
 #app-mainpage {
   width: 100%;
@@ -118,6 +119,9 @@
   padding: 10px;
   overflow-x: hidden;
 }
+.feature.big {
+  font-size: 1.2em;
+}
 .feature h3 {
   font-weight: 500;
 }
@@ -189,7 +193,7 @@
     padding: 5px;
   }
 }
-.childNavigator .childNavigator-contentPlaceholder {
+#codeviewFlyout .childNavigator-contentPlaceholder {
   max-width: 90%;
 }
 @media screen and (max-width: 600px) {
