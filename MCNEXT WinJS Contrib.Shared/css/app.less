@@ -175,7 +175,7 @@ body {
     padding: 10px;
     overflow-x: hidden;
 
-    &.big{
+    &.big {
         font-size: 1.2em;
     }
 
@@ -309,12 +309,89 @@ body {
     }
 }
 
-#codeviewFlyout .childNavigator-contentPlaceholder{
+#codeviewFlyout .childNavigator-contentPlaceholder {
     max-width: 90%;
 }
 
-@media screen and (max-width: 600px){
-    .childNavigator .childNavigator-contentPlaceholder{
+#docviewFlyout .childNavigator-contentPlaceholder {
+    max-width: 800px;
+    font-size: 11pt;
+
+    .fragment {
+        -ms-grid-rows: 60px 1fr;
+
+        header[role=banner] {
+            background-color: @color-apidoc;
+            color: white;
+            -ms-grid-columns: 40px auto 1fr auto;
+
+            .win-backbutton {
+                margin-top: 5px;
+
+                &:disabled {
+                    display: none;
+                }
+            }
+
+            .titlearea {
+                font-size: 20pt;
+                margin-top: 10px;
+            }
+        }
+
+        section[role=main] {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            overflow-y: auto;
+
+            &.content-view {
+                padding: 40px;
+            }
+
+            h1, h2, h3, h4 {
+                color: @color-apidoc;
+                margin-top: 1em;
+                margin-bottom: 0.2em;               
+            }
+
+            h3{
+                text-transform:uppercase;
+                font-size:1em;
+            }
+
+            .apidoc-function {
+                margin-bottom: 0.5em;
+                padding: 5px;
+                border: 1px solid #DDD;
+
+                .apidoc-function-name {
+                    font-weight: 500;
+                }
+            }
+
+            table.apidoc-function-params {
+                margin-top: 0.5em;
+                font-size: 0.9em;
+                color: #333;
+
+                tr {
+                    th {
+                        font-weight: 500;
+                        text-align: left;
+                        font-size: 0.9em;
+                    }
+                    td{
+                        padding-right: 20px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .childNavigator .childNavigator-contentPlaceholder {
         max-width: 100%;
     }
 }

@@ -112,6 +112,9 @@
       <DependentUpon>winjscontrib.ui.tilemenu.css</DependentUpon>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tilemenu.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\classView\classView.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\classView\classView.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\classView\classView.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.css">
       <DependentUpon>root.less</DependentUpon>
     </Content>
@@ -722,7 +725,6 @@
     <Content Include="$(MSBuildThisFileDirectory)WinJS\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)demos\apidoc\classView\" />
     <Folder Include="$(MSBuildThisFileDirectory)demos\apidoc\functionView\" />
     <Folder Include="$(MSBuildThisFileDirectory)demos\apidoc\namespaceView\" />
   </ItemGroup>

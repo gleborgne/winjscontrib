@@ -20,6 +20,7 @@ function registerSection(page, classname) {
         var target = $(elt).data('target');
         var args = $(elt).data('target-args') || {};
         var weblink = $(elt).data('weblink');
+        var targetDoc = $(elt).data('target-doc');
 
         var title = $('.title', elt).text().trim() || $(elt).text().trim();
         if (target) {
@@ -43,6 +44,9 @@ function registerSection(page, classname) {
         } else if (weblink) {
             var uri = new Windows.Foundation.Uri(weblink);
             Windows.System.Launcher.launchUriAsync(uri);
+        } else if (targetDoc) {
+            var codeview = document.getElementById('docviewFlyout');
+            codeview.winControl.open(targetDoc, args);
         }
         else {
             WinJSContrib.Alerts.message('oups...', 'sorry the component is available but the sample is not. We are working hard at making it available but in the meantime, have a look at source code on github.')
@@ -93,4 +97,129 @@ function getApiDoc() {
 
         return res;
     });
+}
+
+function renderClass(apiDoc, withname) {
+    var elt = document.createElement("DIV");
+    elt.className = 'apidoc-class';
+    
+    if (withname) {
+        var desc = document.createElement("DIV");
+        desc.className = 'apidoc-classname';
+        desc.innerHTML = apiDoc.name;
+        elt.appendChild(desc);
+    }
+    renderDescription(apiDoc, elt);
+
+    if (apiDoc.constructor && apiDoc.constructor.parameters && apiDoc.constructor.parameters.length) {
+        var ctor = document.createElement("DIV");
+        ctor.className = 'apidoc-constructor';
+        elt.appendChild(ctor);
+        renderFunctionParams(apiDoc.constructor, ctor);
+    }
+
+    if (apiDoc.properties && apiDoc.properties.length) {
+        var mb = document.createElement("DIV");
+        mb.className = 'apidoc-members';
+        mb.innerHTML = '<h3>members</h3>';
+        elt.appendChild(mb);
+        apiDoc.properties.forEach(function (member) {
+            mb.appendChild(renderMember(member));
+        });
+    }
+
+    if (apiDoc.functions) {
+        var fn = document.createElement("DIV");
+        fn.className = 'apidoc-functions';
+        fn.innerHTML = '<h3>functions</h3>';
+        elt.appendChild(fn);
+
+        apiDoc.functions.forEach(function (func) {
+            fn.appendChild(renderFunction(func, true));
+        });
+    }
+
+    if (apiDoc.classes) {
+
+    }
+
+    return elt;
+}
+
+function renderFunctionName(apiDoc) {
+    var fn = document.createElement("DIV");
+    fn.className = 'apidoc-function-name';
+    var name = apiDoc.name + '(';
+
+    apiDoc.parameters.forEach(function (p, index) {
+        if (index > 0)
+            name+= ', ';
+        
+        name += p.name;
+
+        if (p.type) {
+            name += ':' + p.type;
+        }
+    });
+
+    name += ')';
+
+    fn.innerHTML = name;
+    return fn;
+}
+
+function renderFunction(apiDoc, withname) {
+    var elt = document.createElement("DIV");
+    elt.className = 'apidoc-function';
+
+    if (withname) {
+        elt.appendChild(renderFunctionName(apiDoc));
+    }
+
+    var content = document.createElement("DIV");
+    content.className = 'apidoc-function-content';
+    elt.appendChild(content);
+
+    renderDescription(apiDoc, content);
+    renderFunctionParams(apiDoc, content);
+    renderExamples(apiDoc, content);
+
+    return elt;
+}
+
+function renderDescription(apiDoc, elt) {
+    if (apiDoc.description) {
+        var desc = document.createElement("DIV");
+        desc.className = 'apidoc-description';
+        desc.innerHTML = apiDoc.description;
+        elt.appendChild(desc);
+    }
+}
+
+function renderFunctionParams(apiDoc, container) {
+    if (apiDoc.parameters && apiDoc.parameters.length) {
+        var elt = document.createElement("TABLE");
+        elt.className = 'apidoc-function-params';
+        elt.innerHTML = '<tr><th>name</th><th>type</th><th>description</th><th>null?</th><th>opt?</th></tr>';
+        apiDoc.parameters.forEach(function (p) {
+            var row = document.createElement('tr');
+            row.innerHTML = '<td>' + p.name + '</td><td>' + p.type + '</td><td>' + (p.description || '') + '</td><td>' + (p.nullable ? 'X' : '') + '</td><td>' + (p.optinal ? 'X' : '') + '</td>';
+            elt.appendChild(row);
+        });
+        container.appendChild(elt);
+    }
+}
+
+function renderExamples(apiDoc, container) {
+    if (apiDoc.examples && apiDoc.examples.length) {
+        
+    }
+}
+
+function renderMember(apiDoc) {
+    var elt = document.createElement("DIV");
+    elt.className = 'apidoc-member';
+    elt.innerHTML = apiDoc.name;
+
+    return elt;
 }

@@ -55,7 +55,7 @@
                 root.classes.forEach(function (ns) {
                     var elt = document.createElement('div');
                     elt.className = 'feature obj-class';
-                    elt.setAttribute("data-target", "./demos/apidoc/root.html");
+                    elt.setAttribute("data-target-doc", "./demos/apidoc/classView/classView.html");
                     elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "class"}');
                     elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + ns.description + '</div>'
                     classesContainer.appendChild(elt);
@@ -73,7 +73,7 @@
                 root.functions.forEach(function (ns) {
                     var elt = document.createElement('div');
                     elt.className = 'feature obj-function';
-                    elt.setAttribute("data-target", "./demos/apidoc/root.html");
+                    elt.setAttribute("data-target-doc", "./demos/apidoc/classView/classView.html");
                     elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "function"}');
                     elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + ns.description + '</div>'
                     functionsContainer.appendChild(elt);
