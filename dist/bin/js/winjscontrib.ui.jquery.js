@@ -41,8 +41,9 @@ function HSL(hVal, sVal, lVal) {
 (function ($) {
     function ptDown(event) {
         var elt = event.currentTarget || event.target;
-        if (elt.mcnTapTracking && event.button === undefined || event.button === 0 || event.button === 2) {
-            if (elt.mcnTapTracking.lock) {
+        var tracking = elt.mcnTapTracking;
+        if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
+            if (tracking.lock) {
                 if (event.pointerId && event.currentTarget.setPointerCapture)
                     event.currentTarget.setPointerCapture(event.pointerId);
                 event.stopPropagation();
@@ -51,20 +52,21 @@ function HSL(hVal, sVal, lVal) {
             var $this = $(event.currentTarget);
             $this.addClass('tapped');
             if (event.changedTouches) {
-                elt.mcnTapTracking.pointerdown = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
+                tracking.pointerdown = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
             } else {
-                elt.mcnTapTracking.pointerdown = { x: event.clientX, y: event.clientY };
+                tracking.pointerdown = { x: event.clientX, y: event.clientY };
             }
-            elt.mcnTapTracking.animDown(event.currentTarget);
-            if (elt.mcnTapTracking.tapOnDown) {
-                elt.mcnTapTracking.callback(elt);
+            tracking.animDown(event.currentTarget);
+            if (tracking.tapOnDown) {
+                tracking.callback(elt);
             }
         }
     }
 
     function ptOut(event) {
         var elt = event.currentTarget || event.target;
-        if (elt.mcnTapTracking && elt.mcnTapTracking.pointerdown) {
+        var tracking = elt.mcnTapTracking;
+        if (tracking && tracking.pointerdown) {
             var $this = $(elt);
             $this.removeClass('tapped');
             event.stopPropagation();
@@ -72,47 +74,48 @@ function HSL(hVal, sVal, lVal) {
             if (event.pointerId && elt.releasePointerCapture)
                 elt.releasePointerCapture(event.pointerId);
 
-            if (!elt.mcnTapTracking.disableAnimation)
-                elt.mcnTapTracking.animUp(event.currentTarget);
+            if (!tracking.disableAnimation)
+                tracking.animUp(event.currentTarget);
         }
     }
 
     function ptUp(event) {
         var elt = event.currentTarget || event.target;
-        if (event.button === undefined || event.button === 0 || event.button === 2) {
+        var tracking = elt.mcnTapTracking;
+        if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
             var $this = $(elt);
 
             event.stopPropagation();
             if (elt.releasePointerCapture)
                 elt.releasePointerCapture(event.pointerId);
 
-            if (elt.mcnTapTracking && !elt.mcnTapTracking.tapOnDown) {
+            if (tracking && !tracking.tapOnDown) {
                 var resolveTap = function () {
-                    if (elt.mcnTapTracking && elt.mcnTapTracking.pointerdown) {
+                    if (tracking && tracking.pointerdown) {
                         if (event.changedTouches) {
-                            var dX = Math.abs(elt.mcnTapTracking.pointerdown.x - event.changedTouches[0].clientX);
-                            var dY = Math.abs(elt.mcnTapTracking.pointerdown.y - event.changedTouches[0].clientY);
+                            var dX = Math.abs(tracking.pointerdown.x - event.changedTouches[0].clientX);
+                            var dY = Math.abs(tracking.pointerdown.y - event.changedTouches[0].clientY);
                         } else {
-                            var dX = Math.abs(elt.mcnTapTracking.pointerdown.x - event.clientX);
-                            var dY = Math.abs(elt.mcnTapTracking.pointerdown.y - event.clientY);
+                            var dX = Math.abs(tracking.pointerdown.x - event.clientX);
+                            var dY = Math.abs(tracking.pointerdown.y - event.clientY);
                         }
 
-                        if (elt.mcnTapTracking.callback && dX < 15 && dY < 15) {
+                        if (tracking.callback && dX < 15 && dY < 15) {
                             event.stopImmediatePropagation();
                             event.stopPropagation();
                             event.preventDefault();
-                            elt.mcnTapTracking.callback(elt);
+                            tracking.callback(elt);
                         }
-                        if (elt.mcnTapTracking && elt.mcnTapTracking.pointerdown)
-                            elt.mcnTapTracking.pointerdown = undefined;
+                        if (tracking && tracking.pointerdown)
+                            tracking.pointerdown = undefined;
                     }
                 }
 
-                if (elt.mcnTapTracking.awaitAnim) {
-                    elt.mcnTapTracking.animUp(elt).done(resolveTap);
+                if (tracking.awaitAnim) {
+                    tracking.animUp(elt).done(resolveTap);
                 }
                 else {
-                    elt.mcnTapTracking.animUp(elt);
+                    tracking.animUp(elt);
                     resolveTap();
                 }
                 //.done(function () {
@@ -442,7 +445,7 @@ function HSL(hVal, sVal, lVal) {
 
         this.each(function () {
             var currentElement = this;
-            
+
             var prom = new WinJS.Promise(function (complete, error) {
                 var onaftertransition = function (event) {
                     if (event.srcElement === currentElement) {

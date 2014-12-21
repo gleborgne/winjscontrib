@@ -62,7 +62,7 @@ body {
                                     font-size: 18pt;
                                 }
 
-                                .codelink,.doclink {
+                                .codelink, .doclink {
                                     opacity: 1;
                                     margin: 0;
                                     font-size: 0.7em;
@@ -153,7 +153,9 @@ body {
     .mcn-hub-section h2 {
         font-family: 'Open Sans Condensed';
         text-transform: uppercase;
-        font-size: 24pt;
+        font-size: 14pt;
+        font-weight: bold;
+        margin-bottom: 5px;
     }
 
     .mcn-hub-section-titled {
@@ -295,11 +297,11 @@ body {
         }
     }
 
-    .feature-section {
+    /*.feature-section {
         .mcn-hub-section h2 {
             font-size: 18pt;
         }
-    }
+    }*/
 
     .feature {
         width: 100%;
@@ -315,7 +317,7 @@ body {
 
 #docviewFlyout .childNavigator-contentPlaceholder {
     max-width: 800px;
-    font-size: 11pt;
+    font-size: 12pt;
 
     .fragment {
         -ms-grid-rows: 60px 1fr;
@@ -352,38 +354,56 @@ body {
             h1, h2, h3, h4 {
                 color: @color-apidoc;
                 margin-top: 1em;
-                margin-bottom: 0.2em;               
+                margin-bottom: 0.2em;
             }
 
-            h3{
-                text-transform:uppercase;
-                font-size:1em;
+            h3 {
+                text-transform: uppercase;
+                font-size: 1em;
             }
 
-            .apidoc-function {
-                margin-bottom: 0.5em;
-                padding: 5px;
-                border: 1px solid #DDD;
+            h4 {
+                font-weight: 500;
+            }
 
-                .apidoc-function-name {
-                    font-weight: 500;
+            .apidoc-class {
+                > .apidoc-description {
+                    border: 1px solid #DDD;
+                    padding: 10px;
+                    font-size: 1.1em;
                 }
             }
 
-            table.apidoc-function-params {
-                margin-top: 0.5em;
-                font-size: 0.9em;
-                color: #333;
+            .apidoc-description {
+                
+            }
 
-                tr {
-                    th {
-                        font-weight: 500;
-                        text-align: left;
-                        font-size: 0.9em;
-                    }
-                    td{
-                        padding-right: 20px;
-                    }
+            .apidoc-function-name, .apidoc-member-name {
+                font-weight: 500;
+                font-family: Consolas, 'Lucida Console', 'Open Sans';
+            }
+
+            .apidoc-member, .apidoc-function {
+                padding: 10px 0;
+                border-bottom: 1px solid #CCC;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+
+            .apidoc-function-params {
+                color: #444;
+                padding-left: 20px;
+                font-size: 0.9em;
+
+                .apidoc-member {
+                    padding: 4px 0;
+                    border-bottom-color: #DDD;
+                }
+
+                .apidoc-function-name {
+                    font-style: italic;
                 }
             }
         }
@@ -393,5 +413,25 @@ body {
 @media screen and (max-width: 600px) {
     .childNavigator .childNavigator-contentPlaceholder {
         max-width: 100%;
+    }
+
+    #docviewFlyout .childNavigator-contentPlaceholder {        
+        .fragment {
+            
+            header[role=banner] {
+                -ms-grid-columns: 40px auto 1fr auto;
+
+            
+                .titlearea {
+                    font-size: 14pt;
+                }
+            }
+
+            section[role=main] {
+                &.content-view {
+                    padding: 20px;
+                }
+            }
+        }
     }
 }

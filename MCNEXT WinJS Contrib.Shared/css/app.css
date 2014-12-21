@@ -102,7 +102,9 @@
 .feature-section .mcn-hub-section h2 {
   font-family: 'Open Sans Condensed';
   text-transform: uppercase;
-  font-size: 24pt;
+  font-size: 14pt;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 .feature-section .mcn-hub-section-titled {
   -ms-grid-rows: 130px 1fr 40px;
@@ -184,9 +186,11 @@
     line-height: 36px;
     margin-left: 15px;
   }
-  .feature-section .mcn-hub-section h2 {
-    font-size: 18pt;
-  }
+  /*.feature-section {
+        .mcn-hub-section h2 {
+            font-size: 18pt;
+        }
+    }*/
   .feature {
     width: 100%;
     margin-right: 0;
@@ -199,7 +203,7 @@
 }
 #docviewFlyout .childNavigator-contentPlaceholder {
   max-width: 800px;
-  font-size: 11pt;
+  font-size: 12pt;
 }
 #docviewFlyout .childNavigator-contentPlaceholder .fragment {
   -ms-grid-rows: 60px 1fr;
@@ -240,30 +244,52 @@
   text-transform: uppercase;
   font-size: 1em;
 }
-#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function {
-  margin-bottom: 0.5em;
-  padding: 5px;
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] h4 {
+  font-weight: 500;
+}
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-class > .apidoc-description {
   border: 1px solid #DDD;
+  padding: 10px;
+  font-size: 1.1em;
 }
-#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function .apidoc-function-name {
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-name,
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-member-name {
   font-weight: 500;
+  font-family: Consolas, 'Lucida Console', 'Open Sans';
 }
-#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] table.apidoc-function-params {
-  margin-top: 0.5em;
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-member,
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function {
+  padding: 10px 0;
+  border-bottom: 1px solid #CCC;
+}
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-member:last-child,
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function:last-child {
+  border-bottom: none;
+}
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params {
+  color: #444;
+  padding-left: 20px;
   font-size: 0.9em;
-  color: #333;
 }
-#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] table.apidoc-function-params tr th {
-  font-weight: 500;
-  text-align: left;
-  font-size: 0.9em;
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params .apidoc-member {
+  padding: 4px 0;
+  border-bottom-color: #DDD;
 }
-#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] table.apidoc-function-params tr td {
-  padding-right: 20px;
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params .apidoc-function-name {
+  font-style: italic;
 }
 @media screen and (max-width: 600px) {
   .childNavigator .childNavigator-contentPlaceholder {
     max-width: 100%;
+  }
+  #docviewFlyout .childNavigator-contentPlaceholder .fragment header[role=banner] {
+    -ms-grid-columns: 40px auto 1fr auto;
+  }
+  #docviewFlyout .childNavigator-contentPlaceholder .fragment header[role=banner] .titlearea {
+    font-size: 14pt;
+  }
+  #docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main].content-view {
+    padding: 20px;
   }
 }
 /*# sourceMappingURL=app.css.map */

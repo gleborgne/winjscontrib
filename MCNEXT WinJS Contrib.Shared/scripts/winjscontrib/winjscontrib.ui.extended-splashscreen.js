@@ -105,7 +105,7 @@
                 },
 
                 /**
-                 * show splash screen
+                 * show splash screen during the execution of a promise. After the promise, splash screen will NOT auto-hide
                  * @param {WinJS.Promise} dataLoadPromise promise covered by splash screen
                  * @param {Object} arg application init arguments
                  * @returns {WinJS.Promise} completion promise

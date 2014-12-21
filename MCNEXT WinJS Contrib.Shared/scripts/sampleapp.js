@@ -78,6 +78,8 @@ function getApiDoc() {
                 if (!res)
                     res = getNodeFor(currentnode, 'classes', currentToken);
                 if (!res)
+                    res = getNodeFor(currentnode, 'typedefinitions', currentToken);
+                if (!res)
                     res = getNodeFor(currentnode, 'functions', currentToken);
                 if (!res)
                     res = getNodeFor(currentnode, 'members', currentToken);
@@ -94,9 +96,19 @@ function getApiDoc() {
 
             return iterate(0, res);
         }
+        winjscontribApiDoc = res;
 
         return res;
     });
+}
+
+function nameSort(a, b) {
+    if (a.name > b.name)
+        return 1;
+    if (a.name < b.name)
+        return -1;
+
+    return 0;
 }
 
 function renderClass(apiDoc, withname) {
@@ -109,11 +121,13 @@ function renderClass(apiDoc, withname) {
         desc.innerHTML = apiDoc.name;
         elt.appendChild(desc);
     }
+
     renderDescription(apiDoc, elt);
 
     if (apiDoc.constructor && apiDoc.constructor.parameters && apiDoc.constructor.parameters.length) {
         var ctor = document.createElement("DIV");
         ctor.className = 'apidoc-constructor';
+        ctor.innerHTML = '<h3>constructor</h3>'
         elt.appendChild(ctor);
         renderFunctionParams(apiDoc.constructor, ctor);
     }
@@ -123,8 +137,15 @@ function renderClass(apiDoc, withname) {
         mb.className = 'apidoc-members';
         mb.innerHTML = '<h3>members</h3>';
         elt.appendChild(mb);
+
+        var mbItems = document.createElement('DIV');
+        mbItems.className = 'apidoc-members-items';
+        //mbItems.innerHTML = '<tr><th></th></tr>';
+        mb.appendChild(mbItems);
+
+        apiDoc.properties.sort(nameSort);
         apiDoc.properties.forEach(function (member) {
-            mb.appendChild(renderMember(member));
+            mbItems.appendChild(renderMember(member, mbItems));
         });
     }
 
@@ -134,6 +155,7 @@ function renderClass(apiDoc, withname) {
         fn.innerHTML = '<h3>functions</h3>';
         elt.appendChild(fn);
 
+        apiDoc.functions.sort(nameSort);
         apiDoc.functions.forEach(function (func) {
             fn.appendChild(renderFunction(func, true));
         });
@@ -143,6 +165,13 @@ function renderClass(apiDoc, withname) {
 
     }
 
+    $('a', elt).click(function (elt) {
+        var target = $(elt.currentTarget).attr('data-linkTo');
+        if (target) {
+            var codeview = document.getElementById('docviewFlyout');
+            codeview.winControl.navigate('./demos/apidoc/classView/classView.html', { datapath: target });
+        }
+    });
     return elt;
 }
 
@@ -187,6 +216,22 @@ function renderFunction(apiDoc, withname) {
     return elt;
 }
 
+var linksBlackList = ['object', 'string', 'number', 'array'];
+
+function renderLinkTo(target) {
+    var targetElt = null;
+    var lw = target.toLowerCase();
+    if (linksBlackList.indexOf(lw) < 0)
+        targetElt = winjscontribApiDoc.find(target);
+
+    if (targetElt) {
+        return '<a data-linkTo="' + target + '">' + target + '</a>';
+        res.innerHTML = target;
+    } else {
+        return target;
+    }
+}
+
 function renderDescription(apiDoc, elt) {
     if (apiDoc.description) {
         var desc = document.createElement("DIV");
@@ -198,13 +243,11 @@ function renderDescription(apiDoc, elt) {
 
 function renderFunctionParams(apiDoc, container) {
     if (apiDoc.parameters && apiDoc.parameters.length) {
-        var elt = document.createElement("TABLE");
+        var elt = document.createElement("DIV");
         elt.className = 'apidoc-function-params';
-        elt.innerHTML = '<tr><th>name</th><th>type</th><th>description</th><th>null?</th><th>opt?</th></tr>';
+        elt.innerHTML = '<h5>arguments</h5>';
         apiDoc.parameters.forEach(function (p) {
-            var row = document.createElement('tr');
-            row.innerHTML = '<td>' + p.name + '</td><td>' + p.type + '</td><td>' + (p.description || '') + '</td><td>' + (p.nullable ? 'X' : '') + '</td><td>' + (p.optinal ? 'X' : '') + '</td>';
-            elt.appendChild(row);
+            elt.appendChild(renderMember(p));
         });
         container.appendChild(elt);
     }
@@ -219,7 +262,10 @@ function renderExamples(apiDoc, container) {
 function renderMember(apiDoc) {
     var elt = document.createElement("DIV");
     elt.className = 'apidoc-member';
-    elt.innerHTML = apiDoc.name;
+    var html = '<div class="apidoc-member-name"><span class="name">' + apiDoc.name + '</span> <span class="type">: ' + renderLinkTo((apiDoc.type.names || apiDoc.type) + '') + '</span></div>';
+    if (apiDoc.description)
+        html += '<div class="apidoc-description">' + apiDoc.description + '</div>';
 
+    elt.innerHTML = html;
     return elt;
 }

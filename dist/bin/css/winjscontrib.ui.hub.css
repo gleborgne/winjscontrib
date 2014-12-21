@@ -8,6 +8,7 @@
 .mcn-hub-surface {
   display: flex;
   flex-flow: column wrap;
+  align-content: flex-start;
   margin-left: 120px;
   margin-right: 120px;
   height: 100%;

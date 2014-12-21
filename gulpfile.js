@@ -71,6 +71,34 @@ gulp.task('cleandoc', function(cb) {
 	del(['dist/documentation'], cb)
 });
 
+gulp.task('jsondoc', ['cleandoc'], function() {
+	//ink-docstrap module within gulp-jsdoc is not up to date, update it with latest version
+	
+	var infos = {
+		name : 'WINJS Contrib',
+		applicationName : 'WinJS Contrib an',
+		description : 'helpers and controls to complement WinJS',
+		plugins: ['plugins/markdown']
+	};
+
+	var template = {
+	    path: 'ink-docstrap',
+	    systemName      : 'WinJS Contrib',
+	    footer          : "by MCNEXT",
+	    copyright       : "copyright MCNEXT",
+	    navType         : "vertical",
+	    theme           : "cosmo",
+	    linenums        : true,
+	    collapseSymbols : false,
+	    inverseNav      : false
+	  };
+
+	return gulp.src([jsFilesPath +'**/*.js', 'readme.md'])        
+	.pipe(plumber({errorHandler: onError}))
+	.pipe(jsdoc.parser(infos))
+  	.pipe(gulp.dest('dist/testsjsdoc'));
+});
+
 gulp.task('doc', ['cleandoc'], function() {
 	//ink-docstrap module within gulp-jsdoc is not up to date, update it with latest version
 	

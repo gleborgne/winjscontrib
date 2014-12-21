@@ -1212,7 +1212,7 @@
                         },
                         {
                             "name": "MediaTrigger",
-                            "description": "",
+                            "description": "Trigger events on media queries. This class is usefull as a component for other controls to change some properties based on media queries",
                             "extends": [],
                             "access": "",
                             "virtual": false,
@@ -1263,6 +1263,19 @@
                                 ],
                                 "examples": []
                             },
+                            "properties": [
+                                {
+                                    "name": "pageControl",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "",
+                                    "type": {
+                                        "names": [
+                                            "HTMLElement"
+                                        ]
+                                    }
+                                }
+                            ],
                             "functions": [
                                 {
                                     "name": "navigate",
@@ -1671,7 +1684,7 @@
                                     "name": "show",
                                     "access": "",
                                     "virtual": false,
-                                    "description": "show splash screen",
+                                    "description": "show splash screen during the execution of a promise. After the promise, splash screen will NOT auto-hide",
                                     "parameters": [
                                         {
                                             "name": "dataLoadPromise",
@@ -1846,6 +1859,19 @@
                                 ],
                                 "examples": []
                             },
+                            "properties": [
+                                {
+                                    "name": "throttlingDelay",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "",
+                                    "type": {
+                                        "names": [
+                                            "number"
+                                        ]
+                                    }
+                                }
+                            ],
                             "functions": [
                                 {
                                     "name": "show",
@@ -1999,7 +2025,7 @@
                         },
                         {
                             "name": "HubControl",
-                            "description": "",
+                            "description": "Hub control replacement intended to be used with {@link WinJSContrib.UI.GridControl}",
                             "extends": [],
                             "access": "",
                             "virtual": false,
@@ -2039,7 +2065,7 @@
                         },
                         {
                             "name": "MultiPassRenderer",
-                            "description": "",
+                            "description": "This control manage multi-pass rendering for improving performances when showing a list of items.\rThe renderer will render \"shells\" for the items to enable page layout, and render items content on demand, or when items scrolls to view.",
                             "extends": [],
                             "access": "",
                             "virtual": false,
@@ -2185,7 +2211,7 @@
                         },
                         {
                             "name": "MultiPassItem",
-                            "description": "",
+                            "description": "Item for multipass rendering",
                             "extends": [],
                             "access": "",
                             "virtual": false,
@@ -2253,6 +2279,14 @@
                             "description": "",
                             "access": "",
                             "virtual": false,
+                            "namespaces": [
+                                {
+                                    "name": "Easings",
+                                    "description": "",
+                                    "access": "",
+                                    "virtual": false
+                                }
+                            ],
                             "functions": [
                                 {
                                     "name": "fadeOut",
@@ -3890,19 +3924,81 @@
                     "description": "Small text search features based on objet indexing and text stemming. It's inspired by tools like Lucene.\rFor now indexes are stored with WinRT files, but it will soon be extended to support an extensible storage mecanism",
                     "access": "",
                     "virtual": false,
-                    "properties": [
+                    "typedefinitions": [
                         {
-                            "name": "workerPath",
+                            "name": "FieldDefinition",
+                            "description": "definition for a field",
+                            "extends": [],
                             "access": "",
                             "virtual": false,
-                            "description": "path for search worker script file",
-                            "type": ""
+                            "fires": "",
+                            "constructor": {
+                                "name": "FieldDefinition",
+                                "description": "definition for a field",
+                                "parameters": [],
+                                "examples": [
+                                    "{ weight : 2}"
+                                ]
+                            },
+                            "properties": [
+                                {
+                                    "name": "weight",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "weight of the item to rank search results",
+                                    "type": {
+                                        "names": [
+                                            "number"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "IndexDefinition",
+                            "description": "Definition of an index content",
+                            "extends": [],
+                            "access": "",
+                            "virtual": false,
+                            "fires": "",
+                            "constructor": {
+                                "name": "IndexDefinition",
+                                "description": "Definition of an index content",
+                                "parameters": [],
+                                "examples": [
+                                    "{ key: 'id', fields: { \"title\": { weight : 5}, \"description.detail\": { weight : 2}}}"
+                                ]
+                            },
+                            "properties": [
+                                {
+                                    "name": "key",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "name of the property considered as a key for the items",
+                                    "type": {
+                                        "names": [
+                                            "string"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "fields",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "object containing item's property path as name, and {@link WinJSContrib.Search.FieldDefinition} as value",
+                                    "type": {
+                                        "names": [
+                                            "Object"
+                                        ]
+                                    }
+                                }
+                            ]
                         }
                     ],
                     "classes": [
                         {
                             "name": "IndexGroup",
-                            "description": "",
+                            "description": "group of indexes",
                             "extends": [],
                             "access": "",
                             "virtual": false,
@@ -3920,7 +4016,9 @@
                                         "nullable": ""
                                     }
                                 ],
-                                "examples": []
+                                "examples": [
+                                    "var idxgroup = new WinJSContrib.Search.IndexGroup({ peoples: { \"firstname\": { weight: 42 }} });"
+                                ]
                             },
                             "functions": [
                                 {
@@ -4498,7 +4596,7 @@
                             "classes": [
                                 {
                                     "name": "Pipeline",
-                                    "description": "",
+                                    "description": "stemming pipeline",
                                     "extends": [],
                                     "access": "",
                                     "virtual": false,
@@ -4838,7 +4936,7 @@
             "classes": [
                 {
                     "name": "Logger",
-                    "description": "",
+                    "description": "logger abstraction to enable logging levels and global configuration",
                     "extends": [],
                     "access": "",
                     "virtual": false,
@@ -4863,6 +4961,19 @@
                                 "parameters": [],
                                 "examples": []
                             },
+                            "properties": [
+                                {
+                                    "name": "Config",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "logger configuration",
+                                    "type": {
+                                        "names": [
+                                            "Object"
+                                        ]
+                                    }
+                                }
+                            ],
                             "functions": [
                                 {
                                     "name": "log",
@@ -5217,7 +5328,29 @@
                         }
                     ]
                 }
+            ],
+            "properties": [
+                {
+                    "name": "Search",
+                    "access": "",
+                    "virtual": false,
+                    "description": "",
+                    "type": ""
+                }
             ]
+        }
+    ],
+    "properties": [
+        {
+            "name": "object",
+            "access": "",
+            "virtual": false,
+            "description": "",
+            "type": {
+                "names": [
+                    "Object"
+                ]
+            }
         }
     ]
 }

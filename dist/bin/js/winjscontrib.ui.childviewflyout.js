@@ -20,7 +20,7 @@
             }
         },
 
-        ChildViewFlyout : WinJS.Class.mix(WinJS.Class.define(
+        ChildViewFlyout: WinJS.Class.mix(WinJS.Class.define(
         /** 
          * 
          * @class WinJSContrib.UI.ChildViewFlyout 
@@ -40,12 +40,13 @@
                    this.rootElement = document.createElement("div");
                    this.rootElement.mcnChildnav = true;
                    this.rootElement.winControl = this;
+                   this.element.style.display = 'none';
                }
                document.body.appendChild(this.rootElement);
                this.$element = $(element);
-               this.element.style.display = 'none';
-               this.element.mcnChildnav = true;
                
+               this.element.mcnChildnav = true;
+
                this.element.classList.add("mcn-childview");
                this.element.classList.add("win-disposable");
                this.rootElement.classList.add("childNavigator");
@@ -61,7 +62,7 @@
            {
                _createContent: function () {
                    var that = this;
-                   
+
                    this.overlay = document.createElement("div");
                    this.overlay.className = "childNavigator-overlay";
                    this.$overlay = $(this.overlay);
@@ -82,7 +83,7 @@
                        return that.hide(arg);
                    }
                    this.$contentPlaceholder = $(this.contentPlaceholder);
-                   
+
                    this.rootElement.appendChild(this.contentPlaceholder);
                },
 
@@ -181,7 +182,7 @@
                //},
 
                show: function (skipshowcontainer) {
-                   var that = this;                   
+                   var that = this;
 
                    if (!that.isOpened) {
                        document.body.addEventListener('keyup', that.childContentKeyUp);
@@ -242,7 +243,9 @@
 
                        ctrl.open(uri, options, skipHistory).then(function (arg) {
                            page = ctrl.navigator.pageControl;
-                           page.addEventListener("closing", manageClose);
+                           if (page) {
+                               page.addEventListener("closing", manageClose);
+                           }
                            ctrl.addEventListener("beforehide", manageClose, false);
                        });
                    });

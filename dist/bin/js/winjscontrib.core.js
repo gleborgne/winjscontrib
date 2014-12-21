@@ -3,10 +3,6 @@
 //This code is provided as is and we could not be responsible for what you are making with it
 //project is available at http://winjscontrib.codeplex.com
 
-/**
- * @fileOverview test from api
- */
-
 if (!Object.map) {
     Object.map = function (obj, mapping) {
         var mapped = {};
@@ -656,24 +652,29 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     //set object property value based on property name. Property name is a string containing the name of the property, 
     //or the name of the property with an indexer, ex: myproperty[2] (to get item in a array)
     function setobject(obj, prop, data) {
-        if (prop) {
-            obj[prop] = data;
-
-            if (obj.setProperty)
+        if (WinJSContrib.Utils.hasValue(prop)) {
+            if (obj.setProperty) {
                 obj.setProperty(prop, data);
+                return;
+            }
+
+            obj[prop] = data;
+            return;
         }
 
-        var idx = prop.indexOf('[');
-        if (idx < 0)
-            return;
-        var end = prop.indexOf(']', idx);
-        if (end < 0)
-            return;
+        if (typeof prop === "string") {
+            var idx = prop.indexOf('[');
+            if (idx < 0)
+                return;
+            var end = prop.indexOf(']', idx);
+            if (end < 0)
+                return;
 
-        var val = prop.substr(idx + 1, end - idx);
-        val = parseInt(val);
+            var val = prop.substr(idx + 1, end - idx);
+            val = parseInt(val);
 
-        obj[val] = data;
+            obj[val] = data;
+        }
     }
 
     /** Read property value on an object based on expression

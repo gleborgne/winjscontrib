@@ -15,7 +15,7 @@
 
             this.element.classList.add('mcn-masterdetailview');
             this._initContent();
-
+            this.uriArgs = options.uriArgs;
             WinJS.UI.setOptions(this, options);
             if (this.mediaTrigger) {
                 this.mediaTrigger.check();
@@ -64,7 +64,7 @@
                         $(ctrl.masterViewContent.element).remove();
                     }
 
-                    WinJSContrib.UI.renderFragment(ctrl.masterView, val, null, {
+                    WinJSContrib.UI.renderFragment(ctrl.masterView, val, ctrl.uriArgs, {
                         onfragmentinit: function (masterCtrl) {
                             masterCtrl.masterDetailView = ctrl;
                             ctrl.masterViewContent = masterCtrl;
@@ -136,10 +136,10 @@
 
             _clearDetailContent: function () {
                 var ctrl = this;
-                
+
                 if (ctrl.detailViewContentCtrl) {
                     var elt = ctrl.detailViewContentCtrl.element;
-                    
+
 
                     if (ctrl.detailViewContentCtrl.unload)
                         ctrl.detailViewContentCtrl.unload();
@@ -149,8 +149,8 @@
                     $(elt).remove();
 
                     ctrl.detailViewContentCtrl = null;
-                    
-                    
+
+
                 }
                 ctrl.detailViewContent.innerHTML = '';
             },
@@ -162,9 +162,9 @@
                 if (options.wrapInMasterDetailView) {
                     var elt = document.createElement('DIV');
                     elt.style.width = "100%";
-                    elt.style.height = "100%";
+                    elt.style.height = "100%";                    
 
-                    ctrl.detailViewContentCtrl = new WinJSContrib.UI.MasterDetailView(elt, { uri: uri, parent: ctrl, orientation: ctrl.orientation, orientations: ctrl.orientations });
+                    ctrl.detailViewContentCtrl = new WinJSContrib.UI.MasterDetailView(elt, { uri: uri, uriArgs: data, parent: ctrl, orientation: ctrl.orientation, orientations: ctrl.orientations });
                     ctrl.detailViewContent.appendChild(elt);
                     return WinJS.Promise.wrap();
                 }
@@ -179,7 +179,7 @@
 
             _animateToDetail: function (element, data, options) {
                 var ctrl = this;
-                
+
                 var morph = WinJSContrib.UI.Morph.from(element);
                 ctrl.morph = morph;
                 ctrl.detailViewContent.style.opacity = '0';
@@ -188,25 +188,25 @@
 
                 //                ctrl.detailViewContent.style.opacity = '0';
 
-                return morph.fadeIn(160).then(function () {
-                    WinJSContrib.UI.Animation.fadeOut(ctrl.masterView, 160).then(function () {
-                        ctrl.masterView.style.opacity = '';
-                        ctrl.masterView.classList.remove('visible');
-                    });
-
+                return morph.fadeIn(100).then(function () {                  
 
                     morph.morphToElt(ctrl.detailViewHeader);
                     ctrl.detailViewHeader.style.opacity = '0';
                     ctrl.detailViewContent.style.display = '';
                     ctrl.detailView.classList.add('visible');
 
-                    //WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, 700, { delay: 470 });
+                    WinJSContrib.UI.Animation.fadeOut(ctrl.masterView, 100).then(function () {
+                        ctrl.masterView.style.opacity = '';
+                        ctrl.masterView.classList.remove('visible');
+                    }).then(function () {
 
-                    return morph.apply({ duration: 400 }).then(function () {
-                        return ctrl._loadDetailContent(options.uri, data, options).then(function () {
+                        //WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, 700, { delay: 470 });
+                        return morph.apply({ duration: 350 }).then(function () {
+                            return ctrl._loadDetailContent(options.uri, data, options);
+                        }).then(function(){
                             WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, 700);
                             ctrl.detailViewHeader.style.opacity = '';
-                            return morph.fadeOut(250);
+                            return morph.fadeOut(200);
                         });
                     });
                 });
@@ -229,8 +229,8 @@
                 }).then(function () {
                     ctrl.masterView.classList.add('visible');
                     ctrl.masterView.style.opacity = '0';
-                    
-                    return morph.revert({ duration: 250 });                    
+
+                    return morph.revert({ duration: 250 });
                 }).then(function () {
                     return WinJSContrib.UI.Animation.fadeIn(ctrl.masterView, 300, { easing: 'ease-in' });
                 }).then(function () {
@@ -240,7 +240,7 @@
                     ctrl.detailView.style.opacity = '';
                     ctrl._clearDetailContent();
                     morph.dispose();
-                    
+
                 });
             },
 
@@ -258,7 +258,7 @@
             },
 
             returnToMaster: function (arg) {
-                var ctrl = this;                                
+                var ctrl = this;
 
                 if (arg) arg.handled = true;
 
