@@ -16,7 +16,7 @@ function registerSection(page, classname) {
     }
 
     $('.feature', page.element).tap(function (elt) {
-        
+
         var target = $(elt).data('target');
         var args = $(elt).data('target-args') || {};
         var weblink = $(elt).data('weblink');
@@ -90,7 +90,7 @@ function getApiDoc() {
 
                 if (res)
                     return res;
-                else
+                else if (currentnode != winjscontribApiDoc)
                     return currentnode;
             }
 
@@ -114,7 +114,7 @@ function nameSort(a, b) {
 function renderClass(apiDoc, withname) {
     var elt = document.createElement("DIV");
     elt.className = 'apidoc-class';
-    
+
     if (withname) {
         var desc = document.createElement("DIV");
         desc.className = 'apidoc-classname';
@@ -182,8 +182,8 @@ function renderFunctionName(apiDoc) {
 
     apiDoc.parameters.forEach(function (p, index) {
         if (index > 0)
-            name+= ', ';
-        
+            name += ', ';
+
         name += p.name;
 
         //if (p.type) {
@@ -216,7 +216,7 @@ function renderFunction(apiDoc, withname) {
     return elt;
 }
 
-var linksBlackList = ['object', 'string', 'number', 'array'];
+var linksBlackList = ['object', 'htmlelement', 'element', 'string', 'number', 'array'];
 
 function renderLinkTo(target) {
     var targetElt = null;
@@ -236,7 +236,17 @@ function renderDescription(apiDoc, elt) {
     if (apiDoc.description) {
         var desc = document.createElement("DIV");
         desc.className = 'apidoc-description';
-        desc.innerHTML = apiDoc.description;
+        var descContent = apiDoc.description;
+        var idx = -1;
+        while ((idx = descContent.indexOf('{@link')) >= 0) {
+            var endIdx = descContent.indexOf('}', idx + 1);
+            var target = descContent.substr(idx + 6, endIdx - idx - 6).trim();
+            var firstPart = descContent.substr(0, idx);
+            var lastPart = descContent.substr(endIdx + 1, descContent.length - endIdx);
+            descContent = firstPart + renderLinkTo(target) + lastPart;
+        }
+
+        desc.innerHTML = descContent;
         elt.appendChild(desc);
     }
 }
@@ -255,7 +265,7 @@ function renderFunctionParams(apiDoc, container) {
 
 function renderExamples(apiDoc, container) {
     if (apiDoc.examples && apiDoc.examples.length) {
-        
+
     }
 }
 
