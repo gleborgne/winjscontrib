@@ -85,18 +85,32 @@
         },
 
         renderMembers: function (root, rootPath) {
-            var page = this;
-            if (root && root.members && root.members.length) {
+            var page = this;           
+
+            if (root && ((root.members && root.members.length) || (root.properties && root.properties.length))) {
                 var membersContainer = page.q("#sectionMembers .mcn-hub-section-content");
-                root.members.forEach(function (ns) {
-                    var elt = document.createElement('div');
-                    elt.className = 'feature obj-function';
-                    elt.setAttribute("data-target", "./demos/apidoc/root.html");
-                    elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "member"}');
-                    elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + ns.description + '</div>'
-                    membersContainer.appendChild(elt);
-                    //namespacesContainer.winControl.layout();
-                });
+                if (root.members){
+                    root.members.forEach(function (ns) {
+                        var elt = document.createElement('div');
+                        elt.className = 'feature obj-function';
+                        elt.setAttribute("data-target", "none");
+                        //elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "member"}');
+                        elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + ns.description + '</div>'
+                        membersContainer.appendChild(elt);
+                        //namespacesContainer.winControl.layout();
+                    });
+                }
+                if (root.properties){
+                    root.properties.forEach(function (ns) {
+                        var elt = document.createElement('div');
+                        elt.className = 'feature obj-function';
+                        elt.setAttribute("data-target", "none");
+                        //elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "member"}');
+                        elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + ns.description + '</div>'
+                        membersContainer.appendChild(elt);
+                        //namespacesContainer.winControl.layout();
+                    });
+                }
             } else {
                 page.$("#sectionMembers").hide();
             }

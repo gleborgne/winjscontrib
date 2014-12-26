@@ -2284,7 +2284,23 @@
                                     "name": "Easings",
                                     "description": "",
                                     "access": "",
-                                    "virtual": false
+                                    "virtual": false,
+                                    "properties": [
+                                        {
+                                            "name": "easeInQuad",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "Quad ease in",
+                                            "type": ""
+                                        },
+                                        {
+                                            "name": "easeInCubic",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "Cubic ease in",
+                                            "type": ""
+                                        }
+                                    ]
                                 }
                             ],
                             "functions": [

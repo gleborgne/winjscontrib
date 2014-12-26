@@ -3,3 +3,23 @@
 .section-apidoc {
     .featuresection(@color-apidoc);
 }
+
+#sectionNamespaces {
+    .feature {
+        width: 400px;
+    }
+}
+
+@media screen and (orientation: portrait){
+    #sectionNamespaces {
+    .feature {
+        width: 100%;
+
+        .title{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;            
+        }
+    }
+}
+}

@@ -1,4 +1,5 @@
-﻿(function () {
+﻿/// <reference path="../../../scripts/sampleapp.js" />
+(function () {
     "use strict";
 
     WinJS.UI.Pages.define("/demos/apidoc/classView/classView.html", {
@@ -21,7 +22,11 @@
             var page = this;
             page.$('.pagetitle').text(page.rootPath);
             var container = page.q('section[role=main]');
-            container.appendChild(renderClass(page.apiDoc));
+            if (page.apiDoc.parameters) {
+                container.appendChild(renderFunction(page.apiDoc, true));
+            } else {
+                container.appendChild(renderClass(page.apiDoc));
+            }
         },
 
         ready: function (element, options) {

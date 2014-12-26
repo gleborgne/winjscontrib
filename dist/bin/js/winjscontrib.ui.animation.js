@@ -15,7 +15,13 @@ WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
  * @namespace
  */
 WinJSContrib.UI.Animation.Easings = {
+    /**
+     * Quad ease in
+     */
     easeInQuad: 'cubic-bezier(0.550, 0.085, 0.680, 0.530)',
+    /**
+     * Cubic ease in
+     */
     easeInCubic: 'cubic-bezier(0.550, 0.055, 0.675, 0.190)',
     easeInQuart: 'cubic-bezier(0.895, 0.030, 0.685, 0.220)',
     easeInQuint: 'cubic-bezier(0.755, 0.050, 0.855, 0.060)',
