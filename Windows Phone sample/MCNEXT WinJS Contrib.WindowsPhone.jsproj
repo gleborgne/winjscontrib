@@ -92,6 +92,9 @@
     <Content Include="pages\home\home.js" />
     <Content Include="pages\home\home.less" />
     <Content Include="pages\mainmenu\mainmenu.css" />
+    <Content Include="pages\mainmenu\mainmenu.css.map">
+      <DependentUpon>mainmenu.css</DependentUpon>
+    </Content>
     <Content Include="pages\mainmenu\mainmenu.html" />
     <Content Include="pages\mainmenu\mainmenu.js" />
     <Content Include="pages\mainmenu\mainmenu.less" />

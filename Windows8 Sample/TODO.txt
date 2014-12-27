@@ -1,6 +1,6 @@
 ﻿bouton close dans childview
 gestion back dans sample navigator
-finaliser layout phone
+afficher exemples dans la doc
 samples navigator
 codeview -> fichiers additionnels
 
