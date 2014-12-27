@@ -37,19 +37,21 @@
                 options = options || {};
                 ctrl.sourcePosition = WinJSContrib.UI.offsetFrom(elt);
                 ctrl._renderMenu(options.items || ctrl.items);
-                setImmediate(function () {
+                ctrl.currentElements.overlay.style.opacity = '0';
+                ctrl.currentElements.root.style.opacity = '';
+                WinJSContrib.UI.Animation.fadeIn(ctrl.currentElements.overlay, 400);
+
+                //setImmediate(function () {
                     ctrl._layoutItems(options.placement || ctrl.placement, options.fillmode || ctrl.fillmode);
 
-                    ctrl.currentElements.overlay.style.opacity = '0';
-                    ctrl.currentElements.root.style.opacity = '';
-                    WinJSContrib.UI.Animation.fadeIn(ctrl.currentElements.overlay, 90);
+                    
 
                     var itemsToShow = ctrl.currentElements.items.map(function (e) {
                         return e.element;
                     });
 
-                    WinJSContrib.UI.Animation.enterGrow(itemsToShow, 200, { itemdelay: 20, maxdelay: 150, easing: WinJSContrib.UI.Animation.Easings.easeOutBack });
-                });
+                    WinJSContrib.UI.Animation.enterGrow(itemsToShow, 300, { itemdelay: 15, maxdelay: 150, exagerated:true, easing: WinJSContrib.UI.Animation.Easings.easeOutBack });
+                //});
             },
 
             hide: function (clickedElement) {
@@ -70,9 +72,9 @@
                     }
 
                     var p = [];
-                    p.push(WinJSContrib.UI.Animation.fadeOut(elements.overlay, 160));
-                    p.push(WinJSContrib.UI.Animation.exitShrink(clickedElement, 260, { delay: 140, easing: WinJSContrib.UI.Animation.Easings.easeInBack }));
-                    p.push(WinJSContrib.UI.Animation.exitShrink(itemsToHide, 160, { itemdelay: 20, maxdelay: 100, easing: WinJSContrib.UI.Animation.Easings.easeInBack }));
+                    p.push(WinJSContrib.UI.Animation.fadeOut(elements.overlay, 160, { delay: 100 }));
+                    p.push(WinJSContrib.UI.Animation.exitShrink(clickedElement, 260, { exagerated: true, delay: 140, easing: WinJSContrib.UI.Animation.Easings.easeInBack }));
+                    p.push(WinJSContrib.UI.Animation.exitShrink(itemsToHide, 160, { exagerated: true, itemdelay: 20, maxdelay: 100, easing: WinJSContrib.UI.Animation.Easings.easeInBack }));
                     
                     WinJS.Promise.join(p).then(function () {
                         $(elements.root).remove();
@@ -150,7 +152,7 @@
                     '<defs>' +
                         '<mask id="maskrect">' +
                             '<rect fill="white" x="0" y="0" width="100%" height="100%"></rect>' +
-                            '<rect fill="black" x="' + ctrl.sourcePosition.x + '" y="' + ctrl.sourcePosition.y + '" width="' + ctrl.sourcePosition.width + '" height="' + ctrl.sourcePosition.height + '"></rect>' +
+                            '<rect fill="black" x="' + (ctrl.sourcePosition.x) + '" y="' + (ctrl.sourcePosition.y) + '" width="' + (ctrl.sourcePosition.width) + '" height="' + (ctrl.sourcePosition.height) + '"></rect>' +
                         '</mask>' +
                     '</defs>' +
                     '<rect class="bg" x="0" y="0" width="100%" height="100%" mask="url(&quot;#maskrect&quot;)"></rect>' +
@@ -161,34 +163,47 @@
             _layoutItems: function (placement, fillmode) {
                 var ctrl = this;
                 placement = placement || 'right';
-                fillmode = fillmode || 'clockwise';
+                fillmode = fillmode || 'clockwise';                
 
-                var directions = ['right', 'bottom', 'left', 'top'];
-                if (fillmode == 'clockwise') {
-                    if (placement == 'top') directions = ['top', 'right', 'bottom', 'left'];
-                    if (placement == 'right') directions = ['right', 'bottom', 'left', 'top'];
-                    if (placement == 'bottom') directions = ['bottom', 'left', 'top', 'right'];
-                    if (placement == 'left') directions = ['left', 'top', 'right', 'bottom'];
+                
+                if (fillmode == 'stack') {
+                    ctrl._checkStack(placement);
+                } else {                    
+                    var directions = ['right', 'bottom', 'left', 'top'];
+                    
+                    if (fillmode == 'clockwise') {
+                        if (placement == 'top') directions = ['top', 'right', 'bottom', 'left'];
+                        if (placement == 'right') directions = ['right', 'bottom', 'left', 'top'];
+                        if (placement == 'bottom') directions = ['bottom', 'left', 'top', 'right'];
+                        if (placement == 'left') directions = ['left', 'top', 'right', 'bottom'];
+                    }
+                    else if (fillmode == 'counterclockwise') {
+                        if (placement == 'top') directions = ['top', 'left', 'bottom', 'right'];
+                        if (placement == 'right') directions = ['right', 'top', 'left', 'bottom'];
+                        if (placement == 'bottom') directions = ['bottom', 'right', 'top', 'left'];
+                        if (placement == 'left') directions = ['left', 'bottom', 'right', 'top'];
+                    }
+
+                    directions.current = -1;
+                    ctrl._checkLayoutDirection(0, directions);
                 }
-                else if (fillmode == 'counterclockwise') {
-                    if (placement == 'top') directions = ['top', 'left', 'bottom', 'right'];
-                    if (placement == 'right') directions = ['right', 'top', 'left', 'bottom'];
-                    if (placement == 'bottom') directions = ['bottom', 'right', 'top', 'left'];
-                    if (placement == 'left') directions = ['left', 'bottom', 'right', 'top'];
+            },
+
+            _checkStack: function (placement) {
+                var ctrl = this;
+                if (placement == 'auto') {
+                    placement = 'right';
                 }
 
-                directions.current = -1;
-
-                ctrl._checkLayoutDirection(0, directions);
-
-                //var offsetTop = ctrl.sourcePosition.y;
-                //var offsetLeft = ctrl.sourcePosition.x + ctrl.sourcePosition.width + ctrl._space;
-
-                //ctrl.currentElements.items.forEach(function (item) {
-                //    item.element.style.left = offsetLeft + 'px';
-                //    item.element.style.top = offsetTop + 'px';
-                //    offsetTop += item.element.clientHeight + ctrl.space;
-                //});
+                if (placement == 'right') {
+                    ctrl._stackRight();
+                } else if (placement == 'left') {
+                    ctrl._stackLeft();
+                } else if (placement == 'top') {
+                    ctrl._stackTop();
+                } else if (placement == 'bottom') {
+                    ctrl._stackBottom();
+                }
             },
 
             _checkLayoutDirection: function (idx, directions) {
@@ -337,6 +352,126 @@
                     if (parseInt(offsetLeft + nextitemW + ctrl.space + 1, 10) < parseInt(ctrl.sourcePosition.x, 10)) {
                         ctrl._checkLayoutDirection(i+1, directions);
                         break;
+                    }
+                }
+            },
+
+            _stackRight: function () {
+                var ctrl = this;
+                var offsetX = ctrl.sourcePosition.x + ctrl.sourcePosition.width + ctrl._space;
+                var offsetY = ctrl.sourcePosition.y;
+                var maxW = 0;
+                var maxY = ctrl.sourcePosition.y + ctrl.sourcePosition.height;
+
+                for (var i = 0 ; i < ctrl.currentElements.items.length; i++) {
+                    var item = ctrl.currentElements.items[i];
+                    var nextitem = ctrl.currentElements.items[i + 1];
+                    var nextitemH = 0;
+                    if (nextitem)
+                        nextitemH = nextitem.element.clientHeight;
+
+                    item.element.style.left = offsetX + 'px';
+                    item.element.style.top = offsetY + 'px';
+
+                    if (item.element.clientWidth > maxW) {
+                        maxW = item.element.clientWidth;
+                    }
+
+                    offsetY += item.element.clientHeight + ctrl._space;
+                    if (offsetY + nextitemH > maxY) {
+                        offsetX += maxW + ctrl._space;
+                        offsetY = ctrl.sourcePosition.y;
+                        maxW = 0;
+                    }
+                }
+            },
+
+            _stackLeft: function () {
+                var ctrl = this;
+                var offsetX = ctrl.sourcePosition.x - ctrl._space;
+                var offsetY = ctrl.sourcePosition.y;
+                var maxW = 0;
+                var maxY = ctrl.sourcePosition.y + ctrl.sourcePosition.height;
+
+                for (var i = 0 ; i < ctrl.currentElements.items.length; i++) {
+                    var item = ctrl.currentElements.items[i];
+                    var nextitem = ctrl.currentElements.items[i + 1];
+                    var nextitemH = 0;
+                    if (nextitem)
+                        nextitemH = nextitem.element.clientHeight;
+
+                    item.element.style.left = (offsetX - item.element.clientWidth) + 'px';
+                    item.element.style.top = offsetY + 'px';
+
+                    if (item.element.clientWidth > maxW) {
+                        maxW = item.element.clientWidth;
+                    }
+
+                    offsetY += item.element.clientHeight + ctrl._space;
+                    if (offsetY + nextitemH > maxY) {
+                        offsetX -= maxW + ctrl._space;
+                        offsetY = ctrl.sourcePosition.y;
+                        maxW = 0;
+                    }
+                }
+            },
+
+            _stackBottom: function () {
+                var ctrl = this;
+                var offsetX = ctrl.sourcePosition.x;
+                var offsetY = ctrl.sourcePosition.y + ctrl.sourcePosition.height + ctrl._space;
+                var maxH = 0;
+                var maxX = ctrl.sourcePosition.x + ctrl.sourcePosition.width;
+
+                for (var i = 0 ; i < ctrl.currentElements.items.length; i++) {
+                    var item = ctrl.currentElements.items[i];
+                    var nextitem = ctrl.currentElements.items[i + 1];
+                    var nextitemW = 0;
+                    if (nextitem)
+                        nextitemW = nextitem.element.clientWidth;
+
+                    item.element.style.left = offsetX + 'px';
+                    item.element.style.top = offsetY + 'px';
+
+                    if (item.element.clientHeight > maxH) {
+                        maxH = item.element.clientHeight;
+                    }
+
+                    offsetX += item.element.clientWidth + ctrl._space;
+                    if (offsetX + nextitemW > maxX) {
+                        offsetX = ctrl.sourcePosition.x;
+                        offsetY += maxH + ctrl._space;
+                        maxH = 0;
+                    }
+                }
+            },
+
+            _stackTop: function () {
+                var ctrl = this;
+                var offsetX = ctrl.sourcePosition.x;
+                var offsetY = ctrl.sourcePosition.y - ctrl._space;
+                var maxH = 0;
+                var maxX = ctrl.sourcePosition.x + ctrl.sourcePosition.width;
+
+                for (var i = 0 ; i < ctrl.currentElements.items.length; i++) {
+                    var item = ctrl.currentElements.items[i];
+                    var nextitem = ctrl.currentElements.items[i + 1];
+                    var nextitemW = 0;
+                    if (nextitem)
+                        nextitemW = nextitem.element.clientWidth;
+
+                    item.element.style.left = offsetX + 'px';
+                    item.element.style.top = (offsetY - item.element.clientHeight) + 'px';
+
+                    if (item.element.clientHeight > maxH) {
+                        maxH = item.element.clientHeight;
+                    }
+
+                    offsetX += item.element.clientWidth + ctrl._space;
+                    if (offsetX + nextitemW > maxX) {
+                        offsetX = ctrl.sourcePosition.x;
+                        offsetY -= maxH + ctrl._space;
+                        maxH = 0;
                     }
                 }
             },
