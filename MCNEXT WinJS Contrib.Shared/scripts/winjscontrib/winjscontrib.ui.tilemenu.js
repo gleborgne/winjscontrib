@@ -12,6 +12,15 @@
             this.element.classList.add('mcn-tilemenu');
             this.element.style.display = 'none';
             this._space = 10;
+
+            this.offsets = {
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                preferred : ''
+            }
+
             WinJS.UI.setOptions(this, options);
         }, {
             itemTemplate: {
@@ -32,10 +41,47 @@
                 }
             },
 
+            _calcOffsets: function () {
+                var ctrl = this;
+                ctrl.offsets.left = ctrl.sourcePosition.x;
+                ctrl.offsets.top = ctrl.sourcePosition.y;
+                ctrl.offsets.right = document.body.clientWidth - (ctrl.sourcePosition.x + ctrl.sourcePosition.width);
+                ctrl.offsets.bottom = document.body.clientHeight - (ctrl.sourcePosition.y + ctrl.sourcePosition.height);
+                ctrl.offsets.preferred = '';
+
+                if (ctrl.offsets.left < 0 || ctrl.offsets.right < 0 || ctrl.offsets.top < 0 || ctrl.offsets.bottom < 0) {
+                    if (ctrl.offsets.left < 0 || ctrl.offsets.right < 0) {
+                        if (ctrl.offsets.right > 0) {
+                            ctrl.offsets.preferred = 'right';
+                        } else {
+                            ctrl.offsets.preferred = 'left';
+                        }
+                    } else {
+                        if (ctrl.offsets.top > 0) {
+                            ctrl.offsets.preferred = 'top';
+                        } else {
+                            ctrl.offsets.preferred = 'bottom';
+                        }
+                    }
+                } else {
+                    if (ctrl.offsets.left > ctrl.offsets.top && ctrl.offsets.left > ctrl.offsets.bottom && ctrl.offsets.left > ctrl.offsets.right) {
+                        ctrl.offsets.preferred = 'left';
+                    } else if (ctrl.offsets.right > ctrl.offsets.top && ctrl.offsets.right > ctrl.offsets.bottom && ctrl.offsets.right > ctrl.offsets.left) {
+                        ctrl.offsets.preferred = 'right';
+                    } else if (ctrl.offsets.top > ctrl.offsets.right && ctrl.offsets.top > ctrl.offsets.bottom && ctrl.offsets.top > ctrl.offsets.left) {
+                        ctrl.offsets.preferred = 'top';
+                    } else if (ctrl.offsets.bottom > ctrl.offsets.right && ctrl.offsets.bottom > ctrl.offsets.top && ctrl.offsets.bottom > ctrl.offsets.left) {
+                        ctrl.offsets.preferred = 'bottom';
+                    }
+                }
+
+            },
+
             show: function (elt, options) {
                 var ctrl = this;
                 options = options || {};
                 ctrl.sourcePosition = WinJSContrib.UI.offsetFrom(elt);
+                ctrl._calcOffsets();
                 ctrl._renderMenu(options.items || ctrl.items);
                 ctrl.currentElements.overlay.style.opacity = '0';
                 ctrl.currentElements.root.style.opacity = '';
@@ -162,8 +208,8 @@
 
             _layoutItems: function (placement, fillmode) {
                 var ctrl = this;
-                placement = placement || 'right';
-                fillmode = fillmode || 'clockwise';                
+                placement = placement || 'auto';
+                fillmode = fillmode || 'stack';                
 
                 
                 if (fillmode == 'stack') {
@@ -191,8 +237,31 @@
 
             _checkStack: function (placement) {
                 var ctrl = this;
+
+                var getPlacement = function () {
+                    if (ctrl.offsets.preferred && ctrl.offsets.preferred.length) {
+                        return ctrl.offsets.preferred;
+                    } else {
+                        if (ctrl.offsets.left > 0 && ctrl.offsets.right > 0) {
+                            if (ctrl.offsets.top > ctrl.offsets.bottom) {
+                                return 'top';
+                            } else {
+                                return 'bottom';
+                            }
+                        } else {
+                            if (ctrl.offsets.left > ctrl.offsets.right) {
+                                return 'left';
+                            } else {
+                                return 'right';
+                            }
+                        }
+                    }
+
+                    return 'top';
+                }
+
                 if (placement == 'auto') {
-                    placement = 'right';
+                    placement = getPlacement();
                 }
 
                 if (placement == 'right') {
