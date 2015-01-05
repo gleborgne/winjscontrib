@@ -11,7 +11,8 @@
             /**
              * @class WinJSContrib.UI.DataForm
              * @classdesc
-             * This control enhance data form management by adding validation mecanism and form state helpers. It must be placed on a form element
+             * This control enhance data form management by adding validation mecanism and form state helpers. It must be placed on a form element.
+             * Input fields must use {@link WinJSContrib.UI.DataFormBinding} to bind object properties to input
              * @param {HTMLElement} element DOM element containing the control
              * @param {Object} options
              */

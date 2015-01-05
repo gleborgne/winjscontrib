@@ -336,22 +336,28 @@ WinJSContrib.UI.Animation.Easings = {
     WinJSContrib.UI.Animation.exitGrow = function (element, duration, options) {
         var offsetArray;
         options = options || {};
+        var keyframeName = "WinJSContrib-exitGrow";
+        if (options.exagerated) {
+            keyframeName += '-exagerated';
+        }
         var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
+        var dur = duration || options.duration || 300;
+
         var promise1 = WinJS.UI.executeAnimation(
             element,
             {
-                keyframe: "WinJSContrib-exitGrow",
+                keyframe: keyframeName,
                 property: equivalents.transform.cssName,
                 delay: stagger,
-                duration: duration || options.duration || 300,
+                duration: dur,
                 timing: options.easing || "ease-in"
             });
         var promise2 = WinJS.UI.executeTransition(
             element,
             {
                 property: "opacity",
-                delay: stagger,
-                duration: duration || options.duration || 300,
+                delay: (3* dur / 4) + +(options.delay != undefined ? options.delay : 10),
+                duration: (dur / 4),
                 timing: options.easing || "ease-in",
                 from: 1,
                 to: 0
@@ -368,22 +374,29 @@ WinJSContrib.UI.Animation.Easings = {
     WinJSContrib.UI.Animation.exitShrink = function (element, duration, options) {
         var offsetArray;
         options = options || {};
+        var keyframeName = "WinJSContrib-exitShrink";
+        if (options.exagerated) {
+            keyframeName += '-exagerated';
+        }
+        var dur = duration || options.duration || 300;
         var stagger = staggerDelay(options.delay != undefined ? options.delay : 10, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
         var promise1 = WinJS.UI.executeAnimation(
             element,
             {
-                keyframe: "WinJSContrib-exitShrink",
+                keyframe: keyframeName,
                 property: equivalents.transform.cssName,
                 delay: stagger,
-                duration: duration || options.duration || 160,
+                duration: dur,
                 timing: options.easing || "ease-in"
             });
+        
+
         var promise2 = WinJS.UI.executeTransition(
             element,
             {
                 property: "opacity",
-                delay: stagger,
-                duration: duration || options.duration || 160,
+                delay: (3 * dur / 4) + (options.delay != undefined ? options.delay : 10),
+                duration: (dur / 4),
                 timing: "ease-in",
                 from: 1,
                 to: 0
@@ -400,21 +413,22 @@ WinJSContrib.UI.Animation.Easings = {
         var offsetArray;
         var options = options || {};
         var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
+        var dur = options.duration || 300;
         var promise1 = WinJS.UI.executeAnimation(
             element,
             {
                 keyframe: "WinJSContrib-shrinkAndFall",
                 property: equivalents.transform.cssName,
                 delay: stagger,
-                duration: options.duration || 250,
+                duration: dur,
                 timing: options.easing || "ease-in"
             });
         var promise2 = WinJS.UI.executeTransition(
             element,
             {
                 property: "opacity",
-                delay: stagger,
-                duration: options.duration || 250,
+                delay: (dur/2)+stagger,
+                duration: dur / 2,
                 timing: "ease-in",
                 from: 1,
                 to: 0
@@ -431,6 +445,11 @@ WinJSContrib.UI.Animation.Easings = {
     WinJSContrib.UI.Animation.enterShrink = function (element, duration, options) {
         var offsetArray;
         options = options || {};
+        var keyframeName = "WinJSContrib-enterShrink";
+        if (options.exagerated) {
+            keyframeName += '-exagerated';
+        }
+        var dur = duration || options.duration || 300;
         var stagger = staggerDelay(
             options.delay != undefined ? options.delay : 5,
             options.itemdelay != undefined ? options.itemdelay : 83,
@@ -440,10 +459,10 @@ WinJSContrib.UI.Animation.Easings = {
         var promise1 = WinJS.UI.executeAnimation(
             element,
             {
-                keyframe: "WinJSContrib-enterShrink",
+                keyframe: keyframeName,
                 property: equivalents.transform.cssName,
                 delay: stagger,
-                duration: duration || options.duration || 350,
+                duration: dur,
                 timing: options.easing || "ease-out"
             });
 
@@ -452,7 +471,7 @@ WinJSContrib.UI.Animation.Easings = {
             {
                 property: "opacity",
                 delay: stagger,
-                duration: duration || options.duration || 300,
+                duration: dur/3,
                 timing: options.easing || "ease-out",
                 from: 0,
                 to: 1
@@ -469,6 +488,12 @@ WinJSContrib.UI.Animation.Easings = {
     WinJSContrib.UI.Animation.enterGrow = function (element, duration, options) {
         var offsetArray;
         options = options || {};
+        var keyframeName = "WinJSContrib-enterGrow";
+        if (options.exagerated) {
+            keyframeName += '-exagerated';
+        }
+        var dur = duration || options.duration || 300;
+
         var stagger = staggerDelay(
             options.delay != undefined ? options.delay : 5,
             options.itemdelay != undefined ? options.itemdelay : 83,
@@ -478,10 +503,10 @@ WinJSContrib.UI.Animation.Easings = {
         var promise1 = WinJS.UI.executeAnimation(
             element,
             {
-                keyframe: "WinJSContrib-enterGrow",
+                keyframe: keyframeName,
                 property: equivalents.transform.cssName,
                 delay: stagger,
-                duration: duration || options.duration || 350,
+                duration: dur,
                 timing: options.easing || "ease-out"
             });
 
@@ -490,7 +515,7 @@ WinJSContrib.UI.Animation.Easings = {
             {
                 property: "opacity",
                 delay: stagger,
-                duration: duration || options.duration || 300,
+                duration: dur/3,
                 timing: "ease-out",
                 from: 0,
                 to: 1

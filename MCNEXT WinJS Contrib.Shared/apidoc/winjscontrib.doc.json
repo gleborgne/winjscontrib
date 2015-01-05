@@ -1395,7 +1395,7 @@
                         },
                         {
                             "name": "DataForm",
-                            "description": "This control enhance data form management by adding validation mecanism and form state helpers. It must be placed on a form element",
+                            "description": "This control enhance data form management by adding validation mecanism and form state helpers. It must be placed on a form element.\rInput fields must use {@link WinJSContrib.UI.DataFormBinding} to bind object properties to input",
                             "extends": [],
                             "access": "",
                             "virtual": false,
@@ -2271,6 +2271,39 @@
                                 ],
                                 "examples": []
                             }
+                        },
+                        {
+                            "name": "SmartListLayout",
+                            "description": "",
+                            "extends": [],
+                            "access": "",
+                            "virtual": false,
+                            "fires": "",
+                            "constructor": {
+                                "name": "SmartListLayout",
+                                "description": "",
+                                "parameters": [
+                                    {
+                                        "name": "element",
+                                        "type": "HTMLElement",
+                                        "description": "DOM element containing the control",
+                                        "default": "",
+                                        "optional": "",
+                                        "nullable": ""
+                                    },
+                                    {
+                                        "name": "options",
+                                        "type": "Object",
+                                        "description": "",
+                                        "default": "",
+                                        "optional": "",
+                                        "nullable": ""
+                                    }
+                                ],
+                                "examples": [
+                                    "<div id=\"mylistview\" data-win-control=\"WinJS.UI.ListView\" data-win-options=\"{\r    itemTemplate: select('#listitemtemplate'),\r    itemDataSource: DummyDataSource\r }\"></div>\r\r<div id=\"listlayout\" data-win-control=\"WinJSContrib.UI.SmartListLayout\" data-win-options=\"{\r        listView: select('#mylistview'),\r        layouts:{\r            default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},\r            vert : { layout : WinJS.UI.GridLayout, query: '(orientation: portrait) and (min-width: 600px)', options: { orientation : 'vertical'}},\r            snap : { layout : WinJS.UI.ListLayout, query: '(orientation: portrait) and (max-width: 600px)'},\r        }\r}\"></div>"
+                                ]
+                            }
                         }
                     ],
                     "namespaces": [
@@ -2864,43 +2897,67 @@
                                             "name": "defaultGroupLimit",
                                             "access": "",
                                             "virtual": false,
-                                            "description": "",
-                                            "type": ""
+                                            "description": "no grouping if items.length < defaultGroupLimit",
+                                            "type": {
+                                                "names": [
+                                                    "number"
+                                                ]
+                                            }
                                         },
                                         {
                                             "name": "groupKind",
                                             "access": "",
                                             "virtual": false,
-                                            "description": "",
-                                            "type": ""
+                                            "description": "groupKind grouping manager function",
+                                            "type": {
+                                                "names": [
+                                                    "function"
+                                                ]
+                                            }
                                         },
                                         {
                                             "name": "listview",
                                             "access": "",
                                             "virtual": false,
-                                            "description": "",
-                                            "type": ""
+                                            "description": "items listview",
+                                            "type": {
+                                                "names": [
+                                                    "WinJS.UI.ListView"
+                                                ]
+                                            }
                                         },
                                         {
                                             "name": "groupedList",
                                             "access": "",
                                             "virtual": false,
-                                            "description": "",
-                                            "type": ""
+                                            "description": "listview for grouped items",
+                                            "type": {
+                                                "names": [
+                                                    "WinJS.UI.ListView"
+                                                ]
+                                            }
                                         },
                                         {
                                             "name": "filter",
                                             "access": "",
                                             "virtual": false,
-                                            "description": "",
-                                            "type": ""
+                                            "description": "item filter callback",
+                                            "type": {
+                                                "names": [
+                                                    "function"
+                                                ]
+                                            }
                                         },
                                         {
                                             "name": "items",
                                             "access": "",
                                             "virtual": false,
-                                            "description": "",
-                                            "type": ""
+                                            "description": "data items",
+                                            "type": {
+                                                "names": [
+                                                    "Array"
+                                                ]
+                                            }
                                         }
                                     ],
                                     "functions": [

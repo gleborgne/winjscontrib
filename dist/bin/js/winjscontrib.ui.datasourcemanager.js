@@ -63,7 +63,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         },
 
         /**
-         * @property {number} defaultGroupLimit no grouping if items.length < defaultGroupLimit
+         * no grouping if items.length < defaultGroupLimit
+         * @field
+         * @type number
          */
         defaultGroupLimit: {
             get: function () {
@@ -75,7 +77,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         },
 
         /**
-         * @property {function} groupKind grouping manager function
+         * groupKind grouping manager function
+         * @field
+         * @type function
          */
         groupKind: {
             get: function () {
@@ -91,7 +95,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         },
 
         /**
-         * @property {WinJS.UI.ListView} listview items listview
+         * items listview
+         * @field
+         * @type WinJS.UI.ListView
          */
         listview: {
             get: function () {
@@ -107,7 +113,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         },
 
         /**
-         * @property {WinJS.UI.ListView} groupedList listview for grouped items 
+         * listview for grouped items
+         * @field
+         * @type WinJS.UI.ListView
          */
         groupedList: {
             get: function () {
@@ -119,7 +127,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         },
 
         /**
-         * @property {function} filter item filter callback
+         * item filter callback
+         * @field
+         * @type function
          */
         filter: {
             get: function () {
@@ -138,7 +148,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         },
 
         /**
-         * @property {Array} items data items
+         * data items
+         * @field
+         * @type Array
          */
         items: {
             get: function () {

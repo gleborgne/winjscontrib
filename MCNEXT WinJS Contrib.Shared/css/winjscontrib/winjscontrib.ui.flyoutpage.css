@@ -7,7 +7,8 @@
   /*visibility: hidden;*/
 }
 .mcn-flyoutpage.visible {
-  left: 0;
+  left: 0 !important;
+  top: 0 !important;
 }
 .mcn-flyoutpage .mcn-flyoutpage-area {
   position: relative;
@@ -102,11 +103,17 @@
   left: 0;
   top: 0;
 }
+.mcn-flyoutpage.partial-bottom {
+  top: 100%;
+}
 .mcn-flyoutpage.partial-bottom > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper {
   height: 70%;
   left: 0;
   right: 0;
   bottom: 0;
+}
+.mcn-flyoutpage.partial-top {
+  top: -100%;
 }
 .mcn-flyoutpage.partial-top > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper {
   height: 70%;

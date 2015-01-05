@@ -9,7 +9,25 @@
 
     WinJS.Namespace.define("WinJSContrib.UI", {
         SmartListLayout: WinJS.Class.define(
-            
+            /**
+             * @class WinJSContrib.UI.SmartListLayout
+             * @param {HTMLElement} element DOM element containing the control
+             * @param {Object} options
+             * @example
+             *  <div id="mylistview" data-win-control="WinJS.UI.ListView" data-win-options="{
+             *      itemTemplate: select('#listitemtemplate'),
+             *      itemDataSource: DummyDataSource
+             *   }"></div>
+             * 
+             *  <div id="listlayout" data-win-control="WinJSContrib.UI.SmartListLayout" data-win-options="{
+             *          listView: select('#mylistview'),
+             *          layouts:{
+             *              default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},
+             *              vert : { layout : WinJS.UI.GridLayout, query: '(orientation: portrait) and (min-width: 600px)', options: { orientation : 'vertical'}},
+             *              snap : { layout : WinJS.UI.ListLayout, query: '(orientation: portrait) and (max-width: 600px)'},
+             *          }
+             * }"></div>
+             */
             function ctor(element, options) {
                 this._element = element || document.createElement("div");
                 this._element.className = this._element.className + ' win-disposable mcn-layout-ctrl';
@@ -22,6 +40,9 @@
                     this.applyPendingLayout();
                 }
             },
+            /**
+             * @lends WinJSContrib.UI.SmartListLayout
+             */
             {
                 listView: {
                     get: function () {
@@ -34,6 +55,7 @@
                             this._listview = val;
                     }
                 },
+
                 initQueries: function (layouts) {
                     var ctrl = this;
                     for (var name in layouts) {
