@@ -25,7 +25,7 @@
             if (page.apiDoc.parameters) {
                 container.appendChild(renderFunction(page.apiDoc, true));
             } else {
-                container.appendChild(renderClass(page.apiDoc));
+                container.appendChild(renderClass(page.apiDoc, false, page.rootPath));
             }
             $('a', container).click(function (elt) {
                 var target = $(elt.currentTarget).attr('data-linkTo');

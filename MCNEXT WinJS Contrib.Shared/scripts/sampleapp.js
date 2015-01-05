@@ -111,7 +111,7 @@ function nameSort(a, b) {
     return 0;
 }
 
-function renderClass(apiDoc, withname) {
+function renderClass(apiDoc, withname, fullpath) {
     var elt = document.createElement("DIV");
     elt.className = 'apidoc-class';
 
@@ -173,8 +173,18 @@ function renderClass(apiDoc, withname) {
     }
 
     if (apiDoc.classes) {
+        var fn = document.createElement("DIV");
+        fn.className = 'apidoc-classes';
+        fn.innerHTML = '<h3>child classes</h3>';
+        elt.appendChild(fn);
+        apiDoc.classes.forEach(function (c) {
+            var childClass = document.createElement('a');
+            childClass.setAttribute('data-linkto', fullpath + '.' + c.name);
+            childClass.innerText = fullpath + '.' + c.name;
+            elt.appendChild(childClass);
+        });
+    }
 
-    }    
     return elt;
 }
 

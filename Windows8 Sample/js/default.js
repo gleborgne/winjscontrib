@@ -10,12 +10,12 @@
     var nav = WinJS.Navigation;
 
     // Client logging configuration
-    WinJSContrib.Logger.Config = {
-        "level": WinJSContrib.Logger.Levels.all,
+    var logger = WinJSContrib.Logging.getLogger('SampleApplication', {
+        "level": WinJSContrib.Logging.Levels.all,
         "displayLevelInMessage": true,
         "displayGroupInMessage": true,
         "plugToWinJSLog": false
-    };
+    }, new WinJSContrib.Logging.Appenders.ConsoleAppender());
 
     function prepareApp(args) {
         app.queueEvent({ type: 'WinJSContrib.app.started', startArgs : args });
@@ -53,6 +53,9 @@
             }).then(function appInitSuccess() {
                 var page = "/pages/home/home.html";
                 page = "/demos/shell.html";
+
+                logger.log('sample application started');
+
                 return WinJS.Navigation.navigate(page)
             }, function appInitError(err) {
                 return WinJS.Navigation.navigate("/pages/errorPage/errorPage.html");

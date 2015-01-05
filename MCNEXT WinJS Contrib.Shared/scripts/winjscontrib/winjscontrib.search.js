@@ -36,7 +36,9 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     
 
     /**
-     * @property {string} workerPath path for search worker script file
+     * workerPath path for search worker script file
+     * @field
+     * @type string 
      */
     WinJSContrib.Search.workerPath = './scripts/winjscontrib/winjscontrib.search.worker.js';
 
@@ -49,7 +51,9 @@ WinJSContrib.Search = WinJSContrib.Search || {};
      */
     WinJSContrib.Search.IndexGroup = function (definitions) {
         /**         
-         * @member {Object} object containing indexes, stored by name
+         * object containing indexes, stored by name
+         * @field
+         * @type Object 
          */
         this.indexes = {};
         if (definitions) {
