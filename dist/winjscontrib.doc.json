@@ -4156,6 +4156,19 @@
                                     "var idxgroup = new WinJSContrib.Search.IndexGroup({ peoples: { \"firstname\": { weight: 42 }} });"
                                 ]
                             },
+                            "properties": [
+                                {
+                                    "name": "indexes",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "object containing indexes, stored by name",
+                                    "type": {
+                                        "names": [
+                                            "Object"
+                                        ]
+                                    }
+                                }
+                            ],
                             "functions": [
                                 {
                                     "name": "addIndex",
@@ -5019,7 +5032,7 @@
                             "name": "readProtocol",
                             "access": "",
                             "virtual": false,
-                            "description": "WORK ONLY FOR WINRT\rread protocol arguments from application activation event arguments",
+                            "description": "read protocol arguments from application activation event arguments",
                             "parameters": [
                                 {
                                     "name": "args",
@@ -5040,7 +5053,7 @@
                             "name": "isConnected",
                             "access": "",
                             "virtual": false,
-                            "description": "WORK ONLY FOR WINRT\rIndicate if a valid internet connection is available, even with constrained access",
+                            "description": "Indicate if a valid internet connection is available, even with constrained access",
                             "parameters": [],
                             "examples": [],
                             "returns": {
@@ -5052,12 +5065,33 @@
                             "name": "hasInternetAccess",
                             "access": "",
                             "virtual": false,
-                            "description": "WORK ONLY FOR WINRT\rIndicate if a valid internet connection is available",
+                            "description": "Indicate if a valid internet connection is available",
                             "parameters": [],
                             "examples": [],
                             "returns": {
                                 "type": "boolean",
                                 "description": ""
+                            }
+                        },
+                        {
+                            "name": "onInternetStatusChanged",
+                            "access": "",
+                            "virtual": false,
+                            "description": "trigger callback when internet connection status is changing",
+                            "parameters": [
+                                {
+                                    "name": "callback",
+                                    "type": "function",
+                                    "description": "callback for internet status change notification",
+                                    "default": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": [],
+                            "returns": {
+                                "type": "function",
+                                "description": "function to call for unregistering the callback"
                             }
                         }
                     ]
@@ -5066,7 +5100,146 @@
                     "name": "Alerts",
                     "description": "",
                     "access": "",
-                    "virtual": false
+                    "virtual": false,
+                    "functions": [
+                        {
+                            "name": "messageBox",
+                            "access": "",
+                            "virtual": false,
+                            "description": "show system alert box",
+                            "parameters": [
+                                {
+                                    "name": "opt",
+                                    "type": "Object",
+                                    "description": "message options",
+                                    "default": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": [],
+                            "returns": {
+                                "type": "WinJS.Promise",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "name": "message",
+                            "access": "",
+                            "virtual": false,
+                            "description": "show system alert box",
+                            "parameters": [
+                                {
+                                    "name": "title",
+                                    "type": "string",
+                                    "description": "title of the alert",
+                                    "default": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "content",
+                                    "type": "string",
+                                    "description": "text for the alert",
+                                    "default": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": [],
+                            "returns": {
+                                "type": "WinJS.Promise",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "name": "confirm",
+                            "access": "",
+                            "virtual": false,
+                            "description": "show system alert box",
+                            "parameters": [
+                                {
+                                    "name": "title",
+                                    "type": "string",
+                                    "description": "title of the alert",
+                                    "default": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "content",
+                                    "type": "string",
+                                    "description": "text for the alert",
+                                    "default": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "yes",
+                                    "type": "string",
+                                    "description": "text for yes",
+                                    "default": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "no",
+                                    "type": "string",
+                                    "description": "text for no",
+                                    "default": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": [],
+                            "returns": {
+                                "type": "WinJS.Promise",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "name": "toastNotification",
+                            "access": "",
+                            "virtual": false,
+                            "description": "show system toast notification",
+                            "parameters": [
+                                {
+                                    "name": "data",
+                                    "type": "Object",
+                                    "description": "toast options",
+                                    "default": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": []
+                        },
+                        {
+                            "name": "toast",
+                            "access": "",
+                            "virtual": false,
+                            "description": "show system toast notification",
+                            "parameters": [
+                                {
+                                    "name": "text",
+                                    "type": "string",
+                                    "description": "text displayed in the toast",
+                                    "default": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "picture",
+                                    "type": "string",
+                                    "description": "path to a picture to display in the toast",
+                                    "default": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": []
+                        }
+                    ]
                 }
             ],
             "classes": [
@@ -5470,23 +5643,14 @@
                     "name": "Search",
                     "access": "",
                     "virtual": false,
-                    "description": "",
-                    "type": ""
+                    "description": "workerPath path for search worker script file",
+                    "type": {
+                        "names": [
+                            "string"
+                        ]
+                    }
                 }
             ]
-        }
-    ],
-    "properties": [
-        {
-            "name": "object",
-            "access": "",
-            "virtual": false,
-            "description": "",
-            "type": {
-                "names": [
-                    "Object"
-                ]
-            }
         }
     ]
 }

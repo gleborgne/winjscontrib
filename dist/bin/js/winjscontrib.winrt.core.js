@@ -13,7 +13,6 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
 (function () {
 
     /**
-     * WORK ONLY FOR WINRT
      * read protocol arguments from application activation event arguments
      * @param {Object} args WinJS application activation argument
      * @returns {Object} protocol arguments
@@ -44,7 +43,6 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
     };
 
     /**
-     * WORK ONLY FOR WINRT
      * Indicate if a valid internet connection is available, even with constrained access
      * @returns {boolean}
      */
@@ -59,7 +57,6 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
     };
 
     /**
-     * WORK ONLY FOR WINRT
      * Indicate if a valid internet connection is available
      * @returns {boolean}
      */
@@ -73,6 +70,11 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
         return false;
     };
 
+    /**
+     * trigger callback when internet connection status is changing
+     * @param {function} callback callback for internet status change notification
+     * @returns {function} function to call for unregistering the callback
+     */
     WinJSContrib.WinRT.onInternetStatusChanged = function (callback) {
         var handler = function (arg) {
             var e = arg;
@@ -85,19 +87,19 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
         }
     }
 
-    WinJSContrib.Alerts.messageBox = function messageBox(opt, isPhone) {
+    /**
+     * show system alert box
+     * @param {Object} opt message options
+     * @returns {WinJS.Promise}
+     */
+    WinJSContrib.Alerts.messageBox = function messageBox(opt) {
         if (opt) {
             if (window.Windows) {
                 var md = new Windows.UI.Popups.MessageDialog(opt.content);
                 if (opt.title) {
                     md.title = opt.title;
                 }
-                if (opt.commands && opt.commands.forEach) {
-                    if (WinJS.Utilities.isPhone || isPhone) {
-                        if (opt.commands.length > 2) {
-                            return WinJS.Promise.wrapError("you must specify maximum 2 commands on WP platforms");
-                        }
-                    }
+                if (opt.commands && opt.commands.forEach) {                    
                     opt.commands.forEach(function (command, index) {
                         var cmd = new Windows.UI.Popups.UICommand();
                         cmd.label = command.label;
@@ -168,10 +170,24 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
         return WinJS.Promise.wrapError("you must specify commands as an array of objects with properties text and callback such as {text: '', callback: function(c){}}");
     };
 
+    /**
+     * show system alert box
+     * @param {string} title title of the alert
+     * @param {string} content text for the alert
+     * @returns {WinJS.Promise}
+     */
     WinJSContrib.Alerts.message = function (title, content) {
         return WinJSContrib.Alerts.messageBox({ title: title, content: content });
     }
 
+    /**
+     * show system alert box
+     * @param {string} title title of the alert
+     * @param {string} content text for the alert
+     * @param {string} yes text for yes
+     * @param {string} no text for no
+     * @returns {WinJS.Promise}
+     */
     WinJSContrib.Alerts.confirm = function (title, content, yes, no) {
         return new WinJS.Promise(function (complete, error) {
             WinJSContrib.Alerts.messageBox({
@@ -196,6 +212,10 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
         });
     }
 
+    /**
+     * show system toast notification
+     * @param {Object} data toast options
+     */
     WinJSContrib.Alerts.toastNotification = function (data) {
         if (window.Windows) {
             var notifications = Windows.UI.Notifications;
@@ -233,6 +253,11 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
         }
     }
 
+    /**
+     * show system toast notification
+     * @param {string} text text displayed in the toast
+     * @param {string} picture path to a picture to display in the toast
+     */
     WinJSContrib.Alerts.toast = function (text, picture) {
         WinJSContrib.Alerts.toastNotification({ text: text, picture: picture });
     }
