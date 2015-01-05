@@ -334,7 +334,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         },
 
         /**
-         * @property {WinJS.UI.ListView} listview items listview
+         * items listview
+         * @field
+         * @type WinJS.UI.ListView 
          */
         listview: {
             get: function () {
@@ -343,7 +345,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         },
 
         /**
-         * @property {WinJS.UI.ListView} zoomedOutListview listview for zoomed out items (usually groups)
+         * listview for zoomed out items (usually groups)
+         * @field
+         * @type WinJS.UI.ListView 
          */
         zoomedOutListview: {
             get: function () {
@@ -352,7 +356,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         },
 
         /**
-         * @property {WinJSContrib.UI.DataSources.DataSourceManager} dataManager datasource manager
+         * dataManager datasource manager
+         * @field
+         * @type WinJSContrib.UI.DataSources.DataSourceManager 
          */
         dataManager: {
             get: function () {

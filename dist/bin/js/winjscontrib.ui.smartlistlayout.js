@@ -10,6 +10,7 @@
     WinJS.Namespace.define("WinJSContrib.UI", {
         SmartListLayout: WinJS.Class.define(
             /**
+             * Control to set ListView layout based on media queries
              * @class WinJSContrib.UI.SmartListLayout
              * @param {HTMLElement} element DOM element containing the control
              * @param {Object} options
@@ -44,6 +45,11 @@
              * @lends WinJSContrib.UI.SmartListLayout
              */
             {
+                /**
+                 * listview target by smart layout
+                 * @field
+                 * @type WinJS.UI.ListView
+                 */
                 listView: {
                     get: function () {
                         return this._listview;
@@ -65,6 +71,10 @@
                     }
                 },
 
+                /**
+                 * add a layout declaration
+                 * @param {Object} layout layout declaration
+                 */
                 add: function (layout) {
                     var ctrl = this;
 

@@ -161,6 +161,21 @@ function renderClass(apiDoc, withname) {
         });
     }
 
+    if (apiDoc.constructor && apiDoc.constructor.examples && apiDoc.constructor.examples.length) {
+        var fn = document.createElement("DIV");
+        fn.className = 'apidoc-examples';
+        fn.innerHTML = '<h3>examples</h3>';
+        elt.appendChild(fn);
+
+        apiDoc.constructor.examples.forEach(function (example) {
+            var elt = document.createElement('pre');
+            elt.className = "brush: html";
+            var codesample = example.replace('\r', '\r\n');
+            elt.innerText = codesample;
+            fn.appendChild(elt);
+        });
+    }
+
     if (apiDoc.classes) {
 
     }
@@ -264,8 +279,19 @@ function renderFunctionParams(apiDoc, container) {
 }
 
 function renderExamples(apiDoc, container) {
+    
     if (apiDoc.examples && apiDoc.examples.length) {
+        var fn = document.createElement("DIV");
+        fn.className = 'apidoc-examples';
+        container.appendChild(fn);
 
+        apiDoc.constructor.examples.forEach(function (example) {
+            var elt = document.createElement('pre');
+            elt.className = "brush: html";
+            var codesample = example.replace('\r', '\r\n');
+            elt.innerText = codesample;
+            fn.appendChild(elt);
+        });
     }
 }
 

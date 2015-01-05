@@ -1607,22 +1607,34 @@
                                     "name": "listview",
                                     "access": "",
                                     "virtual": false,
-                                    "description": "",
-                                    "type": ""
+                                    "description": "items listview",
+                                    "type": {
+                                        "names": [
+                                            "WinJS.UI.ListView"
+                                        ]
+                                    }
                                 },
                                 {
                                     "name": "zoomedOutListview",
                                     "access": "",
                                     "virtual": false,
-                                    "description": "",
-                                    "type": ""
+                                    "description": "listview for zoomed out items (usually groups)",
+                                    "type": {
+                                        "names": [
+                                            "WinJS.UI.ListView"
+                                        ]
+                                    }
                                 },
                                 {
                                     "name": "dataManager",
                                     "access": "",
                                     "virtual": false,
-                                    "description": "",
-                                    "type": ""
+                                    "description": "dataManager datasource manager",
+                                    "type": {
+                                        "names": [
+                                            "WinJSContrib.UI.DataSources.DataSourceManager"
+                                        ]
+                                    }
                                 }
                             ]
                         },
@@ -2274,14 +2286,14 @@
                         },
                         {
                             "name": "SmartListLayout",
-                            "description": "",
+                            "description": "Control to set ListView layout based on media queries",
                             "extends": [],
                             "access": "",
                             "virtual": false,
                             "fires": "",
                             "constructor": {
                                 "name": "SmartListLayout",
-                                "description": "",
+                                "description": "Control to set ListView layout based on media queries",
                                 "parameters": [
                                     {
                                         "name": "element",
@@ -2303,7 +2315,39 @@
                                 "examples": [
                                     "<div id=\"mylistview\" data-win-control=\"WinJS.UI.ListView\" data-win-options=\"{\r    itemTemplate: select('#listitemtemplate'),\r    itemDataSource: DummyDataSource\r }\"></div>\r\r<div id=\"listlayout\" data-win-control=\"WinJSContrib.UI.SmartListLayout\" data-win-options=\"{\r        listView: select('#mylistview'),\r        layouts:{\r            default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},\r            vert : { layout : WinJS.UI.GridLayout, query: '(orientation: portrait) and (min-width: 600px)', options: { orientation : 'vertical'}},\r            snap : { layout : WinJS.UI.ListLayout, query: '(orientation: portrait) and (max-width: 600px)'},\r        }\r}\"></div>"
                                 ]
-                            }
+                            },
+                            "properties": [
+                                {
+                                    "name": "listView",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "listview target by smart layout",
+                                    "type": {
+                                        "names": [
+                                            "WinJS.UI.ListView"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "functions": [
+                                {
+                                    "name": "add",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "add a layout declaration",
+                                    "parameters": [
+                                        {
+                                            "name": "layout",
+                                            "type": "Object",
+                                            "description": "layout declaration",
+                                            "default": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": []
+                                }
+                            ]
                         }
                     ],
                     "namespaces": [
