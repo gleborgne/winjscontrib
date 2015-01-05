@@ -2356,64 +2356,30 @@
                             "description": "",
                             "access": "",
                             "virtual": false,
-                            "namespaces": [
+                            "properties": [
                                 {
                                     "name": "Easings",
-                                    "description": "",
                                     "access": "",
                                     "virtual": false,
-                                    "properties": [
-                                        {
-                                            "name": "easeInQuad",
-                                            "access": "",
-                                            "virtual": false,
-                                            "description": "Quad ease in",
-                                            "type": ""
-                                        },
-                                        {
-                                            "name": "easeInCubic",
-                                            "access": "",
-                                            "virtual": false,
-                                            "description": "Cubic ease in",
-                                            "type": ""
-                                        }
-                                    ]
-                                }
-                            ],
-                            "functions": [
+                                    "description": "",
+                                    "type": ""
+                                },
                                 {
                                     "name": "fadeOut",
                                     "access": "",
                                     "virtual": false,
                                     "description": "configurable fade out",
-                                    "parameters": [
-                                        {
-                                            "name": "hidden",
-                                            "type": "Object",
-                                            "description": "element or array of elements",
-                                            "default": "",
-                                            "optional": "",
-                                            "nullable": ""
-                                        },
-                                        {
-                                            "name": "duration",
-                                            "type": "number",
-                                            "description": "fading duration",
-                                            "default": "",
-                                            "optional": "",
-                                            "nullable": ""
-                                        },
-                                        {
-                                            "name": "options",
-                                            "type": "Object",
-                                            "description": "options like delay, easing",
-                                            "default": "",
-                                            "optional": "",
-                                            "nullable": ""
-                                        }
-                                    ],
-                                    "examples": []
+                                    "type": ""
                                 },
+                                {
+                                    "name": "shrinkAndFall",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "shrink and fall animation",
+                                    "type": ""
+                                }
+                            ],
+                            "functions": [
                                 {
                                     "name": "fadeIn",
                                     "access": "",
@@ -2438,7 +2404,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2471,7 +2437,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2504,7 +2470,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2529,7 +2495,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like duration, delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2554,7 +2520,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like duration, delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2579,7 +2545,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like duration, delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2604,7 +2570,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like duration, delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2629,7 +2595,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like duration, delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2654,7 +2620,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like duration, delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2679,7 +2645,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like duration, delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2704,7 +2670,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like duration, delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2729,7 +2695,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like duration, delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2754,7 +2720,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like duration, delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2787,7 +2753,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2820,7 +2786,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2853,7 +2819,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2886,7 +2852,7 @@
                                         },
                                         {
                                             "name": "options",
-                                            "type": "Object",
+                                            "type": "WinJSContrib.UI.AnimationOptions",
                                             "description": "options like delay, easing",
                                             "default": "",
                                             "optional": "",
@@ -2894,15 +2860,6 @@
                                         }
                                     ],
                                     "examples": []
-                                }
-                            ],
-                            "properties": [
-                                {
-                                    "name": "shrinkAndFall",
-                                    "access": "",
-                                    "virtual": false,
-                                    "description": "shrink and fall animation",
-                                    "type": ""
                                 }
                             ]
                         },
@@ -3095,6 +3052,68 @@
                                             "type": ""
                                         }
                                     ]
+                                }
+                            ]
+                        }
+                    ],
+                    "typedefinitions": [
+                        {
+                            "name": "AnimationOptions",
+                            "description": "optional properties for animations",
+                            "extends": [],
+                            "access": "",
+                            "virtual": false,
+                            "fires": "",
+                            "constructor": {
+                                "name": "AnimationOptions",
+                                "description": "optional properties for animations",
+                                "parameters": [],
+                                "examples": []
+                            },
+                            "properties": [
+                                {
+                                    "name": "duration",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "duration for the animation",
+                                    "type": {
+                                        "names": [
+                                            "number"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "delay",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "delay for the animation",
+                                    "type": {
+                                        "names": [
+                                            "number"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "itemdelay",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "delay for each item when staggering animation",
+                                    "type": {
+                                        "names": [
+                                            "number"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "maxdelay",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "max delay for item when staggering animation",
+                                    "type": {
+                                        "names": [
+                                            "number"
+                                        ]
+                                    }
                                 }
                             ]
                         }

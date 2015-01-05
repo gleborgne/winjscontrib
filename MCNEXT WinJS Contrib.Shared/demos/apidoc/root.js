@@ -49,9 +49,9 @@
                     elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "namespace"}');
                     elt.innerHTML = '<div class="title">' + (rootPath + "." + ns.name) + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
                     namespacesContainer.appendChild(elt);
-                    if (ns.namespaces && ns.namespaces.length) {
-                        page.renderNamespaces(ns, rootPath + "." + ns.name);
-                    }
+                    //if (ns.namespaces && ns.namespaces.length) {
+                    //    page.renderNamespaces(ns, rootPath + "." + ns.name);
+                    //}
                     //namespacesContainer.winControl.layout();
                 });
             } else {

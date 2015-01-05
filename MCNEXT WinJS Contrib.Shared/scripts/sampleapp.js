@@ -174,15 +174,7 @@ function renderClass(apiDoc, withname) {
 
     if (apiDoc.classes) {
 
-    }
-
-    $('a', elt).click(function (elt) {
-        var target = $(elt.currentTarget).attr('data-linkTo');
-        if (target) {
-            var codeview = document.getElementById('docviewFlyout');
-            codeview.winControl.navigate('./demos/apidoc/classView/classView.html', { datapath: target });
-        }
-    });
+    }    
     return elt;
 }
 

@@ -12,7 +12,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
 WinJSContrib.UI.Animation = WinJSContrib.UI.Animation || {};
 
 /**
- * @namespace
+ * @enum
  */
 WinJSContrib.UI.Animation.Easings = {
     /**
@@ -23,29 +23,94 @@ WinJSContrib.UI.Animation.Easings = {
      * Cubic ease in
      */
     easeInCubic: 'cubic-bezier(0.550, 0.055, 0.675, 0.190)',
+    /**
+     * Quart ease in
+     */
     easeInQuart: 'cubic-bezier(0.895, 0.030, 0.685, 0.220)',
+    /**
+     * Quint ease in
+     */
     easeInQuint: 'cubic-bezier(0.755, 0.050, 0.855, 0.060)',
+    /**
+     * Sine ease in
+     */
     easeInSine: 'cubic-bezier(0.470, 0.000, 0.745, 0.715)',
+    /**
+     * Expo ease in
+     */
     easeInExpo: 'cubic-bezier(0.950, 0.050, 0.795, 0.035)',
+    /**
+     * Circ ease in
+     */
     easeInCirc: 'cubic-bezier(0.600, 0.040, 0.980, 0.335)',
+    /**
+     * Back ease in
+     */
     easeInBack: 'cubic-bezier(0.600, -0.280, 0.735, 0.045)',
-
+    /**
+     * Quad ease out
+     */
     easeOutQuad: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+    /**
+     * Cubic ease out
+     */
     easeOutCubic: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)',
+    /**
+     * Quart ease out
+     */
     easeOutQuart: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+    /**
+     * Quint ease out
+     */
     easeOutQuint: 'cubic-bezier(0.230, 1.000, 0.320, 1.000)',
+    /**
+     * Sine ease out
+     */
     easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
+    /**
+     * Expo ease out
+     */
     easeOutExpo: 'cubic-bezier(0.190, 1.000, 0.220, 1.000)',
+    /**
+     * Circ ease out
+     */
     easeOutCirc: 'cubic-bezier(0.075, 0.820, 0.165, 1.000)',
+    /**
+     * Back ease out
+     */
     easeOutBack: 'cubic-bezier(0.175, 0.885, 0.320, 1.275)',
 
+    /**
+     * Quad ease in-out
+     */
     easeInOutQuad: 'cubic-bezier(0.455, 0.030, 0.515, 0.955)',
+    /**
+     * Cubic ease in-out
+     */
     easeInOutCubic: 'cubic-bezier(0.645, 0.045, 0.355, 1.000)',
+    /**
+     * Quart ease in-out
+     */
     easeInOutQuart: 'cubic-bezier(0.770, 0.000, 0.175, 1.000)',
+    /**
+     * Quint ease in-out
+     */
     easeInOutQuint: 'cubic-bezier(0.860, 0.000, 0.070, 1.000)',
+    /**
+     * Sine ease in-out
+     */
     easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
+    /**
+     * Expo ease in-out
+     */
     easeInOutExpo: 'cubic-bezier(1.000, 0.000, 0.000, 1.000)',
+    /**
+     * Circ ease in-out
+     */
     easeInOutCirc: 'cubic-bezier(0.785, 0.135, 0.150, 0.860)',
+    /**
+     * Back ease in-out
+     */
     easeInOutBack: 'cubic-bezier(0.680, -0.550, 0.265, 1.550)',
 };
 
@@ -53,10 +118,20 @@ WinJSContrib.UI.Animation.Easings = {
     var equivalents = WinJS.Utilities._browserStyleEquivalents || { transform: { cssName: 'transform' } };
 
     /**
+     * optional properties for animations
+     * @typedef {Object} WinJSContrib.UI.AnimationOptions
+     * @property {number} duration duration for the animation
+     * @property {number} delay delay for the animation
+     * @property {number} itemdelay delay for each item when staggering animation
+     * @property {number} maxdelay max delay for item when staggering animation
+     */
+
+
+    /**
      * configurable fade out
      * @param {Object} hidden element or array of elements
      * @param {number} duration fading duration
-     * @param {Object} options options like delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
     WinJSContrib.UI.Animation.fadeOut = function (hidden, duration, options) {
         options = options || {};
@@ -75,7 +150,7 @@ WinJSContrib.UI.Animation.Easings = {
      * configurable fade in
      * @param {Object} hidden element or array of elements
      * @param {number} duration fading duration
-     * @param {Object} options options like delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
     WinJSContrib.UI.Animation.fadeIn = function (hidden, duration, options) {
         options = options || {};
@@ -108,7 +183,7 @@ WinJSContrib.UI.Animation.Easings = {
      * configurable page exit effect
      * @param {Object} hidden element or array of elements
      * @param {number} duration transition duration
-     * @param {Object} options options like delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
     WinJSContrib.UI.Animation.pageExit = function (hidden, duration, options) {
         options = options || {};
@@ -127,7 +202,7 @@ WinJSContrib.UI.Animation.Easings = {
      * configurable page enter effect
      * @param {Object} elements element or array of elements
      * @param {number} duration transition duration
-     * @param {Object} options options like delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
     WinJSContrib.UI.Animation.enterPage = function (elements, duration, options) {
         options = options || {};
@@ -196,7 +271,7 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable slide effect
      * @param {Object} elements element or array of elements
-     * @param {Object} options options like duration, delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
     WinJSContrib.UI.Animation.slideFromBottom = function (elements, options) {
         return slideAnim(elements, 'WinJSContrib-slideFromBottom', true, options);
@@ -205,7 +280,7 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable slide effect
      * @param {Object} elements element or array of elements
-     * @param {Object} options options like duration, delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
     WinJSContrib.UI.Animation.slideFromTop = function (elements, options) {
         return slideAnim(elements, 'WinJSContrib-slideFromTop', true, options);
@@ -214,7 +289,7 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable slide effect
      * @param {Object} elements element or array of elements
-     * @param {Object} options options like duration, delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
     WinJSContrib.UI.Animation.slideFromLeft = function (elements, options) {
         return slideAnim(elements, 'WinJSContrib-slideFromLeft', true, options);
@@ -223,7 +298,7 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable slide effect
      * @param {Object} elements element or array of elements
-     * @param {Object} options options like duration, delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
     WinJSContrib.UI.Animation.slideFromRight = function (elements, options) {
         return slideAnim(elements, 'WinJSContrib-slideFromRight', true, options);
@@ -232,7 +307,7 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable slide effect
      * @param {Object} elements element or array of elements
-     * @param {Object} options options like duration, delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
     WinJSContrib.UI.Animation.slideToBottom = function (elements, options) {
         return slideAnim(elements, 'WinJSContrib-slideToBottom', false, options);
@@ -241,7 +316,7 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable slide effect
      * @param {Object} elements element or array of elements
-     * @param {Object} options options like duration, delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
     WinJSContrib.UI.Animation.slideToTop = function (elements, options) {
         return slideAnim(elements, 'WinJSContrib-slideToTop', false, options);
@@ -250,7 +325,7 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable slide effect
      * @param {Object} elements element or array of elements
-     * @param {Object} options options like duration, delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
     WinJSContrib.UI.Animation.slideToLeft = function (elements, options) {
         return slideAnim(elements, 'WinJSContrib-slideToLeft', false, options);
@@ -259,7 +334,7 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable slide effect
      * @param {Object} elements element or array of elements
-     * @param {Object} options options like duration, delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
     WinJSContrib.UI.Animation.slideToRight = function (elements, options) {
         return slideAnim(elements, 'WinJSContrib-slideToRight', false, options);
@@ -268,7 +343,7 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * animation for tab exit
      * @param {Object} elements element or array of elements
-     * @param {Object} options options like duration, delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
     WinJSContrib.UI.Animation.tabExitPage = function (element, options) {
         var offsetArray;
@@ -299,7 +374,7 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * animation for tab exit
      * @param {Object} elements element or array of elements
-     * @param {Object} options options like duration, delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
     WinJSContrib.UI.Animation.tabEnterPage = function (element, options) {
         var offsetArray;
@@ -331,7 +406,7 @@ WinJSContrib.UI.Animation.Easings = {
      * exit and grow animation
      * @param {Object} elements element or array of elements
      * @param {number} duration transition duration
-     * @param {Object} options options like delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
     WinJSContrib.UI.Animation.exitGrow = function (element, duration, options) {
         var offsetArray;
@@ -369,7 +444,7 @@ WinJSContrib.UI.Animation.Easings = {
      * exit and shrink animation
      * @param {Object} elements element or array of elements
      * @param {number} duration transition duration
-     * @param {Object} options options like delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
     WinJSContrib.UI.Animation.exitShrink = function (element, duration, options) {
         var offsetArray;
@@ -407,7 +482,7 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * shrink and fall animation
      * @param {Object} elements element or array of elements
-     * @param {Object} options options like delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
     WinJSContrib.UI.Animation.shrinkAndFall = WinJS.Utilities.markSupportedForProcessing(function (element, options) {
         var offsetArray;
@@ -440,7 +515,7 @@ WinJSContrib.UI.Animation.Easings = {
      * enter and shrink animation
      * @param {Object} elements element or array of elements
      * @param {number} duration transition duration
-     * @param {Object} options options like delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
     WinJSContrib.UI.Animation.enterShrink = function (element, duration, options) {
         var offsetArray;
@@ -483,7 +558,7 @@ WinJSContrib.UI.Animation.Easings = {
      * enter and shrink animation
      * @param {Object} elements element or array of elements
      * @param {number} duration transition duration
-     * @param {Object} options options like delay, easing
+     * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
     WinJSContrib.UI.Animation.enterGrow = function (element, duration, options) {
         var offsetArray;

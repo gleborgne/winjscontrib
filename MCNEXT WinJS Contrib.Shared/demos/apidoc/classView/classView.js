@@ -27,6 +27,14 @@
             } else {
                 container.appendChild(renderClass(page.apiDoc));
             }
+            $('a', container).click(function (elt) {
+                var target = $(elt.currentTarget).attr('data-linkTo');
+                if (target) {
+                    var codeview = document.getElementById('docviewFlyout');
+                    codeview.winControl.navigate('./demos/apidoc/classView/classView.html', { datapath: target });
+                }
+            });
+
             setImmediate(function () { 
                 //SyntaxHighlighter.highlight();
                 page.fixLineWrap();
