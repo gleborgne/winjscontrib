@@ -25,6 +25,7 @@
   -ms-grid-rows: 1fr;
   -ms-grid-columns: auto auto;
   color: white;
+  max-width: 90%;
 }
 .mcn-splashscreen #mcn-splashscreen-loader .cordova-ring {
   position: absolute;
@@ -83,7 +84,7 @@
 }
 .mcn-splashscreen #mcn-splashscreen-loader .mcn-splashscreen-loader-text {
   -ms-grid-column: 2;
-  font-size: 16pt;
+  font-size: 1.2em;
   -ms-grid-row-align: center;
   margin-left: 20px;
 }

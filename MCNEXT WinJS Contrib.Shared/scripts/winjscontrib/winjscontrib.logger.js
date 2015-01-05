@@ -47,7 +47,12 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
         "appenders": []
     };
 
+
     WinJSContrib.Logging.Loggers = {};
+
+    /**
+     * get a logger, logger is created if it does not exists
+     */
     WinJSContrib.Logging.getLogger = function (name, config) {
         var existing = WinJSContrib.Logging.Loggers[name];
         if (existing) {
@@ -95,6 +100,10 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
         }
     });
 
+    /**
+     * add appender to logger
+     * @param {Object} appender
+     */
     WinJSContrib.Logging.LoggerClass.prototype.addAppender = function (appender) {
         appender.logger = this;
         if (!appender.format)
@@ -186,9 +195,10 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
      * @param {string} title group title
      */
     WinJSContrib.Logging.LoggerClass.prototype.group = function (title) {
-        if (console && console.group) {
-            console.group(title);
-        }
+        this.appenders.forEach(function (a) {
+            if (a.group)
+                a.group(title);
+        });
     }
 
     /**
@@ -197,9 +207,10 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
      * @param {string} title group title
      */
     WinJSContrib.Logging.LoggerClass.prototype.groupCollapsed = function (title) {
-        if (console && console.groupCollapsed) {
-            console.groupCollapsed(title);
-        }
+        this.appenders.forEach(function (a) {
+            if (a.groupCollapsed)
+                a.groupCollapsed(title);
+        });
     }
 
     /**
@@ -207,9 +218,10 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
      * @function WinJSContrib.Logging.LoggerClass#groupEnd
      */
     WinJSContrib.Logging.LoggerClass.prototype.groupEnd = function () {
-        if (console && console.groupEnd) {
-            console.groupEnd();
-        }
+        this.appenders.forEach(function (a) {
+            if (a.groupEnd)
+                a.groupEnd();
+        });
     }
 
     WinJSContrib.Logging.LoggerClass.prototype.initWinJSLog = function () {
@@ -253,13 +265,15 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
 
     /**
      * Get a child logger
+     * @param {string} name child logger name
      * @param {WinJSContrib.Logging.Levels} level
      */
     WinJSContrib.Logging.LoggerClass.prototype.getChildLogger = function (name, level) {
-        var res = new LoggerClass(JSON.parse(JSON.stringify(this.config)));
+        var res = WinJSContrib.Logging.getLogger(this.name + '.'+ name, JSON.parse(JSON.stringify(this.config)));
         res.config.appenders = [];
         this.appenders.forEach(function (a) {
-            res.addAppender(a.clone());
+            if (a.clone)
+                res.addAppender(a.clone());
         });
 
         if (level)
@@ -277,10 +291,16 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
         this.config = config;
     }
 
+    /**
+     * clone appender
+     */
     WinJSContrib.Logging.Appenders.ConsoleAppender.prototype.clone = function () {
         return new WinJSContrib.Logging.Appenders.ConsoleAppender(this.config);
     }
 
+    /**
+     * log item
+     */
     WinJSContrib.Logging.Appenders.ConsoleAppender.prototype.log = function (message, group, level) {
         switch (level) {
             case levels.debug:

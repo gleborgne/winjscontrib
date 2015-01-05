@@ -314,6 +314,9 @@
   color: #444;
 }
 @media screen and (max-width: 600px) {
+  body {
+    font-size: 11pt;
+  }
   .childNavigator .childNavigator-contentPlaceholder {
     max-width: 100%;
   }
