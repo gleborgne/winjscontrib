@@ -2313,7 +2313,7 @@
                                     }
                                 ],
                                 "examples": [
-                                    "<div id=\"mylistview\" data-win-control=\"WinJS.UI.ListView\" data-win-options=\"{\r    itemTemplate: select('#listitemtemplate'),\r    itemDataSource: DummyDataSource\r }\"></div>\r\r<div id=\"listlayout\" data-win-control=\"WinJSContrib.UI.SmartListLayout\" data-win-options=\"{\r        listView: select('#mylistview'),\r        layouts:{\r            default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},\r            vert : { layout : WinJS.UI.GridLayout, query: '(orientation: portrait) and (min-width: 600px)', options: { orientation : 'vertical'}},\r            snap : { layout : WinJS.UI.ListLayout, query: '(orientation: portrait) and (max-width: 600px)'},\r        }\r}\"></div>"
+                                    "{@lang xml}\r<div id=\"mylistview\" data-win-control=\"WinJS.UI.ListView\" data-win-options=\"{\r    itemTemplate: select('#listitemtemplate'),\r    itemDataSource: DummyDataSource\r }\"></div>\r\r<div id=\"listlayout\" data-win-control=\"WinJSContrib.UI.SmartListLayout\" data-win-options=\"{\r        listView: select('#mylistview'),\r        layouts:{\r            default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},\r            vert : { layout : WinJS.UI.GridLayout, query: '(orientation: portrait) and (min-width: 600px)', options: { orientation : 'vertical'}},\r            snap : { layout : WinJS.UI.ListLayout, query: '(orientation: portrait) and (max-width: 600px)'},\r        }\r}\"></div>"
                                 ]
                             },
                             "properties": [
@@ -2914,7 +2914,7 @@
                             "classes": [
                                 {
                                     "name": "DataSourceManager",
-                                    "description": "helper class to manage an array with filter and grouping facilities and plug it into listview with or without semantic zoom. \rThis is a low level helper object, it's likely that relying on {@link WinJSContrib.UI.DataSources.SemanticListViews} will be easier.",
+                                    "description": "helper class to manage an array with filter and grouping facilities and plug it into listview with or without semantic zoom. \rThis is a low level helper object, it's likely that relying on {@link WinJSContrib.UI.SemanticListViews} will be easier.",
                                     "extends": [],
                                     "access": "",
                                     "virtual": false,
@@ -2933,7 +2933,7 @@
                                             }
                                         ],
                                         "examples": [
-                                            "var datamgr = new WinJSContrib.UI.DataSources.DataSourceManager({\r   defaultGroupLimit: 12,\r   groupKind: WinJSContrib.UI.DataSources.Grouping.byField,\r   field: 'metadata.genre',\r   listview: page.zoomedInList,\r   zoomedOutListView: page.zoomedOutList\r});"
+                                            "{@lang javascript}\rvar datamgr = new WinJSContrib.UI.DataSources.DataSourceManager({\r   defaultGroupLimit: 12,\r   groupKind: WinJSContrib.UI.DataSources.Grouping.byField,\r   field: 'metadata.genre',\r   listview: page.zoomedInList,\r   zoomedOutListView: page.zoomedOutList\r});"
                                         ]
                                     },
                                     "properties": [

@@ -318,13 +318,30 @@
     max-width: 100%;
   }
   #docviewFlyout .childNavigator-contentPlaceholder .fragment header[role=banner] {
-    -ms-grid-columns: 40px auto 1fr auto;
+    -ms-grid-columns: 20px auto 1fr auto;
+  }
+  #docviewFlyout .childNavigator-contentPlaceholder .fragment header[role=banner] .win-backbutton {
+    margin-left: 0;
   }
   #docviewFlyout .childNavigator-contentPlaceholder .fragment header[role=banner] .titlearea {
     font-size: 14pt;
+    -ms-grid-row-align: center;
+    margin-top: 0;
   }
   #docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main].content-view {
     padding: 20px;
+  }
+  .syntaxhighlighter a,
+  .syntaxhighlighter div,
+  .syntaxhighlighter code,
+  .syntaxhighlighter table,
+  .syntaxhighlighter table td,
+  .syntaxhighlighter table tr,
+  .syntaxhighlighter table tbody,
+  .syntaxhighlighter table thead,
+  .syntaxhighlighter table caption,
+  .syntaxhighlighter textarea {
+    font-size: 10pt !important;
   }
 }
 /*# sourceMappingURL=app.css.map */

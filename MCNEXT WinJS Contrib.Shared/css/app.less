@@ -390,12 +390,13 @@ body {
                 font-family: Consolas, 'Lucida Console', 'Open Sans';
             }
 
-            .apidoc-function-name{
+            .apidoc-function-name {
                 font-weight: 600;
             }
 
             .apidoc-member-name {
                 font-weight: 500;
+
                 .name {
                     font-weight: 600;
                 }
@@ -461,11 +462,16 @@ body {
         .fragment {
 
             header[role=banner] {
-                -ms-grid-columns: 40px auto 1fr auto;
+                -ms-grid-columns: 20px auto 1fr auto;
 
+                .win-backbutton{
+                    margin-left: 0;
+                }
 
                 .titlearea {
                     font-size: 14pt;
+                    -ms-grid-row-align: center;
+                    margin-top: 0;
                 }
             }
 
@@ -475,5 +481,9 @@ body {
                 }
             }
         }
+    }
+
+    .syntaxhighlighter a, .syntaxhighlighter div, .syntaxhighlighter code, .syntaxhighlighter table, .syntaxhighlighter table td, .syntaxhighlighter table tr, .syntaxhighlighter table tbody, .syntaxhighlighter table thead, .syntaxhighlighter table caption, .syntaxhighlighter textarea {
+        font-size: 10pt !important;
     }
 }

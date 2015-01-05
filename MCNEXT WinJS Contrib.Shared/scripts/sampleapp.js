@@ -168,11 +168,7 @@ function renderClass(apiDoc, withname) {
         elt.appendChild(fn);
 
         apiDoc.constructor.examples.forEach(function (example) {
-            var elt = document.createElement('pre');
-            elt.className = "brush: html";
-            var codesample = example.replace('\r', '\r\n');
-            elt.innerText = codesample;
-            fn.appendChild(elt);
+            renderExample(example, fn);
         });
     }
 
@@ -286,13 +282,26 @@ function renderExamples(apiDoc, container) {
         container.appendChild(fn);
 
         apiDoc.constructor.examples.forEach(function (example) {
-            var elt = document.createElement('pre');
-            elt.className = "brush: html";
-            var codesample = example.replace('\r', '\r\n');
-            elt.innerText = codesample;
-            fn.appendChild(elt);
+            renderExample(example, fn);
         });
     }
+}
+
+function renderExample(example, container) {
+    var elt = document.createElement('pre');
+    var example = example.replace('\r', '\r\n');
+    var idx = example.indexOf('{@lang ');
+    if (example.indexOf('{@lang ') >= 0) {
+        var endIdx = example.indexOf('}', idx);
+        var lang = example.substr(idx + 7, endIdx - idx - 7);
+        elt.className = "brush: " + lang;
+        endIdx = example.indexOf('\r\n', endIdx);
+        example = example.substr(endIdx + 2, example.length - endIdx - 2).trim();
+    } else {
+        elt.className = "brush: html";
+    }
+    elt.innerText = example;
+    container.appendChild(elt);
 }
 
 function renderMember(apiDoc) {

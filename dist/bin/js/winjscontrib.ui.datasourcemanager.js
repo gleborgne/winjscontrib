@@ -14,9 +14,10 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
      * 
      * @class WinJSContrib.UI.DataSources.DataSourceManager
      * @classdesc helper class to manage an array with filter and grouping facilities and plug it into listview with or without semantic zoom. 
-     * This is a low level helper object, it's likely that relying on {@link WinJSContrib.UI.DataSources.SemanticListViews} will be easier.
+     * This is a low level helper object, it's likely that relying on {@link WinJSContrib.UI.SemanticListViews} will be easier.
      * @param {Object} options
      * @example
+     * {@lang javascript}
      * var datamgr = new WinJSContrib.UI.DataSources.DataSourceManager({
      *    defaultGroupLimit: 12,
      *    groupKind: WinJSContrib.UI.DataSources.Grouping.byField,

@@ -10,16 +10,52 @@
             -ms-grid-columns: 20px auto 1fr auto;
 
             .titlearea {
-                display:block;
+                display: block;
             }
 
-             .win-backbutton{
-                 margin-top: 2px;
-                 width: 34px;
-                 height: 34px;
-                 line-height: 33px;
-                 font-size: 12pt;
-             }
+            .win-backbutton {
+                margin-top: 2px;
+                width: 34px;
+                height: 34px;
+                line-height: 33px;
+                font-size: 12pt;
+            }
+        }
+    }
+}
+
+@media screen and (orientation: portrait) and (max-width: 600px) {
+    #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .navigator .pagecontrol {
+        .fragment {
+
+            header[role=banner] {
+                
+                .titlearea {
+                    display: block;
+                    font-size: 16pt;
+                    -ms-grid-row-align: center;
+                    margin-left: 0;
+                }
+
+                .win-backbutton {
+                    margin-left: 0;
+                    font-size: 10pt;
+                    width: 28px;
+                    height: 28px;
+                    line-height : 28px;
+                    margin-top: 5px;
+                }
+
+                 .actions{
+                     margin-right : 20px;
+                     font-size: 11pt;
+                     -ms-grid-row-align: center;
+                 }
+            }
+
+            section[role=main]{
+                padding: 20px;
+            }
         }
     }
 }

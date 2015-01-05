@@ -15,6 +15,7 @@
              * @param {HTMLElement} element DOM element containing the control
              * @param {Object} options
              * @example
+             *  {@lang xml}
              *  <div id="mylistview" data-win-control="WinJS.UI.ListView" data-win-options="{
              *      itemTemplate: select('#listitemtemplate'),
              *      itemDataSource: DummyDataSource

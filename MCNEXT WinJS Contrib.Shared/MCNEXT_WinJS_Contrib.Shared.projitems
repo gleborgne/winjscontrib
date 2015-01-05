@@ -706,6 +706,7 @@
     <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.multipleviews.js" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.multipleviews.main.js" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.ssm.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.upnp.js" />
     <Content Include="$(MSBuildThisFileDirectory)templates\article.html" />
     <Content Include="$(MSBuildThisFileDirectory)WinJS\css\ui-dark.css" />
     <Content Include="$(MSBuildThisFileDirectory)WinJS\css\ui-dark.min.css" />

@@ -3,6 +3,17 @@
 (function () {
     "use strict";
 
+    function formatDescription(desc) {
+        var token = "{@link ";
+        while (desc.indexOf(token) >= 0) {
+            var idx = desc.indexOf(token);
+            var endIdx = desc.indexOf('}', idx);
+            desc = desc.substr(0, idx) + desc.substr(idx + token.length, endIdx - idx - token.length) + desc.substr(endIdx + 1, desc.length - endIdx - 1);
+        }
+
+        return desc;
+    }
+
     WinJS.UI.Pages.define("/demos/apidoc/root.html", {
         init: function (element, options) {
             var page = this;
@@ -36,7 +47,7 @@
                     elt.className = 'feature obj-namespace';
                     elt.setAttribute("data-target", "./demos/apidoc/root.html");
                     elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "namespace"}');
-                    elt.innerHTML = '<div class="title">' + (rootPath + "." + ns.name) + '</div><div class="desc">' + ns.description + '</div>'
+                    elt.innerHTML = '<div class="title">' + (rootPath + "." + ns.name) + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
                     namespacesContainer.appendChild(elt);
                     if (ns.namespaces && ns.namespaces.length) {
                         page.renderNamespaces(ns, rootPath + "." + ns.name);
@@ -57,7 +68,7 @@
                     elt.className = 'feature obj-class';
                     elt.setAttribute("data-target-doc", "./demos/apidoc/classView/classView.html");
                     elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "class"}');
-                    elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + ns.description + '</div>'
+                    elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
                     classesContainer.appendChild(elt);
                     //namespacesContainer.winControl.layout();
                 });
@@ -75,7 +86,7 @@
                     elt.className = 'feature obj-function';
                     elt.setAttribute("data-target-doc", "./demos/apidoc/classView/classView.html");
                     elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "function"}');
-                    elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + ns.description + '</div>'
+                    elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
                     functionsContainer.appendChild(elt);
                     //namespacesContainer.winControl.layout();
                 });
@@ -95,7 +106,7 @@
                         elt.className = 'feature obj-function';
                         elt.setAttribute("data-target", "none");
                         //elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "member"}');
-                        elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + ns.description + '</div>'
+                        elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
                         membersContainer.appendChild(elt);
                         //namespacesContainer.winControl.layout();
                     });
@@ -106,7 +117,7 @@
                         elt.className = 'feature obj-function';
                         elt.setAttribute("data-target", "none");
                         //elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "member"}');
-                        elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + ns.description + '</div>'
+                        elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
                         membersContainer.appendChild(elt);
                         //namespacesContainer.winControl.layout();
                     });
@@ -115,6 +126,8 @@
                 page.$("#sectionMembers").hide();
             }
         },
+
+        
 
         ready: function (element, options) {
             var page = this;
