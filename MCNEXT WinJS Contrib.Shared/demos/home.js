@@ -25,7 +25,7 @@
             var sections = page.$('.home-sections .section');
             if (m.matches) {
                 var containerW = page.$('.home-sections').innerWidth() - 40;
-                if (containerW >= 560) {
+                if (containerW >= 490) {
                     var w = ((containerW - 20) / 3);
                 } else {
                     var w = ((containerW - 10) / 2);

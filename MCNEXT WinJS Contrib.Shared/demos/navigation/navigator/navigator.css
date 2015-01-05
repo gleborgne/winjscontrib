@@ -31,6 +31,9 @@
     font-size: 11pt;
     -ms-grid-row-align: center;
   }
+  #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .navigator .pagecontrol .fragment header[role=banner] .actions .symbol {
+    font-size: 13pt;
+  }
   #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .navigator .pagecontrol .fragment section[role=main] {
     padding: 20px;
   }
