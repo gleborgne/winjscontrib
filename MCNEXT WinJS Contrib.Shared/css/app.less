@@ -387,8 +387,18 @@ body {
             }
 
             .apidoc-function-name, .apidoc-member-name {
-                font-weight: 500;
                 font-family: Consolas, 'Lucida Console', 'Open Sans';
+            }
+
+            .apidoc-function-name{
+                font-weight: 600;
+            }
+
+            .apidoc-member-name {
+                font-weight: 500;
+                .name {
+                    font-weight: 600;
+                }
             }
 
             .apidoc-member, .apidoc-function {
@@ -435,6 +445,7 @@ body {
                     box-sizing: border-box;
                     border: 1px solid #CCC;
                     padding: 10px 20px 20px 10px;
+                    color: #444;
                 }
             }
         }

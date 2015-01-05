@@ -263,8 +263,16 @@
 }
 #docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-name,
 #docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-member-name {
-  font-weight: 500;
   font-family: Consolas, 'Lucida Console', 'Open Sans';
+}
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-name {
+  font-weight: 600;
+}
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-member-name {
+  font-weight: 500;
+}
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-member-name .name {
+  font-weight: 600;
 }
 #docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-member,
 #docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function {
@@ -303,6 +311,7 @@
   box-sizing: border-box;
   border: 1px solid #CCC;
   padding: 10px 20px 20px 10px;
+  color: #444;
 }
 @media screen and (max-width: 600px) {
   .childNavigator .childNavigator-contentPlaceholder {
