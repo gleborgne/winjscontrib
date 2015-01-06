@@ -29,7 +29,15 @@
                     container.appendChild(renderClass(page.apiDoc, false, page.rootPath));
                 }
 
-                container.appendChild(renderElementFile(page.apiDoc));
+                
+
+                if (page.apiDoc.meta && page.apiDoc.meta.filename) {
+                    container.appendChild(renderElementFile(page.apiDoc));
+                    //$('.apidoc-filename', container).click(function (elt) {
+                    //    var codeview = document.getElementById('codeviewFlyout');
+                    //    codeview.winControl.open('./demos/showcode/showcode.html', { libfile: page.apiDoc.meta.filename, lineno: page.apiDoc.meta.lineno });
+                    //});
+                }
 
                 $('a', container).click(function (elt) {
                     var target = $(elt.currentTarget).attr('data-linkTo');

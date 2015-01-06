@@ -18,16 +18,45 @@
                 page.selectTab(target);
             });
 
-            //$('#htmlcontent pre', element).text(options.html);
-            page.target = options.target;
+            var promises = [];
 
-            WinJS.Promise.join([page.loadJs(), page.loadHtml(), page.loadCSS()]).then(function () {
-                page.selectTab('#htmlcontent');
+            if (options.target) {
+                page.target = options.target;
+
+                promises.push(page.loadJs());
+                promises.push(page.loadHtml());
+                promises.push(page.loadCSS());
+            } else if (options.libfile) {
+                page.libfile = options.libfile;
+                $('#htmlcontent, a[href=#htmlcontent]', page.element).hide();
+                $('#csscontent, a[href=#csscontent]', page.element).hide();
+                promises.push(page.loadLibFile());
+            }
+
+            WinJS.Promise.join(promises).then(function () {
+                if (options.target)
+                    page.selectTab('#htmlcontent');
+                else if (options.libfile) {
+                    page.selectTab('#jscontent');
+                }
                 SyntaxHighlighter.highlight();
                 page.fixLineWrap();
                 setImmediate(function () { 
                     WinJS.UI.Animation.fadeOut(page.element.querySelector('.loader'));
                     WinJS.UI.Animation.enterPage(page.element.querySelectorAll('.tabs, .tabheader'));
+                });
+            });
+        },
+
+        loadLibFile: function () {
+            var page = this;
+            return new WinJS.Promise(function (complete, error) {
+                WinJS.xhr({ url: '/scripts/winjscontrib/' + page.libfile }).then(function (r) {
+                    $('#jscontent pre', page.element).text(r.responseText);
+                    complete();
+                }, function () {
+                    $('#jscontent, a[href=#jscontent]', page.element).hide();
+                    complete();
                 });
             });
         },

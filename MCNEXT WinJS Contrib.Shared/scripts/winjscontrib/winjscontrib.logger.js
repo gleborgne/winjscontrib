@@ -284,7 +284,7 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
      * @param {WinJSContrib.Logging.Levels} level
      */
     WinJSContrib.Logging.LoggerClass.prototype.getChildLogger = function (name, level) {
-        var res = WinJSContrib.Logging.getLogger(this.name + '.'+ name, JSON.parse(JSON.stringify(this.config)));
+        var res = WinJSContrib.Logging.getLogger(this.name + '.' + name, JSON.parse(JSON.stringify(this.config)));
         res.config.appenders = [];
         this.appenders.forEach(function (a) {
             if (a.clone)
