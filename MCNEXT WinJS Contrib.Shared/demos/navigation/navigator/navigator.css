@@ -11,6 +11,9 @@
   line-height: 33px;
   font-size: 12pt;
 }
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .navigator .pagecontrol .fragment section[role=main] {
+  padding: 40px;
+}
 @media screen and (orientation: portrait) and (max-width: 600px) {
   #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .navigator .pagecontrol .fragment header[role=banner] .titlearea {
     display: block;

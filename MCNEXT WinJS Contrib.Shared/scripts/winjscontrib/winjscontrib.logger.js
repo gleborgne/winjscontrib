@@ -15,27 +15,40 @@ WinJSContrib.Logging = WinJSContrib.Logging || {};
  */
 WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
 
-/**
- * Logger abstraction to enable logging levels and global configuration.
- * This object is an instance of {@link WinJSContrib.Logging.LoggerClass} that act as a root logger
- * @class WinJSContrib.Logging
- */
-
 (function () {
     "use strict";
 
     /**
     * enumeration for log levels
-    * @enum
+    * @enum {number}
     */
     WinJSContrib.Logging.Levels = {
+        /**
+         * disabled
+         */
         "off": 0,
+        /**
+         * log error
+         */
         "error": 1,
+        /**
+         * log warn and error
+         */
         "warn": 2,
+        /**
+         * log info, warn, error
+         */
         "info": 4,
+        /**
+         * log debug, info, warn, error
+         */
         "debug": 8,
+        /**
+         * log all
+         */
         "all": 15
     };
+
     var levels = WinJSContrib.Logging.Levels;
 
     // Default config
@@ -52,6 +65,10 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
 
     /**
      * get a logger, logger is created if it does not exists
+     * @param {string} name name for the logger
+     * @param {Object} config logger configuration
+     * @param {...Object} appenders appenders to add to the logger
+     * @returns {WinJSContrib.Logging.LoggerClass}
      */
     WinJSContrib.Logging.getLogger = function (name, config) {
         var existing = WinJSContrib.Logging.Loggers[name];
@@ -114,10 +131,9 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
 
     /**
      * Add log entry
-     * @function WinJSContrib.Logging.LoggerClass#log
      * @param {string} message log message
      * @param {string} group group/category for the entry
-     * @param {number} log level
+     * @param {WinJSContrib.Logging.Levels} log level
      */
     WinJSContrib.Logging.LoggerClass.prototype.log = function (message, group, level) {
         // If general logging level is set to 'none', returns
@@ -141,6 +157,12 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
         });
     };
 
+    /**
+     * format log entry
+     * @param {string} message log message
+     * @param {string} group group/category for the entry
+     * @param {WinJSContrib.Logging.Levels} log level
+     */
     WinJSContrib.Logging.LoggerClass.prototype.format = function (message, group, level) {
         var finalMessage = "";
         if (this.config.displayLevelInMessage) finalMessage += this.logginLevelToString(level) + " - ";
@@ -151,7 +173,6 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
 
     /**
      * add debug log entry
-     * @function WinJSContrib.Logging.LoggerClass#debug
      * @param {string} message log message
      * @param {string} group log group name
      */
@@ -161,7 +182,6 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
 
     /**
      * add info log entry
-     * @function WinJSContrib.Logging.LoggerClass#info
      * @param {string} message log message
      * @param {string} group log group name
      */
@@ -171,7 +191,6 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
 
     /**
      * add warn log entry
-     * @function WinJSContrib.Logging.LoggerClass#warn
      * @param {string} message log message
      * @param {string} group log group name
      */
@@ -181,7 +200,6 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
 
     /**
      * add error log entry
-     * @function WinJSContrib.Logging.LoggerClass#error
      * @param {string} message log message
      * @param {string} group log group name
      */
@@ -190,8 +208,7 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
     };
 
     /**
-     * create a group
-     * @function WinJSContrib.Logging.LoggerClass#group
+     * create a log group
      * @param {string} title group title
      */
     WinJSContrib.Logging.LoggerClass.prototype.group = function (title) {
@@ -202,8 +219,7 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
     }
 
     /**
-     * create a collapsed group
-     * @function WinJSContrib.Logging.LoggerClass#groupCollapsed
+     * create a collapsed log group
      * @param {string} title group title
      */
     WinJSContrib.Logging.LoggerClass.prototype.groupCollapsed = function (title) {
@@ -215,7 +231,6 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
 
     /**
      * end current group
-     * @function WinJSContrib.Logging.LoggerClass#groupEnd
      */
     WinJSContrib.Logging.LoggerClass.prototype.groupEnd = function () {
         this.appenders.forEach(function (a) {
@@ -300,6 +315,9 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
 
     /**
      * log item
+     * @param {string} message log message
+     * @param {string} group group/category for the entry
+     * @param {WinJSContrib.Logging.Levels} log level
      */
     WinJSContrib.Logging.Appenders.ConsoleAppender.prototype.log = function (message, group, level) {
         switch (level) {
@@ -314,23 +332,27 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
         }
     }
 
+    /**
+     * create log group
+     */
     WinJSContrib.Logging.Appenders.ConsoleAppender.prototype.group = function (title) {
         console.group(title);
     }
 
+    /**
+     * create collapsed log group
+     */
     WinJSContrib.Logging.Appenders.ConsoleAppender.prototype.groupCollapsed = function (title) {
         console.groupCollapsed(title);
     }
 
+    /**
+     * close log group
+     */
     WinJSContrib.Logging.Appenders.ConsoleAppender.prototype.groupEnd = function () {
         console.groupEnd();
     }
     
-    /**
-     * root logger
-     * @field
-     * @type WinJSContrib.Logging.LoggerClass
-     */
     WinJSContrib.Logger = WinJSContrib.Logging.getLogger('root', defaultConfig);
     WinJSContrib.Logger.addAppender(new WinJSContrib.Logging.Appenders.ConsoleAppender());
 

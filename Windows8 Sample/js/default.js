@@ -24,7 +24,7 @@
     app.addEventListener("activated", function (args) {
         var dataloading = function () {
             //WinJSContrib.Utils.momentFr();
-            return WinJS.Promise.timeout(200000);
+            return WinJS.Promise.timeout(2000);
         }
 
         if (args.detail.kind === activation.ActivationKind.launch) {

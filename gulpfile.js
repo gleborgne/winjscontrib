@@ -93,7 +93,7 @@ gulp.task('jsondoc', ['cleandoc'], function() {
 	    inverseNav      : false
 	  };
 
-	return gulp.src([jsFilesPath +'**/*.js', 'readme.md'])        
+	return gulp.src([jsFilesPath +'**/winjscontrib.logger.js', 'readme.md'])        
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(jsdoc.parser(infos))
   	.pipe(gulp.dest('dist/testsjsdoc'));

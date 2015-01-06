@@ -22,22 +22,27 @@
             var page = this;
             page.$('.pagetitle').text(page.rootPath);
             var container = page.q('section[role=main]');
-            if (page.apiDoc.parameters) {
-                container.appendChild(renderFunction(page.apiDoc, true));
-            } else {
-                container.appendChild(renderClass(page.apiDoc, false, page.rootPath));
-            }
-            $('a', container).click(function (elt) {
-                var target = $(elt.currentTarget).attr('data-linkTo');
-                if (target) {
-                    var codeview = document.getElementById('docviewFlyout');
-                    codeview.winControl.navigate('./demos/apidoc/classView/classView.html', { datapath: target });
+            MSApp.execUnsafeLocalFunction(function () {
+                if (page.apiDoc.parameters) {
+                    container.appendChild(renderFunction(page.apiDoc, true));
+                } else {
+                    container.appendChild(renderClass(page.apiDoc, false, page.rootPath));
                 }
-            });
 
-            setImmediate(function () { 
-                //SyntaxHighlighter.highlight();
-                page.fixLineWrap();
+                container.appendChild(renderElementFile(page.apiDoc));
+
+                $('a', container).click(function (elt) {
+                    var target = $(elt.currentTarget).attr('data-linkTo');
+                    if (target) {
+                        var codeview = document.getElementById('docviewFlyout');
+                        codeview.winControl.navigate('./demos/apidoc/classView/classView.html', { datapath: target });
+                    }
+                });
+
+                setImmediate(function () {
+                    //SyntaxHighlighter.highlight();
+                    page.fixLineWrap();
+                });
             });
         },
 

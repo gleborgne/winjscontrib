@@ -9,56 +9,74 @@
 function graft(parentNode, childNodes, parentLongname, parentName) {
     childNodes
     .filter(function (element) {
-        return (element.memberof === parentLongname);
+        return (element.memberof == parentLongname);
     })
     .forEach(function (element, index) {
         var i,
             len;
 
-        if (element.kind === 'namespace') {
+        if (element.kind == 'namespace') {
             if (! parentNode.namespaces) {
                 parentNode.namespaces = [];
             }
 
             var thisNamespace = {
+            	'kind': 'namespace',
                 'name': element.name,
+                'fullname': element.longname,
                 'description': element.description || '',
                 'access': element.access || '',
-                'virtual': !!element.virtual
+                'virtual': !!element.virtual,
+                'meta': {
+                	filename : element.meta.filename,
+                	lineno : element.meta.lineno
+                }
             };
 
             parentNode.namespaces.push(thisNamespace);
 
             graft(thisNamespace, childNodes, element.longname, element.name);
         }
-        else if (element.kind === 'mixin') {
+        else if (element.kind == 'mixin') {
             if (! parentNode.mixins) {
                 parentNode.mixins = [];
             }
 
             var thisMixin = {
+            	'kind': 'mixin',
                 'name': element.name,
+                'fullname': element.longname,
                 'description': element.description || '',
                 'access': element.access || '',
-                'virtual': !!element.virtual
+                'virtual': !!element.virtual,
+                'meta': {
+                	filename : element.meta.filename,
+                	lineno : element.meta.lineno
+                }
             };
 
             parentNode.mixins.push(thisMixin);
 
             graft(thisMixin, childNodes, element.longname, element.name);
         }
-        else if (element.kind === 'function') {
+        else if (element.kind == 'function') {
             if (! parentNode.functions) {
                 parentNode.functions = [];
             }
 
             var thisFunction = {
+            	'kind': 'function',
                 'name': element.name,
+                'fullname': element.longname,
                 'access': element.access || '',
                 'virtual': !!element.virtual,
                 'description': element.description || '',
                 'parameters': [ ],
-                'examples': []
+                'examples': [],
+                'meta': {
+                	filename : element.meta.filename,
+                	lineno : element.meta.lineno
+                }
             };
 
             parentNode.functions.push(thisFunction);
@@ -80,40 +98,72 @@ function graft(parentNode, childNodes, parentLongname, parentName) {
                 for (i = 0, len = element.params.length; i < len; i++) {
                     thisFunction.parameters.push({
                         'name': element.params[i].name,
+                        'fullname': element.params[i].longname,
                         'type': element.params[i].type? (element.params[i].type.names.length === 1? element.params[i].type.names[0] : element.params[i].type.names) : '',
                         'description': element.params[i].description || '',
                         'default': element.params[i].defaultvalue || '',
+                        'variable': element.params[i].variable || '',
                         'optional': typeof element.params[i].optional === 'boolean'? element.params[i].optional : '',
                         'nullable': typeof element.params[i].nullable === 'boolean'? element.params[i].nullable : ''
                     });
                 }
             }
         }        
-        else if (element.kind === 'member') {
+        else if (element.kind == 'member') {
             if (! parentNode.properties) {
                 parentNode.properties = [];
             }
-            parentNode.properties.push({
+            var thismember = {
+            	'kind': 'member',
                 'name': element.name,
+                'fullname': element.longname,
+                'isEnum': element.isEnum,
                 'access': element.access || '',
                 'virtual': !!element.virtual,
                 'description': element.description || '',
-                'type': element.type? (element.type.length === 1? element.type[0] : element.type) : ''
-            });
+                'type': element.type? (element.type.length === 1? element.type[0] : element.type) : '',
+                'meta': {
+                	filename : element.meta.filename,
+                	lineno : element.meta.lineno
+                }
+            }
+            parentNode.properties.push(thismember);
+
+            if (element.isEnum && element.properties) {
+                thismember.properties = [];
+                for (i = 0, len = element.properties.length; i < len; i++) {
+                    var prop = element.properties[i];
+                    thismember.properties.push({
+                    	'kind': 'member',
+                        'name': prop.name,
+                        'fullname': element.longname,
+                		'access': prop.access || '',
+                        'virtual': !!prop.virtual,
+                        'description': prop.description || '',
+                        'type': thismember.type
+                    });
+                }
+            }
         }
 
-        else if (element.kind === 'event') {
+        else if (element.kind == 'event') {
             if (! parentNode.events) {
                 parentNode.events = [];
             }
 
             var thisEvent = {
+            	'kind': 'event',
                 'name': element.name,
+                'fullname': element.longname,
                 'access': element.access || '',
                 'virtual': !!element.virtual,
                 'description': element.description || '',
                 'parameters': [],
-                'examples': []
+                'examples': [],
+                'meta': {
+                	filename : element.meta.filename,
+                	lineno : element.meta.lineno
+                }
             };
 
             parentNode.events.push(thisEvent);
@@ -135,16 +185,18 @@ function graft(parentNode, childNodes, parentLongname, parentName) {
                 for (i = 0, len = element.params.length; i < len; i++) {
                     thisEvent.parameters.push({
                         'name': element.params[i].name,
-                        'type': element.params[i].type? (element.params[i].type.names.length === 1? element.params[i].type.names[0] : element.params[i].type.names) : '',
+                        'fullname': element.params[i].longname,
+                		'type': element.params[i].type? (element.params[i].type.names.length === 1? element.params[i].type.names[0] : element.params[i].type.names) : '',
                         'description': element.params[i].description || '',
                         'default': element.params[i].defaultvalue || '',
+                        'variable': element.params[i].variable || '',
                         'optional': typeof element.params[i].optional === 'boolean'? element.params[i].optional : '',
                         'nullable': typeof element.params[i].nullable === 'boolean'? element.params[i].nullable : ''
                     });
                 }
             }
         }
-        else if (element.kind === 'class' || element.kind === 'typedef') {
+        else if (element.kind == 'class' || element.kind == 'typedef') {
 
             if (element.kind === 'class' && !parentNode.classes) {
                 parentNode.classes = [];
@@ -155,7 +207,9 @@ function graft(parentNode, childNodes, parentLongname, parentName) {
             }
 
             var thisClass = {
+            	'kind': 'class',
                 'name': element.name,
+                'fullname': element.longname,
                 'description': element.classdesc || element.description || '',
                 'extends': element.augments || [],
                 'access': element.access || '',
@@ -167,6 +221,10 @@ function graft(parentNode, childNodes, parentLongname, parentName) {
                     'parameters': [
                     ],
                     'examples': []
+                },
+                'meta': {
+                	filename : element.meta.filename,
+                	lineno : element.meta.lineno
                 }
             };
 
@@ -185,9 +243,11 @@ function graft(parentNode, childNodes, parentLongname, parentName) {
                 for (i = 0, len = element.params.length; i < len; i++) {
                     thisClass.constructor.parameters.push({
                         'name': element.params[i].name,
-                        'type': element.params[i].type? (element.params[i].type.names.length === 1? element.params[i].type.names[0] : element.params[i].type.names) : '',
+                        'fullname': element.params[i].longname,                
+                		'type': element.params[i].type? (element.params[i].type.names.length === 1? element.params[i].type.names[0] : element.params[i].type.names) : '',
                         'description': element.params[i].description || '',
                         'default': element.params[i].defaultvalue || '',
+                        'variable': element.params[i].variable || '',
                         'optional': typeof element.params[i].optional === 'boolean'? element.params[i].optional : '',
                         'nullable': typeof element.params[i].nullable === 'boolean'? element.params[i].nullable : ''
                     });
@@ -200,7 +260,8 @@ function graft(parentNode, childNodes, parentLongname, parentName) {
                     var prop = element.properties[i];
                     thisClass.properties.push({
                         'name': prop.name,
-                        'access': prop.access || '',
+                        'fullname': prop.longname,
+                		'access': prop.access || '',
                         'virtual': !!prop.virtual,
                         'description': prop.description || '',
                         'type': prop.type? (prop.type.length === 1? prop.type[0] : prop.type) : ''

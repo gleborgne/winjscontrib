@@ -7,6 +7,25 @@
 
 var WinJSContrib = WinJSContrib || {};
 
+
+/**
+ * definition for a field
+ * @typedef {Object} WinJSContrib.Search.FieldDefinition
+ * @property {number} weight weight of the item to rank search results
+ * @example
+ * { weight : 2}
+ */
+
+/**
+ * Definition of an index content
+ * @typedef {Object} WinJSContrib.Search.IndexDefinition
+ * @property {string} key name of the property considered as a key for the items
+ * @property {Object} fields object containing item's property path as name, and {@link WinJSContrib.Search.FieldDefinition} as value
+ * @example
+ * { key: 'id', fields: { "title": { weight : 5}, "description.detail": { weight : 2}}}
+ */
+
+
 /**
  * Small text search features based on objet indexing and text stemming. It's inspired by tools like Lucene.
  * For now indexes are stored with WinRT files, but it will soon be extended to support an extensible storage mecanism
@@ -17,28 +36,10 @@ WinJSContrib.Search = WinJSContrib.Search || {};
 (function () {
     "use strict";
 
-    /**
-     * definition for a field
-     * @typedef {Object} WinJSContrib.Search.FieldDefinition
-     * @property {number} weight weight of the item to rank search results
-     * @example
-     * { weight : 2}
-     */    
-
-    /**
-     * Definition of an index content
-     * @typedef {Object} WinJSContrib.Search.IndexDefinition
-     * @property {string} key name of the property considered as a key for the items
-     * @property {Object} fields object containing item's property path as name, and {@link WinJSContrib.Search.FieldDefinition} as value
-     * @example
-     * { key: 'id', fields: { "title": { weight : 5}, "description.detail": { weight : 2}}}
-     */
-    
-
-    /**
-     * workerPath path for search worker script file
+    /**     
+     * path for search worker script file
      * @field
-     * @type string 
+     * @type {string}
      */
     WinJSContrib.Search.workerPath = './scripts/winjscontrib/winjscontrib.search.worker.js';
 

@@ -46,8 +46,8 @@
                     var elt = document.createElement('div');
                     elt.className = 'feature obj-namespace';
                     elt.setAttribute("data-target", "./demos/apidoc/root.html");
-                    elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "namespace"}');
-                    elt.innerHTML = '<div class="title">' + (rootPath + "." + ns.name) + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
+                    elt.setAttribute("data-target-args", '{ "datapath" : "' + ns.fullname + '", "nodeType": "namespace"}');
+                    elt.innerHTML = '<div class="title">' + ns.fullname + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
                     namespacesContainer.appendChild(elt);
                     //if (ns.namespaces && ns.namespaces.length) {
                     //    page.renderNamespaces(ns, rootPath + "." + ns.name);
@@ -67,7 +67,7 @@
                     var elt = document.createElement('div');
                     elt.className = 'feature obj-class';
                     elt.setAttribute("data-target-doc", "./demos/apidoc/classView/classView.html");
-                    elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "class"}');
+                    elt.setAttribute("data-target-args", '{ "datapath" : "' + ns.fullname + '", "nodeType": "class"}');
                     elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
                     classesContainer.appendChild(elt);
                     //namespacesContainer.winControl.layout();
@@ -85,7 +85,7 @@
                     var elt = document.createElement('div');
                     elt.className = 'feature obj-function';
                     elt.setAttribute("data-target-doc", "./demos/apidoc/classView/classView.html");
-                    elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "function"}');
+                    elt.setAttribute("data-target-args", '{ "datapath" : "' + ns.fullname + '", "nodeType": "function"}');
                     elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
                     functionsContainer.appendChild(elt);
                     //namespacesContainer.winControl.layout();
@@ -104,7 +104,8 @@
                     root.members.forEach(function (ns) {
                         var elt = document.createElement('div');
                         elt.className = 'feature obj-function';
-                        elt.setAttribute("data-target", "none");
+                        elt.setAttribute("data-target-doc", "./demos/apidoc/classView/classView.html");
+                        elt.setAttribute("data-target-args", '{ "datapath" : "' + ns.fullname + '", "nodeType": "member"}');
                         //elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "member"}');
                         elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
                         membersContainer.appendChild(elt);
@@ -115,7 +116,9 @@
                     root.properties.forEach(function (ns) {
                         var elt = document.createElement('div');
                         elt.className = 'feature obj-function';
-                        elt.setAttribute("data-target", "none");
+                        
+                        elt.setAttribute("data-target-doc", "./demos/apidoc/classView/classView.html");
+                        elt.setAttribute("data-target-args", '{ "datapath" : "' + ns.fullname + '", "nodeType": "member"}');
                         //elt.setAttribute("data-target-args", '{ "datapath" : "' + (rootPath + "." + ns.name) + '", "nodeType": "member"}');
                         elt.innerHTML = '<div class="title">' + ns.name + '</div><div class="desc">' + formatDescription(ns.description) + '</div>'
                         membersContainer.appendChild(elt);

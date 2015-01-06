@@ -83,6 +83,8 @@ function getApiDoc() {
                     res = getNodeFor(currentnode, 'functions', currentToken);
                 if (!res)
                     res = getNodeFor(currentnode, 'members', currentToken);
+                if (!res)
+                    res = getNodeFor(currentnode, 'properties', currentToken);
 
                 if (res && currentIndex < tokens.length) {
                     return iterate(currentIndex + 1, res);
@@ -109,6 +111,15 @@ function nameSort(a, b) {
         return -1;
 
     return 0;
+}
+
+function renderElementFile(apiDoc) {
+    var elt = document.createElement("DIV");
+    elt.className = 'apidoc-filename';
+
+    elt.innerText = apiDoc.meta.filename;
+
+    return elt;
 }
 
 function renderClass(apiDoc, withname, fullpath) {
@@ -196,6 +207,8 @@ function renderFunctionName(apiDoc) {
     apiDoc.parameters.forEach(function (p, index) {
         if (index > 0)
             name += ', ';
+        if (p.variable)
+            name += '...';
 
         name += p.name;
 
@@ -309,7 +322,7 @@ function renderExample(example, container) {
 function renderMember(apiDoc) {
     var elt = document.createElement("DIV");
     elt.className = 'apidoc-member';
-    var html = '<div class="apidoc-member-name"><span class="name">' + apiDoc.name + '</span> <span class="type">: ' + renderLinkTo((apiDoc.type.names || apiDoc.type) + '') + '</span></div>';
+    var html = '<div class="apidoc-member-name"><span class="name">' + (apiDoc.variable ? '...' : '') + apiDoc.name + '</span> <span class="type">: ' + renderLinkTo((apiDoc.type.names || apiDoc.type) + '') + '</span></div>';
     if (apiDoc.description)
         html += '<div class="apidoc-description">' + apiDoc.description + '</div>';
 
