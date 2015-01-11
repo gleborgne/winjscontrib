@@ -15,6 +15,7 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
 
     /** 
      * format date using binding argument 'formatDate'
+     * @function
      * @param {Object} source object owning data
      * @param {string[]} sourceProperty path to object data
      * @param {HTMLElement} dest DOM element targeted by binding
@@ -32,6 +33,7 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
 
     /** 
      * format date using calendar function
+     * @function
      * @param {Object} source object owning data
      * @param {string[]} sourceProperty path to object data
      * @param {HTMLElement} dest DOM element targeted by binding
@@ -68,6 +70,7 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
 
     /**
      * display number of days since a date
+     * @function
      * @param {Object} source object owning data
      * @param {string[]} sourceProperty path to object data
      * @param {HTMLElement} dest DOM element targeted by binding
@@ -87,6 +90,7 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
 
     /**
      * apply moment.js humanize formatting on a date. Use 'humanizeFormat' and 'addSuffix' arguments to configure binding
+     * @function
      * @param {Object} source object owning data
      * @param {string[]} sourceProperty path to object data
      * @param {HTMLElement} dest DOM element targeted by binding

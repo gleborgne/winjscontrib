@@ -4,6 +4,7 @@
     WinJS.UI.Pages.define("./demos/winrt/multiview/multiview.html", {
         ready: function (element, options) {
             var page = this;
+
             page.refreshViews();
 
             WinJSContrib.WinRT.MultipleViews.manager.secondaryViews.onitemremoved = page.refreshViews.bind(page);

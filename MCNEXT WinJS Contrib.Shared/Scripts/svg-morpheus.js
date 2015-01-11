@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * SVG Morpheus v0.1.8
  * https://github.com/alexk111/SVG-Morpheus
  *

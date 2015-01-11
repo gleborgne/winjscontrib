@@ -24,7 +24,7 @@
             var m = window.matchMedia('screen and (orientation: portrait)');
             var sections = page.$('.home-sections .section');
             if (m.matches) {
-                var containerW = page.$('.home-sections').innerWidth() - 40;
+                var containerW = page.$('.home-sections').innerWidth() - 20;
                 if (containerW >= 490) {
                     var w = ((containerW - 20) / 3);
                 } else {

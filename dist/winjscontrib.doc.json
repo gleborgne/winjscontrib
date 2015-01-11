@@ -37,62 +37,6 @@
                                 "filename": "winjscontrib.bindings.js",
                                 "lineno": 19
                             }
-                        },
-                        {
-                            "kind": "member",
-                            "name": "formatDate",
-                            "fullname": "WinJSContrib.Bindings.formatDate",
-                            "isEnum": null,
-                            "access": "",
-                            "virtual": false,
-                            "description": "format date using binding argument 'formatDate'",
-                            "type": "",
-                            "meta": {
-                                "filename": "winjscontrib.date.utils.js",
-                                "lineno": 23
-                            }
-                        },
-                        {
-                            "kind": "member",
-                            "name": "calendar",
-                            "fullname": "WinJSContrib.Bindings.calendar",
-                            "isEnum": null,
-                            "access": "",
-                            "virtual": false,
-                            "description": "format date using calendar function",
-                            "type": "",
-                            "meta": {
-                                "filename": "winjscontrib.date.utils.js",
-                                "lineno": 40
-                            }
-                        },
-                        {
-                            "kind": "member",
-                            "name": "daysSinceDate",
-                            "fullname": "WinJSContrib.Bindings.daysSinceDate",
-                            "isEnum": null,
-                            "access": "",
-                            "virtual": false,
-                            "description": "display number of days since a date",
-                            "type": "",
-                            "meta": {
-                                "filename": "winjscontrib.date.utils.js",
-                                "lineno": 76
-                            }
-                        },
-                        {
-                            "kind": "member",
-                            "name": "humanizeDate",
-                            "fullname": "WinJSContrib.Bindings.humanizeDate",
-                            "isEnum": null,
-                            "access": "",
-                            "virtual": false,
-                            "description": "apply moment.js humanize formatting on a date. Use 'humanizeFormat' and 'addSuffix' arguments to configure binding",
-                            "type": "",
-                            "meta": {
-                                "filename": "winjscontrib.date.utils.js",
-                                "lineno": 95
-                            }
                         }
                     ],
                     "functions": [
@@ -1068,6 +1012,226 @@
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
                                 "lineno": 433
+                            }
+                        },
+                        {
+                            "kind": "function",
+                            "name": "formatDate",
+                            "fullname": "WinJSContrib.Bindings.formatDate",
+                            "access": "",
+                            "virtual": false,
+                            "description": "format date using binding argument 'formatDate'",
+                            "parameters": [
+                                {
+                                    "name": "source",
+                                    "fullname": null,
+                                    "type": "Object",
+                                    "description": "object owning data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "sourceProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to object data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "dest",
+                                    "fullname": null,
+                                    "type": "HTMLElement",
+                                    "description": "DOM element targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "destProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to DOM element property targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": [],
+                            "meta": {
+                                "filename": "winjscontrib.date.utils.js",
+                                "lineno": 24
+                            }
+                        },
+                        {
+                            "kind": "function",
+                            "name": "calendar",
+                            "fullname": "WinJSContrib.Bindings.calendar",
+                            "access": "",
+                            "virtual": false,
+                            "description": "format date using calendar function",
+                            "parameters": [
+                                {
+                                    "name": "source",
+                                    "fullname": null,
+                                    "type": "Object",
+                                    "description": "object owning data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "sourceProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to object data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "dest",
+                                    "fullname": null,
+                                    "type": "HTMLElement",
+                                    "description": "DOM element targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "destProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to DOM element property targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": [],
+                            "meta": {
+                                "filename": "winjscontrib.date.utils.js",
+                                "lineno": 42
+                            }
+                        },
+                        {
+                            "kind": "function",
+                            "name": "daysSinceDate",
+                            "fullname": "WinJSContrib.Bindings.daysSinceDate",
+                            "access": "",
+                            "virtual": false,
+                            "description": "display number of days since a date",
+                            "parameters": [
+                                {
+                                    "name": "source",
+                                    "fullname": null,
+                                    "type": "Object",
+                                    "description": "object owning data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "sourceProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to object data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "dest",
+                                    "fullname": null,
+                                    "type": "HTMLElement",
+                                    "description": "DOM element targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "destProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to DOM element property targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": [],
+                            "meta": {
+                                "filename": "winjscontrib.date.utils.js",
+                                "lineno": 79
+                            }
+                        },
+                        {
+                            "kind": "function",
+                            "name": "humanizeDate",
+                            "fullname": "WinJSContrib.Bindings.humanizeDate",
+                            "access": "",
+                            "virtual": false,
+                            "description": "apply moment.js humanize formatting on a date. Use 'humanizeFormat' and 'addSuffix' arguments to configure binding",
+                            "parameters": [
+                                {
+                                    "name": "source",
+                                    "fullname": null,
+                                    "type": "Object",
+                                    "description": "object owning data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "sourceProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to object data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "dest",
+                                    "fullname": null,
+                                    "type": "HTMLElement",
+                                    "description": "DOM element targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "destProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to DOM element property targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": [],
+                            "meta": {
+                                "filename": "winjscontrib.date.utils.js",
+                                "lineno": 99
                             }
                         }
                     ]

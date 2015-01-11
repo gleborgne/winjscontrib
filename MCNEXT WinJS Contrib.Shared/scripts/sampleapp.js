@@ -15,6 +15,13 @@ function registerSection(page, classname) {
         page.masterDetailView.element.classList.add(classname)
     }
 
+    var isWinRT = window.Windows !== undefined;
+    var isWindowPhone = (window.Windows !== undefined && window.Windows.Phone !== undefined);
+
+    if (isWindowPhone) {
+        $('.feature.not-on-windowsphone', page.element).hide();
+    }
+
     $('.feature', page.element).tap(function (elt) {
 
         var target = $(elt).data('target');
@@ -296,9 +303,11 @@ function renderExamples(apiDoc, container) {
         fn.className = 'apidoc-examples';
         container.appendChild(fn);
 
-        apiDoc.constructor.examples.forEach(function (example) {
-            renderExample(example, fn);
-        });
+        if (apiDoc.constructor && apiDoc.constructor.examples) {
+            apiDoc.constructor.examples.forEach(function (example) {
+                renderExample(example, fn);
+            });
+        }
     }
 }
 
