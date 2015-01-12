@@ -85,12 +85,6 @@
     <Content Include="css\ui-themed.theme-dark.css" />
     <Content Include="css\ui-themed.theme-light.css" />
     <None Include="Package.StoreAssociation.xml" />
-    <Content Include="pages\alerts\alerts.js" />
-    <Content Include="pages\core\pageactions\pageactions.js" />
-    <Content Include="pages\home\home.css" />
-    <Content Include="pages\home\home.html" />
-    <Content Include="pages\home\home.js" />
-    <Content Include="pages\home\home.less" />
     <Content Include="pages\mainmenu\mainmenu.css" />
     <Content Include="pages\mainmenu\mainmenu.css.map">
       <DependentUpon>mainmenu.css</DependentUpon>

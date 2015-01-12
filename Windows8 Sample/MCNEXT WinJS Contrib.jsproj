@@ -79,12 +79,6 @@
     <None Include="MCNEXT WinJS Contrib_StoreKey.pfx" />
     <Content Include="packages.config" />
     <Content Include="default.html" />
-    <Content Include="pages\alerts\alerts.js" />
-    <Content Include="pages\home\home.css" />
-    <Content Include="pages\home\home.html" />
-    <Content Include="pages\home\home.js" />
-    <Content Include="pages\home\home.less" />
-    <Content Include="pages\home\home.min.css" />
     <Content Include="TODO.txt" />
     <None Include="MCNEXT.WinJSLibrary_TemporaryKey.pfx" />
   </ItemGroup>
