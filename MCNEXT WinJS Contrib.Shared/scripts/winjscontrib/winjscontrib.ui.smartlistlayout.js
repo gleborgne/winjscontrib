@@ -56,7 +56,7 @@
                         return this._listview;
                     },
                     set: function (val) {
-                        if (val.element && val.forceLayout)
+                        if (val && val.element && val.forceLayout)
                             this._listview = val.element;
                         else
                             this._listview = val;
