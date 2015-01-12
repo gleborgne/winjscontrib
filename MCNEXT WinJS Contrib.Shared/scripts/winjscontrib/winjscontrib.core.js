@@ -67,8 +67,6 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 (function () {
     'use strict';
 
-
-
     /**
      * Calculate offset of element relative to parent element. If parent parameter is null, offset is relative to document
      * @param {HTMLElement} element element to evaluate
@@ -112,6 +110,11 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         var unregister = function () {
             try {
                 e.removeEventListener(eventName, handler);
+                var idx = this.events.indexOf(unregister);
+                if (idx >= 0) {
+                    this.events.splice(idx, 1);
+                }
+                this
             } catch (exception) {
 
             }
@@ -147,7 +150,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     };
 
     /**
-     * open appbars
+     * open all appbars
      */
     WinJSContrib.UI.appbarsOpen = function () {
         var res = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
@@ -161,7 +164,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     };
 
     /**
-     * close appbars
+     * close all appbars
      */
     WinJSContrib.UI.appbarsClose = function () {
         var res = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
@@ -175,7 +178,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     };
 
     /**
-     * disable appbars
+     * disable all appbars
      */
     WinJSContrib.UI.appbarsDisable = function () {
         var res = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
@@ -189,7 +192,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     };
 
     /**
-     * enable appbars
+     * enable all appbars
      */
     WinJSContrib.UI.appbarsEnable = function () {
         $('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]').each(function () {
@@ -309,7 +312,9 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     };
 
     /**
-     * setup declarative binding to parent control function
+     * setup declarative binding to parent control function. It looks for "data-page-action" attributes, 
+     * and try to find a matching method on the supplyed control.
+     * You could add arguments with a "page-action-args" attribute. The argument can be an object or a function
      * @param {HTMLElement} element root node crawled for page actions
      * @param {Object} control control owning functions to call
      */
@@ -341,7 +346,9 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     };
 
     /**
-     * setup declarative binding to page link
+     * setup declarative binding to page link. It looks for "data-page-link" attributes. 
+     * If any the content of the attribute point toward a page. clicking that element will navigate to that page.
+     * You could add arguments with a "page-action-args" attribute. The argument can be an object or a function
      * @param {HTMLElement} element root node crawled for page actions
      */
     WinJSContrib.UI.bindPageLinks = function (element) {
@@ -383,7 +390,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     };
 
     /**
-     * bind an element to a property of the supplyed control
+     * Add this element or control as member to the control. It looks for "data-page-member" attributes. If attribute is empty, it tooks the element id as member name.
      * @param {HTMLElement} element root node crawled for page actions
      * @param {Object} control control owning functions to call
      */
@@ -403,7 +410,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     }
 
     /**
-     * setup declarative binding to parent control function and to navigation links
+     * setup declarative binding to parent control function and to navigation links. It internally invoke both {@link WinJSContrib.UI.bindPageActions} and {@link WinJSContrib.UI.bindPageLinks}
      * @param {HTMLElement} element root node crawled for page actions
      * @param {Object} control control owning functions to call
      */
@@ -490,6 +497,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     /** 
      * apply callback for each item in the array in batch of X parallel items
      * @param {Array} dataArray items to process with async tasks
+     * @param {number} batchSize number of items to batch
      * @param {function} promiseCallback function applyed to each item (could return a promise for item callback completion)
      * @returns {WinJS.Promise}
      */
@@ -782,7 +790,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     };
 
     /** 
-     * function to useas a callback for Array.sort when you want the array to be sorted alphabetically
+     * function to use as a callback for Array.sort when you want the array to be sorted alphabetically
      * @param {string} a
      * @param {string} b
      * @returns {number}
@@ -892,7 +900,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     };
 
     /**
-     * format a number on 2 characters
+     * format a number on 2 digits
      * @param {number} number
      */
     WinJSContrib.Utils.pad2 = function (number) {
@@ -933,7 +941,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
      * @param {HTMLElement} element
      * @param {string} property property name
      */
-    WinJSContrib.Utils.inherit = function (element, property) {
+    WinJSContrib.Utils.inherit = function (element, property) {        
         if (element && element.parentElement) {
             var current = element.parentElement;
             while (current) {
@@ -1033,7 +1041,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     /**
      * get WinJS.Binding.Template like control from a path, a control, a function or a DOM element
      * @param {Object} template template input
-     * @returns {Object} WinJS.Binding.Template or template-like object
+     * @returns {Object} WinJS.Binding.Template or template-like object (object with a render function)
      */
     WinJSContrib.Utils.getTemplate = function (template) {
         if (template) {
@@ -1117,11 +1125,8 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             control = WinJSContrib.Utils.getScopeControl(element);
             method = WinJSContrib.Utils.readProperty(window, methodName);
         }
-
-        //if (method && typeof method == 'function')
+        
         return method;
-
-        //return null;
     };
 
 
@@ -1175,6 +1180,9 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         }
     },
 
+    /**
+     * Inject WinJSContrib fragment enhancements, such as "$","q", "qAll" functions for scoped selectors, eventTracker and promises properties
+     */
     WinJSContrib.UI.addFragmentProperties = function (control) {
         control.$ = function (selector) {
             return $(selector, control.element || control._element);
@@ -1198,6 +1206,8 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         var basedispose = control.dispose;
         control.dispose = function () {
             control.eventTracker.dispose();
+            //control.cancelPromises();
+
             if (basedispose)
                 basedispose.bind(control)();
         }
@@ -1376,7 +1386,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     }
 
     /**
-     * render a html fragment with winjs contrib pipeline and properties
+     * render a html fragment with winjs contrib pipeline and properties, and add WinJS Contrib page events.
      * @param {HTMLElement} container element that will contain the fragment
      * @param {string} location url for the fragment
      * @param {Object} args arguments to the fragment
@@ -1456,6 +1466,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
      * Trigger events on media queries. This class is usefull as a component for other controls to change some properties based on media queries
      * @class WinJSContrib.UI.MediaTrigger
      * @param {Object} items object containing one property for each query
+     * @param {Object} linkedControl control linked to media trigger
      */
     function (items, linkedControl) {
         var ctrl = this;
@@ -1470,13 +1481,23 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         }
     },
     {
+        /**
+         * release media trigger
+         */
         dispose: function () {
             var ctrl = this;
+            ctrl.linkedControl = null;
             this.queries.forEach(function (q) {
                 q.dispose();
             });
         },
 
+        /**
+         * register an event from a media query
+         * @param {string} name event name
+         * @param {string} query media query
+         * @param {Object} data data associated with this query
+         */
         registerMediaEvent: function (name, query, data) {
             var ctrl = this;
             var mq = window.matchMedia(query);
@@ -1509,6 +1530,9 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             ctrl.dispatchEvent('media', query);
         },
 
+        /**
+         * Check all registered queries
+         */
         check: function () {
             var ctrl = this;
             ctrl.queries.forEach(function (q) {
@@ -1520,6 +1544,13 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         }
     }), WinJS.Utilities.eventMixin);
 
+    /**
+     * register navigation related events like hardware backbuttons. This method keeps track of previously registered navigation handlers
+     *  and disable them until the latests is closed, enablinh multi-level navigation.
+     * @param {Object} control control taking ownership of navigation handlers
+     * @param {function} callback callback to invoke when "back" is requested
+     * @returns {function} function to call for releasing navigation handlers
+     */
     WinJSContrib.UI.registerNavigationEvents = function (control, callback) {
         var navigationCtrl = control;
         var locked = [];
