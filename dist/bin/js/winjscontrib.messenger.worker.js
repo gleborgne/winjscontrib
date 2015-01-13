@@ -1,3 +1,9 @@
+/* 
+ * WinJS Contrib v2.0.0.1
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
 importScripts("/WinJS/js/base.js");
 importScripts("/Scripts/winjscontrib/winjscontrib.messenger.js");
 

@@ -1,7 +1,8 @@
-//you may use this code freely as long as you keep the copyright notice and don't 
-// alter the file name and the namespaces
-//This code is provided as is and we could not be responsible for what you are making with it
-//project is available at http://winjscontrib.codeplex.com
+/* 
+ * WinJS Contrib v2.0.0.1
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
 
 var WinJSContrib = WinJSContrib || {};
 
@@ -93,15 +94,18 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
 
     /**
      * @class
-     * @property {Object} Config logger configuration
+     * @param {Object} config logger configuration
      */
     WinJSContrib.Logging.LoggerClass = function (config) {
         this.appenders = [];
+        /**
+         * Logger configuration
+         * @field Config
+         * @type {Object}
+         */
         this.config = config || defaultConfig;        
         this.initWinJSLog();
-    }
-
-    
+    }    
 
     Object.defineProperty(WinJSContrib.Logging.LoggerClass.prototype, "Config", {
         "get": function () { return this.config; },
@@ -174,7 +178,7 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
     /**
      * add debug log entry
      * @param {string} message log message
-     * @param {string} group log group name
+     * @param {string} [group] log group name
      */
     WinJSContrib.Logging.LoggerClass.prototype.debug = function (message, group) {
         this.log(message, group, WinJSContrib.Logging.Levels.debug);
@@ -183,7 +187,7 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
     /**
      * add info log entry
      * @param {string} message log message
-     * @param {string} group log group name
+     * @param {string} [group] log group name
      */
     WinJSContrib.Logging.LoggerClass.prototype.info = function (message, group) {
         this.log(message, group, WinJSContrib.Logging.Levels.info);
@@ -192,7 +196,7 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
     /**
      * add warn log entry
      * @param {string} message log message
-     * @param {string} group log group name
+     * @param {string} [group] log group name
      */
     WinJSContrib.Logging.LoggerClass.prototype.warn = function (message, group) {
         this.log(message, group, WinJSContrib.Logging.Levels.warn);
@@ -201,7 +205,7 @@ WinJSContrib.Logging.Appenders = WinJSContrib.Logging.Appenders || {};
     /**
      * add error log entry
      * @param {string} message log message
-     * @param {string} group log group name
+     * @param {string} [group] log group name
      */
     WinJSContrib.Logging.LoggerClass.prototype.error = function (message, group) {
         this.log(message, group, WinJSContrib.Logging.Levels.error);

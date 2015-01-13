@@ -52,17 +52,17 @@ WinJSContrib.UI.Morph = WinJSContrib.UI.Morph || {};
         this.element.style.display = '';
     }
 
-    MorphOp.prototype.fadeOut = function (duration, options) {
+    MorphOp.prototype.fadeOut = function (options) {
         var morph = this;
-        return WinJSContrib.UI.Animation.fadeOut(morph.element, duration, options).then(function () {
+        return WinJSContrib.UI.Animation.fadeOut(morph.element, options).then(function () {
             if (morph.element) morph.element.style.display = 'none';
         });
     }
 
-    MorphOp.prototype.fadeIn = function (duration, options) {
+    MorphOp.prototype.fadeIn = function (options) {
         var morph = this;
         morph.element.style.display = '';
-        return WinJSContrib.UI.Animation.fadeIn(morph.element, duration, options);
+        return WinJSContrib.UI.Animation.fadeIn(morph.element, options);
     }
 
     MorphOp.prototype.dispose = function () {

@@ -1,9 +1,10 @@
-/// <reference path="winjscontrib.core.js" />
-//you may use this code freely as long as you keep the copyright notice and don't 
-// alter the file name and the namespaces
-//This code is provided as is and we could not be responsible for what you are making with it
-//project is available at http://winjscontrib.codeplex.com
+/* 
+ * WinJS Contrib v2.0.0.1
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
 
+/// <reference path="winjscontrib.core.js" />
 (function () {
     "use strict";
 
@@ -26,12 +27,12 @@
                 ctrl.element = element || document.createElement("div");
                 ctrl.enterAnimation = options.enterAnimation || function () {
                     var ctrl = this;
-                    return WinJSContrib.UI.Animation.fadeIn(ctrl.splashLoader, 500);
+                    return WinJSContrib.UI.Animation.fadeIn(ctrl.splashLoader, { duration: 500 });
                 };
                 ctrl.exitAnimation = options.enterAnimation || function () {
                     var ctrl = this;
-                    var prom1 = WinJSContrib.UI.Animation.fadeOut(ctrl.element.querySelector('#mcn-splashscreen-loader'), 500);
-                    var prom2 = WinJSContrib.UI.Animation.fadeOut(ctrl.element, 500, { delay: 200 });
+                    var prom1 = WinJSContrib.UI.Animation.fadeOut(ctrl.element.querySelector('#mcn-splashscreen-loader'), { duration: 500 });
+                    var prom2 = WinJSContrib.UI.Animation.fadeOut(ctrl.element, { duration: 500, delay: 200 });
 
                     return WinJS.Promise.join([prom1, prom2]).then(function () {
                         ctrl.element.style.display = 'none';

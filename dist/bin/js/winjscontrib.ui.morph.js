@@ -1,3 +1,9 @@
+/* 
+ * WinJS Contrib v2.0.0.1
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
 /// <reference path="winjscontrib.core.js" />
 /// <reference path="winjscontrib.ui.animation.js" /
 
@@ -52,17 +58,17 @@ WinJSContrib.UI.Morph = WinJSContrib.UI.Morph || {};
         this.element.style.display = '';
     }
 
-    MorphOp.prototype.fadeOut = function (duration, options) {
+    MorphOp.prototype.fadeOut = function (options) {
         var morph = this;
-        return WinJSContrib.UI.Animation.fadeOut(morph.element, duration, options).then(function () {
+        return WinJSContrib.UI.Animation.fadeOut(morph.element, options).then(function () {
             if (morph.element) morph.element.style.display = 'none';
         });
     }
 
-    MorphOp.prototype.fadeIn = function (duration, options) {
+    MorphOp.prototype.fadeIn = function (options) {
         var morph = this;
         morph.element.style.display = '';
-        return WinJSContrib.UI.Animation.fadeIn(morph.element, duration, options);
+        return WinJSContrib.UI.Animation.fadeIn(morph.element, options);
     }
 
     MorphOp.prototype.dispose = function () {

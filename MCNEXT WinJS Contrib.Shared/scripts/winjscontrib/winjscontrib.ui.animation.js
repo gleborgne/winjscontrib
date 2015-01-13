@@ -1,9 +1,4 @@
-﻿//you may use this code freely as long as you keep the copyright notice and don't 
-// alter the file name and the namespaces
-//This code is provided as is and we could not be responsible for what you are making with it
-//project is available at http://winjscontrib.codeplex.com
-
-var WinJSContrib = WinJSContrib || {};
+﻿var WinJSContrib = WinJSContrib || {};
 WinJSContrib.UI = WinJSContrib.UI || {};
 
 /**
@@ -130,15 +125,14 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable fade out
      * @param {Object} hidden element or array of elements
-     * @param {number} duration fading duration
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    WinJSContrib.UI.Animation.fadeOut = function (hidden, duration, options) {
+    WinJSContrib.UI.Animation.fadeOut = function (hidden, options) {
         options = options || {};
         var args = {
             property: "opacity",
             delay: staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333),
-            duration: duration || options.duration || 167,
+            duration: options.duration || 167,
             timing: options.easing || "ease-in-out",
             to: 0
         };
@@ -149,17 +143,16 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable fade in
      * @param {Object} hidden element or array of elements
-     * @param {number} duration fading duration
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    WinJSContrib.UI.Animation.fadeIn = function (hidden, duration, options) {
+    WinJSContrib.UI.Animation.fadeIn = function (hidden, options) {
         options = options || {};
         return WinJS.UI.executeTransition(
             hidden,
             {
                 property: "opacity",
                 delay: staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333),
-                duration: duration || options.duration || 167,
+                duration: options.duration || 167,
                 timing: options.easing || "ease-in-out",
                 to: 1
             });
@@ -182,15 +175,14 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable page exit effect
      * @param {Object} hidden element or array of elements
-     * @param {number} duration transition duration
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    WinJSContrib.UI.Animation.pageExit = function (hidden, duration, options) {
+    WinJSContrib.UI.Animation.pageExit = function (hidden, options) {
         options = options || {};
         var args = {
             property: "opacity",
             delay: staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333),
-            duration: duration || options.duration || 160,
+            duration: options.duration || 160,
             timing: options.easing || "ease-in",
             to: 0
         };
@@ -201,17 +193,16 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * configurable page enter effect
      * @param {Object} elements element or array of elements
-     * @param {number} duration transition duration
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    WinJSContrib.UI.Animation.enterPage = function (elements, duration, options) {
+    WinJSContrib.UI.Animation.enterPage = function (elements, options) {
         options = options || {};
         var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 120, 1, options.maxdelay != undefined ? options.maxdelay : 333);
         var animationParams = {
             keyframe: 'WinJSContrib-EnterPage',
             property: equivalents.transform.cssName,
             delay: stagger,
-            duration: duration || options.duration || 600,
+            duration: options.duration || 600,
             timing: options.easing || "cubic-bezier(0.1, 0.9, 0.2, 1)"
         }
 
@@ -220,7 +211,7 @@ WinJSContrib.UI.Animation.Easings = {
         var args = {
             property: "opacity",
             delay: stagger,
-            duration: duration || options.duration || 600,
+            duration: options.duration || 600,
             timing: options.easing || "ease-out",
             to: 1
         };
@@ -405,10 +396,9 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * exit and grow animation
      * @param {Object} elements element or array of elements
-     * @param {number} duration transition duration
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    WinJSContrib.UI.Animation.exitGrow = function (element, duration, options) {
+    WinJSContrib.UI.Animation.exitGrow = function (element, options) {
         var offsetArray;
         options = options || {};
         var keyframeName = "WinJSContrib-exitGrow";
@@ -416,7 +406,7 @@ WinJSContrib.UI.Animation.Easings = {
             keyframeName += '-exagerated';
         }
         var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
-        var dur = duration || options.duration || 300;
+        var dur = options.duration || 300;
 
         var promise1 = WinJS.UI.executeAnimation(
             element,
@@ -443,17 +433,16 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * exit and shrink animation
      * @param {Object} elements element or array of elements
-     * @param {number} duration transition duration
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    WinJSContrib.UI.Animation.exitShrink = function (element, duration, options) {
+    WinJSContrib.UI.Animation.exitShrink = function (element, options) {
         var offsetArray;
         options = options || {};
         var keyframeName = "WinJSContrib-exitShrink";
         if (options.exagerated) {
             keyframeName += '-exagerated';
         }
-        var dur = duration || options.duration || 300;
+        var dur = options.duration || 300;
         var stagger = staggerDelay(options.delay != undefined ? options.delay : 10, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
         var promise1 = WinJS.UI.executeAnimation(
             element,
@@ -514,17 +503,16 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * enter and shrink animation
      * @param {Object} elements element or array of elements
-     * @param {number} duration transition duration
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    WinJSContrib.UI.Animation.enterShrink = function (element, duration, options) {
+    WinJSContrib.UI.Animation.enterShrink = function (element, options) {
         var offsetArray;
         options = options || {};
         var keyframeName = "WinJSContrib-enterShrink";
         if (options.exagerated) {
             keyframeName += '-exagerated';
         }
-        var dur = duration || options.duration || 300;
+        var dur = options.duration || 300;
         var stagger = staggerDelay(
             options.delay != undefined ? options.delay : 5,
             options.itemdelay != undefined ? options.itemdelay : 83,
@@ -557,17 +545,16 @@ WinJSContrib.UI.Animation.Easings = {
     /**
      * enter and shrink animation
      * @param {Object} elements element or array of elements
-     * @param {number} duration transition duration
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    WinJSContrib.UI.Animation.enterGrow = function (element, duration, options) {
+    WinJSContrib.UI.Animation.enterGrow = function (element, options) {
         var offsetArray;
         options = options || {};
         var keyframeName = "WinJSContrib-enterGrow";
         if (options.exagerated) {
             keyframeName += '-exagerated';
         }
-        var dur = duration || options.duration || 300;
+        var dur = options.duration || 300;
 
         var stagger = staggerDelay(
             options.delay != undefined ? options.delay : 5,

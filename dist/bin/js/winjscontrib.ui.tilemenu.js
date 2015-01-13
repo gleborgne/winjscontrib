@@ -1,3 +1,9 @@
+/* 
+ * WinJS Contrib v2.0.0.1
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
 /// <reference path="winjscontrib.core.js" />
 /// <reference path="winjscontrib.ui.animation.js" />
 (function () {
@@ -85,7 +91,7 @@
                 ctrl._renderMenu(options.items || ctrl.items);
                 ctrl.currentElements.overlay.style.opacity = '0';
                 ctrl.currentElements.root.style.opacity = '';
-                WinJSContrib.UI.Animation.fadeIn(ctrl.currentElements.overlay, 400);
+                WinJSContrib.UI.Animation.fadeIn(ctrl.currentElements.overlay, { duration: 400 });
 
                 //setImmediate(function () {
                     ctrl._layoutItems(options.placement || ctrl.placement, options.fillmode || ctrl.fillmode);
@@ -96,7 +102,7 @@
                         return e.element;
                     });
 
-                    WinJSContrib.UI.Animation.enterGrow(itemsToShow, 300, { itemdelay: 15, maxdelay: 150, exagerated:true, easing: WinJSContrib.UI.Animation.Easings.easeOutBack });
+                    WinJSContrib.UI.Animation.enterGrow(itemsToShow, { duration: 300, itemdelay: 15, maxdelay: 150, exagerated:true, easing: WinJSContrib.UI.Animation.Easings.easeOutBack });
                 //});
             },
 
@@ -118,9 +124,9 @@
                     }
 
                     var p = [];
-                    p.push(WinJSContrib.UI.Animation.fadeOut(elements.overlay, 160, { delay: 100 }));
-                    p.push(WinJSContrib.UI.Animation.exitShrink(clickedElement, 260, { exagerated: true, delay: 140, easing: WinJSContrib.UI.Animation.Easings.easeInBack }));
-                    p.push(WinJSContrib.UI.Animation.exitShrink(itemsToHide, 160, { exagerated: true, itemdelay: 20, maxdelay: 100, easing: WinJSContrib.UI.Animation.Easings.easeInBack }));
+                    p.push(WinJSContrib.UI.Animation.fadeOut(elements.overlay, { duratin: 160, delay: 100 }));
+                    p.push(WinJSContrib.UI.Animation.exitShrink(clickedElement, { duration: 260, exagerated: true, delay: 140, easing: WinJSContrib.UI.Animation.Easings.easeInBack }));
+                    p.push(WinJSContrib.UI.Animation.exitShrink(itemsToHide, { duration: 160, exagerated: true, itemdelay: 20, maxdelay: 100, easing: WinJSContrib.UI.Animation.Easings.easeInBack }));
                     
                     WinJS.Promise.join(p).then(function () {
                         $(elements.root).remove();

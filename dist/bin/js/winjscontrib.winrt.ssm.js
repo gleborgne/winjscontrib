@@ -1,3 +1,9 @@
+/* 
+ * WinJS Contrib v2.0.0.1
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
 /// <reference path="//Microsoft.WinJS.2.0/js/ui.js" />
 /// <reference path="//Microsoft.WinJS.2.0/js/base.js" />
 var WinJSContrib = WinJSContrib || {};

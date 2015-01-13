@@ -8,6 +8,7 @@
     var app = WinJS.Application;
     var activation = Windows.ApplicationModel.Activation;
     var nav = WinJS.Navigation;
+    var ui = WinJS.UI;
 
     // Client logging configuration
     var logger = WinJSContrib.Logging.getLogger('SampleApplication', {

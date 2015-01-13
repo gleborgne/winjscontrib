@@ -1,6 +1,6 @@
 # ..\lib\nuget setApiKey [key]
 #..\lib\nuget Push WinJSContrib.WinRT.BackgroundTasks.2.0.0.0.nupkg
-..\lib\nuget Push WinJSContrib.WinRT.BackgroundTransfer.2.0.0.0.nupkg
+#..\lib\nuget Push WinJSContrib.WinRT.BackgroundTransfer.2.0.0.0.nupkg
 #..\lib\nuget Push WinJSContrib.WinRT.DynamicScript.2.0.0.0.nupkg
 #..\lib\nuget Push WinJSContrib.WinRT.Core.2.0.0.0.nupkg
 #..\lib\nuget Push WinJSContrib.WinRT.MultiView.2.0.0.0.nupkg

@@ -1,5 +1,4 @@
-﻿
-var WinJSContrib = WinJSContrib || {};
+﻿var WinJSContrib = WinJSContrib || {};
 WinJSContrib.UI = WinJSContrib.UI || {};
 
 /** @namespace */

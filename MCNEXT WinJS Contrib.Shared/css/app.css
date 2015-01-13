@@ -283,22 +283,33 @@
 #docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function:last-child {
   border-bottom: none;
 }
-#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params {
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params,
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-returns {
   color: #444;
   padding-left: 20px;
   font-size: 0.9em;
 }
-#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params .apidoc-member {
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params .apidoc-member,
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-returns .apidoc-member {
   padding: 4px 0;
   border-bottom-color: #DDD;
 }
-#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params .apidoc-member > .apidoc-description {
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params .apidoc-member .remark,
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-returns .apidoc-member .remark {
+  font-weight: normal;
+  font-size: 0.9em;
   font-style: italic;
 }
-#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params .apidoc-function-name {
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params .apidoc-member > .apidoc-description,
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-returns .apidoc-member > .apidoc-description {
   font-style: italic;
 }
-#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params h5 {
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params .apidoc-function-name,
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-returns .apidoc-function-name {
+  font-style: italic;
+}
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-params h5,
+#docviewFlyout .childNavigator-contentPlaceholder .fragment section[role=main] .apidoc-function-returns h5 {
   font-weight: 400;
   margin-top: 5px;
   text-transform: uppercase;

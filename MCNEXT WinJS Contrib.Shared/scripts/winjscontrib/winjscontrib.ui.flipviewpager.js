@@ -131,6 +131,6 @@
                 WinJS.Utilities.disposeSubTree(this.element);
             }
         }),
-		WinJS.UI.DOMEventMixin)
+        WinJS.UI.DOMEventMixin)
     });
 })();

@@ -1,9 +1,4 @@
-﻿//you may use this code freely as long as you keep the copyright notice and don't 
-// alter the file name and the namespaces
-//This code is provided as is and we could not be responsible for what you are making with it
-//project is available at http://winjscontrib.codeplex.com
-
-var WinJSContrib;
+﻿var WinJSContrib;
 (function (WinJSContrib) {
     'use strict';
 
@@ -24,7 +19,14 @@ var WinJSContrib;
          * @param {string} argument name
          */
         WinJSContrib.Bindings.bindingArguments = function bindingArguments(elt, argname) {
-            var data = $(elt).data('win-bind-args');
+            if (WinJS.UI._optionsParser) {
+                var text = elt.getAttribute("data-win-bind-args");
+                if (text) {
+                    var data = WinJS.UI._optionsParser(text);
+                }
+            }else{
+                var data = $(elt).data('win-bind-args');
+            }
             if (data) {
                 if (argname) {
                     return data[argname];

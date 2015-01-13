@@ -10,6 +10,21 @@ var jsdoc = require("gulp-jsdoc");
 var del = require('del');
 var rename = require('gulp-rename');
 var jsFilesPath = 'MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/';
+var nuget = require('gulp-nuget');
+var foreach = require('gulp-foreach');
+var Stream = require("stream");
+var shell = require('gulp-shell');
+var insert = require('gulp-insert');
+
+var WinJSContribVersion = "2.0.0.1";
+
+function licenseHeader(){
+	return '/* \r\n' +
+	' * WinJS Contrib v' + WinJSContribVersion + '\r\n' +
+	' * licensed under MIT license (see http://opensource.org/licenses/MIT)\r\n' +
+	' * sources available at https://github.com/gleborgne/winjscontrib\r\n' +
+	' */\r\n\r\n';
+}
 
 var onError = function(err) {
 	notify.onError({
@@ -22,16 +37,43 @@ var onError = function(err) {
 	this.emit('end');
 };
 
+gulp.task('cleannuget', function(cb) {
+	del(['dist/nuget/*.nupkg', 'dist/nuget/publish'], cb);
+});
+
+gulp.task('nuget', ['cleannuget'], function(cb) {
+	//del(['dist/nuget/*.nupkg'], cb);
+	
+	return gulp.src(['dist/nuget/*.nuspec']).pipe(foreach(function(stream, file){
+		console.log('file:' + file.path);
+		return stream.pipe(nuget.pack({ nuspec: file.path, nuget: 'dist/Lib/nuget.exe', version: WinJSContribVersion }))
+		.pipe(gulp.dest('dist/nuget'))
+		.pipe(shell(['"dist/Lib/nuget.exe" Push <%= file.path %>']));
+		//.pipe(nuget.push({ feed: 'https://www.nuget.org/', nuget: 'dist/Lib/nuget.exe' }));
+	}));
+	
+});
+
+gulp.task('distrib', ['cleannuget', 'build'], function() {
+	return gulp.src(['dist/nuget/*.nuspec']).pipe(foreach(function(stream, file){
+		console.log('file:' + file.path);
+		return stream.pipe(nuget.pack({ nuspec: file.path, nuget: 'dist/Lib/nuget.exe', version: WinJSContribVersion }))
+		.pipe(gulp.dest('dist/nuget'))
+		.pipe(shell(['"dist/Lib/nuget.exe" Push <%= file.path %>']));
+		//.pipe(nuget.push({ feed: 'https://www.nuget.org/', nuget: 'dist/Lib/nuget.exe' }));
+	}));
+});
 
 gulp.task('clean', function(cb) {
 	del(['dist/bin'], cb)
 });
 
-
 gulp.task('styles', function() {
+	var header = licenseHeader();
 	return gulp.src(['MCNEXT WinJS Contrib.Shared/css/winjscontrib/**/*.less'])
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(less())
+	.pipe(insert.prepend(header))
 	.pipe(gulp.dest('dist/bin/css'))
 	//.pipe(gulp.dest('src/'))
 	.pipe(minifycss())
@@ -40,6 +82,7 @@ gulp.task('styles', function() {
             path.basename += '.min';
         }
     }))
+    .pipe(insert.prepend(header))
     .pipe(gulp.dest('dist/bin/css'))
 	//.pipe(concat('main.css'))
 	
@@ -48,9 +91,11 @@ gulp.task('styles', function() {
 
 gulp.task('scripts', function() {
 	gulp.src(['MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/winjscontrib.dynamicscripts.html']).pipe(gulp.dest('dist/bin/js/'));
-	   
+	var header = licenseHeader();
+	
 	return gulp.src([jsFilesPath + '**/*.js'])        
 	.pipe(plumber({errorHandler: onError}))
+	.pipe(insert.prepend(header))
 	.pipe(jshint())
 	.pipe(jshint.reporter('default'))
 	.pipe(gulp.dest('dist/bin/js/'))
@@ -63,6 +108,7 @@ gulp.task('scripts', function() {
 	.pipe(uglify({ outSourceMap: true }))
 	//.pipe(uglify())
 	//.pipe(concat('main.js'))
+	.pipe(insert.prepend(header))
 	.pipe(gulp.dest('dist/bin/js/'));
 });
 
@@ -133,7 +179,10 @@ gulp.task('watch', function() {
 	gulp.watch(jsFilesPath +'**/*.js', ['scripts']);
 });
 
+gulp.task('build', ['clean'], function() {
+	gulp.start('styles', 'scripts');
+});
 
-gulp.task('default', ['clean'], function() {
-	gulp.start('doc', 'styles', 'scripts');
+gulp.task('default', ['build'], function() {
+	gulp.start('doc');
 });

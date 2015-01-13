@@ -188,25 +188,24 @@
 
                 //                ctrl.detailViewContent.style.opacity = '0';
 
-                return morph.fadeIn(100).then(function () {                  
+                return morph.fadeIn({ duration: 100 }).then(function () {
 
                     morph.morphToElt(ctrl.detailViewHeader);
                     ctrl.detailViewHeader.style.opacity = '0';
                     ctrl.detailViewContent.style.display = '';
                     ctrl.detailView.classList.add('visible');
 
-                    WinJSContrib.UI.Animation.fadeOut(ctrl.masterView, 100).then(function () {
+                    WinJSContrib.UI.Animation.fadeOut(ctrl.masterView, { duration: 100 }).then(function () {
                         ctrl.masterView.style.opacity = '';
                         ctrl.masterView.classList.remove('visible');
                     }).then(function () {
 
-                        //WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, 700, { delay: 470 });
                         return morph.apply({ duration: 350 }).then(function () {
                             return ctrl._loadDetailContent(options.uri, data, options);
                         }).then(function(){
-                            WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, 700);
+                            WinJSContrib.UI.Animation.enterPage(ctrl.detailViewContent, { duration: 700 });
                             ctrl.detailViewHeader.style.opacity = '';
-                            return morph.fadeOut(200);
+                            return morph.fadeOut({ duration: 200 });
                         });
                     });
                 });
@@ -222,8 +221,8 @@
                 }
 
                 morph.checkTarget(true);
-                morph.fadeIn(160);
-                return WinJSContrib.UI.Animation.fadeOut(ctrl.detailView, 250).then(function () {
+                morph.fadeIn({ duration: 160 });
+                return WinJSContrib.UI.Animation.fadeOut(ctrl.detailView, { duration: 250 }).then(function () {
                     ctrl.detailView.classList.remove('visible');
                     ctrl.detailView.style.display = 'none';
                 }).then(function () {
@@ -232,9 +231,9 @@
 
                     return morph.revert({ duration: 250 });
                 }).then(function () {
-                    return WinJSContrib.UI.Animation.fadeIn(ctrl.masterView, 300, { easing: 'ease-in' });
+                    return WinJSContrib.UI.Animation.fadeIn(ctrl.masterView, { duration: 300, easing: 'ease-in' });
                 }).then(function () {
-                    return morph.fadeOut(160);
+                    return morph.fadeOut({ duration: 160 });
                 }).then(function () {
                     ctrl.detailView.style.display = '';
                     ctrl.detailView.style.opacity = '';

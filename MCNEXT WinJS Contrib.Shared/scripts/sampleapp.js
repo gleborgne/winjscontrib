@@ -243,6 +243,7 @@ function renderFunction(apiDoc, withname) {
     elt.appendChild(content);
 
     renderDescription(apiDoc, content);
+    renderFunctionReturns(apiDoc, content);
     renderFunctionParams(apiDoc, content);
     renderExamples(apiDoc, content);
 
@@ -281,6 +282,18 @@ function renderDescription(apiDoc, elt) {
 
         desc.innerHTML = descContent;
         elt.appendChild(desc);
+    }
+}
+
+function renderFunctionReturns(apiDoc, container) {
+    if (apiDoc.returns) {
+        var elt = document.createElement("DIV");
+        elt.className = 'apidoc-function-returns';
+        elt.innerHTML = '<h5>returns</h5>' + renderLinkTo(apiDoc.returns.type);
+        if (apiDoc.returns.description) {
+            elt.innerHTML = elt.innerHTML + ', <span class="apidoc-function-returns-desc">' + apiDoc.returns.description + '</span>'
+        }
+        container.appendChild(elt);
     }
 }
 
@@ -331,7 +344,7 @@ function renderExample(example, container) {
 function renderMember(apiDoc) {
     var elt = document.createElement("DIV");
     elt.className = 'apidoc-member';
-    var html = '<div class="apidoc-member-name"><span class="name">' + (apiDoc.variable ? '...' : '') + apiDoc.name + '</span> <span class="type">: ' + renderLinkTo((apiDoc.type.names || apiDoc.type) + '') + '</span></div>';
+    var html = '<div class="apidoc-member-name"><span class="name">' + (apiDoc.variable ? '...' : '') + apiDoc.name + (apiDoc.optional ? ' <span class="remark">(optional)</span>' : '') + '</span> <span class="type">: ' + renderLinkTo((apiDoc.type.names || apiDoc.type) + '') + '</span></div>';
     if (apiDoc.description)
         html += '<div class="apidoc-description">' + apiDoc.description + '</div>';
 

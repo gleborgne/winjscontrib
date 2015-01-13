@@ -1,3 +1,9 @@
+/* 
+ * WinJS Contrib v2.0.0.1
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
 /// <reference path="winjscontrib.core.js" />
 (function () {
     'use strict';
@@ -328,7 +334,7 @@
                 ctrl._overlay.classList.add('visible');
                 ctrl.registerBack();
 
-                WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, 400);
+                WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, { duration: 400 });
 
                 var p = WinJS.Promise.wrap();
                 if (ctrl.contentCtrl && ctrl.contentCtrl.beforeShowContent) {
@@ -377,7 +383,7 @@
                 this.dispatchEvent("beforehide");
                 this._removeNavigationLocks();
 
-                return WinJS.Promise.join([ctrl.exitAnimation(ctrl._wrapper), WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, 200)]).then(function () {
+                return WinJS.Promise.join([ctrl.exitAnimation(ctrl._wrapper), WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, { duration: 200 })]).then(function () {
                     return WinJS.Promise.timeout(100);
                 }).then(function () {
                     ctrl._wrapper.classList.remove('visible');
@@ -587,7 +593,7 @@
 
                     ctrl._overlay.style.opacity = '0';
                     ctrl._overlay.classList.add('visible');
-                    WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, 400);
+                    WinJSContrib.UI.Animation.fadeIn(ctrl._overlay, { duration: 400 });
                     ctrl.registerBack();
                     //ctrl.lockNavigation();
                 }
@@ -601,7 +607,7 @@
                     swiper.swipeHandled = true;
                     ctrl._removeNavigationLocks();
 
-                    WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, 300).then(function () {
+                    WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, { duration: 300 }).then(function () {
                         ctrl._overlay.classList.remove('visible');
                     });
 
