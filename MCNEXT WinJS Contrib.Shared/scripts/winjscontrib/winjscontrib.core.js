@@ -52,6 +52,9 @@ var WinJSContrib = WinJSContrib || {};
 /** @namespace */
 WinJSContrib.UI = WinJSContrib.UI || {};
 
+/** @namespace */
+WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
+
 /**
  * indicate if fragment should not look for resources when building control
  * @field
@@ -1182,18 +1185,21 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     },
 
     /**
-     * Inject WinJSContrib fragment enhancements, such as "$","q", "qAll" functions for scoped selectors, eventTracker and promises properties
+     * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
+     * @field
+     * @type {Array}
      */
-    WinJSContrib.UI.fragmentMixin = function (control) {
-        control.$ = function (selector) {
+    WinJSContrib.UI.Pages.defaultFragmentMixins = [{
+
+        $ : function (selector) {
             return $(selector, this.element || this._element);
-        }
+        },
 
-        control.q = function (selector) {
+        q : function (selector) {
             return this.element.querySelector(selector);
-        }
+        },
 
-        control.qAll = function (selector) {
+        qAll : function (selector) {
             var res = this.element.querySelectorAll(selector);
             if (res && !res.forEach) {
                 res.forEach = function (callback) {
@@ -1202,80 +1208,98 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                     }
                 }
             }
-        }        
+        },
 
-        if (!control.eventTracker) {
-            Object.defineProperty(control, 'eventTracker', {
-                get: function () {
-                    if (!this._eventTracker)
-                        this._eventTracker = new WinJSContrib.UI.EventTracker();
-                    return this._eventTracker;
-                }
-            });            
-        }
-
-        if (!control.promises) {
-            Object.defineProperty(control, 'promises', {
-                get: function () {
-                    if (!this._promises)
-                        this._promises = [];
-                    return this._promises;
-                }
-            });
-        }
-
-        if (!control.addPromise) {
-            control.addPromise = function (prom) {
-                this.promises.push(prom);
-                return prom;
+        eventTracker: {
+            get: function () {
+                if (!this._eventTracker)
+                    this._eventTracker = new WinJSContrib.UI.EventTracker();
+                return this._eventTracker;
             }
-        }
+        },
 
-        if (!control.cancelPromises) {
-            control.cancelPromises = function () {
-                var page = this;
-                if (page.promises) {
-                    for (var i = 0; i < page.promises.length; i++) {
-                        if (page.promises[i]) {
-                            page.promises[i].cancel();
-                        }
+        promises: {
+            get: function () {
+                if (!this._promises)
+                    this._promises = [];
+                return this._promises;
+            }
+        },
+
+        addPromise : function (prom) {
+            this.promises.push(prom);
+            return prom;
+        },
+
+        cancelPromises : function () {
+            var page = this;
+            if (page.promises) {
+                for (var i = 0; i < page.promises.length; i++) {
+                    if (page.promises[i]) {
+                        page.promises[i].cancel();
                     }
                 }
-            };
+            }
         }
+    }];
 
-        if (!control.__wLoad) {
+    /**
+     * Inject WinJSContrib fragment enhancements, such as "$","q", "qAll" functions for scoped selectors, eventTracker and promises properties
+     * This enhancement also allows you to add behavior on each WinJS fragment by adding them to {@link WinJSContrib.UI.Pages.defaultFragmentMixins}
+     * WinJS Contrib navigator is calling this method before processing the page, so you don't need to explicitely wrap all your pages if you use it 
+     * @param {function} constructor constructor for the fragment
+     * @returns {function} constructor for the fragment
+     * @example
+     * WinJSContrib.UI.Pages.fragmentMixin(WinJS.UI.Pages.define("./demos/home.html", {
+     *     ready : function(){
+     *         //your page ready stuff
+     *     }
+     * }));
+     */
+    WinJSContrib.UI.Pages.fragmentMixin = function (constructor) {
+        var proto = constructor.prototype;
+
+        if (constructor.winJSContrib)
+            return;
+
+        constructor.winJSContrib = true;
+
+        WinJSContrib.UI.Pages.defaultFragmentMixins.forEach(function (mixin) {
+            WinJS.Class.mix(constructor, mixin);
+        });
+
+        if (!proto.__wLoad) {
             //wrap WinJS page events with custom functions
-            control.__wLoad = control.load;
+            proto.__wLoad = proto.load;
             
 
-            control.load = function (uri) {
+            proto.load = function (uri) {
                 return WinJS.Promise.as(this.__wLoad.apply(this, arguments)).then(function (arg) {
-                    if (!control.__wInit) {
+                    if (!proto.__wInit) {
                         //this register should happen after first page load, otherwise page methods will override framework method
-                        register(control);
+                        register(proto);
                     }
                     return arg;
                 });
             }
 
-            function register(control) {
-                control.__wDispose = control.dispose;
-                control.__wInit = control.init;
-                control.__wProcess = control.process;
-                control.__wProcessed = control.processed;
-                control.__wRender = control.render;
-                control.__wReady = control.ready;
-                control.__wError = control.error;
+            function register(proto) {
+                proto.__wDispose = proto.dispose;
+                proto.__wInit = proto.init;
+                proto.__wProcess = proto.process;
+                proto.__wProcessed = proto.processed;
+                proto.__wRender = proto.render;
+                proto.__wReady = proto.ready;
+                proto.__wError = proto.error;
 
-                control.init = function (element, options) {
+                proto.init = function (element, options) {
                     if (element.style.display)
                         this._initialDisplay = element.style.display;
                     element.style.display = 'none';
                     return this.__wInit.apply(this, arguments);
                 }
 
-                control.process = function (element, options) {
+                proto.process = function (element, options) {
                     var page = this;
                     var processargs = arguments;
                     return WinJS.Promise.as(page.__wProcess.apply(page, processargs)).then(function () {
@@ -1297,13 +1321,13 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                     });
                 }
 
-                control.processed = function (element, options) {
+                proto.processed = function (element, options) {
                     var page = this;
                     var processedargs = arguments;
                     return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
                 }
 
-                control.render = function (element, options, loadResult) {
+                proto.render = function (element, options, loadResult) {
                     var page = this;
                     var renderargs = arguments;
                     if (page.prepareData)
@@ -1314,7 +1338,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                     return WinJS.Promise.as(page.__wRender.apply(page, renderargs));
                 }
 
-                control.ready = function (element, options) {
+                proto.ready = function (element, options) {
                     var page = this;
                     WinJSContrib.UI.bindActions(element, this);
                     return WinJS.Promise.as(page.__wReady.apply(page, arguments)).then(function () {
@@ -1331,18 +1355,23 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                     });
                 }
 
-                control.dispose = function () {
+                proto.dispose = function () {
                     if (this.eventTracker) {
                         this.eventTracker.dispose();
                         this._eventTracker = null;
                     }
-                    this.cancelPromises();
+                    if (this.promises && this.cancelPromises) {
+                        this.cancelPromises();
+                        this._promises = [];
+                    }
 
                     if (this.__wDispose)
                         this.__wDispose(this);
                 }
             }
         }
+
+        return constructor;
     }
 
     function broadcast(ctrl, element, eventName, args, before, after) {
@@ -1367,124 +1396,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             promises.push(WinJS.Promise.as(after.apply(ctrl, args)));
 
         return WinJS.Promise.join(promises);
-    }
-
-    function _getPageLayoutControls(newElement) {
-        var layoutCtrls = [];
-        var pagelayoutCtrls = newElement.querySelectorAll('.mcn-layout-ctrl');
-        if (pagelayoutCtrls && pagelayoutCtrls.length) {
-            for (var i = 0 ; i < pagelayoutCtrls.length; i++) {
-                var ctrl = pagelayoutCtrls[i].winControl;
-                if (ctrl) {
-                    layoutCtrls.push(ctrl);
-                }
-            }
-        }
-
-        return layoutCtrls;
-    }
-
-    function _pagePrepare(newElementCtrl, layoutCtrls, navargs, options) {
-        var promises = [];
-
-        if (layoutCtrls && layoutCtrls.length) {
-            for (var i = 0 ; i < layoutCtrls.length; i++) {
-                var ctrl = layoutCtrls[i];
-                if (ctrl.prepare) {
-                    promises.push(WinJS.Promise.as(ctrl.prepare(newElementCtrl.element, navargs)));
-                }
-            }
-        }
-
-        if (newElementCtrl && newElementCtrl.prepare) {
-            promises.push(WinJS.Promise.as(newElementCtrl.prepare(newElementCtrl.element, navargs)));
-        }
-
-        var result = WinJS.Promise.join(promises);
-        newElementCtrl.addPromise(result);
-
-        return result;
-    }
-
-    function _pageLayout(newElementCtrl, layoutCtrls, navargs, options) {
-        var result = WinJS.Promise.wrap();
-        var promises = [];
-
-        if (layoutCtrls && layoutCtrls.length) {
-            for (var i = 0 ; i < layoutCtrls.length; i++) {
-                var ctrl = layoutCtrls[i];
-                if (ctrl.pageLayout) {
-                    promises.push(WinJS.Promise.as(ctrl.pageLayout(newElementCtrl.element, navargs)));
-                }
-            }
-            result = WinJS.Promise.join(promises);
-        }
-
-        if (newElementCtrl && newElementCtrl.layoutPage) {
-            var pageLayoutPromise = WinJS.Promise.as(newElementCtrl.layoutPage(newElementCtrl.element, navargs));
-            if (!promises.length) {
-                result = pageLayoutPromise;
-            }
-            else {
-                result = result.then(function () {
-                    return pageLayoutPromise;
-                });
-            }
-        }
-        newElementCtrl.addPromise(result);
-
-        return result;
-    }
-
-    function _pageContentReady(newElementCtrl, layoutCtrls, navargs, options) {
-        if (newElementCtrl && newElementCtrl.contentReady) {
-            newElementCtrl.contentReady(newElementCtrl.element, navargs);
-        }
-
-        if (layoutCtrls && layoutCtrls.length) {
-            for (var i = 0 ; i < layoutCtrls.length; i++) {
-                var ctrl = layoutCtrls[i];
-                if (ctrl.contentReady) {
-                    ctrl.contentReady(newElementCtrl.element, navargs);
-                }
-            }
-        }
-
-        if (newElementCtrl.enterPageAnimation) {
-            return WinJS.Promise.as(newElementCtrl.enterPageAnimation());
-        }
-
-        newElementCtrl.element.style.opacity = '';
-        if (options.enterPage) {
-            var elts = null;
-            if (newElementCtrl && newElementCtrl.getAnimationElements) {
-                elts = newElementCtrl.getAnimationElements(false);
-            } else {
-                elts = newElementCtrl.element;
-            }
-
-            //this.dispatchEvent("pageContentReady", navargs);
-            if (elts)
-                return options.enterPage(elts);
-        }
-    }
-
-    function _pageReady(newElementCtrl, layoutCtrls, navargs, options) {
-        if (newElementCtrl && newElementCtrl.pageReady) {
-            newElementCtrl.pageReady(newElementCtrl.element, navargs);
-        }
-
-        if (layoutCtrls && layoutCtrls.length) {
-            for (var i = 0 ; i < layoutCtrls.length; i++) {
-                var ctrl = layoutCtrls[i];
-                if (ctrl.pageReady) {
-                    ctrl.pageReady(newElementCtrl.element, navargs);
-                }
-            }
-        }
-        //this.dispatchEvent("pageReady", navargs);
-        //return WinJS.Promise.timeout(); //setImmediate
-    }
+    }    
 
     /**
      * render a html fragment with winjs contrib pipeline and properties, and add WinJS Contrib page events.
@@ -1504,7 +1416,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         var parented = null;//new WinJS.Promise(function (c) { parentedComplete = c; });
         var layoutCtrls = [];
         var pageConstructor = WinJS.UI.Pages.get(location);
-        WinJSContrib.UI.prepareFragment(pageConstructor);
+        WinJSContrib.UI.Pages.fragmentMixin(pageConstructor);
 
         var elementCtrl = new pageConstructor(element, args, null, parented);
         if (args && args.injectToPage) {
@@ -1545,50 +1457,11 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         }
 
         return elementCtrl.renderComplete.then(function () {
-                
-                //parentedComplete();
-                //if (elementCtrl.prepareData) {
-                //    elementCtrl.dataPromise = WinJS.Promise.as(elementCtrl.prepareData(element, args));
-                //    elementCtrl.promises.push(elementCtrl.dataPromise);
-                //}            
-
-            //délai pour que la transition de sortie se déclenche
-            //return WinJS.Promise.timeout(10);
-        }).then(function () {
             if (!WinJSContrib.UI.disableAutoResources)
                 return WinJS.Resources.processAll(element);
         }).then(function (control) {
             element.style.opacity = '';
-        })
-
-        /*.then(function () {
-            if (options.closeOldPagePromise)
-                return WinJS.Promise.as(options.closeOldPagePromise);
-        }).then(function (data) {
-            elementCtrl.pagedata = data;
-            WinJSContrib.UI.bindMembers(elementCtrl.element, elementCtrl);
-            layoutCtrls = _getPageLayoutControls(element);
-            return _pagePrepare(elementCtrl, layoutCtrls, args, options);
-        }).then(function () {
-            
-            return WinJS.Promise.timeout();
-        }).then(function (control) {
-            if (options.onafterlayout) {
-                options.onafterlayout(elementCtrl);
-            }
-            layoutCtrls = _getPageLayoutControls(element);
-            return _pageLayout(elementCtrl, layoutCtrls, args, options);
-        }).then(function () {
-            parentedComplete();
-            WinJSContrib.UI.bindActions(elementCtrl.element, elementCtrl);
-            if (options.onafterready) {
-                options.onafterready(elementCtrl);
-            }
-            layoutCtrls = _getPageLayoutControls(element);
-            return _pageContentReady(elementCtrl, layoutCtrls, args, options);
-        }).then(function () {
-            return _pageReady(elementCtrl, layoutCtrls, args, options);
-        });*/
+        });
     }
 
     WinJSContrib.UI.MediaTrigger = WinJS.Class.mix(WinJS.Class.define(
@@ -1672,14 +1545,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                 }
             });
         }
-    }), WinJS.Utilities.eventMixin);
-
-    WinJSContrib.UI.prepareFragment = function (ctor) {
-        if (!ctor.winJSContrib) {
-            ctor.winJSContrib = true;
-            WinJSContrib.UI.fragmentMixin(ctor.prototype);
-        }
-    }
+    }), WinJS.Utilities.eventMixin);    
 
     /**
      * register navigation related events like hardware backbuttons. This method keeps track of previously registered navigation handlers

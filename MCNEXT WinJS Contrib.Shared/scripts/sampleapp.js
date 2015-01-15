@@ -321,6 +321,10 @@ function renderExamples(apiDoc, container) {
                 renderExample(example, fn);
             });
         }
+
+        apiDoc.examples.forEach(function (example) {
+            renderExample(example, fn);
+        });
     }
 }
 

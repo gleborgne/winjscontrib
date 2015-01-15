@@ -476,7 +476,7 @@
                                 }
                             }
                         },
-                        onafterlayout: function (control) {
+                        onafterlayout: function (element) {
                             if (args.detail.state && args.detail.state.clearNavigationHistory) {
                                 if (navigator.global) {
                                     WinJS.Navigation.history.backStack = [];
@@ -484,7 +484,7 @@
                                     navigator.history.backstack = [];
                                 }
                             }
-                            navigator._updateBackButton(control);
+                            navigator._updateBackButton(element);
                         },
                         onafterready: function (control) {
                             navigator.dispatchEvent('pageContentReady', { page: control });
@@ -532,9 +532,9 @@
 
                 // Updates the back button state. Called after navigation has
                 // completed.
-                _updateBackButton: function (control) {
+                _updateBackButton: function (element) {
                     var ctrl = this;
-                    var backButton = $(".win-backbutton", control.element);
+                    var backButton = $(".win-backbutton", element);
                     //var backButton = this.pageElement.querySelector("header[role=banner] .win-backbutton");
 
                     if (backButton && backButton.length > 0) {

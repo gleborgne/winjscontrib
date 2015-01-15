@@ -25,10 +25,22 @@
                 var ctrl = this;
                 options = options || {};
                 ctrl.element = element || document.createElement("div");
+
+                /**
+                 * animation for showing splash screen
+                 * @field
+                 * @type {function}                 * 
+                 */
                 ctrl.enterAnimation = options.enterAnimation || function () {
                     var ctrl = this;
                     return WinJSContrib.UI.Animation.fadeIn(ctrl.splashLoader, { duration: 500 });
                 };
+
+                /**
+                 * animation for hiding splash screen
+                 * @field
+                 * @type {function}                 * 
+                 */
                 ctrl.exitAnimation = options.enterAnimation || function () {
                     var ctrl = this;
                     var prom1 = WinJSContrib.UI.Animation.fadeOut(ctrl.element.querySelector('#mcn-splashscreen-loader'), { duration: 500 });
@@ -141,7 +153,7 @@
 
                 setLocation: function (splash) {
                     var ctrl = this;
-                    if (splash) {
+                    if (splash && splash.imageLocation) {
                         ctrl.splashImage.style.position = 'absolute';
                         ctrl.splashImage.style.top = splash.imageLocation.y + "px";
                         ctrl.splashImage.style.left = splash.imageLocation.x + "px";

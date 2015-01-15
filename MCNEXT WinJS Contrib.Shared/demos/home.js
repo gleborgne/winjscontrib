@@ -5,7 +5,7 @@
         ready: function (element, options) {
             var page = this;            
             page.updateLayout();
-            $('.section', element).tap(function (elt) {
+            page.$('.section').tap(function (elt) {
                 var target = $(elt).data('target');
                 var title = $('.title', elt).text().trim();
                 page.masterDetailView.openDetail(elt, { title: title }, {
