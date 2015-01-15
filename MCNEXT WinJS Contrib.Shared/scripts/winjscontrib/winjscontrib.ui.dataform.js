@@ -27,7 +27,9 @@
                 this.messages = options.messages;
                 this.rules = options.rules;
                 /**
-                 * @member {Object} WinJSContrib.UI.DataForm#state
+                 * state of the form
+                 * @field
+                 * @type {Object}
                  */
                 this.state = new DataFormState();
                 this.state.item = {};
@@ -57,7 +59,7 @@
              */
         {
             /**
-             * @member
+             * @member {Array}
              */
             messages: {
                 get: function () {
@@ -68,7 +70,7 @@
                 }
             },
             /**
-             * @member
+             * @member {Array}
              */
             rules: {
                 get: function () {
@@ -79,7 +81,7 @@
                 }
             },
             /**
-             * @member
+             * @member {Array}
              */
             groups: {
                 get: function () {
@@ -91,7 +93,7 @@
             },
             /**
              * object bound to data form
-             * @member
+             * @member {Object}
              */
             item: {
                 get: function () {

@@ -43,7 +43,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         apply: function (options) {
             options = options || {};
 
-            if (options.field) this.field = options.field;
+            if (options.field)
+                this.field = options.field;
+
             if (options.defaultGroupLimit) this.defaultGroupLimit = options.defaultGroupLimit;
             if (options.filter) this.filter = options.filter;
             if (options.groupKind) {
@@ -60,6 +62,20 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
             if (options.zoomedOutListView) this.zoomedOutListView = options.zoomedOutListView;
             if (options.items) this.items = options.items;
 
+        },
+
+        /**
+         * path to the field to use for groupings
+         * @field
+         * @type string
+         */
+        field: {
+            get: function () {
+                return this._field;
+            },
+            set: function (val) {
+                this._field = val;
+            }
         },
 
         /**
@@ -220,6 +236,7 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
 
         /**
          * clean-up, initialise data and bind listviews to data
+         * @param {Array} items
          */
         prepareItems: function (items) {
             this.detach();
@@ -325,7 +342,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
      */
     {
         /**
-         * @property {WinJS.UI.SemanticZoom} semanticZoom semantic zoom control
+         * semantic zoom control
+         * @field
+         * @type {WinJS.UI.SemanticZoom}
          */
         semanticZoom: {
             get: function () {
@@ -396,6 +415,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
             this._dataManager = new ds.DataSourceManager(dataOptions);
         },
 
+        /**
+         * release control
+         */
         dispose: function () {
             WinJS.Utilities.disposeSubTree(this.element);
         }

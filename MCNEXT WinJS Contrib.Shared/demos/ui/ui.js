@@ -6,5 +6,5 @@
             var page = this;
             registerSection(page, 'section-ui');
         }
-    });
+    });    
 })();

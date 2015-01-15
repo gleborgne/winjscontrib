@@ -7,7 +7,7 @@
     }
 
     WinJS.UI.Pages.define("./demos/ui/controls/flexgrid/home.html", {
-        prepare: function (element, options) {
+        processed: function (element, options) {
             options.items = options.items || items;
             var controls = {
                 hub: element.querySelector("#pageHub").winControl,

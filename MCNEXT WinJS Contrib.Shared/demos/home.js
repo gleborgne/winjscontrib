@@ -19,6 +19,14 @@
             });
         },
 
+        //render: function (element, options, loadResults) {
+        //    element.appendChild(loadResults);
+        //},
+
+        processed: function (element, options) {
+            console.log('???');
+        },
+
         updateLayout: function (element) {
             var page = this;
             var m = window.matchMedia('screen and (orientation: portrait)');

@@ -16,7 +16,7 @@ var Stream = require("stream");
 var shell = require('gulp-shell');
 var insert = require('gulp-insert');
 
-var WinJSContribVersion = "2.0.0.1";
+var WinJSContribVersion = "2.0.0.2";
 
 function licenseHeader(){
 	return '/* \r\n' +
@@ -41,26 +41,13 @@ gulp.task('cleannuget', function(cb) {
 	del(['dist/nuget/*.nupkg', 'dist/nuget/publish'], cb);
 });
 
-gulp.task('nuget', ['cleannuget'], function(cb) {
-	//del(['dist/nuget/*.nupkg'], cb);
-	
-	return gulp.src(['dist/nuget/*.nuspec']).pipe(foreach(function(stream, file){
-		console.log('file:' + file.path);
-		return stream.pipe(nuget.pack({ nuspec: file.path, nuget: 'dist/Lib/nuget.exe', version: WinJSContribVersion }))
-		.pipe(gulp.dest('dist/nuget'))
-		.pipe(shell(['"dist/Lib/nuget.exe" Push <%= file.path %>']));
-		//.pipe(nuget.push({ feed: 'https://www.nuget.org/', nuget: 'dist/Lib/nuget.exe' }));
-	}));
-	
-});
-
 gulp.task('distrib', ['cleannuget', 'build'], function() {
 	return gulp.src(['dist/nuget/*.nuspec']).pipe(foreach(function(stream, file){
-		console.log('file:' + file.path);
+		console.log('process file: ' + file.path);
+
 		return stream.pipe(nuget.pack({ nuspec: file.path, nuget: 'dist/Lib/nuget.exe', version: WinJSContribVersion }))
 		.pipe(gulp.dest('dist/nuget'))
 		.pipe(shell(['"dist/Lib/nuget.exe" Push <%= file.path %>']));
-		//.pipe(nuget.push({ feed: 'https://www.nuget.org/', nuget: 'dist/Lib/nuget.exe' }));
 	}));
 });
 
@@ -68,7 +55,7 @@ gulp.task('clean', function(cb) {
 	del(['dist/bin'], cb)
 });
 
-gulp.task('styles', function() {
+gulp.task('styles', ['clean'], function() {
 	var header = licenseHeader();
 	return gulp.src(['MCNEXT WinJS Contrib.Shared/css/winjscontrib/**/*.less'])
 	.pipe(plumber({errorHandler: onError}))
@@ -89,7 +76,7 @@ gulp.task('styles', function() {
 });
 
 
-gulp.task('scripts', function() {
+gulp.task('scripts', ['clean'], function() {
 	gulp.src(['MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/winjscontrib.dynamicscripts.html']).pipe(gulp.dest('dist/bin/js/'));
 	var header = licenseHeader();
 	
@@ -179,9 +166,7 @@ gulp.task('watch', function() {
 	gulp.watch(jsFilesPath +'**/*.js', ['scripts']);
 });
 
-gulp.task('build', ['clean'], function() {
-	gulp.start('styles', 'scripts');
-});
+gulp.task('build', ['styles', 'scripts']);
 
 gulp.task('default', ['build'], function() {
 	gulp.start('doc');

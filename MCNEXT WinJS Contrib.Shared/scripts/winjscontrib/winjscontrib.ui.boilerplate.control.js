@@ -19,7 +19,8 @@
 				}
 			},
 			dispose : function(){
-				WinJS.Utilities.disposeSubTree(this.element);
+			    WinJS.Utilities.disposeSubTree(this.element);
+			    this.element = null;
 			}
 		}),
 		WinJS.Utilities.eventMixin,

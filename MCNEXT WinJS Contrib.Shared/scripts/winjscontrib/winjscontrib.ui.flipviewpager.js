@@ -27,6 +27,7 @@
         {
             /**
              * attached flipview
+             * @type {Object}
              */
             flipView: {
                 get: function () {
