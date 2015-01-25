@@ -1,4 +1,10 @@
 /* 
+ * WinJS Contrib v2.0.0.4
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+/* 
  * WinJS Contrib v2.0.0.3
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
@@ -951,7 +957,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
      * @param {HTMLElement} element
      * @param {string} property property name
      */
-    WinJSContrib.Utils.inherit = function (element, property) {        
+    WinJSContrib.Utils.inherit = function (element, property) {
         if (element && element.parentElement) {
             var current = element.parentElement;
             while (current) {
@@ -1135,7 +1141,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             control = WinJSContrib.Utils.getScopeControl(element);
             method = WinJSContrib.Utils.readProperty(window, methodName);
         }
-        
+
         return method;
     };
 
@@ -1197,15 +1203,15 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
      */
     WinJSContrib.UI.Pages.defaultFragmentMixins = [{
 
-        $ : function (selector) {
+        $: function (selector) {
             return $(selector, this.element || this._element);
         },
 
-        q : function (selector) {
+        q: function (selector) {
             return this.element.querySelector(selector);
         },
 
-        qAll : function (selector) {
+        qAll: function (selector) {
             var res = this.element.querySelectorAll(selector);
             if (res && !res.forEach) {
                 res.forEach = function (callback) {
@@ -1232,12 +1238,12 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             }
         },
 
-        addPromise : function (prom) {
+        addPromise: function (prom) {
             this.promises.push(prom);
             return prom;
         },
 
-        cancelPromises : function () {
+        cancelPromises: function () {
             var page = this;
             if (page.promises) {
                 for (var i = 0; i < page.promises.length; i++) {
@@ -1286,7 +1292,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         if (!proto.__wLoad) {
             //wrap WinJS page events with custom functions
             proto.__wLoad = proto.load;
-            
+
 
             proto.load = function (uri) {
                 return WinJS.Promise.as(this.__wLoad.apply(this, arguments)).then(function (arg) {
@@ -1319,10 +1325,32 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                 proto.process = function (element, options) {
                     var page = this;
                     var processargs = arguments;
-                    return WinJS.Promise.as(page.__wProcess.apply(page, processargs)).then(function () {
-                        WinJSContrib.UI.bindMembers(element, page);
-                        return page.prepareDataPromise;
-                    }).then(function(){
+                    return WinJS.Promise.as(page.__wProcess.apply(page, processargs));
+
+                    //.then(function () {
+                    //    WinJSContrib.UI.bindMembers(element, page);
+                    //    return page.prepareDataPromise;
+                    //}).then(function(){
+                    //    return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
+                    //}).then(function () {
+                    //    element.style.display = page._initialDisplay || '';
+                    //    return WinJS.Promise.timeout();
+                    //}).then(function () {
+                    //    if (page.onbeforelayout)
+                    //        return page.onbeforelayout(element, options);
+                    //}).then(function () {
+                    //    return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
+                    //}).then(function () {
+                    //    if (page.onafterlayout)
+                    //        return page.onafterlayout(element, options);
+                    //});
+                }
+
+                proto.processed = function (element, options) {
+                    var page = this;
+                    var processedargs = arguments;
+                    WinJSContrib.UI.bindMembers(element, page);
+                    return page.prepareDataPromise.then(function () {
                         return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
                     }).then(function () {
                         element.style.display = page._initialDisplay || '';
@@ -1335,13 +1363,10 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                     }).then(function () {
                         if (page.onafterlayout)
                             return page.onafterlayout(element, options);
+                    }).then(function () {
+                        return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
                     });
-                }
 
-                proto.processed = function (element, options) {
-                    var page = this;
-                    var processedargs = arguments;
-                    return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
                 }
 
                 proto.render = function (element, options, loadResult) {
@@ -1434,7 +1459,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             promises.push(WinJS.Promise.as(after.apply(ctrl, args)));
 
         return WinJS.Promise.join(promises);
-    }    
+    }
 
     /**
      * render a html fragment with winjs contrib pipeline and properties, and add WinJS Contrib page events.
@@ -1484,7 +1509,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                 if (elts)
                     return page._enterAnimation(elts);
             }
-            
+
         }
 
         if (options.closeOldPagePromise) {
@@ -1583,7 +1608,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                 }
             });
         }
-    }), WinJS.Utilities.eventMixin);    
+    }), WinJS.Utilities.eventMixin);
 
     /**
      * register navigation related events like hardware backbuttons. This method keeps track of previously registered navigation handlers
