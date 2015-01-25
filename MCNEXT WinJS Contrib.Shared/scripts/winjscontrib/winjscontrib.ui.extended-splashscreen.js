@@ -22,8 +22,7 @@
 
                 /**
                  * animation for showing splash screen
-                 * @field
-                 * @type {function}                 * 
+                 * @field                * 
                  */
                 ctrl.enterAnimation = options.enterAnimation || function () {
                     var ctrl = this;
@@ -32,8 +31,7 @@
 
                 /**
                  * animation for hiding splash screen
-                 * @field
-                 * @type {function}                 * 
+                 * @field            * 
                  */
                 ctrl.exitAnimation = options.enterAnimation || function () {
                     var ctrl = this;
@@ -67,7 +65,8 @@
             * @lends WinJSContrib.UI.ExtendedSplash.prototype
             */
             {
-                /** build html content for splash screen
+                /** 
+                 * build html content for splash screen
                  * @param {string} text text displayed on splash
                  * @returns {string} HTML content
                  */

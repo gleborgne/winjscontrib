@@ -193,13 +193,13 @@ function renderClass(apiDoc, withname, fullpath) {
     if (apiDoc.classes) {
         var fn = document.createElement("DIV");
         fn.className = 'apidoc-classes';
-        fn.innerHTML = '<h3>child classes</h3>';
+        fn.innerHTML = '<h3>Classes</h3>';
         elt.appendChild(fn);
         apiDoc.classes.forEach(function (c) {
             var childClass = document.createElement('a');
             childClass.setAttribute('data-linkto', fullpath + '.' + c.name);
             childClass.innerText = fullpath + '.' + c.name;
-            elt.appendChild(childClass);
+            fn.appendChild(childClass);
         });
     }
 

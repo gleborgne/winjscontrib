@@ -82,8 +82,8 @@
 
     app.addEventListener("settings", function (e) {
         e.detail.applicationcommands = {
-            "aboutSettingsFlyout": { href: '/pages/settings/about/aboutPage.html', title: "About..." },
-            "whatsNewSettingsFlyout": { href: '/pages/settings/whatsnew/whatsnew.html', title: "What's new ?" }
+            "aboutSettingsFlyout": { href: '/demos/settings/about/aboutPage.html', title: "About..." },
+            "whatsNewSettingsFlyout": { href: '/demos/settings/whatsnew/whatsnew.html', title: "What's new ?" }
         };
         WinJS.UI.SettingsFlyout.populateSettings(e);        
     });

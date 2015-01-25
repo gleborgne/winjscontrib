@@ -1282,6 +1282,20 @@
                             "functions": [
                                 {
                                     "kind": "function",
+                                    "name": "define",
+                                    "fullname": "WinJSContrib.UI.Pages.define",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "substitute for WinJS.UI.Pages.define that injects custom WinJS Contrib behaviors",
+                                    "parameters": [],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 1255
+                                    }
+                                },
+                                {
+                                    "kind": "function",
                                     "name": "fragmentMixin",
                                     "fullname": "WinJSContrib.UI.Pages.fragmentMixin",
                                     "access": "",
@@ -1304,7 +1318,7 @@
                                     ],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1265
+                                        "lineno": 1274
                                     },
                                     "returns": {
                                         "type": "function",
@@ -2995,7 +3009,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1414
+                                "lineno": 1446
                             }
                         },
                         {
@@ -3030,7 +3044,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1563
+                                "lineno": 1595
                             },
                             "returns": {
                                 "type": "function",
@@ -3272,7 +3286,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1474
+                                "lineno": 1506
                             }
                         },
                         {
@@ -3989,7 +4003,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.extended-splashscreen.js",
-                                        "lineno": 80
+                                        "lineno": 79
                                     },
                                     "returns": {
                                         "type": "string",
@@ -4028,7 +4042,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.extended-splashscreen.js",
-                                        "lineno": 126
+                                        "lineno": 125
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -4046,7 +4060,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.extended-splashscreen.js",
-                                        "lineno": 186
+                                        "lineno": 185
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -4372,8 +4386,96 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.ui.grid.js",
-                                "lineno": 13
+                                "lineno": 33
                             },
+                            "properties": [
+                                {
+                                    "kind": "member",
+                                    "name": "scrollContainer",
+                                    "fullname": "WinJSContrib.UI.GridControl#scrollContainer",
+                                    "isEnum": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "scroll element containing the grid. Required for multi pass rendering",
+                                    "type": {
+                                        "names": [
+                                            "HTMLElement"
+                                        ]
+                                    },
+                                    "meta": {
+                                        "filename": "winjscontrib.ui.grid.js",
+                                        "lineno": 97
+                                    }
+                                },
+                                {
+                                    "kind": "member",
+                                    "name": "itemInvoked",
+                                    "fullname": "WinJSContrib.UI.GridControl#itemInvoked",
+                                    "isEnum": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "callback triggered when clicking on an item",
+                                    "type": {
+                                        "names": [
+                                            "HTMLElement"
+                                        ]
+                                    },
+                                    "meta": {
+                                        "filename": "winjscontrib.ui.grid.js",
+                                        "lineno": 111
+                                    }
+                                },
+                                {
+                                    "kind": "member",
+                                    "name": "itemTemplate",
+                                    "fullname": "WinJSContrib.UI.GridControl#itemTemplate",
+                                    "isEnum": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "item template (WinJS Template or template function)",
+                                    "type": {
+                                        "names": [
+                                            "Object"
+                                        ]
+                                    },
+                                    "meta": {
+                                        "filename": "winjscontrib.ui.grid.js",
+                                        "lineno": 125
+                                    }
+                                },
+                                {
+                                    "kind": "member",
+                                    "name": "itemClassName",
+                                    "fullname": "WinJSContrib.UI.GridControl#itemClassName",
+                                    "isEnum": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "css class added on item's placeholder",
+                                    "type": {
+                                        "names": [
+                                            "Object"
+                                        ]
+                                    },
+                                    "meta": {
+                                        "filename": "winjscontrib.ui.grid.js",
+                                        "lineno": 139
+                                    }
+                                },
+                                {
+                                    "kind": "member",
+                                    "name": "GridLayoutsImpl",
+                                    "fullname": "WinJSContrib.UI.GridControl#GridLayoutsImpl",
+                                    "isEnum": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "Layouts algorythm implementations",
+                                    "type": "",
+                                    "meta": {
+                                        "filename": "winjscontrib.ui.grid.js",
+                                        "lineno": 257
+                                    }
+                                }
+                            ],
                             "functions": [
                                 {
                                     "kind": "function",
@@ -4407,7 +4509,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 65
+                                        "lineno": 153
                                     }
                                 },
                                 {
@@ -4421,7 +4523,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 85
+                                        "lineno": 173
                                     }
                                 },
                                 {
@@ -4435,7 +4537,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 92
+                                        "lineno": 180
                                     }
                                 },
                                 {
@@ -4449,7 +4551,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 364
+                                        "lineno": 457
                                     }
                                 },
                                 {
@@ -4463,7 +4565,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 402
+                                        "lineno": 495
                                     }
                                 },
                                 {
@@ -4477,7 +4579,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 414
+                                        "lineno": 507
                                     }
                                 },
                                 {
@@ -4491,7 +4593,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 446
+                                        "lineno": 539
                                     }
                                 }
                             ]
@@ -5031,6 +5133,102 @@
                                     "access": "",
                                     "virtual": false,
                                     "description": "max delay for item when staggering animation",
+                                    "type": {
+                                        "names": [
+                                            "number"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "kind": "class",
+                            "name": "GridControlLayout",
+                            "fullname": "WinJSContrib.UI.GridControlLayout",
+                            "description": "Object representing a layout configuration for the grid control",
+                            "extends": [],
+                            "access": "",
+                            "virtual": false,
+                            "fires": "",
+                            "constructor": {
+                                "name": "GridControlLayout",
+                                "description": "Object representing a layout configuration for the grid control",
+                                "parameters": [],
+                                "examples": [
+                                    "{\r    layout: 'horizontal',\r    itemsPerColumn: (options.itemsPerColumn) ? options.itemsPerColumn : undefined,\r    itemsPerRow: (options.itemsPerRow) ? options.itemsPerRow : undefined,\r    cellSpace: 10,\r    cellWidth: (options.cellWidth) ? options.cellWidth : undefined,\r    cellHeight: (options.cellHeight) ? options.cellHeight : undefined,\r}"
+                                ]
+                            },
+                            "meta": {
+                                "filename": "winjscontrib.ui.grid.js",
+                                "lineno": 11
+                            },
+                            "properties": [
+                                {
+                                    "name": "layout",
+                                    "fullname": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "layout algorythm to apply (horizontal | vertical | flexhorizontal | flexvertical | hbloc",
+                                    "type": {
+                                        "names": [
+                                            "string"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "cellSpace",
+                                    "fullname": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "space between grid cells",
+                                    "type": {
+                                        "names": [
+                                            "number"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "cellWidth",
+                                    "fullname": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "width of grid cells",
+                                    "type": {
+                                        "names": [
+                                            "number"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "cellHeight",
+                                    "fullname": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "height of grid cells",
+                                    "type": {
+                                        "names": [
+                                            "number"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "itemsPerColumn",
+                                    "fullname": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "number of cells per column if using a layout with a fixed number of cells",
+                                    "type": {
+                                        "names": [
+                                            "number"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "itemsPerRow",
+                                    "fullname": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "number of cells per row if using a layout with a fixed number of cells",
                                     "type": {
                                         "names": [
                                             "number"
@@ -9047,7 +9245,7 @@
             "examples": [],
             "meta": {
                 "filename": "winjscontrib.core.js",
-                "lineno": 1496
+                "lineno": 1528
             }
         },
         {
@@ -9092,7 +9290,7 @@
             "examples": [],
             "meta": {
                 "filename": "winjscontrib.core.js",
-                "lineno": 1510
+                "lineno": 1542
             }
         },
         {
@@ -9106,7 +9304,7 @@
             "examples": [],
             "meta": {
                 "filename": "winjscontrib.core.js",
-                "lineno": 1545
+                "lineno": 1577
             }
         }
     ],

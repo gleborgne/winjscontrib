@@ -26,13 +26,14 @@
         <section class="desc-screen" aria-label="Main content" role="main">
             <div class="bloc-description">
                 <p>
-                    The custom page navigator inject custom events in your pages.
-                    Those events are intended to help you build pages in an efficient manner,
-                    and to propagate those events to the controls on your page.
+                    The fragment mixin inject custom lifecycle events in your pages.
+                    Those events are intended to help you build pages in a more efficient manner,
+                    and to propagate the custom events to the controls in your pages.
                     It helps building pages without having to rely heavily on WinJS Scheduler or setImmediate.
+                    The WinJS Contrib navigator is injecting this mixin to all pages it manages.
                 </p>
                 <p>
-                    The custom event also enforce some best practice like scoping your selectors.
+                    The fragments will call those methods in all controls marked with the css class "mcn-layout-ctrl". 
                 </p>
             </div>
             <div></div>

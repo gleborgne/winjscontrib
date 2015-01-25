@@ -20,7 +20,7 @@
 
         prepare: function (element, options) {
             var page = this;
-            page.$('.pagetitle').text(page.rootPath);
+            page.$('.pagetitle').text(page.apiDoc.fullname);
             var container = page.q('section[role=main]');
             MSApp.execUnsafeLocalFunction(function () {
                 if (page.apiDoc.parameters) {

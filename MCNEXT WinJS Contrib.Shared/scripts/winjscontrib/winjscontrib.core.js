@@ -110,17 +110,17 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
      * @returns {function} function to call for unregistering the event
      */
     WinJSContrib.UI.EventTracker.prototype.addEvent = function (e, eventName, handler, capture) {
+        var tracker = this;
         e.addEventListener(eventName, handler, capture);
         var unregister = function () {
             try {
                 e.removeEventListener(eventName, handler);
-                var idx = this.events.indexOf(unregister);
+                var idx = tracker.events.indexOf(unregister);
                 if (idx >= 0) {
-                    this.events.splice(idx, 1);
+                    tracker.events.splice(idx, 1);
                 }
-                this
             } catch (exception) {
-
+                console.error('unexpected error while releasing callback ' + exception.message);
             }
         };
 
@@ -1244,6 +1244,15 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
     }];
 
     /**
+     * substitute for WinJS.UI.Pages.define that injects custom WinJS Contrib behaviors
+     */
+    WinJSContrib.UI.Pages.define = function (location, members) {
+        var ctor = WinJS.UI.Pages.define(location, members);
+        WinJSContrib.UI.Pages.fragmentMixin(ctor);
+        return ctor;
+    }
+
+    /**
      * Inject WinJSContrib fragment enhancements, such as "$","q", "qAll" functions for scoped selectors, eventTracker and promises properties
      * This enhancement also allows you to add behavior on each WinJS fragment by adding them to {@link WinJSContrib.UI.Pages.defaultFragmentMixins}
      * WinJS Contrib navigator is calling this method before processing the page, so you don't need to explicitely wrap all your pages if you use it 
@@ -1291,8 +1300,10 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                 proto.__wRender = proto.render;
                 proto.__wReady = proto.ready;
                 proto.__wError = proto.error;
+                proto.__wUpdateLayout = proto.updateLayout;
 
                 proto.init = function (element, options) {
+                    element.classList.add('mcn-fragment');
                     if (element.style.display)
                         this._initialDisplay = element.style.display;
                     element.style.display = 'none';
@@ -1314,7 +1325,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                         if (page.onbeforelayout)
                             return page.onbeforelayout(element, options);
                     }).then(function () {
-                        return broadcast(page, element, 'pageLayout', [element, options], null, page.layoutPage);
+                        return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
                     }).then(function () {
                         if (page.onafterlayout)
                             return page.onafterlayout(element, options);
@@ -1368,6 +1379,19 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                     if (this.__wDispose)
                         this.__wDispose(this);
                 }
+
+                proto.updateLayout = function () {
+                    var page = this;
+                    var updateLayoutArgs = arguments;
+                    var p = WinJS.Promise.wrap();
+                    if (page.__wUpdateLayout) {
+                        p = WinJS.Promise.as(page.__wUpdateLayout.apply(page, updateLayoutArgs));
+                    }
+
+                    return p.then(function () {
+                        return broadcast(page, page.element, 'updateLayout', updateLayoutArgs);
+                    });
+                }
             }
         }
 
@@ -1380,16 +1404,24 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
         if (before)
             promises.push(WinJS.Promise.as(before.apply(ctrl, args)));
 
-        if (pagelayoutCtrls && pagelayoutCtrls.length) {
-            for (var i = 0 ; i < pagelayoutCtrls.length; i++) {
-                var childctrl = pagelayoutCtrls[i].winControl;
-                if (childctrl) {
-                    var event = childctrl[eventName];
-                    if (event) {
-                        promises.push(WinJS.Promise.as(event.apply(childctrl, args)));
-                    }
+
+        var query = element.querySelectorAll(".mcn-layout-ctrl");
+
+        var index = 0;
+        var length = query.length;
+        while (index < length) {
+            var childctrl = query[index];
+            if (childctrl) {
+                var event = childctrl.winControl[eventName];
+                if (event) {
+                    promises.push(WinJS.Promise.as(event.apply(childctrl.winControl, args)));
+
                 }
             }
+
+            // Skip descendants
+            //index += childctrl.querySelectorAll(".mcn-fragment, .mcn-layout-ctrl").length + 1;
+            index += 1;
         }
 
         if (after)

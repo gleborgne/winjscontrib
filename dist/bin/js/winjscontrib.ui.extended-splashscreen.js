@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.0.2
+ * WinJS Contrib v2.0.0.3
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -28,8 +28,7 @@
 
                 /**
                  * animation for showing splash screen
-                 * @field
-                 * @type {function}                 * 
+                 * @field                * 
                  */
                 ctrl.enterAnimation = options.enterAnimation || function () {
                     var ctrl = this;
@@ -38,8 +37,7 @@
 
                 /**
                  * animation for hiding splash screen
-                 * @field
-                 * @type {function}                 * 
+                 * @field            * 
                  */
                 ctrl.exitAnimation = options.enterAnimation || function () {
                     var ctrl = this;
@@ -73,7 +71,8 @@
             * @lends WinJSContrib.UI.ExtendedSplash.prototype
             */
             {
-                /** build html content for splash screen
+                /** 
+                 * build html content for splash screen
                  * @param {string} text text displayed on splash
                  * @returns {string} HTML content
                  */

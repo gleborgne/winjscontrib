@@ -3,7 +3,7 @@
 (function () {
     "use strict";
 
-    WinJS.UI.Pages.define("/demos/ui/controls/tilemenu/tilemenu.html", {
+    WinJS.UI.Pages.define("./demos/ui/controls/tilemenu/tilemenu.html", {
         ready: function (element, options) {
             var page = this;
             var items = [

@@ -124,6 +124,9 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\animation\animation.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\animation\animation.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\animation\animation.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\arguments\arguments.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\arguments\arguments.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\arguments\arguments.js" />
@@ -139,6 +142,10 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\eventtracker\eventtracker.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\eventtracker\eventtracker.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\eventtracker\eventtracker.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectedcontent.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectfragment.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectfragment.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectfragment.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\objectproperties\objectproperties.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\objectproperties\objectproperties.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\objectproperties\objectproperties.js" />
@@ -240,6 +247,14 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage\stdpage.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage\stdpage.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage\stdpage.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\about\aboutPage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\about\aboutPage.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\about\aboutPage.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\whatsnew\whatsnew.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\whatsnew\whatsnew.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\whatsnew\whatsnew.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\whatsnew\whatsnew.json" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\whatsnew\WhatsNewControl.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\shell.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.html" />

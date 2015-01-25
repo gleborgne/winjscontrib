@@ -282,12 +282,12 @@
 
             updateLayout: function (e) {
                 var ctrl = this;
-                if (ctrl.masterViewContent && ctrl.masterViewContent.updateLayout) {
-                    ctrl.masterViewContent.updateLayout(e);
-                }
-                if (ctrl.detailViewContentCtrl && ctrl.detailViewContentCtrl.updateLayout) {
-                    ctrl.detailViewContentCtrl.updateLayout(e);
-                }
+                //if (ctrl.masterViewContent && ctrl.masterViewContent.updateLayout) {
+                //    ctrl.masterViewContent.updateLayout(e);
+                //}
+                //if (ctrl.detailViewContentCtrl && ctrl.detailViewContentCtrl.updateLayout) {
+                //    ctrl.detailViewContentCtrl.updateLayout(e);
+                //}
             }
         }),
         WinJS.Utilities.eventMixin,
