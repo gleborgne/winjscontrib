@@ -1,4 +1,10 @@
 ﻿/* 
+ * WinJS Contrib v2.0.0.4
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+/* 
  * WinJS Contrib v2.0.0.3
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
@@ -1298,7 +1304,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                 });
             }
 
-            function register(proto) {
+            var register = function (proto) {
                 proto.__wDispose = proto.dispose;
                 proto.__wInit = proto.init;
                 proto.__wProcess = proto.process;
@@ -1310,9 +1316,9 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
                 proto.init = function (element, options) {
                     element.classList.add('mcn-fragment');
-                    if (element.style.display)
-                        this._initialDisplay = element.style.display;
-                    element.style.display = 'none';
+                    if (element.style.visibility)
+                        this._initialVisibility = element.style.visibility;
+                    element.style.visibility = 'hidden';
                     return this.__wInit.apply(this, arguments);
                 }
 
@@ -1347,7 +1353,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                     return page.prepareDataPromise.then(function () {
                         return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
                     }).then(function () {
-                        element.style.display = page._initialDisplay || '';
+                        element.style.visibility = page._initialVisibility || '';
                         return WinJS.Promise.timeout();
                     }).then(function () {
                         if (page.onbeforelayout)
@@ -1488,8 +1494,13 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             elementCtrl.onafterlayout = options.onafterlayout;
         if (options.onafterready)
             elementCtrl.onafterready = options.onafterready;
+
         if (options.enterPage) {
-            elementCtrl._enterAnimation = options.enterPage;
+            if (elementCtrl.enterPageAnimation)
+                elementCtrl._enterAnimation = elementCtrl.enterPageAnimation;
+            else
+                elementCtrl._enterAnimation = options.enterPage;
+
             elementCtrl.enterPageAnimation = function () {
                 var page = this;
                 var elts = null;
