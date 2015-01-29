@@ -1316,9 +1316,9 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
                 proto.init = function (element, options) {
                     element.classList.add('mcn-fragment');
-                    if (element.style.visibility)
-                        this._initialVisibility = element.style.visibility;
-                    element.style.visibility = 'hidden';
+                    if (element.style.display)
+                        this._initialDisplay = element.style.display;
+                    element.style.display = 'hidden';
                     return this.__wInit.apply(this, arguments);
                 }
 
@@ -1353,7 +1353,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                     return page.prepareDataPromise.then(function () {
                         return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
                     }).then(function () {
-                        element.style.visibility = page._initialVisibility || '';
+                        element.style.display = page._initialDisplay || '';
                         return WinJS.Promise.timeout();
                     }).then(function () {
                         if (page.onbeforelayout)
