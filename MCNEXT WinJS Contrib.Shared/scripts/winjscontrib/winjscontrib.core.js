@@ -1316,6 +1316,8 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
                 proto.init = function (element, options) {
                     element.classList.add('mcn-fragment');
+                    element.classList.add('mcn-layout-ctrl');
+
                     if (element.style.display)
                         this._initialDisplay = element.style.display;
                     element.style.display = 'hidden';
