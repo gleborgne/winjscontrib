@@ -1,4 +1,12 @@
-﻿.mcn-navigator {
+﻿html, body {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.mcn-navigator {
     width: 100%;
     height: 100%;
     position: relative;
@@ -32,6 +40,12 @@
     animation-duration: 1.5s;
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
+}
+
+.tap {
+    cursor:pointer;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
 }
 
 @keyframes pulseanimation {

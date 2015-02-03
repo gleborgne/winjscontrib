@@ -339,6 +339,17 @@
                     fromInput: function (val) {
                         return val;
                     }
+                },
+                /**
+                 * @member
+                 */
+                "stringifiedObject": {
+                    fromObject: function (val) {
+                        return JSON.stringify(val);
+                    },
+                    fromInput: function (val) {
+                        return JSON.parse(val);
+                    }
                 }
             }
         }),

@@ -8,7 +8,7 @@
     'use strict';
 
     function debugLog(msg) {
-        console.log(msg);
+        //console.log(msg);
     }
 
     WinJS.Namespace.define("WinJSContrib.UI", {
