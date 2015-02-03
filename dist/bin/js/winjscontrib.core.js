@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.0.4
+ * WinJS Contrib v2.0.0.5
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -1406,6 +1406,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                 }
 
                 proto.dispose = function () {
+                    $('.tap', this.element).untap();
                     if (this.eventTracker) {
                         this.eventTracker.dispose();
                         this._eventTracker = null;

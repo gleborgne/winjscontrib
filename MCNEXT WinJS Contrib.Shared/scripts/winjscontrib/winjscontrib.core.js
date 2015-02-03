@@ -1400,6 +1400,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                 }
 
                 proto.dispose = function () {
+                    $('.tap', this.element).untap();
                     if (this.eventTracker) {
                         this.eventTracker.dispose();
                         this._eventTracker = null;

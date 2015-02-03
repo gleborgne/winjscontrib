@@ -1,4 +1,5 @@
-﻿function HSL(hVal, sVal, lVal) {
+﻿/// <reference path="winjscontrib.core.js" />
+function HSL(hVal, sVal, lVal) {
     var res = {
         h: hVal,
         s: sVal,
@@ -38,10 +39,11 @@
         var elt = event.currentTarget || event.target;
         var tracking = elt.mcnTapTracking;
         if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
+            event.stopPropagation();
             if (tracking.lock) {
                 if (event.pointerId && event.currentTarget.setPointerCapture)
                     event.currentTarget.setPointerCapture(event.pointerId);
-                event.stopPropagation();
+                
                 event.preventDefault();
             }
             var $this = $(event.currentTarget);
@@ -127,7 +129,11 @@
         return this.each(function () {
             var $this = $(this);
             $this.addClass('tap');
+            if (this.mcnTapTracking) {
+                this.mcnTapTracking.dispose();
+            }
             this.mcnTapTracking = this.mcnTapTracking || {};
+            this.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
             this.mcnTapTracking.disableAnimation = opt.disableAnimation;
             if (this.mcnTapTracking.disableAnimation) {
                 this.mcnTapTracking.animDown = function () { return WinJS.Promise.wrap() };
@@ -143,47 +149,38 @@
             this.mcnTapTracking.disableAnimation = opt.disableAnimation;
             this.mcnTapTracking.tapOnDown = opt.tapOnDown;
             this.mcnTapTracking.pointerModel = 'none';
+            this.mcnTapTracking.dispose = function () {
+                this.element.classList.remove('tap');
+                this.eventTracker.dispose();
+                this.element.mcnTapTracking = null;
+                this.element = null;
+            }
             if (this.onpointerdown !== undefined) {
                 this.mcnTapTracking.pointerModel = 'pointers';
-                this.onpointerdown = ptDown;
-                this.onpointerout = ptOut;
-                this.onpointerup = ptUp;
-            } else if (this.hasOwnProperty('ontouchstart')) {
+                this.mcnTapTracking.eventTracker.addEvent(this, 'pointerdown', ptDown);
+                this.mcnTapTracking.eventTracker.addEvent(this, 'pointerout', ptOut);
+                this.mcnTapTracking.eventTracker.addEvent(this, 'pointerup', ptUp);
+            } else if (window.Touch) {
                 this.mcnTapTracking.pointerModel = 'touch';
-                //console.log('NO POINTERS !!!!!!!!');
-                this.ontouchstart = ptDown;
-                //this.ontouchend = ptOut;
-                this.ontouchend = ptUp;
+                this.mcnTapTracking.eventTracker.addEvent(this, 'touchstart', ptDown);
+                this.mcnTapTracking.eventTracker.addEvent(this, 'touchcancel', ptOut);
+                this.mcnTapTracking.eventTracker.addEvent(this, 'touchend', ptUp);
             } else {
                 this.mcnTapTracking.pointerModel = 'mouse';
-                //console.log('NO POINTERS !!!!!!!!');
-                this.onmousedown = ptDown;
-                this.onmouseleave = ptOut;
-                this.onmouseup = ptUp;
+                this.mcnTapTracking.eventTracker.addEvent(this, 'mousedown', ptDown);
+                this.mcnTapTracking.eventTracker.addEvent(this, 'mouseleave', ptOut);
+                this.mcnTapTracking.eventTracker.addEvent(this, 'mouseup', ptUp);
             }
-            //console.log('POINTERS: ' + this.mcnTapTracking.pointerModel);
         });
     };
 
     $.fn.untap = function (callback) {
         return this.each(function () {
             var $this = $(this);
-            $this.removeClass('tap');
-            if (this.mcnTapTracking);
-            this.mcnTapTracking = undefined;
-
-            if (this.hasOwnProperty('onpointerdown')) {
-                this.onpointerdown = null;
-                this.onpointerout = null;
-                this.onpointerup = null;
-            }
-            this.onmousedown = null;
-            this.onmouseleave = null;
-            this.onmouseup = null;
-            if (this.hasOwnProperty('ontouchstart')) {
-                this.ontouchstart = null;
-                this.ontouchend = null;
-            }
+            
+            if (this.mcnTapTracking) {
+                this.mcnTapTracking.dispose();
+            }            
         });
     };
 

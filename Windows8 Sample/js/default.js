@@ -59,6 +59,7 @@
 
                 return WinJS.Navigation.navigate(page)
             }, function appInitError(err) {
+                console.error(err);
                 return WinJS.Navigation.navigate("/pages/errorPage/errorPage.html");
             }).then(function () {
                 //var ratecontr = document.getElementById('ratecontr');

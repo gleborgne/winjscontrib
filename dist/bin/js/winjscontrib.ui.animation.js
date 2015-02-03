@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.0.4
+ * WinJS Contrib v2.0.0.5
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -395,7 +395,7 @@ WinJSContrib.UI.Animation.Easings = {
                 property: equivalents.transform.cssName,
                 delay: stagger,
                 duration: options.duration || 250,
-                timing: "ease-out"
+                timing: WinJSContrib.UI.Animation.Easings.easeOutQuad
             });
         var promise2 = WinJS.UI.executeTransition(
             elements,
