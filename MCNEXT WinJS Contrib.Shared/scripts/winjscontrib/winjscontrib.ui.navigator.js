@@ -45,6 +45,7 @@
                 this._element.classList.add('mcn-navigation-ctrl');
                 this.eventTracker = new WinJSContrib.UI.EventTracker();
                 this.delay = options.delay || 0;
+                this.disableHistory = options.disableHistory || false;
                 this.animationWaitForPreviousPageClose = options.animationWaitForPreviousPageClose || true;
                 this.animations = {};
                 this.locks = 0;
@@ -358,7 +359,7 @@
                         }
                     }
 
-                    if (!navigator.global && oldElement && oldElement.winControl && oldElement.winControl.navigationState && !args.skipHistory) {
+                    if (!navigator.global && !navigator.disableHistory && oldElement && oldElement.winControl && oldElement.winControl.navigationState && !args.skipHistory) {
                         navigator.history.backstack.push(oldElement.winControl.navigationState);
                     }
 
@@ -424,7 +425,7 @@
                         return;
                     }
                     else if (openStacked) {
-                        if (!navigator.global && oldElement && oldElement.winControl && oldElement.winControl.navigationState && !args.skipHistory) {
+                        if (!navigator.global && !navigator.disableHistory && oldElement && oldElement.winControl && oldElement.winControl.navigationState && !args.skipHistory) {
                             navigator.history.backstack.push(oldElement.winControl.navigationState);
                         }
                         var closeOldPagePromise = WinJS.Promise.wrap();
@@ -528,7 +529,7 @@
                 // completed.
                 _updateBackButton: function (element) {
                     var ctrl = this;
-                    var backButton = $(".win-backbutton", element);
+                    var backButton = $(".win-backbutton, .back-button, .win-navigation-backbutton", element);
                     //var backButton = this.pageElement.querySelector("header[role=banner] .win-backbutton");
 
                     if (backButton && backButton.length > 0) {
@@ -547,9 +548,9 @@
                         //    clearNav = args.detail.state.clearNavigationHistory;
 
                         if (ctrl.canGoBack && !clearNav) {
-                            backButton.removeAttr("disabled");
+                            backButton.removeClass('disabled').removeAttr("disabled");
                         } else {
-                            backButton.attr("disabled", "disabled");
+                            backButton.addClass('disabled').attr("disabled", "disabled");
                         }
                     }
                 }
