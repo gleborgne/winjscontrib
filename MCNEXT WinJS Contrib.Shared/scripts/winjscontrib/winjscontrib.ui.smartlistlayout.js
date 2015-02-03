@@ -127,9 +127,9 @@
 
                 updateLayout : function(){
                     var ctrl = this;
-                    if (ctrl.listView) {
-                        ctrl.listView.winControl.forceLayout();
-                    }
+                    //if (ctrl.listView) {
+                    //    ctrl.listView.winControl.forceLayout();
+                    //}
                 },
 
                 contentReady: function(){
