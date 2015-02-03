@@ -389,7 +389,7 @@ WinJSContrib.UI.Animation.Easings = {
                 property: equivalents.transform.cssName,
                 delay: stagger,
                 duration: options.duration || 250,
-                timing: "ease-out"
+                timing: WinJSContrib.UI.Animation.Easings.easeOutQuad
             });
         var promise2 = WinJS.UI.executeTransition(
             elements,

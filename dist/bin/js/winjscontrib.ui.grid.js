@@ -8,25 +8,25 @@
 
     "use strict";
 
-/**
- * Object representing a layout configuration for the grid control
- * @typedef {Object} WinJSContrib.UI.GridControlLayout
- * @property {string} layout layout algorythm to apply (horizontal | vertical | flexhorizontal | flexvertical | hbloc
- * @property {number} cellSpace space between grid cells
- * @property {number} cellWidth width of grid cells
- * @property {number} cellHeight height of grid cells
- * @property {number} itemsPerColumn number of cells per column if using a layout with a fixed number of cells
- * @property {number} itemsPerRow number of cells per row if using a layout with a fixed number of cells
- * @example
- * {
- *     layout: 'horizontal',
- *     itemsPerColumn: (options.itemsPerColumn) ? options.itemsPerColumn : undefined,
- *     itemsPerRow: (options.itemsPerRow) ? options.itemsPerRow : undefined,
- *     cellSpace: 10,
- *     cellWidth: (options.cellWidth) ? options.cellWidth : undefined,
- *     cellHeight: (options.cellHeight) ? options.cellHeight : undefined,
- * }
- */
+    /**
+     * Object representing a layout configuration for the grid control
+     * @typedef {Object} WinJSContrib.UI.GridControlLayout
+     * @property {string} layout layout algorythm to apply (horizontal | vertical | flexhorizontal | flexvertical | hbloc
+     * @property {number} cellSpace space between grid cells
+     * @property {number} cellWidth width of grid cells
+     * @property {number} cellHeight height of grid cells
+     * @property {number} itemsPerColumn number of cells per column if using a layout with a fixed number of cells
+     * @property {number} itemsPerRow number of cells per row if using a layout with a fixed number of cells
+     * @example
+     * {
+     *     layout: 'horizontal',
+     *     itemsPerColumn: (options.itemsPerColumn) ? options.itemsPerColumn : undefined,
+     *     itemsPerRow: (options.itemsPerRow) ? options.itemsPerRow : undefined,
+     *     cellSpace: 10,
+     *     cellWidth: (options.cellWidth) ? options.cellWidth : undefined,
+     *     cellHeight: (options.cellHeight) ? options.cellHeight : undefined,
+     * }
+     */
 
     WinJS.Namespace.define("WinJSContrib.UI", {
         GridControl: WinJS.Class.define(
@@ -251,16 +251,32 @@
                     return undefined;
                 },
 
+                visibleChilds: function () {
+                    var ctrl = this;
+                    var res = [];
+                    var childs = ctrl.$element.children();
+                    for (var i = 0 ; i < childs.length ; i++) {
+                        var item = childs[i];
+                        var st = window.getComputedStyle(item);
+                        if (st.display != 'none' && st.visibility != 'hidden') {
+                            res.push(item);
+                        }
+                    }
+
+                    return res;
+                },
+
                 /**
                  * Layouts algorythm implementations
                  */
-                GridLayoutsImpl : {
+                GridLayoutsImpl: {
                     flexhorizontal: function () {
                         var ctrl = this;
                         ctrl.renderer.orientation = 'horizontal';
                         ctrl.element.style.position = 'relative';
                         ctrl.element.style.display = 'flex';
                         ctrl.element.style.flexFlow = 'column wrap';
+                        ctrl.element.style.alignContent = 'flex-start';
                         //ctrl.element.style.alignContent = 'flex-start';
                         ctrl.element.style.width = '';
 
@@ -271,7 +287,8 @@
 
                         var _itemsPerColumn = Math.floor(ctrl.element.clientHeight / (ctrl.data.cellHeight + ctrl.data.cellSpace));
                         if (_itemsPerColumn) {
-                            var columns = Math.ceil(ctrl.$element.children().length / _itemsPerColumn);
+                            var visibleitems = ctrl.visibleChilds();
+                            var columns = Math.ceil(visibleitems.length / _itemsPerColumn);
                             ctrl.element.style.minWidth = ((ctrl.data.cellWidth + ctrl.data.cellSpace) * columns) + 'px';
                         }
                     },
@@ -282,6 +299,7 @@
                         ctrl.element.style.position = 'relative';
                         ctrl.element.style.display = 'flex';
                         ctrl.element.style.flexFlow = 'row wrap';
+                        ctrl.element.style.alignContent = 'flex-start';
 
                         if (ctrl.element.clientWidth)
                             ctrl.element.style.width = ctrl.element.clientWidth + 'px';
@@ -299,7 +317,7 @@
                         var _containerH = ctrl.element.clientHeight;
                         if (!_containerH)
                             return;
-                    
+
                         var cellW = ctrl.data.cellWidth;
                         var space = ctrl.data.cellSpace;
                         var colCount = 1;
@@ -317,9 +335,9 @@
                                     colOffset = colOffset + space + cellW;
                                     topOffset = 0;
                                 }
-                            
+
                                 elt.style.left = colOffset + 'px';
-                                elt.style.top = topOffset + 'px';                            
+                                elt.style.top = topOffset + 'px';
                                 topOffset += eltH;
                             }
                         });
@@ -360,7 +378,8 @@
                         var childs = ctrl.$element.children();
                         childs.each(function (index) {
                             var elt = this;
-                            if (elt.style.display != 'none') {
+                            var st = window.getComputedStyle(elt);
+                            if (st.display != 'none') {
                                 elt.style.position = 'absolute';
                                 var $elt = $(this);
 
@@ -422,7 +441,8 @@
 
                         ctrl.$element.children().each(function (index) {
                             var elt = this;
-                            if (elt.style.display != 'none') {
+                            var st = window.getComputedStyle(elt);
+                            if (st.display != 'none') {
                                 elt.style.position = 'absolute';
                                 var $elt = $(this);
 
@@ -484,7 +504,7 @@
                             layoutfunc.bind(ctrl)();
                             ctrl.data.applyed = true;
                         }
-                        
+
                         ctrl.renderer.checkRendering();
                     }
                 },

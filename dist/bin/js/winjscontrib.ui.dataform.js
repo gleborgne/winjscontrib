@@ -223,7 +223,8 @@
                             $e.tooltipster('show');
                             $e[0].tooltipsterValidationTimeout = setTimeout(function () {
                                 $e[0].tooltipsterValidationTimeout = null;
-                                $e.tooltipster('hide');
+                                if ($e.hasClass('tooltipster'))
+                                    $e.tooltipster('hide');
                             }, dataform.tooltipDelay);
                         }
                     },
