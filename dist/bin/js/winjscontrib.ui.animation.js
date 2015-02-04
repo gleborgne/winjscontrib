@@ -141,7 +141,7 @@ WinJSContrib.UI.Animation.Easings = {
      */
     WinJSContrib.UI.Animation.fadeOut = function (elements, options) {
         options = getOpt(options);
-        
+
         var args = {
             property: "opacity",
             delay: staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333),
@@ -244,12 +244,16 @@ WinJSContrib.UI.Animation.Easings = {
         var duration = options.duration || isIn ? 250 : 150;
         var delay = options.delay || 5;
         var stagger = staggerDelay(options.delay != undefined ? options.delay : 5, options.itemdelay != undefined ? options.itemdelay : 83, 1, options.maxdelay != undefined ? options.maxdelay : 333);
+        var easing = WinJSContrib.UI.Animation.Easings.easeInQuad;
+        if (isIn)
+            easing = WinJSContrib.UI.Animation.Easings.easeOutQuad;
+
         var animationParams = {
             keyframe: keyframeName,
             property: equivalents.transform.cssName,
             delay: stagger,
             duration: duration,
-            timing: options.easing || "cubic-bezier(0.1, 0.9, 0.2, 1)"
+            timing: options.easing || easing
         }
 
         var promise1 = WinJS.UI.executeAnimation(element, animationParams);
@@ -258,7 +262,7 @@ WinJSContrib.UI.Animation.Easings = {
             property: "opacity",
             delay: stagger,
             duration: duration / 2,
-            timing: "ease-in",
+            timing: easing,
             from: 0,
             to: 1
         }
@@ -432,15 +436,15 @@ WinJSContrib.UI.Animation.Easings = {
                 property: equivalents.transform.cssName,
                 delay: stagger,
                 duration: dur,
-                timing: options.easing || "ease-in"
+                timing: options.easing || WinJSContrib.UI.Animation.Easings.easeInQuad
             });
         var promise2 = WinJS.UI.executeTransition(
             elements,
             {
                 property: "opacity",
-                delay: (3* dur / 4) + +(options.delay != undefined ? options.delay : 10),
+                delay: (3 * dur / 4) + +(options.delay != undefined ? options.delay : 10),
                 duration: (dur / 4),
-                timing: options.easing || "ease-in",
+                timing: options.easing || WinJSContrib.UI.Animation.Easings.easeInQuint,
                 from: 1,
                 to: 0
             });
@@ -468,9 +472,9 @@ WinJSContrib.UI.Animation.Easings = {
                 property: equivalents.transform.cssName,
                 delay: stagger,
                 duration: dur,
-                timing: options.easing || "ease-in"
+                timing: options.easing || WinJSContrib.UI.Animation.Easings.easeInQuad
             });
-        
+
 
         var promise2 = WinJS.UI.executeTransition(
             elements,
@@ -478,7 +482,7 @@ WinJSContrib.UI.Animation.Easings = {
                 property: "opacity",
                 delay: (3 * dur / 4) + (options.delay != undefined ? options.delay : 10),
                 duration: (dur / 4),
-                timing: "ease-in",
+                timing: WinJSContrib.UI.Animation.Easings.easeInQuint,
                 from: 1,
                 to: 0
             });
@@ -509,7 +513,7 @@ WinJSContrib.UI.Animation.Easings = {
             elements,
             {
                 property: "opacity",
-                delay: (dur/2)+stagger,
+                delay: (dur / 2) + stagger,
                 duration: dur / 2,
                 timing: "ease-in",
                 from: 1,
@@ -544,7 +548,7 @@ WinJSContrib.UI.Animation.Easings = {
                 property: equivalents.transform.cssName,
                 delay: stagger,
                 duration: dur,
-                timing: options.easing || "ease-out"
+                timing: options.easing || WinJSContrib.UI.Animation.Easings.easeOutQuad
             });
 
         var promise2 = WinJS.UI.executeTransition(
@@ -552,8 +556,8 @@ WinJSContrib.UI.Animation.Easings = {
             {
                 property: "opacity",
                 delay: stagger,
-                duration: dur/3,
-                timing: options.easing || "ease-out",
+                duration: dur / 3,
+                timing: options.easing || WinJSContrib.UI.Animation.Easings.easeOutQuint,
                 from: 0,
                 to: 1
             });
@@ -587,7 +591,7 @@ WinJSContrib.UI.Animation.Easings = {
                 property: equivalents.transform.cssName,
                 delay: stagger,
                 duration: dur,
-                timing: options.easing || "ease-out"
+                timing: options.easing || WinJSContrib.UI.Animation.Easings.easeOutQuad
             });
 
         var promise2 = WinJS.UI.executeTransition(
@@ -595,8 +599,8 @@ WinJSContrib.UI.Animation.Easings = {
             {
                 property: "opacity",
                 delay: stagger,
-                duration: dur/3,
-                timing: "ease-out",
+                duration: dur / 3,
+                timing: WinJSContrib.UI.Animation.Easings.easeOutQuint,
                 from: 0,
                 to: 1
             });

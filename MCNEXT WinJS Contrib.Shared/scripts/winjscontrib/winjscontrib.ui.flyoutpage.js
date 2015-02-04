@@ -69,9 +69,9 @@
             ctrl._overlay.className = 'mcn-flyoutpage-overlay';
             ctrl._overlay.innerHTML = '<DIV class="mcn-flyoutpage-overlay-bg"></DIV>'
             ctrl._container.appendChild(ctrl._overlay);
-            ctrl._overlay.onclick = function () {
+            $(ctrl._overlay).tap(function () {
                 ctrl.hide();
-            }
+            });
 
             ctrl._wrapper = document.createElement('DIV');
             ctrl._wrapper.className = 'mcn-flyoutpage-contentwrapper';
