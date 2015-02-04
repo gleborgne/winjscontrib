@@ -4,6 +4,7 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
+
 /// <reference path="winjscontrib.core.js" />
 (function () {
     'use strict';
@@ -26,7 +27,7 @@
             }
         },
 
-        FlyoutPageTrigger: WinJS.Class.define(function(element, options){
+        FlyoutPageTrigger: WinJS.Class.define(function (element, options) {
             var ctrl = this;
             ctrl.element = element || document.createElement('DIV');
             options = options || {};
@@ -59,11 +60,11 @@
             ctrl.element.mcnFlyoutPage = true;
             ctrl.element.winControl = ctrl;
             ctrl.element.classList.add('mcn-flyoutpage');
-            ctrl.element.classList.add('mcn-navigation-ctrl');            
+            ctrl.element.classList.add('mcn-navigation-ctrl');
             ctrl.element.classList.add('mcn-flyout');
             ctrl.element.classList.add('win-disposable');
 
-            
+
             ctrl.hardwareBackBtnPressedBinded = ctrl.hardwareBackBtnPressed.bind(ctrl);
             //ctrl.cancelNavigationBinded = ctrl.cancelNavigation.bind(ctrl);
 
@@ -106,7 +107,7 @@
 
             if (options.swipeToClose && WinJSContrib.UI.SwipeSlide) {
                 debugLog('flyout page swipe to close');
-                ctrl.swipeToCloseCtrl = new WinJSContrib.UI.SwipeSlide(ctrl._wrapper, { moveDivider: 1, allowed: { left: false, right: false } });
+                ctrl.swipeToCloseCtrl = new WinJSContrib.UI.SwipeSlide(ctrl._wrapperArea, { moveDivider: 1, allowed: { left: false, right: false } });
 
                 ctrl.eventTracker.addEvent(ctrl.swipeToCloseCtrl, 'swipe', function (arg) { ctrl._swipeToCloseCompleted(arg); });
             }
@@ -526,9 +527,9 @@
                 }
 
                 if (ctrl.swipeToCloseCtrl) {
-                    
+
                     if (ctrl.display == 'overlay') {
-                        ctrl.swipeToCloseCtrl.target = ctrl._wrapper;
+                        ctrl.swipeToCloseCtrl.target = ctrl._wrapperArea;
                     } else if (ctrl.display == 'move') {
                         ctrl.swipeToCloseCtrl.target = ctrl.element.parentElement;
                     }
@@ -631,9 +632,9 @@
 
                             return ctrl.hide();
                         }).then(function () {
-                            ctrl._wrapper.style.transform = '';
-                            if (ctrl._wrapper.style.hasOwnProperty('webkitTransform'))
-                                ctrl._wrapper.style.webkitTransform = '';
+                            ctrl._wrapperArea.style.transform = '';
+                            if (ctrl._wrapperArea.style.hasOwnProperty('webkitTransform'))
+                                ctrl._wrapperArea.style.webkitTransform = '';
                         });
                     } else if (ctrl.display == 'move') {
                         WinJS.UI.executeTransition(ctrl.element.parentElement, {
@@ -648,9 +649,9 @@
 
                             return ctrl.hide();
                         }).then(function () {
-                            ctrl._wrapper.style.transform = '';
-                            if (ctrl._wrapper.style.hasOwnProperty('webkitTransform'))
-                                ctrl._wrapper.style.webkitTransform = '';
+                            ctrl._wrapperArea.style.transform = '';
+                            if (ctrl._wrapperArea.style.hasOwnProperty('webkitTransform'))
+                                ctrl._wrapperArea.style.webkitTransform = '';
                         });
                     }
                 }

@@ -38,7 +38,7 @@
                }
                document.body.appendChild(this.rootElement);
                this.$element = $(element);
-               
+
                this.element.mcnChildnav = true;
 
                this.element.classList.add("mcn-childview");
@@ -257,22 +257,31 @@
                    var that = this;
                    $(that.rootElement).addClass("visible");
                    that.dispatchEvent('beforeshow');
-                   that.$overlay.addClass("visible");
-                   that.$contentPlaceholder.addClass("visible");
+                   that.$overlay.addClass("enter");
+                   that.$contentPlaceholder.addClass("enter");
+                   setImmediate(function () {
+                       that.$overlay.addClass("visible");
+                       that.$contentPlaceholder.addClass("visible");
 
-                   return new WinJS.Promise(function (complete, error) {
-                       //setImmediate(function () {
-                       if (!that.isOpened) {
-                           that.show(true);
-                       }
+                       return new WinJS.Promise(function (complete, error) {
+                           //setImmediate(function () {
+                           if (!that.isOpened) {
+                               that.show(true);
+                           }
 
-                       setImmediate(function () {
-                           that.navigate(uri, options, skipHistory).done(function (e) {
-                               that.dispatchEvent('aftershow');
-                               complete(e);
-                           }, error);
+                           setImmediate(function () {
+                               that.navigate(uri, options, skipHistory).done(function (e) {
+                                   that.dispatchEvent('aftershow');
+                                   complete(e);
+                               }, error);
+                           });
+
+                           that.$contentPlaceholder.afterTransition(function () {
+                               that.$overlay.removeClass("enter");
+                               that.$contentPlaceholder.removeClass("enter");
+                           });
+                           //});
                        });
-                       //});
                    });
                },
 
@@ -306,24 +315,26 @@
                            that.navEventsHandler();
                            that.navEventsHandler = null;
                        }
-                       //if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
-                       //    WinJSContrib.UI.Application.navigator.removeLock();
 
-                       //WinJS.Navigation.removeEventListener('beforenavigate', this.cancelNavigationBinded);
-                       //if (window.Windows && window.Windows.Phone)
-                       //    Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", this.hardwareBackBtnPressedBinded);
-                       //else
-                       //    document.removeEventListener("backbutton", this.hardwareBackBtnPressedBinded);
+                       that.$overlay.removeClass("enter");
+                       that.$contentPlaceholder.removeClass("enter");
 
                        if (that.$overlay.hasClass("visible")) {
-                           that.$contentPlaceholder.afterTransition(function () {
-                               that.clear();
-                               $(that.rootElement).removeClass('visible');
-                               that.dispatchEvent('afterhide', arg);
-                           });
+                           that.$overlay.addClass("leave");
+                           that.$contentPlaceholder.addClass("leave");
+                           setImmediate(function () {
+                               that.$contentPlaceholder.afterTransition(function () {
+                                   that.clear();
+                                   $(that.rootElement).removeClass('visible');
+                                   that.dispatchEvent('afterhide', arg);
+                                   that.$overlay.removeClass("leave");
+                                   that.$contentPlaceholder.removeClass("leave");
+                               });
 
-                           that.$overlay.removeClass("visible");
-                           that.$contentPlaceholder.removeClass("visible");
+                               that.$overlay.removeClass("visible");
+                               that.$contentPlaceholder.removeClass("visible");
+
+                           });
                        }
                    }
                    return true;

@@ -554,9 +554,9 @@
                         //    clearNav = args.detail.state.clearNavigationHistory;
 
                         if (ctrl.canGoBack && !clearNav) {
-                            backButton.removeAttr("disabled");
+                            backButton.removeClass('disabled').removeAttr("disabled");
                         } else {
-                            backButton.attr("disabled", "disabled");
+                            backButton.addClass('disabled').attr("disabled", "disabled");
                         }
                     }
                 }

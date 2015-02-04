@@ -24,6 +24,7 @@
             this.allowed = options.allowed || { left: true, right: true };
             this.disabled = false;
             WinJS.UI.setOptions(this, options);
+            this.thresholdFactor = this.thresholdFactor || 4;
         }, {
             //someProperty: {
             //    get: function () {
@@ -40,7 +41,7 @@
                     this.eventTracker.addEvent(this.element, 'pointerup', this._processUp.bind(this), true);
                     //this.eventTracker.addEvent(this.element, 'pointerleave', this._processUp.bind(this), true);
                     this.eventTracker.addEvent(this.element, 'pointermove', this._processMove.bind(this), true);
-                } else if (this.element.ontouchstart !== undefined) {
+                } else if (window.Touch) {
                     this.eventTracker.addEvent(this.element, 'touchstart', this._processDown.bind(this), true);
                     this.eventTracker.addEvent(this.element, 'touchend', this._processUp.bind(this), true);
                     this.eventTracker.addEvent(this.element, 'touchcancel', this._processUp.bind(this), true);
@@ -99,7 +100,9 @@
                         var dY = ctrl.ptDown.y - event.screenY;
                     }
 
-                    if (Math.abs(dX) > ctrl.element.clientWidth / 6) {
+                    if (Math.abs(dX) > (ctrl.element.clientWidth / ctrl.thresholdFactor)) {
+                        if (this.setMoveIntent)
+                            cancelAnimationFrame(this.setMoveIntent);
                         var arg = { dX: dX, dY: dY, move: (-dX - ctrl.threshold), screenMove: ctrl.ptDown.screenMove, direction: dX > 0 ? 'left' : 'right', handled: false };
                         ctrl.dispatchEvent('swipe', arg);
                         //setImmediate(function () {
@@ -118,13 +121,23 @@
                 ctrl.ptDown = null;
             },
 
+            _toSize: function (x) {
+                if (x !== 0)
+                    return x + 'px';
+                else
+                    return '0';
+            },
+
             _cancelMove: function () {
+                var ctrl = this;
                 var target = this.target;
                 var x = 0, y = 0;
                 if (this.ptDown) {
                     x = this.ptDown.transformOffsetX;
                     y = this.ptDown.transformOffsetY;
                 }
+                if (this.setMoveIntent)
+                    cancelAnimationFrame(this.setMoveIntent);
 
                 debugLog('swipe slide, cancel move ' + x + '/' + y);
                 if (target) {
@@ -133,16 +146,14 @@
                         delay: 10,
                         duration: 400,
                         easing: 'ease-out',
-                        to: 'translate(' + x + 'px,' + y + 'px)'
-                    });
+                        to: 'translate3d(' + ctrl._toSize(x) + ',' + ctrl._toSize(y) + ', 0)'
+                    }).then(function () {
 
-                    //.then(function () {
-                    //    if (x === 0 && y === 0) {
-                    //        target.style.transform = '';
-                    //        if (target.style.hasOwnProperty('webkitTransform'))
-                    //            target.style.webkitTransform = '';
-                    //    }
-                    //});
+                        target.style.transform = 'translate3d(' + ctrl._toSize(x) + ',' + ctrl._toSize(y) + ', 0)';
+                        if (target.style.hasOwnProperty('webkitTransform'))
+                            target.style.webkitTransform = 'translate3d(' + ctrl._toSize(x) + ',' + ctrl._toSize(y) + ', 0)';
+
+                    });
                 }
             },
 
@@ -229,9 +240,9 @@
                     this.setMoveIntent = null;
                     debugLog('transform to ' + move);
                     if (ctrl.target.style.webkitTransform !== undefined) {
-                        ctrl.target.style.webkitTransform = 'translate(' + move + 'px, 0)';
+                        ctrl.target.style.webkitTransform = 'translate3d(' + ctrl._toSize(move) + ',0, 0)';
                     } else {
-                        ctrl.target.style.transform = 'translate(' + move + 'px, 0)';
+                        ctrl.target.style.transform = 'translate3d(' + ctrl._toSize(move) + ', 0, 0)';
                     }
                 });
 

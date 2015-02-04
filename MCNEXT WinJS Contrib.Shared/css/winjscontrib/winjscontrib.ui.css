@@ -1,14 +1,16 @@
-﻿html, body {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    margin: 0;
-    padding: 0;
+﻿html,
+body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0;
 }
 .mcn-navigator {
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: hidden;
 }
 .mcn-navigator > .pagecontrol {
   left: 0;
@@ -16,6 +18,7 @@
   width: 100%;
   height: 100%;
   position: absolute;
+  overflow: hidden;
 }
 .mcn-fullsize {
   width: 100%;
@@ -36,9 +39,9 @@
   animation-iteration-count: infinite;
 }
 .tap {
-    cursor:pointer;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
+  cursor: pointer;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
 }
 @keyframes pulseanimation {
   0% {
@@ -462,11 +465,11 @@
     transform: scale(1);
   }
   to {
-    -webkit-transform: scale(0.6);
-    -moz-transform: scale(0.6);
-    -ms-transform: scale(0.6);
-    -o-transform: scale(0.6);
-    transform: scale(0.6);
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    transform: scale(0.8);
   }
 }
 @keyframes WinJSContrib-exitShrink {
@@ -478,11 +481,11 @@
     transform: scale(1);
   }
   to {
-    -webkit-transform: scale(0.6);
-    -moz-transform: scale(0.6);
-    -ms-transform: scale(0.6);
-    -o-transform: scale(0.6);
-    transform: scale(0.6);
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    transform: scale(0.8);
   }
 }
 @-webkit-keyframes -webkit-WinJSContrib-exitShrink-exagerated {

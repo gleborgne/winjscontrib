@@ -205,6 +205,8 @@
             },
 
             setMove: function (move, dX) {
+                var ctrl = this;
+
                 //debugLog('raw move ' + move);
                 if (dX > 0 && !this.allowed.right) {
                     move = Math.sqrt(move);
@@ -224,14 +226,20 @@
                     move = this.maxMoveBounds;
                 }
 
+                if (this.setMoveIntent)
+                    cancelAnimationFrame(this.setMoveIntent);
                 //debugLog('move ' + move);
-                if (this.ptDown) this.ptDown.screenMove = move;
-                debugLog('transform to ' + move);
-                if (this.target.style.webkitTransform !== undefined) {
-                    this.target.style.webkitTransform = 'translate(' + move + 'px, 0)';
-                } else {
-                    this.target.style.transform = 'translate(' + move + 'px, 0)';
-                }
+                if (ctrl.ptDown) ctrl.ptDown.screenMove = move;
+
+                this.setMoveIntent = requestAnimationFrame(function () {
+                    this.setMoveIntent = null;
+                    debugLog('transform to ' + move);
+                    if (ctrl.target.style.webkitTransform !== undefined) {
+                        ctrl.target.style.webkitTransform = 'translate(' + move + 'px, 0)';
+                    } else {
+                        ctrl.target.style.transform = 'translate(' + move + 'px, 0)';
+                    }
+                });
 
                 return move;
             },
