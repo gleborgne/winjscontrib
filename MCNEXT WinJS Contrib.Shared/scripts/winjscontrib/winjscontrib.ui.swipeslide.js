@@ -125,7 +125,7 @@
                 if (x !== 0)
                     return x + 'px';
                 else
-                    return '0';
+                    return '0px';
             },
 
             _cancelMove: function () {
@@ -146,12 +146,12 @@
                         delay: 10,
                         duration: 400,
                         easing: 'ease-out',
-                        to: 'translate3d(' + ctrl._toSize(x) + ',' + ctrl._toSize(y) + ', 0)'
+                        to: 'translate3d(' + ctrl._toSize(x) + ', ' + ctrl._toSize(y) + ', 0px)'
                     }).then(function () {
 
-                        target.style.transform = 'translate3d(' + ctrl._toSize(x) + ',' + ctrl._toSize(y) + ', 0)';
+                        target.style.transform = 'translate3d(' + ctrl._toSize(x) + ', ' + ctrl._toSize(y) + ', 0px)';
                         if (target.style.hasOwnProperty('webkitTransform'))
-                            target.style.webkitTransform = 'translate3d(' + ctrl._toSize(x) + ',' + ctrl._toSize(y) + ', 0)';
+                            target.style.webkitTransform = 'translate3d(' + ctrl._toSize(x) + ', ' + ctrl._toSize(y) + ', 0px)';
 
                     });
                 }
@@ -240,9 +240,9 @@
                     this.setMoveIntent = null;
                     debugLog('transform to ' + move);
                     if (ctrl.target.style.webkitTransform !== undefined) {
-                        ctrl.target.style.webkitTransform = 'translate3d(' + ctrl._toSize(move) + ',0, 0)';
+                        ctrl.target.style.webkitTransform = 'translate3d(' + ctrl._toSize(move) + ', 0px, 0px)';
                     } else {
-                        ctrl.target.style.transform = 'translate3d(' + ctrl._toSize(move) + ', 0, 0)';
+                        ctrl.target.style.transform = 'translate3d(' + ctrl._toSize(move) + ', 0px, 0px)';
                     }
                 });
 

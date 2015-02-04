@@ -71,7 +71,7 @@
             ctrl._container.appendChild(ctrl._overlay);
             $(ctrl._overlay).tap(function () {
                 ctrl.hide();
-            });
+            }, { disableAnimation: true });
 
             ctrl._wrapper = document.createElement('DIV');
             ctrl._wrapper.className = 'mcn-flyoutpage-contentwrapper';
