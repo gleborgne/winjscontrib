@@ -16,7 +16,7 @@ var Stream = require("stream");
 var shell = require('gulp-shell');
 var insert = require('gulp-insert');
 
-var WinJSContribVersion = "2.0.0.5";
+var WinJSContribVersion = "2.0.0.6";
 
 function licenseHeader(){
 	return '/* \r\n' +
