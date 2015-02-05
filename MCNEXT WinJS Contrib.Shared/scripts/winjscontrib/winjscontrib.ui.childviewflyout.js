@@ -259,11 +259,11 @@
                    that.dispatchEvent('beforeshow');
                    that.$overlay.addClass("enter");
                    that.$contentPlaceholder.addClass("enter");
-                   setImmediate(function () {
+                   return new WinJS.Promise(function (complete, error) {
+                       setImmediate(function () {
                        that.$overlay.addClass("visible");
                        that.$contentPlaceholder.addClass("visible");
 
-                       return new WinJS.Promise(function (complete, error) {
                            //setImmediate(function () {
                            if (!that.isOpened) {
                                that.show(true);
