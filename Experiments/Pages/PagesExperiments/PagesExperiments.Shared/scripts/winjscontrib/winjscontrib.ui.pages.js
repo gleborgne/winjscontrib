@@ -184,7 +184,7 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
                 //by merging from parent to child we ensure that inheritance chain is respected
                 merge(targetCtor, sourcePrototype.__proto__);
             }
-            _Base.Class.mix(targetCtor, sourcePrototype);
+            return _Base.Class.mix(targetCtor, sourcePrototype);
         }
         return targetCtor;
     }
