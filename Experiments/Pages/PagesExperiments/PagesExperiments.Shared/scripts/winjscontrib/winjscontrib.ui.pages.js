@@ -181,6 +181,7 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
         if (sourcePrototype) {
             if (!sourcePrototype.__proto__.hasOwnProperty('hasOwnProperty')) {
                 //if prototype is not "object" we start by merging it's parent members
+                //by merging from parent to child we ensure that inheritance chain is respected
                 merge(targetCtor, sourcePrototype.__proto__);
             }
             _Base.Class.mix(targetCtor, sourcePrototype);
@@ -295,6 +296,8 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
                 _mixinBase
             );
             base = _Base.Class.mix(base, WinJS.UI.DOMEventMixin);
+
+            //this addition is for providing a way to inject behavior in all pages
             _Pages.defaultPageMixins.forEach(function (mixin) {
                 var d = base.prototype.dispose;                
                 base = _Base.Class.mix(base, mixin);
