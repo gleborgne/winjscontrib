@@ -9,6 +9,80 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
 
     var viewMap = _CorePages._viewMap || {};
 
+    //this property allows defining mixins applyed to all pages
+    _Pages.defaultPageMixins = [
+        {
+            q: function (selector) {
+                if (!this.element)
+                    return;
+
+                return this.element.querySelector(selector);
+            },
+
+            qAll: function (selector) {
+                if (!this.element)
+                    return;
+
+                var res = this.element.querySelectorAll(selector);
+                if (res && !res.forEach) {
+                    res.forEach = function (callback) {
+                        for (var i = 0 ; i < res.length; i++) {
+                            callback(res[i], i);
+                        }
+                    }
+                }
+            },            
+        },
+        {
+            dispose: function () {
+                if (this._promises) {
+                    this.cancelPromises();
+                    this._promises = null;
+                }
+            },
+
+            promises: {
+                get: function () {
+                    if (!this._promises)
+                        this._promises = [];
+                    return this._promises;
+                }
+            },
+
+            addPromise: function (prom) {
+                this.promises.push(prom);
+                return prom;
+            },
+
+            cancelPromises: function () {
+                var page = this;
+                if (page.promises) {
+                    for (var i = 0; i < page.promises.length; i++) {
+                        if (page.promises[i]) {
+                            page.promises[i].cancel();
+                        }
+                    }
+                }
+            }
+        },
+        {
+            dispose: function () {
+                if (this._eventTracker) {
+                    this._eventTracker.dispose();
+                    this._eventTracker = null;
+                }
+            },            
+
+            eventTracker: {
+                get: function () {
+                    if (!this._eventTracker)
+                        this._eventTracker = new WinJSContrib.UI.EventTracker();
+                    return this._eventTracker;
+                }
+            }
+        }
+    ]
+
     function abs(uri) {
         var a = _Global.document.createElement("a");
         a.href = uri;
@@ -20,57 +94,6 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
     }    
 
     var _mixinBase = {
-        $: function (selector) {
-            return $(selector, this.element || this._element);
-        },
-
-        q: function (selector) {
-            return this.element.querySelector(selector);
-        },
-
-        qAll: function (selector) {
-            var res = this.element.querySelectorAll(selector);
-            if (res && !res.forEach) {
-                res.forEach = function (callback) {
-                    for (var i = 0 ; i < res.length; i++) {
-                        callback(res[i], i);
-                    }
-                }
-            }
-        },
-
-        eventTracker: {
-            get: function () {
-                if (!this._eventTracker)
-                    this._eventTracker = new WinJSContrib.UI.EventTracker();
-                return this._eventTracker;
-            }
-        },
-
-        promises: {
-            get: function () {
-                if (!this._promises)
-                    this._promises = [];
-                return this._promises;
-            }
-        },
-
-        addPromise: function (prom) {
-            this.promises.push(prom);
-            return prom;
-        },
-
-        cancelPromises: function () {
-            var page = this;
-            if (page.promises) {
-                for (var i = 0; i < page.promises.length; i++) {
-                    if (page.promises[i]) {
-                        page.promises[i].cancel();
-                    }
-                }
-            }
-        },
-
         dispose: function () {
             /// <signature helpKeyword="WinJS.UI.Pages.dispose">
             /// <summary locid="WinJS.UI.Pages.dispose">
@@ -157,6 +180,7 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
     function merge(targetCtor, sourcePrototype) {
         if (sourcePrototype) {
             if (!sourcePrototype.__proto__.hasOwnProperty('hasOwnProperty')) {
+                //if prototype is not "object" we start by merging it's parent members
                 merge(targetCtor, sourcePrototype.__proto__);
             }
             _Base.Class.mix(targetCtor, sourcePrototype);
@@ -271,6 +295,17 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
                 _mixinBase
             );
             base = _Base.Class.mix(base, WinJS.UI.DOMEventMixin);
+            _Pages.defaultPageMixins.forEach(function (mixin) {
+                var d = base.prototype.dispose;                
+                base = _Base.Class.mix(base, mixin);
+                if (d && mixin.hasOwnProperty('dispose')) {
+                    base.prototype.dispose = function(){
+                        d.apply(this);
+                        mixin.dispose.apply(this);
+                    };
+                }
+                
+            });
             viewMap[uri.toLowerCase()] = base;
         }
 
