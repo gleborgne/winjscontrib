@@ -9,7 +9,6 @@ var plumber = require('gulp-plumber');
 var jsdoc = require("gulp-jsdoc");
 var del = require('del');
 var rename = require('gulp-rename');
-var jsFilesPath = 'MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/';
 var nuget = require('gulp-nuget');
 var foreach = require('gulp-foreach');
 var Stream = require("stream");
@@ -17,6 +16,8 @@ var shell = require('gulp-shell');
 var insert = require('gulp-insert');
 
 var WinJSContribVersion = "2.0.0.6";
+var jsFilesPath = 'Sources/MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/';
+var cssFilesPath = 'Sources/MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/';
 
 function licenseHeader(){
 	return '/* \r\n' +
@@ -57,7 +58,7 @@ gulp.task('clean', function(cb) {
 
 gulp.task('styles', ['clean'], function() {
 	var header = licenseHeader();
-	return gulp.src(['MCNEXT WinJS Contrib.Shared/css/winjscontrib/**/*.less'])
+	return gulp.src([cssFilesPath + '**/*.less'])
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(less())
 	.pipe(insert.prepend(header))
@@ -77,7 +78,7 @@ gulp.task('styles', ['clean'], function() {
 
 
 gulp.task('scripts', ['clean'], function() {
-	gulp.src(['MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/winjscontrib.dynamicscripts.html']).pipe(gulp.dest('dist/bin/js/'));
+	gulp.src([jsFilesPath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest('dist/bin/js/'));
 	var header = licenseHeader();
 	
 	return gulp.src([jsFilesPath + '**/*.js'])        
@@ -162,7 +163,7 @@ gulp.task('doc', ['cleandoc'], function() {
 
 
 gulp.task('watch', function() {
-	gulp.watch('MCNEXT WinJS Contrib.Shared/css/winjscontrib/**/*.less', ['styles']);
+	gulp.watch(cssFilesPath + '**/*.less', ['styles']);
 	gulp.watch(jsFilesPath +'**/*.js', ['scripts']);
 });
 

@@ -1,0 +1,557 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="SharedProjectFile_SccProperties">
+    <SharedProjectFile_ProjectGuid>{e99f437f-6346-4ce9-8475-2a27724bb941}</SharedProjectFile_ProjectGuid>
+    <SharedProjectFile_SccProjectName>SAK</SharedProjectFile_SccProjectName>
+    <SharedProjectFile_SccAuxPath>SAK</SharedProjectFile_SccAuxPath>
+    <SharedProjectFile_SccLocalPath>SAK</SharedProjectFile_SccLocalPath>
+    <SharedProjectFile_SccProvider>SAK</SharedProjectFile_SccProvider>
+  </PropertyGroup>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>54087230-87dd-4a3a-bc3a-c939db16ef31</SharedGUID>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)apidoc\winjscontrib.doc.json" />
+    <Content Include="$(MSBuildThisFileDirectory)css\app.css">
+      <DependentUpon>app.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\app.css.map">
+      <DependentUpon>app.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\app.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\apptheme.css">
+      <DependentUpon>apptheme.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\apptheme.css.map">
+      <DependentUpon>apptheme.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\apptheme.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\default.css">
+      <DependentUpon>default.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\default.css.map">
+      <DependentUpon>default.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\default.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\defaultphone.css">
+      <DependentUpon>defaultphone.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\defaultphone.css.map">
+      <DependentUpon>defaultphone.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\defaultphone.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\items.css">
+      <DependentUpon>items.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\items.css.map">
+      <DependentUpon>items.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\items.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\items.min.css">
+      <DependentUpon>items.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.mixin.css">
+      <DependentUpon>winjscontrib.mixin.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.mixin.css.map">
+      <DependentUpon>winjscontrib.mixin.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.mixin.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.css.map">
+      <DependentUpon>winjscontrib.ui.childviewflyout.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.css.map">
+      <DependentUpon>winjscontrib.ui.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.dataform.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.datetimescroller.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\segoe.symbol.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.childviewflyout.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.dataform.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.extended-splashscreen.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.extended-splashscreen.css.map">
+      <DependentUpon>winjscontrib.ui.extended-splashscreen.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.extended-splashscreen.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flipviewpager.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flyoutpage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flyoutpage.css.map">
+      <DependentUpon>winjscontrib.ui.flyoutpage.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.flyoutpage.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.globalprogress.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.globalprogress.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.hub.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.hub.css.map">
+      <DependentUpon>winjscontrib.ui.hub.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.hub.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.masterdetailview.css">
+      <DependentUpon>winjscontrib.ui.masterdetailview.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.masterdetailview.css.map">
+      <DependentUpon>winjscontrib.ui.masterdetailview.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.masterdetailview.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.css.map">
+      <DependentUpon>winjscontrib.ui.tabcontrol.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tabcontrol.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tilemenu.css">
+      <DependentUpon>winjscontrib.ui.tilemenu.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tilemenu.css.map">
+      <DependentUpon>winjscontrib.ui.tilemenu.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontrib\winjscontrib.ui.tilemenu.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\classView\classView.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\classView\classView.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\classView\classView.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.css">
+      <DependentUpon>root.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.css.map">
+      <DependentUpon>root.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\apidoc\root.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\animation\animation.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\animation\animation.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\animation\animation.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\arguments\arguments.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\arguments\arguments.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\arguments\arguments.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\corefeatures.css">
+      <DependentUpon>corefeatures.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\corefeatures.css.map">
+      <DependentUpon>corefeatures.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\corefeatures.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\corefeatures.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\corefeatures.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\eventtracker\eventtracker.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\eventtracker\eventtracker.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\eventtracker\eventtracker.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectedcontent.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectfragment.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectfragment.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectfragment.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\objectproperties\objectproperties.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\objectproperties\objectproperties.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\objectproperties\objectproperties.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageactions\pageactions.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageactions\pageactions.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageactions\pageactions.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.css.map" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\winrt.css.map" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\dates\dates.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\dates\dates.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\dates\dates.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\images\images.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\images\images.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\images\images.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\showhide\showhide.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\showhide\showhide.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\showhide\showhide.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\twoway\twoway.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\twoway\twoway.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\bindings\twoway\twoway.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\helpers.css">
+      <DependentUpon>helpers.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\helpers.css.map">
+      <DependentUpon>helpers.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\helpers.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\helpers.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\helpers.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\messenger\iframe.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\messenger\messenger.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\messenger\messenger.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\messenger\messenger.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\messenger\worker.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchAsync\search.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchAsync\search.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchAsync\search.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchClassic\search.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchClassic\search.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchClassic\search.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\home.css">
+      <DependentUpon>home.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\home.css.map">
+      <DependentUpon>home.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\home.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\home.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\home.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\childviewflyout.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\childviewflyout.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\childviewflyout.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\page1\page1.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\page1\page1.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\page1\page1.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\page2\page2.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\page2\page2.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\basics\page2\page2.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\childviewflyout.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\childviewflyout.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\childviewflyout.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\page1\page1.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\page1\page1.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\page1\page1.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\page2\page2.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\page2\page2.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\childviewflyout\picker\page2\page2.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.css">
+      <DependentUpon>navigation.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.css.map">
+      <DependentUpon>navigation.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigation.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\blockingnav\blockingnav.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\blockingnav\blockingnav.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\blockingnav\blockingnav.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\navigator.css">
+      <DependentUpon>navigator.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\navigator.css.map">
+      <DependentUpon>navigator.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\navigator.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\navigator.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\navigator.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage2\stdpage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage2\stdpage.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage2\stdpage.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage\stdpage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage\stdpage.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\navigation\navigator\stdpage\stdpage.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\about\aboutPage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\about\aboutPage.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\about\aboutPage.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\whatsnew\whatsnew.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\whatsnew\whatsnew.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\whatsnew\whatsnew.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\whatsnew\whatsnew.json" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\settings\whatsnew\WhatsNewControl.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\shell.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\customcontrol\datasources.css">
+      <DependentUpon>datasources.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\customcontrol\datasources.css.map">
+      <DependentUpon>datasources.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\customcontrol\datasources.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\customcontrol\datasources.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\customcontrol\datasources.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\movies.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.css">
+      <DependentUpon>datasources.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.css.map">
+      <DependentUpon>datasources.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\fixedhub\home.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\fixedhub\home.css.map" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\fixedhub\home.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\fixedhub\home.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\fixedhub\home.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\fixedhub\home.min.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flexgrid\home.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flexgrid\home.css.map" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flexgrid\home.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flexgrid\home.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flexgrid\home.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flexgrid\home.min.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.css.map" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.min.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.css">
+      <DependentUpon>home.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.css.map">
+      <DependentUpon>home.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\detail\detail.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\detail\detail.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\detail\detail.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.css">
+      <DependentUpon>masterdetailview.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.css.map">
+      <DependentUpon>masterdetailview.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\masterdetailview.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\master\master.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\master\master.css.map" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\master\master.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\master\master.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\master\master.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\semanticzoom\semanticzoom.css">
+      <DependentUpon>semanticzoom.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\semanticzoom\semanticzoom.css.map">
+      <DependentUpon>semanticzoom.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\semanticzoom\semanticzoom.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\semanticzoom\semanticzoom.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\semanticzoom\semanticzoom.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\statebutton\statebutton.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\statebutton\statebutton.css.map" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\statebutton\statebutton.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\statebutton\statebutton.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\statebutton\statebutton.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\page1\page.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\page1\page.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\page1\page.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\page2\page.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\page2\page.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\page2\page.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\page3\page.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\page3\page.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\page3\page.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\tabcontrol.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\tabcontrol.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\tabcontrol.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\tabcontrol.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tab\tabcontrol.min.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.css">
+      <DependentUpon>tilemenu.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.css.map">
+      <DependentUpon>tilemenu.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.css">
+      <DependentUpon>ui.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.css.map">
+      <DependentUpon>ui.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.css">
+      <DependentUpon>whatisthis.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.css.map">
+      <DependentUpon>whatisthis.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\whatisthis\whatisthis.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\alerts\alerts.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\alerts\alerts.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\alerts\alerts.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\contactcard\contactcard.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\contactcard\contactcard.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\contactcard\contactcard.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\multiview\childview.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\multiview\childview.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\multiview\childview.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\multiview\multiview.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\multiview\multiview.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\multiview\multiview.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\winrt.css">
+      <DependentUpon>winrt.less</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\winrt.css.map">
+      <DependentUpon>winrt.css</DependentUpon>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\winrt.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\winrt.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\winrt\winrt.js" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-Bold-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-BoldItalic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondBold-webfont.eot" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondBold-webfont.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondBold-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLight-webfont.eot" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLight-webfont.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLight-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLightItalic-webfont.eot" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLightItalic-webfont.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-CondLightItalic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-ExtraBold-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-ExtraBoldItalic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-Italic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-Light-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-LightItalic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-Regular-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-Semibold-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\OpenSans-SemiboldItalic-webfont.woff" />
+    <Content Include="$(MSBuildThisFileDirectory)fonts\opensans\opensans.css" />
+    <Content Include="$(MSBuildThisFileDirectory)images\AppLogo-White.png" />
+    <Content Include="$(MSBuildThisFileDirectory)images\AppLogo.png" />
+    <Content Include="$(MSBuildThisFileDirectory)images\AppLogoSmall-White.png" />
+    <Content Include="$(MSBuildThisFileDirectory)images\AppLogoSmall.png" />
+    <Content Include="$(MSBuildThisFileDirectory)images\iconset.svg" />
+    <Content Include="$(MSBuildThisFileDirectory)images\mcnstore.jpg" />
+    <Content Include="$(MSBuildThisFileDirectory)images\mediaplayer-iconset.svg" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\doclinkcontrol.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\codelinkcontrol.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\jquery-2.1.1.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\jquery-2.1.1.min.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\jquery-2.1.1.min.map" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\jquery.validate-vsdoc.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\jquery.validate.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\jquery.validate.min.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\moment-with-langs.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\moment-with-langs.min.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\moment.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\moment.min.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\sampleapp.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\svg-morpheus.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shAutoloader.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushAppleScript.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushAS3.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushBash.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushColdFusion.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushCpp.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushCSharp.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushCss.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushDelphi.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushDiff.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushErlang.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushGroovy.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushJava.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushJavaFX.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushJScript.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushPerl.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushPhp.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushPlain.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushPowerShell.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushPython.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushRuby.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushSass.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushScala.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushSql.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushVb.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shBrushXml.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shCore.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\scripts\shLegacy.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shCore.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shCoreDefault.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shCoreDjango.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shCoreEclipse.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shCoreEmacs.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shCoreFadeToGrey.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shCoreMDUltra.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shCoreMidnight.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shCoreRDark.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shThemeDefault.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shThemeDjango.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shThemeEclipse.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shThemeEmacs.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shThemeFadeToGrey.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shThemeMDUltra.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shThemeMidnight.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\syntaxhighlighter\styles\shThemeRDark.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\tooltipster\jquery.tooltipster.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\tooltipster\tooltipster.css" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\velocity\velocity.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\velocity\velocity.min.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\velocity\velocity.ui.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\velocity\velocity.ui.min.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.bindings.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.core.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.crossplatform.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.date.utils.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.dynamicscripts.html" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.dynamicscripts.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.logger.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.messenger.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.messenger.worker.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.search.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.search.worker.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.animation.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.boilerplate.control.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.boilerplate.observable.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.childviewflyout.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.dataform.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.datasourcemanager.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.extended-splashscreen.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.flipviewpager.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.flyoutpage.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.globalProgress.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.grid.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.hubcontrol.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.jquery.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.masterdetailview.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.morph.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.navigator.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.pivotmultidevice.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.semanticzoom-wrapper.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.smartlistlayout.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.statebutton.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.swipeslide.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.tabcontrol.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.ui.tilemenu.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.audiorecording.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.tracker.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.bgtask.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.contacts.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.core.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.multipleviews.child.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.multipleviews.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.multipleviews.main.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.ssm.js" />
+    <Content Include="$(MSBuildThisFileDirectory)scripts\winjscontrib\winjscontrib.winrt.upnp.js" />
+    <Content Include="$(MSBuildThisFileDirectory)templates\article.html" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\css\ui-dark.css" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\css\ui-light.css" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\fonts\Symbols.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\en-US\ui.strings.js" />
+    <Content Include="$(MSBuildThisFileDirectory)WinJS\js\WinJS.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)demos\apidoc\functionView\" />
+    <Folder Include="$(MSBuildThisFileDirectory)demos\apidoc\namespaceView\" />
+  </ItemGroup>
+</Project>
