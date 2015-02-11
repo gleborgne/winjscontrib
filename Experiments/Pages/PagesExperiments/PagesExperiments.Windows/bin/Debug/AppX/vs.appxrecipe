@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Machine>WIN-LKIJGAFBD3M</Machine>
+    <WindowsUser>Guillaume</WindowsUser>
+    <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
+    <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
+    <PackageArchitecture>neutral</PackageArchitecture>
+    <PackageIdentityName>0234ea3f-1266-4aa6-8c29-7e8c3ebb4b9b</PackageIdentityName>
+    <IntermediateOutputPath>C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Windows\bld\Debug\</IntermediateOutputPath>
+    <RegisteredManifestChecksum>4CF926E769359A368131F60DFCAF0795302706C4462F33D221EB58EBE3060CBF</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>0234ea3f-1266-4aa6-8c29-7e8c3ebb4b9b_1.0.0.0_neutral__0yq8da09mhzv6</RegisteredPackageMoniker>
+    <RegisteredUserModeAppID>0234ea3f-1266-4aa6-8c29-7e8c3ebb4b9b_0yq8da09mhzv6!App</RegisteredUserModeAppID>
+    <RegisteredPackageID>0234ea3f-1266-4aa6-8c29-7e8c3ebb4b9b</RegisteredPackageID>
+    <RegisteredPackagePublisher>CN=Guillaume</RegisteredPackagePublisher>
+    <RegisteredVersion>1.0.0.0</RegisteredVersion>
+    <JitOptimizationSuppressed>True</JitOptimizationSuppressed>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppXManifest Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Windows\bin\Debug\AppxManifest.xml">
+      <PackagePath>AppxManifest.xml</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2015-02-11T17:37:21.279</Modified>
+    </AppXManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Windows\css\default.css">
+      <PackagePath>css\default.css</PackagePath>
+      <Modified>2015-02-11T16:20:17.430</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Windows\pages\home\home.css">
+      <PackagePath>pages\home\home.css</PackagePath>
+      <Modified>2015-02-11T16:20:17.445</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\pages\pageWithConstructor\pageWithConstructor.css">
+      <PackagePath>pages\pageWithConstructor\pageWithConstructor.css</PackagePath>
+      <Modified>2015-02-11T17:27:01.112</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\WinJS\css\ui-dark.css">
+      <PackagePath>scripts\WinJS\css\ui-dark.css</PackagePath>
+      <Modified>2015-02-10T22:42:24.740</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\WinJS\css\ui-light.css">
+      <PackagePath>scripts\WinJS\css\ui-light.css</PackagePath>
+      <Modified>2015-02-10T22:42:24.740</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Windows\default.html">
+      <PackagePath>default.html</PackagePath>
+      <Modified>2015-02-11T16:56:37.342</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\pages\home\home.html">
+      <PackagePath>pages\home\home.html</PackagePath>
+      <Modified>2015-02-11T16:20:15.430</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\pages\pageWithConstructor\pageWithConstructor.html">
+      <PackagePath>pages\pageWithConstructor\pageWithConstructor.html</PackagePath>
+      <Modified>2015-02-11T17:27:17.594</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.dynamicscripts.html">
+      <PackagePath>scripts\winjscontrib\winjscontrib.dynamicscripts.html</PackagePath>
+      <Modified>2015-02-11T16:23:13.783</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Windows\images\logo.png">
+      <PackagePath>images\logo.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-11-07T15:55:00.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Windows\images\smalllogo.png">
+      <PackagePath>images\smalllogo.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-11-07T15:55:00.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Windows\images\splashscreen.png">
+      <PackagePath>images\splashscreen.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-11-07T15:55:00.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Windows\images\storelogo.png">
+      <PackagePath>images\storelogo.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-11-07T15:55:00.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\js\navigator.js">
+      <PackagePath>js\navigator.js</PackagePath>
+      <Modified>2015-02-11T16:20:15.414</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\js\default.js">
+      <PackagePath>js\default.js</PackagePath>
+      <Modified>2015-02-11T16:20:15.414</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\pages\home\home.js">
+      <PackagePath>pages\home\home.js</PackagePath>
+      <Modified>2015-02-11T16:20:15.430</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\pages\pageWithConstructor\pageWithConstructor.js">
+      <PackagePath>pages\pageWithConstructor\pageWithConstructor.js</PackagePath>
+      <Modified>2015-02-11T17:27:00.603</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\jquery-2.1.1.js">
+      <PackagePath>scripts\jquery-2.1.1.js</PackagePath>
+      <Modified>2015-02-09T08:56:27.723</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\jquery-2.1.1.min.js">
+      <PackagePath>scripts\jquery-2.1.1.min.js</PackagePath>
+      <Modified>2015-02-09T08:56:27.753</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\jquery.validate-vsdoc.js">
+      <PackagePath>scripts\jquery.validate-vsdoc.js</PackagePath>
+      <Modified>2015-02-09T08:56:27.771</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\jquery.validate.js">
+      <PackagePath>scripts\jquery.validate.js</PackagePath>
+      <Modified>2015-02-09T08:56:27.783</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\jquery.validate.min.js">
+      <PackagePath>scripts\jquery.validate.min.js</PackagePath>
+      <Modified>2015-02-09T08:56:27.794</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\moment-with-langs.js">
+      <PackagePath>scripts\moment-with-langs.js</PackagePath>
+      <Modified>2015-02-09T08:56:27.829</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\moment-with-langs.min.js">
+      <PackagePath>scripts\moment-with-langs.min.js</PackagePath>
+      <Modified>2015-02-09T08:56:27.861</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\moment.js">
+      <PackagePath>scripts\moment.js</PackagePath>
+      <Modified>2015-02-09T08:56:27.875</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\moment.min.js">
+      <PackagePath>scripts\moment.min.js</PackagePath>
+      <Modified>2015-02-09T08:56:27.891</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.bindings.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.bindings.js</PackagePath>
+      <Modified>2015-02-11T16:23:14.486</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.bindings.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.bindings.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:14.923</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.core.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.core.js</PackagePath>
+      <Modified>2015-02-11T16:23:14.923</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.core.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.core.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:15.626</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.crossplatform.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.crossplatform.js</PackagePath>
+      <Modified>2015-02-11T16:23:15.658</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.crossplatform.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.crossplatform.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:15.861</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.date.utils.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.date.utils.js</PackagePath>
+      <Modified>2015-02-11T16:23:15.861</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.date.utils.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.date.utils.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:16.330</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.dynamicscripts.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.dynamicscripts.js</PackagePath>
+      <Modified>2015-02-11T16:23:16.330</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.dynamicscripts.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.dynamicscripts.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:16.673</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.logger.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.logger.js</PackagePath>
+      <Modified>2015-02-11T16:23:16.673</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.logger.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.logger.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:16.876</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.messenger.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.messenger.js</PackagePath>
+      <Modified>2015-02-11T16:23:16.876</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.messenger.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.messenger.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:17.205</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.messenger.worker.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.messenger.worker.js</PackagePath>
+      <Modified>2015-02-11T16:23:17.205</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.messenger.worker.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.messenger.worker.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:17.767</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.search.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.search.js</PackagePath>
+      <Modified>2015-02-11T16:23:17.767</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.search.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.search.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:18.064</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.search.worker.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.search.worker.js</PackagePath>
+      <Modified>2015-02-11T16:23:18.064</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.search.worker.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.search.worker.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:18.298</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.animation.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.animation.js</PackagePath>
+      <Modified>2015-02-11T16:23:18.298</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.animation.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.animation.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:18.798</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.boilerplate.control.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.boilerplate.control.js</PackagePath>
+      <Modified>2015-02-11T16:23:18.798</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.boilerplate.control.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.boilerplate.control.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.001</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.boilerplate.observable.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.boilerplate.observable.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.001</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.boilerplate.observable.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.boilerplate.observable.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.189</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.childviewflyout.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.childviewflyout.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.189</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.childviewflyout.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.childviewflyout.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.392</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.dataform.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.dataform.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.392</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.dataform.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.dataform.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.658</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.datasourcemanager.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.datasourcemanager.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.658</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.datasourcemanager.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.datasourcemanager.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.767</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.extended-splashscreen.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.extended-splashscreen.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.767</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.extended-splashscreen.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.extended-splashscreen.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.798</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.flipviewpager.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.flipviewpager.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.798</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.flipviewpager.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.flipviewpager.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.830</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.flyoutpage.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.flyoutpage.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.830</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.flyoutpage.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.flyoutpage.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.970</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.globalprogress.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.globalprogress.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.970</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.globalprogress.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.globalprogress.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.986</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.grid.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.grid.js</PackagePath>
+      <Modified>2015-02-11T16:23:19.986</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.grid.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.grid.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.095</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.hubcontrol.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.hubcontrol.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.095</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.hubcontrol.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.hubcontrol.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.189</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.jquery.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.jquery.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.189</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.jquery.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.jquery.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.392</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.masterdetailview.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.masterdetailview.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.392</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.masterdetailview.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.masterdetailview.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.501</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.morph.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.morph.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.486</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.morph.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.morph.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.548</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.548</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.multipass-renderer.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.multipass-renderer.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.658</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.navigator.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.navigator.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.658</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.navigator.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.navigator.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.751</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.pages.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.pages.js</PackagePath>
+      <Modified>2015-02-11T17:42:10.766</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.pivotmultidevice.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.pivotmultidevice.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.751</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.pivotmultidevice.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.pivotmultidevice.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.767</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.semanticzoom-wrapper.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.semanticzoom-wrapper.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.767</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.semanticzoom-wrapper.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.semanticzoom-wrapper.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.798</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.smartlistlayout.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.smartlistlayout.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.798</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.smartlistlayout.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.smartlistlayout.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.830</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.statebutton.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.statebutton.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.830</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.statebutton.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.statebutton.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.861</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.swipeslide.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.swipeslide.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.861</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.swipeslide.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.swipeslide.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.923</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.tabcontrol.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.tabcontrol.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.923</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.tabcontrol.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.tabcontrol.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.986</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.tilemenu.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.tilemenu.js</PackagePath>
+      <Modified>2015-02-11T16:23:20.986</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.ui.tilemenu.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.ui.tilemenu.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.126</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.audiorecording.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.audiorecording.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.126</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.audiorecording.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.audiorecording.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.158</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.158</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.236</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.tracker.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.tracker.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.236</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.tracker.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.tracker.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.298</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.bgtask.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.bgtask.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.298</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.bgtask.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.bgtask.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.314</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.contacts.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.contacts.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.314</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.contacts.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.contacts.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.345</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.core.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.core.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.345</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.core.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.core.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.392</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.multipleviews.child.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.multipleviews.child.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.392</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.multipleviews.child.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.multipleviews.child.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.408</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.multipleviews.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.multipleviews.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.408</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.multipleviews.main.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.multipleviews.main.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.470</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.multipleviews.main.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.multipleviews.main.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.533</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.multipleviews.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.multipleviews.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.486</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.ssm.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.ssm.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.470</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.ssm.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.ssm.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.548</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.upnp.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.upnp.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.548</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\winjscontrib\winjscontrib.winrt.upnp.min.js">
+      <PackagePath>scripts\winjscontrib\winjscontrib.winrt.upnp.min.js</PackagePath>
+      <Modified>2015-02-11T16:23:21.955</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\WinJS\js\en-US\ui.strings.js">
+      <PackagePath>scripts\WinJS\js\en-US\ui.strings.js</PackagePath>
+      <Modified>2015-02-10T22:42:24.756</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\WinJS\js\WinJS.intellisense-setup.js">
+      <PackagePath>scripts\WinJS\js\WinJS.intellisense-setup.js</PackagePath>
+      <Modified>2015-02-10T22:42:24.756</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\WinJS\js\WinJS.intellisense.js">
+      <PackagePath>scripts\WinJS\js\WinJS.intellisense.js</PackagePath>
+      <Modified>2015-02-10T22:42:24.756</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\WinJS\js\WinJS.js">
+      <PackagePath>scripts\WinJS\js\WinJS.js</PackagePath>
+      <Modified>2015-02-10T22:42:25.084</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\jquery-2.1.1.min.map">
+      <PackagePath>scripts\jquery-2.1.1.min.map</PackagePath>
+      <Modified>2015-02-09T08:56:27.758</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Shared\scripts\WinJS\fonts\Symbols.ttf">
+      <PackagePath>scripts\WinJS\fonts\Symbols.ttf</PackagePath>
+      <Modified>2015-02-10T22:42:11.347</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\projects\github\winjscontrib\Experiments\Pages\PagesExperiments\PagesExperiments.Windows\bin\Debug\ReverseMap\resources.pri">
+      <PackagePath>resources.pri</PackagePath>
+      <Modified>2015-02-11T17:37:20.935</Modified>
+    </AppxPackagedFile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows\v8.1\ExtensionSDKs\Microsoft.WinJS.2.0\1.0\">
+      <Name>Microsoft.WinJS.2.0</Name>
+      <Version>1.0.9600.17018</Version>
+      <Architecture>Neutral</Architecture>
+      <FrameworkIdentity>Name=Microsoft.WinJS.2.0, MinVersion=1.0.9600.17018</FrameworkIdentity>
+      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows\v8.1\ExtensionSDKs\Microsoft.WinJS.2.0\1.0\Microsoft.WinJS.2.0.appx</AppxLocation>
+      <MoreInfo>http://go.microsoft.com/fwlink/%3fLinkId=260891</MoreInfo>
+    </ResolvedSDKReference>
+  </ItemGroup>
+</Project>

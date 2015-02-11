@@ -1,0 +1,734 @@
+/* 
+ * WinJS Contrib v2.0.0.6
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+.mcn-navigator {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.mcn-navigator > .pagecontrol {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+}
+.mcn-fullsize {
+  width: 100%;
+  height: 100%;
+}
+.clear {
+  clear: both;
+}
+.symbol {
+  font-family: 'Segoe UI Symbol';
+}
+.pulse {
+  -webkit-animation: pulseanimation;
+  animation: pulseanimation;
+  -webkit-animation-duration: 1.5s;
+  animation-duration: 1.5s;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+.tap {
+  cursor: pointer;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+@keyframes pulseanimation {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes pulseanimation {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+/* Full Width Animation Bar */
+@-moz-keyframes fullexpand {
+  0% {
+    width: 0px;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+@-webkit-keyframes fullexpand {
+  0% {
+    width: 0px;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+.mcn-xplat progress.win-ring {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border: solid 30px;
+  margin-left: 10px;
+  border-radius: 5em;
+  border-color: transparent transparent white transparent;
+  -webkit-animation: spin 1s linear infinite;
+}
+.mcn-xplat progress.bar {
+  width: 100%;
+  height: 2px !important;
+  margin: 2px 0;
+  margin-top: 0;
+  background-color: red;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: absolute;
+  box-shadow: none;
+  /*0px 0px 10px 1px rgba(0,198,255,0.7);*/
+  -moz-animation: fullexpand 3s linear infinite;
+  -webkit-animation: fullexpand 3s linear infinite;
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideFromBottom {
+  from {
+    -webkit-transform: translate3d(0, 120%, 0);
+    -moz-transform: translate3d(0, 120%, 0);
+    -ms-transform: translate3d(0, 120%, 0);
+    -o-transform: translate3d(0, 120%, 0);
+    transform: translate3d(0, 120%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-slideFromBottom {
+  from {
+    -webkit-transform: translate3d(0, 120%, 0);
+    -moz-transform: translate3d(0, 120%, 0);
+    -ms-transform: translate3d(0, 120%, 0);
+    -o-transform: translate3d(0, 120%, 0);
+    transform: translate3d(0, 120%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideToBottom {
+  to {
+    -webkit-transform: translate3d(0, 120%, 0);
+    -moz-transform: translate3d(0, 120%, 0);
+    -ms-transform: translate3d(0, 120%, 0);
+    -o-transform: translate3d(0, 120%, 0);
+    transform: translate3d(0, 120%, 0);
+  }
+}
+@keyframes WinJSContrib-slideToBottom {
+  to {
+    -webkit-transform: translate3d(0, 120%, 0);
+    -moz-transform: translate3d(0, 120%, 0);
+    -ms-transform: translate3d(0, 120%, 0);
+    -o-transform: translate3d(0, 120%, 0);
+    transform: translate3d(0, 120%, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideFromTop {
+  from {
+    -webkit-transform: translate3d(0, -120%, 0);
+    -moz-transform: translate3d(0, -120%, 0);
+    -ms-transform: translate3d(0, -120%, 0);
+    -o-transform: translate3d(0, -120%, 0);
+    transform: translate3d(0, -120%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-slideFromTop {
+  from {
+    -webkit-transform: translate3d(0, -120%, 0);
+    -moz-transform: translate3d(0, -120%, 0);
+    -ms-transform: translate3d(0, -120%, 0);
+    -o-transform: translate3d(0, -120%, 0);
+    transform: translate3d(0, -120%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideToTop {
+  to {
+    -webkit-transform: translate3d(0, -120%, 0);
+    -moz-transform: translate3d(0, -120%, 0);
+    -ms-transform: translate3d(0, -120%, 0);
+    -o-transform: translate3d(0, -120%, 0);
+    transform: translate3d(0, -120%, 0);
+  }
+}
+@keyframes WinJSContrib-slideToTop {
+  to {
+    -webkit-transform: translate3d(0, -120%, 0);
+    -moz-transform: translate3d(0, -120%, 0);
+    -ms-transform: translate3d(0, -120%, 0);
+    -o-transform: translate3d(0, -120%, 0);
+    transform: translate3d(0, -120%, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideFromRight {
+  from {
+    -webkit-transform: translateX(120%);
+    -moz-transform: translateX(120%);
+    -ms-transform: translateX(120%);
+    -o-transform: translateX(120%);
+    transform: translateX(120%);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-slideFromRight {
+  from {
+    -webkit-transform: translate3d(120%, 0, 0);
+    -moz-transform: translate3d(120%, 0, 0);
+    -ms-transform: translate3d(120%, 0, 0);
+    -o-transform: translate3d(120%, 0, 0);
+    transform: translate3d(120%, 0, 0);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideToRight {
+  to {
+    -webkit-transform: translate3d(120%, 0, 0);
+    -moz-transform: translate3d(120%, 0, 0);
+    -ms-transform: translate3d(120%, 0, 0);
+    -o-transform: translate3d(120%, 0, 0);
+    transform: translate3d(120%, 0, 0);
+  }
+}
+@keyframes WinJSContrib-slideToRight {
+  to {
+    -webkit-transform: translate3d(120%, 0, 0);
+    -moz-transform: translate3d(120%, 0, 0);
+    -ms-transform: translate3d(120%, 0, 0);
+    -o-transform: translate3d(120%, 0, 0);
+    transform: translate3d(120%, 0, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideFromLeft {
+  from {
+    -webkit-transform: translate3d(-120%, 0, 0);
+    -moz-transform: translate3d(-120%, 0, 0);
+    -ms-transform: translate3d(-120%, 0, 0);
+    -o-transform: translate3d(-120%, 0, 0);
+    transform: translate3d(-120%, 0, 0);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-slideFromLeft {
+  from {
+    -webkit-transform: translate3d(-120%, 0, 0);
+    -moz-transform: translate3d(-120%, 0, 0);
+    -ms-transform: translate3d(-120%, 0, 0);
+    -o-transform: translate3d(-120%, 0, 0);
+    transform: translate3d(-120%, 0, 0);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-slideToLeft {
+  to {
+    -webkit-transform: translate3d(-120%, 0, 0);
+    -moz-transform: translate3d(-120%, 0, 0);
+    -ms-transform: translate3d(-120%, 0, 0);
+    -o-transform: translate3d(-120%, 0, 0);
+    transform: translate3d(-120%, 0, 0);
+  }
+}
+@keyframes WinJSContrib-slideToLeft {
+  to {
+    -webkit-transform: translate3d(-120%, 0, 0);
+    -moz-transform: translate3d(-120%, 0, 0);
+    -ms-transform: translate3d(-120%, 0, 0);
+    -o-transform: translate3d(-120%, 0, 0);
+    transform: translate3d(-120%, 0, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-tabExitPage {
+  from {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+  to {
+    -webkit-transform: translate3d(0, 60%, 0);
+    -moz-transform: translate3d(0, 60%, 0);
+    -ms-transform: translate3d(0, 60%, 0);
+    -o-transform: translate3d(0, 60%, 0);
+    transform: translate3d(0, 60%, 0);
+  }
+}
+@keyframes WinJSContrib-tabExitPage {
+  from {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+  to {
+    -webkit-transform: translate3d(0, 60%, 0);
+    -moz-transform: translate3d(0, 60%, 0);
+    -ms-transform: translate3d(0, 60%, 0);
+    -o-transform: translate3d(0, 60%, 0);
+    transform: translate3d(0, 60%, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-tabEnterPage {
+  from {
+    -webkit-transform: translate3d(0, -80%, 0);
+    -moz-transform: translate3d(0, -80%, 0);
+    -ms-transform: translate3d(0, -80%, 0);
+    -o-transform: translate3d(0, -80%, 0);
+    transform: translate3d(0, -80%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-tabEnterPage {
+  from {
+    -webkit-transform: translate3d(0, -80%, 0);
+    -moz-transform: translate3d(0, -80%, 0);
+    -ms-transform: translate3d(0, -80%, 0);
+    -o-transform: translate3d(0, -80%, 0);
+    transform: translate3d(0, -80%, 0);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-exitGrow {
+  from {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(1.3);
+    -moz-transform: scale(1.3);
+    -ms-transform: scale(1.3);
+    -o-transform: scale(1.3);
+    transform: scale(1.3);
+  }
+}
+@keyframes WinJSContrib-exitGrow {
+  from {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(1.3);
+    -moz-transform: scale(1.3);
+    -ms-transform: scale(1.3);
+    -o-transform: scale(1.3);
+    transform: scale(1.3);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-exitGrow-exagerated {
+  from {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(1.8);
+    -moz-transform: scale(1.8);
+    -ms-transform: scale(1.8);
+    -o-transform: scale(1.8);
+    transform: scale(1.8);
+  }
+}
+@keyframes WinJSContrib-exitGrow-exagerated {
+  from {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(1.8);
+    -moz-transform: scale(1.8);
+    -ms-transform: scale(1.8);
+    -o-transform: scale(1.8);
+    transform: scale(1.8);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-exitShrink {
+  from {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    transform: scale(0.8);
+  }
+}
+@keyframes WinJSContrib-exitShrink {
+  from {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    transform: scale(0.8);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-exitShrink-exagerated {
+  from {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(0.05);
+    -moz-transform: scale(0.05);
+    -ms-transform: scale(0.05);
+    -o-transform: scale(0.05);
+    transform: scale(0.05);
+  }
+}
+@keyframes WinJSContrib-exitShrink-exagerated {
+  from {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  to {
+    -webkit-transform: scale(0.05);
+    -moz-transform: scale(0.05);
+    -ms-transform: scale(0.05);
+    -o-transform: scale(0.05);
+    transform: scale(0.05);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-enterShrink {
+  from {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  to {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes WinJSContrib-enterShrink {
+  from {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  to {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-enterShrink-exagerated {
+  from {
+    -webkit-transform: scale(1.6);
+    -moz-transform: scale(1.6);
+    -ms-transform: scale(1.6);
+    -o-transform: scale(1.6);
+    transform: scale(1.6);
+  }
+  to {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes WinJSContrib-enterShrink-exagerated {
+  from {
+    -webkit-transform: scale(1.6);
+    -moz-transform: scale(1.6);
+    -ms-transform: scale(1.6);
+    -o-transform: scale(1.6);
+    transform: scale(1.6);
+  }
+  to {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-enterGrow {
+  from {
+    -webkit-transform: scale(0.7);
+    -moz-transform: scale(0.7);
+    -ms-transform: scale(0.7);
+    -o-transform: scale(0.7);
+    transform: scale(0.7);
+  }
+  to {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes WinJSContrib-enterGrow {
+  from {
+    -webkit-transform: scale(0.7);
+    -moz-transform: scale(0.7);
+    -ms-transform: scale(0.7);
+    -o-transform: scale(0.7);
+    transform: scale(0.7);
+  }
+  to {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-enterGrow-exagerated {
+  from {
+    -webkit-transform: scale(0.01);
+    -moz-transform: scale(0.01);
+    -ms-transform: scale(0.01);
+    -o-transform: scale(0.01);
+    transform: scale(0.01);
+  }
+  to {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes WinJSContrib-enterGrow-exagerated {
+  from {
+    -webkit-transform: scale(0.01);
+    -moz-transform: scale(0.01);
+    -ms-transform: scale(0.01);
+    -o-transform: scale(0.01);
+    transform: scale(0.01);
+  }
+  to {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-shrinkAndFall {
+  0% {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  25% {
+    -webkit-transform: scale(0.75);
+    -moz-transform: scale(0.75);
+    -ms-transform: scale(0.75);
+    -o-transform: scale(0.75);
+    transform: scale(0.75);
+  }
+  90% {
+    -webkit-transform: scale(0.7) translate3d(0, 110%, 0);
+    -moz-transform: scale(0.7) translate3d(0, 110%, 0);
+    -ms-transform: scale(0.7) translate3d(0, 110%, 0);
+    -o-transform: scale(0.7) translate3d(0, 110%, 0);
+    transform: scale(0.7) translate3d(0, 110%, 0);
+  }
+}
+@keyframes WinJSContrib-shrinkAndFall {
+  0% {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  25% {
+    -webkit-transform: scale(0.75);
+    -moz-transform: scale(0.75);
+    -ms-transform: scale(0.75);
+    -o-transform: scale(0.75);
+    transform: scale(0.75);
+  }
+  90% {
+    -webkit-transform: scale(0.7) translate3d(0, 110%, 0);
+    -moz-transform: scale(0.7) translate3d(0, 110%, 0);
+    -ms-transform: scale(0.7) translate3d(0, 110%, 0);
+    -o-transform: scale(0.7) translate3d(0, 110%, 0);
+    transform: scale(0.7) translate3d(0, 110%, 0);
+  }
+}
+@-webkit-keyframes -webkit-WinJSContrib-EnterPage {
+  from {
+    -webkit-transform: translate3d(15%, 0, 0);
+    -moz-transform: translate3d(15%, 0, 0);
+    -ms-transform: translate3d(15%, 0, 0);
+    -o-transform: translate3d(15%, 0, 0);
+    transform: translate3d(15%, 0, 0);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@keyframes WinJSContrib-EnterPage {
+  from {
+    -webkit-transform: translate3d(15%, 0, 0);
+    -moz-transform: translate3d(15%, 0, 0);
+    -ms-transform: translate3d(15%, 0, 0);
+    -o-transform: translate3d(15%, 0, 0);
+    transform: translate3d(15%, 0, 0);
+  }
+  to {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
