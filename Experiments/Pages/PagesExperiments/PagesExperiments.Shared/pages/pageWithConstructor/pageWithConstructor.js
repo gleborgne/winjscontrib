@@ -3,21 +3,25 @@
 (function () {
     "use strict";
 
-    WinJS.UI.Pages.define("/pages/pageWithConstructor/pageWithConstructor.html", {
-        // This function is called whenever a user navigates to this page. It
-        // populates the page elements with the app's data.
-        ready: function (element, options) {
-            // TODO: Initialize the page here.
-        },
+    var BasePage = function () {
+        console.log('constructor called for BasePage');
+    };
 
-        unload: function () {
-            // TODO: Respond to navigations away from this page.
-        },
+    BasePage.prototype.oneFunction = function () {
+        console.log('called from Base');
+    }
 
-        updateLayout: function (element) {
-            /// <param name="element" domElement="true" />
+    BasePage.prototype.ready = function () {
+        this.oneFunction();
+    }
 
-            // TODO: Respond to changes in layout.
-        }
-    });
+    var CurrentPage = function () {
+        console.log('constructor called for Current');
+    }
+    CurrentPage.prototype = new BasePage();
+    CurrentPage.prototype.oneFunction = function () {
+        console.log('called from Current');
+    }
+
+    WinJS.UI.Pages.define("/pages/pageWithConstructor/pageWithConstructor.html", CurrentPage);
 })();

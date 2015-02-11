@@ -17,11 +17,75 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
 
     function selfhost(uri) {
         return _Global.document.location.href.toLowerCase() === uri.toLowerCase();
-    }
-
-    
+    }    
 
     var _mixinBase = {
+        $: function (selector) {
+            return $(selector, this.element || this._element);
+        },
+
+        q: function (selector) {
+            return this.element.querySelector(selector);
+        },
+
+        qAll: function (selector) {
+            var res = this.element.querySelectorAll(selector);
+            if (res && !res.forEach) {
+                res.forEach = function (callback) {
+                    for (var i = 0 ; i < res.length; i++) {
+                        callback(res[i], i);
+                    }
+                }
+            }
+        },
+
+        eventTracker: {
+            get: function () {
+                if (!this._eventTracker)
+                    this._eventTracker = new WinJSContrib.UI.EventTracker();
+                return this._eventTracker;
+            }
+        },
+
+        promises: {
+            get: function () {
+                if (!this._promises)
+                    this._promises = [];
+                return this._promises;
+            }
+        },
+
+        addPromise: function (prom) {
+            this.promises.push(prom);
+            return prom;
+        },
+
+        cancelPromises: function () {
+            var page = this;
+            if (page.promises) {
+                for (var i = 0; i < page.promises.length; i++) {
+                    if (page.promises[i]) {
+                        page.promises[i].cancel();
+                    }
+                }
+            }
+        },
+
+        dispose: function () {
+            /// <signature helpKeyword="WinJS.UI.Pages.dispose">
+            /// <summary locid="WinJS.UI.Pages.dispose">
+            /// Disposes this Page.
+            /// </summary>
+            /// </signature>
+            if (this._disposed) {
+                return;
+            }
+
+            this._disposed = true;
+            _ElementUtilities.disposeSubTree(this.element);
+            this.element = null;
+        },
+
         init: function () { },
 
         load: function (uri) {
@@ -90,6 +154,30 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
         ready: function () { }
     };
 
+    function merge(targetCtor, sourcePrototype) {
+        if (sourcePrototype) {
+            if (!sourcePrototype.__proto__.hasOwnProperty('hasOwnProperty')) {
+                merge(targetCtor, sourcePrototype.__proto__);
+            }
+            _Base.Class.mix(targetCtor, sourcePrototype);
+        }
+        return targetCtor;
+    }
+
+    function addMembers(ctor, members) {
+        if (!members)
+            return ctor;
+
+        if (typeof members == 'function') {
+            ctor.prototype._attachedConstructor = members;
+            return merge(ctor, members.prototype);
+        } else if (typeof members == 'object') {
+            return _Base.Class.mix(ctor, members);
+        }
+
+        return ctor;
+    }
+
     function getPageConstructor(uri, members) {
         /// <signature helpKeyword="WinJS.UI.Pages.define">
         /// <summary locid="WinJS.UI.Pages.define">
@@ -107,7 +195,7 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
         /// A constructor function that creates the page.
         /// </returns>
         /// </signature>
-        var refUri = uri.toLowerCase();
+        var refUri = abs(uri).toLowerCase();
         var base = viewMap[refUri];
         uri = abs(uri);
 
@@ -136,6 +224,9 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
                     });
 
                     var renderCalled = load.then(function Pages_init(loadResult) {
+                        if (that._attachedConstructor)
+                            that._attachedConstructor.apply(that, [element, options]);
+
                         return Promise.join({
                             loadResult: loadResult,
                             initResult: that.init(element, options)
@@ -172,7 +263,8 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
                     }).then(
                         null,
                         function Pages_error(err) {
-                            return that.error(err);
+                            if (that.error)
+                                return that.error(err);
                         }
                     );
                 },
@@ -182,12 +274,7 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
             viewMap[uri.toLowerCase()] = base;
         }
 
-        // Lazily mix in the members, allowing for multiple definitions of "define" to augment
-        // the shared definition of the member.
-        //
-        if (members) {
-            base = _Base.Class.mix(base, members);
-        }
+        base = addMembers(base, members);
 
         base.selfhost = selfhost(uri);
 
@@ -219,7 +306,7 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
         }
 
         if (members) {
-            ctor = WinJS.Class.mix(ctor, members);
+            ctor = addMembers(ctor, members);
         }
 
         if (ctor.selfhost) {
