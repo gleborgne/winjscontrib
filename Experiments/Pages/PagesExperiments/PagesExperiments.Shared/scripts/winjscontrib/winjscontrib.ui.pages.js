@@ -301,6 +301,8 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
             _Pages.defaultPageMixins.forEach(function (mixin) {
                 var d = base.prototype.dispose;                
                 base = _Base.Class.mix(base, mixin);
+
+                //we want to allow this mixins to provide their own addition to "dispose"
                 if (d && mixin.hasOwnProperty('dispose')) {
                     base.prototype.dispose = function(){
                         d.apply(this);
@@ -309,7 +311,7 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
                 }
                 
             });
-            viewMap[uri.toLowerCase()] = base;
+            viewMap[refUri] = base;
         }
 
         base = addMembers(base, members);
