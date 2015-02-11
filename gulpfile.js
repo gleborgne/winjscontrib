@@ -17,7 +17,7 @@ var insert = require('gulp-insert');
 
 var WinJSContribVersion = "2.0.0.6";
 var jsFilesPath = 'Sources/MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/';
-var cssFilesPath = 'Sources/MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/';
+var cssFilesPath = 'Sources/MCNEXT WinJS Contrib.Shared/css/winjscontrib/';
 
 function licenseHeader(){
 	return '/* \r\n' +
