@@ -24,4 +24,9 @@
     }
 
     WinJS.UI.Pages.define("/pages/pageWithConstructor/pageWithConstructor.html", CurrentPage);
+
+    var CurrentPageAddendum = function () {
+        console.log('constructor called for addendum');
+    }
+    WinJS.UI.Pages.define("/pages/pageWithConstructor/pageWithConstructor.html", CurrentPageAddendum);
 })();

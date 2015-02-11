@@ -194,7 +194,10 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
             return ctor;
 
         if (typeof members == 'function') {
-            ctor.prototype._attachedConstructor = members;
+            if (!ctor.prototype._attachedConstructors)
+                ctor.prototype._attachedConstructors = [];
+
+            ctor.prototype._attachedConstructors.push(members);
             return merge(ctor, members.prototype);
         } else if (typeof members == 'object') {
             return _Base.Class.mix(ctor, members);
@@ -249,8 +252,11 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
                     });
 
                     var renderCalled = load.then(function Pages_init(loadResult) {
-                        if (that._attachedConstructor)
-                            that._attachedConstructor.apply(that, [element, options]);
+                        if (that._attachedConstructors) {
+                            that._attachedConstructors.forEach(function (ct) {
+                                ct.apply(that, [element, options]);
+                            });
+                        }
 
                         return Promise.join({
                             loadResult: loadResult,
