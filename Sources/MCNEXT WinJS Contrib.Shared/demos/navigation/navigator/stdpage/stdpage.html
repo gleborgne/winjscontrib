@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>stdpage</title>
+
+    <link href="stdpage.css" rel="stylesheet" />
+    <script src="stdpage.js"></script>
+</head>
+<body>
+    <div class="stdpage fragment">
+        <header class="page-header" aria-label="Header content" role="banner">
+            <button class="win-backbutton" aria-label="Back" disabled type="button"></button>
+            <h1 class="titlearea win-type-ellipsis">
+                <span class="pagetitle">A basic page</span>
+            </h1>
+            <div class="actions">
+                <div data-win-control="WinJSContrib.Sample.DocLink" data-win-options="{ datapath: 'WinJSContrib.UI.PageControlNavigator', type: 'class' }"></div>
+            </div>
+        </header>
+        <section class="page-section" aria-label="Main content" role="main">
+            <p>
+                Usually, the navigator control is used at the root of your project. It manages navigation and page construction.                
+            </p>
+            <p>
+                <button data-page-link="./demos/navigation/navigator/stdpage2/stdpage.html">another page</button>
+            </p>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>tilemenu</title>
+    
+    <script src="../../../../scripts/winjscontrib/winjscontrib.ui.tilemenu.js"></script>
+    <link href="../../../../css/winjscontrib/winjscontrib.ui.tilemenu.css" rel="stylesheet" />
+
+    <link href="tilemenu.css" rel="stylesheet" />
+    <script src="tilemenu.js"></script>
+</head>
+<body>
+    <div class="tilemenu fragment">
+        <header class="page-header" aria-label="Header content" role="banner">
+            <button class="win-backbutton" aria-label="Back" disabled type="button"></button>
+            <h1 class="titlearea win-type-ellipsis">
+                <span class="pagetitle">Tile menu</span>
+            </h1>
+            <div class="actions">
+                <div data-win-control="WinJSContrib.Sample.DocLink" data-win-options="{ datapath: 'WinJSContrib.UI.TileMenu' }"></div>
+                <div data-win-control="WinJSContrib.Sample.CodeLink" data-win-options="{ pagelink: './demos/ui/controls/tilemenu/tilemenu' }"></div>
+            </div>
+        </header>
+        <section class="desc-screen" aria-label="Main content" role="main">
+            <div class="bloc-description">
+                <p>
+                    Display a menu around an element, usually a tile.
+                </p>
+                <p>
+                    <label>placement</label><br />
+                    <select id="placement">
+                        <option value="">auto</option>
+                        <option value="top">top</option>
+                        <option value="right">right</option>
+                        <option value="bottom">bottom</option>
+                        <option value="left">left</option>
+                    </select>
+                </p>
+                <p>
+                    <label>fill mode</label><br />
+                    <select id="fillmode">
+                        <option value="clockwise">clockwise</option>
+                        <option value="counterclockwise">counter clockwise</option>
+                        <option value="stack">stack</option>
+                    </select>
+                </p>
+                <p>
+                    <label>nb items</label><br />
+                    <select id="nbitems">
+                        <option value="8">8</option>
+                        <option value="16">16</option>
+                    </select>
+                </p>
+            </div>
+            <div></div>
+            <div class="bloc-content">
+                <div id="tileMenuItemTemplate" data-win-control="WinJS.Binding.Template">
+                    <div class="tilemenu">
+                        <div class="icon"></div>
+                        <div class="title" data-win-bind="innerText: title"></div>
+                    </div>
+                </div>
+                <div id="tilemenu" data-page-member data-win-control="WinJSContrib.UI.TileMenu" data-win-options="{ name: 'sampleMenuItem', itemTemplate: select('#tileMenuItemTemplate'), space : 10, placement: 'top' }"></div>
+
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+                <div class="tile">
+                    <div class="title">click me !</div>
+                </div>
+
+
+
+            </div>
+        </section>
+    </div>
+</body>
+</html>

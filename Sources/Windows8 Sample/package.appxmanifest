@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
+  <Identity Name="MCNEXT.WinJSContribSamples" Version="1.1.0.12" Publisher="CN=88ABADA3-DED5-419F-8E33-0B31D93B757C" />
+  <Properties>
+    <DisplayName>WinJS Contrib Samples</DisplayName>
+    <PublisherDisplayName>MCNEXT</PublisherDisplayName>
+    <Logo>images\storelogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.3.0</OSMinVersion>
+    <OSMaxVersionTested>6.3.0</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" StartPage="default.html">
+      <m2:VisualElements DisplayName="WinJS Contrib Samples" Description="WinJS Contrib Samples" BackgroundColor="#a12121" ForegroundText="light" Square150x150Logo="images\logo.png" Square30x30Logo="images\smalllogo.png" ToastCapable="true">
+        <m2:SplashScreen Image="images\splashscreen.png" BackgroundColor="#a12121" />
+        <m2:ApplicationView MinWidth="width320" />
+      </m2:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>
