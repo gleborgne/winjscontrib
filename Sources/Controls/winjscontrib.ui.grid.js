@@ -284,7 +284,10 @@
                         ctrl.element.style.flexFlow = 'column wrap';
                         ctrl.element.style.alignContent = 'flex-start';
                         //ctrl.element.style.alignContent = 'flex-start';
-                        ctrl.element.style.width = '';
+
+                        if (ctrl.element.style.width)
+                            ctrl.element.style.width = '';
+
                         ctrl.element.style.height = '';
 
                         if (ctrl.element.clientHeight)
@@ -314,7 +317,8 @@
                         else
                             ctrl.element.style.width = '';
 
-                        ctrl.element.style.height = '';
+                        if (ctrl.element.style.height)
+                            ctrl.element.style.height = '';
                     },
 
                     hbloc: function () {
@@ -336,7 +340,8 @@
                         childs.each(function (index) {
                             var elt = this;
                             if (elt.style.display != 'none') {
-                                elt.style.position = 'absolute';
+                                if (elt.style.position != 'absolute')
+                                    elt.style.position = 'absolute';
                                 var eltH = elt.clientHeight;
                                 if (topOffset + eltH > _containerH) {
                                     colCount++;
@@ -344,14 +349,18 @@
                                     topOffset = 0;
                                 }
 
-                                elt.style.left = colOffset + 'px';
-                                elt.style.top = topOffset + 'px';
+                                if (elt.style.left != colOffset + 'px')
+                                    elt.style.left = colOffset + 'px';
+                                if (elt.style.top != topOffset + 'px')
+                                    elt.style.top = topOffset + 'px';
+
                                 topOffset += eltH;
                             }
                         });
-                        colOffset = colOffset + cellW;
 
-                        ctrl.$element.css('width', colOffset + 'px');
+                        colOffset = colOffset + cellW;
+                        if (ctrl.element.style.width != colOffset + 'px')
+                            ctrl.element.style.width = colOffset + 'px';
                     },
 
                     horizontal: function () {
