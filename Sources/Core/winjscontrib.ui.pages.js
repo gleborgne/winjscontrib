@@ -306,13 +306,7 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
                             if (that.error)
                                 return that.error(err);
                         }
-                    );
-
-                    this.contentComplete = this.readyComplete.then(function () {
-                        if (that.enterPageAnimation) {
-                            return WinJS.Promise.as(that.enterPageAnimation(element, options));
-                        }
-                    })
+                    );                    
                 },
                 _mixinBase
             );

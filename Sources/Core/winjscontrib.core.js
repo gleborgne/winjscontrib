@@ -1543,11 +1543,6 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                     if (elts)
                         return page._enterAnimation(elts);
                 }
-
-            } else {
-                elementCtrl.enterPageAnimation = function () {
-                    element.style.opacity = '';
-                }
             }
 
             if (options.closeOldPagePromise) {
@@ -1559,7 +1554,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
 
             if (!elementCtrl.beforeShow) elementCtrl.beforeShow = [];
 
-            return elementCtrl.renderComplete.then(function () {
+            elementCtrl.contentReadyComplete = elementCtrl.renderComplete.then(function () {
                 if (!WinJSContrib.UI.disableAutoResources)
                     return WinJS.Resources.processAll(element);
             }).then(function (control) {
@@ -1571,6 +1566,8 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
             }).then(function () {
                 if (elementCtrl.enterPageAnimation) {
                     return WinJS.Promise.as(elementCtrl.enterPageAnimation(element, options));
+                } else {
+                    elementCtrl.element.style.opacity = '';
                 }
             }).then(fragmentCompleted, fragmentError);
         }

@@ -477,7 +477,7 @@
                                 parentedComplete();
                             });
                         },
-                        onready: function (element, options) {
+                        onrender: function (element, options) {
                             if (args.detail.state && args.detail.state.clearNavigationHistory) {
                                 if (navigator.global) {
                                     WinJS.Navigation.history.backStack = [];
@@ -486,6 +486,9 @@
                                 }
                             }
                             navigator._updateBackButton(element);
+                        },
+                        onready: function (element, options) {
+                            
 
                             navigator.dispatchEvent('pageContentReady', { page: element.winControl });
                             if (WinJSContrib.UI.Application.progress)
