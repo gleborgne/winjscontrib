@@ -1,0 +1,24 @@
+.section-winrt .mcn-hub-section h2 {
+  color: #5e99ca;
+}
+.section-winrt .feature.active {
+  background-color: #84b1d7;
+  color: white;
+}
+.section-winrt button,
+.section-winrt .button {
+  background-color: #5e99ca;
+  border: none;
+  color: white;
+  font-family: 'Open Sans Condensed';
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.section-winrt button:hover,
+.section-winrt .button:hover {
+  background-color: #abcae3;
+}
+.section-winrt button:active,
+.section-winrt .button:active {
+  background-color: #306692;
+}

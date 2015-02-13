@@ -1,5 +1,4 @@
-﻿/// <reference path="../core/winjscontrib.core.js" />
-(function () {
+﻿(function () {
     "use strict";
 
     WinJS.Namespace.define("WinJSContrib.UI", {
@@ -35,22 +34,10 @@
                 hub.hubScrolledBind = hub.hubScrolled.bind(hub);
                 hub.rendering = { lastScroll: 0 };
                 hub.identifier = hub.element.id + "//" + hub.element.className;
-
-                var parent = WinJSContrib.Utils.getScopeControl(hub.element);
-                if (parent.elementReady) {
-                      
-                    parent.elementReady.then(function () {
-                        if (!parent.beforeShow) parent.beforeShow = [];
-                        parent.beforeShow.push(function () {
-                            hub.layout();
-                        });
-                        return parent.renderComplete;
-                    }).then(function () {
-                        hub.prepare();
-                        return parent.readyComplete;
-                    });      
-                }
-
+                //setImmediate(function () {
+                //    hub.autoRegisterSections();
+                //    //hub.layout(Windows.UI.ViewManagement.ApplicationView.value);
+                //});
             },
             /**
              * @lends WinJSContrib.UI.HubControl.prototype
@@ -139,7 +126,7 @@
                             section.hub = hub;
                             section.renderItemsContent(forceRendering);
                         });
-                    }
+                    }                    
                 },
 
                 renderSection: function (section, sectionTemplate, hasTitle) {
@@ -277,12 +264,11 @@
             // Define the constructor function for the PageControlNavigator.
             function HubSection(element, options) {
                 var section = this;
-                options = options || {};
                 section.element = element || document.createElement('DIV');
                 section.element.winControl = section;
                 section.element.className = section.element.className + ' mcn-hub-section win-disposable';
-                //section.items = [];
-                section.onlayout = options.onlayout;
+                section.items = [];
+                section.onlayout = undefined;
             }, {
                 layout: function (viewState) {
                     var section = this;
@@ -298,14 +284,14 @@
                         }
                     }
 
-                    //section.items = [];
-                    //var allitems = section.element.querySelectorAll('.mcn-multipass-item');
-                    //var numitems = allitems.length;
-                    //for (var i = 0 ; i < numitems ; i++) {
-                    //    var itemCtrl = allitems[i].winControl;
-                    //    if (itemCtrl)
-                    //        section.items.push(itemCtrl);
-                    //}
+                    section.items = [];
+                    var allitems = section.element.querySelectorAll('.mcn-multipass-item');
+                    var numitems = allitems.length;
+                    for (var i = 0 ; i < numitems ; i++) {
+                        var itemCtrl = allitems[i].winControl;
+                        if (itemCtrl)
+                            section.items.push(itemCtrl);
+                    }
 
                     if (section.onlayout) {
                         section.onlayout(viewState);
