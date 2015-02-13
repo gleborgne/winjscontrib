@@ -14,10 +14,17 @@ var foreach = require('gulp-foreach');
 var Stream = require("stream");
 var shell = require('gulp-shell');
 var insert = require('gulp-insert');
+var merge = require('merge-stream');
 
 var WinJSContribVersion = "2.0.0.6";
-var jsFilesPath = 'Sources/MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/';
-var cssFilesPath = 'Sources/MCNEXT WinJS Contrib.Shared/css/winjscontrib/';
+
+var srcCorePath = 'Sources/Core/';
+var srcControlsPath = 'Sources/Controls/';
+var srcWinRTPath = 'Sources/WinRT/';
+var jsFilesPath = 'Sources/Samples/MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/';
+var jsDestPath = 'dist/bin/js/';
+var cssFilesPath = 'Sources/Samples/MCNEXT WinJS Contrib.Shared/css/winjscontrib/';
+var cssDestPath = 'dist/bin/css/';
 
 function licenseHeader(){
 	return '/* \r\n' +
@@ -56,13 +63,22 @@ gulp.task('clean', function(cb) {
 	del(['dist/bin'], cb)
 });
 
+function compileLessFilesIn(path){
+	return gulp.src([path + '**/*.less'])
+	.pipe(plumber({errorHandler: onError}))
+	.pipe(less())	
+	.pipe(gulp.dest(path))
+}
+
 gulp.task('styles', ['clean'], function() {
 	var header = licenseHeader();
-	return gulp.src([cssFilesPath + '**/*.less'])
-	.pipe(plumber({errorHandler: onError}))
-	.pipe(less())
+	return merge(
+		compileLessFilesIn(srcCorePath),
+		compileLessFilesIn(srcControlsPath),
+		compileLessFilesIn(srcWinRTPath)
+		)	
 	.pipe(insert.prepend(header))
-	.pipe(gulp.dest('dist/bin/css'))
+	.pipe(gulp.dest(cssDestPath))	
 	//.pipe(gulp.dest('src/'))
 	.pipe(minifycss())
 	.pipe(rename(function (path) {
@@ -71,22 +87,27 @@ gulp.task('styles', ['clean'], function() {
         }
     }))
     .pipe(insert.prepend(header))
-    .pipe(gulp.dest('dist/bin/css'))
+    .pipe(gulp.dest(cssDestPath))
 	//.pipe(concat('main.css'))
 	
 });
 
 
+
 gulp.task('scripts', ['clean'], function() {
-	gulp.src([jsFilesPath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest('dist/bin/js/'));
+	gulp.src([jsFilesPath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
 	var header = licenseHeader();
 	
-	return gulp.src([jsFilesPath + '**/*.js'])        
+	return gulp.src([
+		srcCorePath + '**/*.js',
+		srcControlsPath + '**/*.js',
+		srcWinRTPath + '**/*.js'
+		])        
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(insert.prepend(header))
 	.pipe(jshint())
 	.pipe(jshint.reporter('default'))
-	.pipe(gulp.dest('dist/bin/js/'))
+	.pipe(gulp.dest(jsDestPath))
 	    
 	.pipe(rename(function (path) {
         if(path.extname === '.js') {
@@ -97,7 +118,7 @@ gulp.task('scripts', ['clean'], function() {
 	//.pipe(uglify())
 	//.pipe(concat('main.js'))
 	.pipe(insert.prepend(header))
-	.pipe(gulp.dest('dist/bin/js/'));
+	.pipe(gulp.dest(jsDestPath));
 });
 
 
@@ -105,7 +126,35 @@ gulp.task('cleandoc', function(cb) {
 	del(['dist/documentation'], cb)
 });
 
-gulp.task('jsondoc', ['cleandoc'], function() {
+//gulp.task('jsondoc', ['cleandoc'], function() {
+//	//ink-docstrap module within gulp-jsdoc is not up to date, update it with latest version
+//	
+//	var infos = {
+//		name : 'WINJS Contrib',
+//		applicationName : 'WinJS Contrib an',
+//		description : 'helpers and controls to complement WinJS',
+//		plugins: ['plugins/markdown']
+//	};
+//
+//	var template = {
+//	    path: 'ink-docstrap',
+//	    systemName      : 'WinJS Contrib',
+//	    footer          : "by MCNEXT",
+//	    copyright       : "copyright MCNEXT",
+//	    navType         : "vertical",
+//	    theme           : "cosmo",
+//	    linenums        : true,
+//	    collapseSymbols : false,
+//	    inverseNav      : false
+//	  };
+//
+//	return gulp.src([jsFilesPath +'**/winjscontrib.logger.js', 'readme.md'])        
+//	.pipe(plumber({errorHandler: onError}))
+//	.pipe(jsdoc.parser(infos))
+//  	.pipe(gulp.dest('dist/testsjsdoc'));
+//});
+
+gulp.task('doc', ['cleandoc', 'scripts'], function() {
 	//ink-docstrap module within gulp-jsdoc is not up to date, update it with latest version
 	
 	var infos = {
@@ -127,35 +176,7 @@ gulp.task('jsondoc', ['cleandoc'], function() {
 	    inverseNav      : false
 	  };
 
-	return gulp.src([jsFilesPath +'**/winjscontrib.logger.js', 'readme.md'])        
-	.pipe(plumber({errorHandler: onError}))
-	.pipe(jsdoc.parser(infos))
-  	.pipe(gulp.dest('dist/testsjsdoc'));
-});
-
-gulp.task('doc', ['cleandoc'], function() {
-	//ink-docstrap module within gulp-jsdoc is not up to date, update it with latest version
-	
-	var infos = {
-		name : 'WINJS Contrib',
-		applicationName : 'WinJS Contrib an',
-		description : 'helpers and controls to complement WinJS',
-		plugins: ['plugins/markdown']
-	};
-
-	var template = {
-	    path: 'ink-docstrap',
-	    systemName      : 'WinJS Contrib',
-	    footer          : "by MCNEXT",
-	    copyright       : "copyright MCNEXT",
-	    navType         : "vertical",
-	    theme           : "cosmo",
-	    linenums        : true,
-	    collapseSymbols : false,
-	    inverseNav      : false
-	  };
-
-	return gulp.src([jsFilesPath +'**/*.js', 'readme.md'])        
+	return gulp.src([jsDestPath +'**/*.js', 'readme.md'])        
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(jsdoc.parser(infos))
   	.pipe(jsdoc.generator('dist/documentation/', template));
@@ -163,12 +184,13 @@ gulp.task('doc', ['cleandoc'], function() {
 
 
 gulp.task('watch', function() {
-	gulp.watch(cssFilesPath + '**/*.less', ['styles']);
-	gulp.watch(jsFilesPath +'**/*.js', ['scripts']);
+	gulp.watch([
+		cssFilesPath + '**/*.less'
+	], ['styles']);
+
+	gulp.watch([jsFilesPath +'**/*.js'], ['scripts']);
 });
 
-gulp.task('build', ['styles', 'scripts']);
+gulp.task('build', ['styles', 'doc']);
 
-gulp.task('default', ['build'], function() {
-	gulp.start('doc');
-});
+gulp.task('default', ['build']);
