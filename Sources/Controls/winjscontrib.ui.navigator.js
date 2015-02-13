@@ -460,9 +460,11 @@
                     var openNewPagePromise = WinJSContrib.UI.renderFragment(pagecontainer, args.detail.location, args.detail.state, {
                         //delay: tempo,
                         enterPage: navigator.animations.enterPage,
+
                         parented: parented.then(function () {
                             return closeOldPagePromise;
                         }),
+
                         oninit: function (element, options) {
                             var control = element.winControl;
                             control.navigator = navigator;
@@ -477,6 +479,7 @@
                                 parentedComplete();
                             });
                         },
+
                         onrender: function (element, options) {
                             if (args.detail.state && args.detail.state.clearNavigationHistory) {
                                 if (navigator.global) {
@@ -487,9 +490,8 @@
                             }
                             navigator._updateBackButton(element);
                         },
-                        onready: function (element, options) {
-                            
 
+                        onready: function (element, options) {
                             navigator.dispatchEvent('pageContentReady', { page: element.winControl });
                             if (WinJSContrib.UI.Application.progress)
                                 WinJSContrib.UI.Application.progress.hide();

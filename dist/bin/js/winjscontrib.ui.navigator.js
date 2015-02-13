@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.0.6
+ * WinJS Contrib v2.0.1.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -453,21 +453,26 @@
                     var layoutCtrls = [];
 
 
-                    if (navigator.animationWaitForPreviousPageClose) {
-                        var tempo = closeOldPagePromise.then(function () {
-                            return WinJS.Promise.timeout(navigator.delay);
-                        });
-                    } else {
-                        var tempo = WinJS.Promise.timeout(navigator.delay);
-                    }
+                    //if (navigator.animationWaitForPreviousPageClose) {
+                    //    var tempo = closeOldPagePromise.then(function () {
+                    //        return WinJS.Promise.timeout(navigator.delay);
+                    //    });
+                    //} else {
+                    //    var tempo = WinJS.Promise.timeout(navigator.delay);
+                    //}
 
                     navigator.currentPageDetails = args.detail;
 
                     var openNewPagePromise = WinJSContrib.UI.renderFragment(pagecontainer, args.detail.location, args.detail.state, {
-                        delay: tempo,
+                        //delay: tempo,
                         enterPage: navigator.animations.enterPage,
-                        closeOldPagePromise: closeOldPagePromise,
-                        onfragmentinit: function (control) {
+
+                        parented: parented.then(function () {
+                            return closeOldPagePromise;
+                        }),
+
+                        oninit: function (element, options) {
+                            var control = element.winControl;
                             control.navigator = navigator;
                             control.element.mcnPage = true;
                             if (openStacked) {
@@ -476,8 +481,12 @@
                                     oldPage.stackedBy = control;
                                 }
                             }
+                            control.renderComplete = control.renderComplete.then(function () {
+                                parentedComplete();
+                            });
                         },
-                        onafterlayout: function (element) {
+
+                        onrender: function (element, options) {
                             if (args.detail.state && args.detail.state.clearNavigationHistory) {
                                 if (navigator.global) {
                                     WinJS.Navigation.history.backStack = [];
@@ -487,8 +496,9 @@
                             }
                             navigator._updateBackButton(element);
                         },
-                        onafterready: function (control) {
-                            navigator.dispatchEvent('pageContentReady', { page: control });
+
+                        onready: function (element, options) {
+                            navigator.dispatchEvent('pageContentReady', { page: element.winControl });
                             if (WinJSContrib.UI.Application.progress)
                                 WinJSContrib.UI.Application.progress.hide();
                         }
@@ -505,10 +515,12 @@
                 // Responds to resize events and call the updateLayout function
                 // on the currently loaded page.
                 _resized: function (args) {
+                    var navigator = this;
                     if (this.pageControl && this.pageControl.element) {
                         var navigator = this;
                         //navigator.pageControl.element.opacity = '0';
-                        setImmediate(function () {
+                        cancelAnimationFrame(navigator.layoutProcess);
+                        navigator.layoutProcess = requestAnimationFrame(function () {
                             var vw = appView ? appView.value : null;
                             if (navigator.pageControl.updateLayout) {
                                 navigator.pageControl.updateLayout.call(navigator.pageControl, navigator.pageElement, vw, navigator._lastViewstate);

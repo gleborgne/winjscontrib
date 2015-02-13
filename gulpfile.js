@@ -16,7 +16,7 @@ var shell = require('gulp-shell');
 var insert = require('gulp-insert');
 var merge = require('merge-stream');
 
-var WinJSContribVersion = "2.0.0.6";
+var WinJSContribVersion = "2.0.1.0";
 
 var srcCorePath = 'Sources/Core/';
 var srcControlsPath = 'Sources/Controls/';
@@ -95,7 +95,7 @@ gulp.task('styles', ['clean'], function() {
 
 
 gulp.task('scripts', ['clean'], function() {
-	gulp.src([jsFilesPath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
+	gulp.src([srcCorePath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
 	var header = licenseHeader();
 	
 	return gulp.src([

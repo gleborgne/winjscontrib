@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.0.6
+ * WinJS Contrib v2.0.1.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -51,6 +51,18 @@
                  * @type boolean
                  */
                 grid.autolayout = options.autolayout;
+                if (grid.autolayout) {
+                    var parent = WinJSContrib.Utils.getScopeControl(grid.element);
+                    if (parent.elementReady) {
+                        parent.elementReady.then(function () {
+                            if (!parent.beforeShow) parent.beforeShow = [];
+                            parent.beforeShow.push(function () {
+                                grid.layout();
+                            });
+                            return parent.renderComplete;
+                        });
+                    }
+                }
 
                 /**
                  * multipass renderer for the grid
@@ -278,7 +290,11 @@
                         ctrl.element.style.flexFlow = 'column wrap';
                         ctrl.element.style.alignContent = 'flex-start';
                         //ctrl.element.style.alignContent = 'flex-start';
-                        ctrl.element.style.width = '';
+
+                        if (ctrl.element.style.width)
+                            ctrl.element.style.width = '';
+
+                        ctrl.element.style.height = '';
 
                         if (ctrl.element.clientHeight)
                             ctrl.element.style.height = ctrl.element.clientHeight + 'px';
@@ -301,12 +317,14 @@
                         ctrl.element.style.flexFlow = 'row wrap';
                         ctrl.element.style.alignContent = 'flex-start';
 
+                        ctrl.element.style.width = '';
                         if (ctrl.element.clientWidth)
                             ctrl.element.style.width = ctrl.element.clientWidth + 'px';
                         else
                             ctrl.element.style.width = '';
 
-                        ctrl.element.style.height = '';
+                        if (ctrl.element.style.height)
+                            ctrl.element.style.height = '';
                     },
 
                     hbloc: function () {
@@ -328,7 +346,8 @@
                         childs.each(function (index) {
                             var elt = this;
                             if (elt.style.display != 'none') {
-                                elt.style.position = 'absolute';
+                                if (elt.style.position != 'absolute')
+                                    elt.style.position = 'absolute';
                                 var eltH = elt.clientHeight;
                                 if (topOffset + eltH > _containerH) {
                                     colCount++;
@@ -336,14 +355,18 @@
                                     topOffset = 0;
                                 }
 
-                                elt.style.left = colOffset + 'px';
-                                elt.style.top = topOffset + 'px';
+                                if (elt.style.left != colOffset + 'px')
+                                    elt.style.left = colOffset + 'px';
+                                if (elt.style.top != topOffset + 'px')
+                                    elt.style.top = topOffset + 'px';
+
                                 topOffset += eltH;
                             }
                         });
-                        colOffset = colOffset + cellW;
 
-                        ctrl.$element.css('width', colOffset + 'px');
+                        colOffset = colOffset + cellW;
+                        if (ctrl.element.style.width != colOffset + 'px')
+                            ctrl.element.style.width = colOffset + 'px';
                     },
 
                     horizontal: function () {
@@ -477,7 +500,6 @@
                 layout: function () {
                     var ctrl = this;
                     var oldlayout = ctrl.data;
-
                     ctrl.data = ctrl.getLayout();
 
                     if (ctrl.data) {
@@ -499,9 +521,13 @@
                             }
                         }
 
+                        var layoutChanged = !oldlayout || ctrl.data.layout !== oldlayout.layout;
                         var layoutfunc = ctrl.GridLayoutsImpl[ctrl.data.layout.toLowerCase()];
                         if (layoutfunc) {
-                            layoutfunc.bind(ctrl)();
+                            if (layoutChanged)
+                                ctrl.changeLayout();
+
+                            layoutfunc.bind(ctrl)(layoutChanged);
                             ctrl.data.applyed = true;
                         }
 
@@ -509,16 +535,18 @@
                     }
                 },
 
+                changeLayout : function(){
+                    var ctrl = this;
+                    ctrl.clear();
+                    ctrl.renderer.updateLayout();
+                },
+
                 /**
                  * update grid layout
                  */
                 updateLayout: function (element, viewState, lastViewState) {
                     var ctrl = this;
-                    ctrl.clear();
-                    ctrl.renderer.updateLayout();
-                    setImmediate(function () {
-                        ctrl.layout();
-                    });
+                    ctrl.layout();
                 },
 
                 /**

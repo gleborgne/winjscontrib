@@ -1523,7 +1523,7 @@ WinJSContrib.Promise = WinJSContrib.Promise || {};
                 });
             }
 
-            if (options.enterPage) {
+            if (elementCtrl.enterPageAnimation || options.enterPage) {
                 if (elementCtrl.enterPageAnimation)
                     elementCtrl._enterAnimation = elementCtrl.enterPageAnimation;
                 else

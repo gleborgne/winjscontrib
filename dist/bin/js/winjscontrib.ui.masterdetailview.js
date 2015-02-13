@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.0.6
+ * WinJS Contrib v2.0.1.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -70,8 +70,13 @@
                         $(ctrl.masterViewContent.element).remove();
                     }
 
-                    WinJSContrib.UI.renderFragment(ctrl.masterView, val, ctrl.uriArgs, {
-                        onfragmentinit: function (masterCtrl) {
+                    if (ctrl.loading)
+                        ctrl.loading.cancel();
+
+                    ctrl.loading = WinJSContrib.UI.renderFragment(ctrl.masterView, val, ctrl.uriArgs, {
+                        parented : WinJS.Promise.timeout(),
+                        oncreate: function (element, options) {
+                            var masterCtrl = element.winControl;
                             masterCtrl.masterDetailView = ctrl;
                             ctrl.masterViewContent = masterCtrl;
                         }
@@ -143,6 +148,11 @@
             _clearDetailContent: function () {
                 var ctrl = this;
 
+                if (ctrl.loading) {
+                    ctrl.loading.cancel();
+                    ctrl.loading = null;
+                }
+
                 if (ctrl.detailViewContentCtrl) {
                     var elt = ctrl.detailViewContentCtrl.element;
 
@@ -176,7 +186,8 @@
                 }
 
                 return WinJSContrib.UI.renderFragment(ctrl.detailViewContent, uri, data, {
-                    onfragmentinit: function (detailCtrl) {
+                    oncreate: function (element, options) {
+                        var detailCtrl = element.winControl;
                         detailCtrl.masterDetailView = ctrl;
                         ctrl.detailViewContentCtrl = detailCtrl;
                     }
@@ -288,12 +299,12 @@
 
             updateLayout: function (e) {
                 var ctrl = this;
-                //if (ctrl.masterViewContent && ctrl.masterViewContent.updateLayout) {
-                //    ctrl.masterViewContent.updateLayout(e);
-                //}
-                //if (ctrl.detailViewContentCtrl && ctrl.detailViewContentCtrl.updateLayout) {
-                //    ctrl.detailViewContentCtrl.updateLayout(e);
-                //}
+                if (ctrl.masterViewContent && ctrl.masterViewContent.updateLayout) {
+                    ctrl.masterViewContent.updateLayout(e);
+                }
+                if (ctrl.detailViewContentCtrl && ctrl.detailViewContentCtrl.updateLayout) {
+                    ctrl.detailViewContentCtrl.updateLayout(e);
+                }
             }
         }),
         WinJS.Utilities.eventMixin,
