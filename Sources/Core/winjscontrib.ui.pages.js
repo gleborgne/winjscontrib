@@ -246,6 +246,7 @@ WinJSContrib.UI.Pages = WinJSContrib.UI.Pages || {};
                     this.uri = uri;
                     this.selfhost = selfhost(uri);
                     element.winControl = this;
+                    that.parentedComplete = parentedPromise;
                     _ElementUtilities.addClass(element, "pagecontrol");
                     var profilerMarkIdentifier = " uri='" + uri + "'" + _BaseUtils._getProfilerMarkIdentifier(this.element);
 

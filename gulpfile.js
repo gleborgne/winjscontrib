@@ -15,6 +15,9 @@ var Stream = require("stream");
 var shell = require('gulp-shell');
 var insert = require('gulp-insert');
 var merge = require('merge-stream');
+var ts = require('gulp-typescript');
+//var config = require('./build.config.json');
+
 
 var WinJSContribVersion = "2.0.1.0";
 
@@ -25,6 +28,7 @@ var jsFilesPath = 'Sources/Samples/MCNEXT WinJS Contrib.Shared/scripts/winjscont
 var jsDestPath = 'dist/bin/js/';
 var cssFilesPath = 'Sources/Samples/MCNEXT WinJS Contrib.Shared/css/winjscontrib/';
 var cssDestPath = 'dist/bin/css/';
+var tsDestPath = 'dist/bin/ts/';
 
 function licenseHeader(){
 	return '/* \r\n' +
@@ -94,14 +98,52 @@ gulp.task('styles', ['clean'], function() {
 
 
 
+function compileTypescriptFiles(path) {
+	
+	var tsResult = gulp.src(path + '*.ts').pipe(ts({
+	    declarationFiles: true,
+	    noExternalResolve: false,
+	    target : 'ES5',
+        noEmitOnError : false
+	}));
+    return merge([
+        tsResult.dts.pipe(gulp.dest(tsDestPath)),
+        tsResult.js.pipe(gulp.dest(path))
+    ]);    
+}
+
+function compileTypescriptFilesAs(path, name, destpath) {	
+	var tsProject = ts.createProject({
+	    declarationFiles: true,
+	    noExternalResolve: false,
+	    target : 'ES5',
+        noEmitOnError : false
+	});
+	var tsResult = gulp.src(path + '*.ts').pipe(concat(name)).pipe(ts(tsProject));
+    return merge([
+        tsResult.dts.pipe(gulp.dest(tsDestPath)),
+        tsResult.js.pipe(gulp.dest(destpath))
+    ]);    
+}
+
+gulp.task('typescript', function() {
+	return merge([
+		//compileTypescriptFiles(srcCorePath + 'Core/'),
+		compileTypescriptFilesAs(srcCorePath + 'Core/', 'winjscontrib.core.ts', srcCorePath),
+		compileTypescriptFiles(srcCorePath),
+		compileTypescriptFiles(srcControlsPath),
+		compileTypescriptFiles(srcWinRTPath)
+	]);    
+});
+
 gulp.task('scripts', ['clean'], function() {
 	gulp.src([srcCorePath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
 	var header = licenseHeader();
 	
 	return gulp.src([
-		srcCorePath + '**/*.js',
-		srcControlsPath + '**/*.js',
-		srcWinRTPath + '**/*.js'
+		srcCorePath + '*.js',
+		srcControlsPath + '*.js',
+		srcWinRTPath + '*.js'
 		])        
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(insert.prepend(header))
