@@ -1,7 +1,6 @@
 ﻿///<reference path="../../typings/jquery.d.ts"/>
 ///<reference path="../../typings/winjs.d.ts"/>
 ///<reference path="../../typings/winrt.d.ts"/>
-///<reference path="winjscontrib.core.utils.ts"/>
 
 interface JQuery {
     tap(func);

@@ -1,7 +1,6 @@
 ﻿///<reference path="../../typings/jquery.d.ts"/>
 ///<reference path="../../typings/winjs.d.ts"/>
 ///<reference path="../../typings/winrt.d.ts"/>
-///<reference path="winjscontrib.core.utils.ts"/>
 
 interface JQuery {
     tap(func);
@@ -12,10 +11,10 @@ module WinJSContrib.UI.Pages {
 
     /**
      * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
-     * @field
+     * @field WinJSContrib.UI.Pages.defaultFragmentMixins
      * @type {Array}
      */
-    export var defaultFragmentMixins = [{
+    export var defaultFragmentMixins : Array<any> = [{
 
         $: function (selector) {
             return $(selector, this.element || this._element);
