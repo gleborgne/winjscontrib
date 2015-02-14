@@ -196,6 +196,18 @@
     <Content Include="..\..\Core\winjscontrib.crossplatform.js">
       <Link>scripts\winjscontrib\winjscontrib.crossplatform.js</Link>
     </Content>
+    <Content Include="..\..\Core\winjscontrib.datacontainer.cordova.database.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.cordova.database.js</Link>
+    </Content>
+    <Content Include="..\..\Core\winjscontrib.datacontainer.cordova.file.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.cordova.file.js</Link>
+    </Content>
+    <Content Include="..\..\Core\winjscontrib.datacontainer.localstorage.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.localstorage.js</Link>
+    </Content>
+    <Content Include="..\..\Core\winjscontrib.datacontainer.winrt.file.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.winrt.file.js</Link>
+    </Content>
     <Content Include="..\..\Core\winjscontrib.date.utils.js">
       <Link>scripts\winjscontrib\winjscontrib.date.utils.js</Link>
     </Content>
