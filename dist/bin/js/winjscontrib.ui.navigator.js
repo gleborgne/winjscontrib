@@ -463,7 +463,7 @@
 
                     navigator.currentPageDetails = args.detail;
 
-                    var openNewPagePromise = WinJSContrib.UI.renderFragment(pagecontainer, args.detail.location, args.detail.state, {
+                    var openNewPagePromise = WinJSContrib.UI.Pages.renderFragment(pagecontainer, args.detail.location, args.detail.state, {
                         //delay: tempo,
                         enterPage: navigator.animations.enterPage,
 

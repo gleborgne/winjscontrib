@@ -1,0 +1,2 @@
+gulp > build.log
+pause

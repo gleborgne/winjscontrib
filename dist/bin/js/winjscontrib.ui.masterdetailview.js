@@ -73,7 +73,7 @@
                     if (ctrl.loading)
                         ctrl.loading.cancel();
 
-                    ctrl.loading = WinJSContrib.UI.renderFragment(ctrl.masterView, val, ctrl.uriArgs, {
+                    ctrl.loading = WinJSContrib.UI.Pages.renderFragment(ctrl.masterView, val, ctrl.uriArgs, {
                         parented : WinJS.Promise.timeout(),
                         oncreate: function (element, options) {
                             var masterCtrl = element.winControl;
@@ -185,7 +185,7 @@
                     return WinJS.Promise.wrap();
                 }
 
-                return WinJSContrib.UI.renderFragment(ctrl.detailViewContent, uri, data, {
+                return WinJSContrib.UI.Pages.renderFragment(ctrl.detailViewContent, uri, data, {
                     oncreate: function (element, options) {
                         var detailCtrl = element.winControl;
                         detailCtrl.masterDetailView = ctrl;

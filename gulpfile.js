@@ -100,14 +100,14 @@ gulp.task('styles', ['clean'], function() {
 
 function compileTypescriptFiles(path) {
 	
-	var tsResult = gulp.src(path + '*.ts').pipe(ts({
+	var tsResult = gulp.src([path + '*.ts', '!' + path + '*.d.ts']).pipe(ts({
 	    declarationFiles: true,
 	    noExternalResolve: false,
 	    target : 'ES5',
         noEmitOnError : false
 	}));
     return merge([
-        tsResult.dts.pipe(gulp.dest(tsDestPath)),
+        tsResult.dts.pipe(gulp.dest(path)).pipe(gulp.dest(tsDestPath)),
         tsResult.js.pipe(gulp.dest(path))
     ]);    
 }
@@ -119,9 +119,9 @@ function compileTypescriptFilesAs(path, name, destpath) {
 	    target : 'ES5',
         noEmitOnError : false
 	});
-	var tsResult = gulp.src(path + '*.ts').pipe(concat(name)).pipe(ts(tsProject));
+	var tsResult = gulp.src([path + '*.ts', '!' + path + '*.d.ts']).pipe(concat(name)).pipe(ts(tsProject));
     return merge([
-        tsResult.dts.pipe(gulp.dest(tsDestPath)),
+        tsResult.dts.pipe(gulp.dest(destpath)).pipe(gulp.dest(tsDestPath)),
         tsResult.js.pipe(gulp.dest(destpath))
     ]);    
 }
