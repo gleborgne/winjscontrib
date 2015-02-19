@@ -4,6 +4,7 @@ interface JQuery {
 } 
 
 module WinJSContrib.UI.Pages {
+
     /**
      * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
      * @field WinJSContrib.UI.Pages.defaultFragmentMixins
@@ -36,7 +37,7 @@ module WinJSContrib.UI.Pages {
                     this._eventTracker = new WinJSContrib.UI.EventTracker();
                 return this._eventTracker;
             }
-        },
+        },        
 
         promises: {
             get: function () {

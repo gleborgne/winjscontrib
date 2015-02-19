@@ -1691,4 +1691,4 @@ var WinJSContrib;
     })(Utils = WinJSContrib.Utils || (WinJSContrib.Utils = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
-//# sourceMappingURL=winjscontrib.core.js.map
+//# sourceMappingURL=../../Sources/Core/winjscontrib.core.js.map

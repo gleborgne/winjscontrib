@@ -111,14 +111,18 @@ var tsProject = ts.createProject({
 
 
 function compileTypescriptFiles(path) {	
-	var tsResult = gulp.src([typingsPath + '*.d.ts', path + '*.ts'])
+	var tsResult = gulp.src([
+		typingsPath + '*.d.ts', 
+		path + '*.ts', 
+		'!' + path + '*.d.ts'
+	], { base : '.' })
 	.pipe(sourcemaps.init()) 
 	.pipe(ts(tsProject));
     return merge([
-        tsResult.dts.pipe(gulp.dest(tsDestPath)),
+        tsResult.dts.pipe(gulp.dest(path)).pipe(gulp.dest(tsDestPath)),
         tsResult.js
         	.pipe(sourcemaps.write("."))
-        	.pipe(gulp.dest(path))
+        	.pipe(gulp.dest(''))
     ]);    
 }
 
@@ -130,12 +134,26 @@ function compileTypescriptFilesAs(path, name, destpath) {
 }
 
 gulp.task('typescript', function() {
+
+	var tsResult = gulp.src([
+		typingsPath + '*.d.ts', 
+		srcCorePath + '*.ts', 
+		'!' + srcCorePath + '*.d.ts',
+		srcControlsPath + '*.ts', 
+		'!' + srcControlsPath + '*.d.ts',
+		srcWinRTPath + '*.ts', 
+		'!' + srcWinRTPath + '*.d.ts',
+	], { base : '.' })	
+	.pipe(sourcemaps.init()) 
+	.pipe(ts(tsProject));
+    return merge([
+        tsResult.dts.pipe(gulp.dest('')).pipe(gulp.dest(tsDestPath)),
+        tsResult.js
+        	.pipe(sourcemaps.write("."))
+        	.pipe(gulp.dest(''))
+    ]);  
+
 	
-	return merge([		
-		compileTypescriptFiles(srcCorePath),
-		compileTypescriptFiles(srcControlsPath),
-		compileTypescriptFiles(srcWinRTPath)
-	]);
 });
 
 gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
@@ -232,7 +250,15 @@ gulp.task('watch', function() {
 		cssFilesPath + '**/*.less'
 	], ['styles']);
 
-	gulp.watch([jsFilesPath +'**/*.js'], ['scripts']);
+	gulp.watch([
+		typingsPath + '*.d.ts', 
+		srcCorePath + '*.ts', 
+		'!' + srcCorePath + '*.d.ts',
+		srcControlsPath + '*.ts', 
+		'!' + srcControlsPath + '*.d.ts',
+		srcWinRTPath + '*.ts', 
+		'!' + srcWinRTPath + '*.d.ts',
+	], ['typescript']);
 });
 
 gulp.task('build', ['styles', 'doc']);
