@@ -64,7 +64,7 @@ gulp.task('distrib', ['cleannuget', 'build'], function() {
 });
 
 gulp.task('clean', function(cb) {
-	del(['dist/bin'], cb)
+	return del(['dist/bin'], cb)
 });
 
 function compileLessFilesIn(path){
@@ -136,7 +136,7 @@ gulp.task('typescript', function() {
 	]);    
 });
 
-gulp.task('scripts', ['clean'], function() {
+gulp.task('scripts', ['clean', 'typescript'], function() {
 	gulp.src([srcCorePath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
 	var header = licenseHeader();
 	
@@ -146,9 +146,9 @@ gulp.task('scripts', ['clean'], function() {
 		srcWinRTPath + '*.js'
 		])        
 	.pipe(plumber({errorHandler: onError}))
-	.pipe(insert.prepend(header))
 	.pipe(jshint())
 	.pipe(jshint.reporter('default'))
+	.pipe(insert.prepend(header))
 	.pipe(gulp.dest(jsDestPath))
 	    
 	.pipe(rename(function (path) {

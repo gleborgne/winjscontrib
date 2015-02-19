@@ -129,68 +129,50 @@ var WinJSContrib;
                             var page = this;
                             var processargs = arguments;
                             return WinJS.Promise.as(page.__wProcess.apply(page, processargs));
-                            //.then(function () {
-                            //    WinJSContrib.UI.bindMembers(element, page);
-                            //    return page.prepareDataPromise;
-                            //}).then(function(){
-                            //    return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
-                            //}).then(function () {
-                            //    element.style.display = page._initialDisplay || '';
-                            //    return WinJS.Promise.timeout();
-                            //}).then(function () {
-                            //    if (page.onbeforelayout)
-                            //        return page.onbeforelayout(element, options);
-                            //}).then(function () {
-                            //    return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
-                            //}).then(function () {
-                            //    if (page.onafterlayout)
-                            //        return page.onafterlayout(element, options);
-                            //});
                         };
                         proto.processed = function (element, options) {
                             var page = this;
                             var processedargs = arguments;
                             WinJSContrib.UI.bindMembers(element, page);
-                            return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
-                            //return page.prepareDataPromise.then(function () {
-                            //    return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
-                            //}).then(function () {
-                            //    //element.style.display = page._initialDisplay || '';
-                            //    //return WinJS.Promise.timeout();
-                            //}).then(function () {
-                            //    //if (page.onbeforelayout)
-                            //    //    return page.onbeforelayout(element, options);
-                            //}).then(function () {
-                            //    return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
-                            //}).then(function () {
-                            //    //if (page.onafterlayout)
-                            //    //    return page.onafterlayout(element, options);
-                            //}).then(function () {
-                            //    return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
-                            //});
+                            //return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
+                            return page.prepareDataPromise.then(function () {
+                                return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
+                            }).then(function () {
+                                //element.style.display = page._initialDisplay || '';
+                                //return WinJS.Promise.timeout();
+                            }).then(function () {
+                                //if (page.onbeforelayout)
+                                //    return page.onbeforelayout(element, options);
+                            }).then(function () {
+                                return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
+                            }).then(function () {
+                                //if (page.onafterlayout)
+                                //    return page.onafterlayout(element, options);
+                            }).then(function () {
+                                return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
+                            });
                         };
                         proto.render = function (element, options, loadResult) {
                             var page = this;
                             var renderargs = arguments;
-                            //if (page.prepareData)
-                            //    page.prepareDataPromise = WinJS.Promise.as(page.prepareData(element, options));
-                            //else
-                            //    page.prepareDataPromise = WinJS.Promise.wrap();
+                            if (page.prepareData)
+                                page.prepareDataPromise = WinJS.Promise.as(page.prepareData(element, options));
+                            else
+                                page.prepareDataPromise = WinJS.Promise.wrap();
                             return WinJS.Promise.as(page.__wRender.apply(page, renderargs));
                         };
                         proto.ready = function (element, options) {
                             var page = this;
                             WinJSContrib.UI.bindActions(element, this);
-                            return WinJS.Promise.as(page.__wReady.apply(page, arguments));
-                            //.then(function () {
-                            //    return broadcast(page, element, 'pageReady', [element, options]);
-                            //}).then(function () {
-                            //    if (page.enterPageAnimation) {
-                            //        return WinJS.Promise.as(page.enterPageAnimation(element, options));
-                            //    }
-                            //}).then(function () {
-                            //    return broadcast(page, element, 'contentReady', [element, options], null, page.contentReady);
-                            //});
+                            return WinJS.Promise.as(page.__wReady.apply(page, arguments)).then(function () {
+                                return broadcast(page, element, 'pageReady', [element, options]);
+                            }).then(function () {
+                                if (page.enterPageAnimation) {
+                                    return WinJS.Promise.as(page.enterPageAnimation(element, options));
+                                }
+                            }).then(function () {
+                                return broadcast(page, element, 'contentReady', [element, options], null, page.contentReady);
+                            });
                         };
                         proto.dispose = function () {
                             $('.tap', this.element).untap();
@@ -357,7 +339,7 @@ var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
     (function (UI) {
-        UI.Application;
+        UI.Application = {};
         /**
          * indicate if fragment should not look for resources when building control
          * @field WinJSContrib.UI.disableAutoResources
@@ -754,6 +736,7 @@ var WinJSContrib;
                 }
             }
             /**
+             * @function WinJSContrib.UI.MediaTrigger.prototype.dispose
              * release media trigger
              */
             MediaTrigger.prototype.dispose = function () {
@@ -765,6 +748,7 @@ var WinJSContrib;
             };
             /**
              * register an event from a media query
+             * @function WinJSContrib.UI.MediaTrigger.prototype.registerMediaEvent
              * @param {string} name event name
              * @param {string} query media query
              * @param {Object} data data associated with this query
@@ -772,7 +756,7 @@ var WinJSContrib;
             MediaTrigger.prototype.registerMediaEvent = function (name, query, data) {
                 var ctrl = this;
                 var mq = window.matchMedia(query);
-                var query = {
+                var internalQuery = {
                     name: name,
                     query: query,
                     data: data,
@@ -781,14 +765,14 @@ var WinJSContrib;
                 };
                 var f = function (arg) {
                     if (arg.matches) {
-                        ctrl._mediaEvent(arg, query);
+                        ctrl._mediaEvent(arg, internalQuery);
                     }
                 };
                 mq.addListener(f);
-                query.dispose = function () {
+                internalQuery.dispose = function () {
                     mq.removeListener(f);
                 };
-                ctrl.queries.push(query);
+                ctrl.queries.push(internalQuery);
             };
             MediaTrigger.prototype._mediaEvent = function (arg, query) {
                 var ctrl = this;
@@ -798,6 +782,7 @@ var WinJSContrib;
                 ctrl.dispatchEvent('media', query);
             };
             /**
+             * @function WinJSContrib.UI.MediaTrigger.prototype.check
              * Check all registered queries
              */
             MediaTrigger.prototype.check = function () {
@@ -811,6 +796,7 @@ var WinJSContrib;
             };
             /**
              * Adds an event listener to the control.
+             * @function WinJSContrib.UI.MediaTrigger.prototype.addEventListener
              * @param type The type (name) of the event.
              * @param listener The listener to invoke when the event gets raised.
              * @param useCapture If true, initiates capture, otherwise false.
@@ -819,6 +805,7 @@ var WinJSContrib;
             };
             /**
              * Raises an event of the specified type and with the specified additional properties.
+             * @function WinJSContrib.UI.MediaTrigger.prototype.dispatchEvent
              * @param type The type (name) of the event.
              * @param eventProperties The set of additional properties to be attached to the event object when the event is raised.
              * @returns true if preventDefault was called on the event.
@@ -828,6 +815,7 @@ var WinJSContrib;
             };
             /**
              * Removes an event listener from the control.
+             * @function WinJSContrib.UI.MediaTrigger.prototype.removeEventListener
              * @param type The type (name) of the event.
              * @param listener The listener to remove.
              * @param useCapture true if capture is to be initiated, otherwise false.
@@ -847,12 +835,11 @@ var WinJSContrib;
          * @returns {function} function to call for releasing navigation handlers
          */
         function registerNavigationEvents(control, callback) {
-            var navigationCtrl = control;
             var locked = [];
             control.navLocks = control.navLocks || [];
             control.navLocks.isActive = true;
             var backhandler = function (arg) {
-                if (!control.navLocks || control.navLocks.length == 0) {
+                if (!control.navLocks || control.navLocks.length === 0) {
                     callback.bind(control)(arg);
                 }
             };
@@ -932,7 +919,7 @@ if (!String.prototype.format) {
     String.prototype.format = function () {
         var args = arguments;
         return this.replace(/{(\d+)}/g, function (match, number) {
-            return typeof args[number] != 'undefined' ? args[number] : match;
+            return typeof args[number] !== 'undefined' ? args[number] : match;
         });
     };
 }
@@ -979,7 +966,6 @@ var WinJSContrib;
             });
         }
         Promise.waterfall = waterfall;
-        ;
         function promises(dataArray, promiseCallback) {
             if (!dataArray) {
                 return WinJS.Promise.wrap([]);
@@ -993,7 +979,6 @@ var WinJSContrib;
                 return promises;
             });
         }
-        ;
         /**
          * apply callback for each item in the array in parallel (equivalent to WinJS.Promise.join)
          * @function WinJSContrib.Promise.parallel
@@ -1015,7 +1000,6 @@ var WinJSContrib;
             });
         }
         Promise.parallel = parallel;
-        ;
         /**
          * apply callback for each item in the array in batch of X parallel items
          * @function WinJSContrib.Promise.batch
@@ -1049,7 +1033,7 @@ var WinJSContrib;
                 };
                 for (var i = 0, l = items.length; i < l; i++) {
                     batcheditems.push(items[i]);
-                    if (i > 0 && i % batchSize == 0) {
+                    if (i > 0 && i % batchSize === 0) {
                         resultPromise = queueBatch(resultPromise, batcheditems);
                         batcheditems = [];
                     }
@@ -1065,7 +1049,6 @@ var WinJSContrib;
             });
         }
         Promise.batch = batch;
-        ;
     })(Promise = WinJSContrib.Promise || (WinJSContrib.Promise = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 var WinJSContrib;
@@ -1138,7 +1121,6 @@ var WinJSContrib;
             element.dispatchEvent(eventToTrigger);
         }
         Utils.triggerEvent = triggerEvent;
-        ;
         /**
          * @function WinJSContrib.Utils.triggerCustomEvent
          * @param {HTMLElement} element receiving the event
@@ -1152,7 +1134,6 @@ var WinJSContrib;
             element.dispatchEvent(eventToTrigger);
         }
         Utils.triggerCustomEvent = triggerCustomEvent;
-        ;
         /*
         Core object properties features
         */
@@ -1217,6 +1198,40 @@ var WinJSContrib;
             }
         }
         Utils.readProperty = readProperty;
+        var PropertyDescriptor = (function () {
+            function PropertyDescriptor(parent, parentDescriptor, keyProp) {
+                this.parent = parent;
+                this.parentDescriptor = parentDescriptor;
+                this.keyProp = keyProp;
+            }
+            PropertyDescriptor.prototype.ensureParent = function () {
+                if (parent) {
+                    return parent;
+                }
+                else {
+                    if (this.parentDescriptor) {
+                        this.parentDescriptor.ensureParent();
+                        if (!this.parentDescriptor.parent[this.parentDescriptor.keyProp]) {
+                            this.parentDescriptor.parent[this.parentDescriptor.keyProp] = {};
+                            this.parent = this.parentDescriptor.parent[this.parentDescriptor.keyProp];
+                        }
+                    }
+                }
+            };
+            Object.defineProperty(PropertyDescriptor.prototype, "propValue", {
+                get: function () {
+                    return getobject(this.parent, this.keyProp);
+                },
+                set: function (val) {
+                    this.ensureParent();
+                    setobject(this.parent, this.keyProp, val);
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return PropertyDescriptor;
+        })();
+        Utils.PropertyDescriptor = PropertyDescriptor;
         /**
          * return a propery descriptor for an object based on expression
          * @function WinJSContrib.Utils.getProperty
@@ -1235,32 +1250,7 @@ var WinJSContrib;
             var parent = source;
             var previousDescriptor = null;
             for (var i = 0; i < properties.length; i++) {
-                var descriptor = {
-                    parent: parent,
-                    parentDescriptor: previousDescriptor,
-                    keyProp: properties[i],
-                    ensureParent: function () {
-                        if (parent) {
-                            return parent;
-                        }
-                        else {
-                            if (this.parentDescriptor) {
-                                this.parentDescriptor.ensureParent();
-                                if (!this.parentDescriptor.parent[this.parentDescriptor.keyProp]) {
-                                    this.parentDescriptor.parent[this.parentDescriptor.keyProp] = {};
-                                    this.parent = this.parentDescriptor.parent[this.parentDescriptor.keyProp];
-                                }
-                            }
-                        }
-                    },
-                    get propValue() {
-                        return getobject(this.parent, this.keyProp);
-                    },
-                    set propValue(val) {
-                        this.ensureParent();
-                        setobject(this.parent, this.keyProp, val);
-                    }
-                };
+                var descriptor = new PropertyDescriptor(parent, previousDescriptor, properties[i]);
                 previousDescriptor = descriptor;
                 if (i == properties.length - 1) {
                     return descriptor;
@@ -1285,7 +1275,6 @@ var WinJSContrib;
             }
         }
         Utils.writeProperty = writeProperty;
-        ;
         /** generate a random value between two numbers
          * @function WinJSContrib.Utils.randomFromInterval
          * @param {number} from lower limit
@@ -1296,7 +1285,6 @@ var WinJSContrib;
             return (Math.random() * (to - from + 1) + from) << 0;
         }
         Utils.randomFromInterval = randomFromInterval;
-        ;
         /**
          * function to use as a callback for Array.sort when you want the array to be sorted alphabetically
          * @function WinJSContrib.Utils.alphabeticSort
@@ -1312,7 +1300,6 @@ var WinJSContrib;
             return 0;
         }
         Utils.alphabeticSort = alphabeticSort;
-        ;
         /**
          * generate an array with only distinct elements
          * @function WinJSContrib.Utils.distinctArray
@@ -1322,25 +1309,27 @@ var WinJSContrib;
          * @returns {Array}
          */
         function distinctArray(array, property, ignorecase) {
-            if (array == null || array.length == 0)
+            if (array === null || array.length === 0)
                 return array;
             if (typeof ignorecase == "undefined")
                 ignorecase = false;
             var sMatchedItems = "";
             var foundCounter = 0;
             var newArray = [];
+            var sFind;
+            var i;
             if (ignorecase) {
-                for (var i = 0; i < array.length; i++) {
+                for (i = 0; i < array.length; i++) {
                     if (property) {
                         var data = WinJSContrib.Utils.readProperty(array[i], property.split('.'));
-                        var sFind = data;
+                        sFind = data;
                         if (!data)
                             sFind = data;
                         if (data && data.toLowerCase)
                             sFind = data.toLowerCase();
                     }
                     else {
-                        var sFind = array[i];
+                        sFind = array[i];
                     }
                     if (sMatchedItems.indexOf("|" + sFind + "|") < 0) {
                         sMatchedItems += "|" + sFind + "|";
@@ -1349,12 +1338,12 @@ var WinJSContrib;
                 }
             }
             else {
-                for (var i = 0; i < array.length; i++) {
+                for (i = 0; i < array.length; i++) {
                     if (property) {
-                        var sFind = WinJSContrib.Utils.readProperty(array[i], property.split('.'));
+                        sFind = WinJSContrib.Utils.readProperty(array[i], property.split('.'));
                     }
                     else {
-                        var sFind = array[i];
+                        sFind = array[i];
                     }
                     if (sMatchedItems.indexOf("|" + sFind + "|") < 0) {
                         sMatchedItems += "|" + sFind + "|";
@@ -1365,7 +1354,6 @@ var WinJSContrib;
             return newArray;
         }
         Utils.distinctArray = distinctArray;
-        ;
         /**
          * get distinct values from an array of items
          * @function WinJSContrib.Utils.getDistinctPropertyValues
@@ -1379,7 +1367,6 @@ var WinJSContrib;
             });
         }
         Utils.getDistinctPropertyValues = getDistinctPropertyValues;
-        ;
         /**
          * Remove all accented characters from a string and replace them with their non-accented counterpart for ex: replace "é" with "e"
          * @function WinJSContrib.Utils.removeAccents
@@ -1401,7 +1388,6 @@ var WinJSContrib;
             return r;
         }
         Utils.removeAccents = removeAccents;
-        ;
         /**
          * remove a page from navigation history
          * @function WinJSContrib.Utils.removePageFromHistory
@@ -1419,7 +1405,6 @@ var WinJSContrib;
             WinJS.Navigation.history.backStack = history;
         }
         Utils.removePageFromHistory = removePageFromHistory;
-        ;
         /**
          * format a number on 2 digits
          * @function WinJSContrib.Utils.pad2
@@ -1429,7 +1414,6 @@ var WinJSContrib;
             return (number < 10 ? '0' : '') + number;
         }
         Utils.pad2 = pad2;
-        ;
         /**
          * truncate a string and add ellipse if text if greater than certain size
          * @function WinJSContrib.Utils.ellipsisizeString
@@ -1446,7 +1430,6 @@ var WinJSContrib;
             return toLong ? text_ + '...' : text_;
         }
         Utils.ellipsisizeString = ellipsisizeString;
-        ;
         /**
          * generate a new Guid
          * @function WinJSContrib.Utils.guid
@@ -1462,7 +1445,6 @@ var WinJSContrib;
             return uuid;
         }
         Utils.guid = guid;
-        ;
         /**
          * inherit property from parent WinJS controls
          * @function WinJSContrib.Utils.inherit
@@ -1474,7 +1456,7 @@ var WinJSContrib;
                 var current = element.parentElement;
                 while (current) {
                     if (current.winControl) {
-                        if (current.winControl[property] != undefined) {
+                        if (current.winControl[property] !== undefined) {
                             return current.winControl[property];
                         }
                     }
@@ -1483,7 +1465,6 @@ var WinJSContrib;
             }
         }
         Utils.inherit = inherit;
-        ;
         /**
          * move DOM childrens form one node to the other
          * @function WinJSContrib.Utils.moveChilds
@@ -1500,7 +1481,6 @@ var WinJSContrib;
             });
         }
         Utils.moveChilds = moveChilds;
-        ;
         /**
          * get parent control identifyed by a property attached on DOM element
          * @function WinJSContrib.Utils.getParent
@@ -1518,7 +1498,6 @@ var WinJSContrib;
             }
         }
         Utils.getParent = getParent;
-        ;
         /**
          * get parent control identifyed by a css class
          * @function WinJSContrib.Utils.getParentControlByClass
@@ -1536,7 +1515,6 @@ var WinJSContrib;
             }
         }
         Utils.getParentControlByClass = getParentControlByClass;
-        ;
         /**
          * get parent page control (work only with WinJSContrib.UI.PageControlNavigator
          * @function WinJSContrib.Utils.getParentPage
@@ -1547,7 +1525,6 @@ var WinJSContrib;
             return WinJSContrib.Utils.getParent('mcnPage', element);
         }
         Utils.getParentPage = getParentPage;
-        ;
         /**
          * get parent scope control (based on msParentSelectorScope)
          * @function WinJSContrib.Utils.getScopeControl
@@ -1570,7 +1547,6 @@ var WinJSContrib;
             }
         }
         Utils.getScopeControl = getScopeControl;
-        ;
         /**
          * get WinJS.Binding.Template like control from a path, a control, a function or a DOM element
          * @function WinJSContrib.Utils.getTemplate
@@ -1600,7 +1576,6 @@ var WinJSContrib;
             }
         }
         Utils.getTemplate = getTemplate;
-        ;
         /**
          * get a function from an expression, for example 'page:myAction' will return the myAction function from the parent page.
          * The returned function will be bound to it's owner. This function relies on {link WinJSContrib.Utils.resolveValue}, see this for details about how data are crawled
@@ -1616,7 +1591,6 @@ var WinJSContrib;
             return undefined;
         }
         Utils.resolveMethod = resolveMethod;
-        ;
         function readValue(element, text) {
             var res = WinJSContrib.Utils.resolveValue(element, text);
             if (res) {
@@ -1628,7 +1602,6 @@ var WinJSContrib;
             return undefined;
         }
         Utils.readValue = readValue;
-        ;
         /**
          * resolve value from an expression. This helper will crawl the DOM up, and provide the property or function from parent page or control.
          * @function WinJSContrib.Utils.resolveValue
@@ -1638,7 +1611,7 @@ var WinJSContrib;
          */
         function resolveValue(element, text) {
             var methodName, control, method;
-            if (text.indexOf('page:') == 0) {
+            if (text.indexOf('page:') === 0) {
                 methodName = text.substr(5);
                 if (WinJSContrib.Utils.getParentPage) {
                     control = WinJSContrib.Utils.getParentPage(element);
@@ -1649,14 +1622,14 @@ var WinJSContrib;
                 if (!control)
                     return;
                 method = WinJSContrib.Utils.readProperty(control, methodName);
-                if (method && typeof method == 'function')
+                if (method && typeof method === 'function')
                     method = method.bind(control);
             }
-            else if (text.indexOf('ctrl:') == 0) {
+            else if (text.indexOf('ctrl:') === 0) {
                 methodName = text.substr(5);
                 control = WinJSContrib.Utils.getScopeControl(element);
                 method = WinJSContrib.Utils.readProperty(control, methodName);
-                if (method && typeof method == 'function')
+                if (method && typeof method === 'function')
                     method = method.bind(control);
             }
             else {
@@ -1667,7 +1640,6 @@ var WinJSContrib;
             return method;
         }
         Utils.resolveValue = resolveValue;
-        ;
         /**
          * Checks in a safe way if an object has a value, which could be 'false', '0' or '""'
          * @function WinJSContrib.Utils.hasValue
@@ -1678,7 +1650,6 @@ var WinJSContrib;
             return typeof item !== "undefined" && item !== null;
         }
         Utils.hasValue = hasValue;
-        ;
         /**
          * format error from an xhr call
          * @function WinJSContrib.Utils.formatXHRError
@@ -1687,7 +1658,6 @@ var WinJSContrib;
             return "{0} - {1}: {2}".format(xhr.status, xhr.statusText, xhr.responseText);
         }
         Utils.formatXHRError = formatXHRError;
-        ;
         /**
          * Unwraps the real error from a WinJS.Promise.join operation, which by design returns an array with 'undefined' for all cells,
          * excepts the one corresponding to the promise that really faulted.
@@ -1709,7 +1679,6 @@ var WinJSContrib;
             };
         }
         Utils.unwrapJoinError = unwrapJoinError;
-        ;
         /**
          * inject properties from source object to target object
          * @function WinJSContrib.Utils.inject

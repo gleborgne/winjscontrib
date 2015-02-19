@@ -8,12 +8,11 @@ interface JQuery {
 } 
 
 module WinJSContrib.UI {       
-
     export interface WinJSContribApplication {
-        navigator : any
+        navigator? : any
     }
 
-    export var Application: WinJSContribApplication;
+    export var Application: WinJSContribApplication = {};
 
     /**
      * indicate if fragment should not look for resources when building control
@@ -434,6 +433,7 @@ module WinJSContrib.UI {
         }
 
             /**
+             * @function WinJSContrib.UI.MediaTrigger.prototype.dispose
              * release media trigger
              */
             public dispose() {
@@ -446,6 +446,7 @@ module WinJSContrib.UI {
 
             /**
              * register an event from a media query
+             * @function WinJSContrib.UI.MediaTrigger.prototype.registerMediaEvent
              * @param {string} name event name
              * @param {string} query media query
              * @param {Object} data data associated with this query
@@ -453,7 +454,7 @@ module WinJSContrib.UI {
             public registerMediaEvent(name, query, data) {
                 var ctrl = this;
                 var mq = window.matchMedia(query);
-                var query = <any>{
+                var internalQuery = <any>{
                     name: name,
                     query: query,
                     data: data,
@@ -463,16 +464,16 @@ module WinJSContrib.UI {
 
                 var f = function (arg) {
                     if (arg.matches) {
-                        ctrl._mediaEvent(arg, query);
+                        ctrl._mediaEvent(arg, internalQuery);
                     }
                 };
 
                 mq.addListener(f);
-                query.dispose = function () {
+                internalQuery.dispose = function () {
                     mq.removeListener(f);
                 }
 
-                ctrl.queries.push(query);
+                ctrl.queries.push(internalQuery);
             }
 
             
@@ -485,6 +486,7 @@ module WinJSContrib.UI {
             }
 
             /**
+             * @function WinJSContrib.UI.MediaTrigger.prototype.check
              * Check all registered queries
              */
             public check() {
@@ -499,6 +501,7 @@ module WinJSContrib.UI {
 
         /**
          * Adds an event listener to the control.
+         * @function WinJSContrib.UI.MediaTrigger.prototype.addEventListener
          * @param type The type (name) of the event.
          * @param listener The listener to invoke when the event gets raised.
          * @param useCapture If true, initiates capture, otherwise false.
@@ -508,6 +511,7 @@ module WinJSContrib.UI {
 
         /**
          * Raises an event of the specified type and with the specified additional properties.
+         * @function WinJSContrib.UI.MediaTrigger.prototype.dispatchEvent
          * @param type The type (name) of the event.
          * @param eventProperties The set of additional properties to be attached to the event object when the event is raised.
          * @returns true if preventDefault was called on the event.
@@ -518,6 +522,7 @@ module WinJSContrib.UI {
 
         /**
          * Removes an event listener from the control.
+         * @function WinJSContrib.UI.MediaTrigger.prototype.removeEventListener
          * @param type The type (name) of the event.
          * @param listener The listener to remove.
          * @param useCapture true if capture is to be initiated, otherwise false.
@@ -537,14 +542,13 @@ module WinJSContrib.UI {
      * @returns {function} function to call for releasing navigation handlers
      */
     export function registerNavigationEvents(control, callback) {
-        var navigationCtrl = control;
         var locked = [];
 
         control.navLocks = control.navLocks || [];
         control.navLocks.isActive = true;
 
         var backhandler = function (arg) {
-            if (!control.navLocks || control.navLocks.length == 0) {
+            if (!control.navLocks || control.navLocks.length === 0) {
                 callback.bind(control)(arg);
             }
         }

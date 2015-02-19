@@ -149,58 +149,40 @@ module WinJSContrib.UI.Pages {
                     var page = this;
                     var processargs = arguments;
                     return WinJS.Promise.as(page.__wProcess.apply(page, processargs));
-
-                    //.then(function () {
-                    //    WinJSContrib.UI.bindMembers(element, page);
-                    //    return page.prepareDataPromise;
-                    //}).then(function(){
-                    //    return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
-                    //}).then(function () {
-                    //    element.style.display = page._initialDisplay || '';
-                    //    return WinJS.Promise.timeout();
-                    //}).then(function () {
-                    //    if (page.onbeforelayout)
-                    //        return page.onbeforelayout(element, options);
-                    //}).then(function () {
-                    //    return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
-                    //}).then(function () {
-                    //    if (page.onafterlayout)
-                    //        return page.onafterlayout(element, options);
-                    //});
                 }
 
                 proto.processed = function (element, options) {
                     var page = this;
                     var processedargs = arguments;
                     WinJSContrib.UI.bindMembers(element, page);
-                    return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
+                    //return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
 
-                    //return page.prepareDataPromise.then(function () {
-                    //    return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
-                    //}).then(function () {
-                    //    //element.style.display = page._initialDisplay || '';
-                    //    //return WinJS.Promise.timeout();
-                    //}).then(function () {
-                    //    //if (page.onbeforelayout)
-                    //    //    return page.onbeforelayout(element, options);
-                    //}).then(function () {
-                    //    return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
-                    //}).then(function () {
-                    //    //if (page.onafterlayout)
-                    //    //    return page.onafterlayout(element, options);
-                    //}).then(function () {
-                    //    return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
-                    //});
+                    return page.prepareDataPromise.then(function () {
+                        return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
+                    }).then(function () {
+                        //element.style.display = page._initialDisplay || '';
+                        //return WinJS.Promise.timeout();
+                    }).then(function () {
+                        //if (page.onbeforelayout)
+                        //    return page.onbeforelayout(element, options);
+                    }).then(function () {
+                        return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
+                    }).then(function () {
+                        //if (page.onafterlayout)
+                        //    return page.onafterlayout(element, options);
+                    }).then(function () {
+                        return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
+                    });
 
                 }
 
                 proto.render = function (element, options, loadResult) {
                     var page = this;
                     var renderargs = arguments;
-                    //if (page.prepareData)
-                    //    page.prepareDataPromise = WinJS.Promise.as(page.prepareData(element, options));
-                    //else
-                    //    page.prepareDataPromise = WinJS.Promise.wrap();
+                    if (page.prepareData)
+                        page.prepareDataPromise = WinJS.Promise.as(page.prepareData(element, options));
+                    else
+                        page.prepareDataPromise = WinJS.Promise.wrap();
 
                     return WinJS.Promise.as(page.__wRender.apply(page, renderargs));
                 }
@@ -208,17 +190,15 @@ module WinJSContrib.UI.Pages {
                 proto.ready = function (element, options) {
                     var page = this;
                     WinJSContrib.UI.bindActions(element, this);
-                    return WinJS.Promise.as(page.__wReady.apply(page, arguments));
-
-                    //.then(function () {
-                    //    return broadcast(page, element, 'pageReady', [element, options]);
-                    //}).then(function () {
-                    //    if (page.enterPageAnimation) {
-                    //        return WinJS.Promise.as(page.enterPageAnimation(element, options));
-                    //    }
-                    //}).then(function () {
-                    //    return broadcast(page, element, 'contentReady', [element, options], null, page.contentReady);
-                    //});
+                    return WinJS.Promise.as(page.__wReady.apply(page, arguments)).then(function () {
+                        return broadcast(page, element, 'pageReady', [element, options]);
+                    }).then(function () {
+                        if (page.enterPageAnimation) {
+                            return WinJS.Promise.as(page.enterPageAnimation(element, options));
+                        }
+                    }).then(function () {
+                        return broadcast(page, element, 'contentReady', [element, options], null, page.contentReady);
+                    });
                 }
 
                 proto.dispose = function () {
@@ -254,7 +234,7 @@ module WinJSContrib.UI.Pages {
         return constructor;
     }
 
-    function broadcast(ctrl, element, eventName, args, before, after) {
+    function broadcast(ctrl, element, eventName, args, before?, after?) {
         var pagelayoutCtrls = element.querySelectorAll('.mcn-layout-ctrl');
         var promises = [];
         if (before)

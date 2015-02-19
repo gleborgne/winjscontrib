@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1DE57687-9744-4269-A4D1-5EB7BAE8B0BE}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>winjscontrib</RootNamespace>
+    <AssemblyName>winjscontrib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TypeScriptToolsVersion>1.1</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Controls\winjscontrib.ui.childviewflyout.css.map" />
+    <Content Include="Controls\winjscontrib.ui.childviewflyout.less" />
+    <Content Include="Controls\winjscontrib.ui.dataform.less" />
+    <Content Include="Controls\winjscontrib.ui.datetimescroller.less" />
+    <Content Include="Controls\winjscontrib.ui.extended-splashscreen.css.map" />
+    <Content Include="Controls\winjscontrib.ui.extended-splashscreen.less" />
+    <Content Include="Controls\winjscontrib.ui.flipviewpager.less" />
+    <Content Include="Controls\winjscontrib.ui.flyoutpage.css.map" />
+    <Content Include="Controls\winjscontrib.ui.flyoutpage.less" />
+    <Content Include="Controls\winjscontrib.ui.globalprogress.less" />
+    <Content Include="Controls\winjscontrib.ui.hub.css.map" />
+    <Content Include="Controls\winjscontrib.ui.hub.less" />
+    <Content Include="Controls\winjscontrib.ui.masterdetailview.css.map" />
+    <Content Include="Controls\winjscontrib.ui.masterdetailview.less" />
+    <Content Include="Controls\winjscontrib.ui.tabcontrol.css.map" />
+    <Content Include="Controls\winjscontrib.ui.tabcontrol.less" />
+    <Content Include="Controls\winjscontrib.ui.tilemenu.css.map" />
+    <Content Include="Controls\winjscontrib.ui.tilemenu.less" />
+    <Content Include="Core\segoe.symbol.less" />
+    <Content Include="Core\winjscontrib.mixin.less" />
+    <Content Include="Core\winjscontrib.ui.less" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Controls\winjscontrib.ui.childviewflyout.css" />
+    <Content Include="Controls\winjscontrib.ui.childviewflyout.js" />
+    <Content Include="Controls\winjscontrib.ui.dataform.css" />
+    <Content Include="Controls\winjscontrib.ui.dataform.js" />
+    <Content Include="Controls\winjscontrib.ui.datasourcemanager.js" />
+    <Content Include="Controls\winjscontrib.ui.datetimescroller.css" />
+    <Content Include="Controls\winjscontrib.ui.extended-splashscreen.css" />
+    <Content Include="Controls\winjscontrib.ui.extended-splashscreen.js" />
+    <Content Include="Controls\winjscontrib.ui.flipviewpager.css" />
+    <Content Include="Controls\winjscontrib.ui.flipviewpager.js" />
+    <Content Include="Controls\winjscontrib.ui.flyoutpage.css" />
+    <Content Include="Controls\winjscontrib.ui.flyoutpage.js" />
+    <Content Include="Controls\winjscontrib.ui.globalprogress.css" />
+    <Content Include="Controls\winjscontrib.ui.globalprogress.js" />
+    <Content Include="Controls\winjscontrib.ui.grid.js" />
+    <Content Include="Controls\winjscontrib.ui.hub.css" />
+    <Content Include="Controls\winjscontrib.ui.hubcontrol.js" />
+    <Content Include="Controls\winjscontrib.ui.masterdetailview.css" />
+    <Content Include="Controls\winjscontrib.ui.masterdetailview.js" />
+    <Content Include="Controls\winjscontrib.ui.navigator.js" />
+    <Content Include="Controls\winjscontrib.ui.pivotmultidevice.js" />
+    <Content Include="Controls\winjscontrib.ui.semanticzoom-wrapper.js" />
+    <Content Include="Controls\winjscontrib.ui.smartlistlayout.js" />
+    <Content Include="Controls\winjscontrib.ui.statebutton.js" />
+    <Content Include="Controls\winjscontrib.ui.swipeslide.js" />
+    <Content Include="Controls\winjscontrib.ui.tabcontrol.css" />
+    <Content Include="Controls\winjscontrib.ui.tabcontrol.js" />
+    <Content Include="Controls\winjscontrib.ui.tilemenu.css" />
+    <Content Include="Controls\winjscontrib.ui.tilemenu.js" />
+    <Content Include="Core\segoe.symbol.css" />
+    <Content Include="Core\winjscontrib.bindings.js" />
+    <Content Include="Core\winjscontrib.core.js" />
+    <Content Include="Core\winjscontrib.crossplatform.js" />
+    <Content Include="Core\winjscontrib.datacontainer.cordova.database.js" />
+    <Content Include="Core\winjscontrib.datacontainer.cordova.file.js" />
+    <Content Include="Core\winjscontrib.datacontainer.localstorage.js" />
+    <Content Include="Core\winjscontrib.datacontainer.winrt.file.js" />
+    <Content Include="Core\winjscontrib.date.utils.js" />
+    <Content Include="Core\winjscontrib.dynamicscripts.html" />
+    <Content Include="Core\winjscontrib.dynamicscripts.js" />
+    <Content Include="Core\winjscontrib.logger.js" />
+    <Content Include="Core\winjscontrib.messenger.js" />
+    <Content Include="Core\winjscontrib.messenger.worker.js" />
+    <Content Include="Core\winjscontrib.mixin.css" />
+    <Content Include="Core\winjscontrib.search.js" />
+    <Content Include="Core\winjscontrib.search.worker.js" />
+    <TypeScriptCompile Include="Core\winjscontrib.ui.animation.ts" />
+    <Content Include="Core\winjscontrib.ui.boilerplate.control.js" />
+    <Content Include="Core\winjscontrib.ui.boilerplate.observable.js" />
+    <Content Include="Core\winjscontrib.ui.css" />
+    <Content Include="Core\winjscontrib.ui.jquery.js" />
+    <Content Include="Core\winjscontrib.ui.morph.js" />
+    <Content Include="Core\winjscontrib.ui.multipass-renderer.js" />
+    <Content Include="Core\winjscontrib.ui.pages.js" />
+    <Content Include="Web.config" />
+    <Content Include="WinRT\winjscontrib.winrt.audiorecording.js" />
+    <Content Include="WinRT\winjscontrib.winrt.backgrounddownloads.js" />
+    <Content Include="WinRT\winjscontrib.winrt.backgrounddownloads.tracker.js" />
+    <Content Include="WinRT\winjscontrib.winrt.bgtask.js" />
+    <Content Include="WinRT\winjscontrib.winrt.contacts.js" />
+    <Content Include="WinRT\winjscontrib.winrt.core.js" />
+    <Content Include="WinRT\winjscontrib.winrt.multipleviews.child.js" />
+    <Content Include="WinRT\winjscontrib.winrt.multipleviews.js" />
+    <Content Include="WinRT\winjscontrib.winrt.multipleviews.main.js" />
+    <Content Include="WinRT\winjscontrib.winrt.ssm.js" />
+    <Content Include="WinRT\winjscontrib.winrt.upnp.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Core\Core\winjscontrib.core.pages.ts" />
+    <TypeScriptCompile Include="Core\Core\winjscontrib.core.ui.ts" />
+    <TypeScriptCompile Include="Core\Core\winjscontrib.core.utils.ts" />
+    <TypeScriptCompile Include="Core\winjscontrib.core.d.ts" />
+    <TypeScriptCompile Include="typings\jquery.d.ts" />
+    <TypeScriptCompile Include="typings\winjs.d.ts" />
+    <TypeScriptCompile Include="typings\winrt.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1354</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:1354/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

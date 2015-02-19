@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "MCNEXT WinJS Contrib", "Windows8 Sample\MCNEXT WinJS Contrib.jsproj", "{13F25FCE-65B5-4AAE-B498-C0F001F28717}"
 EndProject
@@ -10,6 +10,11 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MCNEXT WinJS Contrib.Shared", "MCNEXT WinJS Contrib.Shared\MCNEXT WinJS Contrib.Shared.shproj", "{54087230-87DD-4A3A-BC3A-C939DB16EF31}"
 EndProject
 Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "MCNEXT WinJS Contrib.WindowsPhone", "Windows Phone sample\MCNEXT WinJS Contrib.WindowsPhone.jsproj", "{D347A8E1-D088-41E6-BF18-2D6EE23AD24A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7053938D-AADD-49C5-B024-2DEDAAC5065D}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\gulpfile.js = ..\..\gulpfile.js
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

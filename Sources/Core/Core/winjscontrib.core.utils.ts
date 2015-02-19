@@ -14,6 +14,7 @@ interface String {
     endsWith(e);
 }
 
+
 if (!Object.map) {
     Object.map = function (obj, mapping) {
         var mapped = {};
@@ -35,19 +36,16 @@ if (!Object.map) {
             }
         });
         return mapped;
-    };
+    }
 }
 
 if (!String.prototype.format) {
     String.prototype.format = function () {
         var args = arguments;
         return this.replace(/{(\d+)}/g, function (match, number) {
-            return typeof args[number] != 'undefined'
-              ? args[number]
-              : match
-            ;
+            return typeof args[number] !== 'undefined' ? args[number] : match;
         });
-    };
+    }
 }
 
 if (!String.prototype.padLeft) {
@@ -57,7 +55,7 @@ if (!String.prototype.padLeft) {
         }
 
         return this.length < length ? (leadingChar + this).padLeft(length, leadingChar) : this;
-    };
+    }
 }
 
 module WinJSContrib.Promise {
@@ -94,8 +92,7 @@ module WinJSContrib.Promise {
                 return results;
             });
         });
-
-    };
+    }
 
     function promises(dataArray, promiseCallback) {
         if (!dataArray) {
@@ -111,7 +108,7 @@ module WinJSContrib.Promise {
 
             return promises;
         });
-    };
+    }
 
     /** 
      * apply callback for each item in the array in parallel (equivalent to WinJS.Promise.join) 
@@ -134,7 +131,7 @@ module WinJSContrib.Promise {
 
             return WinJS.Promise.join(promises);
         });
-    };
+    }
 
     /** 
      * apply callback for each item in the array in batch of X parallel items
@@ -170,7 +167,7 @@ module WinJSContrib.Promise {
 
             for (var i = 0, l = items.length; i < l; i++) {
                 batcheditems.push(items[i]);
-                if (i > 0 && i % batchSize == 0) {
+                if (i > 0 && i % batchSize === 0) {
                     resultPromise = queueBatch(resultPromise, batcheditems);
                     batcheditems = [];
                 }
@@ -188,7 +185,7 @@ module WinJSContrib.Promise {
                 return <any>results;
             });
         });
-    };
+    }
 }
 
 
@@ -229,7 +226,7 @@ module WinJSContrib.Utils {
     if (!String.prototype.endsWith) {
         String.prototype.endsWith = function (str) {
             return WinJSContrib.Utils.endsWith(this, str);
-        };
+        }
     }
 
     /**
@@ -247,8 +244,6 @@ module WinJSContrib.Utils {
         return str.join("&");
     }
 
-
-
     /**
      * trigger an event on a DOM node
      * @function WinJSContrib.Utils.triggerEvent
@@ -261,7 +256,7 @@ module WinJSContrib.Utils {
         var eventToTrigger = document.createEvent("Event");
         eventToTrigger.initEvent(eventName, bubbles, cancellable);
         element.dispatchEvent(eventToTrigger);
-    };
+    }
 
     /**
      * @function WinJSContrib.Utils.triggerCustomEvent
@@ -274,7 +269,7 @@ module WinJSContrib.Utils {
         var eventToTrigger = document.createEvent("CustomEvent");
         eventToTrigger.initCustomEvent(eventName, bubbles, cancellable, data);
         element.dispatchEvent(eventToTrigger);
-    };
+    }
 
     /* 
     Core object properties features
@@ -354,6 +349,36 @@ module WinJSContrib.Utils {
         }
     }
 
+    export class PropertyDescriptor {
+        constructor(public parent, public parentDescriptor, public keyProp) {
+        }
+
+        public ensureParent() {
+            if (parent) {
+                return parent;
+            } else {
+                if (this.parentDescriptor) {
+                    this.parentDescriptor.ensureParent();
+
+                    if (!this.parentDescriptor.parent[this.parentDescriptor.keyProp]) {
+                        this.parentDescriptor.parent[this.parentDescriptor.keyProp] = {};
+                        this.parent = this.parentDescriptor.parent[this.parentDescriptor.keyProp];
+                    }
+                }
+            }
+        }
+
+        get propValue() {
+            return getobject(this.parent, this.keyProp);
+        }
+
+        set propValue(val) {
+            this.ensureParent();
+            setobject(this.parent, this.keyProp, val);
+        }
+    }
+
+
     /**
      * return a propery descriptor for an object based on expression
      * @function WinJSContrib.Utils.getProperty
@@ -375,35 +400,7 @@ module WinJSContrib.Utils {
         var parent = source;
         var previousDescriptor = null;
         for (var i = 0; i < properties.length; i++) {
-            var descriptor = {
-                parent: parent,
-                parentDescriptor: previousDescriptor,
-                keyProp: properties[i],
-                ensureParent: function () {
-                    if (parent) {
-                        return parent;
-                    } else {
-                        if (this.parentDescriptor) {
-                            this.parentDescriptor.ensureParent();
-
-                            if (!this.parentDescriptor.parent[this.parentDescriptor.keyProp]) {
-                                this.parentDescriptor.parent[this.parentDescriptor.keyProp] = {};
-                                this.parent = this.parentDescriptor.parent[this.parentDescriptor.keyProp];
-                            }
-                        }
-                    }
-                },
-
-                get propValue() {
-                    return getobject(this.parent, this.keyProp);
-                },
-
-                set propValue(val) {
-                    this.ensureParent();
-                    setobject(this.parent, this.keyProp, val);
-                }
-            };
-
+            var descriptor = new PropertyDescriptor(parent, previousDescriptor, properties[i]);
             previousDescriptor = descriptor;
 
             if (i == properties.length - 1) {
@@ -429,7 +426,7 @@ module WinJSContrib.Utils {
             prop.propValue = data;
             //prop.parent[prop.keyProp] = data;
         }
-    };
+    }
 
 
     /** generate a random value between two numbers 
@@ -440,7 +437,7 @@ module WinJSContrib.Utils {
      */
     export function randomFromInterval(from, to) {
         return (Math.random() * (to - from + 1) + from) << 0;
-    };
+    }
 
     /** 
      * function to use as a callback for Array.sort when you want the array to be sorted alphabetically
@@ -456,7 +453,7 @@ module WinJSContrib.Utils {
             return -1;
 
         return 0;
-    };
+    }
 
     /**
      * generate an array with only distinct elements
@@ -467,22 +464,25 @@ module WinJSContrib.Utils {
      * @returns {Array}
      */
     export function distinctArray(array, property, ignorecase) {
-        if (array == null || array.length == 0) return array;
+        if (array === null || array.length === 0) return array;
         if (typeof ignorecase == "undefined") ignorecase = false;
         var sMatchedItems = "";
         var foundCounter = 0;
         var newArray = [];
+        var sFind;
+        var i;
+
         if (ignorecase) {
-            for (var i = 0; i < array.length; i++) {
+            for (i = 0; i < array.length; i++) {
                 if (property) {
                     var data = WinJSContrib.Utils.readProperty(array[i], property.split('.'));
-                    var sFind = data;
+                    sFind = data;
                     if (!data)
                         sFind = data;
                     if (data && data.toLowerCase)
                         sFind = data.toLowerCase();
                 } else {
-                    var sFind = array[i];
+                    sFind = array[i];
                 }
                 if (sMatchedItems.indexOf("|" + sFind + "|") < 0) {
                     sMatchedItems += "|" + sFind + "|";
@@ -490,11 +490,11 @@ module WinJSContrib.Utils {
                 }
             }
         } else {
-            for (var i = 0; i < array.length; i++) {
+            for (i = 0; i < array.length; i++) {
                 if (property) {
-                    var sFind = WinJSContrib.Utils.readProperty(array[i], property.split('.'));
+                    sFind = WinJSContrib.Utils.readProperty(array[i], property.split('.'));
                 } else {
-                    var sFind = array[i];
+                    sFind = array[i];
                 }
 
                 if (sMatchedItems.indexOf("|" + sFind + "|") < 0) {
@@ -504,7 +504,7 @@ module WinJSContrib.Utils {
             }
         }
         return newArray;
-    };
+    }
 
     /**
      * get distinct values from an array of items
@@ -517,7 +517,7 @@ module WinJSContrib.Utils {
         return Utils.distinctArray(array, property, ignorecase).map(function (item) {
             return WinJSContrib.Utils.readProperty(item, property.split('.'));
         });
-    };
+    }
 
     /**
      * Remove all accented characters from a string and replace them with their non-accented counterpart for ex: replace "é" with "e"
@@ -538,7 +538,7 @@ module WinJSContrib.Utils {
         r = r.replace(new RegExp("[ùúûü]", 'g'), "u");
         r = r.replace(new RegExp("[ýÿ]", 'g'), "y");
         return r;
-    };
+    }
 
     /**
      * remove a page from navigation history
@@ -555,7 +555,7 @@ module WinJSContrib.Utils {
             });
         }
         WinJS.Navigation.history.backStack = history;
-    };
+    }
 
     /**
      * format a number on 2 digits
@@ -564,7 +564,7 @@ module WinJSContrib.Utils {
      */
     export function pad2(number) {
         return (number < 10 ? '0' : '') + number;
-    };
+    }
 
     /**
      * truncate a string and add ellipse if text if greater than certain size
@@ -580,7 +580,7 @@ module WinJSContrib.Utils {
         var toLong = text.length > maxSize, text_ = toLong ? text.substr(0, maxSize - 1) : text;
         text_ = useWordBoundary && toLong ? text_.substr(0, text_.lastIndexOf(' ')) : text_;
         return toLong ? text_ + '...' : text_;
-    };
+    }
 
     /**
      * generate a new Guid
@@ -595,7 +595,7 @@ module WinJSContrib.Utils {
             return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
         });
         return uuid;
-    };
+    }
 
     /**
      * inherit property from parent WinJS controls
@@ -608,14 +608,14 @@ module WinJSContrib.Utils {
             var current = element.parentElement;
             while (current) {
                 if (current.winControl) {
-                    if (current.winControl[property] != undefined) {
+                    if (current.winControl[property] !== undefined) {
                         return current.winControl[property];
                     }
                 }
                 current = current.parentElement;
             }
         }
-    };
+    }
 
     /**
      * move DOM childrens form one node to the other
@@ -631,7 +631,7 @@ module WinJSContrib.Utils {
         childs.forEach(function (elt) {
             target.appendChild(elt);
         });
-    };
+    }
 
     /**
      * get parent control identifyed by a property attached on DOM element
@@ -649,7 +649,7 @@ module WinJSContrib.Utils {
             }
             current = current.parentNode;
         }
-    };
+    }
 
     /**
      * get parent control identifyed by a css class
@@ -667,7 +667,7 @@ module WinJSContrib.Utils {
             }
             current = current.parentNode;
         }
-    };
+    }
 
     /**
      * get parent page control (work only with WinJSContrib.UI.PageControlNavigator
@@ -677,7 +677,7 @@ module WinJSContrib.Utils {
      */
     export function getParentPage(element) {
         return WinJSContrib.Utils.getParent('mcnPage', element);
-    };
+    }
 
     /**
      * get parent scope control (based on msParentSelectorScope)
@@ -703,7 +703,7 @@ module WinJSContrib.Utils {
             }
             current = current.parentNode;
         }
-    };
+    }
 
     /**
      * get WinJS.Binding.Template like control from a path, a control, a function or a DOM element
@@ -730,7 +730,7 @@ module WinJSContrib.Utils {
                 return template;
             }
         }
-    };
+    }
 
     /**
      * get a function from an expression, for example 'page:myAction' will return the myAction function from the parent page.
@@ -746,7 +746,7 @@ module WinJSContrib.Utils {
             return res;
 
         return undefined;
-    };
+    }
 
     export function readValue(element, text) {
         var res = WinJSContrib.Utils.resolveValue(element, text);
@@ -757,7 +757,7 @@ module WinJSContrib.Utils {
                 return res;
         }
         return undefined;
-    };
+    }
 
     /**
      * resolve value from an expression. This helper will crawl the DOM up, and provide the property or function from parent page or control.
@@ -769,7 +769,7 @@ module WinJSContrib.Utils {
     export function resolveValue(element, text) {
         var methodName, control, method;
 
-        if (text.indexOf('page:') == 0) {
+        if (text.indexOf('page:') === 0) {
             methodName = text.substr(5);
             if (WinJSContrib.Utils.getParentPage) {
                 control = WinJSContrib.Utils.getParentPage(element);
@@ -782,13 +782,13 @@ module WinJSContrib.Utils {
                 return;
 
             method = WinJSContrib.Utils.readProperty(control, methodName);
-            if (method && typeof method == 'function')
+            if (method && typeof method === 'function')
                 method = method.bind(control);
-        } else if (text.indexOf('ctrl:') == 0) {
+        } else if (text.indexOf('ctrl:') === 0) {
             methodName = text.substr(5);
             control = WinJSContrib.Utils.getScopeControl(element);
             method = WinJSContrib.Utils.readProperty(control, methodName);
-            if (method && typeof method == 'function')
+            if (method && typeof method === 'function')
                 method = method.bind(control);
         } else {
             methodName = text;
@@ -797,9 +797,7 @@ module WinJSContrib.Utils {
         }
 
         return method;
-    };
-
-
+    }
 
     /**
      * Checks in a safe way if an object has a value, which could be 'false', '0' or '""'
@@ -809,7 +807,7 @@ module WinJSContrib.Utils {
      */
     export function hasValue(item) {
         return typeof item !== "undefined" && item !== null;
-    };
+    }
 
     /**
      * format error from an xhr call
@@ -817,7 +815,7 @@ module WinJSContrib.Utils {
      */
     export function formatXHRError(xhr) {
         return "{0} - {1}: {2}".format(xhr.status, xhr.statusText, xhr.responseText);
-    };
+    }
 
     /**
      * Unwraps the real error from a WinJS.Promise.join operation, which by design returns an array with 'undefined' for all cells,
@@ -840,7 +838,7 @@ module WinJSContrib.Utils {
 
             return errorCallback(unwrappedError);
         };
-    };
+    }
 
     /**
      * inject properties from source object to target object
@@ -853,6 +851,4 @@ module WinJSContrib.Utils {
             }
         }
     }
-
-
 }

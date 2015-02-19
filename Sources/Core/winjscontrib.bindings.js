@@ -19,14 +19,16 @@
          * @param {string} argument name
          */
         WinJSContrib.Bindings.bindingArguments = function bindingArguments(elt, argname) {
+            var data;
             if (WinJS.UI._optionsParser) {
                 var text = elt.getAttribute("data-win-bind-args");
                 if (text) {
-                    var data = WinJS.UI._optionsParser(text);
+                    data = WinJS.UI._optionsParser(text);
                 }
-            }else{
-                var data = $(elt).data('win-bind-args');
+            } else {
+                data = $(elt).data('win-bind-args');
             }
+
             if (data) {
                 if (argname) {
                     return data[argname];
@@ -34,7 +36,7 @@
                     return data;
                 }
             }
-        }
+        };
         var bindingArguments = WinJSContrib.Bindings.bindingArguments;
 
         /**
@@ -450,7 +452,7 @@
                     dispose: function () {
                         dest.removeEventListener('change', getVal);
                     }
-                }
+                };
             }
 
             var bindingDesc = {
