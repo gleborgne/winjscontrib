@@ -1,0 +1,170 @@
+﻿@import "../css/apptheme";
+
+.home {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow-y: hidden;
+    overflow-x: auto;
+
+    .home-sections {
+        height: ~"calc(100% - 40px)";
+        margin-left: 40px;
+        margin-top: 40px;
+        display: flex;
+        flex-flow: column wrap;
+        align-content: flex-start;
+        box-sizing: border-box;
+
+        .spacer {
+            height: 80%;
+            width: 40px;
+        }
+
+        .section {
+            height: 40%;
+            width: 240px;
+            color: white;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            position: relative;
+            box-sizing: border-box;
+            padding: 10px;
+
+            &.big {
+                height: ~"calc(80% + 10px)";
+
+                &#whatisthis {
+                    .title {
+                        display: none;
+                    }
+                }
+
+                .desc {
+                    font-size: 1.5em;
+                }
+            }
+
+            .title, .more {
+                position: absolute;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                font-size: 2.2em;
+                font-family: 'Open Sans Condensed';
+                text-align: right;
+                line-height: 1.1em;
+            }
+
+            .more {
+                font-size: 1.5em;
+            }
+        }
+    }
+
+    #corefeatures {
+        background-color: @color-corefeatures;
+        border-left: 6px solid darken(@color-corefeatures, 10%);
+    }
+
+    #navigation {
+        background-color: @color-navigation;
+        border-left: 6px solid darken(@color-navigation, 10%);
+    }
+
+    #ui {
+        background-color: @color-ui;
+        border-left: 6px solid darken(@color-ui, 10%);
+    }
+
+    #helpers {
+        background-color: @color-helpers;
+        border-left: 6px solid darken(@color-helpers, 10%);
+    }
+
+    #winrt {
+        background-color: @color-winrt;
+        border-left: 6px solid darken(@color-winrt, 10%);
+    }
+
+    #whatisthis {
+        background-color: @color-whatisthis;
+        border-left: 6px solid darken(@color-whatisthis, 10%);
+    }
+
+    #crossplatform {
+        background-color: @color-crossplatform;
+        border-left: 6px solid darken(@color-crossplatform, 10%);
+    }
+
+    #apidoc {
+        background-color: @color-apidoc;
+        border-left: 6px solid darken(@color-apidoc, 10%);
+    }
+}
+
+@media screen and (orientation: portrait) {
+    .home {
+        overflow-y: auto;
+        overflow-x: hidden;
+        
+        .home-sections {
+            height: auto;
+            margin: 0;
+            margin: 20px 0 20px 20px;
+            width: ~"calc(100% - 20px)";
+            /*display: block;*/
+            flex-flow: row wrap;
+
+            .spacer {
+                height: 20px;
+                width: 80%;
+            }
+
+            .section {
+                height: auto;
+                width: 100%;
+                color: white;
+
+                &.big {
+                    .desc {
+                        font-size: 1.3em;
+                        line-height: 1.2em;
+                    }
+                }
+                /*margin-bottom: 10px;*/
+                .title {
+                    position: static;
+                    left: 10px;
+                    right: 10px;
+                    bottom: 10px;
+                    font-size: 1.5em;
+                    font-family: 'Open Sans Condensed';
+                    text-align: left;
+                    line-height: 1.1em;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (orientation: portrait) and (min-width: 400px) {
+    .home {
+
+        .home-sections {
+            .section {
+                padding: 20px;
+
+                &.big {
+                    .desc {
+                        font-size: 1.6em;
+                    }
+                }
+                /*margin-bottom: 10px;*/
+                .title {
+                    font-size: 1.8em;
+                }
+            }
+        }
+    }
+}

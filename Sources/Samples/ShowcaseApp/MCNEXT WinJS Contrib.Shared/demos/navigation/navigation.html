@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>navigation</title>
+
+    <link href="navigation.css" rel="stylesheet" />
+    <script src="navigation.js"></script>
+</head>
+<body>
+    <div class="section-navigation feature-section">
+        <div id="pageHub" class="mcn-fullsize" data-win-control="WinJSContrib.UI.HubControl" data-win-options="{multipass: 'item'}">
+            <div class="mcn-hub-surface">
+                <div id="sectionIntro" class="mcn-hub-section-titled" data-win-control="WinJSContrib.UI.HubSection">
+                    <h2>Navigator</h2>
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{ layouts: HubGridLayout }">
+                        <div class="feature" data-target="./demos/navigation/navigator/navigator.html">
+                            <div class="title">Page control navigator</div>
+                            <div class="desc">
+                                Base control for navigation.
+                            </div>
+                        </div>
+                        <div class="feature" data-target="./demos/navigation/navigator/navigator.html" data-target-args='{ "targetpage" : "./demos/navigation/navigator/blockingnav/blockingnav.html"}'>
+                            <div class="title">Blocking navigation</div>
+                            <div class="desc">
+                                Navigator allows for blocking navigation from within your page.
+                                You could use it to prevent user from navigating away from an incomplete data form, or in any scenario you would like.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="sectionIntro" class="mcn-hub-section-titled" data-win-control="WinJSContrib.UI.HubSection">
+                    <h2>Other navigation</h2>
+                    <div class="mcn-hub-section-content" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{ layouts: HubGridLayout }">
+                        <div class="feature" data-target="./demos/navigation/childviewflyout/basics/childviewflyout.html">
+                            <div class="title">Child view flyout (basics)</div>
+                            <div class="desc">
+                                This control is intended to provide a sub navigation system. A child view is opening as a side flyout and is based on the custom navigator provided in WinJS Contrib.
+                                It's very usefull in a lot of user experience scenarios where a WinJS flyout is to small or to limited, like master-detail views, picking an item in a list, etc.
+                            </div>
+                        </div>
+                        <div class="feature" data-target="./demos/navigation/childviewflyout/picker/childviewflyout.html">
+                            <div class="title">Child view flyout (picker)</div>
+                            <div class="desc">
+                                Use child view to pick up data
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x86">
+      <Configuration>Debug</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x86">
+      <Configuration>Release</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>d347a8e1-d088-41e6-bf18-2d6ee23ad24a</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0'">
+    <VisualStudioVersion>12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).Default.props" />
+  <PropertyGroup Label="Configuration">
+    <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <RequiredPlatformVersion>8.1</RequiredPlatformVersion>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).props" />
+  <PropertyGroup>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppxManifest Include="package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.childviewflyout.css">
+      <Link>css\winjscontrib\winjscontrib.ui.childviewflyout.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.childviewflyout.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.childviewflyout.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.childviewflyout.less">
+      <Link>css\winjscontrib\winjscontrib.ui.childviewflyout.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.dataform.css">
+      <Link>css\winjscontrib\winjscontrib.ui.dataform.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.dataform.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.dataform.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.dataform.less">
+      <Link>css\winjscontrib\winjscontrib.ui.dataform.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.datasourcemanager.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.datasourcemanager.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.datetimescroller.css">
+      <Link>css\winjscontrib\winjscontrib.ui.datetimescroller.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.datetimescroller.less">
+      <Link>css\winjscontrib\winjscontrib.ui.datetimescroller.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.extended-splashscreen.css">
+      <Link>css\winjscontrib\winjscontrib.ui.extended-splashscreen.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.extended-splashscreen.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.extended-splashscreen.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.extended-splashscreen.less">
+      <Link>css\winjscontrib\winjscontrib.ui.extended-splashscreen.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.flipviewpager.css">
+      <Link>css\winjscontrib\winjscontrib.ui.flipviewpager.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.flipviewpager.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.flipviewpager.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.flipviewpager.less">
+      <Link>css\winjscontrib\winjscontrib.ui.flipviewpager.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.flyoutpage.css">
+      <Link>css\winjscontrib\winjscontrib.ui.flyoutpage.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.flyoutpage.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.flyoutpage.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.flyoutpage.less">
+      <Link>css\winjscontrib\winjscontrib.ui.flyoutpage.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.globalprogress.css">
+      <Link>css\winjscontrib\winjscontrib.ui.globalprogress.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.globalprogress.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.globalprogress.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.globalprogress.less">
+      <Link>css\winjscontrib\winjscontrib.ui.globalprogress.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.grid.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.grid.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.hub.css">
+      <Link>css\winjscontrib\winjscontrib.ui.hub.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.hub.less">
+      <Link>css\winjscontrib\winjscontrib.ui.hub.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.hubcontrol.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.hubcontrol.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.masterdetailview.css">
+      <Link>css\winjscontrib\winjscontrib.ui.masterdetailview.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.masterdetailview.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.masterdetailview.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.masterdetailview.less">
+      <Link>css\winjscontrib\winjscontrib.ui.masterdetailview.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.navigator.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.navigator.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.pivotmultidevice.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.pivotmultidevice.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.semanticzoom-wrapper.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.semanticzoom-wrapper.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.smartlistlayout.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.smartlistlayout.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.statebutton.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.statebutton.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.swipeslide.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.swipeslide.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.tabcontrol.css">
+      <Link>css\winjscontrib\winjscontrib.ui.tabcontrol.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.tabcontrol.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.tabcontrol.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.tabcontrol.less">
+      <Link>css\winjscontrib\winjscontrib.ui.tabcontrol.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.tilemenu.css">
+      <Link>css\winjscontrib\winjscontrib.ui.tilemenu.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.tilemenu.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.tilemenu.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.tilemenu.less">
+      <Link>css\winjscontrib\winjscontrib.ui.tilemenu.less</Link>
+    </Content>
+    <Content Include="..\..\..\Core\segoe.symbol.css">
+      <Link>css\winjscontrib\segoe.symbol.css</Link>
+    </Content>
+    <Content Include="..\..\..\Core\segoe.symbol.less">
+      <Link>css\winjscontrib\segoe.symbol.less</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.bindings.js">
+      <Link>scripts\winjscontrib\winjscontrib.bindings.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.core.js">
+      <Link>scripts\winjscontrib\winjscontrib.core.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.crossplatform.js">
+      <Link>scripts\winjscontrib\winjscontrib.crossplatform.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.date.utils.js">
+      <Link>scripts\winjscontrib\winjscontrib.date.utils.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.dynamicscripts.js">
+      <Link>scripts\winjscontrib\winjscontrib.dynamicscripts.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.logger.js">
+      <Link>scripts\winjscontrib\winjscontrib.logger.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.messenger.js">
+      <Link>scripts\winjscontrib\winjscontrib.messenger.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.messenger.worker.js">
+      <Link>scripts\winjscontrib\winjscontrib.messenger.worker.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.mixin.css">
+      <Link>css\winjscontrib\winjscontrib.mixin.css</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.mixin.less">
+      <Link>css\winjscontrib\winjscontrib.mixin.less</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.search.js">
+      <Link>scripts\winjscontrib\winjscontrib.search.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.search.worker.js">
+      <Link>scripts\winjscontrib\winjscontrib.search.worker.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.ui.animation.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.animation.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.ui.boilerplate.control.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.boilerplate.control.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.ui.boilerplate.observable.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.boilerplate.observable.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.ui.css">
+      <Link>css\winjscontrib\winjscontrib.ui.css</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.ui.jquery.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.jquery.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.ui.less">
+      <Link>css\winjscontrib\winjscontrib.ui.less</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.ui.morph.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.morph.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.ui.multipass-renderer.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js</Link>
+    </Content>
+    <Content Include="..\..\..\WinRT\winjscontrib.winrt.audiorecording.js">
+      <Link>scripts\winjscontrib\winjscontrib.winrt.audiorecording.js</Link>
+    </Content>
+    <Content Include="..\..\..\WinRT\winjscontrib.winrt.backgrounddownloads.js">
+      <Link>scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.js</Link>
+    </Content>
+    <Content Include="..\..\..\WinRT\winjscontrib.winrt.backgrounddownloads.tracker.js">
+      <Link>scripts\winjscontrib\winjscontrib.winrt.backgrounddownloads.tracker.js</Link>
+    </Content>
+    <Content Include="..\..\..\WinRT\winjscontrib.winrt.bgtask.js">
+      <Link>scripts\winjscontrib\winjscontrib.winrt.bgtask.js</Link>
+    </Content>
+    <Content Include="..\..\..\WinRT\winjscontrib.winrt.contacts.js">
+      <Link>scripts\winjscontrib\winjscontrib.winrt.contacts.js</Link>
+    </Content>
+    <Content Include="..\..\..\WinRT\winjscontrib.winrt.core.js">
+      <Link>scripts\winjscontrib\winjscontrib.winrt.core.js</Link>
+    </Content>
+    <Content Include="..\..\..\WinRT\winjscontrib.winrt.multipleviews.child.js">
+      <Link>scripts\winjscontrib\winjscontrib.winrt.multipleviews.child.js</Link>
+    </Content>
+    <Content Include="..\..\..\WinRT\winjscontrib.winrt.multipleviews.js">
+      <Link>scripts\winjscontrib\winjscontrib.winrt.multipleviews.js</Link>
+    </Content>
+    <Content Include="..\..\..\WinRT\winjscontrib.winrt.multipleviews.main.js">
+      <Link>scripts\winjscontrib\winjscontrib.winrt.multipleviews.main.js</Link>
+    </Content>
+    <Content Include="..\..\..\WinRT\winjscontrib.winrt.ssm.js">
+      <Link>scripts\winjscontrib\winjscontrib.winrt.ssm.js</Link>
+    </Content>
+    <Content Include="..\..\..\WinRT\winjscontrib.winrt.upnp.js">
+      <Link>scripts\winjscontrib\winjscontrib.winrt.upnp.js</Link>
+    </Content>
+    <Content Include="css\apptheme.css">
+      <DependentUpon>apptheme.less</DependentUpon>
+    </Content>
+    <Content Include="css\apptheme.less" />
+    <Content Include="css\defaultphone.css">
+      <DependentUpon>defaultphone.less</DependentUpon>
+    </Content>
+    <Content Include="css\defaultphone.css.map">
+      <DependentUpon>defaultphone.css</DependentUpon>
+    </Content>
+    <Content Include="css\defaultphone.less" />
+    <Content Include="default.html" />
+    <Content Include="images\AppLogoSmall.png" />
+    <Content Include="images\AppLogoSmallWhite.png" />
+    <Content Include="images\SplashScreen.scale-240.png" />
+    <Content Include="images\Square44x44Logo.scale-240.png" />
+    <Content Include="images\Square71x71Logo.scale-240.png" />
+    <Content Include="images\StoreLogo.scale-240.png" />
+    <Content Include="images\Wide310x150Logo.scale-240.png" />
+    <Content Include="images\winjscontrib106.png" />
+    <Content Include="images\winjscontrib120.png" />
+    <Content Include="images\winjscontrib170.png" />
+    <Content Include="images\winjscontrib360.scale-240.png" />
+    <Content Include="images\winjscontrib744.png" />
+    <Content Include="js\default.js" />
+    <Content Include="css\ui-themed.css" />
+    <Content Include="css\ui-themed.theme-dark.css" />
+    <Content Include="css\ui-themed.theme-light.css" />
+    <Content Include="Package.StoreAssociation.xml" />
+    <Content Include="pages\mainmenu\mainmenu.css" />
+    <Content Include="pages\mainmenu\mainmenu.css.map">
+      <DependentUpon>mainmenu.css</DependentUpon>
+    </Content>
+    <Content Include="pages\mainmenu\mainmenu.html" />
+    <Content Include="pages\mainmenu\mainmenu.js" />
+    <Content Include="pages\mainmenu\mainmenu.less" />
+    <Content Include="StoreManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.Phone.WinJS.2.1, Version=1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="css\winjscontrib\" />
+    <Folder Include="scripts\winjscontrib\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gulpfile.js" />
+  </ItemGroup>
+  <Import Project="..\MCNEXT WinJS Contrib.Shared\MCNEXT_WinJS_Contrib.Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
+  <!-- To modify your build process, add your task inside one of the targets below then uncomment
+       that target and the DisableFastUpToDateCheck PropertyGroup. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  <PropertyGroup>
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+  </PropertyGroup>
+  -->
+</Project>

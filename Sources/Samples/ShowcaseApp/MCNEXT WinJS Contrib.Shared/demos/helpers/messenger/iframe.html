@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="/scripts/WinJS/js/WinJS.js"></script>
+    <script src="/Scripts/winjscontrib/winjscontrib.messenger.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        (function () {
+            'use strict';
+
+            var messenger = new WinJSContrib.Messenger(window, window.parent);
+
+            messenger.applyance = function (arg) {
+                if (arg.triggerError) {
+                    return WinJS.Promise.wrapError({ message: 'error triggered inside the worker' });
+                }
+
+                return 42;
+            };
+
+        })();
+    </script>
+</body>
+</html>
