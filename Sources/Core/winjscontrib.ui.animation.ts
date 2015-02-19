@@ -1,8 +1,6 @@
-﻿
-/**
+﻿/**
  * @namespace WinJSContrib.UI.Animation
  */
-
 
 module WinJSContrib.UI.Animation {
 

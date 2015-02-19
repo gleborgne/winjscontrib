@@ -17,6 +17,7 @@ var insert = require('gulp-insert');
 var merge = require('merge-stream');
 var ts = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
+var flatten = require('gulp-flatten');
 //var config = require('./build.config.json');
 
 
@@ -66,11 +67,15 @@ gulp.task('distrib', ['cleannuget', 'build'], function() {
 });
 
 gulp.task('cleanstyles', function(cb) {
-	return del(['dist/bin/css'], cb)
+	return del(['dist/bin/css'], cb);
 });
 
 gulp.task('cleanscripts', function(cb) {
-	return del(['dist/bin/js', 'dist/bin/ts'], cb)
+	return del(['dist/bin/js', 'dist/bin/ts'], cb);
+});
+
+gulp.task('cleandoc', function(cb) {
+	return del(['dist/documentation'], cb);
 });
 
 function compileLessFilesIn(path){
@@ -104,56 +109,27 @@ gulp.task('styles', ['cleanstyles'], function() {
 
 var tsProject = ts.createProject({
     declarationFiles: true,
-	    noExternalResolve: true,
-	    target : 'ES5',
-        noEmitOnError : false
+	noExternalResolve: true,
+	target : 'ES5',
+    noEmitOnError : false
 });
 
-
-function compileTypescriptFiles(path) {	
-	var tsResult = gulp.src([
-		typingsPath + '*.d.ts', 
-		path + '*.ts', 
-		'!' + path + '*.d.ts'
-	], { base : '.' })
-	.pipe(sourcemaps.init()) 
-	.pipe(ts(tsProject));
-    return merge([
-        tsResult.dts.pipe(gulp.dest(path)).pipe(gulp.dest(tsDestPath)),
-        tsResult.js
-        	.pipe(sourcemaps.write("."))
-        	.pipe(gulp.dest(''))
-    ]);    
-}
-
-function compileTypescriptFilesAs(path, name, destpath) {	
-	return gulp.src([path + '*.ts', '!' + path + '*.d.ts'])
-		.pipe(concat(name))
-		.pipe(gulp.dest(destpath));
-     
-}
-
 gulp.task('typescript', function() {
-
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
 		srcCorePath + '*.ts', 
-		'!' + srcCorePath + '*.d.ts',
 		srcControlsPath + '*.ts', 
-		'!' + srcControlsPath + '*.d.ts',
 		srcWinRTPath + '*.ts', 
-		'!' + srcWinRTPath + '*.d.ts',
 	], { base : '.' })	
+	.pipe(plumber({errorHandler: onError}))
 	.pipe(sourcemaps.init()) 
 	.pipe(ts(tsProject));
     return merge([
-        tsResult.dts.pipe(gulp.dest('')).pipe(gulp.dest(tsDestPath)),
+        tsResult.dts.pipe(flatten()).pipe(gulp.dest(tsDestPath)),
         tsResult.js
         	.pipe(sourcemaps.write("."))
         	.pipe(gulp.dest(''))
-    ]);  
-
-	
+    ]);
 });
 
 gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
@@ -184,9 +160,6 @@ gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
 });
 
 
-gulp.task('cleandoc', function(cb) {
-	del(['dist/documentation'], cb)
-});
 
 //gulp.task('jsondoc', ['cleandoc'], function() {
 //	//ink-docstrap module within gulp-jsdoc is not up to date, update it with latest version
@@ -253,11 +226,8 @@ gulp.task('watch', function() {
 	gulp.watch([
 		typingsPath + '*.d.ts', 
 		srcCorePath + '*.ts', 
-		'!' + srcCorePath + '*.d.ts',
 		srcControlsPath + '*.ts', 
-		'!' + srcControlsPath + '*.d.ts',
 		srcWinRTPath + '*.ts', 
-		'!' + srcWinRTPath + '*.d.ts',
 	], ['typescript']);
 });
 

@@ -134,6 +134,7 @@
     <Content Include="Core\winjscontrib.mixin.css" />
     <Content Include="Core\winjscontrib.search.js" />
     <Content Include="Core\winjscontrib.search.worker.js" />
+    <TypeScriptCompile Include="Core\winjscontrib.core.ts" />
     <TypeScriptCompile Include="Core\winjscontrib.ui.animation.ts" />
     <Content Include="Core\winjscontrib.ui.boilerplate.control.js" />
     <Content Include="Core\winjscontrib.ui.boilerplate.observable.js" />
@@ -156,10 +157,6 @@
     <Content Include="WinRT\winjscontrib.winrt.upnp.js" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Core\Core\winjscontrib.core.pages.ts" />
-    <TypeScriptCompile Include="Core\Core\winjscontrib.core.ui.ts" />
-    <TypeScriptCompile Include="Core\Core\winjscontrib.core.utils.ts" />
-    <TypeScriptCompile Include="Core\winjscontrib.core.d.ts" />
     <TypeScriptCompile Include="typings\jquery.d.ts" />
     <TypeScriptCompile Include="typings\winjs.d.ts" />
     <TypeScriptCompile Include="typings\winrt.d.ts" />

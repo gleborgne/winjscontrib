@@ -37,7 +37,7 @@ module WinJSContrib.UI.Pages {
                     this._eventTracker = new WinJSContrib.UI.EventTracker();
                 return this._eventTracker;
             }
-        },        
+        },
 
         promises: {
             get: function () {
