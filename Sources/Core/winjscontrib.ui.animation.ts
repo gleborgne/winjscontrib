@@ -1,5 +1,4 @@
-﻿/// <reference path="../typings/winjs.d.ts" />
-
+﻿
 /**
  * @namespace WinJSContrib.UI.Animation
  */

@@ -141,7 +141,7 @@
     <Content Include="Core\winjscontrib.ui.jquery.js" />
     <Content Include="Core\winjscontrib.ui.morph.js" />
     <Content Include="Core\winjscontrib.ui.multipass-renderer.js" />
-    <Content Include="Core\winjscontrib.ui.pages.js" />
+    <TypeScriptCompile Include="Core\winjscontrib.ui.pages.ts" />
     <Content Include="Web.config" />
     <Content Include="WinRT\winjscontrib.winrt.audiorecording.js" />
     <Content Include="WinRT\winjscontrib.winrt.backgrounddownloads.js" />

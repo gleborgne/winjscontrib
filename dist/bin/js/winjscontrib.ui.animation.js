@@ -552,3 +552,5 @@ var WinJSContrib;
         })(Animation = UI.Animation || (UI.Animation = {}));
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
+
+//# sourceMappingURL=winjscontrib.ui.animation.js.map

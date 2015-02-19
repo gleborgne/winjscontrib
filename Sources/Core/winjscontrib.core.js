@@ -1,6 +1,3 @@
-///<reference path="../../typings/jquery.d.ts"/>
-///<reference path="../../typings/winjs.d.ts"/>
-///<reference path="../../typings/winrt.d.ts"/>
 var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
@@ -332,9 +329,9 @@ var WinJSContrib;
         })(Pages = UI.Pages || (UI.Pages = {}));
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
-///<reference path="../../typings/jquery.d.ts"/>
-///<reference path="../../typings/winjs.d.ts"/>
-///<reference path="../../typings/winrt.d.ts"/>
+///<reference path="../typings/jquery.d.ts"/>
+///<reference path="../typings/winjs.d.ts"/>
+///<reference path="../typings/winrt.d.ts"/>
 var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
@@ -889,9 +886,9 @@ var WinJSContrib;
         UI.registerNavigationEvents = registerNavigationEvents;
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
-///<reference path="../../typings/jquery.d.ts"/>
-///<reference path="../../typings/winjs.d.ts"/>
-///<reference path="../../typings/winrt.d.ts"/>
+///<reference path="../typings/jquery.d.ts"/>
+///<reference path="../typings/winjs.d.ts"/>
+///<reference path="../typings/winrt.d.ts"/>
 if (!Object.map) {
     Object.map = function (obj, mapping) {
         var mapped = {};
@@ -1693,3 +1690,5 @@ var WinJSContrib;
         Utils.inject = inject;
     })(Utils = WinJSContrib.Utils || (WinJSContrib.Utils = {}));
 })(WinJSContrib || (WinJSContrib = {}));
+
+//# sourceMappingURL=winjscontrib.core.js.map

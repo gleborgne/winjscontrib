@@ -1,6 +1,3 @@
-/// <reference path="../../typings/jquery.d.ts" />
-/// <reference path="../../typings/winjs.d.ts" />
-/// <reference path="../../typings/winrt.d.ts" />
 interface JQuery {
     tap(func: any): any;
     untap(): any;

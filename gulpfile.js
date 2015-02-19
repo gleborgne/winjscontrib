@@ -16,11 +16,13 @@ var shell = require('gulp-shell');
 var insert = require('gulp-insert');
 var merge = require('merge-stream');
 var ts = require('gulp-typescript');
+var sourcemaps = require('gulp-sourcemaps');
 //var config = require('./build.config.json');
 
 
 var WinJSContribVersion = "2.0.1.0";
 
+var typingsPath = 'Sources/typings/';
 var srcCorePath = 'Sources/Core/';
 var srcControlsPath = 'Sources/Controls/';
 var srcWinRTPath = 'Sources/WinRT/';
@@ -63,8 +65,12 @@ gulp.task('distrib', ['cleannuget', 'build'], function() {
 	}));
 });
 
-gulp.task('clean', function(cb) {
-	return del(['dist/bin'], cb)
+gulp.task('cleanstyles', function(cb) {
+	return del(['dist/bin/css'], cb)
+});
+
+gulp.task('cleanscripts', function(cb) {
+	return del(['dist/bin/js', 'dist/bin/ts'], cb)
 });
 
 function compileLessFilesIn(path){
@@ -74,7 +80,7 @@ function compileLessFilesIn(path){
 	.pipe(gulp.dest(path))
 }
 
-gulp.task('styles', ['clean'], function() {
+gulp.task('styles', ['cleanstyles'], function() {
 	var header = licenseHeader();
 	return merge(
 		compileLessFilesIn(srcCorePath),
@@ -96,47 +102,43 @@ gulp.task('styles', ['clean'], function() {
 	
 });
 
-
-
-function compileTypescriptFiles(path) {
-	
-	var tsResult = gulp.src([path + '*.ts', '!' + path + '*.d.ts']).pipe(ts({
-	    declarationFiles: true,
-	    noExternalResolve: false,
+var tsProject = ts.createProject({
+    declarationFiles: true,
+	    noExternalResolve: true,
 	    target : 'ES5',
         noEmitOnError : false
-	}));
+});
+
+
+function compileTypescriptFiles(path) {	
+	var tsResult = gulp.src([typingsPath + '*.d.ts', path + '*.ts'])
+	.pipe(sourcemaps.init()) 
+	.pipe(ts(tsProject));
     return merge([
-        tsResult.dts.pipe(gulp.dest(path)).pipe(gulp.dest(tsDestPath)),
-        tsResult.js.pipe(gulp.dest(path))
+        tsResult.dts.pipe(gulp.dest(tsDestPath)),
+        tsResult.js
+        	.pipe(sourcemaps.write("."))
+        	.pipe(gulp.dest(path))
     ]);    
 }
 
 function compileTypescriptFilesAs(path, name, destpath) {	
-	var tsProject = ts.createProject({
-	    declarationFiles: true,
-	    noExternalResolve: false,
-	    target : 'ES5',
-        noEmitOnError : false
-	});
-	var tsResult = gulp.src([path + '*.ts', '!' + path + '*.d.ts']).pipe(concat(name)).pipe(ts(tsProject));
-    return merge([
-        tsResult.dts.pipe(gulp.dest(destpath)).pipe(gulp.dest(tsDestPath)),
-        tsResult.js.pipe(gulp.dest(destpath))
-    ]);    
+	return gulp.src([path + '*.ts', '!' + path + '*.d.ts'])
+		.pipe(concat(name))
+		.pipe(gulp.dest(destpath));
+     
 }
 
 gulp.task('typescript', function() {
-	return merge([
-		//compileTypescriptFiles(srcCorePath + 'Core/'),
-		compileTypescriptFilesAs(srcCorePath + 'Core/', 'winjscontrib.core.ts', srcCorePath),
+	
+	return merge([		
 		compileTypescriptFiles(srcCorePath),
 		compileTypescriptFiles(srcControlsPath),
 		compileTypescriptFiles(srcWinRTPath)
-	]);    
+	]);
 });
 
-gulp.task('scripts', ['clean', 'typescript'], function() {
+gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
 	gulp.src([srcCorePath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
 	var header = licenseHeader();
 	

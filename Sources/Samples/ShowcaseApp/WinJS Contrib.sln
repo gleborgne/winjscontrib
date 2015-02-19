@@ -11,11 +11,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MCNEXT WinJS Contrib.Shared
 EndProject
 Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "MCNEXT WinJS Contrib.WindowsPhone", "Windows Phone sample\MCNEXT WinJS Contrib.WindowsPhone.jsproj", "{D347A8E1-D088-41E6-BF18-2D6EE23AD24A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7053938D-AADD-49C5-B024-2DEDAAC5065D}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\gulpfile.js = ..\..\gulpfile.js
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MCNEXT WinJS Contrib.Shared\MCNEXT_WinJS_Contrib.Shared.projitems*{13f25fce-65b5-4aae-b498-c0f001f28717}*SharedItemsImports = 5
