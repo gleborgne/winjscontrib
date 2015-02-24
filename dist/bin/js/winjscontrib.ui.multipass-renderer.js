@@ -228,7 +228,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             if (!ctrl.rect && ctrl.items && ctrl.items.length) {
                 ctrl.rect = WinJSContrib.UI.offsetFrom(ctrl.element, ctrl.scrollContainer);
             } else {
-                ctrl.rect = ctrl.rect || {};
+                ctrl.rect = ctrl.rect || { x:0 , y:0 , width: 0, height: 0 };
                 ctrl.rect.width = ctrl.element.clientWidth;
                 ctrl.rect.height = ctrl.element.clientHeight;
             }

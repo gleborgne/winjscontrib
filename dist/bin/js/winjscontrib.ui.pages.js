@@ -4,8 +4,6 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
-/// <reference path="../typings/winjs.d.ts" />
-/// <reference path="winjscontrib.core.d.ts" />
 var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
@@ -378,4 +376,4 @@ var WinJSContrib;
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
-//# sourceMappingURL=winjscontrib.ui.pages.js.map
+//# sourceMappingURL=../../Sources/Core/winjscontrib.ui.pages.js.map

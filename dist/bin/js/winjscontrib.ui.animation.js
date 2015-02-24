@@ -4,7 +4,6 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
-/// <reference path="../typings/winjs.d.ts" />
 /**
  * @namespace WinJSContrib.UI.Animation
  */
@@ -553,4 +552,4 @@ var WinJSContrib;
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
-//# sourceMappingURL=winjscontrib.ui.animation.js.map
+//# sourceMappingURL=../../Sources/Core/winjscontrib.ui.animation.js.map

@@ -45,7 +45,7 @@ function HSL(hVal, sVal, lVal) {
         var elt = event.currentTarget || event.target;
         var tracking = elt.mcnTapTracking;
         if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
-            event.stopPropagation();
+            //event.stopPropagation();
             if (tracking.lock) {
                 if (event.pointerId && event.currentTarget.setPointerCapture)
                     event.currentTarget.setPointerCapture(event.pointerId);
@@ -72,7 +72,7 @@ function HSL(hVal, sVal, lVal) {
         if (tracking && tracking.pointerdown) {
             var $this = $(elt);
             $this.removeClass('tapped');
-            event.stopPropagation();
+            //event.stopPropagation();
             //event.currentTarget.mcnTapTracking.pointerdown = undefined;
             if (event.pointerId && elt.releasePointerCapture)
                 elt.releasePointerCapture(event.pointerId);
@@ -88,11 +88,11 @@ function HSL(hVal, sVal, lVal) {
         if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
             var $this = $(elt);
 
-            event.stopPropagation();
             if (elt.releasePointerCapture)
                 elt.releasePointerCapture(event.pointerId);
 
             if (tracking && !tracking.tapOnDown) {
+                event.stopPropagation();
                 var resolveTap = function () {
                     if (tracking && tracking.pointerdown) {
                         if (event.changedTouches) {
@@ -121,9 +121,6 @@ function HSL(hVal, sVal, lVal) {
                     tracking.animUp(elt);
                     resolveTap();
                 }
-                //.done(function () {
-
-                //});
             }
             $this.removeClass('tapped');
         }
@@ -166,7 +163,7 @@ function HSL(hVal, sVal, lVal) {
                 this.mcnTapTracking.eventTracker.addEvent(this, 'pointerdown', ptDown);
                 this.mcnTapTracking.eventTracker.addEvent(this, 'pointerout', ptOut);
                 this.mcnTapTracking.eventTracker.addEvent(this, 'pointerup', ptUp);
-            } else if (window.Touch) {
+            } else if (window.Touch && !opt.noWebkitTouch) {
                 this.mcnTapTracking.pointerModel = 'touch';
                 this.mcnTapTracking.eventTracker.addEvent(this, 'touchstart', ptDown);
                 this.mcnTapTracking.eventTracker.addEvent(this, 'touchcancel', ptOut);

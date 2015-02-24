@@ -250,9 +250,9 @@ var WinJSContrib;
                             this.renderComplete = renderCalled.then(function Pages_process() {
                                 return that.process(element, options);
                             }).then(function Pages_processed() {
-                                WinJSContrib.UI.bindMembers(element, that);
                                 return that.processed(element, options);
                             }).then(function () {
+                                WinJSContrib.UI.bindMembers(element, that);
                                 WinJSContrib.UI.bindActions(element, that);
                                 return that;
                             });
