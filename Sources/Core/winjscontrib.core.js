@@ -109,18 +109,12 @@ var WinJSContrib;
                         proto.__wError = proto.error;
                         proto.__wUpdateLayout = proto.updateLayout;
                         proto.init = function (element, options) {
-                            var page = this;
-                            var initArgs = arguments;
                             element.classList.add('mcn-fragment');
                             element.classList.add('mcn-layout-ctrl');
-                            //if (element.style.display)
-                            //    this._initialDisplay = element.style.display;
-                            //element.style.display = 'hidden';
-                            return WinJS.Promise.as(page.__wInit.apply(this, initArgs)).then(function (initres) {
-                                return WinJS.Promise.timeout().then(function () {
-                                    return initres;
-                                });
-                            });
+                            if (element.style.display)
+                                this._initialDisplay = element.style.display;
+                            element.style.display = 'none';
+                            return this.__wInit.apply(this, arguments);
                         };
                         proto.process = function (element, options) {
                             var page = this;
@@ -131,20 +125,21 @@ var WinJSContrib;
                             var page = this;
                             var processedargs = arguments;
                             WinJSContrib.UI.bindMembers(element, page);
-                            //return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
                             return page.prepareDataPromise.then(function () {
                                 return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
                             }).then(function () {
-                                //element.style.display = page._initialDisplay || '';
-                                //return WinJS.Promise.timeout();
+                                element.style.display = page._initialDisplay || '';
+                                return WinJS.Promise.timeout();
                             }).then(function () {
-                                //if (page.onbeforelayout)
-                                //    return page.onbeforelayout(element, options);
+                                if (page.onbeforelayout)
+                                    return page.onbeforelayout(element, options);
+                            }).then(function () {
+                                //return WinJS.Promise.timeout();
                             }).then(function () {
                                 return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
                             }).then(function () {
-                                //if (page.onafterlayout)
-                                //    return page.onafterlayout(element, options);
+                                if (page.onafterlayout)
+                                    return page.onafterlayout(element, options);
                             }).then(function () {
                                 return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
                             });
@@ -162,14 +157,19 @@ var WinJSContrib;
                             var page = this;
                             WinJSContrib.UI.bindActions(element, this);
                             return WinJS.Promise.as(page.__wReady.apply(page, arguments)).then(function () {
-                                return broadcast(page, element, 'pageReady', [element, options]);
+                                if (page.onafterready)
+                                    return page.onafterready(element, options);
                             }).then(function () {
+                                return broadcast(page, element, 'pageReady', [element, options]);
+                            });
+                            /*.then(function () {
                                 if (page.enterPageAnimation) {
                                     return WinJS.Promise.as(page.enterPageAnimation(element, options));
                                 }
-                            }).then(function () {
+                            })
+                        .then(function () {
                                 return broadcast(page, element, 'contentReady', [element, options], null, page.contentReady);
-                            });
+                            });*/
                         };
                         proto.dispose = function () {
                             $('.tap', this.element).untap();
@@ -192,7 +192,7 @@ var WinJSContrib;
                                 p = WinJS.Promise.as(page.__wUpdateLayout.apply(page, updateLayoutArgs));
                             }
                             return p.then(function () {
-                                //return broadcast(page, page.element, 'updateLayout', updateLayoutArgs);
+                                return broadcast(page, page.element, 'updateLayout', updateLayoutArgs);
                             });
                         };
                     };
@@ -249,9 +249,9 @@ var WinJSContrib;
                 var pageConstructor = WinJS.UI.Pages.get(location);
                 WinJSContrib.UI.Pages.fragmentMixin(pageConstructor);
                 function preparePageControl(elementCtrl) {
-                    //if (args && args.injectToPage) {
-                    //    WinJSContrib.Utils.inject(elementCtrl, args.injectToPage);
-                    //}
+                    if (args && args.injectToPage) {
+                        WinJSContrib.Utils.inject(elementCtrl, args.injectToPage);
+                    }
                     elementCtrl.navigationState = { location: location, state: args };
                     if (options.oncreate) {
                         options.oncreate(elementCtrl.element, args);

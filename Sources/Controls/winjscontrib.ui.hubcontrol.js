@@ -243,7 +243,7 @@
                     //});
                 },
 
-                contentReady: function () {
+                pageReady: function () {
                     var hub = this;
                     hub.renderItemsContent();
                 },
