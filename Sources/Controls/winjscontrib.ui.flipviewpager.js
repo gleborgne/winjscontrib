@@ -1,4 +1,10 @@
-﻿(function () {
+﻿/* 
+ * WinJS Contrib v2.0.1.0
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+(function () {
     'use strict';
     WinJS.Namespace.define("WinJSContrib.UI", {
         FlipViewPager: WinJS.Class.mix(WinJS.Class.define(
@@ -16,6 +22,7 @@
             this.element.winControl = this;
             this.element.classList.add('win-disposable');
             this.isFlipping = false;
+            this.flipviewPagerContextGroup = options.flipviewPagerContextGroupName || "flipviewPagerContextGroup";
             this.flipviewPageVisibilityChangeBinded = this.flipviewPageVisibilityChange.bind(this);
             this.pageSelectedBinded = this.pageSelected.bind(this);
             this.countChangedBinded = this.countChanged.bind(this);
@@ -56,10 +63,13 @@
             },
 
             buttonClicked: function (eventObject) {
+                if (!this._flipView)
+                    return;
+
                 if (this.isFlipping) {
                     // Need to set whats check back since we are mid flip.
-                    var currentPage = this._flipview.currentPage;
-                    radioButtons[currentPage].checked = true;
+                    var currentPage = this._flipView.currentPage;
+                    this.radioButtons[currentPage].checked = true;
 
                 } else {
                     // Set the new page since we are not already flipping.
@@ -109,12 +119,13 @@
             },
 
             initButtons: function (count) {
+                var ctrl = this;
                 this.radioButtons = [];
                 this.element.innerHTML = '';
                 for (var i = 0; i < count; ++i) {
                     var radioButton = document.createElement("input");
                     radioButton.setAttribute("type", "radio");
-                    radioButton.setAttribute("name", "flipviewPagerContextGroup");
+                    radioButton.setAttribute("name", ctrl.flipviewPagerContextGroup);
                     radioButton.setAttribute("value", i);
                     radioButton.setAttribute("aria-label", (i + 1) + " of " + count);
                     radioButton.onclick = this.buttonClicked.bind(this);
