@@ -1105,7 +1105,10 @@ var WinJSContrib;
             var str = [];
             for (var p in obj)
                 if (obj.hasOwnProperty(p)) {
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    var key = encodeURIComponent(p);
+                    var rawValue = obj[p];
+                    var value = WinJSContrib.Utils.hasValue(rawValue) ? encodeURIComponent(rawValue) : "";
+                    str.push(key + "=" + value);
                 }
             return str.join("&");
         }

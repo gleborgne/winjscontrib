@@ -1102,7 +1102,6 @@ var WinJSContrib;
                     var key = encodeURIComponent(p);
                     var rawValue = obj[p];
                     var value = WinJSContrib.Utils.hasValue(rawValue) ? encodeURIComponent(rawValue) : "";
-    
                     str.push(key + "=" + value);
                 }
             return str.join("&");
