@@ -128,11 +128,6 @@ body {
   -moz-animation: fullexpand 3s linear infinite;
   -webkit-animation: fullexpand 3s linear infinite;
 }
-.mcn-xplat.mcn-xplat-windows progress.bar {
-    height: 5px !important;
-    background-color: transparent;
-    color: red;
-}
 @-webkit-keyframes -webkit-WinJSContrib-slideFromBottom {
   from {
     -webkit-transform: translate3d(0, 120%, 0);

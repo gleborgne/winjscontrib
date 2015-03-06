@@ -251,7 +251,7 @@
                 },
 
                 addTab: function (tabItem, group) {
-                    this.addTabs([tabItem]);
+                    this.addTabs([tabItem], group);
                 },
 
                 addTabs: function (tabItems, group) {

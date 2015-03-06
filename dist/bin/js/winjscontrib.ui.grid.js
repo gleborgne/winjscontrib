@@ -53,7 +53,7 @@
                 grid.autolayout = options.autolayout;
                 if (grid.autolayout) {
                     var parent = WinJSContrib.Utils.getScopeControl(grid.element);
-                    if (parent.elementReady) {
+                    if (parent && parent.elementReady) {
                         parent.elementReady.then(function () {
                             if (!parent.beforeShow) parent.beforeShow = [];
                             parent.beforeShow.push(function () {
@@ -282,6 +282,9 @@
                  * Layouts algorythm implementations
                  */
                 GridLayoutsImpl: {
+                    none: function () {
+                    },
+
                     flexhorizontal: function () {
                         var ctrl = this;
                         ctrl.renderer.orientation = 'horizontal';
