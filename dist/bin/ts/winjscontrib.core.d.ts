@@ -512,3 +512,32 @@ declare module WinJSContrib.Utils {
      */
     function inject(target: any, source: any): void;
 }
+/**
+ * @namespace WinJSContrib.Templates
+ */
+declare module WinJSContrib.Templates {
+    /**
+     * get a template from it's path
+     * @function get
+     * @memberof WinJSContrib.Templates
+     * @param {string} uri path to template file
+     * @returns {WinJS.Binding.Template} template object
+     */
+    function get(uri: any): any;
+    /**
+     * get a template and turn it to a rendering function that takes an item promise, and return a DOM element
+     * @function WinJSContrib.Templates.interactive
+     * @param {string} uri path to template file
+     * @param {Object} args definition of interactive elements
+     * @returns {function} rendering function that takes an item promise, and return a DOM element
+     */
+    function interactive(uri: any, args: any): (itemPromise: any) => any;
+    /**
+     * generate a rendering function that takes an item promise, and return a DOM element
+     * @function WinJSContrib.Templates.get
+     * @param {WinJS.Binding.Template} template template object
+     * @param {Object} args definition of interactive elements
+     * @returns {function} rendering function that takes an item promise, and return a DOM element
+     */
+    function makeInteractive(template: any, args: any): (itemPromise: any) => any;
+}

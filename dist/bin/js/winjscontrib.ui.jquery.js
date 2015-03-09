@@ -4,6 +4,21 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
+/**
+ * @namespace
+ */
+var WinJSContrib = WinJSContrib || {};
+
+/**
+ * @namespace
+ */
+WinJSContrib.UI = WinJSContrib.UI || {};
+
+/**
+ * @namespace
+ */
+WinJSContrib.Utils = WinJSContrib.Utils || {};
+
 /// <reference path="winjscontrib.core.js" />
 function HSL(hVal, sVal, lVal) {
     var res = {

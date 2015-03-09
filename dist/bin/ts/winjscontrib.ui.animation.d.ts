@@ -1,9 +1,12 @@
 /**
  * @namespace WinJSContrib.UI.Animation
  */
+/**
+ */
 declare module WinJSContrib.UI.Animation {
     /**
      * @enum
+     * @memberof WinJSContrib.UI.Animation
      */
     var Easings: {
         easeInQuad: string;

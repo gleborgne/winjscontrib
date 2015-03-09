@@ -1833,3 +1833,74 @@ module WinJSContrib.Utils {
         }
     }
 }
+
+/**
+ * @namespace WinJSContrib.Templates
+ */
+module WinJSContrib.Templates {
+    var cache = {};
+
+    /**
+     * get a template from it's path
+     * @function get
+     * @memberof WinJSContrib.Templates
+     * @param {string} uri path to template file
+     * @returns {WinJS.Binding.Template} template object
+     */
+    export function get(uri) {
+        var template = cache[uri];
+        if (cache[uri])
+            return template;
+
+        return new WinJS.Binding.Template(null, { href: uri });
+    }
+
+    /**
+     * get a template and turn it to a rendering function that takes an item promise, and return a DOM element
+     * @function WinJSContrib.Templates.interactive
+     * @param {string} uri path to template file
+     * @param {Object} args definition of interactive elements
+     * @returns {function} rendering function that takes an item promise, and return a DOM element
+     */
+    export function interactive(uri, args) {
+        var template = WinJSContrib.Templates.get(uri);
+        if (template) {
+            return WinJSContrib.Templates.makeInteractive(template, args);
+        } else {
+            throw { message: 'template not found for ' + uri };
+        }
+    }
+
+    /**
+     * generate a rendering function that takes an item promise, and return a DOM element
+     * @function WinJSContrib.Templates.get
+     * @param {WinJS.Binding.Template} template template object
+     * @param {Object} args definition of interactive elements
+     * @returns {function} rendering function that takes an item promise, and return a DOM element
+     */
+    export function makeInteractive(template, args) {
+        return function (itemPromise) {
+            return itemPromise.then(function (item) {
+                return template.render(item).then(function (rendered) {
+                    if (args.tap) {
+                        for(var n in args.tap) {
+                            var elt = rendered.querySelector(n);
+                            $(elt).tap(function (arg) {
+                                args.tap[n](arg, item);
+                            });
+                        }
+                    }
+                    if (args.click) {
+                        for (var n in args.click) {
+                            var elt = rendered.querySelector(n);
+                            $(elt).click(function (arg) {
+                                args.click[n](arg, item);
+                            });
+                        }
+                    }
+                    return rendered;
+                });
+            });
+        }
+    }
+}

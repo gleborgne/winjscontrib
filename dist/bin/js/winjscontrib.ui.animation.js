@@ -7,6 +7,8 @@
 /**
  * @namespace WinJSContrib.UI.Animation
  */
+/**
+ */
 var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
@@ -15,6 +17,7 @@ var WinJSContrib;
         (function (Animation) {
             /**
              * @enum
+             * @memberof WinJSContrib.UI.Animation
              */
             Animation.Easings = {
                 /**

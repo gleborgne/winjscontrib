@@ -1,4 +1,19 @@
-﻿/// <reference path="winjscontrib.core.js" />
+﻿/**
+ * @namespace
+ */
+var WinJSContrib = WinJSContrib || {};
+
+/**
+ * @namespace
+ */
+WinJSContrib.UI = WinJSContrib.UI || {};
+
+/**
+ * @namespace
+ */
+WinJSContrib.Utils = WinJSContrib.Utils || {};
+
+/// <reference path="winjscontrib.core.js" />
 function HSL(hVal, sVal, lVal) {
     var res = {
         h: hVal,

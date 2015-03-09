@@ -2,10 +2,15 @@
  * @namespace WinJSContrib.UI.Animation
  */
 
+/**
+ */
+
+
 module WinJSContrib.UI.Animation {
 
     /**
-     * @enum
+     * @enum 
+     * @memberof WinJSContrib.UI.Animation
      */
     export var Easings = {
         /**
