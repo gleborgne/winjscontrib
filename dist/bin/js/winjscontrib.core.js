@@ -134,6 +134,8 @@ var WinJSContrib;
                             return page.prepareDataPromise.then(function () {
                                 return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
                             }).then(function () {
+                                return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
+                            }).then(function () {
                                 element.style.display = page._initialDisplay || '';
                                 return WinJS.Promise.timeout();
                             }).then(function () {
@@ -146,8 +148,6 @@ var WinJSContrib;
                             }).then(function () {
                                 if (page.onafterlayout)
                                     return page.onafterlayout(element, options);
-                            }).then(function () {
-                                return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
                             });
                         };
                         proto.render = function (element, options, loadResult) {

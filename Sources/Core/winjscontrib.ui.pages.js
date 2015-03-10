@@ -274,7 +274,7 @@ var WinJSContrib;
                             });
                         }, _mixinBase);
                         base = _Base.Class.mix(base, WinJS.UI.DOMEventMixin);
-                        base.winJSContrib = true;
+                        //base.winJSContrib = true;
                         //this addition is for providing a way to inject behavior in all pages
                         _Pages.defaultPageMixins.forEach(function (mixin) {
                             var d = base.prototype.dispose;

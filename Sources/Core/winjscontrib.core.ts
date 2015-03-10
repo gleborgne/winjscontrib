@@ -1,7 +1,7 @@
 interface JQuery {
     tap(func);
     untap();
-} 
+}
 
 module WinJSContrib.UI.Pages {
 
@@ -10,7 +10,7 @@ module WinJSContrib.UI.Pages {
      * @field WinJSContrib.UI.Pages.defaultFragmentMixins
      * @type {Array}
      */
-    export var defaultFragmentMixins : Array<any> = [{
+    export var defaultFragmentMixins: Array<any> = [{
 
         $: function (selector) {
             return $(selector, this.element || this._element);
@@ -148,22 +148,21 @@ module WinJSContrib.UI.Pages {
                     return page.prepareDataPromise.then(function () {
                         return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
                     }).then(function () {
-                            element.style.display = page._initialDisplay || '';
-                            return WinJS.Promise.timeout();
-                        }).then(function () {
-                            if (page.onbeforelayout)
-                                return page.onbeforelayout(element, options);
-                        }).then(function () {
-                            //return WinJS.Promise.timeout();
-                        }).then(function () {
-                            return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
-                        }).then(function () {
-                            if (page.onafterlayout)
-                                return page.onafterlayout(element, options);
-                        }).then(function () {
                             return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
-                        });
-
+                    }).then(function () {
+                        element.style.display = page._initialDisplay || '';
+                        return WinJS.Promise.timeout();
+                    }).then(function () {
+                        if (page.onbeforelayout)
+                            return page.onbeforelayout(element, options);
+                    }).then(function () {
+                        //return WinJS.Promise.timeout();
+                    }).then(function () {
+                        return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
+                    }).then(function () {
+                        if (page.onafterlayout)
+                            return page.onafterlayout(element, options);
+                    });
                 }
 
                 proto.render = function (element, options, loadResult) {
@@ -186,14 +185,14 @@ module WinJSContrib.UI.Pages {
                     }).then(function () {
                             return broadcast(page, element, 'pageReady', [element, options]);
                         });
-                        /*.then(function () {
-                            if (page.enterPageAnimation) {
-                                return WinJS.Promise.as(page.enterPageAnimation(element, options));
-                            }
-                        })
-                    .then(function () {
-                            return broadcast(page, element, 'contentReady', [element, options], null, page.contentReady);
-                        });*/
+                    /*.then(function () {
+                        if (page.enterPageAnimation) {
+                            return WinJS.Promise.as(page.enterPageAnimation(element, options));
+                        }
+                    })
+                .then(function () {
+                        return broadcast(page, element, 'contentReady', [element, options], null, page.contentReady);
+                    });*/
                 }
 
                 proto.dispose = function () {
@@ -376,11 +375,11 @@ module WinJSContrib.UI.Pages {
 interface JQuery {
     tap(func);
     untap();
-} 
+}
 
-module WinJSContrib.UI {       
+module WinJSContrib.UI {
     export interface WinJSContribApplication {
-        navigator? : any
+        navigator?: any
     }
 
     export var Application: WinJSContribApplication = {};
@@ -711,7 +710,7 @@ module WinJSContrib.UI {
             }
 
             if (target) {
-                $(this).tap(function(eltarg) {
+                $(this).tap(function (eltarg) {
                     var actionArgs = $(eltarg).data('page-action-args');
                     if (actionArgs && typeof actionArgs == 'string') {
                         try {
@@ -778,7 +777,7 @@ module WinJSContrib.UI {
     export function bindActions(element, control) {
         WinJSContrib.UI.bindPageActions(element, control);
         WinJSContrib.UI.bindPageLinks(element);
-    }    
+    }
 
     /**
      * Trigger events on media queries. This class is usefull as a component for other controls to change some properties based on media queries
@@ -786,11 +785,11 @@ module WinJSContrib.UI {
      * @param {Object} items object containing one property for each query
      * @param {Object} linkedControl control linked to media trigger
      */
-    export class MediaTrigger{
-        public queries : Array<any>;
-        public linkedControl : any;
+    export class MediaTrigger {
+        public queries: Array<any>;
+        public linkedControl: any;
 
-        constructor(items, linkedControl){
+        constructor(items, linkedControl) {
             var ctrl = this;
             ctrl.queries = [];
             ctrl.linkedControl = linkedControl;
@@ -803,72 +802,72 @@ module WinJSContrib.UI {
             }
         }
 
-            /**
-             * @function WinJSContrib.UI.MediaTrigger.prototype.dispose
-             * release media trigger
-             */
-            public dispose() {
-                var ctrl = this;
-                ctrl.linkedControl = null;
-                this.queries.forEach(function (q) {
-                    q.dispose();
-                });
+        /**
+         * @function WinJSContrib.UI.MediaTrigger.prototype.dispose
+         * release media trigger
+         */
+        public dispose() {
+            var ctrl = this;
+            ctrl.linkedControl = null;
+            this.queries.forEach(function (q) {
+                q.dispose();
+            });
+        }
+
+        /**
+         * register an event from a media query
+         * @function WinJSContrib.UI.MediaTrigger.prototype.registerMediaEvent
+         * @param {string} name event name
+         * @param {string} query media query
+         * @param {Object} data data associated with this query
+         */
+        public registerMediaEvent(name, query, data) {
+            var ctrl = this;
+            var mq = window.matchMedia(query);
+            var internalQuery = <any>{
+                name: name,
+                query: query,
+                data: data,
+                mq: mq,
+                dispose: null
             }
 
-            /**
-             * register an event from a media query
-             * @function WinJSContrib.UI.MediaTrigger.prototype.registerMediaEvent
-             * @param {string} name event name
-             * @param {string} query media query
-             * @param {Object} data data associated with this query
-             */
-            public registerMediaEvent(name, query, data) {
-                var ctrl = this;
-                var mq = window.matchMedia(query);
-                var internalQuery = <any>{
-                    name: name,
-                    query: query,
-                    data: data,
-                    mq: mq,
-                    dispose : null
+            var f = function (arg) {
+                if (arg.matches) {
+                    ctrl._mediaEvent(arg, internalQuery);
                 }
+            };
 
-                var f = function (arg) {
-                    if (arg.matches) {
-                        ctrl._mediaEvent(arg, internalQuery);
-                    }
-                };
+            mq.addListener(f);
+            internalQuery.dispose = function () {
+                mq.removeListener(f);
+            }
 
-                mq.addListener(f);
-                internalQuery.dispose = function () {
-                    mq.removeListener(f);
+            ctrl.queries.push(internalQuery);
+        }
+
+
+        _mediaEvent(arg, query) {
+            var ctrl = this;
+            if (ctrl.linkedControl) {
+                WinJS.UI.setOptions(ctrl.linkedControl, query.data);
+            }
+            ctrl.dispatchEvent('media', query);
+        }
+
+        /**
+         * @function WinJSContrib.UI.MediaTrigger.prototype.check
+         * Check all registered queries
+         */
+        public check() {
+            var ctrl = this;
+            ctrl.queries.forEach(function (q) {
+                var mq = window.matchMedia(q.query);
+                if (mq.matches) {
+                    ctrl._mediaEvent({ matches: true }, q);
                 }
-
-                ctrl.queries.push(internalQuery);
-            }
-
-            
-            _mediaEvent(arg, query) {
-                var ctrl = this;
-                if (ctrl.linkedControl) {
-                    WinJS.UI.setOptions(ctrl.linkedControl, query.data);
-                }
-                ctrl.dispatchEvent('media', query);
-            }
-
-            /**
-             * @function WinJSContrib.UI.MediaTrigger.prototype.check
-             * Check all registered queries
-             */
-            public check() {
-                var ctrl = this;
-                ctrl.queries.forEach(function (q) {
-                    var mq = window.matchMedia(q.query);
-                    if (mq.matches) {
-                        ctrl._mediaEvent({ matches: true }, q);
-                    }
-                });
-            }
+            });
+        }
 
         /**
          * Adds an event listener to the control.
@@ -887,7 +886,7 @@ module WinJSContrib.UI {
          * @param eventProperties The set of additional properties to be attached to the event object when the event is raised.
          * @returns true if preventDefault was called on the event.
         **/
-        public dispatchEvent(type: string, eventProperties: any): boolean { 
+        public dispatchEvent(type: string, eventProperties: any): boolean {
             return false;
         }
 
@@ -902,7 +901,7 @@ module WinJSContrib.UI {
     }
     WinJS.Class.mix(WinJSContrib.UI.MediaTrigger, WinJS.Utilities.eventMixin);
 
-    
+
 
     /**
      * register navigation related events like hardware backbuttons. This method keeps track of previously registered navigation handlers
@@ -1883,7 +1882,7 @@ module WinJSContrib.Templates {
             return itemPromise.then(function (item) {
                 return template.render(item).then(function (rendered) {
                     if (args.tap) {
-                        for(var n in args.tap) {
+                        for (var n in args.tap) {
                             var elt = rendered.querySelector(n);
                             $(elt).tap(function (arg) {
                                 args.tap[n](arg, item);
