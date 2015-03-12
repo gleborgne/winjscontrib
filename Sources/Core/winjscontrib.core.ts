@@ -1,3 +1,4 @@
+
 interface JQuery {
     tap(func);
     untap();

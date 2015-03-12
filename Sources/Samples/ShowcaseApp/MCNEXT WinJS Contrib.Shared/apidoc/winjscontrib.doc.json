@@ -1544,152 +1544,13 @@
                     "virtual": false,
                     "meta": {
                         "filename": "winjscontrib.logger.js",
-                        "lineno": 12
+                        "lineno": 11
                     },
-                    "namespaces": [
-                        {
-                            "kind": "namespace",
-                            "name": "Appenders",
-                            "fullname": "WinJSContrib.Logging.Appenders",
-                            "description": "",
-                            "access": "",
-                            "virtual": false,
-                            "meta": {
-                                "filename": "winjscontrib.logger.js",
-                                "lineno": 17
-                            },
-                            "classes": [
-                                {
-                                    "kind": "class",
-                                    "name": "ConsoleAppender",
-                                    "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender",
-                                    "description": "append log to console",
-                                    "extends": [],
-                                    "access": "",
-                                    "virtual": false,
-                                    "fires": "",
-                                    "constructor": {
-                                        "name": "ConsoleAppender",
-                                        "description": "append log to console",
-                                        "parameters": [],
-                                        "examples": []
-                                    },
-                                    "meta": {
-                                        "filename": "winjscontrib.logger.js",
-                                        "lineno": 309
-                                    },
-                                    "functions": [
-                                        {
-                                            "kind": "function",
-                                            "name": "clone",
-                                            "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender#clone",
-                                            "access": "",
-                                            "virtual": false,
-                                            "description": "clone appender",
-                                            "parameters": [],
-                                            "examples": [],
-                                            "meta": {
-                                                "filename": "winjscontrib.logger.js",
-                                                "lineno": 316
-                                            }
-                                        },
-                                        {
-                                            "kind": "function",
-                                            "name": "log",
-                                            "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender#log",
-                                            "access": "",
-                                            "virtual": false,
-                                            "description": "log item",
-                                            "parameters": [
-                                                {
-                                                    "name": "message",
-                                                    "fullname": null,
-                                                    "type": "string",
-                                                    "description": "log message",
-                                                    "default": "",
-                                                    "variable": "",
-                                                    "optional": "",
-                                                    "nullable": ""
-                                                },
-                                                {
-                                                    "name": "group",
-                                                    "fullname": null,
-                                                    "type": "string",
-                                                    "description": "group/category for the entry",
-                                                    "default": "",
-                                                    "variable": "",
-                                                    "optional": "",
-                                                    "nullable": ""
-                                                },
-                                                {
-                                                    "name": "log",
-                                                    "fullname": null,
-                                                    "type": "WinJSContrib.Logging.Levels",
-                                                    "description": "level",
-                                                    "default": "",
-                                                    "variable": "",
-                                                    "optional": "",
-                                                    "nullable": ""
-                                                }
-                                            ],
-                                            "examples": [],
-                                            "meta": {
-                                                "filename": "winjscontrib.logger.js",
-                                                "lineno": 326
-                                            }
-                                        },
-                                        {
-                                            "kind": "function",
-                                            "name": "group",
-                                            "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender#group",
-                                            "access": "",
-                                            "virtual": false,
-                                            "description": "create log group",
-                                            "parameters": [],
-                                            "examples": [],
-                                            "meta": {
-                                                "filename": "winjscontrib.logger.js",
-                                                "lineno": 342
-                                            }
-                                        },
-                                        {
-                                            "kind": "function",
-                                            "name": "groupCollapsed",
-                                            "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender#groupCollapsed",
-                                            "access": "",
-                                            "virtual": false,
-                                            "description": "create collapsed log group",
-                                            "parameters": [],
-                                            "examples": [],
-                                            "meta": {
-                                                "filename": "winjscontrib.logger.js",
-                                                "lineno": 349
-                                            }
-                                        },
-                                        {
-                                            "kind": "function",
-                                            "name": "groupEnd",
-                                            "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender#groupEnd",
-                                            "access": "",
-                                            "virtual": false,
-                                            "description": "close log group",
-                                            "parameters": [],
-                                            "examples": [],
-                                            "meta": {
-                                                "filename": "winjscontrib.logger.js",
-                                                "lineno": 356
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ],
                     "properties": [
                         {
                             "kind": "member",
-                            "name": "Levels",
-                            "fullname": "WinJSContrib.Logging.Levels",
+                            "name": "Logging.Levels",
+                            "fullname": "WinJSContrib.Logging.Logging.Levels",
                             "isEnum": true,
                             "access": "",
                             "virtual": false,
@@ -1701,13 +1562,13 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.logger.js",
-                                "lineno": 26
+                                "lineno": 20
                             },
                             "properties": [
                                 {
                                     "kind": "member",
                                     "name": "off",
-                                    "fullname": "WinJSContrib.Logging.Levels",
+                                    "fullname": "WinJSContrib.Logging.Logging.Levels",
                                     "access": "",
                                     "virtual": false,
                                     "description": "disabled",
@@ -1716,7 +1577,7 @@
                                 {
                                     "kind": "member",
                                     "name": "error",
-                                    "fullname": "WinJSContrib.Logging.Levels",
+                                    "fullname": "WinJSContrib.Logging.Logging.Levels",
                                     "access": "",
                                     "virtual": false,
                                     "description": "log error",
@@ -1725,7 +1586,7 @@
                                 {
                                     "kind": "member",
                                     "name": "warn",
-                                    "fullname": "WinJSContrib.Logging.Levels",
+                                    "fullname": "WinJSContrib.Logging.Logging.Levels",
                                     "access": "",
                                     "virtual": false,
                                     "description": "log warn and error",
@@ -1734,7 +1595,7 @@
                                 {
                                     "kind": "member",
                                     "name": "info",
-                                    "fullname": "WinJSContrib.Logging.Levels",
+                                    "fullname": "WinJSContrib.Logging.Logging.Levels",
                                     "access": "",
                                     "virtual": false,
                                     "description": "log info, warn, error",
@@ -1743,7 +1604,7 @@
                                 {
                                     "kind": "member",
                                     "name": "debug",
-                                    "fullname": "WinJSContrib.Logging.Levels",
+                                    "fullname": "WinJSContrib.Logging.Logging.Levels",
                                     "access": "",
                                     "virtual": false,
                                     "description": "log debug, info, warn, error",
@@ -1752,7 +1613,7 @@
                                 {
                                     "kind": "member",
                                     "name": "all",
-                                    "fullname": "WinJSContrib.Logging.Levels",
+                                    "fullname": "WinJSContrib.Logging.Logging.Levels",
                                     "access": "",
                                     "virtual": false,
                                     "description": "log all",
@@ -1804,7 +1665,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.logger.js",
-                                "lineno": 74
+                                "lineno": 54
                             },
                             "returns": {
                                 "type": "WinJSContrib.Logging.LoggerClass",
@@ -1841,28 +1702,8 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.logger.js",
-                                "lineno": 99
+                                "lineno": 82
                             },
-                            "properties": [
-                                {
-                                    "kind": "member",
-                                    "name": "config",
-                                    "fullname": "WinJSContrib.Logging.LoggerClass#config",
-                                    "isEnum": null,
-                                    "access": "",
-                                    "virtual": false,
-                                    "description": "Logger configuration",
-                                    "type": {
-                                        "names": [
-                                            "Object"
-                                        ]
-                                    },
-                                    "meta": {
-                                        "filename": "winjscontrib.logger.js",
-                                        "lineno": 106
-                                    }
-                                }
-                            ],
                             "functions": [
                                 {
                                     "kind": "function",
@@ -1886,7 +1727,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 128
+                                        "lineno": 111
                                     }
                                 },
                                 {
@@ -1931,7 +1772,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 142
+                                        "lineno": 122
                                     }
                                 },
                                 {
@@ -1976,7 +1817,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 170
+                                        "lineno": 148
                                     }
                                 },
                                 {
@@ -2011,7 +1852,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 183
+                                        "lineno": 164
                                     }
                                 },
                                 {
@@ -2046,7 +1887,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 192
+                                        "lineno": 173
                                     }
                                 },
                                 {
@@ -2081,7 +1922,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 201
+                                        "lineno": 182
                                     }
                                 },
                                 {
@@ -2116,7 +1957,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 210
+                                        "lineno": 191
                                     }
                                 },
                                 {
@@ -2141,7 +1982,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 218
+                                        "lineno": 200
                                     }
                                 },
                                 {
@@ -2166,7 +2007,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 229
+                                        "lineno": 211
                                     }
                                 },
                                 {
@@ -2180,7 +2021,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 239
+                                        "lineno": 222
                                     }
                                 },
                                 {
@@ -2215,8 +2056,147 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 290
+                                        "lineno": 259
                                     }
+                                }
+                            ]
+                        }
+                    ],
+                    "namespaces": [
+                        {
+                            "kind": "namespace",
+                            "name": "Appenders",
+                            "fullname": "WinJSContrib.Logging.Appenders",
+                            "description": "",
+                            "access": "",
+                            "virtual": false,
+                            "meta": {
+                                "filename": "winjscontrib.logger.js",
+                                "lineno": 290
+                            },
+                            "classes": [
+                                {
+                                    "kind": "class",
+                                    "name": "ConsoleAppender",
+                                    "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender",
+                                    "description": "Appender writing to console",
+                                    "extends": [],
+                                    "access": "",
+                                    "virtual": false,
+                                    "fires": "",
+                                    "constructor": {
+                                        "name": "ConsoleAppender",
+                                        "description": "Appender writing to console",
+                                        "parameters": [],
+                                        "examples": []
+                                    },
+                                    "meta": {
+                                        "filename": "winjscontrib.logger.js",
+                                        "lineno": 292
+                                    },
+                                    "functions": [
+                                        {
+                                            "kind": "function",
+                                            "name": "clone",
+                                            "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender#clone",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "clone appender",
+                                            "parameters": [],
+                                            "examples": [],
+                                            "meta": {
+                                                "filename": "winjscontrib.logger.js",
+                                                "lineno": 299
+                                            }
+                                        },
+                                        {
+                                            "kind": "function",
+                                            "name": "log",
+                                            "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender#log",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "log item",
+                                            "parameters": [
+                                                {
+                                                    "name": "message",
+                                                    "fullname": null,
+                                                    "type": "string",
+                                                    "description": "log message",
+                                                    "default": "",
+                                                    "variable": "",
+                                                    "optional": "",
+                                                    "nullable": ""
+                                                },
+                                                {
+                                                    "name": "group",
+                                                    "fullname": null,
+                                                    "type": "string",
+                                                    "description": "group/category for the entry",
+                                                    "default": "",
+                                                    "variable": "",
+                                                    "optional": "",
+                                                    "nullable": ""
+                                                },
+                                                {
+                                                    "name": "log",
+                                                    "fullname": null,
+                                                    "type": "WinJSContrib.Logging.Levels",
+                                                    "description": "level",
+                                                    "default": "",
+                                                    "variable": "",
+                                                    "optional": "",
+                                                    "nullable": ""
+                                                }
+                                            ],
+                                            "examples": [],
+                                            "meta": {
+                                                "filename": "winjscontrib.logger.js",
+                                                "lineno": 306
+                                            }
+                                        },
+                                        {
+                                            "kind": "function",
+                                            "name": "group",
+                                            "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender#group",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "create log group",
+                                            "parameters": [],
+                                            "examples": [],
+                                            "meta": {
+                                                "filename": "winjscontrib.logger.js",
+                                                "lineno": 325
+                                            }
+                                        },
+                                        {
+                                            "kind": "function",
+                                            "name": "groupCollapsed",
+                                            "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender#groupCollapsed",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "create collapsed log group",
+                                            "parameters": [],
+                                            "examples": [],
+                                            "meta": {
+                                                "filename": "winjscontrib.logger.js",
+                                                "lineno": 332
+                                            }
+                                        },
+                                        {
+                                            "kind": "function",
+                                            "name": "groupEnd",
+                                            "fullname": "WinJSContrib.Logging.Appenders.ConsoleAppender#groupEnd",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "close log group",
+                                            "parameters": [],
+                                            "examples": [],
+                                            "meta": {
+                                                "filename": "winjscontrib.logger.js",
+                                                "lineno": 339
+                                            }
+                                        }
+                                    ]
                                 }
                             ]
                         }
