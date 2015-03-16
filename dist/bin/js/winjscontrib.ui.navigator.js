@@ -308,27 +308,30 @@
                 triggerPageExit: function () {
                     var navigator = this;
                     var page = this.pageElement;
+                    var hidepage = function () {
+                        page.style.display = 'none';
+                        page.style.visibility = 'hidden';
+                        page.style.opacity = '';
+                    }
 
                     if (page && page.winControl && !page.winControl.exitPagePromise) {
-                        if (page.winControl.exitPageAnimation) {
-                            page.winControl.exitPagePromise = WinJS.Promise.as(page.winControl.exitPageAnimation);
-                        } else {
-                            page.winControl.exitPagePromise = WinJS.Promise.as(navigator.animations.exitPage(navigator._getAnimationElements(true)));
-                        }
-
-                        page.winControl.exitPagePromise = page.winControl.exitPagePromise.then(function () {
-                            page.style.display = 'none';
-                            return WinJS.Promise.timeout();
-                        });
-
                         if (page.winControl.exitPage) {
                             var exitPageResult = page.winControl.exitPage();
                             if (exitPageResult) {
                                 var res = WinJS.Promise.as(exitPageResult);
-                                var exitAnim = page.winControl.exitPagePromise;
                                 page.winControl.exitPagePromise = res.then(function () {
-                                    return exitAnim;
+                                    if (page.winControl.exitPageAnimation) {
+                                        return WinJS.Promise.as(page.winControl.exitPageAnimation()).then(hidepage);
+                                    } else {
+                                        return WinJS.Promise.as(navigator.animations.exitPage(navigator._getAnimationElements(true))).then(hidepage);
+                                    }
                                 })
+                            }
+                        } else {
+                            if (page.winControl.exitPageAnimation) {
+                                page.winControl.exitPagePromise = WinJS.Promise.as(page.winControl.exitPageAnimation()).then(hidepage);
+                            } else {
+                                page.winControl.exitPagePromise = WinJS.Promise.as(navigator.animations.exitPage(navigator._getAnimationElements(true))).then(hidepage);
                             }
                         }
 

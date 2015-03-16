@@ -305,6 +305,8 @@ var WinJSContrib;
                         if (!WinJSContrib.UI.disableAutoResources)
                             return WinJS.Resources.processAll(element);
                     }).then(function (control) {
+                        return elementCtrl.parentedComplete;
+                    }).then(function (control) {
                         return elementCtrl.elementReady;
                     }).then(function (control) {
                         if (elementCtrl.beforeShow.length) {
@@ -322,7 +324,7 @@ var WinJSContrib;
                     }).then(fragmentCompleted, fragmentError);
                 }
                 var elementCtrl = new pageConstructor(element, args, preparePageControl, parented);
-                elementCtrl.parentedComplete = parented;
+                elementCtrl.parentedComplete = WinJS.Promise.as(parented);
                 return fragmentPromise;
             }
             Pages.renderFragment = renderFragment;

@@ -128,7 +128,7 @@
     <Content Include="Core\winjscontrib.date.utils.js" />
     <Content Include="Core\winjscontrib.dynamicscripts.html" />
     <Content Include="Core\winjscontrib.dynamicscripts.js" />
-    <Content Include="Core\winjscontrib.logger.js" />
+    <TypeScriptCompile Include="Core\winjscontrib.logger.ts" />
     <Content Include="Core\winjscontrib.messenger.js" />
     <Content Include="Core\winjscontrib.messenger.worker.js" />
     <Content Include="Core\winjscontrib.mixin.css" />

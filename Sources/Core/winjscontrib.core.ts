@@ -150,20 +150,20 @@ module WinJSContrib.UI.Pages {
                         return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
                     }).then(function () {
                             return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
-                    }).then(function () {
-                        element.style.display = page._initialDisplay || '';
-                        return WinJS.Promise.timeout();
-                    }).then(function () {
-                        if (page.onbeforelayout)
-                            return page.onbeforelayout(element, options);
-                    }).then(function () {
-                        //return WinJS.Promise.timeout();
-                    }).then(function () {
-                        return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
-                    }).then(function () {
-                        if (page.onafterlayout)
-                            return page.onafterlayout(element, options);
-                    });
+                        }).then(function () {
+                            element.style.display = page._initialDisplay || '';
+                            return WinJS.Promise.timeout();
+                        }).then(function () {
+                            if (page.onbeforelayout)
+                                return page.onbeforelayout(element, options);
+                        }).then(function () {
+                            //return WinJS.Promise.timeout();
+                        }).then(function () {
+                            return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
+                        }).then(function () {
+                            if (page.onafterlayout)
+                                return page.onafterlayout(element, options);
+                        });
                 }
 
                 proto.render = function (element, options, loadResult) {
@@ -343,28 +343,31 @@ module WinJSContrib.UI.Pages {
                 }
             }
 
-            if (!elementCtrl.beforeShow) elementCtrl.beforeShow = [];
+            if (!elementCtrl.beforeShow) 
+                elementCtrl.beforeShow = [];
 
             elementCtrl.contentReadyComplete = elementCtrl.renderComplete.then(function () {
                 if (!WinJSContrib.UI.disableAutoResources)
                     return WinJS.Resources.processAll(element);
             }).then(function (control) {
-                    return elementCtrl.elementReady;
-                }).then(function (control) {
-                    if (elementCtrl.beforeShow.length) {
-                        return WinJSContrib.Promise.parallel(elementCtrl.beforeShow, function (cb) { return WinJS.Promise.as(cb()); })
-                    }
-                }).then(function () {
-                    if (elementCtrl.enterPageAnimation) {
-                        return WinJS.Promise.as(elementCtrl.enterPageAnimation(element, options));
-                    } else {
-                        elementCtrl.element.style.opacity = '';
-                    }
-                }).then(fragmentCompleted, fragmentError);
+                return elementCtrl.parentedComplete;
+            }).then(function (control) {
+                return elementCtrl.elementReady;
+            }).then(function (control) {
+                if (elementCtrl.beforeShow.length) {
+                    return WinJSContrib.Promise.parallel(elementCtrl.beforeShow, function (cb) { return WinJS.Promise.as(cb()); })
+                }
+            }).then(function () {
+                if (elementCtrl.enterPageAnimation) {
+                    return WinJS.Promise.as(elementCtrl.enterPageAnimation(element, options));
+                } else {
+                    elementCtrl.element.style.opacity = '';
+                }
+            }).then(fragmentCompleted, fragmentError);
         }
 
         var elementCtrl = new pageConstructor(element, args, preparePageControl, parented);
-        elementCtrl.parentedComplete = parented;
+        elementCtrl.parentedComplete = WinJS.Promise.as(parented);
         return fragmentPromise;
     }
 
