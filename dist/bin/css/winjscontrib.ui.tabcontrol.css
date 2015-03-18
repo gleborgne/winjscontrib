@@ -21,49 +21,6 @@
   height: auto;
   width: auto;
 }
-.mcn-xplat.mcn-tabpages .mcn-tabpages-content .fragment header[role=banner],
-.mcn-xplat.mcn-tabpages.arrowright .mcn-tabpages-content .fragment header[role=banner] {
-  color: white;
-  height: 90px;
-  margin-left: 120px;
-  margin-top: 65px;
-  padding: 0 20px;
-}
-.mcn-xplat.mcn-tabpages .mcn-tabpages-content .fragment header[role=banner] .win-backbutton,
-.mcn-xplat.mcn-tabpages.arrowright .mcn-tabpages-content .fragment header[role=banner] .win-backbutton,
-.mcn-xplat.mcn-tabpages .mcn-tabpages-content .fragment header[role=banner] .win-navigation-backbutton,
-.mcn-xplat.mcn-tabpages.arrowright .mcn-tabpages-content .fragment header[role=banner] .win-navigation-backbutton {
-  display: block;
-  margin-right: 20px;
-  font-size: 28pt;
-  height: 90px;
-  line-height: 90px;
-}
-.mcn-xplat.mcn-tabpages .mcn-tabpages-content .fragment header[role=banner] .win-backbutton:disabled,
-.mcn-xplat.mcn-tabpages.arrowright .mcn-tabpages-content .fragment header[role=banner] .win-backbutton:disabled,
-.mcn-xplat.mcn-tabpages .mcn-tabpages-content .fragment header[role=banner] .win-navigation-backbutton:disabled,
-.mcn-xplat.mcn-tabpages.arrowright .mcn-tabpages-content .fragment header[role=banner] .win-navigation-backbutton:disabled {
-  display: none;
-}
-.mcn-xplat.mcn-tabpages .mcn-tabpages-content .fragment header[role=banner] .titlearea,
-.mcn-xplat.mcn-tabpages.arrowright .mcn-tabpages-content .fragment header[role=banner] .titlearea {
-  height: 90px;
-  line-height: 90px;
-  width: auto;
-  padding: 0;
-  margin-top: 0;
-  font-size: 42pt;
-}
-.mcn-xplat.mcn-tabpages .mcn-tabpages-content .fragment header[role=banner] .titlearea .pagetitle,
-.mcn-xplat.mcn-tabpages.arrowright .mcn-tabpages-content .fragment header[role=banner] .titlearea .pagetitle {
-  line-height: 90px;
-  font-weight: normal;
-  text-transform: uppercase;
-}
-.mcn-xplat.mcn-tabpages .mcn-tabpages-content .fragment section[role=main],
-.mcn-xplat.mcn-tabpages.arrowright .mcn-tabpages-content .fragment section[role=main] {
-  top: 0;
-}
 .mcn-xplat.mcn-tabpages .mcn-tabpages-header,
 .mcn-xplat.mcn-tabpages.arrowright .mcn-tabpages-header {
   position: absolute;

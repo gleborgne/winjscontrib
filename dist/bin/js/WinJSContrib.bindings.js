@@ -149,8 +149,8 @@ var WinJSContrib;
         WinJSContrib.Bindings.asClass = WinJS.Binding.initializer(function asClassBinding(source, sourceProperty, dest, destProperty) {
             function setClass(newval, oldval) {
                 var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
-                $(dest).removeClass(destProperty + '-' + oldval);
-                $(dest).addClass(destProperty + '-' + data);
+                dest.classList.remove(destProperty + '-' + oldval);
+                dest.classList.add(destProperty + '-' + data);
             }
             var bindingDesc = {};
             bindingDesc[sourceProperty] = setClass;
@@ -213,7 +213,7 @@ var WinJSContrib;
                     data = Bindings.pictureUnavailable;
                 }
 
-                $(dest).removeClass('imageLoaded');
+                dest.classList.remove('imageLoaded');
                 setTimeout(function () {
                     WinJSContrib.UI.loadImage(data).done(function () {
                         _setPic(dest, data);

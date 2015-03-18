@@ -129,9 +129,11 @@
             folder.getFileAsync(filename).then(function (file) {
                 return getFileContentAsJSONAsync(file, encrypted);
             }).then(function (res) {
+                if (logger) logger.debug("read " + folder.path + '\\' + toJSONFileName(fileName));
                 readComplete(res);
             }, function (err) {
                 if (err.number == -2147024894) {
+                    if (logger) logger.debug("read empty " + folder.path + '\\' + toJSONFileName(fileName));
                     readComplete();
                     return;
                 }

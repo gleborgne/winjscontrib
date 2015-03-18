@@ -539,7 +539,7 @@ var WinJSContrib;
                 function onerror(e) {
                     image.onload = undefined;
                     image.onerror = undefined;
-                    error('image not loaded');
+                    error({ message: 'image not loaded : ' + imgUrl, path: imgUrl });
                 }
                 function onload(e) {
                     image.onload = undefined;

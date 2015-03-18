@@ -19,50 +19,7 @@
         right: 0;
         bottom: 0;
         height: auto;
-        width: auto;
-
-        .fragment {
-            @headersize: 90px;
-
-            header[role=banner] {
-                color: white;
-                height: @headersize;
-                margin-left: 120px;
-                margin-top: 65px;
-                padding: 0 20px;
-
-                .win-backbutton, .win-navigation-backbutton {
-                    display: block;
-                    margin-right: 20px;
-                    font-size: 28pt;
-                    height: @headersize;
-                    line-height: @headersize;
-
-                    &:disabled {
-                        display: none;
-                    }
-                }
-
-                .titlearea {
-                    height: @headersize;
-                    line-height: @headersize;
-                    width: auto;
-                    padding: 0;
-                    margin-top: 0;
-                    font-size: 42pt;
-
-                    .pagetitle {
-                        line-height: @headersize;
-                        font-weight: normal;
-                        text-transform: uppercase;
-                    }
-                }
-            }
-
-            section[role=main] {
-                top: 0;
-            }
-        }
+        width: auto;        
     }
 
     .mcn-tabpages-header {
