@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.1.0
+ * WinJS Contrib v2.0.2.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -108,11 +108,8 @@ var WinJSContrib;
                     var register = function (proto) {
                         proto.__wDispose = proto.dispose;
                         proto.__wInit = proto.init;
-                        proto.__wProcess = proto.process;
                         proto.__wProcessed = proto.processed;
-                        proto.__wRender = proto.render;
                         proto.__wReady = proto.ready;
-                        proto.__wError = proto.error;
                         proto.__wUpdateLayout = proto.updateLayout;
                         proto.init = function (element, options) {
                             element.classList.add('mcn-fragment');
@@ -122,42 +119,15 @@ var WinJSContrib;
                             element.style.display = 'none';
                             return this.__wInit.apply(this, arguments);
                         };
-                        proto.process = function (element, options) {
-                            var page = this;
-                            var processargs = arguments;
-                            return WinJS.Promise.as(page.__wProcess.apply(page, processargs));
-                        };
                         proto.processed = function (element, options) {
                             var page = this;
                             var processedargs = arguments;
                             WinJSContrib.UI.bindMembers(element, page);
-                            return page.prepareDataPromise.then(function () {
-                                return broadcast(page, element, 'prepare', [element, options], null, page.prepare);
-                            }).then(function () {
-                                return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs));
-                            }).then(function () {
+                            return WinJS.Promise.as(page.__wProcessed.apply(page, processedargs)).then(function () {
                                 element.style.display = page._initialDisplay || '';
-                                return WinJS.Promise.timeout();
-                            }).then(function () {
-                                if (page.onbeforelayout)
-                                    return page.onbeforelayout(element, options);
-                            }).then(function () {
-                                //return WinJS.Promise.timeout();
-                            }).then(function () {
+                                var r = element.getBoundingClientRect(); //force element layout
                                 return broadcast(page, element, 'pageLayout', [element, options], null, page.pageLayout);
-                            }).then(function () {
-                                if (page.onafterlayout)
-                                    return page.onafterlayout(element, options);
                             });
-                        };
-                        proto.render = function (element, options, loadResult) {
-                            var page = this;
-                            var renderargs = arguments;
-                            if (page.prepareData)
-                                page.prepareDataPromise = WinJS.Promise.as(page.prepareData(element, options));
-                            else
-                                page.prepareDataPromise = WinJS.Promise.wrap();
-                            return WinJS.Promise.as(page.__wRender.apply(page, renderargs));
                         };
                         proto.ready = function (element, options) {
                             var page = this;
@@ -168,14 +138,6 @@ var WinJSContrib;
                             }).then(function () {
                                 return broadcast(page, element, 'pageReady', [element, options]);
                             });
-                            /*.then(function () {
-                                if (page.enterPageAnimation) {
-                                    return WinJS.Promise.as(page.enterPageAnimation(element, options));
-                                }
-                            })
-                        .then(function () {
-                                return broadcast(page, element, 'contentReady', [element, options], null, page.contentReady);
-                            });*/
                         };
                         proto.dispose = function () {
                             $('.tap', this.element).untap();
@@ -250,7 +212,7 @@ var WinJSContrib;
                     fragmentCompleted = c;
                     fragmentError = e;
                 });
-                var parented = options.parented; // || WinJS.Promise.timeout();
+                var parented = options.parented ? WinJS.Promise.as(options.parented) : null;
                 var layoutCtrls = [];
                 var pageConstructor = WinJS.UI.Pages.get(location);
                 WinJSContrib.UI.Pages.fragmentMixin(pageConstructor);
@@ -311,9 +273,9 @@ var WinJSContrib;
                         if (!WinJSContrib.UI.disableAutoResources)
                             return WinJS.Resources.processAll(element);
                     }).then(function (control) {
-                        return elementCtrl.parentedComplete;
-                    }).then(function (control) {
                         return elementCtrl.elementReady;
+                    }).then(function (control) {
+                        return parented;
                     }).then(function (control) {
                         if (elementCtrl.beforeShow.length) {
                             return WinJSContrib.Promise.parallel(elementCtrl.beforeShow, function (cb) {
@@ -330,7 +292,7 @@ var WinJSContrib;
                     }).then(fragmentCompleted, fragmentError);
                 }
                 var elementCtrl = new pageConstructor(element, args, preparePageControl, parented);
-                elementCtrl.parentedComplete = WinJS.Promise.as(parented);
+                //elementCtrl.parentedComplete = WinJS.Promise.as(parented);
                 return fragmentPromise;
             }
             Pages.renderFragment = renderFragment;

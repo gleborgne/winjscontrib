@@ -315,11 +315,9 @@
                                 var res = WinJS.Promise.as(exitPageResult);
                                 page.winControl.exitPagePromise = res.then(function () {
                                     if (page.winControl.exitPageAnimation) {
-                                        return WinJS.Promise.as(page.winControl.exitPageAnimation()).then(hidepage);
-                                    } else {
-                                        return WinJS.Promise.as(navigator.animations.exitPage(navigator._getAnimationElements(true))).then(hidepage);
+                                        return WinJS.Promise.as(page.winControl.exitPageAnimation());
                                     }
-                                })
+                                }).then(hidepage);
                             }
                         } else {
                             if (page.winControl.exitPageAnimation) {
@@ -464,8 +462,8 @@
                         //delay: tempo,
                         enterPage: navigator.animations.enterPage,
 
-                        parented: parented.then(function () {
-                            return closeOldPagePromise;
+                        parented: closeOldPagePromise.then(function () {
+                            return parented;
                         }),
 
                         oninit: function (element, options) {

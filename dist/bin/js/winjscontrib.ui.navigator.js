@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.1.0
+ * WinJS Contrib v2.0.2.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -321,11 +321,9 @@
                                 var res = WinJS.Promise.as(exitPageResult);
                                 page.winControl.exitPagePromise = res.then(function () {
                                     if (page.winControl.exitPageAnimation) {
-                                        return WinJS.Promise.as(page.winControl.exitPageAnimation()).then(hidepage);
-                                    } else {
-                                        return WinJS.Promise.as(navigator.animations.exitPage(navigator._getAnimationElements(true))).then(hidepage);
+                                        return WinJS.Promise.as(page.winControl.exitPageAnimation());
                                     }
-                                })
+                                }).then(hidepage);
                             }
                         } else {
                             if (page.winControl.exitPageAnimation) {
@@ -470,8 +468,8 @@
                         //delay: tempo,
                         enterPage: navigator.animations.enterPage,
 
-                        parented: parented.then(function () {
-                            return closeOldPagePromise;
+                        parented: closeOldPagePromise.then(function () {
+                            return parented;
                         }),
 
                         oninit: function (element, options) {

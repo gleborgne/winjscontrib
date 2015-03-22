@@ -13,3 +13,5 @@ MCNEXT WinJS Contrib.v12.suo
 WinJS Contrib.v12.suo
 typescriptcompile.log
 build.log
+npm-debug.log
+.sublime-gulp.cache

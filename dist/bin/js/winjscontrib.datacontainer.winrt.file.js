@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.1.0
+ * WinJS Contrib v2.0.2.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -135,9 +135,11 @@
             folder.getFileAsync(filename).then(function (file) {
                 return getFileContentAsJSONAsync(file, encrypted);
             }).then(function (res) {
+                if (logger) logger.debug("read " + folder.path + '\\' + toJSONFileName(fileName));
                 readComplete(res);
             }, function (err) {
                 if (err.number == -2147024894) {
+                    if (logger) logger.debug("read empty " + folder.path + '\\' + toJSONFileName(fileName));
                     readComplete();
                     return;
                 }
