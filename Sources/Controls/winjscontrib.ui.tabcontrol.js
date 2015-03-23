@@ -1,4 +1,5 @@
-﻿/// <reference path="//Microsoft.WinJS.2.0/js/base.js" />
+﻿
+/// <reference path="//Microsoft.WinJS.2.0/js/base.js" />
 /// <reference path="//Microsoft.WinJS.2.0/js/ui.js" />
 (function () {
     "use strict";
@@ -167,7 +168,7 @@
                     this.selectTab(this.tabs.default[0], skipHeader);
                 },
 
-                selectTab: function (tab, skipHeader) {
+                selectTab: function (tab, skipHeader, args) {
                     var ctrl = this;
 
                     if (tab == ctrl.currentTab)
@@ -175,7 +176,9 @@
 
                     var link = ctrl.getPageLink(tab);
                     if (link) {
-                        ctrl.navigator.open(link.uri, link.args);
+                        var navArgs = $.extend({}, args, link.args);
+
+                        ctrl.navigator.open(link.uri, navArgs);
                         ctrl.currentTab = tab;
                         var currentHeader = ctrl.tabHeader.querySelector('.mcn-tabpages-headeritem.current');
                         if (currentHeader) WinJS.Utilities.removeClass(currentHeader, 'current');
@@ -192,23 +195,36 @@
                     }
                 },
 
-                selectByIndex: function (index, skipHeader, group) {
+                selectByIndex: function (index, skipHeader, group, args) {
                     var ctrl = this;
 
                     var grp = ctrl.tabs[group || 'default'];
                     var tab = grp[index];
 
                     if (tab)
-                        ctrl.selectTab(tab, skipHeader);
+                        ctrl.selectTab(tab, skipHeader, args);
                 },
 
-                selectByItem: function (item, skipHeader, group) {
+                selectByName: function (name, skipHeader, group, args) {
+                    var ctrl = this;
+
+                    var grp = ctrl.tabs[group || 'default'];
+                    for (var i = 0 ; i < grp.length; i++) {
+                        var tab = grp[i];
+                        if (tab.item && (tab.item.id === name || tab.item.name === name)) {
+                            ctrl.selectTab(tab, skipHeader, args);
+                            break;
+                        }
+                    }
+                },
+
+                selectByItem: function (item, skipHeader, group, args) {
                     var ctrl = this;
                     var grp = ctrl.tabs[group || 'default'];
                     for (var i = 0 ; i < grp.length; i++) {
                         var tab = grp[i];
                         if (tab.item == item) {
-                            ctrl.selectTab(tab, skipHeader);
+                            ctrl.selectTab(tab, skipHeader, args);
                             break;
                         }
                     }
