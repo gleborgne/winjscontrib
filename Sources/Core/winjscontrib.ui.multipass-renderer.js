@@ -25,7 +25,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         this.itemInvoked = options.invoked || options.itemInvoked;
         this.onitemContent = options.onitemContent;
         this._onScrollBinded = this._onScroll.bind(this);
-        
+
         if (element) {
             element.className = element.className + ' mcn-items-ctrl mcn-layout-ctrl win-disposable';
         }
@@ -91,7 +91,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             },
             set: function (val) {
                 this._orientation = val;
-                this.refreshScrollEvents();                
+                this.refreshScrollEvents();
             }
         },
 
@@ -194,7 +194,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         /**
          * Clear cached offsets for bloc and for items
          */
-        clearOffsets : function(){
+        clearOffsets: function () {
             var ctrl = this;
             ctrl.rect = null;
             ctrl.items.forEach(function (item) {
@@ -210,7 +210,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         /**
          * update ui related properties like cached offsets, scroll events, ...
          */
-        updateLayout : function(){
+        updateLayout: function () {
             var ctrl = this;
             ctrl.refreshScrollEvents();
         },
@@ -222,12 +222,12 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             if (!ctrl.rect && ctrl.items && ctrl.items.length) {
                 ctrl.rect = WinJSContrib.UI.offsetFrom(ctrl.element, ctrl.scrollContainer);
             } else {
-                ctrl.rect = ctrl.rect || { x:0 , y:0 , width: 0, height: 0 };
+                ctrl.rect = ctrl.rect || { x: 0, y: 0, width: 0, height: 0 };
                 ctrl.rect.width = ctrl.element.clientWidth;
                 ctrl.rect.height = ctrl.element.clientHeight;
             }
 
-            if (check(ctrl.rect, ctrl.scrollContainer, tolerance)) {                
+            if (check(ctrl.rect, ctrl.scrollContainer, tolerance)) {
                 if (noRender)
                     return true;
 
@@ -253,7 +253,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             tolerance = tolerance || 0;
             var allRendered = true;
 
-            var countR = function(){
+            var countR = function () {
                 var countRendered = 0;
                 ctrl.items.forEach(function (item) {
                     if (item.rendered) {
@@ -296,7 +296,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                 });
             }
 
-            
+
         },
 
         /**
@@ -315,6 +315,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                 itemInvoked = WinJSContrib.Utils.resolveMethod(ctrl.element, itemInvoked);
             var template = WinJSContrib.Utils.getTemplate(renderOptions.template) || ctrl.itemTemplate;
             var className = renderOptions.itemClassName || ctrl.itemClassName;
+            var onitemInit = renderOptions.onitemInit || ctrl.onitemInit;
             var onitemContent = renderOptions.onitemContent || ctrl.onitemContent;
             var container = ctrl.element;
             var registereditems = ctrl.items;
@@ -327,6 +328,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                     template: template,
                     className: className,
                     itemInvoked: itemInvoked,
+                    onitemInit: onitemInit,
                     onitemContent: onitemContent
                 });
                 registereditems.push(item);
@@ -372,7 +374,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             WinJS.Utilities.disposeSubTree(ctrl.element);
         }
     });
-   
+
     WinJSContrib.UI.MultiPassItem = WinJS.Class.define(
         /**
          * Item for multipass rendering
@@ -383,7 +385,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
         var item = this;
         item.renderer = renderer;
         item.element = element || document.createElement('DIV');
-        item.element.className = item.element.className + ' ' + options.className + ' mcn-multipass-item';
+        item.element.className = item.element.className + ' ' + options.className + ' mcn-multipass-item unloaded';
         item.element.winControl = item;
 
         item.itemInvoked = options.itemInvoked;
@@ -391,6 +393,10 @@ WinJSContrib.UI = WinJSContrib.UI || {};
 
         item.itemTemplate = options.template;
         item.rendered = false;
+        item.onitemContent = options.onitemContent;
+        if (options.onitemInit) {
+            options.onitemInit(this);
+        }
     },
     /**
      * @lends WinJSContrib.UI.MultiPassItem
@@ -430,7 +436,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             if (ctrl.itemTemplate) {
                 return ctrl.itemDataPromise.then(function (data) {
                     ctrl.itemData = data;
-                    return ctrl.itemTemplate.render(data).then(function (rendered) {                        
+                    return ctrl.itemTemplate.render(data).then(function (rendered) {
                         ctrl.element.appendChild(rendered);
 
                         if (ctrl.itemInvoked) {
@@ -452,6 +458,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
                         }
 
                         setImmediate(function () {
+                            ctrl.element.classList.remove('unloaded');
                             ctrl.element.classList.add('loaded');
                         });
 

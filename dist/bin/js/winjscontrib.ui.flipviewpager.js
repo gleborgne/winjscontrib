@@ -82,8 +82,7 @@
                 this.initControl();
             },
 
-            pageSelected: function () {
-                this.isFlipping = false;
+            pageChange: function () {
                 var currentPage = this._flipView.currentPage;
                 var btn = this.radioButtons[currentPage];
                 if (btn) {
@@ -94,10 +93,16 @@
                 }
             },
 
+            pageSelected: function () {
+                this.isFlipping = false;
+                this.pageChange();
+            },
+
             flipviewPageVisibilityChange: function (eventObject) {
                 if (eventObject.detail.visible === true) {
                     this.isFlipping = true;
                 }
+                this.pageChange();
             },
 
             registerFlipViewEvents: function () {
