@@ -285,7 +285,9 @@ var WinJSContrib;
                         }
                     }).then(fragmentCompleted, fragmentError);
                 }
-                var elementCtrl = new pageConstructor(element, args, preparePageControl, parented);
+                setImmediate(function () {
+                    var elementCtrl = new pageConstructor(element, args, preparePageControl, parented);
+                });
                 //elementCtrl.parentedComplete = WinJS.Promise.as(parented);
                 return fragmentPromise;
             }
