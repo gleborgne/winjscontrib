@@ -65,6 +65,13 @@
     <Content Include="Controls\winjscontrib.ui.datetimescroller.less" />
     <Content Include="Controls\winjscontrib.ui.extended-splashscreen.css.map" />
     <Content Include="Controls\winjscontrib.ui.extended-splashscreen.less" />
+    <Content Include="Controls\winjscontrib.ui.flipsnap.css">
+      <DependentUpon>winjscontrib.ui.flipsnap.less</DependentUpon>
+    </Content>
+    <Content Include="Controls\winjscontrib.ui.flipsnap.js" />
+    <Content Include="Controls\winjscontrib.ui.flipsnap.min.css">
+      <DependentUpon>winjscontrib.ui.flipsnap.css</DependentUpon>
+    </Content>
     <Content Include="Controls\winjscontrib.ui.flipviewpager.less" />
     <Content Include="Controls\winjscontrib.ui.flyoutpage.css.map" />
     <Content Include="Controls\winjscontrib.ui.flyoutpage.less" />
@@ -80,6 +87,10 @@
     <Content Include="Core\segoe.symbol.less" />
     <Content Include="Core\winjscontrib.mixin.less" />
     <Content Include="Core\winjscontrib.ui.less" />
+    <Content Include="Controls\winjscontrib.ui.flipsnap.less" />
+    <Content Include="Controls\winjscontrib.ui.flipsnap.css.map">
+      <DependentUpon>winjscontrib.ui.flipsnap.css</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
