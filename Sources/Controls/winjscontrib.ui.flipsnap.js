@@ -90,7 +90,7 @@
             toNext: function () {
                 var ctrl = this;
                 WinJS.Promise.join(ctrl._navPromises).then(function () {
-                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, ctrl._itemw * (ctrl._currentPosition + 1), 300));
+                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, (ctrl._itemw + ctrl._itemMaxMarge) * (ctrl._currentPosition + 1), 300));
                 }, function () { })
             },
             toPrev: function () {
@@ -99,7 +99,7 @@
                     var index = (ctrl._currentPosition - 1);
                     if (index < 0)
                         index = 0
-                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, ctrl._itemw * index, 300));
+                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, (ctrl._itemw + ctrl._itemMaxMarge) * index, 300));
                 }, function () { })
             },
 
@@ -213,7 +213,7 @@
                 }
                 return WinJS.Promise.join(promises).then(function () {
                     setTimeout(function () {
-                        ctrl.list.scrollLeft = ctrl._itemw * (ctrl._currentPosition)
+                        ctrl.list.scrollLeft = (ctrl._itemw + ctrl._itemMaxMarge) * (ctrl._currentPosition)
                         //ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, ctrl._itemw * (ctrl._currentPosition), 300));
                     }, 50);
                 });
@@ -257,7 +257,7 @@
                 set: function (val) {
                     var ctrl = this;
                     ctrl._currentPosition = val;
-                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, ctrl._itemw * (ctrl._currentPosition), 300));
+                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, (ctrl._itemw + ctrl._itemMaxMarge) * (ctrl._currentPosition), 300));
 
                 }
             },
@@ -287,7 +287,7 @@
                     margeitem = 0;
                 }
                 if (ctrl.currentPosition) {
-                    ctrl.list.scrollLeft = ctrl._itemw * ctrl.currentPosition;
+                    ctrl.list.scrollLeft = (ctrl._itemw + ctrl._itemMaxMarge) * ctrl.currentPosition;
                 }
                 ctrl.style.innerHTML = ".flipsnapcontainer .flipsnaplist{ -ms-scroll-snap-points-x: snapInterval(0%, " + ctrl._itemw + ctrl._itemMaxMarge + "px); }" +
                     " .flipsnapcontainer  .flipsnaplist .flipsnapitem.flipsnapfistitem { margin-left:" + marge + "px } .flipsnaplist .flipsnapitem{ min-width:" + ctrl._itemw + "px } " +
