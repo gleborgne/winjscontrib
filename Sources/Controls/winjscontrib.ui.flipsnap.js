@@ -192,22 +192,23 @@
                     if (list.length > 1) {
                         ctrl.next.classList.remove('hide');
                     }
-                    list.forEach(function (filitem, index) {
-                        promises.push(template.render(filitem).done(function (rendered) {
-                            var elt = rendered.children[0];
-                            if (index == 0) {
-                                elt.classList.add('flipsnapfistitem');
-                                elt.classList.add('selected');
-                            }
-                            elt.classList.add('flipsnapitem')
-                            itemHandling(elt, filitem, index);
-                            ctrl.list.appendChild(elt);
-                            if (index + 1 === list.length) {
-                                var lastitem = document.createElement('div');
-                                lastitem.className = "flipsnaplastitem";
-                                ctrl.list.appendChild(lastitem);
-                            }
-                        }));
+                    list.forEach(function (fipitem, index) {
+                        if (fipitem)
+                            promises.push(template.render(fipitem).done(function (rendered) {
+                                var elt = rendered.children[0];
+                                if (index == 0) {
+                                    elt.classList.add('flipsnapfistitem');
+                                    elt.classList.add('selected');
+                                }
+                                elt.classList.add('flipsnapitem')
+                                itemHandling(elt, fipitem, index);
+                                ctrl.list.appendChild(elt);
+                                if (index + 1 === list.length) {
+                                    var lastitem = document.createElement('div');
+                                    lastitem.className = "flipsnaplastitem";
+                                    ctrl.list.appendChild(lastitem);
+                                }
+                            }));
                     });
                 }
                 return WinJS.Promise.join(promises).then(function () {
