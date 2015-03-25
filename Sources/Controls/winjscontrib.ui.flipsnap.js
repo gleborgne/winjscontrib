@@ -289,7 +289,7 @@
                 if (ctrl.currentPosition) {
                     ctrl.list.scrollLeft = ctrl._itemw * ctrl.currentPosition;
                 }
-                ctrl.style.innerHTML = ".flipsnapcontainer .flipsnaplist{ -ms-scroll-snap-points-x: snapInterval(0%, " + ctrl._itemw + "px); }" +
+                ctrl.style.innerHTML = ".flipsnapcontainer .flipsnaplist{ -ms-scroll-snap-points-x: snapInterval(0%, " + ctrl._itemw + ctrl._itemMaxMarge + "px); }" +
                     " .flipsnapcontainer  .flipsnaplist .flipsnapitem.flipsnapfistitem { margin-left:" + marge + "px } .flipsnaplist .flipsnapitem{ min-width:" + ctrl._itemw + "px } " +
                     " .flipsnapcontainer .flipsnaplist .flipsnaplastitem { max-width:" + marge + "px ; min-width:" + marge + "px }" +
                     " .flipsnapcontainer .flipsnaplist .flipsnapitem {margin-right:" + margeitem + "px }"
