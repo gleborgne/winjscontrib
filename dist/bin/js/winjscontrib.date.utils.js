@@ -12,7 +12,7 @@ WinJSContrib.Utils = WinJSContrib.Utils || {};
 WinJSContrib.Bindings = WinJSContrib.Bindings || {};
 
 (function () {
-    'use strict';    
+    'use strict';
 
     /** 
      * format date using binding argument 'formatDate'
@@ -23,13 +23,20 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
      * @param {string[]} destProperty path to DOM element property targeted by binding
      */
     WinJSContrib.Bindings.formatDate = WinJS.Utilities.markSupportedForProcessing(function formatDateBinding(source, sourceProperty, dest, destProperty) {
-        var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
-        if (!sourcedata) {
-            dest.innerText = '';
-        } else {
-            var arg = WinJSContrib.Bindings.bindingArguments(dest, 'formatDate');
-            dest.innerText = moment(sourcedata).format(arg);
+        function setDate() {
+            var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
+            if (!sourcedata) {
+                dest.innerText = '';
+            } else {
+                var arg = WinJSContrib.Bindings.bindingArguments(dest, 'formatDate');
+                dest.innerText = moment(sourcedata).format(arg);
+            }
         }
+
+        var bindingDesc = {
+        };
+        bindingDesc[sourceProperty] = setDate;
+        return WinJS.Binding.bind(source, bindingDesc);
     });
 
     /** 
@@ -41,12 +48,19 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
      * @param {string[]} destProperty path to DOM element property targeted by binding
      */
     WinJSContrib.Bindings.calendar = WinJS.Utilities.markSupportedForProcessing(function formatDateBinding(source, sourceProperty, dest, destProperty) {
-        var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
-        if (!sourcedata) {
-            dest.innerText = '';
-        } else {
-            dest.innerText = moment(sourcedata).calendar();
+        function setDate() {
+            var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
+            if (!sourcedata) {
+                dest.innerText = '';
+            } else {
+                dest.innerText = moment(sourcedata).calendar();
+            }
         }
+
+        var bindingDesc = {
+        };
+        bindingDesc[sourceProperty] = setDate;
+        return WinJS.Binding.bind(source, bindingDesc);
     });
 
     function daysSince(m, d, y) {
@@ -78,15 +92,22 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
      * @param {string[]} destProperty path to DOM element property targeted by binding
      */
     WinJSContrib.Bindings.daysSinceDate = WinJS.Utilities.markSupportedForProcessing(function daysSinceDateBinding(source, sourceProperty, dest, destProperty) {
-        var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
-        if (!sourcedata) {
-            dest.innerText = '';
-        } else {
-            sourcedata = new Date(sourcedata);
-            var m = sourcedata.getMonth() + 1, d = sourcedata.getDate(), y = sourcedata.getFullYear();
-            var fromdate = daysSince(m, d, y);
-            dest.innerText = fromdate;
+        function setDate() {
+            var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
+            if (!sourcedata) {
+                dest.innerText = '';
+            } else {
+                sourcedata = new Date(sourcedata);
+                var m = sourcedata.getMonth() + 1, d = sourcedata.getDate(), y = sourcedata.getFullYear();
+                var fromdate = daysSince(m, d, y);
+                dest.innerText = fromdate;
+            }
         }
+
+        var bindingDesc = {
+        };
+        bindingDesc[sourceProperty] = setDate;
+        return WinJS.Binding.bind(source, bindingDesc);
     });
 
     /**
@@ -98,14 +119,21 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
      * @param {string[]} destProperty path to DOM element property targeted by binding
      */
     WinJSContrib.Bindings.humanizeDate = WinJS.Utilities.markSupportedForProcessing(function humanizeDate(source, sourceProperty, dest, destProperty) {
-        var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
-        if (!sourcedata) {
-            dest.innerText = '';
-        } else {
-            var arg = WinJSContrib.Bindings.bindingArguments(dest, "humanizeFormat"),
-                addSuffix = WinJSContrib.Bindings.bindingArguments(dest, "addSuffix");
-            dest.innerText = moment.duration(sourcedata, arg).humanize(addSuffix);
+        function setDate() {
+            var sourcedata = WinJSContrib.Utils.readProperty(source, sourceProperty);
+            if (!sourcedata) {
+                dest.innerText = '';
+            } else {
+                var arg = WinJSContrib.Bindings.bindingArguments(dest, "humanizeFormat"),
+                    addSuffix = WinJSContrib.Bindings.bindingArguments(dest, "addSuffix");
+                dest.innerText = moment.duration(sourcedata, arg).humanize(addSuffix);
+            }
         }
+
+        var bindingDesc = {
+        };
+        bindingDesc[sourceProperty] = setDate;
+        return WinJS.Binding.bind(source, bindingDesc);
     });
 
 

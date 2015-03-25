@@ -117,13 +117,23 @@
         });
     }
 
+    WinJSContrib.Messenger.prototype.map = function (object, functions) {
+        var messenger = this;
+        functions.forEach(function (name) {
+            messenger[name] = function () {
+                var f = object[name];
+                return f.apply(object, arguments);
+            }
+        });
+    }
+
     /**
      * start an operation within iframe or worker and get a promise for completion
      * @param {string} eventName name of the event/function to call
      * @param {Object} data event/function passed as argument
      * @returns {WinJS.Promise}
      */
-    WinJSContrib.Messenger.prototype.start = function (eventName, data) {
+    WinJSContrib.Messenger.prototype.start = function (eventName, data, asArgs) {
         var messenger = this;
 
         if (!messenger._receiver)
@@ -139,6 +149,7 @@
             id: wrapper.id,
             type: 'run',
             data: data,
+            asArgs: asArgs,
             sender: 'WinJSContrib.WinJSContrib.Messenger'
         };
 
@@ -163,6 +174,7 @@
         var details = typeof (arg.data) == 'string' ? JSON.parse(arg.data) : arg.data;
         var name = details.name;
         var data = details.data;
+        var asArgs = details.asArgs;
 
         if (details.id) {
             var wrapper = messenger._pendings[details.id];
@@ -173,7 +185,14 @@
 
             if (name && messenger[name]) {
                 try {
-                    WinJS.Promise.as(messenger[name](data)).then(function (arg) {
+                    var p = null;
+                    if (asArgs) {
+                        p = WinJS.Promise.as(messenger[name].apply(messenger[name], data));
+                    } else {
+                        p = WinJS.Promise.as(messenger[name](data));
+                    }
+
+                    p.then(function (arg) {
                         messenger._send({ name: name, id: details.id, type: 'complete', sender: 'WinJSContrib.WinJSContrib.Messenger', data: arg });
                     }, function (arg) {
                         messenger._send({ name: name, id: details.id, type: 'error', sender: 'WinJSContrib.WinJSContrib.Messenger', data: arg });
