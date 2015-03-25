@@ -6,7 +6,7 @@
 
 //data container based on winrt files
 
-(function () {
+(function (global) {
     'use strict';
 
     WinJS.Namespace.define("WinJSContrib.DataContainer", {
@@ -16,7 +16,7 @@
             container.options = options || {};
             container.parent = parent;
             container.folderPromise;
-            if (!window.Windows)
+            if (!global.Windows)
                 throw "WinRT is required !";
 
             if (!key) {
@@ -115,9 +115,9 @@
             if (unprotectedData) {
                 var rawText = Windows.Security.Cryptography.CryptographicBuffer.convertBinaryToString(Windows.Security.Cryptography.BinaryStringEncoding.utf8, unprotectedData);
                 if (rawText) {
-                    try{
+                    try {
                         obj = JSON.parse(rawText);
-                    }catch(exception){}
+                    } catch (exception) { }
                 }
             }
 
@@ -195,4 +195,4 @@
         });
     }
 
-})();
+})(this);
