@@ -32,6 +32,10 @@
             if (!ctrl._itemMaxWidth) {
                 ctrl._itemMaxWidth = 800;
             }
+            ctrl._itemMaxMarge = options.itemMaxMarge;
+            if (!ctrl._itemMaxMarge) {
+                ctrl._itemMaxMarge = 10;
+            }
             ctrl._currentPosition = options.currentPosition
             if (!ctrl._currentPosition)
                 ctrl._currentPosition = 0;
@@ -46,10 +50,10 @@
                 var ctrl = this;
                 ctrl.next = document.createElement('button');
                 ctrl.next.innerHTML = "&#57571;"
-                ctrl.next.className = "navbutton navbutton-right cannav";
+                ctrl.next.className = "navbutton navbutton-right hide";
                 ctrl.prev = document.createElement('button');
                 ctrl.prev.innerHTML = "&#57570;"
-                ctrl.prev.className = "navbutton navbutton-left";
+                ctrl.prev.className = "navbutton navbutton-left hide";
                 ctrl.element.appendChild(ctrl.next);
                 ctrl.element.appendChild(ctrl.prev);
                 $(ctrl.next).tap(function () {
@@ -70,6 +74,18 @@
                         $('.selected', ctrl.list).removeClass('selected');
                         ctrl.list.children[ctrl._currentPosition].classList.add('selected');
                         ctrl.dispatchEvent("positionchanged", { currentPosition: ctrl._currentPosition });
+                        if (ctrl.canGoForward) {
+                            ctrl.next.classList.remove('hide');
+                        }
+                        else {
+                            ctrl.next.classList.add('hide');
+                        }
+                        if (ctrl.canGoBack) {
+                            ctrl.prev.classList.remove('hide');
+                        }
+                        else {
+                            ctrl.prev.classList.add('hide');
+                        }
                         console.log(ctrl._currentPosition);
                     }
                 }, 0);
@@ -176,7 +192,12 @@
                     throw "Where is the tempalte ?";
                 }
                 var promises = [];
+
                 if (list && list.length) {
+                    ctrl._dataList = list;
+                    if (list.length > 1) {
+                        ctrl.next.classList.remove('hide');
+                    }
                     list.forEach(function (filitem, index) {
                         promises.push(template.render(filitem).done(function (rendered) {
                             var elt = rendered.children[0];
@@ -213,7 +234,27 @@
                     this._itemTemplate = val;
                 }
             },
-
+            canGoBack: {
+                get: function () {
+                    if (this._currentPosition == 0)
+                        return false;
+                    else
+                        return true
+                }
+            },
+            dataList: {
+                get: function () {
+                    if (this._dataList)
+                        return this._dataList;
+                    else
+                        return [];
+                }
+            },
+            canGoForward: {
+                get: function () {
+                    return (this._currentPosition + 1 < this.dataList.length)
+                }
+            },
             currentPosition: {
                 get: function () {
                     return this._currentPosition;
@@ -244,16 +285,19 @@
                 var windowInnerWidth = window.innerWidth;
                 ctrl._itemw = ctrl._itemMaxWidth;
                 var marge = (windowInnerWidth - ctrl._itemMaxWidth) / 2;
+                var margeitem = ctrl._itemMaxMarge;
                 if (windowInnerWidth < 800) {
                     ctrl._itemw = windowInnerWidth;
                     marge = 0;
+                    margeitem = 0;
                 }
                 if (ctrl.currentPosition) {
                     ctrl.list.scrollLeft = ctrl._itemw * ctrl.currentPosition;
                 }
                 ctrl.style.innerHTML = ".flipsnapcontainer .flipsnaplist{ -ms-scroll-snap-points-x: snapInterval(0%, " + ctrl._itemw + "px); }" +
                     " .flipsnapcontainer  .flipsnaplist .flipsnapitem.flipsnapfistitem { margin-left:" + marge + "px } .flipsnaplist .flipsnapitem{ min-width:" + ctrl._itemw + "px } " +
-                                   " .flipsnapcontainer  .flipsnaplist .flipsnaplastitem { max-width:" + marge + "px ; min-width:" + marge + "px }"
+                    " .flipsnapcontainer .flipsnaplist .flipsnaplastitem { max-width:" + marge + "px ; min-width:" + marge + "px }" +
+                    " .flipsnapcontainer .flipsnaplist .flipsnapitem {margin-right:" + margeitem + "px }"
 
             }
 

@@ -27,6 +27,9 @@
   min-width: 0;
   visibility: hidden;
 }
+.flipsnapcontainer .navbutton.hide {
+  display: none;
+}
 .flipsnapcontainer .navbutton:hover {
   background-color: rgba(0, 0, 0, 0.6);
 }
@@ -49,4 +52,6 @@
   width: 100%;
   -ms-overflow-style: none;
 }
-/*# sourceMappingURL=winjscontrib.ui.flipsnap.css.map */
+.flipsnapcontainer .flipsnaplist .flipsnapitem {
+  margin-right: 10px;
+}
