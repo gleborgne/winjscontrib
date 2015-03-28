@@ -1,5 +1,6 @@
 bin/
 obj/
+.vs/
 winjscontrib.sln.ide/
 properties/
 *.suo

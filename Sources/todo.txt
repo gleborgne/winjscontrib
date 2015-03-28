@@ -1,0 +1,2 @@
+wrap that in a control :
+https://github.com/ConnorAtherton/loaders.css

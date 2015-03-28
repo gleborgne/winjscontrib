@@ -28,7 +28,7 @@ WinJSContrib.Bindings = WinJSContrib.Bindings || {};
             if (!sourcedata) {
                 dest.innerText = '';
             } else {
-                var arg = WinJSContrib.Bindings.bindingArguments(dest, 'formatDate');
+                var arg = WinJSContrib.Bindings.bindingArguments(dest, 'formatDate') || 'L';
                 dest.innerText = moment(sourcedata).format(arg);
             }
         }

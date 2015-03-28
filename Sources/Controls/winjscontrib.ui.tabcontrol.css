@@ -61,7 +61,10 @@
 .mcn-tabpages .mcn-tabpages-header .mcn-tabpages-headeritem:hover {
   background-color: #9a9a9a;
 }
-.mcn-tabpages .mcn-tabpages-content {
+.mcn-tabpages .mcn-tabpages-content .mcn-tabpages-content-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
   overflow: hidden;
 }
 .mcn-tabpages.arrowright {

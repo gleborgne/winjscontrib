@@ -146,10 +146,10 @@ function HSL(hVal, sVal, lVal) {
 
         return this.each(function () {
             var $this = $(this);
-            $this.addClass('tap');
             if (this.mcnTapTracking) {
                 this.mcnTapTracking.dispose();
             }
+            $this.addClass('tap');
             this.mcnTapTracking = this.mcnTapTracking || {};
             this.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
             this.mcnTapTracking.disableAnimation = opt.disableAnimation;
