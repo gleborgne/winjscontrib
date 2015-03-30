@@ -257,10 +257,6 @@ var WinJSContrib;
                                 return that.process(element, options);
                             }).then(function Pages_processed() {
                                 return that.processed(element, options);
-                            }).then(function () {
-                                WinJSContrib.UI.bindMembers(element, that);
-                                WinJSContrib.UI.bindActions(element, that);
-                                return that;
                             });
                             var callComplete = function () {
                                 complete && complete(that);
@@ -293,6 +289,7 @@ var WinJSContrib;
                                 };
                             }
                         });
+                        WinJSContrib.UI.Pages.fragmentMixin(base);
                         viewMap[refUri] = base;
                     }
                     base = addMembers(base, members);

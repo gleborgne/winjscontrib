@@ -264,8 +264,8 @@
                                 initResult: that.init(element, options)
                             });
                         }).then(function Pages_render(result) {
-                                return that.render(element, options, result.loadResult);
-                            });
+							return that.render(element, options, result.loadResult);
+						});
 
                         this.elementReady = renderCalled.then(function () {
                             return element;
@@ -274,12 +274,8 @@
                         this.renderComplete = renderCalled.then(function Pages_process() {
                             return that.process(element, options);
                         }).then(function Pages_processed() {
-                                return that.processed(element, options);
-                            }).then(function () {
-                                WinJSContrib.UI.bindMembers(element, that);
-                                WinJSContrib.UI.bindActions(element, that);
-                                return that;
-                            });
+							return that.processed(element, options);
+                        });
 
                         var callComplete = function () {
                             complete && complete(that);
@@ -294,10 +290,10 @@
                             return parentedPromise;
                         }).then(function Pages_ready() {
 
-                                that.ready(element, options);
+							that.ready(element, options);
 
-                                return that;
-                            }).then(
+							return that;
+						}).then(
                             null,
                             function Pages_error(err) {
                                 if (that.error)
@@ -324,6 +320,7 @@
                     }
 
                 });
+				WinJSContrib.UI.Pages.fragmentMixin(base);
                 viewMap[refUri] = base;
             }
 
