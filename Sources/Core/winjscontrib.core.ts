@@ -1025,9 +1025,9 @@ module WinJSContrib.Promise {
                 });
             }
 
-            for (var i = 0, l = items.length; i < l; i++) {
-                resultPromise = queueP(resultPromise, items[i]);
-            }
+            items.forEach(function (item) {
+                resultPromise = queueP(resultPromise, item);
+            });
 
             return resultPromise.then(function (r) {
                 return results;
@@ -1043,9 +1043,9 @@ module WinJSContrib.Promise {
 
         return dataPromise.then(function (items) {
             var promises = [];
-            for (var i = 0, l = items.length; i < l; i++) {
-                promises.push(WinJS.Promise.as(promiseCallback(items[i])));
-            }
+            items.forEach(function (item) {
+                promises.push(WinJS.Promise.as(promiseCallback(item)));
+            });
 
             return promises;
         });
@@ -1066,9 +1066,9 @@ module WinJSContrib.Promise {
 
         return dataPromise.then(function (items) {
             var promises = [];
-            for (var i = 0, l = items.length; i < l; i++) {
-                promises.push(WinJS.Promise.as(promiseCallback(items[i])));
-            }
+            items.forEach(function (item) {
+                promises.push(WinJS.Promise.as(promiseCallback(item)));
+            });
 
             return WinJS.Promise.join(promises);
         });
@@ -1106,14 +1106,13 @@ module WinJSContrib.Promise {
                 });
             }
 
-            for (var i = 0, l = items.length; i < l; i++) {
-                batcheditems.push(items[i]);
+            items.forEach(function (item, i) {
+                batcheditems.push(item);
                 if (i > 0 && i % batchSize === 0) {
                     resultPromise = queueBatch(resultPromise, batcheditems);
                     batcheditems = [];
                 }
-
-            }
+            });
 
             if (batcheditems.length) {
                 resultPromise = queueBatch(resultPromise, batcheditems);

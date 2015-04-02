@@ -54,11 +54,11 @@ function HSL(hVal, sVal, lVal) {
         var elt = event.currentTarget || event.target;
         var tracking = elt.mcnTapTracking;
         if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
-            //event.stopPropagation();
-            if (tracking.lock) {
+
+        	if (tracking.lock) {
                 if (event.pointerId && event.currentTarget.setPointerCapture)
                     event.currentTarget.setPointerCapture(event.pointerId);
-                
+                event.stopPropagation();
                 event.preventDefault();
             }
             var $this = $(event.currentTarget);
@@ -81,8 +81,7 @@ function HSL(hVal, sVal, lVal) {
         if (tracking && tracking.pointerdown) {
             var $this = $(elt);
             $this.removeClass('tapped');
-            //event.stopPropagation();
-            //event.currentTarget.mcnTapTracking.pointerdown = undefined;
+
             if (event.pointerId && elt.releasePointerCapture)
                 elt.releasePointerCapture(event.pointerId);
 
