@@ -1906,4 +1906,5 @@ var WinJSContrib;
         Templates.makeInteractive = makeInteractive;
     })(Templates = WinJSContrib.Templates || (WinJSContrib.Templates = {}));
 })(WinJSContrib || (WinJSContrib = {}));
-//# sourceMappingURL=winjscontrib.core.js.map
+
+//# sourceMappingURL=../../Sources/Core/winjscontrib.core.js.map
