@@ -3,6 +3,7 @@
   <PropertyGroup>
     <ShowAllFiles>false</ShowAllFiles>
     <ReferenceCachePath>C:\Users\Guillaume\AppData\Local\Temp\MCNEXT WinJS Contrib.WindowsPhone_refcache</ReferenceCachePath>
+    <ToolsVersionPromptShown>1.4</ToolsVersionPromptShown>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>AppHostDeviceDebugger</DebuggerFlavor>

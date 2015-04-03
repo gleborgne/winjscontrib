@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.2.0
+ * WinJS Contrib v2.0.3.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */

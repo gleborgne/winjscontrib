@@ -1,3 +1,6 @@
+///<reference path="../typings/jquery.d.ts"/>
+///<reference path="../typings/winjs.d.ts"/>
+///<reference path="../typings/winrt.d.ts"/>
 var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
@@ -134,7 +137,7 @@ var WinJSContrib;
                             });
                         };
                         proto.dispose = function () {
-                            $('.tap', this.element).untap();
+                            WinJSContrib.UI.untapAll(this.element);
                             if (this.eventTracker) {
                                 this.eventTracker.dispose();
                                 this._eventTracker = null;
@@ -163,28 +166,32 @@ var WinJSContrib;
             }
             Pages.fragmentMixin = fragmentMixin;
             function broadcast(ctrl, element, eventName, args, before, after) {
-                var pagelayoutCtrls = element.querySelectorAll('.mcn-layout-ctrl');
                 var promises = [];
                 if (before)
                     promises.push(WinJS.Promise.as(before.apply(ctrl, args)));
                 var query = element.querySelectorAll(".mcn-layout-ctrl");
-                var index = 0;
-                var length = query.length;
-                while (index < length) {
-                    var childctrl = query[index];
-                    if (childctrl) {
-                        var event = childctrl.winControl[eventName];
-                        if (event) {
-                            promises.push(WinJS.Promise.as(event.apply(childctrl.winControl, args)));
+                if (query && query.length) {
+                    var index = 0;
+                    var length = query.length;
+                    while (index < length) {
+                        var childctrl = query[index];
+                        if (childctrl) {
+                            var event = childctrl.winControl[eventName];
+                            if (event) {
+                                promises.push(WinJS.Promise.as(event.apply(childctrl.winControl, args)));
+                            }
                         }
+                        // Skip descendants
+                        //index += childctrl.querySelectorAll(".mcn-fragment, .mcn-layout-ctrl").length + 1;
+                        index += 1;
                     }
-                    // Skip descendants
-                    //index += childctrl.querySelectorAll(".mcn-fragment, .mcn-layout-ctrl").length + 1;
-                    index += 1;
+                    if (after)
+                        promises.push(WinJS.Promise.as(after.apply(ctrl, args)));
+                    return WinJS.Promise.join(promises);
                 }
-                if (after)
-                    promises.push(WinJS.Promise.as(after.apply(ctrl, args)));
-                return WinJS.Promise.join(promises);
+                else {
+                    return WinJS.Promise.wrap();
+                }
             }
             /**
              * render a html fragment with winjs contrib pipeline and properties, and add WinJS Contrib page events.
@@ -295,9 +302,6 @@ var WinJSContrib;
         })(Pages = UI.Pages || (UI.Pages = {}));
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
-///<reference path="../typings/jquery.d.ts"/>
-///<reference path="../typings/winjs.d.ts"/>
-///<reference path="../typings/winrt.d.ts"/>
 var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
@@ -444,11 +448,15 @@ var WinJSContrib;
          * @function WinJSContrib.UI.appbarsEnable
          */
         function appbarsEnable() {
-            $('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]').each(function () {
-                if (this.winControl) {
-                    this.winControl.disabled = false;
+            var elements = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
+            if (elements && elements.length) {
+                for (var i = 0, l = elements.length; i < l; i++) {
+                    var el = elements[i];
+                    if (el.winControl) {
+                        el.winControl.disabled = false;
+                    }
                 }
-            });
+            }
         }
         UI.appbarsEnable = appbarsEnable;
         /**
@@ -568,30 +576,35 @@ var WinJSContrib;
          * @param {Object} control control owning functions to call
          */
         function bindPageActions(element, control) {
-            $('*[data-page-action]', element).each(function () {
-                var actionName = $(this).addClass('page-action').data('page-action');
-                var action = control[actionName];
-                if (action && typeof action === 'function') {
-                    $(this).tap(function (eltarg) {
-                        var actionArgs = $(eltarg).data('page-action-args');
-                        if (actionArgs && typeof actionArgs == 'string') {
-                            try {
-                                var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
-                                if (tmp) {
-                                    actionArgs = tmp;
+            var elements = element.querySelectorAll('*[data-page-action]');
+            if (elements && elements.length) {
+                for (var i = 0, l = elements.length; i < l; i++) {
+                    var el = elements[i];
+                    el.classList.add('page-action');
+                    var actionName = el.dataset.pageAction;
+                    var action = control[actionName];
+                    if (action && typeof action === 'function') {
+                        WinJSContrib.UI.tap(el, function (eltarg) {
+                            var actionArgs = eltarg.dataset.pageActionArgs;
+                            if (actionArgs && typeof actionArgs == 'string') {
+                                try {
+                                    var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
+                                    if (tmp) {
+                                        actionArgs = tmp;
+                                    }
+                                    else {
+                                        actionArgs = JSON.parse(actionArgs);
+                                    }
                                 }
-                                else {
-                                    actionArgs = JSON.parse(actionArgs);
+                                catch (exception) {
+                                    return;
                                 }
                             }
-                            catch (exception) {
-                                return;
-                            }
-                        }
-                        control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
-                    });
+                            control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
+                        });
+                    }
                 }
-            });
+            }
         }
         UI.bindPageActions = bindPageActions;
         /**
@@ -602,41 +615,46 @@ var WinJSContrib;
          * @param {HTMLElement} element root node crawled for page actions
          */
         function bindPageLinks(element) {
-            $('*[data-page-link]', element).each(function () {
-                var target = $(this).addClass('page-link').data('page-link');
-                if (target && target.indexOf('/') < 0) {
-                    var tmp = WinJSContrib.Utils.readProperty(window, target);
-                    if (tmp) {
-                        target = tmp;
+            var elements = element.querySelector('*[data-page-link]');
+            if (elements && elements.length) {
+                for (var i = 0, l = elements.length; i < l; i++) {
+                    var el = elements[i];
+                    el.classList.add('page-link');
+                    var target = el.dataset.pageLink;
+                    if (target && target.indexOf('/') < 0) {
+                        var tmp = WinJSContrib.Utils.readProperty(window, target);
+                        if (tmp) {
+                            target = tmp;
+                        }
+                    }
+                    if (target) {
+                        WinJSContrib.UI.tap(el, function (eltarg) {
+                            var actionArgs = eltarg.dataset.pageActionArgs;
+                            if (actionArgs && typeof actionArgs == 'string') {
+                                try {
+                                    var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
+                                    if (tmp) {
+                                        actionArgs = tmp;
+                                    }
+                                    else {
+                                        actionArgs = JSON.parse(actionArgs);
+                                    }
+                                }
+                                catch (exception) {
+                                    return;
+                                }
+                            }
+                            if (WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
+                                var nav = WinJSContrib.UI.parentNavigator(eltarg);
+                                nav.navigate(target, actionArgs);
+                            }
+                            else {
+                                WinJS.Navigation.navigate(target, actionArgs);
+                            }
+                        });
                     }
                 }
-                if (target) {
-                    $(this).tap(function (eltarg) {
-                        var actionArgs = $(eltarg).data('page-action-args');
-                        if (actionArgs && typeof actionArgs == 'string') {
-                            try {
-                                var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
-                                if (tmp) {
-                                    actionArgs = tmp;
-                                }
-                                else {
-                                    actionArgs = JSON.parse(actionArgs);
-                                }
-                            }
-                            catch (exception) {
-                                return;
-                            }
-                        }
-                        if (WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
-                            var nav = WinJSContrib.UI.parentNavigator(eltarg);
-                            nav.navigate(target, actionArgs);
-                        }
-                        else {
-                            WinJS.Navigation.navigate(target, actionArgs);
-                        }
-                    });
-                }
-            });
+            }
         }
         UI.bindPageLinks = bindPageLinks;
         function parentNavigator(element) {
@@ -656,17 +674,22 @@ var WinJSContrib;
          * @param {Object} control control owning functions to call
          */
         function bindMembers(element, control) {
-            $('*[data-page-member]', element).each(function () {
-                var memberName = $(this).addClass('page-member').data('page-member');
-                if (!memberName)
-                    memberName = this.id;
-                if (memberName && !control[memberName]) {
-                    control[memberName] = this;
-                    if (this.winControl) {
-                        control[memberName] = this.winControl;
+            var elements = element.querySelectorAll('*[data-page-member]');
+            if (elements && elements.length) {
+                for (var i = 0, l = elements.length; i < l; i++) {
+                    var el = elements[i];
+                    el.classList.add('page-member');
+                    var memberName = el.dataset.pageMember;
+                    if (!memberName)
+                        memberName = el.id;
+                    if (memberName && !control[memberName]) {
+                        control[memberName] = el;
+                        if (el.winControl) {
+                            control[memberName] = el.winControl;
+                        }
                     }
                 }
-            });
+            }
         }
         UI.bindMembers = bindMembers;
         /**
@@ -850,6 +873,147 @@ var WinJSContrib;
             };
         }
         UI.registerNavigationEvents = registerNavigationEvents;
+        function untap(element) {
+            if (element.mcnTapTracking) {
+                element.mcnTapTracking.dispose();
+                element.mcnTapTracking = null;
+            }
+        }
+        UI.untap = untap;
+        function untapAll(element) {
+            var taps = element.querySelectorAll('.tap');
+            for (var i = 0, l = taps.length; i < l; i++) {
+                untap(taps[i]);
+            }
+        }
+        UI.untapAll = untapAll;
+        function tap(element, callback, options) {
+            var ptDown = function (event) {
+                var elt = event.currentTarget || event.target;
+                var tracking = elt.mcnTapTracking;
+                if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
+                    if (tracking.lock) {
+                        if (event.pointerId && event.currentTarget.setPointerCapture)
+                            event.currentTarget.setPointerCapture(event.pointerId);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    event.currentTarget.classList.add('tapped');
+                    if (event.changedTouches) {
+                        tracking.pointerdown = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
+                    }
+                    else {
+                        tracking.pointerdown = { x: event.clientX, y: event.clientY };
+                    }
+                    tracking.animDown(event.currentTarget);
+                    if (tracking.tapOnDown) {
+                        tracking.callback(elt);
+                    }
+                }
+            };
+            var ptOut = function (event) {
+                var elt = event.currentTarget || event.target;
+                var tracking = elt.mcnTapTracking;
+                if (tracking && tracking.pointerdown) {
+                    elt.classList.remove('tapped');
+                    if (event.pointerId && elt.releasePointerCapture)
+                        elt.releasePointerCapture(event.pointerId);
+                    if (!tracking.disableAnimation)
+                        tracking.animUp(event.currentTarget);
+                }
+            };
+            var ptUp = function (event) {
+                var elt = event.currentTarget || event.target;
+                var tracking = elt.mcnTapTracking;
+                if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
+                    if (elt.releasePointerCapture)
+                        elt.releasePointerCapture(event.pointerId);
+                    if (tracking && !tracking.tapOnDown) {
+                        event.stopPropagation();
+                        var resolveTap = function () {
+                            if (tracking && tracking.pointerdown) {
+                                if (event.changedTouches) {
+                                    var dX = Math.abs(tracking.pointerdown.x - event.changedTouches[0].clientX);
+                                    var dY = Math.abs(tracking.pointerdown.y - event.changedTouches[0].clientY);
+                                }
+                                else {
+                                    var dX = Math.abs(tracking.pointerdown.x - event.clientX);
+                                    var dY = Math.abs(tracking.pointerdown.y - event.clientY);
+                                }
+                                if (tracking.callback && dX < 15 && dY < 15) {
+                                    event.stopImmediatePropagation();
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    tracking.callback(elt);
+                                }
+                                if (tracking && tracking.pointerdown)
+                                    tracking.pointerdown = undefined;
+                            }
+                        };
+                        if (tracking.awaitAnim) {
+                            tracking.animUp(elt).done(resolveTap);
+                        }
+                        else {
+                            tracking.animUp(elt);
+                            resolveTap();
+                        }
+                    }
+                    elt.classList.remove('tapped');
+                }
+            };
+            var opt = options || {};
+            if (element.mcnTapTracking) {
+                element.mcnTapTracking.dispose();
+            }
+            element.classList.add('tap');
+            element.mcnTapTracking = element.mcnTapTracking || {};
+            element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
+            element.mcnTapTracking.disableAnimation = opt.disableAnimation;
+            if (element.mcnTapTracking.disableAnimation) {
+                element.mcnTapTracking.animDown = function () {
+                    return WinJS.Promise.wrap();
+                };
+                element.mcnTapTracking.animUp = function () {
+                    return WinJS.Promise.wrap();
+                };
+            }
+            else {
+                element.mcnTapTracking.animDown = opt.animDown || WinJS.UI.Animation.pointerDown;
+                element.mcnTapTracking.animUp = opt.animUp || WinJS.UI.Animation.pointerUp;
+            }
+            element.mcnTapTracking.element = element;
+            element.mcnTapTracking.callback = callback;
+            element.mcnTapTracking.lock = opt.lock;
+            element.mcnTapTracking.awaitAnim = opt.awaitAnim || false;
+            element.mcnTapTracking.disableAnimation = opt.disableAnimation;
+            element.mcnTapTracking.tapOnDown = opt.tapOnDown;
+            element.mcnTapTracking.pointerModel = 'none';
+            element.mcnTapTracking.dispose = function () {
+                element.classList.remove('tap');
+                this.eventTracker.dispose();
+                element.mcnTapTracking = null;
+                element = null;
+            };
+            if (element.onpointerdown !== undefined) {
+                element.mcnTapTracking.pointerModel = 'pointers';
+                element.mcnTapTracking.eventTracker.addEvent(element, 'pointerdown', ptDown);
+                element.mcnTapTracking.eventTracker.addEvent(element, 'pointerout', ptOut);
+                element.mcnTapTracking.eventTracker.addEvent(element, 'pointerup', ptUp);
+            }
+            else if (window.Touch && !opt.noWebkitTouch) {
+                element.mcnTapTracking.pointerModel = 'touch';
+                element.mcnTapTracking.eventTracker.addEvent(element, 'touchstart', ptDown);
+                element.mcnTapTracking.eventTracker.addEvent(element, 'touchcancel', ptOut);
+                element.mcnTapTracking.eventTracker.addEvent(element, 'touchend', ptUp);
+            }
+            else {
+                element.mcnTapTracking.pointerModel = 'mouse';
+                element.mcnTapTracking.eventTracker.addEvent(element, 'mousedown', ptDown);
+                element.mcnTapTracking.eventTracker.addEvent(element, 'mouseleave', ptOut);
+                element.mcnTapTracking.eventTracker.addEvent(element, 'mouseup', ptUp);
+            }
+        }
+        UI.tap = tap;
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 ///<reference path="../typings/jquery.d.ts"/>
@@ -1712,7 +1876,7 @@ var WinJSContrib;
                         if (args.tap) {
                             for (var n in args.tap) {
                                 var elt = rendered.querySelector(n);
-                                $(elt).tap(function (arg) {
+                                WinJSContrib.UI.tap(elt, function (arg) {
                                     args.tap[n](arg, item);
                                 });
                             }
@@ -1720,9 +1884,9 @@ var WinJSContrib;
                         if (args.click) {
                             for (var n in args.click) {
                                 var elt = rendered.querySelector(n);
-                                $(elt).click(function (arg) {
+                                elt.onclick = function (arg) {
                                     args.click[n](arg, item);
-                                });
+                                };
                             }
                         }
                         return rendered;

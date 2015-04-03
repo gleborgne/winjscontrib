@@ -1,6 +1,12 @@
+/// <reference path="../typings/jquery.d.ts" />
+/// <reference path="../typings/winjs.d.ts" />
+/// <reference path="../typings/winrt.d.ts" />
 interface JQuery {
     tap(func: any): any;
     untap(): any;
+}
+interface Window {
+    Touch: any;
 }
 declare module WinJSContrib.UI.Pages {
     /**
@@ -38,10 +44,6 @@ declare module WinJSContrib.UI.Pages {
      * @param {Object} options rendering options
      */
     function renderFragment(container: any, location: any, args: any, options: any): WinJS.Promise<{}>;
-}
-interface JQuery {
-    tap(func: any): any;
-    untap(): any;
 }
 declare module WinJSContrib.UI {
     interface WinJSContribApplication {
@@ -241,6 +243,9 @@ declare module WinJSContrib.UI {
      * @returns {function} function to call for releasing navigation handlers
      */
     function registerNavigationEvents(control: any, callback: any): () => void;
+    function untap(element: any): void;
+    function untapAll(element: any): void;
+    function tap(element: any, callback: any, options?: any): void;
 }
 interface Object {
     map(obj: any, mapping: any): any;

@@ -26,7 +26,7 @@
                     data = WinJS.UI._optionsParser(text);
                 }
             } else {
-                data = $(elt).data('win-bind-args');
+                data = elt.dataset.winBindArgs;
             }
 
             if (data) {
@@ -101,8 +101,9 @@
          * <div data-foo="42" data-win-bind="foo : myproperty WinJSContrib.Bindings.dataAttr"></div>
          */
         WinJSContrib.Bindings.dataAttr = WinJS.Binding.initializer(function dataAttrBinding(source, sourceProperty, dest, destProperty) {
-            var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
-            $(dest).attr('data-' + destProperty, data).data(destProperty, data);
+        	var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
+        	dest.setAttribute('data-' + destProperty, data)
+            //$(dest).attr('data-' + destProperty, data).data(destProperty, data);
         });
 
         /**

@@ -50,148 +50,17 @@ function HSL(hVal, sVal, lVal) {
 })(jQuery);
 
 (function ($) {
-    function ptDown(event) {
-        var elt = event.currentTarget || event.target;
-        var tracking = elt.mcnTapTracking;
-        if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
-
-        	if (tracking.lock) {
-                if (event.pointerId && event.currentTarget.setPointerCapture)
-                    event.currentTarget.setPointerCapture(event.pointerId);
-                event.stopPropagation();
-                event.preventDefault();
-            }
-            var $this = $(event.currentTarget);
-            $this.addClass('tapped');
-            if (event.changedTouches) {
-                tracking.pointerdown = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
-            } else {
-                tracking.pointerdown = { x: event.clientX, y: event.clientY };
-            }
-            tracking.animDown(event.currentTarget);
-            if (tracking.tapOnDown) {
-                tracking.callback(elt);
-            }
-        }
-    }
-
-    function ptOut(event) {
-        var elt = event.currentTarget || event.target;
-        var tracking = elt.mcnTapTracking;
-        if (tracking && tracking.pointerdown) {
-            var $this = $(elt);
-            $this.removeClass('tapped');
-
-            if (event.pointerId && elt.releasePointerCapture)
-                elt.releasePointerCapture(event.pointerId);
-
-            if (!tracking.disableAnimation)
-                tracking.animUp(event.currentTarget);
-        }
-    }
-
-    function ptUp(event) {
-        var elt = event.currentTarget || event.target;
-        var tracking = elt.mcnTapTracking;
-        if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
-            var $this = $(elt);
-
-            if (elt.releasePointerCapture)
-                elt.releasePointerCapture(event.pointerId);
-
-            if (tracking && !tracking.tapOnDown) {
-                event.stopPropagation();
-                var resolveTap = function () {
-                    if (tracking && tracking.pointerdown) {
-                        if (event.changedTouches) {
-                            var dX = Math.abs(tracking.pointerdown.x - event.changedTouches[0].clientX);
-                            var dY = Math.abs(tracking.pointerdown.y - event.changedTouches[0].clientY);
-                        } else {
-                            var dX = Math.abs(tracking.pointerdown.x - event.clientX);
-                            var dY = Math.abs(tracking.pointerdown.y - event.clientY);
-                        }
-
-                        if (tracking.callback && dX < 15 && dY < 15) {
-                            event.stopImmediatePropagation();
-                            event.stopPropagation();
-                            event.preventDefault();
-                            tracking.callback(elt);
-                        }
-                        if (tracking && tracking.pointerdown)
-                            tracking.pointerdown = undefined;
-                    }
-                }
-
-                if (tracking.awaitAnim) {
-                    tracking.animUp(elt).done(resolveTap);
-                }
-                else {
-                    tracking.animUp(elt);
-                    resolveTap();
-                }
-            }
-            $this.removeClass('tapped');
-        }
-    }
-
     $.fn.tap = function (callback, options) {
         var opt = options || {};
 
         return this.each(function () {
-            var $this = $(this);
-            if (this.mcnTapTracking) {
-                this.mcnTapTracking.dispose();
-            }
-            $this.addClass('tap');
-            this.mcnTapTracking = this.mcnTapTracking || {};
-            this.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
-            this.mcnTapTracking.disableAnimation = opt.disableAnimation;
-            if (this.mcnTapTracking.disableAnimation) {
-                this.mcnTapTracking.animDown = function () { return WinJS.Promise.wrap() };
-                this.mcnTapTracking.animUp = function () { return WinJS.Promise.wrap() };
-            } else {
-                this.mcnTapTracking.animDown = opt.animDown || WinJS.UI.Animation.pointerDown;
-                this.mcnTapTracking.animUp = opt.animUp || WinJS.UI.Animation.pointerUp;
-            }
-            this.mcnTapTracking.element = this;
-            this.mcnTapTracking.callback = callback;
-            this.mcnTapTracking.lock = opt.lock;
-            this.mcnTapTracking.awaitAnim = opt.awaitAnim || false;
-            this.mcnTapTracking.disableAnimation = opt.disableAnimation;
-            this.mcnTapTracking.tapOnDown = opt.tapOnDown;
-            this.mcnTapTracking.pointerModel = 'none';
-            this.mcnTapTracking.dispose = function () {
-                this.element.classList.remove('tap');
-                this.eventTracker.dispose();
-                this.element.mcnTapTracking = null;
-                this.element = null;
-            }
-            if (this.onpointerdown !== undefined) {
-                this.mcnTapTracking.pointerModel = 'pointers';
-                this.mcnTapTracking.eventTracker.addEvent(this, 'pointerdown', ptDown);
-                this.mcnTapTracking.eventTracker.addEvent(this, 'pointerout', ptOut);
-                this.mcnTapTracking.eventTracker.addEvent(this, 'pointerup', ptUp);
-            } else if (window.Touch && !opt.noWebkitTouch) {
-                this.mcnTapTracking.pointerModel = 'touch';
-                this.mcnTapTracking.eventTracker.addEvent(this, 'touchstart', ptDown);
-                this.mcnTapTracking.eventTracker.addEvent(this, 'touchcancel', ptOut);
-                this.mcnTapTracking.eventTracker.addEvent(this, 'touchend', ptUp);
-            } else {
-                this.mcnTapTracking.pointerModel = 'mouse';
-                this.mcnTapTracking.eventTracker.addEvent(this, 'mousedown', ptDown);
-                this.mcnTapTracking.eventTracker.addEvent(this, 'mouseleave', ptOut);
-                this.mcnTapTracking.eventTracker.addEvent(this, 'mouseup', ptUp);
-            }
+        	WinJSContrib.UI.tap(this, callback, options);
         });
     };
 
     $.fn.untap = function (callback) {
         return this.each(function () {
-            var $this = $(this);
-            
-            if (this.mcnTapTracking) {
-                this.mcnTapTracking.dispose();
-            }            
+            WinJSContrib.UI.untap(this);            
         });
     };
 
