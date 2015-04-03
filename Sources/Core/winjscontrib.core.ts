@@ -625,6 +625,32 @@ module WinJSContrib.UI {
         });
     }
 
+	function bindAction(el, element, control) {
+		el.classList.add('page-action');
+		var actionName = el.dataset.pageAction;
+
+		var action = control[actionName];
+		if (action && typeof action === 'function') {
+			WinJSContrib.UI.tap(el, function (eltarg) {
+				var actionArgs = eltarg.dataset.pageActionArgs;
+				if (actionArgs && typeof actionArgs == 'string') {
+					try {
+						var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
+						if (tmp) {
+							actionArgs = tmp;
+						} else {
+							actionArgs = JSON.parse(actionArgs);
+						}
+					} catch (exception) {
+						return;
+					}
+				}
+
+				control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
+			});
+		}
+	}
+
     /**
      * setup declarative binding to parent control function. It looks for "data-page-action" attributes, 
      * and try to find a matching method on the supplyed control.
@@ -638,32 +664,47 @@ module WinJSContrib.UI {
 		if (elements && elements.length) {
 			for (var i = 0, l = elements.length; i < l; i++) {
 				var el = elements[i];
-				el.classList.add('page-action');
-				var actionName = el.dataset.pageAction;
-
-				var action = control[actionName];
-				if (action && typeof action === 'function') {
-					WinJSContrib.UI.tap(el, function (eltarg) {
-						var actionArgs = eltarg.dataset.pageActionArgs;
-						if (actionArgs && typeof actionArgs == 'string') {
-							try {
-								var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
-								if (tmp) {
-									actionArgs = tmp;
-								} else {
-									actionArgs = JSON.parse(actionArgs);
-								}
-							} catch (exception) {
-								return;
-							}
-						}
-
-						control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
-					});
-				}
+				bindAction(el, element, control);		
 			}
 		}
     }
+
+	function bindLink(el, element) {
+		el.classList.add('page-link');
+		var target = el.dataset.pageLink;
+
+		if (target && target.indexOf('/') < 0) {
+			var tmp = WinJSContrib.Utils.readProperty(window, target);
+			if (tmp) {
+				target = tmp;
+			}
+		}
+
+		if (target) {
+			WinJSContrib.UI.tap(el, function (eltarg) {
+				var actionArgs = eltarg.dataset.pageActionArgs;
+				if (actionArgs && typeof actionArgs == 'string') {
+					try {
+						var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
+						if (tmp) {
+							actionArgs = tmp;
+						} else {
+							actionArgs = JSON.parse(actionArgs);
+						}
+					} catch (exception) {
+						return;
+					}
+				}
+
+				if (WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
+					var nav = WinJSContrib.UI.parentNavigator(eltarg);
+					nav.navigate(target, actionArgs);
+				} else {
+					WinJS.Navigation.navigate(target, actionArgs);
+				}
+			});
+		}
+	}
 
     /**
      * setup declarative binding to page link. It looks for "data-page-link" attributes. 
@@ -673,44 +714,11 @@ module WinJSContrib.UI {
      * @param {HTMLElement} element root node crawled for page actions
      */
     export function bindPageLinks(element) {
-		var elements = element.querySelector('*[data-page-link]');
+		var elements = element.querySelectorAll('*[data-page-link]');
 		if (elements && elements.length) {
 			for (var i = 0, l = elements.length; i < l; i++) {
 				var el = elements[i];
-				el.classList.add('page-link');
-				var target = el.dataset.pageLink;
-
-				if (target && target.indexOf('/') < 0) {
-					var tmp = WinJSContrib.Utils.readProperty(window, target);
-					if (tmp) {
-						target = tmp;
-					}
-				}
-
-				if (target) {
-					WinJSContrib.UI.tap(el, function (eltarg) {
-						var actionArgs = eltarg.dataset.pageActionArgs;
-						if (actionArgs && typeof actionArgs == 'string') {
-							try {
-								var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
-								if (tmp) {
-									actionArgs = tmp;
-								} else {
-									actionArgs = JSON.parse(actionArgs);
-								}
-							} catch (exception) {
-								return;
-							}
-						}
-
-						if (WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
-							var nav = WinJSContrib.UI.parentNavigator(eltarg);
-							nav.navigate(target, actionArgs);
-						} else {
-							WinJS.Navigation.navigate(target, actionArgs);
-						}
-					});
-				}
+				bindLink(el, element);
 			}
 		}
     }
@@ -726,6 +734,20 @@ module WinJSContrib.UI {
         }
     }
 
+	function bindMember(el, element, control) {
+		el.classList.add('page-member');
+		var memberName = el.dataset.pageMember;
+		if (!memberName)
+			memberName = el.id;
+
+		if (memberName && !control[memberName]) {
+			control[memberName] = el;
+			if (el.winControl) {
+				control[memberName] = el.winControl;
+			}
+		}
+	}
+
     /**
      * Add this element or control as member to the control. It looks for "data-page-member" attributes. If attribute is empty, it tooks the element id as member name.
      * @function WinJSContrib.UI.bindMembers
@@ -737,17 +759,7 @@ module WinJSContrib.UI {
 		if (elements && elements.length) {
 			for (var i = 0, l = elements.length; i < l; i++) {
 				var el = elements[i];
-				el.classList.add('page-member');
-				var memberName = el.dataset.pageMember;
-				if (!memberName)
-					memberName = el.id;
-
-				if (memberName && !control[memberName]) {
-					control[memberName] = el;
-					if (el.winControl) {
-						control[memberName] = el.winControl;
-					}
-				}
+				bindMember(el, element, control);		
 			}
 		}
     }
