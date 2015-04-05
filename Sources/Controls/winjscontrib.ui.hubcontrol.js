@@ -158,8 +158,7 @@
                                 while (rendered.children[0]) {
                                     sectionElt.appendChild(rendered.children[0]);
                                 }
-                                //sectionItem.element.style.opacity = '0';
-                                //sectionItem.$element = $(sectionItem.element);
+
                                 hub.sectionsContainer.appendChild(sectionElt);
                                 hub.sections.push(sectionItem);
                                 complete(sectionItem);

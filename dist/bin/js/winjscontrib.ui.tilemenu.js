@@ -111,7 +111,7 @@
                 if (!elements) return WinJS.Promise.wrap(null);
                 
                 ctrl.currentElements = null;
-                $('.tap', elements.root).untap();
+                WinJSContrib.UI.untapAll(elements.root);
 
                 var itemsToHide = elements.items.map(function (e) {
                     return e.element;
@@ -130,7 +130,7 @@
                 ];
                 
                 return WinJS.Promise.join(p).then(function () {
-                    $(elements.root).remove();
+                    elements.root.parentElement.removeChild(elements.root);
                 });
             },
 
@@ -146,7 +146,7 @@
                     res.element = rendered.children[0];
                     res.element.classList.add('mcn-tilemenu-menu');
                     res.element.style.opacity = '0';
-                    $(res.element).tap(function (elt) {
+                    WinJSContrib.UI.tap(res.element, function (elt) {
                         ctrl.dispatchEvent('iteminvoked', { item: item, target: elt });
                         ctrl.hide(elt);
                     });
@@ -171,7 +171,7 @@
                 current.overlay.className = 'mcn-tilemenu-overlay';
                 current.root.appendChild(current.overlay);
                 ctrl._renderOverlay();
-                $(current.overlay).tap(function (elt) {
+                WinJSContrib.UI.tap(current.overlay, function (elt) {
                     ctrl.hide();
                 }, { disableAnimation: true });
 
@@ -179,7 +179,7 @@
                 current.itemsContainer.className = 'mcn-tilemenu-items';
                 current.root.appendChild(current.itemsContainer);
 
-                $(current.itemsContainer).tap(function (elt) {
+                WinJSContrib.UI.tap(current.itemsContainer, function (elt) {
                     ctrl.hide();
                 }, {disableAnimation: true});
 

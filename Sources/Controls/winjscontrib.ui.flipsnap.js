@@ -50,10 +50,10 @@
                 ctrl.prev.className = "navbutton navbutton-left hide";
                 ctrl.element.appendChild(ctrl.next);
                 ctrl.element.appendChild(ctrl.prev);
-                $(ctrl.next).tap(function () {
+                WinJSContrib.UI.tap(ctrl.next, function () {
                     ctrl.toNext();
                 });
-                $(ctrl.prev).tap(function () {
+                WinJSContrib.UI.tap(ctrl.prev, function () {
                     ctrl.toPrev();
                 });
             },
@@ -64,8 +64,12 @@
                 ctrl._timeout = setTimeout(function () {
                     var newPosition = Math.round(ctrl.list.scrollLeft / ctrl._itemw);
                     if (ctrl._currentPosition !== newPosition) {
-                        ctrl._currentPosition = newPosition;
-                        $('.selected', ctrl.list).removeClass('selected');
+                    	ctrl._currentPosition = newPosition;
+                    	var selectedItems = ctrl.list.querySelectorAll('.selected');
+                    	for (var i = 0, l = selectedItems.length; i < l ; i++) {
+                    		selectedItems[i].classList.remove('selected');
+                    	}
+
                         ctrl.list.children[ctrl._currentPosition].classList.add('selected');
                         ctrl.dispatchEvent("positionchanged", { currentPosition: ctrl._currentPosition });
                         if (ctrl.canGoForward) {

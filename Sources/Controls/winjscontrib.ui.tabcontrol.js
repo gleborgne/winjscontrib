@@ -30,6 +30,7 @@
             		ctrl.tabContent.className = 'mcn-tabpages-content';
             		ctrl.element.appendChild(ctrl.tabContent);
             	}
+
             	ctrl.tabWrapper = document.createElement('DIV');
             	ctrl.tabWrapper.className = 'mcn-tabpages-content-wrapper';
             	ctrl.tabContent.appendChild(ctrl.tabWrapper);

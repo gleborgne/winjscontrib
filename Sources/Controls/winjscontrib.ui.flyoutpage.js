@@ -27,7 +27,7 @@
             options = options || {};
             ctrl.element.classList.add('win-disposable');
             WinJS.UI.setOptions(this, options);
-            $(ctrl.element).tap(function () {
+            WinJSContrib.UI.tap(ctrl.element, function () {
                 ctrl.openFlyout();
             }, options.tapOptions);
         }, {
@@ -69,7 +69,7 @@
             ctrl._overlay.className = 'mcn-flyoutpage-overlay';
             ctrl._overlay.innerHTML = '<DIV class="mcn-flyoutpage-overlay-bg"></DIV>'
             ctrl._container.appendChild(ctrl._overlay);
-            $(ctrl._overlay).tap(function () {
+            WinJSContrib.UI.tap(ctrl._overlay, function () {
                 ctrl.hide();
             }, { disableAnimation: true });
 
@@ -356,15 +356,16 @@
             calcAutosize: function () {
                 var ctrl = this;
                 if (ctrl.autosize) {
+                	var elt = ctrl.element.querySelector('.mcn-flyoutpage-content');
+                	var wrapper = ctrl.element.querySelector('.mcn-flyoutpage-contentwrapper');
+                	elt = elt.children[0];
                     if (ctrl.placement == 'top' || ctrl.placement == 'bottom') {
-                        var elt = $('.mcn-flyoutpage-content', ctrl.element).children().first();
-                        var h = elt.outerHeight();
-                        $('.mcn-flyoutpage-contentwrapper', ctrl.element).height(h);
+                        var h = elt.clientHeight;
+                        wrapper.style.height = h + 'px';
                     }
                     else if (ctrl.placement == 'left' || ctrl.placement == 'right') {
-                        var elt = $('.mcn-flyoutpage-content', ctrl.element).children().first();
-                        var h = elt.outerWidth();
-                        $('.mcn-flyoutpage-contentwrapper', ctrl.element).width(h);
+                        var h = elt.clientWidth;
+                        wrapper.style.width = h + 'px';
                     }
                 }
             },
@@ -381,8 +382,10 @@
                 return WinJS.Promise.join([ctrl.exitAnimation(ctrl._wrapper), WinJSContrib.UI.Animation.fadeOut(ctrl._overlay, { duration: 200 })]).then(function () {
                     return WinJS.Promise.timeout(100);
                 }).then(function () {
-                    ctrl._wrapper.classList.remove('visible');
-                    $('.mcn-flyoutpage-contentwrapper', ctrl.element).css('width', '').css('height', '');
+                	ctrl._wrapper.classList.remove('visible');
+                	var wrapper = ctrl.element.querySelector('.mcn-flyoutpage-contentwrapper');
+                	wrapper.style.width = '';
+                	wrapper.style.height = '';                    
                 }).then(function () {
                     var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
                     WinJSContrib.UI.FlyoutPage.openPages.splice(idx, 1);
@@ -422,92 +425,102 @@
             },
 
             bindLinks: function () {
-                var ctrl = this;
+            	var ctrl = this;
 
-                $('*[data-flyout]', ctrl.element).each(function () {
-                    var target = $(this).data('flyout');
+            	var bindFlyout = function (elt) {
+            		var target = elt.dataset.flyout;
 
-                    if (target) {
-                        $(this).tap(function (eltarg) {
-                            var flyout = $(target);
-                            if (flyout.length && flyout[0].winControl && flyout[0].winControl.show) {
-                                //ctrl.hide().done(function () {
-                                //    flyout[0].winControl.show();
-                                //});
+            		if (target) {
+            			WinJSContrib.UI.tap(elt, function (eltarg) {
+            				var flyout = document.querySelector(target);
+            				if (flyout && flyout.winControl && flyout.winControl.show) {
+            					ctrl.element.style.zIndex = '500';
+            					ctrl.hide().done(function () {
+            						ctrl.element.style.zIndex = '';
+            					});
+            					flyout.winControl.show();
+            				}
+            			});
+            		}
+            	}
 
-                                ctrl.element.style.zIndex = '500';
-                                ctrl.hide().done(function () {
-                                    ctrl.element.style.zIndex = '';
-                                });
-                                flyout[0].winControl.show();
-                            }
-                        });
-                    }
-                });
+            	var flyouts = ctrl.element.querySelectorAll('*[data-flyout]');
+            	for (var i=0, l=flyouts.length; i<l ; i++){
+            		bindFlyout(flyouts[i]);
+            	}
 
-                $('*[data-link]', ctrl.element).each(function () {
-                    var target = $(this).data('link');
+            	var bindLink = function (elt) {
+            		var target = elt.dataset.link;
 
-                    if (target && target.indexOf('/') < 0) {
-                        var tmp = WinJSContrib.Utils.readProperty(window, target);
-                        if (tmp) {
-                            target = tmp;
-                        }
-                    }
+            		if (target && target.indexOf('/') < 0) {
+            			var tmp = WinJSContrib.Utils.readProperty(window, target);
+            			if (tmp) {
+            				target = tmp;
+            			}
+            		}
 
-                    if (target) {
-                        $(this).tap(function (eltarg) {
-                            var actionArgs = $(eltarg).data('link-args');
-                            if (actionArgs && typeof actionArgs == 'string') {
-                                try {
-                                    var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
-                                    if (tmp) {
-                                        actionArgs = tmp;
-                                    }
-                                    else {
-                                        actionArgs = JSON.parse(actionArgs);
-                                    }
-                                }
-                                catch (exception) {
-                                    return;
-                                }
-                            }
+            		if (target) {
+            			WinJSContrib.UI.tap(elt, function (eltarg) {
+            				var actionArgs = eltarg.dataset.linkArgs;
+            				if (actionArgs && typeof actionArgs == 'string') {
+            					try {
+            						var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
+            						if (tmp) {
+            							actionArgs = tmp;
+            						}
+            						else {
+            							actionArgs = JSON.parse(actionArgs);
+            						}
+            					}
+            					catch (exception) {
+            						return;
+            					}
+            				}
 
-                            ctrl.hide().then(function () {
-                                WinJS.Navigation.navigate(target, actionArgs);
-                            });
-                        });
-                    }
-                });
+            				ctrl.hide().then(function () {
+            					WinJS.Navigation.navigate(target, actionArgs);
+            				});
+            			});
+            		}
+            	}
 
-                $('*[data-action]', ctrl.element).each(function () {
-                    var actionName = $(this).data('action');
+            	var links = ctrl.element.querySelectorAll('*[data-link]');
+            	for (var i = 0, l = links.length; i < l ; i++) {
+            		bindLink(links[i]);
+            	}
 
-                    var action = ctrl._content.winControl[actionName];
-                    if (action && typeof action === 'function') {
-                        $(this).tap(function (eltarg) {
-                            var actionArgs = $(eltarg).data('action-args');
-                            if (actionArgs && typeof actionArgs == 'string') {
-                                try {
-                                    var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
-                                    if (tmp) {
-                                        actionArgs = tmp;
-                                    }
-                                    else {
-                                        actionArgs = JSON.parse(actionArgs);
-                                    }
-                                }
-                                catch (exception) {
-                                    return;
-                                }
-                            }
+            	var bindAction = function (elt) {
+            		var actionName = elt.dataset.action;
 
-                            ctrl.hide().then(function () {
-                                ctrl._content.winControl[actionName].bind(ctrl._content.winControl)({ elt: eltarg, args: actionArgs });
-                            });
-                        });
-                    }
-                });
+            		var action = ctrl._content.winControl[actionName];
+            		if (action && typeof action === 'function') {
+            			WinJSContrib.UI.tap(elt, function (eltarg) {
+            				var actionArgs = eltarg.dataset.actionArgs;
+            				if (actionArgs && typeof actionArgs == 'string') {
+            					try {
+            						var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
+            						if (tmp) {
+            							actionArgs = tmp;
+            						}
+            						else {
+            							actionArgs = JSON.parse(actionArgs);
+            						}
+            					}
+            					catch (exception) {
+            						return;
+            					}
+            				}
+
+            				ctrl.hide().then(function () {
+            					ctrl._content.winControl[actionName].bind(ctrl._content.winControl)({ elt: eltarg, args: actionArgs });
+            				});
+            			});
+            		}
+            	}
+            	var actions = ctrl.element.querySelectorAll('*[data-action]');
+            	for (var i = 0, l = actions.length; i < l ; i++) {
+            		bindAction(actions[i]);
+            	}
             },
 
             _swipeTargets: function () {
@@ -655,8 +668,8 @@
                 var ctrl = this;
                 ctrl.eventTracker.dispose();
                 if (ctrl.edgeSwipeCtrl) {
-                    ctrl.edgeSwipeCtrl.dispose();
-                    $(ctrl.edgeSwipeCtrl.element).remove();
+                	ctrl.edgeSwipeCtrl.dispose();
+                	ctrl.edgeSwipeCtrl.element.parentElement.removeChild(ctrl.edgeSwipeCtrl.element);
                 }
 
                 if (ctrl.swipeToCloseCtrl) {
@@ -691,9 +704,9 @@
             }
         }, {
             dispose: function () {
-                var ctrl = this;
-                $(ctrl.flyoutPage.element).remove();
-                $(ctrl.element).remove();
+            	var ctrl = this;
+            	ctrl.flyoutPage.element.parentElement.removeChild(ctrl.flyoutPage.element);
+            	ctrl.element.parentElement.removeChild(ctrl.element);
                 ctrl.flyoutPage = null;
             },
 
