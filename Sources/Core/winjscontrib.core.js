@@ -974,7 +974,8 @@ var WinJSContrib;
             if (element.mcnTapTracking) {
                 element.mcnTapTracking.dispose();
             }
-            element.classList.add('tap');
+            if (element.classList)
+                element.classList.add('tap');
             element.mcnTapTracking = element.mcnTapTracking || {};
             element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
             element.mcnTapTracking.disableAnimation = opt.disableAnimation;
@@ -998,7 +999,8 @@ var WinJSContrib;
             element.mcnTapTracking.tapOnDown = opt.tapOnDown;
             element.mcnTapTracking.pointerModel = 'none';
             element.mcnTapTracking.dispose = function () {
-                element.classList.remove('tap');
+                if (element.classList)
+                    element.classList.remove('tap');
                 this.eventTracker.dispose();
                 element.mcnTapTracking = null;
                 element = null;
@@ -1023,6 +1025,84 @@ var WinJSContrib;
             }
         }
         UI.tap = tap;
+        function afterTransition(element, timeout) {
+            var timeOutRef = null;
+            return new WinJS.Promise(function (complete, error) {
+                var onaftertransition = function (event) {
+                    if (event.srcElement === element) {
+                        close();
+                    }
+                };
+                var close = function () {
+                    clearTimeout(timeOutRef);
+                    element.removeEventListener("transitionend", onaftertransition, false);
+                    complete();
+                };
+                element.addEventListener("transitionend", onaftertransition, false);
+                timeOutRef = setTimeout(close, timeout || 1000);
+            });
+        }
+        UI.afterTransition = afterTransition;
+        var FluentDOM = (function () {
+            function FluentDOM(nodeType, parent) {
+                this.element = document.createElement(nodeType);
+                this.parent = parent;
+                this.childs = [];
+                if (parent) {
+                    parent.childs.push(this);
+                }
+            }
+            FluentDOM.prototype.addClass = function (classname) {
+                this.element.classList.add(classname);
+                return this;
+            };
+            FluentDOM.prototype.className = function (classname) {
+                this.element.className = classname;
+                return this;
+            };
+            FluentDOM.prototype.opacity = function (opacity) {
+                this.element.style.opacity = opacity;
+                return this;
+            };
+            FluentDOM.prototype.display = function (display) {
+                this.element.style.display = display;
+                return this;
+            };
+            FluentDOM.prototype.visibility = function (visibility) {
+                this.element.style.visibility = visibility;
+                return this;
+            };
+            FluentDOM.prototype.text = function (text) {
+                this.element.innerText = text;
+                return this;
+            };
+            FluentDOM.prototype.html = function (text) {
+                this.element.innerHTML = text;
+                return this;
+            };
+            FluentDOM.prototype.attr = function (name, val) {
+                this.element.setAttribute(name, val);
+                return this;
+            };
+            FluentDOM.prototype.appendTo = function (elt) {
+                elt.appendChild(this.element);
+                return this;
+            };
+            FluentDOM.prototype.tap = function (callback, options) {
+                WinJSContrib.UI.tap(this.element, callback, options);
+                return this;
+            };
+            FluentDOM.prototype.append = function (nodeType, callback) {
+                var child = new FluentDOM(nodeType, this);
+                this.element.appendChild(child.element);
+                if (callback) {
+                    callback(child);
+                }
+                return this;
+            };
+            return FluentDOM;
+        })();
+        UI.FluentDOM = FluentDOM;
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 ///<reference path="../typings/jquery.d.ts"/>
@@ -1906,5 +1986,4 @@ var WinJSContrib;
         Templates.makeInteractive = makeInteractive;
     })(Templates = WinJSContrib.Templates || (WinJSContrib.Templates = {}));
 })(WinJSContrib || (WinJSContrib = {}));
-
-//# sourceMappingURL=../../Sources/Core/winjscontrib.core.js.map
+//# sourceMappingURL=winjscontrib.core.js.map

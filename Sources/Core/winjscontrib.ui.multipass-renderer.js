@@ -382,6 +382,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     	dispose: function () {
     		var ctrl = this;
     		ctrl._unregisterScrollEvents();
+    		WinJSContrib.UI.untapAll(ctrl.element);
     		WinJS.Utilities.disposeSubTree(ctrl.element);
     	}
     });
@@ -434,7 +435,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     	empty: function () {
     		var ctrl = this;
     		if (ctrl.rendered) {
-    			$(ctrl.element).untap();
+    			WinJSContrib.UI.untapAll(ctrl.element);
     			ctrl.element.classList.remove('loaded');
     			ctrl.element.innerHTML = '';
     			ctrl.rendered = false;
@@ -455,7 +456,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     							ctrl.itemInvoked = WinJSContrib.Utils.resolveMethod(ctrl.element, ctrl.itemInvoked);
 
     						if (ctrl.itemInvoked) {
-    							$(ctrl.element).tap(function (arg) {
+    							WinJSContrib.UI.tap(ctrl.element, function (arg) {
     								ctrl.itemInvoked(ctrl);
     							});
     						}

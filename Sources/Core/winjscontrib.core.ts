@@ -1068,7 +1068,10 @@ module WinJSContrib.UI {
 		if (element.mcnTapTracking) {
 			element.mcnTapTracking.dispose();
 		}
-		element.classList.add('tap');
+
+		if (element.classList)
+			element.classList.add('tap');
+
 		element.mcnTapTracking = element.mcnTapTracking || {};
 		element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
 		element.mcnTapTracking.disableAnimation = opt.disableAnimation;
@@ -1087,7 +1090,8 @@ module WinJSContrib.UI {
 		element.mcnTapTracking.tapOnDown = opt.tapOnDown;
 		element.mcnTapTracking.pointerModel = 'none';
 		element.mcnTapTracking.dispose = function () {
-			element.classList.remove('tap');
+			if (element.classList)
+				element.classList.remove('tap');
 			this.eventTracker.dispose();
 			element.mcnTapTracking = null;
 			element = null;
@@ -1112,6 +1116,99 @@ module WinJSContrib.UI {
 
 	}
 
+	export function afterTransition(element, timeout?) {
+		var timeOutRef = null;
+		return new WinJS.Promise(function (complete, error) {
+			var onaftertransition = function (event) {
+				if (event.srcElement === element) {
+					close();
+				}
+			};
+			var close = function () {
+				clearTimeout(timeOutRef);
+				element.removeEventListener("transitionend", onaftertransition, false);
+				complete();
+			}
+
+			element.addEventListener("transitionend", onaftertransition, false);
+			timeOutRef = setTimeout(close, timeout || 1000);
+		});
+	}
+
+	export class FluentDOM {
+		public element: HTMLElement;
+		public childs: Array<FluentDOM>;
+		public parent: FluentDOM;
+
+		constructor(nodeType: string, parent?: FluentDOM) {
+			this.element = document.createElement(nodeType);
+			this.parent = parent;
+			this.childs = [];
+			if (parent) {
+				parent.childs.push(this);
+			}
+		}
+
+		addClass(classname: string) {
+			this.element.classList.add(classname);
+			return this;
+		}
+
+		className(classname: string) {
+			this.element.className = classname;
+			return this;
+		}
+
+		opacity(opacity: string) {
+			this.element.style.opacity = opacity;
+			return this;
+		}
+
+		display(display: string) {
+			this.element.style.display = display;
+			return this;
+		}
+
+		visibility(visibility: string) {
+			this.element.style.visibility = visibility;
+			return this;
+		}
+
+		text(text: string) {
+			this.element.innerText = text;
+			return this;
+		}
+
+		html(text: string) {
+			this.element.innerHTML = text;
+			return this;
+		}
+
+		attr(name: string, val: string) {
+			this.element.setAttribute(name, val);
+			return this;
+		}
+
+		appendTo(elt: Element) {
+			elt.appendChild(this.element);
+			return this;
+		}
+
+		tap(callback, options?) {
+			WinJSContrib.UI.tap(this.element, callback, options);
+			return this;
+		}
+
+		append(nodeType: string, callback?: (FluentDOM) => void) {
+			var child = new FluentDOM(nodeType, this);
+
+			this.element.appendChild(child.element);
+			if (callback) {
+				callback(child);
+			}
+			return this;
+		}
+	}
 }
 
 ///<reference path="../typings/jquery.d.ts"/>
