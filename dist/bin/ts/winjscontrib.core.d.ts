@@ -243,9 +243,131 @@ declare module WinJSContrib.UI {
      * @returns {function} function to call for releasing navigation handlers
      */
     function registerNavigationEvents(control: any, callback: any): () => void;
+    /**
+     * remove tap behavior
+     * @function WinJSContrib.UI.untap
+     * @param {HtmlElement} element element to clean
+     */
     function untap(element: any): void;
+    /**
+     * remove tap behavior from all childs
+     * @function WinJSContrib.UI.untapAll
+     * @param {HtmlElement} element element to clean
+     */
     function untapAll(element: any): void;
+    /**
+     * add tap behavior to an element, tap manages quirks like click delay, visual feedback, etc
+     * @function WinJSContrib.UI.tap
+     * @param {HtmlElement} element element to make "tappable"
+     * @param {function} callback callback function invoked on tap
+     * @param {Object} options tap options
+     */
     function tap(element: any, callback: any, options?: any): void;
+    /**
+     * return a promise completed after an element transition is ended
+     * @function WinJSContrib.UI.afterTransition
+     * @param {HtmlElement} element element to watch
+     * @param {number} timeout timeout
+     */
+    function afterTransition(element: any, timeout?: any): WinJS.Promise<{}>;
+    /**
+     * Utility class for building DOM elements through code with a fluent API
+     * @class WinJSContrib.UI.FluentDOM
+     * @param {string} nodeType type of DOM node (ex: 'DIV')
+     * @param {WinJSContrib.UI.FluentDOM} parent parent FluentDOM
+     */
+    class FluentDOM {
+        element: HTMLElement;
+        childs: Array<FluentDOM>;
+        parent: FluentDOM;
+        constructor(nodeType: string, parent?: FluentDOM);
+        /**
+         * Add a css class
+         * @function WinJSContrib.UI.FluentDOM.prototype.addClass
+         * @param classname css class
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        addClass(classname: string): FluentDOM;
+        /**
+         * set className
+         * @function WinJSContrib.UI.FluentDOM.prototype.className
+         * @param classname css classes
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        className(classname: string): FluentDOM;
+        /**
+         * set opacity
+         * @function WinJSContrib.UI.FluentDOM.prototype.opacity
+         * @param opacity opacity
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        opacity(opacity: string): FluentDOM;
+        /**
+         * set display
+         * @function WinJSContrib.UI.FluentDOM.prototype.display
+         * @param display display
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        display(display: string): FluentDOM;
+        /**
+         * set display 'none'
+         * @function WinJSContrib.UI.FluentDOM.prototype.hide
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        hide(): FluentDOM;
+        /**
+         * set visibility
+         * @function WinJSContrib.UI.FluentDOM.prototype.visibility
+         * @param visibility visibility
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        visibility(visibility: string): FluentDOM;
+        /**
+         * set innerText
+         * @function WinJSContrib.UI.FluentDOM.prototype.text
+         * @param text text
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        text(text: string): FluentDOM;
+        /**
+         * set innerHTML
+         * @function WinJSContrib.UI.FluentDOM.prototype.html
+         * @param text text
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        html(text: string): FluentDOM;
+        /**
+         * set attribute
+         * @function WinJSContrib.UI.FluentDOM.prototype.attr
+         * @param name attribute name
+         * @param val attribute value
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        attr(name: string, val: string): FluentDOM;
+        /**
+         * append element to another DOM element
+         * @function WinJSContrib.UI.FluentDOM.prototype.appendTo
+         * @param elt parent element
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        appendTo(elt: Element): FluentDOM;
+        /**
+         * add tap behavior
+         * @function WinJSContrib.UI.FluentDOM.prototype.tap
+         * @param callback tap callback
+         * @param options tap options
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        tap(callback: any, options?: any): FluentDOM;
+        /**
+         * create a child FluentDOM and append it to current
+         * @function WinJSContrib.UI.FluentDOM.prototype.append
+         * @param nodeType child node type
+         * @param callback callback receiving the new FluentDOM as an argument
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        append(nodeType: string, callback?: (FluentDOM) => void): FluentDOM;
+    }
 }
 interface Object {
     map(obj: any, mapping: any): any;
@@ -285,6 +407,12 @@ declare module WinJSContrib.Promise {
     function batch(dataArray: any, batchSize: any, promiseCallback: any): WinJS.IPromise<any[]>;
 }
 declare module WinJSContrib.Utils {
+    /**
+     * extend an object with properties from subsequent objects
+     * @function WinJSContrib.Utils.extend
+     * @returns {Object} composite object
+     */
+    function extend(): any;
     /** indicate if string starts with featured characters
      * @function WinJSContrib.Utils.startsWith
      * @param {string} str string to search within

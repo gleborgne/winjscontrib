@@ -257,7 +257,7 @@
             				tab.index = grp.length;
             				tab.group = group;
             				grp.push(tab);
-            				$(tab.element).tap(function () {
+            				WinJSContrib.UI.tap(tab.element, function () {
             					ctrl.selectTab(tab);
             				});
             			})(element);
@@ -300,7 +300,7 @@
             			tab.index = grp.length;
             			tab.group = group;
             			grp.push(tab);
-            			$(tabelt).tap(function () {
+            			WinJSContrib.UI.tap(tabelt, function () {
             				if (tab.link.oninvoked) {
             					tab.link.oninvoked(ctrl, tab);
             				}

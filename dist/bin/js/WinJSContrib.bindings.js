@@ -109,7 +109,6 @@ var WinJSContrib;
         WinJSContrib.Bindings.dataAttr = WinJS.Binding.initializer(function dataAttrBinding(source, sourceProperty, dest, destProperty) {
         	var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
         	dest.setAttribute('data-' + destProperty, data)
-            //$(dest).attr('data-' + destProperty, data).data(destProperty, data);
         });
 
         /**

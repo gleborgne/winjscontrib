@@ -888,6 +888,11 @@ var WinJSContrib;
             };
         }
         UI.registerNavigationEvents = registerNavigationEvents;
+        /**
+         * remove tap behavior
+         * @function WinJSContrib.UI.untap
+         * @param {HtmlElement} element element to clean
+         */
         function untap(element) {
             if (element.mcnTapTracking) {
                 element.mcnTapTracking.dispose();
@@ -895,6 +900,11 @@ var WinJSContrib;
             }
         }
         UI.untap = untap;
+        /**
+         * remove tap behavior from all childs
+         * @function WinJSContrib.UI.untapAll
+         * @param {HtmlElement} element element to clean
+         */
         function untapAll(element) {
             var taps = element.querySelectorAll('.tap');
             for (var i = 0, l = taps.length; i < l; i++) {
@@ -902,6 +912,13 @@ var WinJSContrib;
             }
         }
         UI.untapAll = untapAll;
+        /**
+         * add tap behavior to an element, tap manages quirks like click delay, visual feedback, etc
+         * @function WinJSContrib.UI.tap
+         * @param {HtmlElement} element element to make "tappable"
+         * @param {function} callback callback function invoked on tap
+         * @param {Object} options tap options
+         */
         function tap(element, callback, options) {
             var ptDown = function (event) {
                 var elt = event.currentTarget || event.target;
@@ -980,7 +997,8 @@ var WinJSContrib;
             if (element.mcnTapTracking) {
                 element.mcnTapTracking.dispose();
             }
-            element.classList.add('tap');
+            if (element.classList)
+                element.classList.add('tap');
             element.mcnTapTracking = element.mcnTapTracking || {};
             element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
             element.mcnTapTracking.disableAnimation = opt.disableAnimation;
@@ -1004,7 +1022,8 @@ var WinJSContrib;
             element.mcnTapTracking.tapOnDown = opt.tapOnDown;
             element.mcnTapTracking.pointerModel = 'none';
             element.mcnTapTracking.dispose = function () {
-                element.classList.remove('tap');
+                if (element.classList)
+                    element.classList.remove('tap');
                 this.eventTracker.dispose();
                 element.mcnTapTracking = null;
                 element = null;
@@ -1029,6 +1048,174 @@ var WinJSContrib;
             }
         }
         UI.tap = tap;
+        /**
+         * return a promise completed after an element transition is ended
+         * @function WinJSContrib.UI.afterTransition
+         * @param {HtmlElement} element element to watch
+         * @param {number} timeout timeout
+         */
+        function afterTransition(element, timeout) {
+            var timeOutRef = null;
+            return new WinJS.Promise(function (complete, error) {
+                var onaftertransition = function (event) {
+                    if (event.srcElement === element) {
+                        close();
+                    }
+                };
+                var close = function () {
+                    clearTimeout(timeOutRef);
+                    element.removeEventListener("transitionend", onaftertransition, false);
+                    complete();
+                };
+                element.addEventListener("transitionend", onaftertransition, false);
+                timeOutRef = setTimeout(close, timeout || 1000);
+            });
+        }
+        UI.afterTransition = afterTransition;
+        /**
+         * Utility class for building DOM elements through code with a fluent API
+         * @class WinJSContrib.UI.FluentDOM
+         * @param {string} nodeType type of DOM node (ex: 'DIV')
+         * @param {WinJSContrib.UI.FluentDOM} parent parent FluentDOM
+         */
+        var FluentDOM = (function () {
+            function FluentDOM(nodeType, parent) {
+                this.element = document.createElement(nodeType);
+                this.parent = parent;
+                this.childs = [];
+                if (parent) {
+                    parent.childs.push(this);
+                }
+            }
+            /**
+             * Add a css class
+             * @function WinJSContrib.UI.FluentDOM.prototype.addClass
+             * @param classname css class
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.addClass = function (classname) {
+                this.element.classList.add(classname);
+                return this;
+            };
+            /**
+             * set className
+             * @function WinJSContrib.UI.FluentDOM.prototype.className
+             * @param classname css classes
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.className = function (classname) {
+                this.element.className = classname;
+                return this;
+            };
+            /**
+             * set opacity
+             * @function WinJSContrib.UI.FluentDOM.prototype.opacity
+             * @param opacity opacity
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.opacity = function (opacity) {
+                this.element.style.opacity = opacity;
+                return this;
+            };
+            /**
+             * set display
+             * @function WinJSContrib.UI.FluentDOM.prototype.display
+             * @param display display
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.display = function (display) {
+                this.element.style.display = display;
+                return this;
+            };
+            /**
+             * set display 'none'
+             * @function WinJSContrib.UI.FluentDOM.prototype.hide
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.hide = function () {
+                this.element.style.display = 'none';
+                return this;
+            };
+            /**
+             * set visibility
+             * @function WinJSContrib.UI.FluentDOM.prototype.visibility
+             * @param visibility visibility
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.visibility = function (visibility) {
+                this.element.style.visibility = visibility;
+                return this;
+            };
+            /**
+             * set innerText
+             * @function WinJSContrib.UI.FluentDOM.prototype.text
+             * @param text text
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.text = function (text) {
+                this.element.innerText = text;
+                return this;
+            };
+            /**
+             * set innerHTML
+             * @function WinJSContrib.UI.FluentDOM.prototype.html
+             * @param text text
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.html = function (text) {
+                this.element.innerHTML = text;
+                return this;
+            };
+            /**
+             * set attribute
+             * @function WinJSContrib.UI.FluentDOM.prototype.attr
+             * @param name attribute name
+             * @param val attribute value
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.attr = function (name, val) {
+                this.element.setAttribute(name, val);
+                return this;
+            };
+            /**
+             * append element to another DOM element
+             * @function WinJSContrib.UI.FluentDOM.prototype.appendTo
+             * @param elt parent element
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.appendTo = function (elt) {
+                elt.appendChild(this.element);
+                return this;
+            };
+            /**
+             * add tap behavior
+             * @function WinJSContrib.UI.FluentDOM.prototype.tap
+             * @param callback tap callback
+             * @param options tap options
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.tap = function (callback, options) {
+                WinJSContrib.UI.tap(this.element, callback, options);
+                return this;
+            };
+            /**
+             * create a child FluentDOM and append it to current
+             * @function WinJSContrib.UI.FluentDOM.prototype.append
+             * @param nodeType child node type
+             * @param callback callback receiving the new FluentDOM as an argument
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.append = function (nodeType, callback) {
+                var child = new FluentDOM(nodeType, this);
+                this.element.appendChild(child.element);
+                if (callback) {
+                    callback(child);
+                }
+                return this;
+            };
+            return FluentDOM;
+        })();
+        UI.FluentDOM = FluentDOM;
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 ///<reference path="../typings/jquery.d.ts"/>
@@ -1197,6 +1384,19 @@ var WinJSContrib;
 (function (WinJSContrib) {
     var Utils;
     (function (Utils) {
+        /**
+         * extend an object with properties from subsequent objects
+         * @function WinJSContrib.Utils.extend
+         * @returns {Object} composite object
+         */
+        function extend() {
+            for (var i = 1; i < arguments.length; i++)
+                for (var key in arguments[i])
+                    if (arguments[i].hasOwnProperty(key))
+                        arguments[0][key] = arguments[i][key];
+            return arguments[0];
+        }
+        Utils.extend = extend;
         /** indicate if string starts with featured characters
          * @function WinJSContrib.Utils.startsWith
          * @param {string} str string to search within
