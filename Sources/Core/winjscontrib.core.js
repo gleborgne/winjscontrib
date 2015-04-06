@@ -1179,6 +1179,17 @@ var WinJSContrib;
                 return this;
             };
             /**
+             * set style property
+             * @function WinJSContrib.UI.FluentDOM.prototype.style
+             * @param name attribute name
+             * @param val attribute value
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.style = function (name, val) {
+                this.element.style[name] = val;
+                return this;
+            };
+            /**
              * append element to another DOM element
              * @function WinJSContrib.UI.FluentDOM.prototype.appendTo
              * @param elt parent element

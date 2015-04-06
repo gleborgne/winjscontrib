@@ -346,6 +346,14 @@ declare module WinJSContrib.UI {
          */
         attr(name: string, val: string): FluentDOM;
         /**
+         * set style property
+         * @function WinJSContrib.UI.FluentDOM.prototype.style
+         * @param name attribute name
+         * @param val attribute value
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        style(name: string, val: string): FluentDOM;
+        /**
          * append element to another DOM element
          * @function WinJSContrib.UI.FluentDOM.prototype.appendTo
          * @param elt parent element
