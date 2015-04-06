@@ -1134,7 +1134,7 @@ module WinJSContrib.UI {
 	}
 
 	/**
-	 * return a promise completed after an element transition is ended
+	 * return a promise completed after css transition on the element is ended
 	 * @function WinJSContrib.UI.afterTransition
 	 * @param {HtmlElement} element element to watch
 	 * @param {number} timeout timeout
@@ -1176,6 +1176,10 @@ module WinJSContrib.UI {
 			if (parent) {
 				parent.childs.push(this);
 			}
+		}
+
+		get control() {
+			return this.element.winControl;
 		}
 
 		/**
@@ -1314,6 +1318,24 @@ module WinJSContrib.UI {
 			this.element.appendChild(child.element);
 			if (callback) {
 				callback(child);
+			}
+			return this;
+		}
+
+		/**
+         * create a WinJS control
+         * @function WinJSContrib.UI.FluentDOM.prototype.ctrl
+         * @param ctrl constructor or full name of the control
+		 * @param options control options
+		 * @returns {WinJSContrib.UI.FluentDOM}
+         */
+		ctrl(ctrl, options?) {
+			var ctor = ctrl;
+			if (typeof ctrl === 'string')
+				ctor = WinJSContrib.Utils.readProperty(window, ctrl);
+
+			if (ctor) {
+				new ctor(this.element, options);
 			}
 			return this;
 		}

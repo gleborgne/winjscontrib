@@ -264,7 +264,7 @@ declare module WinJSContrib.UI {
      */
     function tap(element: any, callback: any, options?: any): void;
     /**
-     * return a promise completed after an element transition is ended
+     * return a promise completed after css transition on the element is ended
      * @function WinJSContrib.UI.afterTransition
      * @param {HtmlElement} element element to watch
      * @param {number} timeout timeout
@@ -281,6 +281,7 @@ declare module WinJSContrib.UI {
         childs: Array<FluentDOM>;
         parent: FluentDOM;
         constructor(nodeType: string, parent?: FluentDOM);
+        control: any;
         /**
          * Add a css class
          * @function WinJSContrib.UI.FluentDOM.prototype.addClass
@@ -367,6 +368,14 @@ declare module WinJSContrib.UI {
          * @returns {WinJSContrib.UI.FluentDOM}
          */
         append(nodeType: string, callback?: (FluentDOM) => void): FluentDOM;
+        /**
+         * create a WinJS control
+         * @function WinJSContrib.UI.FluentDOM.prototype.ctrl
+         * @param ctrl constructor or full name of the control
+         * @param options control options
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        ctrl(ctrl: any, options?: any): FluentDOM;
     }
 }
 interface Object {

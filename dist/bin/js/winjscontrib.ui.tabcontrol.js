@@ -9,6 +9,7 @@
 
 (function () {
 	"use strict";
+	var FD = WinJSContrib.UI.FluentDOM;
 
 	WinJS.Namespace.define("WinJSContrib.UI", {
 		TabPages: WinJS.Class.define(
@@ -29,16 +30,11 @@
             		"default": []
             	};
 
-
-
             	if (!ctrl.tabContent) {
-            		ctrl.tabContent = document.createElement('DIV');
-            		ctrl.tabContent.className = 'mcn-tabpages-content';
-            		ctrl.element.appendChild(ctrl.tabContent);
+            		ctrl.tabContent = new FD('DIV').addClass('mcn-tabpages-content').appendTo(ctrl.element).element;
             	}
-            	ctrl.tabWrapper = document.createElement('DIV');
-            	ctrl.tabWrapper.className = 'mcn-tabpages-content-wrapper';
-            	ctrl.tabContent.appendChild(ctrl.tabWrapper);
+
+            	ctrl.tabWrapper = new FD('DIV').addClass('mcn-tabpages-content-wrapper').appendTo(ctrl.tabContent).element;
 
             	ctrl.navigator = new WinJSContrib.UI.PageControlNavigator(ctrl.tabWrapper, { global: false, delay: 10, disableHistory: true });
             	ctrl.navigator.animationWaitForPreviousPageClose = false;
@@ -46,9 +42,7 @@
             	ctrl.navigator.animations.enterPage = WinJSContrib.UI.Animation.tabEnterPage;
 
             	if (!ctrl.tabHeader) {
-            		ctrl.tabHeader = document.createElement('DIV');
-            		ctrl.tabHeader.className = 'mcn-tabpages-header';
-            		ctrl.element.appendChild(ctrl.tabHeader);
+            		ctrl.tabHeader = new FD('DIV').addClass('mcn-tabpages-header').appendTo(ctrl.element).element;
             	}
 
             	ctrl._createGroupHeader('default');

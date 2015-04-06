@@ -1043,7 +1043,7 @@ var WinJSContrib;
         }
         UI.tap = tap;
         /**
-         * return a promise completed after an element transition is ended
+         * return a promise completed after css transition on the element is ended
          * @function WinJSContrib.UI.afterTransition
          * @param {HtmlElement} element element to watch
          * @param {number} timeout timeout
@@ -1081,6 +1081,13 @@ var WinJSContrib;
                     parent.childs.push(this);
                 }
             }
+            Object.defineProperty(FluentDOM.prototype, "control", {
+                get: function () {
+                    return this.element.winControl;
+                },
+                enumerable: true,
+                configurable: true
+            });
             /**
              * Add a css class
              * @function WinJSContrib.UI.FluentDOM.prototype.addClass
@@ -1204,6 +1211,22 @@ var WinJSContrib;
                 this.element.appendChild(child.element);
                 if (callback) {
                     callback(child);
+                }
+                return this;
+            };
+            /**
+             * create a WinJS control
+             * @function WinJSContrib.UI.FluentDOM.prototype.ctrl
+             * @param ctrl constructor or full name of the control
+             * @param options control options
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.ctrl = function (ctrl, options) {
+                var ctor = ctrl;
+                if (typeof ctrl === 'string')
+                    ctor = WinJSContrib.Utils.readProperty(window, ctrl);
+                if (ctor) {
+                    new ctor(this.element, options);
                 }
                 return this;
             };
