@@ -2,6 +2,8 @@
 	var watch: any;
 }
 
+var profiler = window.msWriteProfilerMark || function () { };
+
 module WinJSContrib.UI.Pages {
 
     (function (_Pages, _Global, _Base, _CorePages, _BaseUtils, _ElementUtilities, _WriteProfilerMark, Promise, Fragments, ControlProcessor) {
@@ -447,6 +449,6 @@ module WinJSContrib.UI.Pages {
         source.render = pageOverride.render;
         source._remove = pageOverride._remove;
 
-    })(WinJSContrib.UI.Pages, window, WinJS, WinJS.UI.Pages, WinJS.Utilities, WinJS.Utilities, msWriteProfilerMark, WinJS.Promise, WinJS.UI.Fragments, WinJS.UI);
+    })(WinJSContrib.UI.Pages, window, WinJS, WinJS.UI.Pages, WinJS.Utilities, WinJS.Utilities, profiler, WinJS.Promise, WinJS.UI.Fragments, WinJS.UI);
 
 }

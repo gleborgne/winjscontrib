@@ -11,6 +11,14 @@ interface JQuery {
 interface Window {
 	Touch: any;
 }
+
+if (!window.setImmediate) {
+	window.setImmediate = function (callback:any, ...args:any[]):number {
+		setTimeout(callback, 10);
+		return 0;
+	}
+}
+
 module WinJSContrib.UI.Pages {
 
     /**
@@ -1122,9 +1130,36 @@ module WinJSContrib.UI {
 			element.mcnTapTracking.eventTracker.addEvent(element, 'pointerup', ptUp);
 		} else if (window.Touch && !opt.noWebkitTouch) {
 			element.mcnTapTracking.pointerModel = 'touch';
-			element.mcnTapTracking.eventTracker.addEvent(element, 'touchstart', ptDown);
-			element.mcnTapTracking.eventTracker.addEvent(element, 'touchcancel', ptOut);
-			element.mcnTapTracking.eventTracker.addEvent(element, 'touchend', ptUp);
+			element.mcnTapTracking.eventTracker.addEvent(element, 'touchstart', function (arg) {
+				element.mcnTapTracking.cancelMouse = true;
+				ptDown(arg);
+			});
+			element.mcnTapTracking.eventTracker.addEvent(element, 'touchcancel', function (arg) {
+				setTimeout(function () {
+					element.mcnTapTracking.cancelMouse = false;
+				}, 1000);
+				ptOut(arg);
+			});
+			element.mcnTapTracking.eventTracker.addEvent(element, 'touchend', function (arg) {
+				setTimeout(function () {
+					element.mcnTapTracking.cancelMouse = false;
+				}, 1000);
+				ptUp(arg);
+			});
+
+			element.mcnTapTracking.eventTracker.addEvent(element, 'mousedown', function (arg) {
+				if (!element.mcnTapTracking.cancelMouse)
+					ptDown(arg);
+			});
+			element.mcnTapTracking.eventTracker.addEvent(element, 'mouseleave', function (arg) {
+				ptOut(arg);
+			});
+			element.mcnTapTracking.eventTracker.addEvent(element, 'mouseup', function (arg) {
+				if (!element.mcnTapTracking.cancelMouse)
+					ptUp(arg);
+				else
+					ptOut(arg);
+			});
 		} else {
 			element.mcnTapTracking.pointerModel = 'mouse';
 			element.mcnTapTracking.eventTracker.addEvent(element, 'mousedown', ptDown);
@@ -2159,7 +2194,7 @@ module WinJSContrib.Utils {
             if (!control && WinJSContrib.UI.Application.navigator) {
                 control = WinJSContrib.UI.Application.navigator.pageControl;
             }
-
+			
             if (!control)
                 return;
 
@@ -2172,6 +2207,10 @@ module WinJSContrib.Utils {
             method = WinJSContrib.Utils.readProperty(control, methodName);
             if (method && typeof method === 'function')
                 method = method.bind(control);
+        } else if (text.indexOf('select:') === 0) {
+            methodName = text.substr(7);
+            control = WinJSContrib.Utils.getScopeControl(element);
+            method = control.querySelector(methodName);
         } else {
             methodName = text;
             control = WinJSContrib.Utils.getScopeControl(element);
