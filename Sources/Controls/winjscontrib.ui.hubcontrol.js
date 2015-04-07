@@ -38,19 +38,22 @@
 
                 var parent = WinJSContrib.Utils.getScopeControl(hub.element);
                 if (parent.elementReady) {
-                      
                     parent.elementReady.then(function () {
-                        if (!parent.beforeShow) parent.beforeShow = [];
+                    	if (!parent.beforeShow)
+                    		parent.beforeShow = [];
+
                         parent.beforeShow.push(function () {
-                            hub.layout();
+                        	hub.layout();
+                        	if (hub.savestate)
+                        		hub.restoreCtrlState();
                         });
+
                         return parent.renderComplete;
                     }).then(function () {
                         hub.prepare();
                         return parent.readyComplete;
                     });      
                 }
-
             },
             /**
              * @lends WinJSContrib.UI.HubControl.prototype
@@ -230,17 +233,17 @@
                         this.saveCtrlState();
                 },
 
-                pageLayout: function () {
-                    var hub = this;
-                    hub.layout();
+                //pageLayout: function () {
+                //    var hub = this;
+                //    hub.layout();
 
-                    if (hub.savestate)
-                        hub.restoreCtrlState();
+                //    if (hub.savestate)
+                //        hub.restoreCtrlState();
 
-                    //return WinJS.Promise.timeout().then(function () {
-                    //    hub.renderItemsContent();
-                    //});
-                },
+                //    //return WinJS.Promise.timeout().then(function () {
+                //    //    hub.renderItemsContent();
+                //    //});
+                //},
 
                 pageReady: function () {
                     var hub = this;
@@ -273,15 +276,20 @@
 
     WinJS.Namespace.define("WinJSContrib.UI", {
         HubSection: WinJS.Class.define(
-            // Define the constructor function for the PageControlNavigator.
             function HubSection(element, options) {
                 var section = this;
                 options = options || {};
                 section.element = element || document.createElement('DIV');
                 section.element.winControl = section;
                 section.element.className = section.element.className + ' mcn-hub-section win-disposable';
-                //section.items = [];
                 section.onlayout = options.onlayout;
+
+                //var hub = WinJSContrib.Utils.getParentControlByClass('mcn-hub-ctrl', section.element);
+                //if (hub) {
+                //	if (hub.sections.indexOf(this) <= 0) {
+                //		hub.sections.push(this);
+                //	}
+                //}
             }, {
                 layout: function (viewState) {
                     var section = this;
@@ -343,5 +351,23 @@
                 }
             })
     });
+
+    if (WinJSContrib.UI.WebComponents) {
+    	WinJSContrib.UI.WebComponents.register('mcn-hub', WinJSContrib.UI.HubControl, function (elt) {
+    		var options = {};
+    		WinJSContrib.UI.WebComponents.mapAttr(elt, 'multipass', 'multipass', options);
+    		
+    		return options;
+    	});
+
+    	WinJSContrib.UI.WebComponents.register('mcn-hub-section', WinJSContrib.UI.HubSection, function (elt) {
+    		var options = {};
+    		//var itemTemplate = elt.getAttribute('itemtemplate');
+    		//if (itemTemplate) {
+    		//	options.itemTemplate = itemTemplate;
+    		//}
+    		return options;
+    	});
+    }
 
 })();

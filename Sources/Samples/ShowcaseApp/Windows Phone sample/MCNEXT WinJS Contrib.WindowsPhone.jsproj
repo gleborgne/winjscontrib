@@ -244,6 +244,12 @@
     <Content Include="..\..\..\Core\winjscontrib.ui.multipass-renderer.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js</Link>
     </Content>
+    <Content Include="..\..\..\Core\winjscontrib.ui.pages.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.pages.js</Link>
+    </Content>
+    <Content Include="..\..\..\Core\winjscontrib.ui.webcomponents.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.webcomponents.js</Link>
+    </Content>
     <Content Include="..\..\..\WinRT\winjscontrib.winrt.audiorecording.js">
       <Link>scripts\winjscontrib\winjscontrib.winrt.audiorecording.js</Link>
     </Content>

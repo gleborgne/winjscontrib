@@ -223,6 +223,10 @@ var WinJSContrib;
                         //
                         function PageControl_ctor(element, options, complete, parentedPromise) {
                             var that = this;
+                            that._pageLifeCycle = {
+                                created: new Date(),
+                                processQueue: []
+                            };
                             this._disposed = false;
                             this.element = element = element || _Global.document.createElement("div");
                             _ElementUtilities.addClass(element, "win-disposable");
@@ -234,6 +238,9 @@ var WinJSContrib;
                             _ElementUtilities.addClass(element, "pagecontrol");
                             var profilerMarkIdentifier = " uri='" + uri + "'" + _BaseUtils._getProfilerMarkIdentifier(this.element);
                             _WriteProfilerMark("WinJS.UI.Pages:createPage" + profilerMarkIdentifier + ",StartTM");
+                            if (WinJSContrib.UI.WebComponents) {
+                                that.observer = WinJSContrib.UI.WebComponents.watch(this.element);
+                            }
                             var load = Promise.timeout().then(function Pages_load() {
                                 return that.load(uri);
                             });
@@ -249,11 +256,26 @@ var WinJSContrib;
                                 });
                             }).then(function Pages_render(result) {
                                 return that.render(element, options, result.loadResult);
+                            }).then(function Pages_processed() {
+                                if (WinJSContrib.UI.WebComponents) {
+                                    //add delay to enable webcomponent processing
+                                    return WinJS.Promise.timeout();
+                                }
                             });
                             this.elementReady = renderCalled.then(function () {
                                 return element;
                             });
-                            this.renderComplete = renderCalled.then(function Pages_process() {
+                            this.renderComplete = renderCalled.then(function Pages_processed() {
+                                if (that._pageLifeCycle.processQueue && that._pageLifeCycle.processQueue.length) {
+                                    var promises = [];
+                                    that._pageLifeCycle.processQueue.forEach(function (p) {
+                                        return WinJS.Promise.as(p());
+                                    });
+                                    return WinJS.Promise.join(promises).then(function () {
+                                        that._pageLifeCycle.processQueue = null;
+                                    });
+                                }
+                            }).then(function Pages_process() {
                                 return that.process(element, options);
                             }).then(function Pages_processed() {
                                 return that.processed(element, options);
@@ -269,6 +291,9 @@ var WinJSContrib;
                                 return parentedPromise;
                             }).then(function Pages_ready() {
                                 that.ready(element, options);
+                                that._pageLifeCycle.ended = new Date();
+                                that._pageLifeCycle.delta = that._pageLifeCycle.ended - that._pageLifeCycle.created;
+                                console.log('navigation to ' + uri + ' took ' + that._pageLifeCycle.delta + 'ms');
                                 return that;
                             }).then(null, function Pages_error(err) {
                                 if (that.error)

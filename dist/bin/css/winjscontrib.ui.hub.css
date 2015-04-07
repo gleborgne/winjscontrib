@@ -4,6 +4,10 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
+mcn-hub,
+mcn-hub-section {
+  display: block;
+}
 .mcn-hub-ctrl {
   overflow-y: hidden;
   overflow-x: auto;
@@ -42,6 +46,7 @@
   -ms-grid-row: 2;
 }
 .mcn-hub-section-content {
+  display: block;
   height: calc(100% - 30px);
   /*background-color:red;*/
 }

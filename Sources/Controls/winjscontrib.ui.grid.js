@@ -50,6 +50,7 @@
             			parent.elementReady.then(function () {
             				if (!parent.beforeShow) parent.beforeShow = [];
             				parent.beforeShow.push(function () {
+            					grid.renderer.pageLayout();
             					grid.layout();
             				});
             				return parent.renderComplete;
@@ -165,12 +166,12 @@
             		this.renderer.prepareItems(items, renderOptions);
             	},
 
-            	pageLayout: function () {
-            		this.renderer.pageLayout();
-            		if (this.autolayout) {
-            			this.layout();
-            		}
-            	},
+            	//pageLayout: function () {
+            	//	this.renderer.pageLayout();
+            	//	if (this.autolayout) {
+            	//		this.layout();
+            	//	}
+            	//},
 
             	/**
                  * force items content to render
@@ -584,4 +585,15 @@
             	}
             })
 	});
+
+	if (WinJSContrib.UI.WebComponents) {
+		WinJSContrib.UI.WebComponents.register('mcn-grid', WinJSContrib.UI.GridControl, function (elt) {
+			var options = {};
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'multipass', 'multipass', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'autolayout', 'autolayout', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'layouts', 'layouts', options, true);
+
+			return options;
+		});
+	}
 })();
