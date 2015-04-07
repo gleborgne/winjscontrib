@@ -90,6 +90,7 @@ module WinJSContrib.UI.Pages {
      * @param {function} constructor constructor for the fragment
      * @returns {function} constructor for the fragment
      * @example
+	 * {@lang javascript}
      * WinJSContrib.UI.Pages.fragmentMixin(WinJS.UI.Pages.define("./demos/home.html", {
      *     ready : function(){
      *         //your page ready stuff
@@ -1162,15 +1163,25 @@ module WinJSContrib.UI {
      * Utility class for building DOM elements through code with a fluent API
      * @class WinJSContrib.UI.FluentDOM
      * @param {string} nodeType type of DOM node (ex: 'DIV')
-     * @param {WinJSContrib.UI.FluentDOM} parent parent FluentDOM
+     * @param className css classes
+	 * @param parentElt parent DOM element
+	 * @param {WinJSContrib.UI.FluentDOM} parent parent FluentDOM
+	 * @example
+	 * {@lang javascript}
+     * var elt = new WinJSContrib.UI.FluentDOM('DIV', 'item-content').text(item.title).display('none').element;
      */
 	export class FluentDOM {
 		public element: HTMLElement;
 		public childs: Array<FluentDOM>;
 		public parent: FluentDOM;
 
-		constructor(nodeType: string, parent?: FluentDOM) {
+		constructor(nodeType: string, className?: string, parentElt?: Element, parent?: FluentDOM) {
 			this.element = document.createElement(nodeType);
+			if (className)
+				this.element.className = className;
+			if (parentElt)
+				parentElt.appendChild(this.element);
+
 			this.parent = parent;
 			this.childs = [];
 			if (parent) {
@@ -1321,13 +1332,12 @@ module WinJSContrib.UI {
          * create a child FluentDOM and append it to current
          * @function WinJSContrib.UI.FluentDOM.prototype.append
          * @param nodeType child node type
+		 * @param className css classes
 		 * @param callback callback receiving the new FluentDOM as an argument 
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		append(nodeType: string, callback?: (FluentDOM) => void) {
-			var child = new FluentDOM(nodeType, this);
-
-			this.element.appendChild(child.element);
+		append(nodeType: string, className?: string, callback?: (FluentDOM) => void) {
+			var child = new FluentDOM(nodeType, className, this.element, this);
 			if (callback) {
 				callback(child);
 			}

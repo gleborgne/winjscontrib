@@ -76,6 +76,7 @@ var WinJSContrib;
              * @param {function} constructor constructor for the fragment
              * @returns {function} constructor for the fragment
              * @example
+             * {@lang javascript}
              * WinJSContrib.UI.Pages.fragmentMixin(WinJS.UI.Pages.define("./demos/home.html", {
              *     ready : function(){
              *         //your page ready stuff
@@ -1070,11 +1071,20 @@ var WinJSContrib;
          * Utility class for building DOM elements through code with a fluent API
          * @class WinJSContrib.UI.FluentDOM
          * @param {string} nodeType type of DOM node (ex: 'DIV')
+         * @param className css classes
+         * @param parentElt parent DOM element
          * @param {WinJSContrib.UI.FluentDOM} parent parent FluentDOM
+         * @example
+         * {@lang javascript}
+         * var elt = new WinJSContrib.UI.FluentDOM('DIV', 'item-content').text(item.title).display('none').element;
          */
         var FluentDOM = (function () {
-            function FluentDOM(nodeType, parent) {
+            function FluentDOM(nodeType, className, parentElt, parent) {
                 this.element = document.createElement(nodeType);
+                if (className)
+                    this.element.className = className;
+                if (parentElt)
+                    parentElt.appendChild(this.element);
                 this.parent = parent;
                 this.childs = [];
                 if (parent) {
@@ -1214,12 +1224,12 @@ var WinJSContrib;
              * create a child FluentDOM and append it to current
              * @function WinJSContrib.UI.FluentDOM.prototype.append
              * @param nodeType child node type
+             * @param className css classes
              * @param callback callback receiving the new FluentDOM as an argument
              * @returns {WinJSContrib.UI.FluentDOM}
              */
-            FluentDOM.prototype.append = function (nodeType, callback) {
-                var child = new FluentDOM(nodeType, this);
-                this.element.appendChild(child.element);
+            FluentDOM.prototype.append = function (nodeType, className, callback) {
+                var child = new FluentDOM(nodeType, className, this.element, this);
                 if (callback) {
                     callback(child);
                 }

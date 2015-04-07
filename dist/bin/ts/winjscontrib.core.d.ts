@@ -28,6 +28,7 @@ declare module WinJSContrib.UI.Pages {
      * @param {function} constructor constructor for the fragment
      * @returns {function} constructor for the fragment
      * @example
+     * {@lang javascript}
      * WinJSContrib.UI.Pages.fragmentMixin(WinJS.UI.Pages.define("./demos/home.html", {
      *     ready : function(){
      *         //your page ready stuff
@@ -274,13 +275,18 @@ declare module WinJSContrib.UI {
      * Utility class for building DOM elements through code with a fluent API
      * @class WinJSContrib.UI.FluentDOM
      * @param {string} nodeType type of DOM node (ex: 'DIV')
+     * @param className css classes
+     * @param parentElt parent DOM element
      * @param {WinJSContrib.UI.FluentDOM} parent parent FluentDOM
+     * @example
+     * {@lang javascript}
+     * var elt = new WinJSContrib.UI.FluentDOM('DIV', 'item-content').text(item.title).display('none').element;
      */
     class FluentDOM {
         element: HTMLElement;
         childs: Array<FluentDOM>;
         parent: FluentDOM;
-        constructor(nodeType: string, parent?: FluentDOM);
+        constructor(nodeType: string, className?: string, parentElt?: Element, parent?: FluentDOM);
         control: any;
         /**
          * Add a css class
@@ -372,10 +378,11 @@ declare module WinJSContrib.UI {
          * create a child FluentDOM and append it to current
          * @function WinJSContrib.UI.FluentDOM.prototype.append
          * @param nodeType child node type
+         * @param className css classes
          * @param callback callback receiving the new FluentDOM as an argument
          * @returns {WinJSContrib.UI.FluentDOM}
          */
-        append(nodeType: string, callback?: (FluentDOM) => void): FluentDOM;
+        append(nodeType: string, className?: string, callback?: (FluentDOM) => void): FluentDOM;
         /**
          * create a WinJS control
          * @function WinJSContrib.UI.FluentDOM.prototype.ctrl
