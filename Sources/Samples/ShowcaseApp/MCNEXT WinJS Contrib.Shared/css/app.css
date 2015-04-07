@@ -35,23 +35,32 @@ body {
 #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header {
   color: white;
 }
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment {
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-detail-content-wrapper .pagecontrol > .fragment {
   -ms-grid-rows: 40px 1fr;
   background-color: #EEE;
 }
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] {
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-detail-content-wrapper .pagecontrol > .fragment header[role=banner] {
   background-color: #DDD;
   border-bottom: 1px solid #BBB;
-  -ms-grid-columns: 0 0 1fr auto;
+  display: flex;
 }
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] .titlearea {
-  font-family: 'Open Sans Condensed';
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-detail-content-wrapper .pagecontrol > .fragment header[role=banner] .win-backbutton {
+  margin: 0;
+  background-color: #888;
+}
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-detail-content-wrapper .pagecontrol > .fragment header[role=banner] .win-backbutton:disabled {
   display: none;
-  margin-top: 0;
-  font-size: 18pt;
 }
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] .codelink,
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .pagecontrol > .fragment header[role=banner] .doclink {
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-detail-content-wrapper .pagecontrol > .fragment header[role=banner] .titlearea {
+  font-family: 'Open Sans Condensed';
+  /*display: none;*/
+  margin: 0;
+  margin-left: 10px;
+  font-size: 18pt;
+  flex: 1;
+}
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-detail-content-wrapper .pagecontrol > .fragment header[role=banner] .codelink,
+#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-detail-content-wrapper .pagecontrol > .fragment header[role=banner] .doclink {
   opacity: 1;
   margin: 0;
   font-size: 0.7em;

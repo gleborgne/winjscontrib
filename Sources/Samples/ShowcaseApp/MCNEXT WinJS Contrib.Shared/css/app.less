@@ -1,511 +1,522 @@
 ﻿@import "apptheme";
 
 body {
-    /*background-color: white;*/
-    font-family: 'Open Sans';
-    font-size: 13pt;
+	/*background-color: white;*/
+	font-family: 'Open Sans';
+	font-size: 13pt;
 }
 
 #app-mainpage {
-    width: 100%;
-    height: 100%;
-    position: relative;
+	width: 100%;
+	height: 100%;
+	position: relative;
 
-    #app-header {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        height: 80px;
-        background-color: #444;
+	#app-header {
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		height: 80px;
+		background-color: #444;
 
-        #app-header-logo {
-            height: 100%;
-            margin-left: 40px;
+		#app-header-logo {
+			height: 100%;
+			margin-left: 40px;
 
-            .logo {
-                height: 75%;
-                margin-top: 9px;
-            }
-        }
-    }
+			.logo {
+				height: 75%;
+				margin-top: 9px;
+			}
+		}
+	}
 
-    #app-content {
-        position: absolute;
-        left: 0;
-        top: 80px;
-        right: 0;
-        bottom: 0;
-        height: ~"calc(100% - 80px)";
+	#app-content {
+		position: absolute;
+		left: 0;
+		top: 80px;
+		right: 0;
+		bottom: 0;
+		height: ~"calc(100% - 80px)";
 
-        .mcn-masterdetailview-detail {
-            .mcn-masterdetailview-detail-header {
-                color: white;
-            }
+		.mcn-masterdetailview-detail {
+			.mcn-masterdetailview-detail-header {
+				color: white;
+			}
 
-            .mcn-masterdetailview-detail-content {
-                .mcn-masterdetailview-master {
-                    .pagecontrol {
-                        > .fragment {
-                            -ms-grid-rows: 40px 1fr;
-                            background-color: #EEE;
+			.mcn-masterdetailview-detail-content {
+				.mcn-masterdetailview-detail-content-wrapper {
+					.pagecontrol {
+						> .fragment {
+							-ms-grid-rows: 40px 1fr;
+							background-color: #EEE;
 
-                            header[role=banner] {
-                                background-color: #DDD;
-                                border-bottom: 1px solid #BBB;
-                                -ms-grid-columns: 0 0 1fr auto;
+							header[role=banner] {
+								background-color: #DDD;
+								border-bottom: 1px solid #BBB;
+								display: flex;
 
-                                .titlearea {
-                                    font-family: 'Open Sans Condensed';
-                                    display: none;
-                                    margin-top: 0;
-                                    font-size: 18pt;
-                                }
+								.win-backbutton {
+									margin: 0;
+									background-color: #888;
 
-                                .codelink, .doclink {
-                                    opacity: 1;
-                                    margin: 0;
-                                    font-size: 0.7em;
-                                    font-weight: 500;
-                                    padding: 0;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+									&:disabled {
+										display: none;
+									}
+								}
 
-        > .mcn-masterdetailview-detail {
-            > .mcn-masterdetailview-detail-header {
-                min-width: 80px;
-                min-height: 60px;
+								.titlearea {
+									font-family: 'Open Sans Condensed';
+									/*display: none;*/
+									margin: 0;
+									margin-left: 10px;
+									font-size: 18pt;
+									flex: 1;
+								}
 
-                .title {
-                    font-size: 3em;
-                }
-            }
-        }
+								.codelink, .doclink {
+									opacity: 1;
+									margin: 0;
+									font-size: 0.7em;
+									font-weight: 500;
+									padding: 0;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 
-        .mcn-masterdetailview-defaultheader {
-            .back:after {
-                font-size: 28pt;
-                margin-left: -4px;
-                padding-top: 15px;
-            }
+		> .mcn-masterdetailview-detail {
+			> .mcn-masterdetailview-detail-header {
+				min-width: 80px;
+				min-height: 60px;
 
-            .title {
-                font-size: 1.8em;
-                text-transform: uppercase;
-                font-family: 'Open Sans Condensed';
-            }
-        }
+				.title {
+					font-size: 3em;
+				}
+			}
+		}
 
-        &.mcn-vertical {
-            .mcn-masterdetailview-defaultheader {
-                .back {
-                    margin-left: 40px;
+		.mcn-masterdetailview-defaultheader {
+			.back:after {
+				font-size: 28pt;
+				margin-left: -4px;
+				padding-top: 15px;
+			}
 
-                    &:after {
-                    }
-                }
-            }
-        }
+			.title {
+				font-size: 1.8em;
+				text-transform: uppercase;
+				font-family: 'Open Sans Condensed';
+			}
+		}
 
-        &.mcn-horizontal {
-            .mcn-masterdetailview-defaultheader {
-                .back:after {
-                    margin-left: -4px;
-                    padding-top: 15px;
-                }
+		&.mcn-vertical {
+			.mcn-masterdetailview-defaultheader {
+				.back {
+					margin-left: 40px;
 
-                .title {
-                }
-            }
+					&:after {
+					}
+				}
+			}
+		}
 
-            > .mcn-masterdetailview-detail {
-                > .mcn-masterdetailview-detail-header {
-                    .title {
-                        line-height: 90px;
-                    }
-                }
-            }
-        }
-    }
+		&.mcn-horizontal {
+			.mcn-masterdetailview-defaultheader {
+				.back:after {
+					margin-left: -4px;
+					padding-top: 15px;
+				}
+
+				.title {
+				}
+			}
+
+			> .mcn-masterdetailview-detail {
+				> .mcn-masterdetailview-detail-header {
+					.title {
+						line-height: 90px;
+					}
+				}
+			}
+		}
+	}
 }
 
 .itemslist {
-    display: flex;
-    flex-flow: column wrap;
-    align-content: flex-start;
+	display: flex;
+	flex-flow: column wrap;
+	align-content: flex-start;
 }
 
 .sectionlist {
-    display: flex;
-    flex-flow: row nowrap;
-    align-content: flex-start;
+	display: flex;
+	flex-flow: row nowrap;
+	align-content: flex-start;
 }
 
 .feature-section {
-    height: 100%;
-    width: 100%;
+	height: 100%;
+	width: 100%;
 
-    .mcn-hub-section h2 {
-        font-family: 'Open Sans Condensed';
-        text-transform: uppercase;
-        font-size: 14pt;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
+	.mcn-hub-section h2 {
+		font-family: 'Open Sans Condensed';
+		text-transform: uppercase;
+		font-size: 14pt;
+		font-weight: bold;
+		margin-bottom: 5px;
+	}
 
-    .mcn-hub-section-titled {
-        -ms-grid-rows: 130px 1fr 40px;
-    }
+	.mcn-hub-section-titled {
+		-ms-grid-rows: 130px 1fr 40px;
+	}
 
-    .mcn-hub-section-content {
-        background-color: white;
-        border: 1px solid #BBB;
-    }
+	.mcn-hub-section-content {
+		background-color: white;
+		border: 1px solid #BBB;
+	}
 }
 
 .feature {
-    width: 300px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    line-height: 1.2em;
-    box-sizing: border-box;
-    padding: 10px;
-    overflow-x: hidden;
+	width: 300px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	line-height: 1.2em;
+	box-sizing: border-box;
+	padding: 10px;
+	overflow-x: hidden;
 
-    &.big {
-        font-size: 1.2em;
-    }
+	&.big {
+		font-size: 1.2em;
+	}
 
-    h3 {
-        font-weight: 500;
-    }
+	h3 {
+		font-weight: 500;
+	}
 
-    &.disabled {
-        opacity: 0.5;
-    }
+	&.disabled {
+		opacity: 0.5;
+	}
 
-    .title {
-        font-weight: 500;
-        margin-bottom: 4px;
-    }
+	.title {
+		font-weight: 500;
+		margin-bottom: 4px;
+	}
 }
 
 .headerSize(@size, @calc) {
-    #app-mainpage {
-        #app-header {
-            height: @size;
-        }
+	#app-mainpage {
+		#app-header {
+			height: @size;
+		}
 
-        #app-content {
-            top: @size;
-            height: @calc;
-        }
-    }
+		#app-content {
+			top: @size;
+			height: @calc;
+		}
+	}
 }
 
 .contentMargin(@margin, @calc) {
-    #app-mainpage {
-        #app-header {
-            #app-header-logo {
-                margin-left: @margin;
-            }
-        }
+	#app-mainpage {
+		#app-header {
+			#app-header-logo {
+				margin-left: @margin;
+			}
+		}
 
-        #app-content.mcn-vertical {
-            .mcn-masterdetailview-defaultheader {
-                .back {
-                    min-width: 0;
-                    margin-left: @margin;
-                    margin-right: @margin;
-                }
-            }
-        }
-    }
+		#app-content.mcn-vertical {
+			.mcn-masterdetailview-defaultheader {
+				.back {
+					min-width: 0;
+					margin-left: @margin;
+					margin-right: @margin;
+				}
+			}
+		}
+	}
 
-    .feature-section {
-        .mcn-hub-section {
-            margin-left: @margin;
-            width: @calc;
-        }
+	.feature-section {
+		.mcn-hub-section {
+			margin-left: @margin;
+			width: @calc;
+		}
 
-        .mcn-hub-section-titled {
-            display: block;
+		.mcn-hub-section-titled {
+			display: block;
 
-            > h2 {
-                margin-top: @margin;
-            }
-        }
-    }
+			> h2 {
+				margin-top: @margin;
+			}
+		}
+	}
 }
 
 @media screen and (orientation: portrait) {
-    .headerSize(60px, ~"calc(100% - 60px)");
-    .contentMargin(15px, ~"calc(100% - 30px)");
+	.headerSize(60px, ~"calc(100% - 60px)");
+	.contentMargin(15px, ~"calc(100% - 30px)");
 
-    #app-mainpage {
-        #app-header {
-            #app-header-logo {
-                .logo {
-                    margin-top: 7px;
-                }
-            }
-        }
+	#app-mainpage {
+		#app-header {
+			#app-header-logo {
+				.logo {
+					margin-top: 7px;
+				}
+			}
+		}
 
-        #app-content {
-            .mcn-masterdetailview-detail {
-                .mcn-masterdetailview-detail-header {
-                    .title {
-                        font-size: 1.4em;
-                    }
-                }
-            }
+		#app-content {
+			.mcn-masterdetailview-detail {
+				.mcn-masterdetailview-detail-header {
+					.title {
+						font-size: 1.4em;
+					}
+				}
+			}
 
-            > .mcn-masterdetailview-detail {
-                > .mcn-masterdetailview-detail-header {
-                    .title {
-                        font-size: 1.8em;
-                    }
-                }
-            }
+			> .mcn-masterdetailview-detail {
+				> .mcn-masterdetailview-detail-header {
+					.title {
+						font-size: 1.8em;
+					}
+				}
+			}
 
-            &.mcn-vertical .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header {
-                height: 40px;
-                min-width: 40px;
-                min-height: 40px;
+			&.mcn-vertical .mcn-masterdetailview-detail .mcn-masterdetailview-detail-header {
+				height: 40px;
+				min-width: 40px;
+				min-height: 40px;
 
-                .mcn-masterdetailview-defaultheader {
-                    .back {
-                        min-height: 40px;
-                        display: none;
+				.mcn-masterdetailview-defaultheader {
+					.back {
+						min-height: 40px;
+						display: none;
 
-                        &:after {
-                            font-size: 24pt;
-                        }
-                    }
+						&:after {
+							font-size: 24pt;
+						}
+					}
 
-                    .title {
-                        line-height: 36px;
-                        margin-left: 15px;
-                    }
-                }
-            }
-        }
-    }
+					.title {
+						line-height: 36px;
+						margin-left: 15px;
+					}
+				}
+			}
+		}
+	}
 
-    /*.feature-section {
+	/*.feature-section {
         .mcn-hub-section h2 {
             font-size: 18pt;
         }
     }*/
 
-    .feature {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 5px;
-        padding: 5px;
-    }
+	.feature {
+		width: 100%;
+		margin-right: 0;
+		margin-bottom: 5px;
+		padding: 5px;
+	}
 }
 
 #codeviewFlyout .childNavigator-contentPlaceholder {
-    max-width: 90%;
+	max-width: 90%;
 }
 
 #docviewFlyout .childNavigator-contentPlaceholder {
-    max-width: 800px;
-    font-size: 12pt;
+	max-width: 800px;
+	font-size: 12pt;
 
-    .fragment {
-        -ms-grid-rows: 60px 1fr;
+	.fragment {
+		-ms-grid-rows: 60px 1fr;
 
-        header[role=banner] {
-            background-color: @color-apidoc;
-            color: white;
-            -ms-grid-columns: 40px auto 1fr auto;
+		header[role=banner] {
+			background-color: @color-apidoc;
+			color: white;
+			-ms-grid-columns: 40px auto 1fr auto;
 
-            .win-backbutton {
-                margin-top: 11px;
-                color: white;
-                border-color: white;
-                border-width: 1px;
-                font-size: 12pt;
-                width: 36px;
-                height: 36px;
-                line-height: 34px;
-                margin-right: 10px;
+			.win-backbutton {
+				margin-top: 11px;
+				color: white;
+				border-color: white;
+				border-width: 1px;
+				font-size: 12pt;
+				width: 36px;
+				height: 36px;
+				line-height: 34px;
+				margin-right: 10px;
 
-                &:disabled {
-                    display: none;
-                }
-            }
+				&:disabled {
+					display: none;
+				}
+			}
 
-            .titlearea {
-                font-size: 20pt;
-                margin-top: 10px;
-            }
-        }
+			.titlearea {
+				font-size: 20pt;
+				margin-top: 10px;
+			}
+		}
 
-        section[role=main] {
-            width: 100%;
-            height: 100%;
-            box-sizing: border-box;
-            overflow-y: auto;
+		section[role=main] {
+			width: 100%;
+			height: 100%;
+			box-sizing: border-box;
+			overflow-y: auto;
 
-            &.content-view {
-                padding: 40px;
-            }
+			&.content-view {
+				padding: 40px;
+			}
 
-            h1, h2, h3, h4 {
-                color: @color-apidoc;
-                margin-top: 1em;
-                margin-bottom: 0.2em;
-            }
+			h1, h2, h3, h4 {
+				color: @color-apidoc;
+				margin-top: 1em;
+				margin-bottom: 0.2em;
+			}
 
-            h3 {
-                text-transform: uppercase;
-                font-size: 1em;
-            }
+			h3 {
+				text-transform: uppercase;
+				font-size: 1em;
+			}
 
-            h4 {
-                font-weight: 500;
-            }
+			h4 {
+				font-weight: 500;
+			}
 
-            .apidoc-class {
-                > .apidoc-description {
-                    /*border: 1px solid #DDD;
+			.apidoc-class {
+				> .apidoc-description {
+					/*border: 1px solid #DDD;
                     padding: 10px;
                     font-size: 1.1em;*/
-                    font-weight: 500;
-                }
-            }
+					font-weight: 500;
+				}
+			}
 
-            .apidoc-description {
-            }
+			.apidoc-description {
+			}
 
-            .apidoc-function-name, .apidoc-member-name {
-                font-family: Consolas, 'Lucida Console', 'Open Sans';
-            }
+			.apidoc-function-name, .apidoc-member-name {
+				font-family: Consolas, 'Lucida Console', 'Open Sans';
+			}
 
-            .apidoc-function-name {
-                font-weight: 600;
-            }
+			.apidoc-function-name {
+				font-weight: 600;
+			}
 
-            .apidoc-member-name {
-                font-weight: 500;
+			.apidoc-member-name {
+				font-weight: 500;
 
-                .name {
-                    font-weight: 600;
-                }
-            }
+				.name {
+					font-weight: 600;
+				}
+			}
 
-            .apidoc-member, .apidoc-function {
-                padding: 10px 0;
-                border-bottom: 1px solid #CCC;
+			.apidoc-member, .apidoc-function {
+				padding: 10px 0;
+				border-bottom: 1px solid #CCC;
 
-                &:last-child {
-                    border-bottom: none;
-                }
-            }
+				&:last-child {
+					border-bottom: none;
+				}
+			}
 
-            .apidoc-function-params, .apidoc-function-returns {
-                color: #444;
-                padding-left: 20px;
-                font-size: 0.9em;
+			.apidoc-function-params, .apidoc-function-returns {
+				color: #444;
+				padding-left: 20px;
+				font-size: 0.9em;
 
-                .apidoc-member {
-                    padding: 4px 0;
-                    border-bottom-color: #DDD;
+				.apidoc-member {
+					padding: 4px 0;
+					border-bottom-color: #DDD;
 
-                    .remark{
-                        font-weight:normal;
-                        font-size: 0.9em;
-                        font-style: italic;
-                    }
+					.remark {
+						font-weight: normal;
+						font-size: 0.9em;
+						font-style: italic;
+					}
 
-                    & > .apidoc-description {
-                        font-style: italic;
-                    }
-                }
+					& > .apidoc-description {
+						font-style: italic;
+					}
+				}
 
-                .apidoc-function-name {
-                    font-style: italic;
-                }
+				.apidoc-function-name {
+					font-style: italic;
+				}
 
-                h5 {
-                    font-weight: 400;
-                    margin-top: 5px;
-                    text-transform: uppercase;
-                    font-size: 0.9em;
-                }
-            }
+				h5 {
+					font-weight: 400;
+					margin-top: 5px;
+					text-transform: uppercase;
+					font-size: 0.9em;
+				}
+			}
 
-            .apidoc-classes{
-                a{
-                    display: block;
-                }
-            }
+			.apidoc-classes {
+				a {
+					display: block;
+				}
+			}
 
-            .apidoc-examples {
-                pre {
-                    width: 100%;
-                    max-height: 50%;
-                    overflow: auto;
-                    box-sizing: border-box;
-                    border: 1px solid #CCC;
-                    padding: 10px 20px 20px 10px;
-                    color: #444;
-                }
-            }
+			.apidoc-examples {
+				pre {
+					width: 100%;
+					max-height: 50%;
+					overflow: auto;
+					box-sizing: border-box;
+					border: 1px solid #CCC;
+					padding: 10px 20px 20px 10px;
+					color: #444;
+				}
+			}
 
-            .apidoc-filename{
-                font-style: italic;
-                color: #AAA;
-                margin-top: 10px;
-                margin-bottom: 20px;
-            }
-        }
-    }
+			.apidoc-filename {
+				font-style: italic;
+				color: #AAA;
+				margin-top: 10px;
+				margin-bottom: 20px;
+			}
+		}
+	}
 }
 
 @media screen and (max-width: 600px) {
-    body{
-        font-size: 11pt;
-    }
+	body {
+		font-size: 11pt;
+	}
 
-    .childNavigator .childNavigator-contentPlaceholder {
-        max-width: 100%;
-    }
+	.childNavigator .childNavigator-contentPlaceholder {
+		max-width: 100%;
+	}
 
-    #docviewFlyout .childNavigator-contentPlaceholder {
-        .fragment {
+	#docviewFlyout .childNavigator-contentPlaceholder {
+		.fragment {
 
-            header[role=banner] {
-                -ms-grid-columns: 20px auto 1fr auto;
+			header[role=banner] {
+				-ms-grid-columns: 20px auto 1fr auto;
 
-                .win-backbutton{
-                    margin-left: 0;
-                }
+				.win-backbutton {
+					margin-left: 0;
+				}
 
-                .titlearea {
-                    font-size: 14pt;
-                    -ms-grid-row-align: center;
-                    margin-top: 0;
-                }
-            }
+				.titlearea {
+					font-size: 14pt;
+					-ms-grid-row-align: center;
+					margin-top: 0;
+				}
+			}
 
-            section[role=main] {
-                &.content-view {
-                    padding: 20px;
-                }
-            }
-        }
-    }
+			section[role=main] {
+				&.content-view {
+					padding: 20px;
+				}
+			}
+		}
+	}
 
-    .syntaxhighlighter a, .syntaxhighlighter div, .syntaxhighlighter code, .syntaxhighlighter table, .syntaxhighlighter table td, .syntaxhighlighter table tr, .syntaxhighlighter table tbody, .syntaxhighlighter table thead, .syntaxhighlighter table caption, .syntaxhighlighter textarea {
-        font-size: 10pt !important;
-    }
+	.syntaxhighlighter a, .syntaxhighlighter div, .syntaxhighlighter code, .syntaxhighlighter table, .syntaxhighlighter table td, .syntaxhighlighter table tr, .syntaxhighlighter table tbody, .syntaxhighlighter table thead, .syntaxhighlighter table caption, .syntaxhighlighter textarea {
+		font-size: 10pt !important;
+	}
 }

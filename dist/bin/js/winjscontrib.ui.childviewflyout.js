@@ -69,10 +69,8 @@
 					.tap(that.hide.bind(that), { disableAnimation: true })
 					.element;
 
-           		that.contentPlaceholder = new FD('DIV')
-					.addClass("childNavigator-contentPlaceholder")
-					.appendTo(that.rootElement)
-					.append('DIV', function (nav) {
+           		that.contentPlaceholder = new FD('DIV', "childNavigator-contentPlaceholder", that.rootElement)
+					.append('DIV', null, function (nav) {
            				that.navigator = new WinJSContrib.UI.PageControlNavigator(nav.element, { global: false });
            				that.navigator.hide = function (arg) {
            					return that.hide(arg);

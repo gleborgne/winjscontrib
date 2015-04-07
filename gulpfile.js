@@ -32,6 +32,7 @@ var jsDestPath = 'dist/bin/js/';
 var cssFilesPath = 'Sources/Samples/MCNEXT WinJS Contrib.Shared/css/winjscontrib/';
 var cssDestPath = 'dist/bin/css/';
 var tsDestPath = 'dist/bin/ts/';
+var samplesPath = 'Sources/Samples/';
 
 function licenseHeader(){
 	return '/* \r\n' +
@@ -105,6 +106,13 @@ gulp.task('styles', ['cleanstyles'], function() {
     .pipe(gulp.dest(cssDestPath))
 	//.pipe(concat('main.css'))
 	
+});
+
+gulp.task('sourcesstyles', function() {
+	return gulp.src(['Sources/**/*.less', '!Sources/**/bld/**/*.less', '!Sources/**/bin/**/*.less', '!Sources/**/bld/**/*.less'], { base : '.' })
+	.pipe(plumber({errorHandler: onError}))
+	.pipe(less())
+	.pipe(gulp.dest(''));	
 });
 
 var tsProject = ts.createProject({
@@ -220,8 +228,8 @@ gulp.task('doc', ['cleandoc', 'scripts'], function() {
 
 gulp.task('watch', function() {
 	gulp.watch([
-		cssFilesPath + '**/*.less'
-	], ['styles']);
+		'Sources/**/*.less', '!Sources/**/bld/**/*.less', '!Sources/**/bin/**/*.less', '!Sources/**/bld/**/*.less'
+	], ['sourcesstyles']);
 
 	gulp.watch([
 		typingsPath + '*.d.ts', 

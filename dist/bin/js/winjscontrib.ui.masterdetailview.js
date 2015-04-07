@@ -72,7 +72,7 @@
 
                     if (ctrl.loading)
                         ctrl.loading.cancel();
-
+                    
                     ctrl.loading = WinJSContrib.UI.Pages.renderFragment(ctrl.masterView, val, ctrl.uriArgs, {
                         parented : WinJS.Promise.timeout(),
                         oncreate: function (element, options) {
@@ -85,23 +85,15 @@
             },
 
             _initContent: function () {
-                var ctrl = this;
-                ctrl.masterView = document.createElement('DIV');
-                ctrl.masterView.className = 'mcn-masterdetailview-master visible';
-                WinJSContrib.Utils.moveChilds(ctrl.element, ctrl.masterView);
-                ctrl.element.appendChild(ctrl.masterView);
+            	var ctrl = this;
+            	var FD = WinJSContrib.UI.FluentDOM;
+            	ctrl.masterView = new FD('DIV', 'mcn-masterdetailview-master visible').element;
+            	WinJSContrib.Utils.moveChilds(ctrl.element, ctrl.masterView);
+            	ctrl.element.appendChild(ctrl.masterView);
 
-                ctrl.detailView = document.createElement('DIV');
-                ctrl.detailView.className = 'mcn-masterdetailview-detail';
-                ctrl.element.appendChild(ctrl.detailView);
-
-                ctrl.detailViewHeader = document.createElement('DIV');
-                ctrl.detailViewHeader.className = 'mcn-masterdetailview-detail-header';
-                ctrl.detailView.appendChild(ctrl.detailViewHeader);
-
-                ctrl.detailViewContent = document.createElement('DIV');
-                ctrl.detailViewContent.className = 'mcn-masterdetailview-detail-content';
-                ctrl.detailView.appendChild(ctrl.detailViewContent);
+                ctrl.detailView = new FD('DIV', 'mcn-masterdetailview-detail', ctrl.element).element;
+                ctrl.detailViewHeader = new FD('DIV', 'mcn-masterdetailview-detail-header', ctrl.detailView).element;
+                ctrl.detailViewContent = new FD('DIV', 'mcn-masterdetailview-detail-content', ctrl.detailView).element;
             },
 
             _defaultHeaderTemplate: function () {
@@ -175,23 +167,28 @@
                 var ctrl = this;
                 ctrl._clearDetailContent();
 
+                var elt = document.createElement('DIV');
+                elt.className = 'mcn-masterdetailview-detail-content-wrapper';
+                elt.style.width = "100%";
+                elt.style.height = "100%";
+                ctrl.detailViewContent.appendChild(elt);
+
                 if (options.wrapInMasterDetailView) {
-                    var elt = document.createElement('DIV');
-                    elt.style.width = "100%";
-                    elt.style.height = "100%";                    
-
-                    ctrl.detailViewContentCtrl = new WinJSContrib.UI.MasterDetailView(elt, { uri: uri, uriArgs: data, parent: ctrl, orientation: ctrl.orientation, orientations: ctrl.orientations });
-                    ctrl.detailViewContent.appendChild(elt);
-                    return WinJS.Promise.wrap();
+                	ctrl.detailViewContentCtrl = new WinJSContrib.UI.MasterDetailView(elt, { uri: uri, uriArgs: data, parent: ctrl, orientation: ctrl.orientation, orientations: ctrl.orientations });
+                	return WinJS.Promise.wrap();
                 }
-
-                return WinJSContrib.UI.Pages.renderFragment(ctrl.detailViewContent, uri, data, {
-                    oncreate: function (element, options) {
-                        var detailCtrl = element.winControl;
-                        detailCtrl.masterDetailView = ctrl;
-                        ctrl.detailViewContentCtrl = detailCtrl;
-                    }
-                });
+                else {
+                	ctrl.detailViewContentCtrl = new WinJSContrib.UI.PageControlNavigator(elt, { global: false });
+                	ctrl.detailViewContentCtrl.navigate(uri, data);
+                	return WinJS.Promise.wrap();
+                }
+                //return WinJSContrib.UI.Pages.renderFragment(ctrl.detailViewContent, uri, data, {
+                //    oncreate: function (element, options) {
+                //        var detailCtrl = element.winControl;
+                //        detailCtrl.masterDetailView = ctrl;
+                //        ctrl.detailViewContentCtrl = detailCtrl;
+                //    }
+                //});
             },
 
             _animateToDetail: function (element, data, options) {

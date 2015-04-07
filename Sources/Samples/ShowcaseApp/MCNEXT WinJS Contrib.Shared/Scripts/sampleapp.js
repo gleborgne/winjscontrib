@@ -37,7 +37,7 @@ function registerSection(page, classname) {
 
                 var opts = {}
                 opts.uri = target;
-                opts.wrapInMasterDetailView = true;
+                opts.wrapInMasterDetailView = (args.wrapInMasterDetailView != undefined ? args.wrapInMasterDetailView : true);
                 opts.prepareHeader = function (arg) {
                     var s = getComputedStyle(elt);
                     arg.header.style.backgroundColor = s.backgroundColor;
