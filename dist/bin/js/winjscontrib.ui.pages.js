@@ -4,6 +4,8 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
+var profiler = window.msWriteProfilerMark || function () {
+};
 var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
@@ -393,7 +395,7 @@ var WinJSContrib;
                 source.define = pageOverride.define;
                 source.render = pageOverride.render;
                 source._remove = pageOverride._remove;
-            })(WinJSContrib.UI.Pages, window, WinJS, WinJS.UI.Pages, WinJS.Utilities, WinJS.Utilities, msWriteProfilerMark, WinJS.Promise, WinJS.UI.Fragments, WinJS.UI);
+            })(WinJSContrib.UI.Pages, window, WinJS, WinJS.UI.Pages, WinJS.Utilities, WinJS.Utilities, profiler, WinJS.Promise, WinJS.UI.Fragments, WinJS.UI);
         })(Pages = UI.Pages || (UI.Pages = {}));
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));

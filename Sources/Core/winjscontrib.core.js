@@ -1,8 +1,9 @@
 ///<reference path="../typings/jquery.d.ts"/>
 ///<reference path="../typings/winjs.d.ts"/>
 ///<reference path="../typings/winrt.d.ts"/>
-if (!window.setImmediate) {
-    window.setImmediate = function (callback) {
+//polyfill setimmediate
+if (!this.setImmediate) {
+    this.setImmediate = function (callback) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
@@ -935,7 +936,7 @@ var WinJSContrib;
                         event.stopPropagation();
                         event.preventDefault();
                     }
-                    event.currentTarget.classList.add('tapped');
+                    WinJS.Utilities.addClass(elt, 'tapped');
                     if (event.changedTouches) {
                         tracking.pointerdown = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
                     }
@@ -952,7 +953,7 @@ var WinJSContrib;
                 var elt = event.currentTarget || event.target;
                 var tracking = elt.mcnTapTracking;
                 if (tracking && tracking.pointerdown) {
-                    elt.classList.remove('tapped');
+                    WinJS.Utilities.removeClass(elt, 'tapped');
                     if (event.pointerId && elt.releasePointerCapture)
                         elt.releasePointerCapture(event.pointerId);
                     if (!tracking.disableAnimation)
@@ -995,15 +996,14 @@ var WinJSContrib;
                             resolveTap();
                         }
                     }
-                    elt.classList.remove('tapped');
+                    WinJS.Utilities.removeClass(elt, 'tapped');
                 }
             };
             var opt = options || {};
             if (element.mcnTapTracking) {
                 element.mcnTapTracking.dispose();
             }
-            if (element.classList)
-                element.classList.add('tap');
+            WinJS.Utilities.addClass(element, 'tap');
             element.mcnTapTracking = element.mcnTapTracking || {};
             element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
             element.mcnTapTracking.disableAnimation = opt.disableAnimation;
@@ -1027,8 +1027,7 @@ var WinJSContrib;
             element.mcnTapTracking.tapOnDown = opt.tapOnDown;
             element.mcnTapTracking.pointerModel = 'none';
             element.mcnTapTracking.dispose = function () {
-                if (element.classList)
-                    element.classList.remove('tap');
+                WinJS.Utilities.removeClass(element, 'tap');
                 this.eventTracker.dispose();
                 element.mcnTapTracking = null;
                 element = null;
@@ -2191,4 +2190,5 @@ var WinJSContrib;
         Templates.makeInteractive = makeInteractive;
     })(Templates = WinJSContrib.Templates || (WinJSContrib.Templates = {}));
 })(WinJSContrib || (WinJSContrib = {}));
-//# sourceMappingURL=winjscontrib.core.js.map
+
+//# sourceMappingURL=../../Sources/Core/winjscontrib.core.js.map

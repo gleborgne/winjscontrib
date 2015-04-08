@@ -12,9 +12,10 @@ interface Window {
 	Touch: any;
 }
 
-if (!window.setImmediate) {
-	window.setImmediate = function (callback:any, ...args:any[]):number {
-		setTimeout(callback, 10);
+//polyfill setimmediate
+if (!this.setImmediate) {
+	this.setImmediate = function (callback:any, ...args:any[]):number {
+		setTimeout(callback, 0);
 		return 0;
 	}
 }
@@ -1021,7 +1022,7 @@ module WinJSContrib.UI {
 					event.stopPropagation();
 					event.preventDefault();
 				}
-				event.currentTarget.classList.add('tapped');
+				WinJS.Utilities.addClass(elt, 'tapped');
 				if (event.changedTouches) {
 					tracking.pointerdown = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
 				} else {
@@ -1038,7 +1039,7 @@ module WinJSContrib.UI {
 			var elt = event.currentTarget || event.target;
 			var tracking = elt.mcnTapTracking;
 			if (tracking && tracking.pointerdown) {
-				elt.classList.remove('tapped');
+				WinJS.Utilities.removeClass(elt, 'tapped');
 
 				if (event.pointerId && elt.releasePointerCapture)
 					elt.releasePointerCapture(event.pointerId);
@@ -1086,7 +1087,7 @@ module WinJSContrib.UI {
 						resolveTap();
 					}
 				}
-				elt.classList.remove('tapped');
+				WinJS.Utilities.removeClass(elt, 'tapped');
 			}
 		}
 
@@ -1095,8 +1096,7 @@ module WinJSContrib.UI {
 			element.mcnTapTracking.dispose();
 		}
 
-		if (element.classList)
-			element.classList.add('tap');
+		WinJS.Utilities.addClass(element, 'tap');
 
 		element.mcnTapTracking = element.mcnTapTracking || {};
 		element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
@@ -1116,8 +1116,7 @@ module WinJSContrib.UI {
 		element.mcnTapTracking.tapOnDown = opt.tapOnDown;
 		element.mcnTapTracking.pointerModel = 'none';
 		element.mcnTapTracking.dispose = function () {
-			if (element.classList)
-				element.classList.remove('tap');
+			WinJS.Utilities.removeClass(element, 'tap');
 			this.eventTracker.dispose();
 			element.mcnTapTracking = null;
 			element = null;

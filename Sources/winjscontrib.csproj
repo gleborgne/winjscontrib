@@ -154,6 +154,7 @@
     <Content Include="Core\winjscontrib.ui.morph.js" />
     <Content Include="Core\winjscontrib.ui.multipass-renderer.js" />
     <TypeScriptCompile Include="Core\winjscontrib.ui.pages.ts" />
+    <Content Include="Core\winjscontrib.ui.webcomponents.js" />
     <Content Include="Web.config" />
     <Content Include="WinRT\winjscontrib.winrt.audiorecording.js" />
     <Content Include="WinRT\winjscontrib.winrt.backgrounddownloads.js" />
@@ -187,7 +188,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1354</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

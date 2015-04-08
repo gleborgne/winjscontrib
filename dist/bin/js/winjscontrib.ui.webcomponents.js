@@ -5,7 +5,8 @@
  */
 
 /*
-WARNING: this feature is still experimental
+WARNING: this feature is experimental
+You must add winjscontrib.core.js and winjscontrib.ui.pages.js
 */
 
 /// <reference path="winjscontrib.core.js" />
@@ -80,7 +81,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			var proto = Object.create(HTMLElement.prototype);
 			proto.createdCallback = function () {
 				var options = {};
-				var scope = WinJSContrib.Utils.getScopeControl(element);
+				var scope = WinJSContrib.Utils.getScopeControl(this);
 				if (optionsCallback) {
 					options = optionsCallback(this, scope);
 				}
@@ -106,9 +107,11 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	}
 
 	WinJSContrib.UI.WebComponents.register('win-listview', WinJS.UI.ListView, function (elt) {
-		var e = document.createElement('DIV');
 		var options = {};
-		WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemtemplate', 'itemTemplate', options);
+		WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemtemplate', 'itemTemplate', options, true);
+		WinJSContrib.UI.WebComponents.mapAttr(elt, 'swipebehavior', 'swipeBehavior', options);
+		WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectbehavior', 'selectBehavior', options);
+		WinJSContrib.UI.WebComponents.mapAttr(elt, 'tapbehavior', 'tapBehavior', options);
 		
 		return options;
 	});
