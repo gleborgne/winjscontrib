@@ -105,6 +105,7 @@ var WinJSContrib;
                             return;
                         }
                         this._disposed = true;
+                        this.readyComplete.cancel();
                         _ElementUtilities.disposeSubTree(this.element);
                         this.element = null;
                     },

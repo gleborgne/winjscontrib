@@ -906,6 +906,8 @@ var WinJSContrib;
          * @param {HtmlElement} element element to clean
          */
         function untap(element) {
+            if (!element)
+                return;
             if (element.mcnTapTracking) {
                 element.mcnTapTracking.dispose();
                 element.mcnTapTracking = null;
@@ -918,6 +920,8 @@ var WinJSContrib;
          * @param {HtmlElement} element element to clean
          */
         function untapAll(element) {
+            if (!element)
+                return;
             var taps = element.querySelectorAll('.tap');
             for (var i = 0, l = taps.length; i < l; i++) {
                 untap(taps[i]);
@@ -932,6 +936,8 @@ var WinJSContrib;
          * @param {Object} options tap options
          */
         function tap(element, callback, options) {
+            if (!element)
+                return;
             var ptDown = function (event) {
                 var elt = event.currentTarget || event.target;
                 var tracking = elt.mcnTapTracking;

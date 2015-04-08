@@ -467,6 +467,7 @@
             			}),
 
             			oninit: function (element, options) {
+            				if (!element) return;
             				var control = element.winControl;
             				control.navigator = navigator;
             				control.element.mcnPage = true;

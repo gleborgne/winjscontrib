@@ -985,6 +985,9 @@ module WinJSContrib.UI {
 	 * @param {HtmlElement} element element to clean
 	 */
 	export function untap(element) {
+		if (!element)
+			return;
+
 		if (element.mcnTapTracking) {
 			element.mcnTapTracking.dispose();
 			element.mcnTapTracking = null;
@@ -997,6 +1000,9 @@ module WinJSContrib.UI {
 	 * @param {HtmlElement} element element to clean
 	 */
 	export function untapAll(element) {
+		if (!element)
+			return;
+
 		var taps = element.querySelectorAll('.tap');
 		for (var i = 0, l = taps.length; i < l; i++) {
 			untap(taps[i]);
@@ -1011,6 +1017,9 @@ module WinJSContrib.UI {
 	 * @param {Object} options tap options
 	 */
 	export function tap(element, callback, options?) {
+		if (!element)
+			return;
+
 		var ptDown = function (event) {
 			var elt = event.currentTarget || event.target;
 			var tracking = elt.mcnTapTracking;

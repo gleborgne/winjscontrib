@@ -4,6 +4,12 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
+/* 
+ * WinJS Contrib v2.0.3.0
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
 /// <reference path="winjscontrib.winrt.backgrounddownloads.js" />
 
 var WinJSContrib = WinJSContrib || {};
@@ -87,8 +93,8 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                 });
             }
 
-            return WinJSContrib.BgDownloads.initDownloads().then(processItems, function (err) {
-                processItems([]);
+            return WinJSContrib.BgDownloads.initDownloads().then(function (a) { return processItems(a) }, function (err) {
+                return processItems([]);
             });
         },
 

@@ -112,6 +112,7 @@ module WinJSContrib.UI.Pages {
                 }
 
                 this._disposed = true;
+				this.readyComplete.cancel();
                 _ElementUtilities.disposeSubTree(this.element);
                 this.element = null;
             },
@@ -332,8 +333,7 @@ module WinJSContrib.UI.Pages {
                             function Pages_error(err) {
                                 if (that.error)
                                     return that.error(err);
-                            }
-                            );
+                            });
                     },
                     _mixinBase
                     );
