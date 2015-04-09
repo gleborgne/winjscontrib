@@ -367,10 +367,10 @@ var WinJSContrib;
                 var unregister = function () {
                     try {
                         e.removeEventListener(eventName, handler);
-                        var idx = tracker.events.indexOf(unregister);
-                        if (idx >= 0) {
-                            tracker.events.splice(idx, 1);
-                        }
+                        //var idx = tracker.events.indexOf(unregister);
+                        //if (idx >= 0) {
+                        //    tracker.events.splice(idx, 1);
+                        //}
                     }
                     catch (exception) {
                         console.error('unexpected error while releasing callback ' + exception.message);
