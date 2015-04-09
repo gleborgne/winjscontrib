@@ -30,22 +30,25 @@ module WinJSContrib.UI.Pages {
     export var defaultFragmentMixins: Array<any> = [{
 
         $: function (selector) {
-            return $(selector, this.element || this._element);
+            if (!this.element)
+				return;
+			return $(selector, this.element || this._element);
         },
 
         q: function (selector) {
-            return this.element.querySelector(selector);
+            if (!this.element)
+				return;
+			return this.element.querySelector(selector);
         },
 
         qAll: function (selector) {
-            var res = this.element.querySelectorAll(selector);
+            if (!this.element)
+				return;
+			var res = this.element.querySelectorAll(selector);
             if (res && !res.forEach) {
-                res.forEach = function (callback) {
-                    for (var i = 0; i < res.length; i++) {
-                        callback(res[i], i);
-                    }
-                }
+				res = [].slice.call(res);
             }
+			return res;
         },
 
         eventTracker: {

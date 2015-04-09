@@ -25,12 +25,9 @@ var WinJSContrib;
                                 return;
                             var res = this.element.querySelectorAll(selector);
                             if (res && !res.forEach) {
-                                res.forEach = function (callback) {
-                                    for (var i = 0; i < res.length; i++) {
-                                        callback(res[i], i);
-                                    }
-                                };
+                                res = [].slice.call(res);
                             }
+                            return res;
                         },
                     },
                     {

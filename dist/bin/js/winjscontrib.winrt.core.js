@@ -223,7 +223,7 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
      * @param {Object} data toast options
      */
     WinJSContrib.Alerts.toastNotification = function (data) {
-        if (window.Windows) {
+        if (Windows) {
             var notifications = Windows.UI.Notifications;
             var template = data.template || (data.picture ? notifications.ToastTemplateType.toastImageAndText01 : notifications.ToastTemplateType.toastText01);
             //var template = notifications.ToastTemplateType[data.template]; //toastImageAndText01;

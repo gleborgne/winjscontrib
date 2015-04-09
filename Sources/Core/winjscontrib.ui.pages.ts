@@ -29,13 +29,10 @@ module WinJSContrib.UI.Pages {
                         return;
 
                     var res = this.element.querySelectorAll(selector);
-                    if (res && !res.forEach) {
-                        res.forEach = function (callback) {
-                            for (var i = 0; i < res.length; i++) {
-                                callback(res[i], i);
-                            }
-                        }
-                    }
+					if (res && !res.forEach) {
+						res = [].slice.call(res);
+					}
+					return res;
                 },
             },
             {
