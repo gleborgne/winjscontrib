@@ -823,6 +823,9 @@ ul.icons li [class*=" sgicon-"] {
 .sgicon-sort:before {
   content: "\E174";
 }
+.sgicon-list-invert:before {
+  content: "\E175";
+}
 .sgicon-all-applications:before {
   content: "\E179";
 }
