@@ -190,16 +190,26 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         },
 
         _filterItems: function (item) {
-            var res = true;
+        	var ctrl = this;
+        	var res = function (item) { return true; };
 
             if (this.filter)
-                res = res & this.filter(item);
+            	res = function (item) { return ctrl.filter(item) };
+
             if (this.filters.length) {
+            	var addFilter = function (f, newFilter) {
+            		return function (item) {
+            			var tmp = f(item);
+            			if (!tmp)
+            				return false;
+
+            			return newFilter(item);
+            		}
+            	}
+
                 for (var i = 0 ; i < this.filters.length ; i++) {
                     var filter = this.filters.getAt(i);
-                    res = res & filter(item);
-                    if (!res)
-                        break;
+                    res = addFilter(res, filter);                    
                 }
             }
 
@@ -219,7 +229,8 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
                 this.list = new WinJS.Binding.List(this.items);
 
                 if (this.filter || this.filters.length) {
-                    this.filteredlist = this.list.createFiltered(this._filterItems.bind(this));
+                	var filterCallback = this._filterItems();
+                	this.filteredlist = this.list.createFiltered(filterCallback);
                 }
                 else {
                     this.filteredlist = this.list;

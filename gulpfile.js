@@ -25,6 +25,7 @@ var WinJSContribVersion = "2.0.3.0";
 
 var typingsPath = 'Sources/typings/';
 var srcCorePath = 'Sources/Core/';
+var srcCommonPath = 'Sources/Common/';
 var srcControlsPath = 'Sources/Controls/';
 var srcWinRTPath = 'Sources/WinRT/';
 var jsFilesPath = 'Sources/Samples/MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/';
@@ -90,6 +91,7 @@ gulp.task('styles', ['cleanstyles'], function() {
 	var header = licenseHeader();
 	return merge(
 		compileLessFilesIn(srcCorePath),
+		compileLessFilesIn(srcCommonPath),
 		compileLessFilesIn(srcControlsPath),
 		compileLessFilesIn(srcWinRTPath)
 		)	
@@ -122,10 +124,31 @@ var tsProject = ts.createProject({
     noEmitOnError : false
 });
 
-gulp.task('typescript', function() {
+gulp.task('corecompile', function() {
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
-		srcCorePath + '*.ts', 
+		srcCorePath + 'winjscontrib.core.utils.ts', 
+		srcCorePath + 'winjscontrib.core.ui.ts', 
+		srcCorePath + 'winjscontrib.core.pages.ts'		 
+	], { base : '.' })	
+	.pipe(plumber({errorHandler: onError}))
+	.pipe(sourcemaps.init()) 
+	.pipe(ts(tsProject));
+    return merge([
+        tsResult.dts.pipe(flatten()).pipe(concat('winjscontrib.core.d.ts')).pipe(gulp.dest(tsDestPath)),
+        tsResult.js
+            .pipe(concat('winjscontrib.core.js'))
+        	.pipe(sourcemaps.write("."))
+        	.pipe(gulp.dest(srcCorePath))
+    ]);
+});
+
+gulp.task('typescript', ['corecompile'], function() {
+	var tsResult = gulp.src([
+		typingsPath + '*.d.ts', 
+		tsDestPath + 'winjscontrib.core.d.ts',
+		srcCorePath + 'winjscontrib.ui.pages.ts', 
+		srcCommonPath + '*.ts', 
 		srcControlsPath + '*.ts', 
 		srcWinRTPath + '*.ts', 
 	], { base : '.' })	
@@ -146,6 +169,7 @@ gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
 	
 	return gulp.src([
 		srcCorePath + '*.js',
+		srcCommonPath + '*.js',
 		srcControlsPath + '*.js',
 		srcWinRTPath + '*.js'
 		])        
@@ -234,6 +258,7 @@ gulp.task('watch', function() {
 	gulp.watch([
 		typingsPath + '*.d.ts', 
 		srcCorePath + '*.ts', 
+		srcCommonPath + '*.ts', 
 		srcControlsPath + '*.ts', 
 		srcWinRTPath + '*.ts', 
 	], ['typescript']);

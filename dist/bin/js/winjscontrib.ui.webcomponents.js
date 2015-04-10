@@ -73,7 +73,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		}
 	}
 
-	WinJSContrib.UI.WebComponents.register = function (tagname, ctor, optionsCallback) {
+	WinJSContrib.UI.WebComponents.register = function register(tagname, ctor, optionsCallback) {
 		if (WinJSContrib.UI.WebComponents.polyfill) {
 			global.document.createElement(tagname);
 			registered[tagname.toUpperCase()] = { optionsCallback: optionsCallback, ctor: ctor };
@@ -91,7 +91,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		}
 	}
 
-	WinJSContrib.UI.WebComponents.mapAttr = function (element, attrName, optionName, options, resolve) {
+	WinJSContrib.UI.WebComponents.mapAttr = function mapAttr(element, attrName, optionName, options, resolve) {
 		var val = element.getAttribute(attrName);
 		if (val) {
 			if (resolve) {

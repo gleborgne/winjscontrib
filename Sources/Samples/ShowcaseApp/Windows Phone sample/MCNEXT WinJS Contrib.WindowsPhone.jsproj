@@ -58,6 +58,81 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="..\..\..\Common\segoe.symbol.css">
+      <Link>css\winjscontrib\segoe.symbol.css</Link>
+    </Content>
+    <Content Include="..\..\..\Common\segoe.symbol.less">
+      <Link>css\winjscontrib\segoe.symbol.less</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.bindings.js">
+      <Link>scripts\winjscontrib\winjscontrib.bindings.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.crossplatform.js">
+      <Link>scripts\winjscontrib\winjscontrib.crossplatform.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.datacontainer.cordova.database.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.cordova.database.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.datacontainer.cordova.file.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.cordova.file.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.datacontainer.localstorage.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.localstorage.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.datacontainer.winrt.file.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.winrt.file.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.date.utils.js">
+      <Link>scripts\winjscontrib\winjscontrib.date.utils.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.dynamicscripts.js">
+      <Link>scripts\winjscontrib\winjscontrib.dynamicscripts.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.logger.js">
+      <Link>scripts\winjscontrib\winjscontrib.logger.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.messenger.js">
+      <Link>scripts\winjscontrib\winjscontrib.messenger.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.messenger.worker.js">
+      <Link>scripts\winjscontrib\winjscontrib.messenger.worker.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.mixin.css">
+      <Link>css\winjscontrib\winjscontrib.mixin.css</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.mixin.less">
+      <Link>css\winjscontrib\winjscontrib.mixin.less</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.search.js">
+      <Link>scripts\winjscontrib\winjscontrib.search.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.search.worker.js">
+      <Link>scripts\winjscontrib\winjscontrib.search.worker.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.ui.animation.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.animation.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.ui.boilerplate.control.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.boilerplate.control.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.ui.boilerplate.observable.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.boilerplate.observable.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.ui.css">
+      <Link>css\winjscontrib\winjscontrib.ui.css</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.ui.jquery.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.jquery.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.ui.less">
+      <Link>css\winjscontrib\winjscontrib.ui.less</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.ui.morph.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.morph.js</Link>
+    </Content>
+    <Content Include="..\..\..\Common\winjscontrib.ui.multipass-renderer.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js</Link>
+    </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.childviewflyout.css">
       <Link>css\winjscontrib\winjscontrib.ui.childviewflyout.css</Link>
     </Content>
@@ -178,71 +253,8 @@
     <Content Include="..\..\..\Controls\winjscontrib.ui.tilemenu.less">
       <Link>css\winjscontrib\winjscontrib.ui.tilemenu.less</Link>
     </Content>
-    <Content Include="..\..\..\Core\segoe.symbol.css">
-      <Link>css\winjscontrib\segoe.symbol.css</Link>
-    </Content>
-    <Content Include="..\..\..\Core\segoe.symbol.less">
-      <Link>css\winjscontrib\segoe.symbol.less</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.bindings.js">
-      <Link>scripts\winjscontrib\winjscontrib.bindings.js</Link>
-    </Content>
     <Content Include="..\..\..\Core\winjscontrib.core.js">
       <Link>scripts\winjscontrib\winjscontrib.core.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.crossplatform.js">
-      <Link>scripts\winjscontrib\winjscontrib.crossplatform.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.date.utils.js">
-      <Link>scripts\winjscontrib\winjscontrib.date.utils.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.dynamicscripts.js">
-      <Link>scripts\winjscontrib\winjscontrib.dynamicscripts.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.logger.js">
-      <Link>scripts\winjscontrib\winjscontrib.logger.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.messenger.js">
-      <Link>scripts\winjscontrib\winjscontrib.messenger.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.messenger.worker.js">
-      <Link>scripts\winjscontrib\winjscontrib.messenger.worker.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.mixin.css">
-      <Link>css\winjscontrib\winjscontrib.mixin.css</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.mixin.less">
-      <Link>css\winjscontrib\winjscontrib.mixin.less</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.search.js">
-      <Link>scripts\winjscontrib\winjscontrib.search.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.search.worker.js">
-      <Link>scripts\winjscontrib\winjscontrib.search.worker.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.ui.animation.js">
-      <Link>scripts\winjscontrib\winjscontrib.ui.animation.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.ui.boilerplate.control.js">
-      <Link>scripts\winjscontrib\winjscontrib.ui.boilerplate.control.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.ui.boilerplate.observable.js">
-      <Link>scripts\winjscontrib\winjscontrib.ui.boilerplate.observable.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.ui.css">
-      <Link>css\winjscontrib\winjscontrib.ui.css</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.ui.jquery.js">
-      <Link>scripts\winjscontrib\winjscontrib.ui.jquery.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.ui.less">
-      <Link>css\winjscontrib\winjscontrib.ui.less</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.ui.morph.js">
-      <Link>scripts\winjscontrib\winjscontrib.ui.morph.js</Link>
-    </Content>
-    <Content Include="..\..\..\Core\winjscontrib.ui.multipass-renderer.js">
-      <Link>scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js</Link>
     </Content>
     <Content Include="..\..\..\Core\winjscontrib.ui.pages.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.pages.js</Link>
