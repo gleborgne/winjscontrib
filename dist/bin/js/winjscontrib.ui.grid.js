@@ -49,11 +49,11 @@
                  * @field
                  * @type boolean
                  */
-            	grid.autolayout = options.autolayout;
+            	grid.autolayout = options.autolayout || true;
             	if (grid.autolayout) {
             		var parent = WinJSContrib.Utils.getScopeControl(grid.element);
-            		if (parent && parent.elementReady) {
-            			parent.elementReady.then(function () {
+            		if (parent && parent.layoutComplete) {
+            			parent.layoutComplete.then(function () {
             				if (!parent.beforeShow) parent.beforeShow = [];
             				parent.beforeShow.push(function () {
             					grid.renderer.pageLayout();

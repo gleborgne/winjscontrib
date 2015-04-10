@@ -74,7 +74,6 @@
       <DependentUpon>winjscontrib.ui.extended-splashscreen.css</DependentUpon>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontribold\winjscontrib.ui.extended-splashscreen.less" />
-    <Content Include="$(MSBuildThisFileDirectory)css\winjscontribold\winjscontrib.ui.flipsnap.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontribold\winjscontrib.ui.flipviewpager.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontribold\winjscontrib.ui.flipviewpager.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontribold\winjscontrib.ui.flyoutpage.css" />

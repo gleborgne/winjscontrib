@@ -90,6 +90,7 @@ var WinJSContrib;
              * }));
              */
             function fragmentMixin(constructor) {
+                return;
                 var proto = constructor.prototype;
                 if (constructor.winJSContrib)
                     return;
@@ -282,6 +283,8 @@ var WinJSContrib;
                         return elementCtrl.elementReady;
                     }).then(function (control) {
                         return parented;
+                    }).then(function () {
+                        return elementCtrl.layoutComplete;
                     }).then(function (control) {
                         if (elementCtrl.beforeShow.length) {
                             return WinJSContrib.Promise.parallel(elementCtrl.beforeShow, function (cb) {

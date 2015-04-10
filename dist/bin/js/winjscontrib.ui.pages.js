@@ -252,7 +252,7 @@ var WinJSContrib;
                     // promises guarantee order, so this will be called prior to ready path below
                     //
                     that.renderComplete.then(callComplete, callComplete);
-                    that.readyComplete = that.renderComplete.then(function () {
+                    that.layoutComplete = that.renderComplete.then(function () {
                         return parentedPromise;
                     }).then(function () {
                         element.style.display = that.pageLifeCycle.initialDisplay || '';
@@ -260,7 +260,8 @@ var WinJSContrib;
                         return WinJSContrib.UI.Pages.broadcast(that, element, 'pageLayout', [element, options], null, that.pageLayout);
                     }).then(function () {
                         WinJSContrib.UI.bindActions(element, that);
-                    }).then(function Pages_ready() {
+                    });
+                    that.readyComplete = that.layoutComplete.then(function Pages_ready() {
                         that.ready(element, options);
                         that.pageLifeCycle.ended = new Date();
                         that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
@@ -331,7 +332,7 @@ var WinJSContrib;
                             pageLifeCycle(this, uri, element, options, complete, parentedPromise);
                         }, _mixinBase);
                         base = _Base.Class.mix(base, WinJS.UI.DOMEventMixin);
-                        //base.winJSContrib = true;
+                        base.winJSContrib = true;
                         //this addition is for providing a way to inject behavior in all pages
                         _Pages.defaultPageMixins.forEach(function (mixin) {
                             var d = base.prototype.dispose;

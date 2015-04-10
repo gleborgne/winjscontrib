@@ -236,7 +236,8 @@
                 }).then(function () {
                     ctrl.masterView.classList.add('visible');
                     ctrl.masterView.style.opacity = '0';
-
+					if (ctrl.masterViewContent.__checkLayout)
+						ctrl.masterViewContent.__checkLayout();
                     return morph.revert({ duration: 250 });
                 }).then(function () {
                     return WinJSContrib.UI.Animation.fadeIn(ctrl.masterView, { duration: 300, easing: 'ease-in' });
