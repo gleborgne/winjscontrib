@@ -74,6 +74,7 @@
       <DependentUpon>winjscontrib.ui.extended-splashscreen.css</DependentUpon>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontribold\winjscontrib.ui.extended-splashscreen.less" />
+    <Content Include="$(MSBuildThisFileDirectory)css\winjscontribold\winjscontrib.ui.flipsnap.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontribold\winjscontrib.ui.flipviewpager.css" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontribold\winjscontrib.ui.flipviewpager.less" />
     <Content Include="$(MSBuildThisFileDirectory)css\winjscontribold\winjscontrib.ui.flyoutpage.css" />
@@ -297,6 +298,10 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flexgrid\home.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flexgrid\home.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flexgrid\home.min.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flipsnap\home.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flipsnap\home.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flipsnap\home.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\flipsnap\templateTest.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.css.map" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.html" />
