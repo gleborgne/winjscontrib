@@ -164,7 +164,7 @@ gulp.task('typescript', ['corecompile'], function() {
 });
 
 gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
-	gulp.src([srcCorePath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
+	gulp.src([srcCommonPath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
 	var header = licenseHeader();
 	
 	return gulp.src([
