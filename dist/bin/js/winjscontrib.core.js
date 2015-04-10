@@ -2029,9 +2029,6 @@ var WinJSContrib;
                             var page = this;
                             WinJSContrib.UI.bindActions(element, this);
                             return WinJS.Promise.as(page.__wReady.apply(page, arguments)).then(function () {
-                                if (page.onafterready)
-                                    return page.onafterready(element, options);
-                            }).then(function () {
                                 return broadcast(page, element, 'pageReady', [element, options]);
                             });
                         };
@@ -2092,6 +2089,7 @@ var WinJSContrib;
                     return WinJS.Promise.wrap();
                 }
             }
+            Pages.broadcast = broadcast;
             /**
              * render a html fragment with winjs contrib pipeline and properties, and add WinJS Contrib page events.
              * @function WinJSContrib.UI.Pages.renderFragment

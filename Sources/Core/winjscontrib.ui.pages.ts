@@ -114,7 +114,8 @@ module WinJSContrib.UI.Pages {
                 this.element = null;
             },
 
-            init: function () { },
+            init: function () {
+			},
 
             load: function (uri) {
                 /// <signature helpKeyword="WinJS.UI.Pages._mixin.load">
@@ -211,6 +212,119 @@ module WinJSContrib.UI.Pages {
             return ctor;
         }
 
+		function pageLifeCycle(that, uri, element, options, complete, parentedPromise) {
+			
+			if (element.style.display)
+				that.pageLifeCycle.initialDisplay = element.style.display;
+			element.style.display = 'none';
+
+			var profilerMarkIdentifier = " uri='" + uri + "'" + _BaseUtils._getProfilerMarkIdentifier(that.element);
+
+			_WriteProfilerMark("WinJS.UI.Pages:createPage" + profilerMarkIdentifier + ",StartTM");
+
+			if (WinJSContrib.UI.WebComponents) {
+				that.observer = WinJSContrib.UI.WebComponents.watch(that.element);
+			}
+
+			var load = Promise.timeout().then(function Pages_load() {
+				return that.load(uri);
+			});
+
+			var renderCalled = load.then(function Pages_init(loadResult) {
+				if (that._attachedConstructors) {
+					that._attachedConstructors.forEach(function (ct) {
+						ct.apply(that, [element, options]);
+					});
+				}
+
+				return Promise.join({
+					loadResult: loadResult,
+					initResult: that.init(element, options)
+				});
+			}).then(function Pages_render(result) {
+				return that.render(element, options, result.loadResult);
+			}).then(function Pages_processed() {
+				if (WinJSContrib.UI.WebComponents) {
+					//add delay to enable webcomponent processing
+					return WinJS.Promise.timeout();
+				}
+			});
+
+			that.elementReady = renderCalled.then(function () {
+				return element;
+			});
+
+			that.renderComplete = renderCalled.then(function Pages_processed() {
+				if (that.pageLifeCycle.processQueue && that.pageLifeCycle.processQueue.length) {
+					var promises = [];
+					that._pageLifeCycle.processQueue.forEach(function (p) {
+						return WinJS.Promise.as(p());
+					});
+
+					return WinJS.Promise.join(promises).then(function () {
+						that._pageLifeCycle.processQueue = null;
+					});
+				}
+			}).then(function Pages_process() {
+				return that.process(element, options);
+			}).then(function Pages_processed() {
+				WinJSContrib.UI.bindMembers(element, that);
+				return that.processed(element, options);
+			});
+
+			var callComplete = function () {
+				complete && complete(that);
+				_WriteProfilerMark("WinJS.UI.Pages:createPage" + profilerMarkIdentifier + ",StopTM");
+			};
+
+			// promises guarantee order, so this will be called prior to ready path below
+			//
+			that.renderComplete.then(callComplete, callComplete);
+
+			that.layoutComplete = that.renderComplete.then(function () {
+				return parentedPromise;
+			}).then(function () {
+				element.style.display = that.pageLifeCycle.initialDisplay || '';
+				var r = element.getBoundingClientRect(); //force element layout
+
+				return WinJSContrib.UI.Pages.broadcast(that, element, 'pageLayout', [element, options], null, that.pageLayout);
+			}).then(function () {
+				WinJSContrib.UI.bindActions(element, that);
+			});
+
+			that.readyComplete = that.layoutComplete.then(function Pages_ready() {
+
+				that.ready(element, options);
+
+				that.pageLifeCycle.ended = new Date();
+				that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
+				console.log('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
+
+				return WinJSContrib.UI.Pages.broadcast(that, element, 'pageReady', [element, options]);				
+			}).then(
+				null,
+				function Pages_error(err) {
+					if (that.error)
+						return that.error(err);
+				});
+
+			that.__checkLayout = function () {
+				var page = this;
+				var updateLayoutArgs = arguments;
+				var p = null;
+
+				if (page.updateLayout) {
+					p = WinJS.Promise.as(page.updateLayout.apply(page, updateLayoutArgs));
+				} else {
+					p = WinJS.Promise.wrap();
+				}
+
+				return p.then(function () {
+					return broadcast(page, page.element, 'updateLayout', updateLayoutArgs);
+				});
+			}
+		}
+
         function getPageConstructor(uri, members?) {
             /// <signature helpKeyword="WinJS.UI.Pages.define">
             /// <summary locid="WinJS.UI.Pages.define">
@@ -239,103 +353,30 @@ module WinJSContrib.UI.Pages {
                     //
                     function PageControl_ctor(element, options, complete, parentedPromise) {
                         var that = this;
-						that._pageLifeCycle = {
+						that.pageLifeCycle = {
 							created: new Date(),
-							processQueue: []
+							location : uri,
+							processQueue: [],
+							initialDisplay : null
 						};
                         this._disposed = false;
                         this.element = element = element || _Global.document.createElement("div");
-                        _ElementUtilities.addClass(element, "win-disposable");
                         element.msSourceLocation = uri;
                         this.uri = uri;
                         this.selfhost = selfhost(uri);
                         element.winControl = this;
                         that.parentedComplete = parentedPromise;
-                        _ElementUtilities.addClass(element, "pagecontrol");
-                        var profilerMarkIdentifier = " uri='" + uri + "'" + _BaseUtils._getProfilerMarkIdentifier(this.element);
+                                              
+						_ElementUtilities.addClass(element, "win-disposable");
+						_ElementUtilities.addClass(element, "pagecontrol");
+						_ElementUtilities.addClass(element, "mcn-layout-ctrl");
 
-                        _WriteProfilerMark("WinJS.UI.Pages:createPage" + profilerMarkIdentifier + ",StartTM");
-
-						if (WinJSContrib.UI.WebComponents) {
-							that.observer = WinJSContrib.UI.WebComponents.watch(this.element);
-						}
-
-                        var load = Promise.timeout().then(function Pages_load() {
-                            return that.load(uri);
-                        });
-
-                        var renderCalled = load.then(function Pages_init(loadResult) {
-                            if (that._attachedConstructors) {
-                                that._attachedConstructors.forEach(function (ct) {
-                                    ct.apply(that, [element, options]);
-                                });
-                            }
-
-                            return Promise.join({
-                                loadResult: loadResult,
-                                initResult: that.init(element, options)
-                            });
-                        }).then(function Pages_render(result) {
-							return that.render(element, options, result.loadResult);
-						}).then(function Pages_processed() {
-							if (WinJSContrib.UI.WebComponents) {
-								//add delay to enable webcomponent processing
-								return WinJS.Promise.timeout();
-							}
-						});
-
-                        this.elementReady = renderCalled.then(function () {
-                            return element;
-                        });
-
-                        this.renderComplete = renderCalled.then(function Pages_processed() {
-							if (that._pageLifeCycle.processQueue && that._pageLifeCycle.processQueue.length) {
-								var promises = [];
-								that._pageLifeCycle.processQueue.forEach(function (p) {
-									return WinJS.Promise.as(p());
-								});
-
-								return WinJS.Promise.join(promises).then(function () {
-									that._pageLifeCycle.processQueue = null;
-								});
-							}
-						}).then(function Pages_process() {
-                            return that.process(element, options);
-                        }).then(function Pages_processed() {
-							return that.processed(element, options);
-                        });
-
-                        var callComplete = function () {
-                            complete && complete(that);
-                            _WriteProfilerMark("WinJS.UI.Pages:createPage" + profilerMarkIdentifier + ",StopTM");
-                        };
-
-                        // promises guarantee order, so this will be called prior to ready path below
-                        //
-                        this.renderComplete.then(callComplete, callComplete);
-
-                        this.readyComplete = this.renderComplete.then(function () {
-                            return parentedPromise;
-                        }).then(function Pages_ready() {
-
-							that.ready(element, options);
-
-							that._pageLifeCycle.ended = new Date();
-							that._pageLifeCycle.delta = that._pageLifeCycle.ended - that._pageLifeCycle.created;
-							console.log('navigation to ' + uri + ' took ' + that._pageLifeCycle.delta + 'ms');
-
-							return that;
-						}).then(
-                            null,
-                            function Pages_error(err) {
-                                if (that.error)
-                                    return that.error(err);
-                            });
+                        pageLifeCycle(this, uri, element, options, complete, parentedPromise);
                     },
                     _mixinBase
                     );
                 base = _Base.Class.mix(base, WinJS.UI.DOMEventMixin);
-                //base.winJSContrib = true;
+                base.winJSContrib = true;
 
                 //this addition is for providing a way to inject behavior in all pages
                 _Pages.defaultPageMixins.forEach(function (mixin) {

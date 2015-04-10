@@ -87,6 +87,7 @@ module WinJSContrib.UI.Pages {
      * }));
      */
     export function fragmentMixin(constructor) {
+		return;
         var proto = constructor.prototype;
 
         if (constructor.winJSContrib)
@@ -146,9 +147,6 @@ module WinJSContrib.UI.Pages {
                     var page = this;
                     WinJSContrib.UI.bindActions(element, this);
                     return WinJS.Promise.as(page.__wReady.apply(page, arguments)).then(function () {
-                        if (page.onafterready)
-                            return page.onafterready(element, options);
-                    }).then(function () {
                         return broadcast(page, element, 'pageReady', [element, options]);
                     });
                 }
@@ -186,7 +184,7 @@ module WinJSContrib.UI.Pages {
         return constructor;
     }
 
-    function broadcast(ctrl, element, eventName, args, before?, after?) {
+    export function broadcast(ctrl, element, eventName, args, before?, after?) {
         var promises = [];
         if (before)
             promises.push(WinJS.Promise.as(before.apply(ctrl, args)));
@@ -241,9 +239,7 @@ module WinJSContrib.UI.Pages {
         var layoutCtrls = [];
         var pageConstructor = WinJS.UI.Pages.get(location);
         WinJSContrib.UI.Pages.fragmentMixin(pageConstructor);
-
-
-
+		
         function preparePageControl(elementCtrl) {
             if (args && args.injectToPage) { //used by childviewflyout to inject custom functions
                 WinJSContrib.Utils.inject(elementCtrl, args.injectToPage);
@@ -311,6 +307,8 @@ module WinJSContrib.UI.Pages {
                 return elementCtrl.elementReady;
             }).then(function (control) {
 				return parented;
+			}).then(function () {
+				return elementCtrl.layoutComplete;
             }).then(function (control) {
                 if (elementCtrl.beforeShow.length) {
                     return WinJSContrib.Promise.parallel(elementCtrl.beforeShow, function (cb) { return WinJS.Promise.as(cb()); })

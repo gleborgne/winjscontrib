@@ -520,19 +520,27 @@
             		var navigator = this;
             		if (this.pageControl && this.pageControl.element) {
             			var navigator = this;
+            			var control = this.pageControl;
+            			var element = control.element;
+
             			//navigator.pageControl.element.opacity = '0';
             			cancelAnimationFrame(navigator.layoutProcess);
             			navigator.layoutProcess = requestAnimationFrame(function () {
             				var vw = appView ? appView.value : null;
-            				if (navigator.pageControl.updateLayout) {
-            					navigator.pageControl.updateLayout.call(navigator.pageControl, navigator.pageElement, vw, navigator._lastViewstate);
+            				if (control.__checkLayout) {
+            					control.__checkLayout(element, vw, navigator._lastViewstate);
             				}
-            				var layoutCtrls = navigator.pageControl.element.querySelectorAll('.mcn-layout-ctrl');
-            				if (layoutCtrls && layoutCtrls.length) {
-            					for (var i = 0 ; i < layoutCtrls.length; i++) {
-            						var ctrl = layoutCtrls[i].winControl;
-            						if (ctrl.updateLayout)
-            							ctrl.updateLayout(ctrl.element, vw, navigator._lastViewstate);
+            				else {
+            					if (control.updateLayout) {
+            						control.updateLayout.call(control, element, vw, navigator._lastViewstate);
+            					}
+            					var layoutCtrls = element.element.querySelectorAll('.mcn-layout-ctrl');
+            					if (layoutCtrls && layoutCtrls.length) {
+            						for (var i = 0 ; i < layoutCtrls.length; i++) {
+            							var ctrl = layoutCtrls[i].winControl;
+            							if (ctrl.updateLayout)
+            								ctrl.updateLayout(ctrl.element, vw, navigator._lastViewstate);
+            						}
             					}
             				}
             				//WinJS.UI.Animation.fadeIn(navigator.pageControl.element);

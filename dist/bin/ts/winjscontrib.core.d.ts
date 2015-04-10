@@ -683,6 +683,7 @@ declare module WinJSContrib.UI.Pages {
      * }));
      */
     function fragmentMixin(constructor: any): any;
+    function broadcast(ctrl: any, element: any, eventName: any, args: any, before?: any, after?: any): WinJS.IPromise<any>;
     /**
      * render a html fragment with winjs contrib pipeline and properties, and add WinJS Contrib page events.
      * @function WinJSContrib.UI.Pages.renderFragment

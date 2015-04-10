@@ -84,6 +84,7 @@ var WinJSContrib;
              * }));
              */
             function fragmentMixin(constructor) {
+                return;
                 var proto = constructor.prototype;
                 if (constructor.winJSContrib)
                     return;
@@ -131,9 +132,6 @@ var WinJSContrib;
                             var page = this;
                             WinJSContrib.UI.bindActions(element, this);
                             return WinJS.Promise.as(page.__wReady.apply(page, arguments)).then(function () {
-                                if (page.onafterready)
-                                    return page.onafterready(element, options);
-                            }).then(function () {
                                 return broadcast(page, element, 'pageReady', [element, options]);
                             });
                         };
@@ -194,6 +192,7 @@ var WinJSContrib;
                     return WinJS.Promise.wrap();
                 }
             }
+            Pages.broadcast = broadcast;
             /**
              * render a html fragment with winjs contrib pipeline and properties, and add WinJS Contrib page events.
              * @function WinJSContrib.UI.Pages.renderFragment
@@ -278,6 +277,8 @@ var WinJSContrib;
                         return elementCtrl.elementReady;
                     }).then(function (control) {
                         return parented;
+                    }).then(function () {
+                        return elementCtrl.layoutComplete;
                     }).then(function (control) {
                         if (elementCtrl.beforeShow.length) {
                             return WinJSContrib.Promise.parallel(elementCtrl.beforeShow, function (cb) {
