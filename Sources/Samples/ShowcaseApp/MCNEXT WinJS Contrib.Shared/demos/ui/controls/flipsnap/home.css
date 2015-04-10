@@ -1,0 +1,29 @@
+﻿.homepage section[role=main] {
+    /*margin-left: 120px;
+    margin-right: 120px;*/
+}
+
+.homepage .flipsnapcontainer .flipsnaplist {
+    height: 500px;
+}
+
+    .homepage .flipsnaplist .flipsnapitem {
+        background-color: green;
+        display: -ms-grid;
+        -ms-grid-columns: 1fr;
+        -ms-grid-rows: 1fr;
+    }
+
+        .homepage .flipsnaplist .flipsnapitem div {
+            -ms-grid-column-align: center;
+            -ms-grid-row-align: center;
+            color: black;
+            font-size: 30pt;
+        }
+
+        .homepage .flipsnaplist .flipsnapitem:nth-child(odd) {
+            background-color: red;
+        }
+
+
+

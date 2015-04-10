@@ -169,6 +169,12 @@
     <Content Include="..\..\..\Controls\winjscontrib.ui.extended-splashscreen.less">
       <Link>css\winjscontrib\winjscontrib.ui.extended-splashscreen.less</Link>
     </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.flipsnap.css">
+      <Link>css\winjscontrib\winjscontrib.ui.flipsnap.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.flipsnap.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.flipsnap.js</Link>
+    </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.flipviewpager.css">
       <Link>css\winjscontrib\winjscontrib.ui.flipviewpager.css</Link>
     </Content>
