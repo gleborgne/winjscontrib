@@ -114,7 +114,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     			this._unregisterScrollEvents();
     			this._scrollContainer = val;
     			this._registerScrollEvents();
-    			this.checkRendering();
+    			//this.checkRendering();
     		}
     	},
 

@@ -288,8 +288,8 @@
                             var ctrl = layoutctrls[i].winControl;
                             if (ctrl) {
                                 ctrl.multipass = ctrl.multipass || section.multipass;
-                                if (ctrl.layout)
-                                    ctrl.layout();
+                                //if (ctrl.layout)
+                                //    ctrl.layout();
                             }
                         }
                     }

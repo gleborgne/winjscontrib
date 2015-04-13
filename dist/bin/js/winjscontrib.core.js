@@ -2319,8 +2319,8 @@ var WinJSContrib;
                     }).then(function () {
                         element.style.display = that.pageLifeCycle.initialDisplay || '';
                         var r = element.getBoundingClientRect(); //force element layout
-                        //	return WinJSContrib.UI.Pages.broadcast(that, element, 'pageLayout', [element, options], null, that.pageLayout);
-                        //}).then(function () {
+                        return broadcast(that, element, 'pageLayout', [element, options], null, that.pageLayout);
+                    }).then(function () {
                         WinJSContrib.UI.bindActions(element, that);
                         //}).then(function(result) {
                         return that.pageLifeCycle.steps.layout.resolve();
@@ -2330,8 +2330,8 @@ var WinJSContrib;
                         that.pageLifeCycle.ended = new Date();
                         that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
                         console.log('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
-                        //	return WinJSContrib.UI.Pages.broadcast(that, element, 'pageReady', [element, options]);
-                        //}).then(function(result) {
+                        broadcast(that, element, 'pageReady', [element, options]);
+                    }).then(function (result) {
                         return that.pageLifeCycle.steps.ready.resolve();
                     }).then(null, function Pages_error(err) {
                         if (that.error)
