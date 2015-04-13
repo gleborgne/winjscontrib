@@ -726,3 +726,8 @@ body {
     transform: none;
   }
 }
+/* webcomponents */
+win-listview,
+win-flipview {
+  display: block;
+}

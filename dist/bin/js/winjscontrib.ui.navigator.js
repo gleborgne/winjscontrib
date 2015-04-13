@@ -370,6 +370,7 @@
             		navigator.dispatchEvent('closingPage', { page: oldElement });
 
             		if (oldElement && oldElement.winControl) {
+            			oldElement.winControl.pageLifeCycle.stop();
             			oldElement.winControl.dispatchEvent('closing', { youpla: 'boom' });
 
             			if (oldElement.winControl.cancelPromises) {
@@ -483,7 +484,7 @@
             			//	return parented;
             			//}),
 
-            			closeOldPagePromise: closeOldPagePromise,
+            			closeOldPagePromise: closeOldPagePromise.then(function () { }, function () { }),
 
             			oninit: function (element, options) {
             				if (!element) return;

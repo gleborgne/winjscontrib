@@ -44,21 +44,7 @@
 
             	grid.element.className = grid.element.className + ' mcn-grid-ctrl mcn-layout-ctrl win-disposable';
             	grid.element.winControl = grid;
-            	/**
-                 * indicate if grid accept layout event from the page (if you use WinJS Contrib page events)
-                 * @field
-                 * @type boolean
-                 */
-            	grid.autolayout = options.autolayout || true;
-            	if (grid.autolayout) {
-            		var parent = WinJSContrib.Utils.getScopeControl(grid.element);
-            		if (parent && parent.pageLifeCycle) {
-            			parent.pageLifeCycle.steps.layout.attach(function () {
-            				grid.layout();
-            				return parent.renderComplete;
-            			});
-            		}
-            	}
+            	
 
             	/**
                  * multipass renderer for the grid
@@ -92,6 +78,21 @@
             		cellWidth: (options.cellWidth) ? options.cellWidth : undefined,
             		cellHeight: (options.cellHeight) ? options.cellHeight : undefined,
             	};
+
+            	/**
+                 * indicate if grid accept layout event from the page (if you use WinJS Contrib page events)
+                 * @field
+                 * @type boolean
+                 */
+            	grid.autolayout = options.autolayout || true;
+            	if (grid.autolayout) {
+            		var parent = WinJSContrib.Utils.getScopeControl(grid.element);
+            		if (parent) {
+            			parent.readyComplete.then(function () {
+            				grid.layout();
+            			});
+            		}
+            	}
             },
             /**
              * @lends WinJSContrib.UI.GridControl.prototype

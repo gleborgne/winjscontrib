@@ -37,7 +37,9 @@
             </div>
             <win-listview id="mylistview" data-win-control="WinJS.UI.ListView" 
 				itemtemplate="select:#listitemtemplate" 
-				itemdatasource="DummyDataSource"></win-listview>
+				itemdatasource="DummyDataSource"
+				oniteminvoked="ctrl:listItemInvoked"
+				></win-listview>
 
             <!-- here's where the magic happens !!! -->
             <div id="listlayout" data-win-control="WinJSContrib.UI.SmartListLayout" data-win-options="{

@@ -77,6 +77,15 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			var ctrl = new definition.ctor(element, options);
 			element.winControl = ctrl;
 		}
+		
+		//if (scope) {
+		//	//if the component is owned by a page/fragment, we process the control according to page lifecycle
+		//	scope.renderComplete.then(function(){
+		//		process();
+		//	});
+		//} else {
+		//	process();
+		//}
 
 		if (scope && scope.pageLifeCycle) {
 			//if the component is owned by a page/fragment, we process the control according to page lifecycle
@@ -165,18 +174,31 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		});
 	}
 
-	WinJSContrib.UI.WebComponents.register('win-listview', WinJS.UI.ListView, function (elt) {
-		var options = {};
-		if (elt.dataset.winOptions) {
-			options = getWinJSOptions(elt);
-		}
+	if (WinJS.UI && WinJS.UI.ListView) {
+		WinJSContrib.UI.WebComponents.register('win-listview', WinJS.UI.ListView, function (elt) {
+			var options = {};
+			if (elt.dataset.winOptions) {
+				options = getWinJSOptions(elt);
+			}
 
-		WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemtemplate', 'itemTemplate', options, true);
-		WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemdatasource', 'itemDataSource', options, true);
-		WinJSContrib.UI.WebComponents.mapAttr(elt, 'swipebehavior', 'swipeBehavior', options);
-		WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectbehavior', 'selectBehavior', options);
-		WinJSContrib.UI.WebComponents.mapAttr(elt, 'tapbehavior', 'tapBehavior', options);
-		
-		return options;
-	});
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemtemplate', 'itemTemplate', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemdatasource', 'itemDataSource', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemsdraggable', 'itemsDraggable', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemsreorderable', 'itemsReorderable', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oniteminvoked', 'oniteminvoked', options, true);
+
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'groupheadertemplate', 'groupHeaderTemplate', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'groupdatasource', 'groupDataSource', options, true);
+
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'swipebehavior', 'swipeBehavior', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectbehavior', 'selectBehavior', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'tapbehavior', 'tapBehavior', options);
+
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'header', 'header', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'footer', 'footer', options, true);
+
+			return options;
+		});
+	}
+
 })(this);

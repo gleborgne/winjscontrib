@@ -5,6 +5,10 @@
         ready: function (element, options) {
             var mylistview = element.querySelector('#mylistview');
             mylistview.winControl.forceLayout();
+        },
+
+        listItemInvoked: function () {
+        	console.log('item clicked');
         }
     });
 })();

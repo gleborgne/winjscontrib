@@ -43,8 +43,8 @@
                 hub.identifier = hub.element.id + "//" + hub.element.className;
 
                 var parent = WinJSContrib.Utils.getScopeControl(hub.element);
-                if (parent && parent.pageLifeCycle) {
-                	parent.pageLifeCycle.steps.layout.attach(function () {
+                if (parent) {
+                	parent.readyComplete.then(function () {
                 		hub.layout();
                 		if (hub.savestate)
                 			hub.restoreCtrlState();

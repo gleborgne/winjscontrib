@@ -741,6 +741,42 @@ var WinJSContrib;
             return undefined;
         }
         Utils.readValue = readValue;
+        Utils.ValueParsers = {
+            "page": function (element, text) {
+                var control = null;
+                if (WinJSContrib.Utils.getParentPage) {
+                    control = WinJSContrib.Utils.getParentPage(element);
+                }
+                if (!control && WinJSContrib.UI.Application.navigator) {
+                    control = WinJSContrib.UI.Application.navigator.pageControl;
+                }
+                if (!control)
+                    return;
+                var method = WinJSContrib.Utils.readProperty(control, text);
+                if (method && typeof method === 'function')
+                    return method.bind(control);
+                else
+                    return method;
+            },
+            "ctrl": function (element, text) {
+                var control = WinJSContrib.Utils.getScopeControl(element);
+                var method = WinJSContrib.Utils.readProperty(control, text);
+                if (method && typeof method === 'function')
+                    return method.bind(control);
+                else
+                    return method;
+            },
+            "select": function (element, text) {
+                var control = WinJSContrib.Utils.getScopeControl(element);
+                var element = null;
+                if (control) {
+                    element = control.element.querySelector(text);
+                }
+                if (!element)
+                    element = document.querySelector(text);
+                return element;
+            }
+        };
         /**
          * resolve value from an expression. This helper will crawl the DOM up, and provide the property or function from parent page or control.
          * @function WinJSContrib.Utils.resolveValue
@@ -750,42 +786,16 @@ var WinJSContrib;
          */
         function resolveValue(element, text) {
             var methodName, control, method;
-            if (text.indexOf('page:') === 0) {
-                methodName = text.substr(5);
-                if (WinJSContrib.Utils.getParentPage) {
-                    control = WinJSContrib.Utils.getParentPage(element);
+            var items = text.split(':');
+            if (items.length > 1) {
+                var name = items[0];
+                var val = text.substr(name.length + 1);
+                var parser = Utils.ValueParsers[name];
+                if (parser) {
+                    return parser(element, val);
                 }
-                if (!control && WinJSContrib.UI.Application.navigator) {
-                    control = WinJSContrib.UI.Application.navigator.pageControl;
-                }
-                if (!control)
-                    return;
-                method = WinJSContrib.Utils.readProperty(control, methodName);
-                if (method && typeof method === 'function')
-                    method = method.bind(control);
             }
-            else if (text.indexOf('ctrl:') === 0) {
-                methodName = text.substr(5);
-                control = WinJSContrib.Utils.getScopeControl(element);
-                method = WinJSContrib.Utils.readProperty(control, methodName);
-                if (method && typeof method === 'function')
-                    method = method.bind(control);
-            }
-            else if (text.indexOf('select:') === 0) {
-                methodName = text.substr(7);
-                control = WinJSContrib.Utils.getScopeControl(element);
-                if (control) {
-                    method = control.element.querySelector(methodName);
-                }
-                if (!method)
-                    method = document.querySelector(methodName);
-            }
-            else {
-                methodName = text;
-                control = WinJSContrib.Utils.getScopeControl(element);
-                method = WinJSContrib.Utils.readProperty(window, methodName);
-            }
-            return method;
+            return WinJSContrib.Utils.readProperty(window, text);
         }
         Utils.resolveValue = resolveValue;
         /**
@@ -2060,11 +2070,11 @@ var WinJSContrib;
                                 return page._enterAnimation(elts);
                         };
                     }
-                    if (options.closeOldPagePromise) {
-                        elementCtrl.pageLifeCycle.steps.layout.attach(function () {
-                            return options.closeOldPagePromise;
-                        });
-                    }
+                    //        if (options.closeOldPagePromise) {
+                    //elementCtrl.pageLifeCycle.steps.layout.attach(function () {
+                    //                return options.closeOldPagePromise;
+                    //            });
+                    //        }			
                     elementCtrl.contentReadyComplete = elementCtrl.renderComplete.then(function () {
                         if (options.onrender)
                             options.onrender(elementCtrl.element, args);
@@ -2072,6 +2082,10 @@ var WinJSContrib;
                             return WinJS.Resources.processAll(element);
                     });
                     elementCtrl.readyComplete.then(function (control) {
+                        if (options.closeOldPagePromise) {
+                            return options.closeOldPagePromise;
+                        }
+                    }).then(function (control) {
                         if (options.onready)
                             options.onready(elementCtrl.element, args);
                         if (elementCtrl.enterPageAnimation) {
@@ -2096,6 +2110,7 @@ var WinJSContrib;
                         _this._resolvePromise = c;
                         _this._rejectPromise = e;
                     });
+                    page.promises.push(this.promise);
                     //if their is a parent page fragment, we attach step to synchronize page construction
                     if (parent) {
                         parent.pageLifeCycle.steps[stepName].attach(function () {
@@ -2104,30 +2119,42 @@ var WinJSContrib;
                     }
                 }
                 PageLifeCycleStep.prototype.attach = function (callback) {
-                    if (!this.isDone) {
+                    if (this.queue && !this.isDone) {
                         this.queue.push(callback);
                         return this.promise;
                     }
                     else {
-                        return WinJS.Promise.as(callback);
+                        return WinJS.Promise.as(callback());
                     }
                 };
                 PageLifeCycleStep.prototype.resolve = function (arg) {
                     var _this = this;
                     this.isDone = true;
                     var promises = [];
-                    if (this.queue.length) {
+                    if (this.queue && this.queue.length) {
                         this.queue.forEach(function (q) {
-                            promises.push(WinJS.Promise.as(q()));
+                            promises.push(new WinJS.Promise(function (c, e) {
+                                try {
+                                    WinJS.Promise.as(q()).then(function (res) {
+                                        c(res);
+                                    }, e);
+                                }
+                                catch (exception) {
+                                    e(exception);
+                                }
+                            }));
                         });
+                        this.queue = null;
                     }
                     return WinJS.Promise.join(promises).then(function () {
                         _this._resolvePromise(arg);
+                        //console.log('resolved ' + this.stepName);
                         return _this.promise;
-                    }, this.reject);
+                    }, this.reject.bind(this));
                 };
                 PageLifeCycleStep.prototype.reject = function (arg) {
                     this.isDone = true;
+                    this.queue = null;
                     this._rejectPromise(arg);
                     return this.promise;
                 };
@@ -2326,7 +2353,7 @@ var WinJSContrib;
                         return broadcast(that, element, 'pageLayout', [element, options], null, that.pageLayout);
                     }).then(function () {
                         WinJSContrib.UI.bindActions(element, that);
-                        //}).then(function(result) {
+                    }).then(function (result) {
                         return that.pageLifeCycle.steps.layout.resolve();
                     });
                     that.readyComplete = that.layoutComplete.then(function Pages_ready() {
@@ -2384,9 +2411,16 @@ var WinJSContrib;
                         function PageControl_ctor(element, options, complete, parentedPromise) {
                             var that = this;
                             var parent = WinJSContrib.Utils.getScopeControl(element);
+                            _ElementUtilities.addClass(element, "win-disposable");
+                            _ElementUtilities.addClass(element, "pagecontrol");
+                            _ElementUtilities.addClass(element, "mcn-layout-ctrl");
                             that.pageLifeCycle = {
                                 created: new Date(),
                                 location: uri,
+                                stop: function () {
+                                    that.readyComplete.cancel();
+                                    that.cancelPromises();
+                                },
                                 steps: {
                                     init: new PageLifeCycleStep(that, 'init', null),
                                     render: new PageLifeCycleStep(that, 'render', null),
@@ -2403,13 +2437,9 @@ var WinJSContrib;
                             this.selfhost = selfhost(uri);
                             element.winControl = this;
                             that.parentedComplete = parentedPromise;
-                            _ElementUtilities.addClass(element, "win-disposable");
-                            _ElementUtilities.addClass(element, "pagecontrol");
-                            _ElementUtilities.addClass(element, "mcn-layout-ctrl");
                             pageLifeCycle(this, uri, element, options, complete, parentedPromise);
                         }, _mixinBase);
                         base = _Base.Class.mix(base, WinJS.UI.DOMEventMixin);
-                        base.winJSContrib = true;
                         //inject default behaviors to page constructor
                         WinJSContrib.UI.Pages.defaultFragmentMixins.forEach(function (mixin) {
                             injectMixin(base, mixin);

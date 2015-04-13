@@ -176,11 +176,11 @@ module WinJSContrib.UI.Pages {
                 }
             }
 
-            if (options.closeOldPagePromise) {
-				elementCtrl.pageLifeCycle.steps.layout.attach(function () {
-                    return options.closeOldPagePromise;
-                });
-            }			
+    //        if (options.closeOldPagePromise) {
+				//elementCtrl.pageLifeCycle.steps.layout.attach(function () {
+    //                return options.closeOldPagePromise;
+    //            });
+    //        }			
 			
             elementCtrl.contentReadyComplete = elementCtrl.renderComplete.then(function () {
 				if (options.onrender)
@@ -191,6 +191,10 @@ module WinJSContrib.UI.Pages {
             });
 
 			elementCtrl.readyComplete.then(function (control) {
+				if (options.closeOldPagePromise) {
+					return options.closeOldPagePromise;
+				}	
+			}).then(function (control) {
 				if (options.onready)
 					options.onready(elementCtrl.element, args);
 
@@ -223,6 +227,7 @@ module WinJSContrib.UI.Pages {
 				this._resolvePromise = c;
 				this._rejectPromise = e;
 			});
+			page.promises.push(this.promise);
 
 			//if their is a parent page fragment, we attach step to synchronize page construction
 			if (parent) {
@@ -233,32 +238,43 @@ module WinJSContrib.UI.Pages {
 		}
 
 		public attach(callback) {
-			if (!this.isDone) {
+			if (this.queue && !this.isDone) {
 				this.queue.push(callback);
 				return this.promise;
 			} else {
-				return WinJS.Promise.as(callback);
+				return WinJS.Promise.as(callback());
 			}
 		}
 
 		public resolve(arg) {
 			this.isDone = true;
 			var promises = [];
-
-			if (this.queue.length) {
+			
+			if (this.queue && this.queue.length) {
 				this.queue.forEach((q) => {
-					promises.push(WinJS.Promise.as(q()));
+					promises.push(new WinJS.Promise(function (c, e) {
+						try {
+							WinJS.Promise.as(q()).then(function (res) {
+								c(res);
+							}, e);
+						} catch (exception) {
+							e(exception);
+						}
+					}));
 				});
+				this.queue = null;
 			}
 
-			return WinJS.Promise.join(promises).then(() => {
+			return WinJS.Promise.join(promises).then(() => {				
 				this._resolvePromise(arg);
+				//console.log('resolved ' + this.stepName);
 				return this.promise;
-			}, this.reject);
+			}, this.reject.bind(this));
 		}
 
 		public reject(arg) {
 			this.isDone = true;
+			this.queue = null;
 			this._rejectPromise(arg);
 			return this.promise;
 		}
@@ -487,7 +503,7 @@ module WinJSContrib.UI.Pages {
 				return broadcast(that, element, 'pageLayout', [element, options], null, that.pageLayout);
 			}).then(function () {
 				WinJSContrib.UI.bindActions(element, that);
-			//}).then(function(result) {
+			}).then(function(result) {
 				return that.pageLifeCycle.steps.layout.resolve();
 			});
 
@@ -555,10 +571,17 @@ module WinJSContrib.UI.Pages {
                     function PageControl_ctor(element, options, complete, parentedPromise) {
                         var that = this;
 						var parent = WinJSContrib.Utils.getScopeControl(element);
+						_ElementUtilities.addClass(element, "win-disposable");
+						_ElementUtilities.addClass(element, "pagecontrol");
+						_ElementUtilities.addClass(element, "mcn-layout-ctrl");
 
 						that.pageLifeCycle = {
 							created: new Date(),
 							location: uri,
+							stop: function () {
+								that.readyComplete.cancel();
+								that.cancelPromises();	
+							},
 							steps: {
 								init: new PageLifeCycleStep(that, 'init', null),
 								render: new PageLifeCycleStep(that, 'render', null),
@@ -575,19 +598,12 @@ module WinJSContrib.UI.Pages {
                         this.uri = uri;
                         this.selfhost = selfhost(uri);
                         element.winControl = this;
-                        that.parentedComplete = parentedPromise;
-
-						_ElementUtilities.addClass(element, "win-disposable");
-						_ElementUtilities.addClass(element, "pagecontrol");
-						_ElementUtilities.addClass(element, "mcn-layout-ctrl");
+                        that.parentedComplete = parentedPromise;						
 
                         pageLifeCycle(this, uri, element, options, complete, parentedPromise);
-                    },
-                    _mixinBase
-                    );
+                    }, _mixinBase);
                 base = _Base.Class.mix(base, WinJS.UI.DOMEventMixin);
-                base.winJSContrib = true;
-
+                
                 //inject default behaviors to page constructor
                 WinJSContrib.UI.Pages.defaultFragmentMixins.forEach(function (mixin) {
                     injectMixin(base, mixin);
