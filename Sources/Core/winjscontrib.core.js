@@ -735,6 +735,42 @@ var WinJSContrib;
             return undefined;
         }
         Utils.readValue = readValue;
+        Utils.ValueParsers = {
+            "page": function (element, text) {
+                var control = null;
+                if (WinJSContrib.Utils.getParentPage) {
+                    control = WinJSContrib.Utils.getParentPage(element);
+                }
+                if (!control && WinJSContrib.UI.Application.navigator) {
+                    control = WinJSContrib.UI.Application.navigator.pageControl;
+                }
+                if (!control)
+                    return;
+                var method = WinJSContrib.Utils.readProperty(control, text);
+                if (method && typeof method === 'function')
+                    return method.bind(control);
+                else
+                    return method;
+            },
+            "ctrl": function (element, text) {
+                var control = WinJSContrib.Utils.getScopeControl(element);
+                var method = WinJSContrib.Utils.readProperty(control, text);
+                if (method && typeof method === 'function')
+                    return method.bind(control);
+                else
+                    return method;
+            },
+            "select": function (element, text) {
+                var control = WinJSContrib.Utils.getScopeControl(element);
+                var element = null;
+                if (control) {
+                    element = control.element.querySelector(text);
+                }
+                if (!element)
+                    element = document.querySelector(text);
+                return element;
+            }
+        };
         /**
          * resolve value from an expression. This helper will crawl the DOM up, and provide the property or function from parent page or control.
          * @function WinJSContrib.Utils.resolveValue
@@ -744,42 +780,16 @@ var WinJSContrib;
          */
         function resolveValue(element, text) {
             var methodName, control, method;
-            if (text.indexOf('page:') === 0) {
-                methodName = text.substr(5);
-                if (WinJSContrib.Utils.getParentPage) {
-                    control = WinJSContrib.Utils.getParentPage(element);
+            var items = text.split(':');
+            if (items.length > 1) {
+                var name = items[0];
+                var val = text.substr(name.length + 1);
+                var parser = Utils.ValueParsers[name];
+                if (parser) {
+                    return parser(element, val);
                 }
-                if (!control && WinJSContrib.UI.Application.navigator) {
-                    control = WinJSContrib.UI.Application.navigator.pageControl;
-                }
-                if (!control)
-                    return;
-                method = WinJSContrib.Utils.readProperty(control, methodName);
-                if (method && typeof method === 'function')
-                    method = method.bind(control);
             }
-            else if (text.indexOf('ctrl:') === 0) {
-                methodName = text.substr(5);
-                control = WinJSContrib.Utils.getScopeControl(element);
-                method = WinJSContrib.Utils.readProperty(control, methodName);
-                if (method && typeof method === 'function')
-                    method = method.bind(control);
-            }
-            else if (text.indexOf('select:') === 0) {
-                methodName = text.substr(7);
-                control = WinJSContrib.Utils.getScopeControl(element);
-                if (control) {
-                    method = control.element.querySelector(methodName);
-                }
-                if (!method)
-                    method = document.querySelector(methodName);
-            }
-            else {
-                methodName = text;
-                control = WinJSContrib.Utils.getScopeControl(element);
-                method = WinJSContrib.Utils.readProperty(window, methodName);
-            }
-            return method;
+            return WinJSContrib.Utils.readProperty(window, text);
         }
         Utils.resolveValue = resolveValue;
         /**
