@@ -35,10 +35,9 @@
                     <div class="title" data-win-bind="innerText: title"></div>
                 </div>
             </div>
-            <div id="mylistview" data-win-control="WinJS.UI.ListView" data-win-options="{
-                    itemTemplate: select('#listitemtemplate'),
-                    itemDataSource: DummyDataSource
-                 }"></div>
+            <win-listview id="mylistview" data-win-control="WinJS.UI.ListView" 
+				itemtemplate="select:#listitemtemplate" 
+				itemdatasource="DummyDataSource"></win-listview>
 
             <!-- here's where the magic happens !!! -->
             <div id="listlayout" data-win-control="WinJSContrib.UI.SmartListLayout" data-win-options="{

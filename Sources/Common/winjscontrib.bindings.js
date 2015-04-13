@@ -23,7 +23,7 @@
             if (WinJS.UI._optionsParser) {
                 var text = elt.getAttribute("data-win-bind-args");
                 if (text) {
-                    data = WinJS.UI._optionsParser(text);
+                    data = WinJS.UI.optionsParser(text, window);
                 }
             } else {
                 data = elt.dataset.winBindArgs;

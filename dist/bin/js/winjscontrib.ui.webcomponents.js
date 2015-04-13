@@ -68,21 +68,37 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 	function createElement(element, definition) {
 		var ctrl = element.winControl;
-		element.mcnComponent = true;
+		element.mcnComponent = { attributes: [] };
 		var scope = WinJSContrib.Utils.getScopeControl(element);
 		var process = function () {
 			var options = {};
+
 			if (definition.optionsCallback) {
 				options = definition.optionsCallback(element, scope);
+			} else {
+				if (element.dataset.winOptions) {
+					options = getWinJSOptions(element);
+				}
 			}
 			var ctrl = new definition.ctor(element, options);
 			element.winControl = ctrl;
 		}
 
 		if (scope && scope.pageLifeCycle) {
+			//if the component is owned by a page/fragment, we process the control according to page lifecycle
 			scope.pageLifeCycle.steps.process.attach(process);
 		} else {
 			process();
+		}
+
+		var setAttribute = element.setAttribute;
+
+		element.setAttribute = function (name, val) {
+			var hook = element.mcnComponent.attributes[name.toUpperCase()];
+			setAttribute.call(element, name, val);
+			if (hook) {
+				hook(val);
+			}
 		}
 	}
 
@@ -95,6 +111,9 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			var proto = Object.create(HTMLElement.prototype);
 			proto.createdCallback = function () {
 				var options = {};
+				if (this.dataset.winOptions) {
+					options = getWinJSOptions(this);
+				}
 				var scope = WinJSContrib.Utils.getScopeControl(this);
 				if (optionsCallback) {
 					options = optionsCallback(this, scope);
@@ -107,6 +126,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 	WinJSContrib.UI.WebComponents.mapAttr = function mapAttr(element, attrName, optionName, options, resolve) {
 		var val = element.getAttribute(attrName);
+		
 		if (val) {
 			if (resolve) {
 				var tmp = WinJSContrib.Utils.resolveValue(element, val);
@@ -118,11 +138,47 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 			options[optionName] = val;
 		}
+
+		var component = element.mcnComponent;
+		if (component) {
+			component.attributes[attrName.toUpperCase()] = function (val) {
+				var ctrl = element.winControl;
+				if (ctrl) {
+					if (resolve) {
+						var tmp = WinJSContrib.Utils.resolveValue(element, val);
+						if (tmp) {
+							ctrl[optionName] = tmp;
+							return;
+						}
+					}
+					ctrl[optionName] = val
+				}
+			}
+		}
+	}
+
+	function getWinJSOptions(elt) {
+		return WinJS.UI.optionsParser(elt.dataset.winOptions, window, {
+			select: WinJS.Utilities.markSupportedForProcessing(function (text) {
+				var parent = WinJSContrib.Utils.getScopeControl(elt);
+				if (parent) {
+					return parent.element.querySelector(text);
+				}
+				else {
+					return document.querySelector(text);
+				}
+			})
+		});
 	}
 
 	WinJSContrib.UI.WebComponents.register('win-listview', WinJS.UI.ListView, function (elt) {
 		var options = {};
+		if (elt.dataset.winOptions) {
+			options = getWinJSOptions(elt);
+		}
+
 		WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemtemplate', 'itemTemplate', options, true);
+		WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemdatasource', 'itemDataSource', options, true);
 		WinJSContrib.UI.WebComponents.mapAttr(elt, 'swipebehavior', 'swipeBehavior', options);
 		WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectbehavior', 'selectBehavior', options);
 		WinJSContrib.UI.WebComponents.mapAttr(elt, 'tapbehavior', 'tapBehavior', options);

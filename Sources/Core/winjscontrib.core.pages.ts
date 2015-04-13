@@ -447,11 +447,6 @@ module WinJSContrib.UI.Pages {
 				});
 			}).then(function Pages_render(result) {
 				return that.render(element, options, result.loadResult);
-			}).then(function Pages_processed() {
-				if (WinJSContrib.UI.WebComponents) {
-					//add delay to enable webcomponent processing
-					return WinJS.Promise.timeout();
-				}
 			}).then(function(result) {
 				return that.pageLifeCycle.steps.render.resolve();
 			});
@@ -462,6 +457,11 @@ module WinJSContrib.UI.Pages {
 
 			that.renderComplete = renderCalled.then(function Pages_process() {
 				return that.process(element, options);
+			}).then(function Pages_processed() {
+				if (WinJSContrib.UI.WebComponents) {
+					//add delay to enable webcomponent processing
+					return WinJS.Promise.timeout();
+				}
 			}).then(function(result) {
 				return that.pageLifeCycle.steps.process.resolve();
 			}).then(function Pages_processed() {

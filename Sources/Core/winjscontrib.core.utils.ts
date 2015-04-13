@@ -814,7 +814,12 @@ module WinJSContrib.Utils {
         } else if (text.indexOf('select:') === 0) {
             methodName = text.substr(7);
             control = WinJSContrib.Utils.getScopeControl(element);
-            method = control.querySelector(methodName);
+			if (control) {
+				method = control.element.querySelector(methodName);
+			}
+
+			if (!method)
+				method = document.querySelector(methodName);
         } else {
             methodName = text;
             control = WinJSContrib.Utils.getScopeControl(element);
