@@ -345,7 +345,7 @@ var WinJSContrib;
                                 };
                             }
                         });
-                        WinJSContrib.UI.Pages.fragmentMixin(base);
+                        //WinJSContrib.UI.Pages.fragmentMixin(base);
                         viewMap[refUri] = base;
                     }
                     base = addMembers(base, members);

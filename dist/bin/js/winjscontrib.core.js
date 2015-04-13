@@ -1982,7 +1982,7 @@ var WinJSContrib;
              * }));
              */
             function fragmentMixin(constructor) {
-                return;
+                //return;
                 var proto = constructor.prototype;
                 if (constructor.winJSContrib)
                     return;

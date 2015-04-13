@@ -655,6 +655,10 @@ declare module WinJSContrib.UI {
     }
 }
 
+declare module WinJSContrib.UI.WebComponents {
+    var watch: any;
+}
+declare var profiler: (profilerMarkName: string) => void;
 declare module WinJSContrib.UI.Pages {
     /**
      * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
@@ -662,27 +666,6 @@ declare module WinJSContrib.UI.Pages {
      * @type {Array}
      */
     var defaultFragmentMixins: Array<any>;
-    /**
-     * substitute for WinJS.UI.Pages.define that injects custom WinJS Contrib behaviors
-     * @function WinJSContrib.UI.Pages.define
-     */
-    function define(location: any, members: any): (element?: HTMLElement, options?: any, complete?: (page: any) => void, parentedPromise?: WinJS.Promise<any>) => void;
-    /**
-     * Inject WinJSContrib fragment enhancements, such as "$","q", "qAll" functions for scoped selectors, eventTracker and promises properties
-     * This enhancement also allows you to add behavior on each WinJS fragment by adding them to {@link WinJSContrib.UI.Pages.defaultFragmentMixins}
-     * WinJS Contrib navigator is calling this method before processing the page, so you don't need to explicitely wrap all your pages if you use it
-     * @function WinJSContrib.UI.Pages.fragmentMixin
-     * @param {function} constructor constructor for the fragment
-     * @returns {function} constructor for the fragment
-     * @example
-     * {@lang javascript}
-     * WinJSContrib.UI.Pages.fragmentMixin(WinJS.UI.Pages.define("./demos/home.html", {
-     *     ready : function(){
-     *         //your page ready stuff
-     *     }
-     * }));
-     */
-    function fragmentMixin(constructor: any): any;
     function broadcast(ctrl: any, element: any, eventName: any, args: any, before?: any, after?: any): WinJS.IPromise<any>;
     /**
      * render a html fragment with winjs contrib pipeline and properties, and add WinJS Contrib page events.

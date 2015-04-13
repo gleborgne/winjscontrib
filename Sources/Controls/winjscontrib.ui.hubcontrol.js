@@ -39,19 +39,19 @@
                 var parent = WinJSContrib.Utils.getScopeControl(hub.element);
                 if (parent.elementReady) {
                     parent.elementReady.then(function () {
-                    	if (!parent.beforeShow)
-                    		parent.beforeShow = [];
+                    	//if (!parent.beforeShow)
+                    	//	parent.beforeShow = [];
 
-                        parent.beforeShow.push(function () {
+                        //parent.beforeShow.push(function () {
                         	hub.layout();
                         	if (hub.savestate)
                         		hub.restoreCtrlState();
-                        });
+                        //});
 
-                        return parent.renderComplete;
+                        //return parent.renderComplete;
                     }).then(function () {
                         hub.prepare();
-                        return parent.readyComplete;
+                        //return parent.readyComplete;
                     });      
                 }
             },
@@ -247,7 +247,7 @@
 
                 pageReady: function () {
                     var hub = this;
-                    hub.renderItemsContent();
+                    //hub.renderItemsContent();
                 },
 
                 updateLayout: function (element, viewState, lastViewState) {

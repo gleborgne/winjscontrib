@@ -52,8 +52,9 @@
             	grid.autolayout = options.autolayout || true;
             	if (grid.autolayout) {
             		var parent = WinJSContrib.Utils.getScopeControl(grid.element);
-            		if (parent && parent.layoutComplete) {
-            			parent.layoutComplete.then(function () {
+            		if (parent) {
+            			var p = parent.layoutComplete || p.readyComplete;
+            			p.then(function () {
             				if (!parent.beforeShow) parent.beforeShow = [];
             				parent.beforeShow.push(function () {
             					grid.renderer.pageLayout();
@@ -470,26 +471,26 @@
             			var gridCellsMatrix = [[]];
             			var childs = ctrl.visibleChilds();
             			childs.forEach(function (elt) {
-            					elt.style.position = 'absolute';
-            					
-            					var eltW = elt.clientWidth * ratioW;
-            					var eltH = elt.clientHeight * ratioH;
-            					var eltColumns = (eltW / cellW) >> 0;
-            					var eltRows = (eltH / cellH) >> 0;
+            				elt.style.position = 'absolute';
 
-            					var pos = ctrl.firstFit(gridCellsMatrix, eltRows, eltColumns, _itemsPerLine, ctrl.element.children.length);
-            					//if (!pos)
-            					//    return;
+            				var eltW = elt.clientWidth * ratioW;
+            				var eltH = elt.clientHeight * ratioH;
+            				var eltColumns = (eltW / cellW) >> 0;
+            				var eltRows = (eltH / cellH) >> 0;
 
-            					ctrl.fill(gridCellsMatrix, pos.x, pos.y, eltRows, eltColumns);
+            				var pos = ctrl.firstFit(gridCellsMatrix, eltRows, eltColumns, _itemsPerLine, ctrl.element.children.length);
+            				//if (!pos)
+            				//    return;
 
-            					var left = pos.y * (cellW + space);
-            					var top = pos.x * (cellH + space);
-            					elt.style.left = left + 'px';
-            					elt.style.top = top + 'px';
-            					elt.style.width = (eltColumns * cellW + ((eltColumns - 1) * space)) + 'px';
-            					elt.style.height = (eltRows * cellH + ((eltRows - 1) * space)) + 'px';
-            				
+            				ctrl.fill(gridCellsMatrix, pos.x, pos.y, eltRows, eltColumns);
+
+            				var left = pos.y * (cellW + space);
+            				var top = pos.x * (cellH + space);
+            				elt.style.left = left + 'px';
+            				elt.style.top = top + 'px';
+            				elt.style.width = (eltColumns * cellW + ((eltColumns - 1) * space)) + 'px';
+            				elt.style.height = (eltRows * cellH + ((eltRows - 1) * space)) + 'px';
+
             			});
 
             			var elementHeight = gridCellsMatrix.length * (cellH + space);
