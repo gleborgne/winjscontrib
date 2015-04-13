@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.3.0
+ * WinJS Contrib v2.1.0.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -66,8 +66,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			var ctrl = new definition.ctor(element, options);
 		}
 
-		if (scope && scope._pageLifeCycle && scope._pageLifeCycle.processQueue) {
-			scope._pageLifeCycle.processQueue.push(process);
+		if (scope && scope.pageLifeCycle) {
+			scope.pageLifeCycle.steps.process.attach(process);
 		} else {
 			process();
 		}

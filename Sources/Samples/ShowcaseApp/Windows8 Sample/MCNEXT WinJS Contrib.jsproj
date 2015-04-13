@@ -267,9 +267,6 @@
     <Content Include="..\..\..\Core\winjscontrib.core.js">
       <Link>scripts\winjscontrib\winjscontrib.core.js</Link>
     </Content>
-    <Content Include="..\..\..\Core\winjscontrib.ui.pages.js">
-      <Link>scripts\winjscontrib\winjscontrib.ui.pages.js</Link>
-    </Content>
     <Content Include="..\..\..\Core\winjscontrib.ui.webcomponents.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.webcomponents.js</Link>
     </Content>

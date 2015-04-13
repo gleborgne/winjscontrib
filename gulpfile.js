@@ -21,7 +21,7 @@ var flatten = require('gulp-flatten');
 //var config = require('./build.config.json');
 
 
-var WinJSContribVersion = "2.0.3.0";
+var WinJSContribVersion = "2.1.0.0";
 
 var typingsPath = 'Sources/typings/';
 var srcCorePath = 'Sources/Core/';

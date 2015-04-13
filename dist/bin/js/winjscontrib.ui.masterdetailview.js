@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.3.0
+ * WinJS Contrib v2.1.0.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -148,6 +148,9 @@
                 if (ctrl.detailViewContentCtrl) {
                     var elt = ctrl.detailViewContentCtrl.element;
 
+                    if (ctrl.detailViewContentCtrl.clear) {
+                    	ctrl.detailViewContentCtrl.clear();
+                    }
 
                     if (ctrl.detailViewContentCtrl.unload)
                         ctrl.detailViewContentCtrl.unload();
@@ -179,7 +182,7 @@
                 }
                 else {
                 	ctrl.detailViewContentCtrl = new WinJSContrib.UI.PageControlNavigator(elt, { global: false });
-                	ctrl.detailViewContentCtrl.navigate(uri, data);
+                	ctrl.detailViewContentCtrl.navigate(uri, JSON.parse(JSON.stringify(data)));
                 	return WinJS.Promise.wrap();
                 }
                 //return WinJSContrib.UI.Pages.renderFragment(ctrl.detailViewContent, uri, data, {

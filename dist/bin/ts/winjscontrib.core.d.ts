@@ -666,7 +666,6 @@ declare module WinJSContrib.UI.Pages {
      * @type {Array}
      */
     var defaultFragmentMixins: Array<any>;
-    function broadcast(ctrl: any, element: any, eventName: any, args: any, before?: any, after?: any): WinJS.IPromise<any>;
     /**
      * render a html fragment with winjs contrib pipeline and properties, and add WinJS Contrib page events.
      * @function WinJSContrib.UI.Pages.renderFragment
@@ -676,4 +675,16 @@ declare module WinJSContrib.UI.Pages {
      * @param {Object} options rendering options
      */
     function renderFragment(container: any, location: any, args: any, options: any): WinJS.Promise<{}>;
+    class PageLifeCycleStep {
+        promise: WinJS.Promise<any>;
+        isDone: boolean;
+        stepName: string;
+        _resolvePromise: any;
+        _rejectPromise: any;
+        queue: Array<any>;
+        constructor(page: any, stepName: any, parent: any);
+        attach(callback: any): WinJS.Promise<any>;
+        resolve(arg: any): WinJS.IPromise<any>;
+        reject(arg: any): WinJS.Promise<any>;
+    }
 }

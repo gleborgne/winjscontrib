@@ -108,7 +108,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     			this._unregisterScrollEvents();
     			this._scrollContainer = val;
     			this._registerScrollEvents();
-    			this.checkRendering();
+    			//this.checkRendering();
     		}
     	},
 
@@ -200,11 +200,6 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     		ctrl.items.forEach(function (item) {
     			item.rect = null;
     		});
-    	},
-
-    	pageLayout: function () {
-    		var ctrl = this;
-    		ctrl.refreshScrollEvents();
     	},
 
     	/**

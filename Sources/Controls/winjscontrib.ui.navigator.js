@@ -79,7 +79,7 @@
             		this.eventTracker.addEvent(nav, 'navigated', this._navigated.bind(this));
             	}
             	else {
-            		this.history = { backstack: [] };
+            		this._history = { backstack: [] };
             	}
 
             	this.eventTracker.addEvent(window, 'resize', function (args) {
@@ -113,6 +113,15 @@
             	pageElement: {
             		get: function () {
             			return this._pageElement || this._element.lastElementChild;
+            		}
+            	},
+
+            	history : {
+            		get: function(){
+            			if (this.global)
+            				return WinJS.Navigation.history;
+            			else
+            				return this._history;
             		}
             	},
 
@@ -201,9 +210,10 @@
             			};
             			nav._beforeNavigate(arg);
             			arg.detail.pagePromise = arg.detail.pagePromise || WinJS.Promise.wrap();
+            			nav._history.current = { state: initialState, location: location };
             			return arg.detail.pagePromise.then(function () {
             				if (isback) {
-            					nav.history.backstack.splice(nav.history.backstack.length - 1, 1);
+            					nav._history.backstack.splice(nav._history.backstack.length - 1, 1);
             				}
             				nav._navigated(arg);
             				return arg.detail.pagePromise;
@@ -215,7 +225,8 @@
             		if (this.global) {
             			WinJS.Navigation.history.backStack = [];
             		} else {
-            			this.history.backstack = [];
+            			this._history.backstack = [];
+            			this._history.current = null;
             		}
             	},
 
@@ -241,7 +252,7 @@
             			if (this.global)
             				return nav.canGoBack;
             			else
-            				return this.history.backstack.length > 0;
+            				return this._history.backstack.length > 0;
             		}
             	},
 
@@ -251,9 +262,9 @@
             			return WinJS.Navigation.back(distance);
             		}
             		else {
-            			if (navigator.history.backstack.length) {
-            				var pageindex = navigator.history.backstack.length - 1;
-            				var previousPage = navigator.history.backstack[pageindex];
+            			if (navigator._history.backstack.length) {
+            				var pageindex = navigator._history.backstack.length - 1;
+            				var previousPage = navigator._history.backstack[pageindex];
 
             				return navigator.navigate(previousPage.location, previousPage.state, true, true);
             			}
@@ -361,7 +372,7 @@
             		}
 
             		if (!navigator.global && !navigator.disableHistory && oldElement && oldElement.winControl && oldElement.winControl.navigationState && !args.skipHistory) {
-            			navigator.history.backstack.push(oldElement.winControl.navigationState);
+            			navigator._history.backstack.push(oldElement.winControl.navigationState);
             		}
 
             		navigator._pageElement = null;
@@ -427,7 +438,7 @@
             		}
             		else if (openStacked) {
             			if (!navigator.global && !navigator.disableHistory && oldElement && oldElement.winControl && oldElement.winControl.navigationState && !args.skipHistory) {
-            				navigator.history.backstack.push(oldElement.winControl.navigationState);
+            				navigator._history.backstack.push(oldElement.winControl.navigationState);
             			}
             			var closeOldPagePromise = WinJS.Promise.wrap();
             		}
@@ -462,9 +473,11 @@
             			//delay: tempo,
             			enterPage: navigator.animations.enterPage,
 
-            			parented: closeOldPagePromise.then(function () {
-            				return parented;
-            			}),
+            			//parented: closeOldPagePromise.then(function () {
+            			//	return parented;
+            			//}),
+
+            			closeOldPagePromise: closeOldPagePromise,
 
             			oninit: function (element, options) {
             				if (!element) return;
@@ -487,7 +500,7 @@
             					if (navigator.global) {
             						WinJS.Navigation.history.backStack = [];
             					} else {
-            						navigator.history.backstack = [];
+            						navigator._history.backstack = [];
             					}
             				}
             				navigator._updateBackButton(element);

@@ -19,10 +19,21 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	}
 
 	function inspect(node) {
-		//console.log(node.nodeName);
-		var customElement = registered[node.nodeName];
-		if (customElement && !node.mcnComponent) {
+		var customElement = null;
+		var ctrlName = node.nodeName;
+		if (node.attributes) {
+			var ctrlName = node.getAttribute("is");
+			if (ctrlName) {
+				//we uppercase because node names are uppercase
+				customElement = registered[ctrlName.toUpperCase()];
+			}
+		}
 
+		if (!customElement) {
+			customElement = registered[node.nodeName];
+		}
+
+		if (customElement && !node.mcnComponent) {
 			createElement(node, customElement);
 		}
 
@@ -50,6 +61,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	WinJSContrib.UI.WebComponents.watch = observeMutations;
 
 	function createElement(element, definition) {
+		var ctrl = element.winControl;
 		element.mcnComponent = true;
 		var scope = WinJSContrib.Utils.getScopeControl(element);
 		var process = function () {
@@ -58,10 +70,11 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 				options = definition.optionsCallback(element, scope);
 			}
 			var ctrl = new definition.ctor(element, options);
+			element.winControl = ctrl;
 		}
 
-		if (scope && scope._pageLifeCycle && scope._pageLifeCycle.processQueue) {
-			scope._pageLifeCycle.processQueue.push(process);
+		if (scope && scope.pageLifeCycle) {
+			scope.pageLifeCycle.steps.process.attach(process);
 		} else {
 			process();
 		}
@@ -70,6 +83,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	WinJSContrib.UI.WebComponents.register = function register(tagname, ctor, optionsCallback) {
 		if (WinJSContrib.UI.WebComponents.polyfill) {
 			global.document.createElement(tagname);
+			//we uppercase because node names are uppercase
 			registered[tagname.toUpperCase()] = { optionsCallback: optionsCallback, ctor: ctor };
 		} else {
 			var proto = Object.create(HTMLElement.prototype);

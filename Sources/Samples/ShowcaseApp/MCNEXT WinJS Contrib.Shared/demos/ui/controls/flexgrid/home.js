@@ -45,8 +45,9 @@
         },
 
         //this method is bound declaratively thanks to our custom navigator
-        itemClick: function(clickArg){
-            WinJS.Navigation.navigate("./demos/ui/controls/detailPage/detailPage.html", clickArg.itemData);
+        itemClick: function (clickArg) {
+        	var nav = WinJSContrib.UI.parentNavigator(this.element);
+        	nav.navigate("./demos/ui/controls/detailPage/detailPage.html", clickArg.itemData);
         }
     });
 })();

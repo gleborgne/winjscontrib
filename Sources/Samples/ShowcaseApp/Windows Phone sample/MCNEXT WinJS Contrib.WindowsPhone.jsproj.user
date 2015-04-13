@@ -2,7 +2,7 @@
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ShowAllFiles>false</ShowAllFiles>
-    <ReferenceCachePath>C:\Users\mlahlou\AppData\Local\Temp\MCNEXT WinJS Contrib.WindowsPhone_refcache</ReferenceCachePath>
+    <ReferenceCachePath>C:\Users\Guillaume\AppData\Local\Temp\u5q2xvxv_MCNEXT WinJS Contrib.WindowsPhone_refcache</ReferenceCachePath>
     <ToolsVersionPromptShown>1.4</ToolsVersionPromptShown>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

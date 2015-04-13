@@ -142,6 +142,9 @@
                 if (ctrl.detailViewContentCtrl) {
                     var elt = ctrl.detailViewContentCtrl.element;
 
+                    if (ctrl.detailViewContentCtrl.clear) {
+                    	ctrl.detailViewContentCtrl.clear();
+                    }
 
                     if (ctrl.detailViewContentCtrl.unload)
                         ctrl.detailViewContentCtrl.unload();
@@ -173,7 +176,7 @@
                 }
                 else {
                 	ctrl.detailViewContentCtrl = new WinJSContrib.UI.PageControlNavigator(elt, { global: false });
-                	ctrl.detailViewContentCtrl.navigate(uri, data);
+                	ctrl.detailViewContentCtrl.navigate(uri, JSON.parse(JSON.stringify(data)));
                 	return WinJS.Promise.wrap();
                 }
                 //return WinJSContrib.UI.Pages.renderFragment(ctrl.detailViewContent, uri, data, {

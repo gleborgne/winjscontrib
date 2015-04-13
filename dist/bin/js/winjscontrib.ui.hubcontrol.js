@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.3.0
+ * WinJS Contrib v2.1.0.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -43,22 +43,14 @@
                 hub.identifier = hub.element.id + "//" + hub.element.className;
 
                 var parent = WinJSContrib.Utils.getScopeControl(hub.element);
-                if (parent.elementReady) {
-                    parent.elementReady.then(function () {
-                    	if (!parent.beforeShow)
-                    		parent.beforeShow = [];
+                if (parent && parent.pageLifeCycle) {
+                	parent.pageLifeCycle.steps.layout.attach(function () {
+                		hub.layout();
+                		if (hub.savestate)
+                			hub.restoreCtrlState();
 
-                        parent.beforeShow.push(function () {
-                        	hub.layout();
-                        	if (hub.savestate)
-                        		hub.restoreCtrlState();
-                        });
-
-                        return parent.renderComplete;
-                    }).then(function () {
-                        hub.prepare();
-                        return parent.readyComplete;
-                    });      
+                		hub.prepare();
+                	});
                 }
             },
             /**
@@ -186,36 +178,44 @@
                 },
 
                 saveCtrlState: function () {
-                    var hub = this;
-                    var state = WinJS.Navigation.history.current.state || { hub: {} };
-                    if (!state.hub)
-                        state.hub = {};
+                	var hub = this;
+                	var navigator = WinJSContrib.UI.parentNavigator(hub.element);
+                	if (navigator) {
+                		var history = navigator.history;
+                		var state = history.current.state || { hub: {} };
+                		if (!state.hub)
+                			state.hub = {};
 
-                    if (hub.scrollContainer) {
-                        var hubdata = {};
-                        hubdata.scrollLeft = hub.scrollContainer.scrollLeft;
-                        hubdata.scrollTop = hub.scrollContainer.scrollTop;
-                        state.hub[hub.identifier] = hubdata;
-                    }
-                    WinJS.Navigation.history.current.state = state;
+                		if (hub.scrollContainer) {
+                			var hubdata = {};
+                			hubdata.scrollLeft = hub.scrollContainer.scrollLeft;
+                			hubdata.scrollTop = hub.scrollContainer.scrollTop;
+                			state.hub[hub.identifier] = hubdata;
+                		}
+                		history.current.state = state;
+                	}
                     return state;
                 },
 
                 restoreCtrlState: function (state) {
-                    var hub = this;
-                    state = state || WinJS.Navigation.history.current.state || { hub: {} };
-                    if (!state.hub)
-                        state.hub = {};
+                	var hub = this;
+                	var navigator = WinJSContrib.UI.parentNavigator(hub.element);
+                	if (navigator) {
+                		var history = navigator.history;
+                		state = state || history.current.state || { hub: {} };
+                		if (!state.hub)
+                			state.hub = {};
 
-                    if (hub.scrollContainer && state.hub) {
-                        var hubdata = state.hub[hub.identifier];
-                        if (hubdata && hubdata.scrollLeft) {
-                            hub.scrollContainer.scrollLeft = hubdata.scrollLeft;
-                        }
-                        if (hubdata && hubdata.scrollTop) {
-                            hub.scrollContainer.scrollTop = hubdata.scrollTop;
-                        }
-                    }
+                		if (hub.scrollContainer && state.hub) {
+                			var hubdata = state.hub[hub.identifier];
+                			if (hubdata && hubdata.scrollLeft) {
+                				hub.scrollContainer.scrollLeft = hubdata.scrollLeft;
+                			}
+                			if (hubdata && hubdata.scrollTop) {
+                				hub.scrollContainer.scrollTop = hubdata.scrollTop;
+                			}
+                		}
+                	}
                 },
 
                 hubScrolled: function () {
@@ -237,23 +237,6 @@
                 exitPage: function () {
                     if (this.savestate)
                         this.saveCtrlState();
-                },
-
-                //pageLayout: function () {
-                //    var hub = this;
-                //    hub.layout();
-
-                //    if (hub.savestate)
-                //        hub.restoreCtrlState();
-
-                //    //return WinJS.Promise.timeout().then(function () {
-                //    //    hub.renderItemsContent();
-                //    //});
-                //},
-
-                pageReady: function () {
-                    var hub = this;
-                    hub.renderItemsContent();
                 },
 
                 updateLayout: function (element, viewState, lastViewState) {

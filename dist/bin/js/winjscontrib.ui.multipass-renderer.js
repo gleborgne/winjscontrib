@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.0.3.0
+ * WinJS Contrib v2.1.0.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -206,11 +206,6 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     		ctrl.items.forEach(function (item) {
     			item.rect = null;
     		});
-    	},
-
-    	pageLayout: function () {
-    		var ctrl = this;
-    		ctrl.refreshScrollEvents();
     	},
 
     	/**

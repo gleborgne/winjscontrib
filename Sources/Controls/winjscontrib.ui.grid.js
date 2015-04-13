@@ -46,14 +46,9 @@
             	grid.autolayout = options.autolayout || true;
             	if (grid.autolayout) {
             		var parent = WinJSContrib.Utils.getScopeControl(grid.element);
-            		if (parent) {
-            			var p = parent.layoutComplete || p.readyComplete;
-            			p.then(function () {
-            				//if (!parent.beforeShow) parent.beforeShow = [];
-            				//parent.beforeShow.push(function () {
-            					//grid.renderer.pageLayout();
-            					grid.layout();
-            				//});
+            		if (parent && parent.pageLifeCycle) {
+            			parent.pageLifeCycle.steps.layout.attach(function () {
+            				grid.layout();
             				return parent.renderComplete;
             			});
             		}
@@ -166,13 +161,6 @@
 
             		this.renderer.prepareItems(items, renderOptions);
             	},
-
-            	//pageLayout: function () {
-            	//	this.renderer.pageLayout();
-            	//	if (this.autolayout) {
-            	//		this.layout();
-            	//	}
-            	//},
 
             	/**
                  * force items content to render
