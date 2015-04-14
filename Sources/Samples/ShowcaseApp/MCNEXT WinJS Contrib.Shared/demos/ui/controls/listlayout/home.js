@@ -3,8 +3,8 @@
 
     WinJS.UI.Pages.define("./demos/ui/controls/listlayout/home.html", {
         ready: function (element, options) {
-            var mylistview = element.querySelector('#mylistview');
-            mylistview.winControl.forceLayout();
+            //var mylistview = element.querySelector('#mylistview');
+            //mylistview.winControl.forceLayout();
         },
 
         listItemInvoked: function () {

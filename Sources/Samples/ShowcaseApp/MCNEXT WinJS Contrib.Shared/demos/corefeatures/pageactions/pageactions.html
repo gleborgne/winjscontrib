@@ -35,13 +35,13 @@
             <div></div>
             <div class="bloc-content">
                 <p>The following button is bound to the "alertMe" function on the page. You could optionnaly add arguments to the action using strict JSON.</p>
-                <button data-page-action="alertMe" data-page-action-args='{"title": "WinJS Contrib rocks"}'>click me</button>
+                <button tap="alertMe" tap-args='{"title": "WinJS Contrib rocks"}'>click me</button>
 
                 <p>If you need to provide argument to a page action, you could also use a function.</p>
-                <button data-page-action="alertMe" data-page-action-args='page:pageActionArgCallback'>click me</button>
+                <button tap="alertMe" tap-args="ctrl:pageActionArgCallback">click me</button>
 
                 <p>The button bellow will navigate to another page. You could optionnaly add arguments to the navigation using strict JSON, or with a function, just like page actions.</p>
-                <button data-page-link="./pages/core/eventtracker/eventtracker.html" data-page-action-args='{"customArg": "optional argument"}'>click me</button>
+                <button linkto="./demos/corefeatures/eventtracker/eventtracker.html" linkto-args='{"customArg": "optional argument"}'>click me</button>
             </div>
         </section>
     </div>

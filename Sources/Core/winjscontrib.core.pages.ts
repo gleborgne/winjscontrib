@@ -1,8 +1,9 @@
+var __global = this;
 declare module WinJSContrib.UI.WebComponents {
 	var watch: any;
 }
 
-var profiler = window.msWriteProfilerMark || function () { };
+var profiler = __global.msWriteProfilerMark || function () { };
 
 module WinJSContrib.UI.Pages {
     /**
@@ -130,7 +131,7 @@ module WinJSContrib.UI.Pages {
         var fragmentError;
         options = options || {};
         var element = document.createElement("div");
-        element.setAttribute("dir", window.getComputedStyle(element, null).direction);
+        element.setAttribute("dir", __global.getComputedStyle(element, null).direction);
         element.style.opacity = '0';
         container.appendChild(element);
 
@@ -282,6 +283,9 @@ module WinJSContrib.UI.Pages {
 
 	(function (_Pages, _Global, _Base, _CorePages, _BaseUtils, _ElementUtilities, _WriteProfilerMark, Promise, Fragments, ControlProcessor) {
         'use strict';
+
+		if (!_Global.document || !_CorePages) //running outside a document
+			return;
 
         var viewMap = _CorePages._viewMap || {};
 
@@ -703,7 +707,7 @@ module WinJSContrib.UI.Pages {
         source.render = pageOverride.render;
         source._remove = pageOverride._remove;
 
-    })(WinJSContrib.UI.Pages, window, WinJS, WinJS.UI.Pages, WinJS.Utilities, WinJS.Utilities, profiler, WinJS.Promise, WinJS.UI.Fragments, WinJS.UI);
+    })(WinJSContrib.UI.Pages, __global, WinJS, WinJS.UI.Pages, WinJS.Utilities, WinJS.Utilities, profiler, WinJS.Promise, WinJS.UI.Fragments, WinJS.UI);
 
 
 }

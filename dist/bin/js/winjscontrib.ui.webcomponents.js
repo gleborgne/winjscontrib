@@ -72,14 +72,14 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		var scope = WinJSContrib.Utils.getScopeControl(element);
 		var process = function () {
 			var options = {};
+			if (element.dataset.winOptions) {
+				options = getWinJSOptions(element);
+			}
 
 			if (definition.optionsCallback) {
-				options = definition.optionsCallback(element, scope);
-			} else {
-				if (element.dataset.winOptions) {
-					options = getWinJSOptions(element);
-				}
+				options = definition.optionsCallback(element, options, scope);
 			}
+
 			var ctrl = new definition.ctor(element, options);
 			element.winControl = ctrl;
 		}
@@ -125,7 +125,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 				}
 				var scope = WinJSContrib.Utils.getScopeControl(this);
 				if (optionsCallback) {
-					options = optionsCallback(this, scope);
+					options = optionsCallback(this, options, scope);
 				}
 				new ctor(this, options);
 			};
@@ -181,11 +181,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	}
 
 	if (WinJS.UI && WinJS.UI.ListView) {
-		WinJSContrib.UI.WebComponents.register('win-listview', WinJS.UI.ListView, function (elt) {
-			var options = {};
-			if (elt.dataset.winOptions) {
-				options = getWinJSOptions(elt);
-			}
+		WinJSContrib.UI.WebComponents.register('win-listview', WinJS.UI.ListView, function (elt, options) {
 
 			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemtemplate', 'itemTemplate', options, true);
 			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemdatasource', 'itemDataSource', options, true);
@@ -203,6 +199,13 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			WinJSContrib.UI.WebComponents.mapAttr(elt, 'header', 'header', options, true);
 			WinJSContrib.UI.WebComponents.mapAttr(elt, 'footer', 'footer', options, true);
 
+			return options;
+		});
+	}
+
+	if (WinJS.Binding && WinJS.Binding.Template) {
+		WinJSContrib.UI.WebComponents.register('win-template', WinJS.Binding.Template, function (elt, options) {
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'extractchild', 'extractChild', options);			
 			return options;
 		});
 	}

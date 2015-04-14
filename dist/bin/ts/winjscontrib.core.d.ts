@@ -660,10 +660,11 @@ declare module WinJSContrib.UI {
     }
 }
 
+declare var __global: any;
 declare module WinJSContrib.UI.WebComponents {
     var watch: any;
 }
-declare var profiler: (profilerMarkName: string) => void;
+declare var profiler: any;
 declare module WinJSContrib.UI.Pages {
     /**
      * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).

@@ -30,12 +30,12 @@
             </div>
         </header>
         <section aria-label="Main content" role="main">
-            <div id="listitemtemplate" data-win-control="WinJS.Binding.Template">
+            <win-template id="listitemtemplate" extractchild="true">
                 <div class="sometile">
                     <div class="title" data-win-bind="innerText: title"></div>
                 </div>
-            </div>
-            <win-listview id="mylistview" data-win-control="WinJS.UI.ListView" 
+            </win-template>
+            <win-listview id="mylistview"
 				itemtemplate="select:#listitemtemplate" 
 				itemdatasource="DummyDataSource"
 				oniteminvoked="ctrl:listItemInvoked"

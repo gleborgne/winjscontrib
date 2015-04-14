@@ -1187,11 +1187,11 @@ var WinJSContrib;
         UI.removeElementAnimation = removeElementAnimation;
         function bindAction(el, element, control) {
             el.classList.add('page-action');
-            var actionName = el.dataset.pageAction;
+            var actionName = el.dataset.pageAction || el.getAttribute('tap');
             var action = control[actionName];
             if (action && typeof action === 'function') {
                 WinJSContrib.UI.tap(el, function (eltarg) {
-                    var actionArgs = eltarg.dataset.pageActionArgs;
+                    var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
                     if (actionArgs && typeof actionArgs == 'string') {
                         try {
                             var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
@@ -1219,7 +1219,7 @@ var WinJSContrib;
          * @param {Object} control control owning functions to call
          */
         function bindPageActions(element, control) {
-            var elements = element.querySelectorAll('*[data-page-action]');
+            var elements = element.querySelectorAll('*[data-page-action], *[tap]');
             if (elements && elements.length) {
                 for (var i = 0, l = elements.length; i < l; i++) {
                     var el = elements[i];
@@ -1230,7 +1230,7 @@ var WinJSContrib;
         UI.bindPageActions = bindPageActions;
         function bindLink(el, element) {
             el.classList.add('page-link');
-            var target = el.dataset.pageLink;
+            var target = el.dataset.pageLink || el.getAttribute('linkto');
             if (target && target.indexOf('/') < 0) {
                 var tmp = WinJSContrib.Utils.readProperty(window, target);
                 if (tmp) {
@@ -1239,7 +1239,7 @@ var WinJSContrib;
             }
             if (target) {
                 WinJSContrib.UI.tap(el, function (eltarg) {
-                    var actionArgs = eltarg.dataset.pageActionArgs;
+                    var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('linkto-args');
                     if (actionArgs && typeof actionArgs == 'string') {
                         try {
                             var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
@@ -1272,7 +1272,7 @@ var WinJSContrib;
          * @param {HTMLElement} element root node crawled for page actions
          */
         function bindPageLinks(element) {
-            var elements = element.querySelectorAll('*[data-page-link]');
+            var elements = element.querySelectorAll('*[data-page-link], *[linkto]');
             if (elements && elements.length) {
                 for (var i = 0, l = elements.length; i < l; i++) {
                     var el = elements[i];
@@ -1310,7 +1310,7 @@ var WinJSContrib;
          * @param {Object} control control owning functions to call
          */
         function bindMembers(element, control) {
-            var elements = element.querySelectorAll('*[data-page-member]');
+            var elements = element.querySelectorAll('*[data-page-member], *[member]');
             if (elements && elements.length) {
                 for (var i = 0, l = elements.length; i < l; i++) {
                     var el = elements[i];
@@ -1904,7 +1904,8 @@ var WinJSContrib;
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
-var profiler = window.msWriteProfilerMark || function () {
+var __global = this;
+var profiler = __global.msWriteProfilerMark || function () {
 };
 var WinJSContrib;
 (function (WinJSContrib) {
@@ -2021,7 +2022,7 @@ var WinJSContrib;
                 var fragmentError;
                 options = options || {};
                 var element = document.createElement("div");
-                element.setAttribute("dir", window.getComputedStyle(element, null).direction);
+                element.setAttribute("dir", __global.getComputedStyle(element, null).direction);
                 element.style.opacity = '0';
                 container.appendChild(element);
                 var fragmentPromise = new WinJS.Promise(function (c, e) {
@@ -2157,6 +2158,8 @@ var WinJSContrib;
             Pages.PageLifeCycleStep = PageLifeCycleStep;
             (function (_Pages, _Global, _Base, _CorePages, _BaseUtils, _ElementUtilities, _WriteProfilerMark, Promise, Fragments, ControlProcessor) {
                 'use strict';
+                if (!_Global.document || !_CorePages)
+                    return;
                 var viewMap = _CorePages._viewMap || {};
                 //this property allows defining mixins applyed to all pages
                 function abs(uri) {
@@ -2517,7 +2520,7 @@ var WinJSContrib;
                 source.define = pageOverride.define;
                 source.render = pageOverride.render;
                 source._remove = pageOverride._remove;
-            })(WinJSContrib.UI.Pages, window, WinJS, WinJS.UI.Pages, WinJS.Utilities, WinJS.Utilities, profiler, WinJS.Promise, WinJS.UI.Fragments, WinJS.UI);
+            })(WinJSContrib.UI.Pages, __global, WinJS, WinJS.UI.Pages, WinJS.Utilities, WinJS.Utilities, profiler, WinJS.Promise, WinJS.UI.Fragments, WinJS.UI);
         })(Pages = UI.Pages || (UI.Pages = {}));
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));

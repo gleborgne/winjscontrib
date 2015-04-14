@@ -287,12 +287,12 @@ module WinJSContrib.UI {
 
 	function bindAction(el, element, control) {
 		el.classList.add('page-action');
-		var actionName = el.dataset.pageAction;
+		var actionName = el.dataset.pageAction || el.getAttribute('tap');
 
 		var action = control[actionName];
 		if (action && typeof action === 'function') {
 			WinJSContrib.UI.tap(el, function (eltarg) {
-				var actionArgs = eltarg.dataset.pageActionArgs;
+				var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
 				if (actionArgs && typeof actionArgs == 'string') {
 					try {
 						var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
@@ -320,7 +320,7 @@ module WinJSContrib.UI {
      * @param {Object} control control owning functions to call
      */
     export function bindPageActions(element, control) {		
-		var elements = element.querySelectorAll('*[data-page-action]');
+		var elements = element.querySelectorAll('*[data-page-action], *[tap]');
 		if (elements && elements.length) {
 			for (var i = 0, l = elements.length; i < l; i++) {
 				var el = elements[i];
@@ -331,7 +331,7 @@ module WinJSContrib.UI {
 
 	function bindLink(el, element) {
 		el.classList.add('page-link');
-		var target = el.dataset.pageLink;
+		var target = el.dataset.pageLink || el.getAttribute('linkto');
 
 		if (target && target.indexOf('/') < 0) {
 			var tmp = WinJSContrib.Utils.readProperty(window, target);
@@ -342,7 +342,7 @@ module WinJSContrib.UI {
 
 		if (target) {
 			WinJSContrib.UI.tap(el, function (eltarg) {
-				var actionArgs = eltarg.dataset.pageActionArgs;
+				var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('linkto-args');
 				if (actionArgs && typeof actionArgs == 'string') {
 					try {
 						var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
@@ -374,7 +374,7 @@ module WinJSContrib.UI {
      * @param {HTMLElement} element root node crawled for page actions
      */
     export function bindPageLinks(element) {
-		var elements = element.querySelectorAll('*[data-page-link]');
+		var elements = element.querySelectorAll('*[data-page-link], *[linkto]');
 		if (elements && elements.length) {
 			for (var i = 0, l = elements.length; i < l; i++) {
 				var el = elements[i];
@@ -415,7 +415,7 @@ module WinJSContrib.UI {
      * @param {Object} control control owning functions to call
      */
     export function bindMembers(element, control) {
-		var elements = element.querySelectorAll('*[data-page-member]');
+		var elements = element.querySelectorAll('*[data-page-member], *[member]');
 		if (elements && elements.length) {
 			for (var i = 0, l = elements.length; i < l; i++) {
 				var el = elements[i];
