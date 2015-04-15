@@ -2365,6 +2365,8 @@ var WinJSContrib;
                     }).then(function Pages_processed() {
                         WinJSContrib.UI.bindMembers(element, that);
                         return that.processed(element, options);
+                    }).then(function () {
+                        return that;
                     });
                     var callComplete = function () {
                         complete && complete(that);
@@ -2383,6 +2385,8 @@ var WinJSContrib;
                         WinJSContrib.UI.bindActions(element, that);
                     }).then(function (result) {
                         return that.pageLifeCycle.steps.layout.resolve();
+                    }).then(function () {
+                        return that;
                     });
                     that.readyComplete = that.layoutComplete.then(function Pages_ready() {
                         that.ready(element, options);
@@ -2392,6 +2396,8 @@ var WinJSContrib;
                         broadcast(that, element, 'pageReady', [element, options]);
                     }).then(function (result) {
                         return that.pageLifeCycle.steps.ready.resolve();
+                    }).then(function () {
+                        return that;
                     }).then(null, function Pages_error(err) {
                         if (that.error)
                             return that.error(err);

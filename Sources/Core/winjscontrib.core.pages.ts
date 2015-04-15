@@ -482,11 +482,13 @@ module WinJSContrib.UI.Pages {
 					//add delay to enable webcomponent processing
 					return WinJS.Promise.timeout();
 				}
-			}).then(function(result) {
+			}).then(function (result) {
 				return that.pageLifeCycle.steps.process.resolve();
 			}).then(function Pages_processed() {
 				WinJSContrib.UI.bindMembers(element, that);
 				return that.processed(element, options);
+			}).then(function () {
+				return that;
 			});
 
 			var callComplete = function () {
@@ -509,6 +511,8 @@ module WinJSContrib.UI.Pages {
 				WinJSContrib.UI.bindActions(element, that);
 			}).then(function(result) {
 				return that.pageLifeCycle.steps.layout.resolve();
+			}).then(function () {
+				return that;
 			});
 
 			that.readyComplete = that.layoutComplete.then(function Pages_ready() {
@@ -522,6 +526,8 @@ module WinJSContrib.UI.Pages {
 				broadcast(that, element, 'pageReady', [element, options]);
 			}).then(function(result) {
 				return that.pageLifeCycle.steps.ready.resolve();
+			}).then(function () {
+				return that;
 			}).then(
 				null,
 				function Pages_error(err) {
