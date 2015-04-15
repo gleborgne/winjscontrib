@@ -1,7 +1,7 @@
 
 //polyfill setimmediate
 if (!this.setImmediate) {
-	this.setImmediate = function (callback:any, ...args:any[]):number {
+	this.setImmediate = function (callback: any, ...args: any[]): number {
 		setTimeout(callback, 0);
 		return 0;
 	}
@@ -19,6 +19,9 @@ interface String {
     endsWith(e);
 }
 
+declare module WinJS.UI {
+	var optionsParser: any;
+}
 
 if (!Object.map) {
     Object.map = function (obj, mapping) {
@@ -89,9 +92,9 @@ module WinJSContrib.Promise {
                 });
             }
 
-            items.forEach(function (item) {
-                resultPromise = queueP(resultPromise, item);
-            });
+			for (var i = 0, l = items.length; i < l; i++) {
+				resultPromise = queueP(resultPromise, items[i]);
+			}
 
             return resultPromise.then(function (r) {
                 return results;
@@ -107,9 +110,9 @@ module WinJSContrib.Promise {
 
         return dataPromise.then(function (items) {
             var promises = [];
-            items.forEach(function (item) {
-                promises.push(WinJS.Promise.as(promiseCallback(item)));
-            });
+            for (var i = 0, l = items.length; i < l; i++) {
+                promises.push(WinJS.Promise.as(promiseCallback(items[i])));
+            }
 
             return promises;
         });
@@ -130,9 +133,9 @@ module WinJSContrib.Promise {
 
         return dataPromise.then(function (items) {
             var promises = [];
-            items.forEach(function (item) {
-                promises.push(WinJS.Promise.as(promiseCallback(item)));
-            });
+            for (var i = 0, l = items.length; i < l; i++) {
+                promises.push(WinJS.Promise.as(promiseCallback(items[i])));
+            }
 
             return WinJS.Promise.join(promises);
         });
@@ -170,13 +173,13 @@ module WinJSContrib.Promise {
                 });
             }
 
-            items.forEach(function (item, i) {
-                batcheditems.push(item);
+            for (var i = 0, l = items.length; i < l; i++) {
+                batcheditems.push(items[i]);
                 if (i > 0 && i % batchSize === 0) {
                     resultPromise = queueBatch(resultPromise, batcheditems);
                     batcheditems = [];
                 }
-            });
+            }
 
             if (batcheditems.length) {
                 resultPromise = queueBatch(resultPromise, batcheditems);
@@ -820,6 +823,41 @@ module WinJSContrib.Utils {
 				element = document.querySelector(text);
 
 			return element;
+		},
+
+		"obj": function (element, text) {
+			return WinJS.UI.optionsParser(text, window, {
+				select: WinJS.Utilities.markSupportedForProcessing(function (text) {
+					var parent = WinJSContrib.Utils.getScopeControl(element);
+					if (parent) {
+						return parent.element.querySelector(text);
+					}
+					else {
+						return document.querySelector(text);
+					}
+				})
+			});
+		},
+
+		"prom": function (element, text) {
+			var res = resolveValue(element, text);
+			if (res.then) {
+				res.mcnMustResolve = true;
+			}
+			return res;
+		},
+
+		"list": function (element, text) {
+			var res = resolveValue(element, text);
+			if (res.then) {
+				var p = res.then(function (data) {
+					return new WinJS.Binding.List(data).dataSource;
+				});
+				p.mcnMustResolve = true;
+				return p;
+			}
+
+			return new WinJS.Binding.List(res).dataSource;
 		}
 	}
 
@@ -835,7 +873,7 @@ module WinJSContrib.Utils {
 		var items = text.split(':');
 		if (items.length > 1) {
 			var name = items[0];
-			var val = text.substr(name.length +1);
+			var val = text.substr(name.length + 1);
 			var parser = ValueParsers[name];
 
 			if (parser) {
@@ -843,7 +881,7 @@ module WinJSContrib.Utils {
 			}
 		}
 
-		return WinJSContrib.Utils.readProperty(window, text);        
+		return WinJSContrib.Utils.readProperty(window, text);
     }
 
     /**

@@ -707,6 +707,23 @@ module WinJSContrib.UI.Pages {
         source.render = pageOverride.render;
         source._remove = pageOverride._remove;
 
+		WinJS.UI.HtmlControl = WinJS.Class.define(function HtmlControl_ctor(element, options, complete) {
+			/// <signature helpKeyword="WinJS.UI.HtmlControl.HtmlControl">
+			/// <summary locid="WinJS.UI.HtmlControl.constructor">
+			/// Initializes a new instance of HtmlControl to define a new page control.
+			/// </summary>
+			/// <param name="element" locid="WinJS.UI.HtmlControl.constructor_p:element">
+			/// The element that hosts the HtmlControl.
+			/// </param>
+			/// <param name="options" locid="WinJS.UI.HtmlControl.constructor_p:options">
+			/// The options for configuring the page. The uri option is required in order to specify the source
+			/// document for the content of the page.
+			/// </param>
+			/// </signature>
+			WinJS.UI.Pages.render(options.uri, element, options).
+				then(complete, function () { complete(); });
+		})
+
     })(WinJSContrib.UI.Pages, __global, WinJS, WinJS.UI.Pages, WinJS.Utilities, WinJS.Utilities, profiler, WinJS.Promise, WinJS.UI.Fragments, WinJS.UI);
 
 

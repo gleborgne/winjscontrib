@@ -2,6 +2,10 @@
     "use strict";
 
     WinJS.UI.Pages.define("./demos/ui/controls/listlayout/home.html", {
+    	init: function () {
+    		this.itemsPromise = WinJS.Promise.wrap(DummyData);
+    	},
+
         ready: function (element, options) {
             //var mylistview = element.querySelector('#mylistview');
             //mylistview.winControl.forceLayout();

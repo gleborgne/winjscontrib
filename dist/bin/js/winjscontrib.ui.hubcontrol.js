@@ -43,13 +43,15 @@
                 hub.identifier = hub.element.id + "//" + hub.element.className;
 
                 var parent = WinJSContrib.Utils.getScopeControl(hub.element);
-                if (parent) {
-                	parent.readyComplete.then(function () {
+                if (parent && parent.elementReady) {
+                	parent.elementReady.then(function () {
+                		parent.readyComplete.then(function () {
                 		hub.layout();
                 		if (hub.savestate)
                 			hub.restoreCtrlState();
 
                 		hub.prepare();
+                		});
                 	});
                 }
             },

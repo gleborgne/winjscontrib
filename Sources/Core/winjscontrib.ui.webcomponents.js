@@ -134,7 +134,13 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			if (resolve) {
 				var tmp = WinJSContrib.Utils.resolveValue(element, val);
 				if (tmp) {
-					options[optionName] = tmp;
+					if (tmp.then && tmp.mcnMustResolve) {
+						tmp.then(function (data) {
+							options[optionName] = data;
+						});
+					} else {
+						options[optionName] = tmp;
+					}
 					return;
 				}
 			}
@@ -203,5 +209,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			return options;
 		});
 	}
+
+	//flyout, menu, toggle, datepicker
 
 })(this);

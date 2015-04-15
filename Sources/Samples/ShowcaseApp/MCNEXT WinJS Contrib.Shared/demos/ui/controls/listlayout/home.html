@@ -35,9 +35,10 @@
                     <div class="title" data-win-bind="innerText: title"></div>
                 </div>
             </win-template>
+
             <win-listview id="mylistview"
 				itemtemplate="select:#listitemtemplate" 
-				itemdatasource="DummyDataSource"
+				itemdatasource="list:ctrl:itemsPromise"
 				oniteminvoked="ctrl:listItemInvoked"
 				></win-listview>
 

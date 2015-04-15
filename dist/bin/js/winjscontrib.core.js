@@ -80,9 +80,9 @@ var WinJSContrib;
                         });
                     });
                 };
-                items.forEach(function (item) {
-                    resultPromise = queueP(resultPromise, item);
-                });
+                for (var i = 0, l = items.length; i < l; i++) {
+                    resultPromise = queueP(resultPromise, items[i]);
+                }
                 return resultPromise.then(function (r) {
                     return results;
                 });
@@ -96,9 +96,9 @@ var WinJSContrib;
             var dataPromise = WinJS.Promise.as(dataArray);
             return dataPromise.then(function (items) {
                 var promises = [];
-                items.forEach(function (item) {
-                    promises.push(WinJS.Promise.as(promiseCallback(item)));
-                });
+                for (var i = 0, l = items.length; i < l; i++) {
+                    promises.push(WinJS.Promise.as(promiseCallback(items[i])));
+                }
                 return promises;
             });
         }
@@ -116,9 +116,9 @@ var WinJSContrib;
             var dataPromise = WinJS.Promise.as(dataArray);
             return dataPromise.then(function (items) {
                 var promises = [];
-                items.forEach(function (item) {
-                    promises.push(WinJS.Promise.as(promiseCallback(item)));
-                });
+                for (var i = 0, l = items.length; i < l; i++) {
+                    promises.push(WinJS.Promise.as(promiseCallback(items[i])));
+                }
                 return WinJS.Promise.join(promises);
             });
         }
@@ -154,13 +154,13 @@ var WinJSContrib;
                         });
                     });
                 };
-                items.forEach(function (item, i) {
-                    batcheditems.push(item);
+                for (var i = 0, l = items.length; i < l; i++) {
+                    batcheditems.push(items[i]);
                     if (i > 0 && i % batchSize === 0) {
                         resultPromise = queueBatch(resultPromise, batcheditems);
                         batcheditems = [];
                     }
-                });
+                }
                 if (batcheditems.length) {
                     resultPromise = queueBatch(resultPromise, batcheditems);
                 }
@@ -775,6 +775,37 @@ var WinJSContrib;
                 if (!element)
                     element = document.querySelector(text);
                 return element;
+            },
+            "obj": function (element, text) {
+                return WinJS.UI.optionsParser(text, window, {
+                    select: WinJS.Utilities.markSupportedForProcessing(function (text) {
+                        var parent = WinJSContrib.Utils.getScopeControl(element);
+                        if (parent) {
+                            return parent.element.querySelector(text);
+                        }
+                        else {
+                            return document.querySelector(text);
+                        }
+                    })
+                });
+            },
+            "prom": function (element, text) {
+                var res = resolveValue(element, text);
+                if (res.then) {
+                    res.mcnMustResolve = true;
+                }
+                return res;
+            },
+            "list": function (element, text) {
+                var res = resolveValue(element, text);
+                if (res.then) {
+                    var p = res.then(function (data) {
+                        return new WinJS.Binding.List(data).dataSource;
+                    });
+                    p.mcnMustResolve = true;
+                    return p;
+                }
+                return new WinJS.Binding.List(res).dataSource;
             }
         };
         /**
@@ -2526,6 +2557,23 @@ var WinJSContrib;
                 source.define = pageOverride.define;
                 source.render = pageOverride.render;
                 source._remove = pageOverride._remove;
+                WinJS.UI.HtmlControl = WinJS.Class.define(function HtmlControl_ctor(element, options, complete) {
+                    /// <signature helpKeyword="WinJS.UI.HtmlControl.HtmlControl">
+                    /// <summary locid="WinJS.UI.HtmlControl.constructor">
+                    /// Initializes a new instance of HtmlControl to define a new page control.
+                    /// </summary>
+                    /// <param name="element" locid="WinJS.UI.HtmlControl.constructor_p:element">
+                    /// The element that hosts the HtmlControl.
+                    /// </param>
+                    /// <param name="options" locid="WinJS.UI.HtmlControl.constructor_p:options">
+                    /// The options for configuring the page. The uri option is required in order to specify the source
+                    /// document for the content of the page.
+                    /// </param>
+                    /// </signature>
+                    WinJS.UI.Pages.render(options.uri, element, options).then(complete, function () {
+                        complete();
+                    });
+                });
             })(WinJSContrib.UI.Pages, __global, WinJS, WinJS.UI.Pages, WinJS.Utilities, WinJS.Utilities, profiler, WinJS.Promise, WinJS.UI.Fragments, WinJS.UI);
         })(Pages = UI.Pages || (UI.Pages = {}));
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));

@@ -8,6 +8,9 @@ interface String {
     startsWith(e: any): any;
     endsWith(e: any): any;
 }
+declare module WinJS.UI {
+    var optionsParser: any;
+}
 declare module WinJSContrib.Promise {
     /**
      * apply callback for each item in the array in waterfall
@@ -244,6 +247,9 @@ declare module WinJSContrib.Utils {
         "page": (element: any, text: any) => any;
         "ctrl": (element: any, text: any) => any;
         "select": (element: any, text: any) => any;
+        "obj": (element: any, text: any) => any;
+        "prom": (element: any, text: any) => any;
+        "list": (element: any, text: any) => any;
     };
     /**
      * resolve value from an expression. This helper will crawl the DOM up, and provide the property or function from parent page or control.

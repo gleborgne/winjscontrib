@@ -81,9 +81,11 @@
             	grid.autolayout = options.autolayout || true;
             	if (grid.autolayout) {
             		var parent = WinJSContrib.Utils.getScopeControl(grid.element);
-            		if (parent) {
-            			parent.readyComplete.then(function () {
-            				grid.layout();
+            		if (parent && parent.elementReady) {
+            			parent.elementReady.then(function () {
+            				parent.readyComplete.then(function () {
+            					grid.layout();
+            				});
             			});
             		}
             	}
@@ -398,8 +400,8 @@
             			var childs = ctrl.visibleChilds();
             			childs.forEach(function (elt) {
             				elt.style.position = 'absolute';
-            				var eltW = elt.clientWidth * ratioW;
-            				var eltH = elt.clientHeight * ratioH;
+            				var eltW = elt.offsetWidth * ratioW;
+            				var eltH = elt.offsetHeight * ratioH;
             				var eltColumns = (eltW / cellW) >> 0;
             				var eltRows = (eltH / cellH) >> 0;
 
@@ -456,8 +458,8 @@
             			childs.forEach(function (elt) {
             				elt.style.position = 'absolute';
 
-            				var eltW = elt.clientWidth * ratioW;
-            				var eltH = elt.clientHeight * ratioH;
+            				var eltW = elt.offsetWidth * ratioW;
+            				var eltH = elt.offsetHeight * ratioH;
             				var eltColumns = (eltW / cellW) >> 0;
             				var eltRows = (eltH / cellH) >> 0;
 
