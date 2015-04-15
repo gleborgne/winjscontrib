@@ -65,7 +65,7 @@
                  * @type WinJSContrib.UI.GridControlLayout
                  */
             	grid.defaultLayout = {
-            		layout: 'horizontal',
+            		layout: options.layout || 'none',
             		itemsPerColumn: (options.itemsPerColumn) ? options.itemsPerColumn : undefined,
             		itemsPerRow: (options.itemsPerRow) ? options.itemsPerRow : undefined,
             		cellSpace: (options.cellSpace) ? options.cellSpace : 10,
