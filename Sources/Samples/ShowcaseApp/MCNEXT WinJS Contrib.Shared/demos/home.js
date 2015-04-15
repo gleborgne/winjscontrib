@@ -1,4 +1,6 @@
-﻿(function () {
+﻿/// <reference path="../scripts/WinJS/js/WinJS.js" />
+
+(function () {
     "use strict";
 
     WinJS.UI.Pages.define("./demos/home.html", {
@@ -17,6 +19,8 @@
                     }
                 });
             });
+
+			WinJS.UI.T
         },
 
         //render: function (element, options, loadResults) {

@@ -713,6 +713,7 @@ module WinJSContrib.UI.Pages {
         source.render = pageOverride.render;
         source._remove = pageOverride._remove;
 
+		//replaces HtmlControl, otherwise it does not use proper Page constructor
 		WinJS.UI.HtmlControl = WinJS.Class.define(function HtmlControl_ctor(element, options, complete) {
 			/// <signature helpKeyword="WinJS.UI.HtmlControl.HtmlControl">
 			/// <summary locid="WinJS.UI.HtmlControl.constructor">

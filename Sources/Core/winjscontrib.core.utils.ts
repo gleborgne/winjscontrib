@@ -858,6 +858,10 @@ module WinJSContrib.Utils {
 			}
 
 			return new WinJS.Binding.List(res).dataSource;
+		},
+
+		"global": function (element, text) {
+			return WinJSContrib.Utils.readProperty(window, text);
 		}
 	}
 
@@ -881,7 +885,7 @@ module WinJSContrib.Utils {
 			}
 		}
 
-		return WinJSContrib.Utils.readProperty(window, text);
+		return text; //WinJSContrib.Utils.readProperty(window, text);
     }
 
     /**

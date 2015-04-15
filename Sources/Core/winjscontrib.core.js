@@ -800,6 +800,9 @@ var WinJSContrib;
                     return p;
                 }
                 return new WinJS.Binding.List(res).dataSource;
+            },
+            "global": function (element, text) {
+                return WinJSContrib.Utils.readProperty(window, text);
             }
         };
         /**
@@ -820,7 +823,7 @@ var WinJSContrib;
                     return parser(element, val);
                 }
             }
-            return WinJSContrib.Utils.readProperty(window, text);
+            return text; //WinJSContrib.Utils.readProperty(window, text);
         }
         Utils.resolveValue = resolveValue;
         /**
@@ -2557,6 +2560,7 @@ var WinJSContrib;
                 source.define = pageOverride.define;
                 source.render = pageOverride.render;
                 source._remove = pageOverride._remove;
+                //replaces HtmlControl, otherwise it does not use proper Page constructor
                 WinJS.UI.HtmlControl = WinJS.Class.define(function HtmlControl_ctor(element, options, complete) {
                     /// <signature helpKeyword="WinJS.UI.HtmlControl.HtmlControl">
                     /// <summary locid="WinJS.UI.HtmlControl.constructor">

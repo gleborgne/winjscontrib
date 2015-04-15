@@ -250,6 +250,7 @@ declare module WinJSContrib.Utils {
         "obj": (element: any, text: any) => any;
         "prom": (element: any, text: any) => any;
         "list": (element: any, text: any) => any;
+        "global": (element: any, text: any) => any;
     };
     /**
      * resolve value from an expression. This helper will crawl the DOM up, and provide the property or function from parent page or control.
