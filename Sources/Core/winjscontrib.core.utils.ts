@@ -93,7 +93,11 @@ module WinJSContrib.Promise {
             }
 
 			for (var i = 0, l = items.length; i < l; i++) {
-				resultPromise = queueP(resultPromise, items[i]);
+				var item = items[i];
+				if (!item && items.getItem) {
+					item = items.getItem(i);
+				}
+				resultPromise = queueP(resultPromise, item);
 			}
 
             return resultPromise.then(function (r) {
@@ -111,7 +115,11 @@ module WinJSContrib.Promise {
         return dataPromise.then(function (items) {
             var promises = [];
             for (var i = 0, l = items.length; i < l; i++) {
-                promises.push(WinJS.Promise.as(promiseCallback(items[i])));
+				var item = items[i];
+				if (!item && items.getItem) {
+					item = items.getItem(i);
+				}
+                promises.push(WinJS.Promise.as(promiseCallback(item)));
             }
 
             return promises;
@@ -134,7 +142,11 @@ module WinJSContrib.Promise {
         return dataPromise.then(function (items) {
             var promises = [];
             for (var i = 0, l = items.length; i < l; i++) {
-                promises.push(WinJS.Promise.as(promiseCallback(items[i])));
+				var item = items[i];
+				if (!item && items.getItem) {
+					item = items.getItem(i);
+				}
+                promises.push(WinJS.Promise.as(promiseCallback(item)));
             }
 
             return WinJS.Promise.join(promises);
@@ -174,7 +186,11 @@ module WinJSContrib.Promise {
             }
 
             for (var i = 0, l = items.length; i < l; i++) {
-                batcheditems.push(items[i]);
+				var item = items[i];
+				if (!item && items.getItem) {
+					item = items.getItem(i);
+				}
+                batcheditems.push(item);
                 if (i > 0 && i % batchSize === 0) {
                     resultPromise = queueBatch(resultPromise, batcheditems);
                     batcheditems = [];

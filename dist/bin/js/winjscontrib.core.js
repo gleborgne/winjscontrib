@@ -81,7 +81,11 @@ var WinJSContrib;
                     });
                 };
                 for (var i = 0, l = items.length; i < l; i++) {
-                    resultPromise = queueP(resultPromise, items[i]);
+                    var item = items[i];
+                    if (!item && items.getItem) {
+                        item = items.getItem(i);
+                    }
+                    resultPromise = queueP(resultPromise, item);
                 }
                 return resultPromise.then(function (r) {
                     return results;
@@ -97,7 +101,11 @@ var WinJSContrib;
             return dataPromise.then(function (items) {
                 var promises = [];
                 for (var i = 0, l = items.length; i < l; i++) {
-                    promises.push(WinJS.Promise.as(promiseCallback(items[i])));
+                    var item = items[i];
+                    if (!item && items.getItem) {
+                        item = items.getItem(i);
+                    }
+                    promises.push(WinJS.Promise.as(promiseCallback(item)));
                 }
                 return promises;
             });
@@ -117,7 +125,11 @@ var WinJSContrib;
             return dataPromise.then(function (items) {
                 var promises = [];
                 for (var i = 0, l = items.length; i < l; i++) {
-                    promises.push(WinJS.Promise.as(promiseCallback(items[i])));
+                    var item = items[i];
+                    if (!item && items.getItem) {
+                        item = items.getItem(i);
+                    }
+                    promises.push(WinJS.Promise.as(promiseCallback(item)));
                 }
                 return WinJS.Promise.join(promises);
             });
@@ -155,7 +167,11 @@ var WinJSContrib;
                     });
                 };
                 for (var i = 0, l = items.length; i < l; i++) {
-                    batcheditems.push(items[i]);
+                    var item = items[i];
+                    if (!item && items.getItem) {
+                        item = items.getItem(i);
+                    }
+                    batcheditems.push(item);
                     if (i > 0 && i % batchSize === 0) {
                         resultPromise = queueBatch(resultPromise, batcheditems);
                         batcheditems = [];

@@ -14,7 +14,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	WinJSContrib.UI.WebComponents.registered = registered;
 	WinJSContrib.UI.WebComponents.polyfill = false;
 
-	if (!global.document.registerElement) {
+	if (!global.document.registerElement && global.MutationObserver) {
 		WinJSContrib.UI.WebComponents.polyfill = true;
 	}
 
@@ -40,6 +40,12 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		for (var i = 0, l = node.childNodes.length; i < l; i++) {
 			inspect(node.childNodes[i]);
 		}
+	}
+
+	if (WinJSContrib.UI.WebComponents.polyfill) {
+		WinJSContrib.UI.WebComponents.inspect = inspect;
+	} else {
+		WinJSContrib.UI.WebComponents.inspect = function () { };
 	}
 
 	function observeMutations(element) {
@@ -77,15 +83,6 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			var ctrl = new definition.ctor(element, options);
 			element.winControl = ctrl;
 		}
-		
-		//if (scope) {
-		//	//if the component is owned by a page/fragment, we process the control according to page lifecycle
-		//	scope.renderComplete.then(function(){
-		//		process();
-		//	});
-		//} else {
-		//	process();
-		//}
 
 		if (scope && scope.pageLifeCycle) {
 			//if the component is owned by a page/fragment, we process the control according to page lifecycle
@@ -134,7 +131,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 	WinJSContrib.UI.WebComponents.mapAttr = function mapAttr(element, attrName, optionName, options, resolve) {
 		var val = element.getAttribute(attrName);
-		
+
 		if (val) {
 			if (resolve) {
 				var tmp = WinJSContrib.Utils.resolveValue(element, val);
@@ -185,11 +182,11 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		});
 	}
 
-	
+
 
 	if (WinJS.Binding && WinJS.Binding.Template) {
 		WinJSContrib.UI.WebComponents.register('win-template', WinJS.Binding.Template, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'extractchild', 'extractChild', options);			
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'extractchild', 'extractChild', options);
 			return options;
 		});
 	}
@@ -199,7 +196,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			WinJSContrib.UI.WebComponents.mapAttr(elt, 'closeddisplaymode', 'closedDisplayMode', options);
 			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', 'disabled', options);
 			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hidden', 'hidden', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'layout', 'layout', options);			
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'layout', 'layout', options);
 			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placement', 'placement', options);
 			WinJSContrib.UI.WebComponents.mapAttr(elt, 'sticky', 'sticky', options);
 			WinJSContrib.UI.WebComponents.mapAttr(elt, 'commands', 'commands', options, true);
@@ -531,20 +528,20 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		});
 	}
 
-	
-/*
-WinJS.UI.AppBar
-            WinJS.UI.AppBarCommand
-            WinJS.UI.AppBarIcon
-            WinJS.UI.AutoSuggestBox
-            
-            
-            WinJS.UI.Menu
-            WinJS.UI.MenuCommand
-            WinJS.UI.NavBar
-            WinJS.UI.NavBarCommand
-            WinJS.UI.NavBarContainer
-            Toolbar
-			Viewbox
-*/
+
+	/*
+	WinJS.UI.AppBar
+				WinJS.UI.AppBarCommand
+				WinJS.UI.AppBarIcon
+				WinJS.UI.AutoSuggestBox
+				
+				
+				WinJS.UI.Menu
+				WinJS.UI.MenuCommand
+				WinJS.UI.NavBar
+				WinJS.UI.NavBarCommand
+				WinJS.UI.NavBarContainer
+				Toolbar
+				Viewbox
+	*/
 })(this);
