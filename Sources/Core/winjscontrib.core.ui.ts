@@ -396,7 +396,7 @@ module WinJSContrib.UI {
 
 	function bindMember(el, element, control) {
 		el.classList.add('page-member');
-		var memberName = el.dataset.pageMember;
+		var memberName = el.dataset.pageMember || el.getAttribute('member');
 		if (!memberName)
 			memberName = el.id;
 

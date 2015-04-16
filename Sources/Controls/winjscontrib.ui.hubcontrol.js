@@ -338,19 +338,12 @@
     });
 
     if (WinJSContrib.UI.WebComponents) {
-    	WinJSContrib.UI.WebComponents.register('mcn-hub', WinJSContrib.UI.HubControl, function (elt) {
-    		var options = {};
-    		WinJSContrib.UI.WebComponents.mapAttr(elt, 'multipass', 'multipass', options);
-    		
+    	WinJSContrib.UI.WebComponents.register('mcn-hub', WinJSContrib.UI.HubControl, function (elt, options) {
+    		WinJSContrib.UI.WebComponents.mapAttr(elt, 'multipass', options);    		
     		return options;
     	});
 
-    	WinJSContrib.UI.WebComponents.register('mcn-hub-section', WinJSContrib.UI.HubSection, function (elt) {
-    		var options = {};
-    		//var itemTemplate = elt.getAttribute('itemtemplate');
-    		//if (itemTemplate) {
-    		//	options.itemTemplate = itemTemplate;
-    		//}
+    	WinJSContrib.UI.WebComponents.register('mcn-hub-section', WinJSContrib.UI.HubSection, function (elt, options) {
     		return options;
     	});
     }

@@ -698,6 +698,6 @@ declare module WinJSContrib.UI.Pages {
         constructor(page: any, stepName: any, parent: any);
         attach(callback: any): WinJS.Promise<any>;
         resolve(arg: any): WinJS.IPromise<any>;
-        reject(arg: any): WinJS.Promise<any>;
+        reject(arg: any): WinJS.IPromise<WinJS.Promise<any>>;
     }
 }

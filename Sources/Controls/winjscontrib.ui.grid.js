@@ -579,11 +579,10 @@
 	});
 
 	if (WinJSContrib.UI.WebComponents) {
-		WinJSContrib.UI.WebComponents.register('mcn-grid', WinJSContrib.UI.GridControl, function (elt) {
-			var options = {};
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'multipass', 'multipass', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'autolayout', 'autolayout', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'layouts', 'layouts', options, true);
+		WinJSContrib.UI.WebComponents.register('mcn-grid', WinJSContrib.UI.GridControl, function (elt, options) {
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'multipass', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'autolayout', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'layouts', options);
 
 			return options;
 		});

@@ -1343,7 +1343,7 @@ var WinJSContrib;
         UI.parentNavigator = parentNavigator;
         function bindMember(el, element, control) {
             el.classList.add('page-member');
-            var memberName = el.dataset.pageMember;
+            var memberName = el.dataset.pageMember || el.getAttribute('member');
             if (!memberName)
                 memberName = el.id;
             if (memberName && !control[memberName]) {
@@ -2201,7 +2201,7 @@ var WinJSContrib;
                     this.isDone = true;
                     this.queue = null;
                     this._rejectPromise(arg);
-                    return this.promise;
+                    return WinJS.Promise.wrapError(this.promise);
                 };
                 return PageLifeCycleStep;
             })();

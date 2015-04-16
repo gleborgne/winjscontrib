@@ -277,7 +277,7 @@ module WinJSContrib.UI.Pages {
 			this.isDone = true;
 			this.queue = null;
 			this._rejectPromise(arg);
-			return this.promise;
+			return WinJS.Promise.wrapError(this.promise);
 		}
 	}
 

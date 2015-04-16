@@ -129,40 +129,38 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		}
 	}
 
-	WinJSContrib.UI.WebComponents.mapAttr = function mapAttr(element, attrName, optionName, options, resolve) {
-		var val = element.getAttribute(attrName);
+	WinJSContrib.UI.WebComponents.mapAttr = function mapAttr(element, propertyName, options) {
+		var val = element.getAttribute(propertyName);
 
-		if (val) {
-			if (resolve) {
-				var tmp = WinJSContrib.Utils.resolveValue(element, val);
-				if (tmp) {
-					if (tmp.then && tmp.mcnMustResolve) {
-						tmp.then(function (data) {
-							options[optionName] = data;
-						});
-					} else {
-						options[optionName] = tmp;
-					}
-					return;
+		if (val != null && val !== undefined) {
+			var tmp = WinJSContrib.Utils.resolveValue(element, val);
+			if (tmp) {
+				if (tmp.then && tmp.mcnMustResolve) {
+					tmp.then(function (data) {
+						options[propertyName] = data;
+					});
+				} else {
+					options[propertyName] = tmp;
 				}
+				return;
 			}
 
-			options[optionName] = val;
+			options[propertyName] = val;
 		}
 
 		var component = element.mcnComponent;
 		if (component) {
-			component.attributes[attrName.toUpperCase()] = function (val) {
+			component.attributes[propertyName.toUpperCase()] = function (val) {
 				var ctrl = element.winControl;
 				if (ctrl) {
 					if (resolve) {
 						var tmp = WinJSContrib.Utils.resolveValue(element, val);
 						if (tmp) {
-							ctrl[optionName] = tmp;
+							ctrl[propertyName] = tmp;
 							return;
 						}
 					}
-					ctrl[optionName] = val
+					ctrl[propertyName] = val
 				}
 			}
 		}
@@ -186,25 +184,25 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 	if (WinJS.Binding && WinJS.Binding.Template) {
 		WinJSContrib.UI.WebComponents.register('win-template', WinJS.Binding.Template, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'extractchild', 'extractChild', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'extractChild', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.AppBar) {
 		WinJSContrib.UI.WebComponents.register('win-appbar', WinJS.UI.AppBar, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'closeddisplaymode', 'closedDisplayMode', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', 'disabled', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hidden', 'hidden', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'layout', 'layout', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placement', 'placement', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'sticky', 'sticky', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'commands', 'commands', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'closedDisplayMode', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hidden', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'layout', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placement', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'sticky', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'commands', options);
 
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onafterhide', 'onafterhide', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onaftershow', 'onaftershow', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforehide', 'onbeforehide', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeshow', 'onbeforeshow', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onafterhide', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onaftershow', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforehide', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeshow', options);
 
 			return options;
 		});
@@ -212,16 +210,16 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 	if (WinJS.UI && WinJS.UI.AutoSuggestBox) {
 		WinJSContrib.UI.WebComponents.register('win-autosuggestbox', WinJS.UI.AutoSuggestBox, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'chooseSuggestionOnEnter', 'chooseSuggestionOnEnter', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', 'disabled', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onquerychanged', 'onquerychanged', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onquerysubmitted', 'onquerysubmitted', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onresultsuggestionchosen', 'onresultsuggestionchosen', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onsuggestionsrequested', 'onsuggestionsrequested', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placeholderText', 'placeholderText', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'queryText', 'queryText', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'searchHistoryContext', 'searchHistoryContext', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'searchHistoryDisabled', 'searchHistoryDisabled', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'chooseSuggestionOnEnter', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onquerychanged', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onquerysubmitted', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onresultsuggestionchosen', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onsuggestionsrequested', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placeholderText', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'queryText', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'searchHistoryContext', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'searchHistoryDisabled', options);
 			return options;
 		});
 	}
@@ -234,99 +232,99 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 	if (WinJS.UI && WinJS.UI.ContentDialog) {
 		WinJSContrib.UI.WebComponents.register('win-contentdialog', WinJS.UI.ContentDialog, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hidden', 'hidden', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'primaryCommandDisabled', 'primaryCommandDisabled', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'primaryCommandText', 'primaryCommandText', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'secondaryCommandDisabled', 'secondaryCommandDisabled', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'secondaryCommandText', 'secondaryCommandText', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'title', 'title', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hidden', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'primaryCommandDisabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'primaryCommandText', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'secondaryCommandDisabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'secondaryCommandText', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'title', options);
 
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onafterhide', 'onafterhide', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onaftershow', 'onaftershow', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforehide', 'onbeforehide', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeshow', 'onbeforeshow', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onafterhide', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onaftershow', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforehide', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeshow', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.DatePicker) {
 		WinJSContrib.UI.WebComponents.register('win-datepicker', WinJS.UI.DatePicker, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'calendar', 'calendar', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'datePattern', 'datePattern', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', 'disabled', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'maxYear', 'maxYear', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'minYear', 'minYear', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'monthPattern', 'monthPattern', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'yearPattern', 'yearPattern', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'calendar', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'datePattern', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'maxYear', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'minYear', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'monthPattern', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'yearPattern', options);
 
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onchange', 'onchange', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'current', 'current', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onchange', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'current', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.FlipView) {
 		WinJSContrib.UI.WebComponents.register('win-flipview', WinJS.UI.FlipView, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemtemplate', 'itemTemplate', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemdatasource', 'itemDataSource', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemTemplate', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemDataSource', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.Flyout) {
 		WinJSContrib.UI.WebComponents.register('win-flyout', WinJS.UI.Flyout, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'alignment', 'alignment', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'anchor', 'anchor', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', 'disabled', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hidden', 'hidden', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placement', 'placement', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'alignment', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'anchor', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hidden', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placement', options);
 
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onafterhide', 'onafterhide', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onaftershow', 'onaftershow', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforehide', 'onbeforehide', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeshow', 'onbeforeshow', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onafterhide', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onaftershow', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforehide', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeshow', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.Hub) {
 		WinJSContrib.UI.WebComponents.register('win-hub', WinJS.UI.Hub, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'headerTemplate', 'headerTemplate', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'indexOfFirstVisible', 'indexOfFirstVisible', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'indexOfLastVisible', 'indexOfLastVisible', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'loadingState', 'loadingState', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oncontentanimating', 'oncontentanimating', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onheaderinvoked', 'onheaderinvoked', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onloadingstatechanged', 'onloadingstatechanged', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'orientation', 'orientation', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'scrollPosition', 'scrollPosition', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'sectionOnScreen', 'sectionOnScreen', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'sections', 'sections', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'zoomableView', 'zoomableView', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'headerTemplate', optionse);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'indexOfFirstVisible', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'indexOfLastVisible', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'loadingState', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oncontentanimating', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onheaderinvoked', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onloadingstatechanged', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'orientation', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'scrollPosition', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'sectionOnScreen', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'sections', optionse);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'zoomableView', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.HubSection) {
 		WinJSContrib.UI.WebComponents.register('win-hubsection', WinJS.UI.HubSection, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'contentElement', 'contentElement', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'header', 'header', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'isHeaderStatic', 'isHeaderStatic', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'contentElement', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'header', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'isHeaderStatic', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.ItemContainer) {
 		WinJSContrib.UI.WebComponents.register('win-itemcontainer', WinJS.UI.ItemContainer, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'draggable', 'draggable', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oninvoked', 'oninvoked', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onselectionchanged', 'onselectionchanged', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onselectionchanging', 'onselectionchanging', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'selected', 'selected', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectionDisabled', 'selectionDisabled', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'swipeBehavior', 'swipeBehavior', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'swipeOrientation', 'swipeOrientation', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'tapBehavior', 'tapBehavior', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'draggable', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oninvoked', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onselectionchanged', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onselectionchanging', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'selected', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectionDisabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'swipeBehavior', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'swipeOrientation', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'tapBehavior', options);
 			return options;
 		});
 	}
@@ -334,21 +332,21 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	if (WinJS.UI && WinJS.UI.ListView) {
 		WinJSContrib.UI.WebComponents.register('win-listview', WinJS.UI.ListView, function (elt, options) {
 
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemtemplate', 'itemTemplate', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemdatasource', 'itemDataSource', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemsdraggable', 'itemsDraggable', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemsreorderable', 'itemsReorderable', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oniteminvoked', 'oniteminvoked', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemTemplate', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemDataSource', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemsDraggable', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'itemsReorderable', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oniteminvoked', options);
 
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'groupheadertemplate', 'groupHeaderTemplate', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'groupdatasource', 'groupDataSource', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'groupHeaderTemplate', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'groupDataSource', options);
 
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'swipebehavior', 'swipeBehavior', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectbehavior', 'selectBehavior', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'tapbehavior', 'tapBehavior', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'swipeBehavior', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectBehavior', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'tapBehavior', options);
 
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'header', 'header', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'footer', 'footer', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'header', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'footer', options);
 
 			return options;
 		});
@@ -356,147 +354,147 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 	if (WinJS.UI && WinJS.UI.Menu) {
 		WinJSContrib.UI.WebComponents.register('win-menu', WinJS.UI.Menu, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'alignment', 'alignment', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'anchor', 'anchor', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'commands', 'commands', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', 'disabled', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hidden', 'hidden', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placement', 'placement', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'alignment', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'anchor', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'commands', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hidden', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placement', options);
 
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onafterhide', 'onafterhide', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onaftershow', 'onaftershow', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforehide', 'onbeforehide', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeshow', 'onbeforeshow', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onafterhide', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onaftershow', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforehide', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeshow', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.Pivot) {
 		WinJSContrib.UI.WebComponents.register('win-pivot', WinJS.UI.Pivot, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'items', 'items', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'locked', 'locked', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemanimationend', 'onitemanimationend', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemanimationstart', 'onitemanimationstart', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onselectionchanged', 'onselectionchanged', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectedIndex', 'selectedIndex', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectedItem', 'selectedItem', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'title', 'title', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'items', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'locked', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemanimationend', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemanimationstart', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onselectionchanged', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectedIndex', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'selectedItem', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'title', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.PivotItem) {
 		WinJSContrib.UI.WebComponents.register('win-pivotitem', WinJS.UI.PivotItem, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'contentElement', 'contentElement', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'header', 'header', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'contentElement', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'header', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.Rating) {
 		WinJSContrib.UI.WebComponents.register('win-rating', WinJS.UI.Rating, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'averageRating', 'averageRating', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', 'disabled', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'enableClear', 'enableClear', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'maxRating', 'maxRating', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oncancel', 'oncancel', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onchange', 'onchange', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onpreviewchange', 'onpreviewchange', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'tooltipStrings', 'tooltipStrings', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'userRating', 'userRating', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'averageRating', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'enableClear', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'maxRating', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oncancel', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onchange', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onpreviewchange', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'tooltipStrings', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'userRating', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.Repeater) {
 		WinJSContrib.UI.WebComponents.register('win-repeater', WinJS.UI.Repeater, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'data', 'data', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'length', 'length', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemchanged', 'onitemchanged', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemchanging', 'onitemchanging', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oniteminserted', 'oniteminserted', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oniteminserting', 'oniteminserting', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemmoved', 'onitemmoved', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemmoving', 'onitemmoving', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemremoved', 'onitemremoved', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemremoving', 'onitemremoving', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemsloaded', 'onitemsloaded', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemsreloaded', 'onitemsreloaded', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemsreloading', 'onitemsreloading', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'template', 'template', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'data', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'length', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemchanged', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemchanging', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oniteminserted', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'oniteminserting', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemmoved', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemmoving', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemremoved', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemremoving', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemsloaded', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemsreloaded', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onitemsreloading', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'template', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.SearchBox) {
 		WinJSContrib.UI.WebComponents.register('win-searchbox', WinJS.UI.SearchBox, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'chooseSuggestionOnEnter', 'chooseSuggestionOnEnter', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', 'disabled', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'focusOnKeyboardInput', 'focusOnKeyboardInput', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onquerychanged', 'onquerychanged', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onquerysubmitted', 'onquerysubmitted', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onresultsuggestionchosen', 'onresultsuggestionchosen', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onsuggestionsrequested', 'onsuggestionsrequested', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placeholderText', 'placeholderText', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'queryText', 'queryText', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'searchHistoryContext', 'searchHistoryContext', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'searchHistoryDisabled', 'searchHistoryDisabled', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'chooseSuggestionOnEnter', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'focusOnKeyboardInput', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onquerychanged', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onquerysubmitted', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onresultsuggestionchosen', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onsuggestionsrequested', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placeholderText', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'queryText', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'searchHistoryContext', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'searchHistoryDisabled', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.SemanticZoom) {
 		WinJSContrib.UI.WebComponents.register('win-semanticzoom', WinJS.UI.SemanticZoom, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'enableButton', 'enableButton', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'locked', 'locked', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onzoomchanged', 'onzoomchanged', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'zoomedInItem', 'zoomedInItem', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'zoomedOut', 'zoomedOut', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'zoomedOutItem', 'zoomedOutItem', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'zoomFactor', 'zoomFactor', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'enableButton', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'locked', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onzoomchanged', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'zoomedInItem', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'zoomedOut', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'zoomedOutItem', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'zoomFactor', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.SplitView) {
 		WinJSContrib.UI.WebComponents.register('win-splitview', WinJS.UI.SplitView, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'contentElement', 'contentElement', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hiddenDisplayMode', 'hiddenDisplayMode', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'paneElement', 'paneElement', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'paneHidden', 'paneHidden', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'panePlacement', 'panePlacement', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'shownDisplayMode', 'shownDisplayMode', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'contentElement', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hiddenDisplayMode', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'paneElement', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'paneHidden', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'panePlacement', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'shownDisplayMode', options);
 
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onafterhide', 'onafterhide', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onaftershow', 'onaftershow', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforehide', 'onbeforehide', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeshow', 'onbeforeshow', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onafterhide', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onaftershow', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforehide', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeshow', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.TimePicker) {
 		WinJSContrib.UI.WebComponents.register('win-timepicker', WinJS.UI.TimePicker, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onchange', 'onchange', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'clock', 'clock', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'current', 'current', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', 'disabled', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hourPattern', 'hourPattern', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'minuteIncrement', 'minuteIncrement', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'minutePattern', 'minutePattern', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'periodPattern', 'periodPattern', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onchange', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'clock', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'current', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'hourPattern', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'minuteIncrement', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'minutePattern', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'periodPattern', options);
 			return options;
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.ToggleSwitch) {
 		WinJSContrib.UI.WebComponents.register('win-toggleswitch', WinJS.UI.ToggleSwitch, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onchange', 'onchange', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'checked', 'checked', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', 'disabled', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'labelOff', 'labelOff', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'labelOn', 'labelOn', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'title', 'title', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onchange', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'checked', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'disabled', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'labelOff', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'labelOn', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'title', options);
 			return options;
 		});
 	}
@@ -509,15 +507,15 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 	if (WinJS.UI && WinJS.UI.Tooltip) {
 		WinJSContrib.UI.WebComponents.register('win-tooltip', WinJS.UI.Tooltip, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'contentElement', 'contentElement', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'extraClass', 'extraClass', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'infotip', 'infotip', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'innerHTML', 'innerHTML', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeclose', 'onbeforeclose', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeopen', 'onbeforeopen', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onclosed', 'onclosed', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onopened', 'onopened', options, true);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placement', 'placement', options, true);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'contentElement', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'extraClass', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'infotip', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'innerHTML', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeclose', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onbeforeopen', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onclosed', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'onopened', options);
+			WinJSContrib.UI.WebComponents.mapAttr(elt, 'placement', options);
 			return options;
 		});
 	}
@@ -530,18 +528,10 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 
 	/*
-	WinJS.UI.AppBar
-				WinJS.UI.AppBarCommand
-				WinJS.UI.AppBarIcon
-				WinJS.UI.AutoSuggestBox
-				
-				
-				WinJS.UI.Menu
 				WinJS.UI.MenuCommand
 				WinJS.UI.NavBar
 				WinJS.UI.NavBarCommand
 				WinJS.UI.NavBarContainer
 				Toolbar
-				Viewbox
 	*/
 })(this);
