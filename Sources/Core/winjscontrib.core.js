@@ -2013,6 +2013,7 @@ var WinJSContrib;
                                 page.promises[i].cancel();
                             }
                         }
+                        page.promises = [];
                     }
                 }
             }, {
@@ -2230,6 +2231,8 @@ var WinJSContrib;
                         if (this._disposed) {
                             return;
                         }
+                        this.pageLifeCycle.stop();
+                        this.pageLifeCycle = null;
                         this._disposed = true;
                         this.readyComplete.cancel();
                         _ElementUtilities.disposeSubTree(this.element);
@@ -2344,7 +2347,7 @@ var WinJSContrib;
                     var profilerMarkIdentifier = " uri='" + uri + "'" + _BaseUtils._getProfilerMarkIdentifier(that.element);
                     _WriteProfilerMark("WinJS.UI.Pages:createPage" + profilerMarkIdentifier + ",StartTM");
                     if (WinJSContrib.UI.WebComponents) {
-                        that.observer = WinJSContrib.UI.WebComponents.watch(that.element);
+                        that.pageLifeCycle.observer = WinJSContrib.UI.WebComponents.watch(that.element);
                     }
                     var load = Promise.timeout().then(function Pages_load() {
                         return that.load(uri);
@@ -2473,6 +2476,10 @@ var WinJSContrib;
                                 stop: function () {
                                     that.readyComplete.cancel();
                                     that.cancelPromises();
+                                    if (this.observer) {
+                                        this.observer.disconnect();
+                                        this.observer = null;
+                                    }
                                 },
                                 steps: {
                                     init: new PageLifeCycleStep(that, 'init', null),

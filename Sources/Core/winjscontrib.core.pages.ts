@@ -63,6 +63,7 @@ module WinJSContrib.UI.Pages {
 							page.promises[i].cancel();
 						}
 					}
+					page.promises = [];
 				}
 			}
 		},
@@ -311,7 +312,8 @@ module WinJSContrib.UI.Pages {
                 if (this._disposed) {
                     return;
                 }
-
+				this.pageLifeCycle.stop();
+				this.pageLifeCycle = null;
                 this._disposed = true;
 				this.readyComplete.cancel();
                 _ElementUtilities.disposeSubTree(this.element);
@@ -442,7 +444,7 @@ module WinJSContrib.UI.Pages {
 			_WriteProfilerMark("WinJS.UI.Pages:createPage" + profilerMarkIdentifier + ",StartTM");
 
 			if (WinJSContrib.UI.WebComponents) {
-				that.observer = WinJSContrib.UI.WebComponents.watch(that.element);
+				that.pageLifeCycle.observer = WinJSContrib.UI.WebComponents.watch(that.element);
 			}
 
 			var load = Promise.timeout().then(function Pages_load() {
@@ -591,6 +593,10 @@ module WinJSContrib.UI.Pages {
 							stop: function () {
 								that.readyComplete.cancel();
 								that.cancelPromises();	
+								if (this.observer) {
+									this.observer.disconnect();
+									this.observer = null;
+								}
 							},
 							steps: {
 								init: new PageLifeCycleStep(that, 'init', null),

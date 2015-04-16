@@ -37,6 +37,11 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			createElement(node, customElement);
 		}
 
+		if (node.msParentSelectorScope && node.winControl && node.winControl.pageLifeCycle && node.winControl.pageLifeCycle.observer) {
+			//element is a fragment with a mutation observer, no need to inspect childs
+			return;
+		}
+		
 		for (var i = 0, l = node.childNodes.length; i < l; i++) {
 			inspect(node.childNodes[i]);
 		}
@@ -60,8 +65,10 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 					}
 				});
 			});
+			
 			observer.observe(element, { childList: true, subtree: true });
 		}
+
 		return observer;
 	}
 	WinJSContrib.UI.WebComponents.watch = observeMutations;
