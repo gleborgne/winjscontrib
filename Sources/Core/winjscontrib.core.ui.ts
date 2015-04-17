@@ -621,6 +621,14 @@ module WinJSContrib.UI {
         else
             document.addEventListener("backbutton", backhandler);
 
+		var keypress = function (args) {
+			if (args.key === "Esc" || args.key === "Backspace") {
+				backhandler({ handled : false});
+			}
+		};
+
+		document.body.addEventListener('keypress', keypress);
+
         if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
             WinJSContrib.UI.Application.navigator.addLock();
 
@@ -638,6 +646,7 @@ module WinJSContrib.UI {
 			var idx = registeredNavigationStack.indexOf(registration);
 			registeredNavigationStack.splice(idx, 1);
 
+			document.body.removeEventListener('keypress', keypress);
             WinJS.Navigation.removeEventListener('beforenavigate', cancelNavigation);
             if ((<any>window).Windows && (<any>window).Windows.Phone)
                 (<any>window).Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", backhandler);

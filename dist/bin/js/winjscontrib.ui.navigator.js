@@ -85,6 +85,9 @@
             		this.eventTracker.addEvent(nav, 'navigated', this._navigated.bind(this));
             	}
             	else {
+            		if (options.navigationEvents) {
+            			this.addNavigationEvents();
+            		}
             		this._history = { backstack: [] };
             	}
 
@@ -156,10 +159,29 @@
             		}
 
             		this._disposed = true;
+            		this.removeNavigationEvents();
             		if (WinJS.Utilities.disposeSubTree)
             			WinJS.Utilities.disposeSubTree(this._element);
 
             		this.eventTracker.dispose();
+            	},
+
+				//register hardware backbutton. unecessary if navigator is global
+            	addNavigationEvents: function () {
+            		var navigator = this;
+            		this.navigationEvents = WinJSContrib.UI.registerNavigationEvents(this, function (arg) {
+            			if (navigator.canGoBack) {
+            				navigator.back();
+            				arg.handled = true;
+            			}
+            		});
+            	},
+
+            	removeNavigationEvents: function(){
+            		if (this.navigationEvents){
+            			this.navigationEvents();
+            			this.navigationEvents = null;
+            		}
             	},
 
             	// Retrieves a list of animation elements for the current page.
@@ -174,19 +196,25 @@
             	// Navigates back whenever the backspace key is pressed and
             	// not captured by an input field.
             	_keypressHandler: function (args) {
+            		if (this.locks > 0)
+            			return;
+
             		if (args.key === "Backspace") {
-            			nav.back();
+            			this.back();
             		}
             	},
 
             	// Navigates back or forward when alt + left or alt + right
             	// key combinations are pressed.
             	_keyupHandler: function (args) {
+            		if (this.locks > 0)
+            			return;
+
             		if ((args.key === "Left" && args.altKey) || (args.key === "BrowserBack")) {
-            			nav.back();
-            		} else if ((args.key === "Right" && args.altKey) || (args.key === "BrowserForward")) {
+            			this.back();
+            		}/* else if ((args.key === "Right" && args.altKey) || (args.key === "BrowserForward")) {
             			nav.forward();
-            		}
+            		}*/
             	},
 
             	// This function responds to clicks to enable navigation using

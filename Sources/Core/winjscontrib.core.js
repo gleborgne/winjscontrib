@@ -1552,6 +1552,12 @@ var WinJSContrib;
                 window.Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", backhandler);
             else
                 document.addEventListener("backbutton", backhandler);
+            var keypress = function (args) {
+                if (args.key === "Esc" || args.key === "Backspace") {
+                    backhandler({ handled: false });
+                }
+            };
+            document.body.addEventListener('keypress', keypress);
             if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
                 WinJSContrib.UI.Application.navigator.addLock();
             return function () {
@@ -1565,6 +1571,7 @@ var WinJSContrib;
                 //});
                 var idx = registeredNavigationStack.indexOf(registration);
                 registeredNavigationStack.splice(idx, 1);
+                document.body.removeEventListener('keypress', keypress);
                 WinJS.Navigation.removeEventListener('beforenavigate', cancelNavigation);
                 if (window.Windows && window.Windows.Phone)
                     window.Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", backhandler);

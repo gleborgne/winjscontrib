@@ -31,29 +31,32 @@
          * @param {Object} options
          */
            function (element, options) {
-           	element.winControl = this;
-           	options = options || {};
-           	this.element = element || document.createElement("div");
-           	if (options.inplace) {
-           		this.rootElement = this.element;
-           	} else {
-           		this.rootElement = document.createElement("div");
-           		this.rootElement.mcnChildnav = true;
-           		this.rootElement.winControl = this;
-           		this.element.style.display = 'none';
-           	}
-           	document.body.appendChild(this.rootElement);
-           	
-           	this.element.mcnChildnav = true;
+           		element.winControl = this;
+           		options = options || {};
+           		this.element = element || document.createElement("div");
+           		if (options.inplace) {
+           			this.rootElement = this.element;
+           		} else {
+           			this.rootElement = document.createElement("div");
+           			this.rootElement.mcnChildnav = true;
+           			this.rootElement.winControl = this;
+           			this.element.style.display = 'none';
+           		}
+           		document.body.appendChild(this.rootElement);
 
-           	this.element.classList.add("mcn-childview");
-           	this.element.classList.add("win-disposable");
-           	this.rootElement.classList.add("childNavigator");
-           	this.element.classList.add('mcn-navigation-ctrl');
-           	this._createContent();
-           	this.isOpened = false;
-           	this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
-           	//this.cancelNavigationBinded = this.cancelNavigation.bind(this);
+           		//tell if internal navigator must register for navigation events
+           		this.navigationEvents = options.navigationEvents;
+
+           		this.element.mcnChildnav = true;
+
+           		this.element.classList.add("mcn-childview");
+           		this.element.classList.add("win-disposable");
+           		this.rootElement.classList.add("childNavigator");
+           		this.element.classList.add('mcn-navigation-ctrl');
+           		this._createContent();
+           		this.isOpened = false;
+           		this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
+           		//this.cancelNavigationBinded = this.cancelNavigation.bind(this);
            },
            /**
             * @lends WinJSContrib.UI.ChildViewFlyout.prototype 
@@ -186,6 +189,9 @@
            				that.contentPlaceholder.classList.add("visible");
 
            			that.navEventsHandler = WinJSContrib.UI.registerNavigationEvents(that, this.hardwareBackBtnPressedBinded);
+           			if (that.navigationEvents) {
+           				that.navigator.addNavigationEvents();
+           			}
            			//WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
            			//if (window.Windows && window.Windows.Phone)
            			//    Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
@@ -311,6 +317,7 @@
 
            			if (that.navEventsHandler) {
            				that.navEventsHandler();
+           				that.navigator.removeNavigationEvents();
            				that.navEventsHandler = null;
            			}
 
