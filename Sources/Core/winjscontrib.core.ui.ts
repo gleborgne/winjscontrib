@@ -352,7 +352,6 @@ module WinJSContrib.UI {
 							actionArgs = JSON.parse(actionArgs);
 						}
 					} catch (exception) {
-						return;
 					}
 				}
 

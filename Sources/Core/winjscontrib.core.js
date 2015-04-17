@@ -1309,7 +1309,6 @@ var WinJSContrib;
                             }
                         }
                         catch (exception) {
-                            return;
                         }
                     }
                     if (WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {

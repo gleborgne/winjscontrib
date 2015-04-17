@@ -16,7 +16,7 @@
 	var nav = WinJS.Navigation;
 
 	var defaultExitPageAnimation = function (elt) {
-		return WinJSContrib.UI.Animation.pageExit(elt)
+		return WinJS.UI.Animation.exitPage(elt)
 	}
 
 	var defaultEnterPageAnimation = function (elt) {
