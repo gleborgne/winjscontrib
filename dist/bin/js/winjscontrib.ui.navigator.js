@@ -400,6 +400,12 @@
             							return WinJS.Promise.as(page.winControl.exitPageAnimation());
             						}
             					}).then(hidepage);
+            				} else {
+            					if (page.winControl.exitPageAnimation) {
+            						page.winControl.exitPagePromise = WinJS.Promise.as(page.winControl.exitPageAnimation()).then(hidepage);
+            					} else {
+            						page.winControl.exitPagePromise = WinJS.Promise.as(navigator.animations.exitPage(navigator._getAnimationElements(true))).then(hidepage);
+            					}
             				}
             			} else {
             				if (page.winControl.exitPageAnimation) {
