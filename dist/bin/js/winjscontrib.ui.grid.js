@@ -178,15 +178,16 @@
             		this.renderer.renderItemsContent();
             	},
 
-            	resetElement: function (elt) {
-            		if (elt.style.position) elt.style.position = '';
-            		if (elt.style.display) elt.style.display = '';
-            		if (elt.style.width) elt.style.width = '';
-            		if (elt.style.height) elt.style.height = '';
-            		if (elt.style.minWidth) elt.style.minWidth = '';
-            		if (elt.style.minHeight) elt.style.minHeight = '';
-            		if (elt.style.left) elt.style.left = '';
-            		if (elt.style.top) elt.style.top = '';
+            	resetElement: function (elt, isItem) {
+					var style = elt.style;
+					if (isItem && style.position) style.position = '';
+					if (!isItem && style.display) style.display = '';
+					if (style.width) style.width = '';
+					if (style.height) style.height = '';
+					if (style.minWidth) style.minWidth = '';
+					if (style.minHeight) style.minHeight = '';
+					if (style.left) style.left = '';
+					if (style.top) style.top = '';
             	},
 
             	/**
@@ -194,10 +195,10 @@
                  */
             	clear: function () {
             		var ctrl = this;
-            		ctrl.resetElement(ctrl.element);
+            		ctrl.resetElement(ctrl.element, false);
             		if (ctrl.element.children.length) {
             			for (var i = 0, l = ctrl.element.children.length; i < l; i++) {
-            				ctrl.resetElement(ctrl.element.children[i]);
+            				ctrl.resetElement(ctrl.element.children[i], true);
             			}
             		}
             	},
@@ -509,8 +510,9 @@
             			if (!ctrl.data.cellWidth || !ctrl.data.cellHeight) {
             				if (ctrl.element.childNodes && ctrl.element.children.length > 0) {
             					var firstChild = ctrl.element.children[0];
-            					ctrl.data.cellWidth = firstChild.clientWidth;
-            					ctrl.data.cellHeight = firstChild.clientHeight;
+            					var lastChild = ctrl.element.children[ctrl.element.children.length - 1];
+            					ctrl.data.cellWidth = Math.min(firstChild.clientWidth, lastChild.clientWidth);
+            					ctrl.data.cellHeight = Math.min(firstChild.clientHeight, lastChild.clientHeight);
             				}
             			}
 

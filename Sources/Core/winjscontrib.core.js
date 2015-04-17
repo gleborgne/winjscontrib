@@ -769,7 +769,7 @@ var WinJSContrib;
                     return method;
             },
             "page": function (element, text) {
-                var control = WinJSContrib.Utils.getParentControlByClass('.pagecontrol', element);
+                var control = WinJSContrib.Utils.getParentControlByClass('pagecontrol', element);
                 var method = WinJSContrib.Utils.readProperty(control, text);
                 if (method && typeof method === 'function')
                     return method.bind(control);
