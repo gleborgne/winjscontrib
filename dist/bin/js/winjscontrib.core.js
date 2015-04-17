@@ -1560,7 +1560,7 @@ var WinJSContrib;
                 document.addEventListener("backbutton", backhandler);
             var keypress = function (args) {
                 if (args.key === "Esc" || args.key === "Backspace") {
-                    backhandler({ handled: false });
+                    backhandler(args);
                 }
             };
             document.body.addEventListener('keypress', keypress);

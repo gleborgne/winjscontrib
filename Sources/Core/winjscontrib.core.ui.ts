@@ -623,7 +623,7 @@ module WinJSContrib.UI {
 
 		var keypress = function (args) {
 			if (args.key === "Esc" || args.key === "Backspace") {
-				backhandler({ handled : false});
+				backhandler(args);
 			}
 		};
 

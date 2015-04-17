@@ -166,14 +166,51 @@
             		this.eventTracker.dispose();
             	},
 
+				//check back navigation in the context of navigation events.
+            	_checkBackNavigation: function (arg) {
+            		var navigator = this;
+            		var currentPage = navigator.pageControl;
+            		var confirm = function () {
+            			arg.handled = true;
+            			if (arg.preventDefault)
+            				arg.preventDefault();
+            		}
+            		var check = function () {
+            			if (navigator.canGoBack) {
+            				navigator.back();
+            				confirm();
+            				return true;
+            			};
+            		}
+
+            		if (currentPage.canClose) {
+            			var res = currentPage.canClose();
+            			if (WinJS.Promise.is(res)) {
+            				res.then(function (canClose) {
+            					if (!canClose) {
+            						confirm();
+            						return true;
+            					}
+            					return check();
+            				});
+            			} else {
+            				if (!res) {
+            					confirm();
+            					return true;
+            				}
+            				return check();
+            			}
+
+            		} else {
+            			return check();
+            		}
+            	},
+
 				//register hardware backbutton. unecessary if navigator is global
             	addNavigationEvents: function () {
             		var navigator = this;
             		this.navigationEvents = WinJSContrib.UI.registerNavigationEvents(this, function (arg) {
-            			if (navigator.canGoBack) {
-            				navigator.back();
-            				arg.handled = true;
-            			}
+            			navigator._checkBackNavigation(arg);
             		});
             	},
 

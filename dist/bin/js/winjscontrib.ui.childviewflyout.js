@@ -31,32 +31,32 @@
          * @param {Object} options
          */
            function (element, options) {
-           		element.winControl = this;
-           		options = options || {};
-           		this.element = element || document.createElement("div");
-           		if (options.inplace) {
-           			this.rootElement = this.element;
-           		} else {
-           			this.rootElement = document.createElement("div");
-           			this.rootElement.mcnChildnav = true;
-           			this.rootElement.winControl = this;
-           			this.element.style.display = 'none';
-           		}
-           		document.body.appendChild(this.rootElement);
+           	element.winControl = this;
+           	options = options || {};
+           	this.element = element || document.createElement("div");
+           	if (options.inplace) {
+           		this.rootElement = this.element;
+           	} else {
+           		this.rootElement = document.createElement("div");
+           		this.rootElement.mcnChildnav = true;
+           		this.rootElement.winControl = this;
+           		this.element.style.display = 'none';
+           	}
+           	document.body.appendChild(this.rootElement);
 
-           		//tell if internal navigator must register for navigation events
-           		this.navigationEvents = options.navigationEvents;
+           	//tell if internal navigator must register for navigation events
+           	this.navigationEvents = options.navigationEvents;
 
-           		this.element.mcnChildnav = true;
+           	this.element.mcnChildnav = true;
 
-           		this.element.classList.add("mcn-childview");
-           		this.element.classList.add("win-disposable");
-           		this.rootElement.classList.add("childNavigator");
-           		this.element.classList.add('mcn-navigation-ctrl');
-           		this._createContent();
-           		this.isOpened = false;
-           		this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
-           		//this.cancelNavigationBinded = this.cancelNavigation.bind(this);
+           	this.element.classList.add("mcn-childview");
+           	this.element.classList.add("win-disposable");
+           	this.rootElement.classList.add("childNavigator");
+           	this.element.classList.add('mcn-navigation-ctrl');
+           	this._createContent();
+           	this.isOpened = false;
+           	this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
+           	//this.cancelNavigationBinded = this.cancelNavigation.bind(this);
            },
            /**
             * @lends WinJSContrib.UI.ChildViewFlyout.prototype 
@@ -74,10 +74,10 @@
 
            		that.contentPlaceholder = new FD('DIV', "childNavigator-contentPlaceholder", that.rootElement)
 					.append('DIV', null, function (nav) {
-           				that.navigator = new WinJSContrib.UI.PageControlNavigator(nav.element, { global: false });
-           				that.navigator.hide = function (arg) {
-           					return that.hide(arg);
-           				}
+						that.navigator = new WinJSContrib.UI.PageControlNavigator(nav.element, { global: false });
+						that.navigator.hide = function (arg) {
+							return that.hide(arg);
+						}
 					})
 					.element;
            	},
@@ -158,13 +158,18 @@
 
            	hardwareBackBtnPressed: function (arg) {
            		var ctrl = this;
-           		var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
-           		if (idx == WinJSContrib.UI.FlyoutPage.openPages.length - 1) {
+           		if (!ctrl.navigator._checkBackNavigation(arg)) {           			
            			ctrl.hide();
            			arg.handled = true;
-           			if (arg.preventDefault)
-           				arg.preventDefault();
            		}
+
+           		//var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
+           		//if (idx == WinJSContrib.UI.FlyoutPage.openPages.length - 1) {
+           		//	ctrl.hide();
+           		//	arg.handled = true;
+           		//	if (arg.preventDefault)
+           		//		arg.preventDefault();
+           		//}
            	},
 
            	//cancelNavigation: function (args) {
