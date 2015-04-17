@@ -509,14 +509,6 @@ declare module WinJSContrib.UI {
         **/
         removeEventListener(type: string, listener: Function, useCapture?: boolean): void;
     }
-    /**
-     * register navigation related events like hardware backbuttons. This method keeps track of previously registered navigation handlers
-     *  and disable them until the latests is closed, enablinh multi-level navigation.
-     * @function WinJSContrib.UI.registerNavigationEvents
-     * @param {Object} control control taking ownership of navigation handlers
-     * @param {function} callback callback to invoke when "back" is requested
-     * @returns {function} function to call for releasing navigation handlers
-     */
     function registerNavigationEvents(control: any, callback: any): () => void;
     /**
      * remove tap behavior

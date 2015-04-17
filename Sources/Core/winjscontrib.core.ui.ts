@@ -568,29 +568,43 @@ module WinJSContrib.UI {
      * @param {function} callback callback to invoke when "back" is requested
      * @returns {function} function to call for releasing navigation handlers
      */
+	var registeredNavigationStack = [];
+
     export function registerNavigationEvents(control, callback) {
         var locked = [];
-
-        control.navLocks = control.navLocks || [];
-        control.navLocks.isActive = true;
+		var registration = { control: control, callback: callback };
+		registeredNavigationStack.push(registration);
+        //control.navLocks = control.navLocks || [];
+        //control.navLocks.isActive = true;
 
         var backhandler = function (arg) {
-            if (!control.navLocks || control.navLocks.length === 0) {
-                callback.bind(control)(arg);
-            }
+			var idx = registeredNavigationStack.indexOf(registration);
+			if (idx === registeredNavigationStack.length - 1) {
+				registration.callback.bind(registration.control)(arg);
+				idx--;
+
+				while (idx >= 0 && !arg.handled) {
+					var tmp = registeredNavigationStack[idx];
+					tmp.callback.bind(tmp.control)(arg);
+					idx--;
+				}
+			}
+            //if (!control.navLocks || control.navLocks.length === 0) {
+            //    callback.bind(control)(arg);
+            //}
         }
 
-        var navcontrols = document.querySelectorAll('.mcn-navigation-ctrl');
-        for (var i = 0; i < navcontrols.length; i++) {
-            var navigationCtrl = (<any>navcontrols[i]).winControl;
-            if (navigationCtrl && navigationCtrl != control) {
-                navigationCtrl.navLocks = navigationCtrl.navLocks || [];
-                if (navigationCtrl.navLocks.isActive && (!navigationCtrl.navLocks.length || navigationCtrl.navLocks.indexOf(control) < 0)) {
-                    navigationCtrl.navLocks.push(control);
-                    locked.push(navigationCtrl);
-                }
-            }
-        }
+        //var navcontrols = document.querySelectorAll('.mcn-navigation-ctrl');
+        //for (var i = 0; i < navcontrols.length; i++) {
+        //    var navigationCtrl = (<any>navcontrols[i]).winControl;
+        //    if (navigationCtrl && navigationCtrl != control) {
+        //        navigationCtrl.navLocks = navigationCtrl.navLocks || [];
+        //        if (navigationCtrl.navLocks.isActive && (!navigationCtrl.navLocks.length || navigationCtrl.navLocks.indexOf(control) < 0)) {
+        //            navigationCtrl.navLocks.push(control);
+        //            locked.push(navigationCtrl);
+        //        }
+        //    }
+        //}
 
         function cancelNavigation(args) {
             //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
@@ -614,12 +628,15 @@ module WinJSContrib.UI {
             if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
                 WinJSContrib.UI.Application.navigator.removeLock();
 
-            control.navLocks.isActive = false;
-            locked.forEach(function (navigationCtrl) {
-                var idx = navigationCtrl.navLocks.indexOf(control);
-                if (idx >= 0)
-                    navigationCtrl.navLocks.splice(idx, 1);
-            });
+            //control.navLocks.isActive = false;
+            //locked.forEach(function (navigationCtrl) {
+            //    var idx = navigationCtrl.navLocks.indexOf(control);
+            //    if (idx >= 0)
+            //        navigationCtrl.navLocks.splice(idx, 1);
+            //});
+
+			var idx = registeredNavigationStack.indexOf(registration);
+			registeredNavigationStack.splice(idx, 1);
 
             WinJS.Navigation.removeEventListener('beforenavigate', cancelNavigation);
             if ((<any>window).Windows && (<any>window).Windows.Phone)

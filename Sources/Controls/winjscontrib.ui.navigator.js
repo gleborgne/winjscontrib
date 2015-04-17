@@ -80,12 +80,7 @@
             	}
             	else {
             		if (options.navigationEvents) {
-            			this.navigationEvents = WinJSContrib.UI.registerNavigationEvents(this, function (arg) {
-            				if (navigator.canGoBack) {
-            					navigator.back();
-            					arg.handled = true;
-            				}
-            			});
+            			this.addNavigationEvents();
             		}
             		this._history = { backstack: [] };
             	}
@@ -158,14 +153,28 @@
             		}
 
             		this._disposed = true;
-            		if (this.navigationEvents) {
-            			this.navigationEvents();
-            			this.navigationEvents = null;
-            		}
+            		this.removeNavigationEvents();
             		if (WinJS.Utilities.disposeSubTree)
             			WinJS.Utilities.disposeSubTree(this._element);
 
             		this.eventTracker.dispose();
+            	},
+
+				//register hardware backbutton. unecessary if navigator is global
+            	addNavigationEvents: function () {
+            		this.navigationEvents = WinJSContrib.UI.registerNavigationEvents(this, function (arg) {
+            			if (navigator.canGoBack) {
+            				navigator.back();
+            				arg.handled = true;
+            			}
+            		});
+            	},
+
+            	removeNavigationEvents: function(){
+            		if (this.navigationEvents){
+            			this.navigationEvents();
+            			this.navigationEvents = null;
+            		}
             	},
 
             	// Retrieves a list of animation elements for the current page.
