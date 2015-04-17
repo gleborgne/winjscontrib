@@ -6,12 +6,7 @@
     		this.itemsPromise = WinJS.Promise.wrap(DummyData);
     	},
 
-        ready: function (element, options) {
-            //var mylistview = element.querySelector('#mylistview');
-            //mylistview.winControl.forceLayout();
-        },
-
-        listItemInvoked: function () {
+        listItemInvoked: function (arg) {
         	console.log('item clicked');
         }
     });

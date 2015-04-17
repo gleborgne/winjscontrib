@@ -800,7 +800,7 @@ module WinJSContrib.Utils {
     }
 
 	export var ValueParsers = {
-		"page": function (element, text) {
+		"navpage": function (element, text) {
 			var control = null;
 			if (WinJSContrib.Utils.getParentPage) {
                 control = WinJSContrib.Utils.getParentPage(element);
@@ -812,6 +812,15 @@ module WinJSContrib.Utils {
             if (!control)
                 return;
 
+            var method = WinJSContrib.Utils.readProperty(control, text);
+            if (method && typeof method === 'function')
+                return method.bind(control);
+			else
+				return method;
+		},
+
+		"page": function (element, text) {
+			var control = WinJSContrib.Utils.getParentControlByClass('.pagecontrol', element);
             var method = WinJSContrib.Utils.readProperty(control, text);
             if (method && typeof method === 'function')
                 return method.bind(control);

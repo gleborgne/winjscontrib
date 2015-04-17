@@ -1,8 +1,7 @@
 @import url('../../../../css/apptheme.css');
-.listlayoutpage win-listview{
-		display: block;
+.listlayoutpage win-listview {
+  display: block;
 }
-
 .listlayoutpage section[role=main] #mylistview {
   width: 100%;
   height: 100%;

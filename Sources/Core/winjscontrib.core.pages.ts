@@ -360,7 +360,7 @@ module WinJSContrib.UI.Pages {
                 return ControlProcessor.processAll(element);
             },
 
-            processed: function () { },
+            processed: function (element, options) { },
 
             render: function (element, options, loadResult) {
                 /// <signature helpKeyword="WinJS.UI.Pages._mixin.render">
@@ -385,6 +385,8 @@ module WinJSContrib.UI.Pages {
                 }
                 return element;
             },
+
+			rendered: function (element, options) { },
 
             ready: function () { }
         };
@@ -469,6 +471,8 @@ module WinJSContrib.UI.Pages {
 				});
 			}).then(function Pages_render(result) {
 				return that.render(element, options, result.loadResult);
+			}).then(function Pages_render(result) {
+				return that.rendered(element, options);
 			}).then(function(result) {
 				return that.pageLifeCycle.steps.render.resolve();
 			});

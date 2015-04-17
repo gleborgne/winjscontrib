@@ -175,7 +175,7 @@
                 	return WinJS.Promise.wrap();
                 }
                 else {
-                	ctrl.detailViewContentCtrl = new WinJSContrib.UI.PageControlNavigator(elt, { global: false });
+                	ctrl.detailViewContentCtrl = new WinJSContrib.UI.PageControlNavigator(elt, { global: false, navigationEvents: true });
                 	ctrl.detailViewContentCtrl.navigate(uri, JSON.parse(JSON.stringify(data)));
                 	return WinJS.Promise.wrap();
                 }

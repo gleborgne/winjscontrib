@@ -79,6 +79,14 @@
             		this.eventTracker.addEvent(nav, 'navigated', this._navigated.bind(this));
             	}
             	else {
+            		if (options.navigationEvents) {
+            			this.navigationEvents = WinJSContrib.UI.registerNavigationEvents(this, function (arg) {
+            				if (navigator.canGoBack) {
+            					navigator.back();
+            					arg.handled = true;
+            				}
+            			});
+            		}
             		this._history = { backstack: [] };
             	}
 
@@ -150,6 +158,10 @@
             		}
 
             		this._disposed = true;
+            		if (this.navigationEvents) {
+            			this.navigationEvents();
+            			this.navigationEvents = null;
+            		}
             		if (WinJS.Utilities.disposeSubTree)
             			WinJS.Utilities.disposeSubTree(this._element);
 

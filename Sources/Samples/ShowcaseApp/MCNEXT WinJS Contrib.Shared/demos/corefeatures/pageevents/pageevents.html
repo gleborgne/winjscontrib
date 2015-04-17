@@ -26,55 +26,43 @@
         <section class="desc-screen" aria-label="Main content" role="main">
             <div class="bloc-description">
                 <p>
-                    The fragment mixin inject custom lifecycle events in your pages.
-                    Those events are intended to help you build pages in a more efficient manner,
-                    and to propagate the custom events to the controls in your pages.
-                    It helps building pages without having to rely heavily on WinJS Scheduler or setImmediate.
-                    The WinJS Contrib navigator is injecting this mixin to all pages it manages.
+                    WinJS Contrib replaces WinJS page control by a smarter version. This new Page control is 100% compatible so you will not see any visible change
+					by introducing WinJS Contrib.<br />
+					This custom page adds some helpers, and tweak the lifecycle of the page. It adds a little more step in the lifecycle, and it makes it extensible.
+                    The goal is to build pages in a more efficient manner, and have some mecanisms to synchronize the construction of the page and the controls it contains.
+                    It helps building pages without having to rely on WinJS Scheduler or setImmediate, and enforce better time to screen or at lease, more structured code.
                 </p>
-                <p>
-                    The fragments will call those methods in all controls marked with the css class "mcn-layout-ctrl". 
-                </p>
+                
             </div>
             <div></div>
             <div class="bloc-content">
+				<h2>page lifecycle</h2>
+				<p>
+					WinJS Page control are built with this sequence : load (load the fragment that correspond to the page url and associated resources), 
+					init (page is initialized but has no content), render (render the fragment content to the page), process (process controls on the page), 
+					ready (page is ready for action).<br />
 
-                <h2>prepareData</h2>
+					each step correspond to a function on the page object that you could override. Be careful though, "init" and "ready" are empty in the base page (your page can implement it safely), 
+					but "render" and "process" actually do stuff. The page also has a "processed" step that is called just after process, and that is empty.
+				</p>
+				<p>
+					WinJS Contrib page add some additionnal parts in this lifecycle. First, their is a "rendered" step that you could implement, that is called immediately after render.<br />
+					The custom page also has a "pageLifeCycle" property. This object contains metadata about the lifecycle, and a collection of "Step" objects
+					Corresponding to each steps. You could add function or promises on those objects, and they will be awaited before the page lifecycle goes on.
+				</p>
                 <p>
-                    This is the very first event called on your page. It's even called before the previous page will be removed.
-                    It's intended to start asynchronous data fetching.
-                </p>
-                <p>This event can return a promise that will be awaited before processing the pipeline.</p>
-                <h2>prepare</h2>
-                <p>
-                    prepare is called while your page is off DOM and the previous page is showing it's exit animation.
-                    This is the best step to add HTML and other DOM nodes
-                    because you could be sure that it will not trigger costly engine steps like page layout or paint.
-                </p>
-                <p>
-                    The page not beeing in DOM means that you have to scope selectors to the page root element.
-                    It also means that layout properties on DOM nodes (like clientWidth) won't be filled.
-                </p>
-                <p>This event can return a promise that will be awaited before processing the pipeline.</p>
-                <h2>layoutPage</h2>
-                <p>
-                    At this step the page was just added to the DOM.
-                    This event is intended to receive code that could set or alter the layout of the elements.
-                </p>
-                <h2>ready</h2>
-                <p>
-                    this is the standard page ready event.
-                </p>
-                <h2>contentReady</h2>
-                <p>When you get notified for this events, your page is on screen and the entry animation has completed.</p>
-                <h2>exitPage</h2>
-                <p>
-                    The user has chosen to move away from the page. This event is called before the page is removed from screen.
-                    It's your opportunity to save state based on elements on your page (like scroll position)
-                </p>
-                <p>At this step, you could also manage an exit animation and or return a promise to make the page navigator awaiting.</p>
-                <h2>unload</h2>
-                <p>Last step in the chain and last chance to do something on your page. It's the best place to release resources</p>
+					This mecanism allow controls to be part of the page construction. This mecanism also allow to synchronize the construction of pages with nested fragments.
+				</p>
+
+				<h2>layout event broadcast</h2>
+				<p>
+					The custom page also introduce a virtual "layout" step in the lifecycle. The page can broadcast some of those events to all controls.<br />
+					To received those events, controls must have the css class "mcn-layout-ctrl", and implement the step they need.<br />
+					The step you can implement are pageLayout, pageReady, and updateLayout. It is really usefull when you have to implement controls with
+					JavaScript layout, like canvas based charts, custom grids, ...
+				</p>
+
+                
             </div>
         </section>
     </div>

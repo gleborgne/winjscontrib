@@ -752,7 +752,7 @@ var WinJSContrib;
         }
         Utils.readValue = readValue;
         Utils.ValueParsers = {
-            "page": function (element, text) {
+            "navpage": function (element, text) {
                 var control = null;
                 if (WinJSContrib.Utils.getParentPage) {
                     control = WinJSContrib.Utils.getParentPage(element);
@@ -762,6 +762,14 @@ var WinJSContrib;
                 }
                 if (!control)
                     return;
+                var method = WinJSContrib.Utils.readProperty(control, text);
+                if (method && typeof method === 'function')
+                    return method.bind(control);
+                else
+                    return method;
+            },
+            "page": function (element, text) {
+                var control = WinJSContrib.Utils.getParentControlByClass('.pagecontrol', element);
                 var method = WinJSContrib.Utils.readProperty(control, text);
                 if (method && typeof method === 'function')
                     return method.bind(control);
@@ -1489,7 +1497,8 @@ var WinJSContrib;
         })();
         UI.MediaTrigger = MediaTrigger;
         WinJS.Class.mix(WinJSContrib.UI.MediaTrigger, WinJS.Utilities.eventMixin);
-        /**
+
+    	/**
          * register navigation related events like hardware backbuttons. This method keeps track of previously registered navigation handlers
          *  and disable them until the latests is closed, enablinh multi-level navigation.
          * @function WinJSContrib.UI.registerNavigationEvents
@@ -1503,7 +1512,12 @@ var WinJSContrib;
             control.navLocks.isActive = true;
             var backhandler = function (arg) {
                 if (!control.navLocks || control.navLocks.length === 0) {
-                    callback.bind(control)(arg);
+                	callback.bind(control)(arg);
+                	if (!arg.handled) {
+                		var parent = WinJSContrib.Utils.getParentControlByClass('.mcn-navigation-ctrl', control.element);
+                		if (parent) {
+                		}
+                	}
                 }
             };
             var navcontrols = document.querySelectorAll('.mcn-navigation-ctrl');
@@ -2275,7 +2289,7 @@ var WinJSContrib;
                         /// </signature>
                         return ControlProcessor.processAll(element);
                     },
-                    processed: function () {
+                    processed: function (element, options) {
                     },
                     render: function (element, options, loadResult) {
                         /// <signature helpKeyword="WinJS.UI.Pages._mixin.render">
@@ -2299,6 +2313,8 @@ var WinJSContrib;
                             element.appendChild(loadResult);
                         }
                         return element;
+                    },
+                    rendered: function (element, options) {
                     },
                     ready: function () {
                     }
@@ -2369,6 +2385,8 @@ var WinJSContrib;
                         });
                     }).then(function Pages_render(result) {
                         return that.render(element, options, result.loadResult);
+                    }).then(function Pages_render(result) {
+                        return that.rendered(element, options);
                     }).then(function (result) {
                         return that.pageLifeCycle.steps.render.resolve();
                     });

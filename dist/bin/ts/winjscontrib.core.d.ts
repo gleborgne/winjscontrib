@@ -244,6 +244,7 @@ declare module WinJSContrib.Utils {
     function resolveMethod(element: any, text: any): any;
     function readValue(element: any, text: any): any;
     var ValueParsers: {
+        "navpage": (element: any, text: any) => any;
         "page": (element: any, text: any) => any;
         "ctrl": (element: any, text: any) => any;
         "select": (element: any, text: any) => any;

@@ -137,10 +137,9 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\eventtracker\eventtracker.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\eventtracker\eventtracker.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\eventtracker\eventtracker.js" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectedcontent.html" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectfragment.css" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectfragment.html" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\injectfragment\injectfragment.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\jsclass\jsclass.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\jsclass\jsclass.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\jsclass\jsclass.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\objectproperties\objectproperties.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\objectproperties\objectproperties.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\objectproperties\objectproperties.js" />
@@ -150,11 +149,6 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.js" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\typescript\typescriptpage.css" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\typescript\typescriptpage.html" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\typescript\typescriptpage.js" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\typescript\typescriptpage.js.map" />
-    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\typescript\typescriptpage.ts" />
     <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.css.map" />
     <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.html" />

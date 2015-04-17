@@ -1,12 +1,12 @@
-﻿.typescriptpage section {
+﻿.jsclass section {
 	margin: auto 120px;
 }
 
-.phone .typescriptpage .page-section {
+.phone .jsclass .page-section {
 	margin: auto 24px;
 }
 
-.phone .typescriptpage .page-header .titlearea {
+.phone .jsclass .page-header .titlearea {
 	-ms-grid-column: 1;
 	margin-top: 37px;
 	margin-left: 24px;
@@ -14,7 +14,7 @@
 	width: calc(100vw - 20px);
 }
 
-.phone .typescriptpage .back-button {
+.phone .jsclass .back-button {
 	display: none;
 }
 

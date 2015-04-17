@@ -22,3 +22,7 @@
 .section-navigation .button:active {
   background-color: #6e21bf;
 }
+.section-navigation .mcn-navigation-ctrl .pagecontrol .fragment section[role=main] {
+  padding: 20px;
+  box-sizing: border-box;
+}

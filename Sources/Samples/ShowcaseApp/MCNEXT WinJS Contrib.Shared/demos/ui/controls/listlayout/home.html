@@ -43,14 +43,11 @@
 				></win-listview>
 
             <!-- here's where the magic happens !!! -->
-            <div id="listlayout" data-win-control="WinJSContrib.UI.SmartListLayout" data-win-options="{
-                    listView: select('#mylistview'),
-                    layouts:{
+            <mcn-smartlistlayout id="listlayout" listview="select:#mylistview" layouts="obj:{
                         default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},
                         vert : { layout : WinJS.UI.GridLayout, query: '(orientation: portrait) and (min-width: 600px)', options: { orientation : 'vertical'}},
-                        snap : { layout : WinJS.UI.ListLayout, query: '(orientation: portrait) and (max-width: 600px)'},
-                    }
-                 }"></div>
+                        snap : { layout : WinJS.UI.ListLayout, query: '(orientation: portrait) and (max-width: 600px)'}
+                 }"></mcn-smartlistlayout>
         </section>
     </div>
 </body>

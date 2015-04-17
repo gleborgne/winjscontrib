@@ -515,15 +515,16 @@
             			}
 
             			var layoutChanged = !oldlayout || ctrl.data.layout !== oldlayout.layout;
-            			var layoutfunc = ctrl.GridLayoutsImpl[ctrl.data.layout.toLowerCase()];
-            			if (layoutfunc) {
-            				if (layoutChanged)
-            					ctrl.changeLayout();
+            			if (ctrl.data.layout) {
+            				var layoutfunc = ctrl.GridLayoutsImpl[ctrl.data.layout.toLowerCase()];
+            				if (layoutfunc) {
+            					if (layoutChanged)
+            						ctrl.changeLayout();
 
-            				layoutfunc.bind(ctrl)(layoutChanged);
-            				ctrl.data.applyed = true;
+            					layoutfunc.bind(ctrl)(layoutChanged);
+            					ctrl.data.applyed = true;
+            				}
             			}
-
             			ctrl.renderer.checkRendering();
             		}
             	},
