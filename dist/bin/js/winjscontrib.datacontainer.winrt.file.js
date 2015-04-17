@@ -7,248 +7,244 @@
 //data container based on winrt files
 
 (function (global) {
-    'use strict';
+	'use strict';
 
-    WinJS.Namespace.define("WinJSContrib.DataContainer", {
-        WinRTFilesContainer: WinJS.Class.define(function ctor(key, options, parent) {
-            var container = this;
-            container.key = key;
-            container.options = options || {};
-            container.parent = parent;
-            container.folderPromise;
-            container.useDataCache = options.useDataCache || false;
-            container.dataCache = null;
-            if (container.useDataCache) {
-                container.dataCache = {};
-            }
-            container.childs = {};
+	WinJS.Namespace.define("WinJSContrib.DataContainer", {
+		WinRTFilesContainer: WinJS.Class.define(function ctor(key, options, parent) {
+			var container = this;
+			container.key = key;
+			container.options = options || {};
+			container.parent = parent;
+			container.folderPromise;
+			container.useDataCache = options.useDataCache || false;
+			container.dataCache = {};
 
-            if (!global.Windows)
-                throw "WinRT is required !";
+			container.childs = {};
 
-            if (!key) {
-                container.folder = Windows.Storage.ApplicationData.current.localFolder;
-                container.folderPromise = WinJS.Promise.wrap(container.folder);
-            }
-            else if (parent) {
-                container.folderPromise = parent.folderPromise.then(function (parentfolder) {
-                    if (container.options.logger) container.options.logger.debug("open folder " + key);
-                    return parentfolder.createFolderAsync(key, Windows.Storage.CreationCollisionOption.openIfExists)
-                }).then(function (folder) {
-                    container.folder = folder;
-                    return folder;
-                });
-            }
-        }, {
-            read: function (itemkey) {
-                var container = this;
-                if (container.useDataCache) {
-                    var data = container.dataCache[itemkey];
-                    if (data) {
-                        //clone object to avoid unintended object alteration
-                        var clone = JSON.parse(JSON.stringify(data));
-                        return WinJS.Promise.wrap(clone);
-                    }
-                }
+			if (!global.Windows)
+				throw "WinRT is required !";
 
-                return container.folderPromise.then(function (folder) {
-                    return readFileAsync(folder, itemkey, container.options.encrypted, Windows.Storage.CreationCollisionOption.openIfExists, 0, container.options.logger).then(function (data) {
-                        if (container.useDataCache) {
-                            container.dataCache[itemkey] = data;
-                        }
-                        return data;
-                    });
-                });
-            },
+			if (!key) {
+				container.folder = Windows.Storage.ApplicationData.current.localFolder;
+				container.folderPromise = WinJS.Promise.wrap(container.folder);
+			}
+			else if (parent) {
+				container.folderPromise = parent.folderPromise.then(function (parentfolder) {
+					if (container.options.logger) container.options.logger.debug("open folder " + key);
+					return parentfolder.createFolderAsync(key, Windows.Storage.CreationCollisionOption.openIfExists)
+				}).then(function (folder) {
+					container.folder = folder;
+					return folder;
+				});
+			}
+		}, {
+			read: function (itemkey) {
+				var container = this;
+				if (container.useDataCache) {
+					var data = container.dataCache[itemkey];
+					if (data) {
+						//clone object to avoid unintended object alteration
+						var clone = JSON.parse(JSON.stringify(data));
+						return WinJS.Promise.wrap(clone);
+					}
+				}
 
-            save: function (itemkey, obj) {
-                var container = this;
-                if (container.useDataCache) {
-                    container.dataCache[itemkey] = obj;
-                }
+				return container.folderPromise.then(function (folder) {
+					return readFileAsync(folder, itemkey, container.options.encrypted, Windows.Storage.CreationCollisionOption.openIfExists, 0, container.options.logger).then(function (data) {
+						if (container.useDataCache) {
+							container.dataCache[itemkey] = data;
+						}
+						return data;
+					});
+				});
+			},
 
-                return container.folderPromise.then(function (folder) {
-                    return writeFileAsync(folder, itemkey, obj, container.options.encrypted, Windows.Storage.CreationCollisionOption.replaceExisting, 0, container.options.logger);
-                });
-            },
+			save: function (itemkey, obj) {
+				var container = this;
+				if (container.useDataCache) {
+					container.dataCache[itemkey] = obj;
+				}
 
-            remove: function (itemkey) {
-                var container = this;
+				return container.folderPromise.then(function (folder) {
+					return writeFileAsync(folder, itemkey, obj, container.options.encrypted, Windows.Storage.CreationCollisionOption.replaceExisting, 0, container.options.logger);
+				});
+			},
 
-                return container.folderPromise.then(function (folder) {
-                    return deleteItemIfExistsAsync(folder, itemkey, container.options.logger);
-                });
+			remove: function (itemkey) {
+				var container = this;
 
-            },
+				return container.folderPromise.then(function (folder) {
+					return deleteItemIfExistsAsync(folder, itemkey, container.options.logger);
+				});
 
-            list: function () {
-                var container = this;
+			},
 
-                return container.folderPromise.then(function (folder) {
-                    return folder.getFilesAsync();
-                });
-            },
+			list: function () {
+				var container = this;
 
-            child: function (key) {
-                if (this.childs[key])
-                    return this.childs[key];
+				return container.folderPromise.then(function (folder) {
+					return folder.getFilesAsync();
+				});
+			},
 
-                var res = new WinJSContrib.DataContainer.WinRTFilesContainer(key, this.options, this);
-                this.childs[key] = res;
-                return res;
-            },
+			child: function (key) {
+				if (this.childs[key])
+					return this.childs[key];
 
-            clearAllCache: function () {
-                var container = this;
-                container.clearCache();
-                container.clearDataCache();
-            },
+				var res = new WinJSContrib.DataContainer.WinRTFilesContainer(key, this.options, this);
+				this.childs[key] = res;
+				return res;
+			},
 
-            clearCache: function () {
-                var container = this;
-                container.childs = {};
+			clearAllCache: function () {
+				var container = this;
+				container.clearCache();
+				container.clearDataCache();
+			},
 
-                for (var k in container.childs) {
-                    if (container.childs.hasOwnProperty(k)) {
-                        container.childs[k].clearCache();
-                    }
-                }
-            },
+			clearCache: function () {
+				var container = this;
+				container.childs = {};
 
-            clearDataCache: function () {
-                var container = this;
+				for (var k in container.childs) {
+					if (container.childs.hasOwnProperty(k)) {
+						container.childs[k].clearCache();
+					}
+				}
+			},
 
-                if (container.useDataCache) {
-                    container.dataCache = {};
-                } else {
-                    container.dataCache = null;
-                }
+			clearDataCache: function () {
+				var container = this;
 
-                for (var k in container.childs) {
-                    if (container.childs.hasOwnProperty(k)) {
-                        container.childs[k].clearDataCache();
-                    }
-                }
-            }
-        })
-    });
+				container.dataCache = {};
 
-    function toJSONFileName(fileName) {
-        return encodeURIComponent(fileName) + ".json";
-    }
+				for (var k in container.childs) {
+					if (container.childs.hasOwnProperty(k)) {
+						container.childs[k].clearDataCache();
+					}
+				}
+			}
+		})
+	});
 
-    function deleteItemIfExistsAsync(folder, itemName, logger) {
-        return folder.getItemAsync(toJSONFileName(itemName)).then(function (item) {
-            return item;
-        }, function () {
-        }).then(function (item) {
-            if (item) {
-                return item.deleteAsync().then(function () {
-                    if (logger) logger.debug("item deleted " + item.path);
-                }, function (err) {
-                    if (logger) logger.error("cannot delete item " + item.path);
-                });
-            } else {
-                return WinJS.Promise.wrap([]);
-            }
-        });
-    }
+	function toJSONFileName(fileName) {
+		return encodeURIComponent(fileName) + ".json";
+	}
 
-    function getFileContentAsJSONAsync(file, encrypted) {
-        return Windows.Storage.FileIO.readBufferAsync(file).then(function (cypheredText) {
-            if (!encrypted)
-                return cypheredText;
+	function deleteItemIfExistsAsync(folder, itemName, logger) {
+		return folder.getItemAsync(toJSONFileName(itemName)).then(function (item) {
+			return item;
+		}, function () {
+		}).then(function (item) {
+			if (item) {
+				return item.deleteAsync().then(function () {
+					if (logger) logger.debug("item deleted " + item.path);
+				}, function (err) {
+					if (logger) logger.error("cannot delete item " + item.path);
+				});
+			} else {
+				return WinJS.Promise.wrap([]);
+			}
+		});
+	}
 
-            // On vérifie que le fichier n'est pas vide
-            if (cypheredText.length) {
-                var provider = new Windows.Security.Cryptography.DataProtection.DataProtectionProvider();
-                return provider.unprotectAsync(cypheredText);
-            } else {
-                return null;
-            }
-        }).then(function (unprotectedData) {
-            var obj = null;
-            if (unprotectedData) {
-                var rawText = Windows.Security.Cryptography.CryptographicBuffer.convertBinaryToString(Windows.Security.Cryptography.BinaryStringEncoding.utf8, unprotectedData);
-                if (rawText) {
-                    try {
-                        obj = JSON.parse(rawText);
-                    } catch (exception) { }
-                }
-            }
+	function getFileContentAsJSONAsync(file, encrypted) {
+		return Windows.Storage.FileIO.readBufferAsync(file).then(function (cypheredText) {
+			if (!encrypted)
+				return cypheredText;
 
-            return obj;
-        });
-    }
+			// On vérifie que le fichier n'est pas vide
+			if (cypheredText.length) {
+				var provider = new Windows.Security.Cryptography.DataProtection.DataProtectionProvider();
+				return provider.unprotectAsync(cypheredText);
+			} else {
+				return null;
+			}
+		}).then(function (unprotectedData) {
+			var obj = null;
+			if (unprotectedData) {
+				var rawText = Windows.Security.Cryptography.CryptographicBuffer.convertBinaryToString(Windows.Security.Cryptography.BinaryStringEncoding.utf8, unprotectedData);
+				if (rawText) {
+					try {
+						obj = JSON.parse(rawText);
+					} catch (exception) { }
+				}
+			}
 
-    function readFileAsync(folder, fileName, encrypted, creationCollisionOption, retry, logger) {
-        return new WinJS.Promise(function (readComplete, readError) {
-            retry = retry || 0;
-            creationCollisionOption = creationCollisionOption || Windows.Storage.CreationCollisionOption.openIfExists;
-            var filename = toJSONFileName(fileName);
-            //folder.getFilesAsync(filename).then(function(file){})
+			return obj;
+		});
+	}
 
-            folder.getFileAsync(filename).then(function (file) {
-                return getFileContentAsJSONAsync(file, encrypted);
-            }).then(function (res) {
-                if (logger) logger.debug("read " + folder.path + '\\' + toJSONFileName(fileName));
-                readComplete(res);
-            }, function (err) {
-                if (err.number == -2147024894) {
-                    if (logger) logger.debug("read empty " + folder.path + '\\' + toJSONFileName(fileName));
-                    readComplete();
-                    return;
-                }
+	function readFileAsync(folder, fileName, encrypted, creationCollisionOption, retry, logger) {
+		return new WinJS.Promise(function (readComplete, readError) {
+			retry = retry || 0;
+			creationCollisionOption = creationCollisionOption || Windows.Storage.CreationCollisionOption.openIfExists;
+			var filename = toJSONFileName(fileName);
+			//folder.getFilesAsync(filename).then(function(file){})
 
-                if (logger) logger.warn("error reading " + folder.path + '\\' + toJSONFileName(fileName));
-                if (retry < 2) {
-                    setImmediate(function () {
-                        if (logger) logger.debug("retry reading " + folder.path + '\\' + toJSONFileName(fileName));
-                        readFileAsync(folder, fileName, encrypted, creationCollisionOption, retry + 1, logger).then(readComplete, readError);
-                    });
-                } else {
-                    readError({ message: 'fatal error reading ' + folder.path + '\\' + toJSONFileName(fileName), exception: err });
-                }
-            });
-        });
-    }
+			folder.getFileAsync(filename).then(function (file) {
+				return getFileContentAsJSONAsync(file, encrypted);
+			}).then(function (res) {
+				if (logger) logger.debug("read " + folder.path + '\\' + toJSONFileName(fileName));
+				readComplete(res);
+			}, function (err) {
+				if (err.number == -2147024894) {
+					if (logger) logger.debug("read empty " + folder.path + '\\' + toJSONFileName(fileName));
+					readComplete();
+					return;
+				}
 
-    function writeFileAsync(folder, fileName, objectGraph, encrypt, creationCollisionOption, retry, logger) {
-        return new WinJS.Promise(function (writeComplete, writeError) {
-            retry = retry || 0;
-            creationCollisionOption = creationCollisionOption || Windows.Storage.CreationCollisionOption.replaceExisting;
-            var bufferedText = Windows.Security.Cryptography.CryptographicBuffer.convertStringToBinary(JSON.stringify(objectGraph), Windows.Security.Cryptography.BinaryStringEncoding.utf8);
-            var provider = new Windows.Security.Cryptography.DataProtection.DataProtectionProvider("Local=user");
+				if (logger) logger.warn("error reading " + folder.path + '\\' + toJSONFileName(fileName));
+				if (retry < 2) {
+					setImmediate(function () {
+						if (logger) logger.debug("retry reading " + folder.path + '\\' + toJSONFileName(fileName));
+						readFileAsync(folder, fileName, encrypted, creationCollisionOption, retry + 1, logger).then(readComplete, readError);
+					});
+				} else {
+					readError({ message: 'fatal error reading ' + folder.path + '\\' + toJSONFileName(fileName), exception: err });
+				}
+			});
+		});
+	}
 
-            function manageError(err) {
-                if (logger) logger.warn("error writing " + folder.path + '\\' + toJSONFileName(fileName));
-                if (retry < 2) {
-                    setImmediate(function () {
-                        if (logger) logger.debug("retry writing " + folder.path + '\\' + toJSONFileName(fileName));
-                        writeFileAsync(folder, fileName, objectGraph, encrypt, creationCollisionOption, retry + 1, logger).then(writeComplete, writeError);
-                    });
-                }
-                else {
-                    writeError({ message: "fatal error writing " + folder.path + '\\' + toJSONFileName(fileName) + '\r\n', exception: err });
-                }
-            }
+	function writeFileAsync(folder, fileName, objectGraph, encrypt, creationCollisionOption, retry, logger) {
+		return new WinJS.Promise(function (writeComplete, writeError) {
+			retry = retry || 0;
+			creationCollisionOption = creationCollisionOption || Windows.Storage.CreationCollisionOption.replaceExisting;
+			var bufferedText = Windows.Security.Cryptography.CryptographicBuffer.convertStringToBinary(JSON.stringify(objectGraph), Windows.Security.Cryptography.BinaryStringEncoding.utf8);
+			if (encrypt) {
+				var provider = new Windows.Security.Cryptography.DataProtection.DataProtectionProvider("Local=user");
+			}
 
-            // Ces deux opérations ne sont pas dépendantes l'une de l'autre et peuvent s'exécuter en parallèle
-            var filePromise = folder.createFileAsync(toJSONFileName(fileName), creationCollisionOption);
-            var protectionPromise = encrypt ? provider.protectAsync(bufferedText) : WinJS.Promise.wrap(bufferedText);
+			function manageError(err) {
+				if (logger) logger.warn("error writing " + folder.path + '\\' + toJSONFileName(fileName));
+				if (retry < 2) {
+					setImmediate(function () {
+						if (logger) logger.debug("retry writing " + folder.path + '\\' + toJSONFileName(fileName));
+						writeFileAsync(folder, fileName, objectGraph, encrypt, creationCollisionOption, retry + 1, logger).then(writeComplete, writeError);
+					});
+				}
+				else {
+					writeError({ message: "fatal error writing " + folder.path + '\\' + toJSONFileName(fileName) + '\r\n', exception: err });
+				}
+			}
 
-            WinJS.Promise.join([filePromise, protectionPromise]).then(function (data) {
-                var file = data[0];
-                var protectedData = data[1];
+			// Ces deux opérations ne sont pas dépendantes l'une de l'autre et peuvent s'exécuter en parallèle
+			var filePromise = folder.createFileAsync(toJSONFileName(fileName), creationCollisionOption);
+			var protectionPromise = encrypt ? provider.protectAsync(bufferedText) : WinJS.Promise.wrap(bufferedText);
 
-                Windows.Storage.FileIO.writeBufferAsync(file, protectedData).then(function () {
-                    if (logger) logger.debug("file written " + file.path);
-                    //setImmediate(function () {
-                    writeComplete(file);
-                    //});
-                }, manageError);
-            }, manageError);
-        });
-    }
+			WinJS.Promise.join([filePromise, protectionPromise]).then(function (data) {
+				var file = data[0];
+				var protectedData = data[1];
+
+				Windows.Storage.FileIO.writeBufferAsync(file, protectedData).then(function () {
+					if (logger) logger.debug("file written " + file.path);
+					//setImmediate(function () {
+					writeComplete(file);
+					//});
+				}, manageError);
+			}, manageError);
+		});
+	}
 
 })(this);
