@@ -1,4 +1,4 @@
-var WinJSContrib;
+﻿var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
     (function (UI) {

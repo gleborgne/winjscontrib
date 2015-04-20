@@ -1,5 +1,4 @@
-@import url('../../../../css/apptheme.css');
-.listlayoutpage win-listview {
+﻿.listlayoutpage win-listview {
   display: block;
 }
 .listlayoutpage section[role=main] #mylistview {
@@ -43,3 +42,4 @@
     width: 100%;
   }
 }
+/*# sourceMappingURL=home.css.map */

@@ -12,64 +12,29 @@
         <header class="page-header" aria-label="Header content" role="banner">
 			<button class="win-backbutton" aria-label="Back" disabled type="button"></button>
 			<h1 class="titlearea win-type-ellipsis">
-                <span class="pagetitle">Welcome to jsclass</span>
+                <span class="pagetitle">using JavaScript classes</span>
             </h1>
 			<div class="actions">
-				<div data-win-control="WinJSContrib.Sample.CodeLink" data-win-options="{ pagelink: './demos/corefeatures/jsclass/jsclass.html' }"></div>
+				<div data-win-control="WinJSContrib.Sample.CodeLink" data-win-options="{ pagelink: './demos/corefeatures/jsclass/jsclass' }"></div>
 			</div>    
         </header>
 		<section class="desc-screen" aria-label="Main content" role="main">
 			<div class="bloc-description">
 				<p>
-					The fragment mixin inject custom lifecycle events in your pages.
-					Those events are intended to help you build pages in a more efficient manner,
-					and to propagate the custom events to the controls in your pages.
-					It helps building pages without having to rely heavily on WinJS Scheduler or setImmediate.
-					The WinJS Contrib navigator is injecting this mixin to all pages it manages.
-				</p>
-				<p>
-					The fragments will call those methods in all controls marked with the css class "mcn-layout-ctrl".
+					WinJS Contrib Pages can be defined with JavaScript classes instead of an object literal. Using classes provides several benefits.
+					Your pages are now easier to unit test, you could use tools like Typescript or ES6 classes, compose with base classes, ...
 				</p>
 			</div>
 			<div></div>
 			<div class="bloc-content">
 
-				<h2>prepareData</h2>
+				<h2>Using JavaScript classes</h2>
 				<p>
-					This is the very first event called on your page. It's even called before the previous page will be removed.
-					It's intended to start asynchronous data fetching.
-				</p>
-				<p>This event can return a promise that will be awaited before processing the pipeline.</p>
-				<h2>prepare</h2>
-				<p>
-					prepare is called while your page is off DOM and the previous page is showing it's exit animation.
-					This is the best step to add HTML and other DOM nodes
-					because you could be sure that it will not trigger costly engine steps like page layout or paint.
+					<button tap="sayHelloOnBase">call base class function</button>
 				</p>
 				<p>
-					The page not beeing in DOM means that you have to scope selectors to the page root element.
-					It also means that layout properties on DOM nodes (like clientWidth) won't be filled.
+					<button tap="sayHello">call function override</button>
 				</p>
-				<p>This event can return a promise that will be awaited before processing the pipeline.</p>
-				<h2>layoutPage</h2>
-				<p>
-					At this step the page was just added to the DOM.
-					This event is intended to receive code that could set or alter the layout of the elements.
-				</p>
-				<h2>ready</h2>
-				<p>
-					this is the standard page ready event.
-				</p>
-				<h2>contentReady</h2>
-				<p>When you get notified for this events, your page is on screen and the entry animation has completed.</p>
-				<h2>exitPage</h2>
-				<p>
-					The user has chosen to move away from the page. This event is called before the page is removed from screen.
-					It's your opportunity to save state based on elements on your page (like scroll position)
-				</p>
-				<p>At this step, you could also manage an exit animation and or return a promise to make the page navigator awaiting.</p>
-				<h2>unload</h2>
-				<p>Last step in the chain and last chance to do something on your page. It's the best place to release resources</p>
 			</div>
 		</section>
     </div>

@@ -4,6 +4,9 @@
     <ShowAllFiles>false</ShowAllFiles>
     <ReferenceCachePath>C:\Users\Guillaume\AppData\Local\Temp\u5q2xvxv_MCNEXT WinJS Contrib.WindowsPhone_refcache</ReferenceCachePath>
     <ToolsVersionPromptShown>1.4</ToolsVersionPromptShown>
+    <AppxPackageIsForStore>False</AppxPackageIsForStore>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxBuildConfigurationSelection>neutral</AppxBuildConfigurationSelection>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>AppHostDeviceDebugger</DebuggerFlavor>

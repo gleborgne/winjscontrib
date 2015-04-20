@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>webcomponents</title>
+
+    <link href="webcomponents.css" rel="stylesheet" />
+    <script src="webcomponents.js"></script>
+</head>
+<body>
+    <div class="webcomponents-page fragment">
+        <header class="page-header" aria-label="Header content" role="banner">
+            <button class="win-backbutton" aria-label="Back" disabled type="button"></button>
+            <h1 class="titlearea win-type-ellipsis">
+                <span class="pagetitle">Welcome to webcomponents</span>
+            </h1>
+            <div class="actions">
+                <div data-win-control="WinJSContrib.Sample.CodeLink" data-win-options="{ pagelink: './demos/corefeatures/webcomponents/webcomponents' }"></div>
+            </div>
+        </header>
+        <section class="page-section" aria-label="Main content" role="main">
+            <win-template id="listitemtemplate" extractchild="true">
+                <div class="sometile">
+                    <div class="title" data-win-bind="innerText: title"></div>
+                </div>
+            </win-template>
+
+            <win-listview id="mylistview"
+                          itemtemplate="select:#listitemtemplate"
+                          itemdatasource="list:ctrl:itemsPromise"
+                          oniteminvoked="ctrl:listItemInvoked"></win-listview>
+        </section>
+    </div>
+</body>
+</html>

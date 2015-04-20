@@ -1,4 +1,4 @@
-/*
+﻿/*
 WARNING: this feature is experimental
 You must add winjscontrib.core.js before this file
 */

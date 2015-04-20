@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     'use strict';
     WinJS.Namespace.define("WinJSContrib.UI", {
         FlipViewPager: WinJS.Class.mix(WinJS.Class.define(

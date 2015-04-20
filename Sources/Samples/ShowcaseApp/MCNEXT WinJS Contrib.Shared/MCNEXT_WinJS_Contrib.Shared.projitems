@@ -149,6 +149,9 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\webcomponents.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\webcomponents.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\webcomponents.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.css.map" />
     <Content Include="$(MSBuildThisFileDirectory)demos\crossplatform\crossplatform.html" />
@@ -310,6 +313,9 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.min.css">
+      <DependentUpon>home.css</DependentUpon>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\detail\detail.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\detail\detail.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\masterdetailview\detail\detail.js" />
@@ -498,8 +504,8 @@
     <Content Include="$(MSBuildThisFileDirectory)scripts\WinJS\css\ui-dark.css" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\WinJS\css\ui-light.css" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\WinJS\fonts\Symbols.ttf" />
-    <Content Include="$(MSBuildThisFileDirectory)scripts\WinJS\js\en-US\ui.strings.js" />
-    <Content Include="$(MSBuildThisFileDirectory)scripts\WinJS\js\WinJS.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\WinJS\js\en-US\ui.strings.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\WinJS\js\WinJS.js" />
     <Content Include="$(MSBuildThisFileDirectory)templates\article.html" />
   </ItemGroup>
   <ItemGroup>

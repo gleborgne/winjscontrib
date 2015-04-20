@@ -1,0 +1,24 @@
+﻿.webcomponents-page {
+}
+
+.webcomponents-page win-listview {
+  display: block;
+}
+.webcomponents-page section[role=main] #mylistview {
+  width: 100%;
+  height: 100%;
+}
+.webcomponents-page section[role=main] #mylistview .win-surface {
+  margin-left: 40px;
+  margin-top: 60px;
+  /*margin-right: 120px;*/
+  width: calc(-20%);
+}
+.webcomponents-page .sometile {
+  background-color: #ef7c45;
+  color: white;
+  width: 260px;
+  height: 160px;
+  padding: 10px;
+  box-sizing: border-box;
+}

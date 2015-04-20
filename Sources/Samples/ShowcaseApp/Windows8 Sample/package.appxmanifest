@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="MCNEXT.WinJSContribSamples" Version="1.1.0.12" Publisher="CN=88ABADA3-DED5-419F-8E33-0B31D93B757C" />
+  <Identity Name="MCNEXT.WinJSContribSamples" Version="1.1.0.16" Publisher="CN=88ABADA3-DED5-419F-8E33-0B31D93B757C" />
   <Properties>
     <DisplayName>WinJS Contrib Samples</DisplayName>
     <PublisherDisplayName>MCNEXT</PublisherDisplayName>

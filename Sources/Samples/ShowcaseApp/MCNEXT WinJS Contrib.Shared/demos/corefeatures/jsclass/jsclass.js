@@ -3,10 +3,15 @@
 
 	//Base class
 	function PageBase(element, options) {
+		this.name = 'my base page'
 	}
 
 	PageBase.prototype.sayHello = function () {
-		WinJSContrib.Alerts.message('hello', 'hello ' + this.name);
+		WinJSContrib.Alerts.message('hello', 'hello ' + this.name + ' (from parent)');
+	}
+
+	PageBase.prototype.sayHelloOnBase = function () {
+		WinJSContrib.Alerts.message('hello', 'hello ' + this.name + ' (from parent)');
 	}
 
 
