@@ -28,6 +28,14 @@
 		WinJSContrib.Alerts.message('other hello', 'hello ' + this.name);
 	}
 
+	MyPage.prototype.init = function (element, options) {
+	    console.log('page from class init')
+	}
+
+	MyPage.prototype.ready = function (element, options) {
+	    console.log('page from class is ready')
+	}
+
 
 	WinJS.UI.Pages.define("./demos/corefeatures/jsclass/jsclass.html", MyPage);
 })();

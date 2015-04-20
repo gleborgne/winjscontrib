@@ -2352,25 +2352,21 @@ var WinJSContrib;
                     }
                     return base;
                 }
-                function mergeJavaScriptClass(targetCtor, sourcePrototype) {
-                    if (sourcePrototype) {
-                        if (!sourcePrototype.__proto__.hasOwnProperty('hasOwnProperty')) {
-                            //if prototype is not "object" we start by merging it's parent members
-                            //by merging from parent to child we ensure that inheritance chain is respected
-                            mergeJavaScriptClass(targetCtor, sourcePrototype.__proto__);
+                function mergeJavaScriptClass(baseCtor, classDef) {
+                    var keys = Object.keys(baseCtor.prototype);
+                    keys.forEach(function (k) {
+                        if (classDef.prototype[k] === undefined) {
+                            classDef.prototype[k] = baseCtor.prototype[k];
                         }
-                        return injectMixin(targetCtor, sourcePrototype);
-                    }
-                    return targetCtor;
+                    });
+                    return baseCtor;
                 }
                 function addMembers(ctor, members) {
                     if (!members)
                         return ctor;
                     if (typeof members == 'function') {
-                        if (!ctor.prototype._attachedConstructors)
-                            ctor.prototype._attachedConstructors = [];
-                        ctor.prototype._attachedConstructors.push(members);
-                        return mergeJavaScriptClass(ctor, members.prototype);
+                        ctor.prototype._attachedConstructor = members;
+                        return mergeJavaScriptClass(ctor, members);
                     }
                     else if (typeof members == 'object') {
                         return injectMixin(ctor, members);
@@ -2388,14 +2384,23 @@ var WinJSContrib;
                     }
                     var load = Promise.timeout().then(function Pages_load() {
                         return that.load(uri);
+                    }).then(function (loadResult) {
+                        //if page is defined by Js classes, call class constructors 
+                        if (that._attachedConstructor) {
+                            var realControl = new that._attachedConstructor(element, options);
+                            element.winControl = realControl;
+                            var keys = Object.keys(that);
+                            keys.forEach(function (k) {
+                                realControl[k] = that[k];
+                            });
+                            realControl.pageLifeCycle.page = realControl;
+                            that.pageControl = realControl;
+                            that.dismissed = true;
+                            that = realControl;
+                        }
+                        return loadResult;
                     });
                     var renderCalled = load.then(function Pages_init(loadResult) {
-                        //if page is defined by Js classes, call class constructors 
-                        if (that._attachedConstructors) {
-                            that._attachedConstructors.forEach(function (ct) {
-                                ct.apply(that, [element, options]);
-                            });
-                        }
                         return Promise.join({
                             loadResult: loadResult,
                             initResult: that.init(element, options)
