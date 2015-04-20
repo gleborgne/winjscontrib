@@ -75,7 +75,7 @@
                 if (ctrl._timeout)
                     clearTimeout(ctrl._timeout)
                 ctrl._timeout = setTimeout(function () {
-                    var newPosition = Math.round(ctrl.list.scrollLeft / (ctrl._itemw + ctrl._itemMaxMarge));
+                    var newPosition = Math.round(ctrl.list.scrollLeft / (ctrl._itemw + ctrl._margeItem()));
                     if (ctrl._currentPosition !== newPosition) {
                         ctrl._currentPosition = newPosition;
 
@@ -106,7 +106,7 @@
             toNext: function () {
                 var ctrl = this;
                 WinJS.Promise.join(ctrl._navPromises).then(function () {
-                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, (ctrl._itemw + ctrl._itemMaxMarge) * (ctrl._currentPosition + 1), 300));
+                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, (ctrl._itemw + ctrl._margeItem()) * (ctrl._currentPosition + 1), 300));
                 }, function () { })
             },
             toPrev: function () {
@@ -115,7 +115,7 @@
                     var index = (ctrl._currentPosition - 1);
                     if (index < 0)
                         index = 0
-                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, (ctrl._itemw + ctrl._itemMaxMarge) * index, 300));
+                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, (ctrl._itemw + ctrl._margeItem()) * index, 300));
                 }, function () { })
             },
             _smooth_scroll_to: function (element, target, duration) {
@@ -249,7 +249,7 @@
                 }
                 ctrl.renderItems().then(function () {
                     requestAnimationFrame(function () {
-                        ctrl.list.scrollLeft = (ctrl._itemw + ctrl._itemMaxMarge) * (ctrl._currentPosition)
+                        ctrl.list.scrollLeft = (ctrl._itemw + ctrl._margeItem()) * (ctrl._currentPosition)
                         ctrl.dispatchEvent("positionchanged", { currentPosition: ctrl._currentPosition });
                     });
                 });
@@ -334,7 +334,7 @@
                 set: function (val) {
                     var ctrl = this;
                     ctrl._currentPosition = val;
-                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, (ctrl._itemw + ctrl._itemMaxMarge) * (ctrl._currentPosition), 300));
+                    ctrl._navPromises.push(ctrl._smooth_scroll_to(ctrl.list, (ctrl._itemw + ctrl._margeItem()) * (ctrl._currentPosition), 300));
 
                 }
             },
@@ -350,17 +350,25 @@
                     this._itemMaxWidth = val;
                 }
             },
+            _margeItem: function () {
+                var ctrl = this;
+                var margeitem = ctrl._itemMaxMarge;
+                if (window.innerWidth < 800) {
+                    ctrl._itemw = window.innerWidth;
+                    margeitem = 0;
+                }
+                return margeitem;
+            },
             updateLayout: function () {
                 var ctrl = this;
                 var windowInnerWidth = window.innerWidth;
                 ctrl._itemw = ctrl._itemMaxWidth;
                 var marge = (windowInnerWidth - ctrl._itemMaxWidth) / 2;
-                var margeitem = ctrl._itemMaxMarge;
                 if (windowInnerWidth < 800) {
-                    ctrl._itemw = windowInnerWidth;
                     marge = 0;
-                    margeitem = 0;
                 }
+
+                var margeitem = ctrl._margeItem();
                 if (ctrl.currentPosition) {
                     ctrl.list.scrollLeft = (ctrl._itemw + margeitem) * ctrl.currentPosition;
                 }
