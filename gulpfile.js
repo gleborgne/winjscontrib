@@ -168,7 +168,9 @@ gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
 	var header = licenseHeader();
 	
 	return gulp.src([
-		srcCorePath + '*.js',
+		srcCorePath + 'winjscontrib.core.js',
+		srcCorePath + 'winjscontrib.ui.webcomponents.js',
+		srcCorePath + 'winjscontrib.ui.pages.js',
 		srcCommonPath + '*.js',
 		srcControlsPath + '*.js',
 		srcWinRTPath + '*.js'

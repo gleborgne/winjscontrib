@@ -2578,6 +2578,9 @@ var WinJSContrib;
                             render(abs(uri), _Global.document.body);
                         }, true);
                     }
+                    //in case we are on WinJS<4 we reference members on WinJS Core Pages
+                    if (!_CorePages.viewMap && !_CorePages._viewMap && typeof members !== 'function')
+                        _Pages._corePages.define(uri, members);
                     return ctor;
                 }
                 function render(uri, element, options, parentedPromise) {

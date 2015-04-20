@@ -680,6 +680,10 @@ module WinJSContrib.UI.Pages {
                 }, true);
             }
 
+			//in case we are on WinJS<4 we reference members on WinJS Core Pages
+			if (!_CorePages.viewMap && !_CorePages._viewMap && typeof members !== 'function')
+				_Pages._corePages.define(uri, members);
+
             return ctor;
         }
 
