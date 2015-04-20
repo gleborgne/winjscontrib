@@ -2240,7 +2240,7 @@ var WinJSContrib;
                 'use strict';
                 if (!_Global.document || !_CorePages)
                     return;
-                var viewMap = _CorePages._viewMap || {};
+                var viewMap = _CorePages._viewMap || _CorePages.viewMap || {};
                 //this property allows defining mixins applyed to all pages
                 function abs(uri) {
                     var a = _Global.document.createElement("a");
@@ -2606,7 +2606,7 @@ var WinJSContrib;
                     render: _CorePages.render,
                     define: _CorePages.define,
                     _remove: _CorePages._remove,
-                    _viewMap: _CorePages._viewMap,
+                    _viewMap: viewMap,
                 };
                 var pageOverride = {
                     define: Pages_define,
