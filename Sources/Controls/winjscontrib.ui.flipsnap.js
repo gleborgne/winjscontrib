@@ -1,10 +1,4 @@
-﻿/* 
- * WinJS Contrib v2.1.0.0
- * licensed under MIT license (see http://opensource.org/licenses/MIT)
- * sources available at https://github.com/gleborgne/winjscontrib
- */
-
-(function () {
+﻿(function () {
     'use strict';
     WinJS.Namespace.define("WinJSContrib.UI", {
         FlipSnap: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
