@@ -1,5 +1,5 @@
 ﻿/* 
- * WinJS Contrib v2.0.3.0
+ * WinJS Contrib v2.1.0.0
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -83,25 +83,28 @@
                         for (var i = 0, l = selectedItems.length; i < l ; i++) {
                             selectedItems[i].classList.remove('selected');
                         }
-
+                        ctrl._setStateNavBtns();
                         ctrl.list.children[ctrl._currentPosition].classList.add('selected');
                         ctrl.dispatchEvent("positionchanged", { currentPosition: ctrl._currentPosition });
                         ctrl.renderItems();
-                        if (ctrl.canGoForward) {
-                            ctrl.next.classList.remove('hide');
-                        }
-                        else {
-                            ctrl.next.classList.add('hide');
-                        }
-                        if (ctrl.canGoBack) {
-                            ctrl.prev.classList.remove('hide');
-                        }
-                        else {
-                            ctrl.prev.classList.add('hide');
-                        }
                         console.log(ctrl._currentPosition);
                     }
                 }, 0);
+            },
+            _setStateNavBtns: function () {
+                var ctrl = this;
+                if (ctrl.canGoForward) {
+                    ctrl.next.classList.remove('hide');
+                }
+                else {
+                    ctrl.next.classList.add('hide');
+                }
+                if (ctrl.canGoBack) {
+                    ctrl.prev.classList.remove('hide');
+                }
+                else {
+                    ctrl.prev.classList.add('hide');
+                }
             },
             toNext: function () {
                 var ctrl = this;
@@ -249,6 +252,7 @@
                 }
                 ctrl.renderItems().then(function () {
                     requestAnimationFrame(function () {
+                        ctrl._setStateNavBtns();
                         ctrl.list.scrollLeft = (ctrl._itemw + ctrl._margeItem()) * (ctrl._currentPosition)
                         ctrl.dispatchEvent("positionchanged", { currentPosition: ctrl._currentPosition });
                     });
