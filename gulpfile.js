@@ -89,6 +89,7 @@ function compileLessFilesIn(path){
 
 gulp.task('styles', ['cleanstyles'], function() {
 	var header = licenseHeader();
+	gulp.src([srcCommonPath + 'winjscontrib.mixin.less']).pipe(gulp.dest(cssDestPath));
 	return merge(
 		compileLessFilesIn(srcCorePath),
 		compileLessFilesIn(srcCommonPath),
