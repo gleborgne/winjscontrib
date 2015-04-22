@@ -125,7 +125,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			global.document.createElement(tagname);
 			//we uppercase because node names are uppercase
 			registered[tagname.toUpperCase()] = { optionsCallback: optionsCallback, ctor: ctor };
-		} else {
+		} else if (global.document.registerElement) {
 			var proto = Object.create(HTMLElement.prototype);
 			proto.createdCallback = function () {
 				var options = {};
@@ -138,6 +138,17 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 				}
 				new ctor(this, options);
 			};
+
+			proto.attributeChangedCallback = function (attrName, oldValue, newValue) {
+				var component = this.mcnComponent;
+				if (component) {
+					var f = component.attributes[attrName.toUpperCase()];
+					if (f) {
+						f(newValue);
+					}
+				}
+			};
+
 			global.document.registerElement(tagname, { prototype: proto });
 		}
 	}

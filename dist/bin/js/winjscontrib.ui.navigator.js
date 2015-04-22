@@ -44,11 +44,11 @@
             function PageControlNavigator(element, options) {
             	var options = options || {};
             	var navigator = this;
-            	this._element = element || document.createElement("div");
-            	this._element.winControl = this;
-            	this._element.mcnNavigator = true;
-            	this._element.classList.add('mcn-navigator');
-            	this._element.classList.add('mcn-navigation-ctrl');
+            	this.element = element || document.createElement("div");
+            	this.element.winControl = this;
+            	this.element.mcnNavigator = true;
+            	this.element.classList.add('mcn-navigator');
+            	this.element.classList.add('mcn-navigation-ctrl');
             	this.eventTracker = new WinJSContrib.UI.EventTracker();
             	this.delay = options.delay || 0;
             	this.disableHistory = options.disableHistory || false;
@@ -107,7 +107,7 @@
             {
             	home: "",
             	/// <field domElement="true" />
-            	_element: null,
+            	element: null,
             	_lastNavigationPromise: WinJS.Promise.as(),
             	_lastViewstate: 0,
 
@@ -121,7 +121,7 @@
             	// This is the root element of the current page.
             	pageElement: {
             		get: function () {
-            			return this._pageElement || this._element.lastElementChild;
+            			return this._pageElement || this.element.lastElementChild;
             		}
             	},
 
@@ -145,7 +145,7 @@
             	// Creates a container for a new page to be loaded into.
             	_createPageElement: function () {
             		var element = document.createElement("div");
-            		element.setAttribute("dir", window.getComputedStyle(this._element, null).direction);
+            		element.setAttribute("dir", window.getComputedStyle(this.element, null).direction);
             		//element.style.width = "100%";
             		//element.style.height = "100%";
             		//element.style.position = 'relative';
@@ -157,11 +157,10 @@
             		if (this._disposed) {
             			return;
             		}
-
             		this._disposed = true;
             		this.removeNavigationEvents();
             		if (WinJS.Utilities.disposeSubTree)
-            			WinJS.Utilities.disposeSubTree(this._element);
+            			WinJS.Utilities.disposeSubTree(this.element);
 
             		this.eventTracker.dispose();
             	},
@@ -301,10 +300,23 @@
             		}
             	},
 
+            	closeAllPages: function () {
+            		var navigator = this;
+            		var pages = navigator.element.querySelectorAll('.pagecontrol');
+            		for (var i = 0, l = pages.length ; i < l ; i++) {
+            			var page = pages[i];
+            			if (page.parentElement == navigator.element) {
+            				page.winControl.dispose();
+            				navigator.element.removeChild(page);
+            			}
+            		}
+            	},
+
             	clear: function () {
             		this.clearHistory();
+            		this.closeAllPages();
             		this._pageElement = null;
-            		this._element.innerHTML = '';
+            		this.element.innerHTML = '';
             	},
 
             	//warning, deprecated...
@@ -432,7 +444,7 @@
             	closePage: function (pageElementToClose, args) {
             		var navigator = this;
             		args = args || {};
-            		var pagecontainer = navigator._element;
+            		var pagecontainer = navigator.element;
             		var oldElement = pageElementToClose || this.pageElement;
             		if (oldElement) {
             			WinJSContrib.UI.untapAll(oldElement);
@@ -494,7 +506,7 @@
             	_navigated: function (args) {
             		var navigator = this;
             		args.detail.state = args.detail.state || {};
-            		var pagecontainer = navigator._element;
+            		var pagecontainer = navigator.element;
             		var oldPage = this.pageControl;
             		var oldElement = this.pageElement;
             		var openStacked = navigator.stackNavigation == true || (args.detail.state && args.detail.state.navigateStacked);

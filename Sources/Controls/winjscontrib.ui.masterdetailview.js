@@ -154,8 +154,7 @@
                     $(elt).remove();
 
                     ctrl.detailViewContentCtrl = null;
-
-
+                    
                 }
                 ctrl.detailViewContent.innerHTML = '';
             },
@@ -288,6 +287,7 @@
                     this.mediaTrigger.dispose();
                     this.mediaTrigger = null;
                 }
+
                 this._clearDetailContent();
                 WinJS.Utilities.disposeSubTree(this.element);
             },

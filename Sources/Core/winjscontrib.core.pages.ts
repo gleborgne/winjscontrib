@@ -12,27 +12,27 @@ module WinJSContrib.UI.Pages {
      * @type {Array}
      */
     export var defaultFragmentMixins: Array<any> = [{
-			$: function (selector) {
-				return $(selector, this.element || this._element);
-			},
-			q: function (selector) {
-				if (!this.element)
-					return;
-
-				return this.element.querySelector(selector);
-			},
-
-			qAll: function (selector) {
-				if (!this.element)
-					return;
-
-				var res = this.element.querySelectorAll(selector);
-				if (res && !res.forEach) {
-					res = [].slice.call(res);
-				}
-				return res;
-			},
+		$: function (selector) {
+			return $(selector, this.element || this._element);
 		},
+		q: function (selector) {
+			if (!this.element)
+				return;
+
+			return this.element.querySelector(selector);
+		},
+
+		qAll: function (selector) {
+			if (!this.element)
+				return;
+
+			var res = this.element.querySelectorAll(selector);
+			if (res && !res.forEach) {
+				res = [].slice.call(res);
+			}
+			return res;
+		},
+	},
 		{
 			dispose: function () {
 				if (this._promises) {
@@ -146,15 +146,15 @@ module WinJSContrib.UI.Pages {
                 WinJSContrib.Utils.inject(elementCtrl, args.injectToPage);
             }
             elementCtrl.navigationState = { location: location, state: args };
-            if (options.oncreate) {
-                options.oncreate(elementCtrl.element, args);
-            }
-            if (options.oninit) {
-                elementCtrl.elementReady.then(function () {
-                    options.oninit(elementCtrl.element, args);
-                });
-            }
-			
+			if (options.oncreate) {
+				options.oncreate(elementCtrl.element, args);
+			}
+
+			if (options.oninit) {
+				elementCtrl.pageLifeCycle.steps.init.attach(function () {
+					return options.oninit(elementCtrl.element, args);
+				});
+			}
 
             if (elementCtrl.enterPageAnimation || options.enterPage) {
                 if (elementCtrl.enterPageAnimation)
@@ -171,32 +171,31 @@ module WinJSContrib.UI.Pages {
                     } else {
                         elts = page.element;
                     }
-
-                    //this.dispatchEvent("pageContentReady", navargs);
+					
                     if (elts)
                         return page._enterAnimation(elts);
                 }
             }
 
-    //        if (options.closeOldPagePromise) {
-				//elementCtrl.pageLifeCycle.steps.layout.attach(function () {
-    //                return options.closeOldPagePromise;
-    //            });
-    //        }			
-			
-            elementCtrl.contentReadyComplete = elementCtrl.renderComplete.then(function () {
-				if (options.onrender)
+			if (options.onrender) {
+				elementCtrl.pageLifeCycle.steps.process.attach(function () {
 					options.onrender(elementCtrl.element, args);
+				});
+			}
 
-                if (!WinJSContrib.UI.disableAutoResources)
-                    return WinJS.Resources.processAll(element);
-            });
+			if (!WinJSContrib.UI.disableAutoResources) {
+				elementCtrl.pageLifeCycle.steps.process.attach(function () {
+					return WinJS.Resources.processAll(element);
+				});
+			}
 
-			elementCtrl.readyComplete.then(function (control) {
-				if (options.closeOldPagePromise) {
+			if (options.closeOldPagePromise) {
+				elementCtrl.pageLifeCycle.steps.ready.attach(function () {
 					return options.closeOldPagePromise;
-				}	
-			}).then(function (control) {
+				});
+			}
+
+			elementCtrl.pageLifeCycle.steps.ready.attach(function () {
 				if (options.onready)
 					options.onready(elementCtrl.element, args);
 
@@ -205,7 +204,9 @@ module WinJSContrib.UI.Pages {
                 } else {
                     elementCtrl.element.style.opacity = '';
                 }
-            }).then(fragmentCompleted, fragmentError);
+			});
+
+			elementCtrl.pageLifeCycle.steps.ready.promise.then(fragmentCompleted, fragmentError);
         }
 
         var elementCtrl = new pageConstructor(element, args, preparePageControl, parented);
@@ -250,9 +251,9 @@ module WinJSContrib.UI.Pages {
 
 		public resolve(arg) {
 			this.isDone = true;
-			var promises = [];
-			
+
 			if (this.queue && this.queue.length) {
+				var promises = [];
 				this.queue.forEach((q) => {
 					promises.push(new WinJS.Promise(function (c, e) {
 						try {
@@ -265,13 +266,17 @@ module WinJSContrib.UI.Pages {
 					}));
 				});
 				this.queue = null;
+				return WinJS.Promise.join(promises).then(() => {
+					this._resolvePromise(arg);
+					return this.promise;
+				}, this.reject.bind(this));
+
+			} else {
+				this.queue = null;
+				this._resolvePromise(arg);
+				return this.promise;
 			}
 
-			return WinJS.Promise.join(promises).then(() => {				
-				this._resolvePromise(arg);
-				//console.log('resolved ' + this.stepName);
-				return this.promise;
-			}, this.reject.bind(this));
 		}
 
 		public reject(arg) {
@@ -430,7 +435,7 @@ module WinJSContrib.UI.Pages {
             }
 
             return ctor;
-        }        
+        }
 
 		function pageLifeCycle(that, uri, element, options, complete, parentedPromise) {
 
@@ -457,9 +462,9 @@ module WinJSContrib.UI.Pages {
                     keys.forEach(function (k) {
                         realControl[k] = that[k];
                     });
-                    realControl.pageLifeCycle.page = realControl;     
+                    realControl.pageLifeCycle.page = realControl;
                     that.pageControl = realControl;
-                    that.dismissed = true;               
+                    that.dismissed = true;
                     that = realControl;
                 }
 
@@ -467,7 +472,7 @@ module WinJSContrib.UI.Pages {
             });
 
 			var renderCalled = load.then(function Pages_init(loadResult) {
-				
+
 				return Promise.join({
 					loadResult: loadResult,
 					initResult: that.init(element, options)
@@ -480,7 +485,7 @@ module WinJSContrib.UI.Pages {
 				return that.render(element, options, result.loadResult);
 			}).then(function Pages_render(result) {
 				return that.rendered(element, options);
-			}).then(function(result) {
+			}).then(function (result) {
 				return that.pageLifeCycle.steps.render.resolve();
 			});
 
@@ -522,7 +527,7 @@ module WinJSContrib.UI.Pages {
 				return broadcast(that, element, 'pageLayout', [element, options], null, that.pageLayout);
 			}).then(function () {
 				WinJSContrib.UI.bindActions(element, that);
-			}).then(function(result) {
+			}).then(function (result) {
 				return that.pageLifeCycle.steps.layout.resolve();
 			}).then(function () {
 				return that;
@@ -537,7 +542,7 @@ module WinJSContrib.UI.Pages {
 				//console.log('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
 
 				broadcast(that, element, 'pageReady', [element, options]);
-			}).then(function(result) {
+			}).then(function (result) {
 				return that.pageLifeCycle.steps.ready.resolve();
 			}).then(function () {
 				return that;
@@ -603,7 +608,7 @@ module WinJSContrib.UI.Pages {
 							location: uri,
 							stop: function () {
 								that.readyComplete.cancel();
-								that.cancelPromises();	
+								that.cancelPromises();
 								if (this.observer) {
 									this.observer.disconnect();
 									this.observer = null;
@@ -614,7 +619,7 @@ module WinJSContrib.UI.Pages {
 								render: new PageLifeCycleStep(that, 'render', null),
 								process: new PageLifeCycleStep(that, 'process', parent),
 								layout: new PageLifeCycleStep(that, 'layout', parent),
-								ready: new PageLifeCycleStep(that, 'ready', parent),
+								ready: new PageLifeCycleStep(that, 'ready', parent)
 							},
 							initialDisplay: null
 						};
@@ -625,7 +630,7 @@ module WinJSContrib.UI.Pages {
                         this.uri = uri;
                         this.selfhost = selfhost(uri);
                         element.winControl = this;
-                        that.parentedComplete = parentedPromise;						
+                        that.parentedComplete = parentedPromise;
 
                         pageLifeCycle(this, uri, element, options, complete, parentedPromise);
                     }, _mixinBase);

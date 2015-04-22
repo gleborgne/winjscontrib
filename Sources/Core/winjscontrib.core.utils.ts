@@ -344,6 +344,9 @@ module WinJSContrib.Utils {
     //set object property value based on property name. Property name is a string containing the name of the property, 
     //or the name of the property with an indexer, ex: myproperty[2] (to get item in a array)
     function setobject(obj, prop, data) {
+		if (!obj)
+			return;
+
         if (WinJSContrib.Utils.hasValue(prop)) {
             if (obj.setProperty) {
                 obj.setProperty(prop, data);

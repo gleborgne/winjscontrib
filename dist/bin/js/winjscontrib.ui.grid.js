@@ -87,7 +87,12 @@
             	grid.autolayout = options.autolayout || true;
             	if (grid.autolayout) {
             		var parent = WinJSContrib.Utils.getScopeControl(grid.element);
-            		if (parent && parent.elementReady) {
+            		if (parent && parent.pageLifeCycle) {
+            			parent.pageLifeCycle.steps.layout.attach(function () {
+            				grid.layout();
+            			});
+            		}
+            		else if (parent && parent.elementReady) {
             			parent.elementReady.then(function () {
             				parent.readyComplete.then(function () {
             					grid.layout();
@@ -509,10 +514,23 @@
             			//if cell dimensions are not defined, take it from last child
             			if (!ctrl.data.cellWidth || !ctrl.data.cellHeight) {
             				if (ctrl.element.childNodes && ctrl.element.children.length > 0) {
-            					var firstChild = ctrl.element.children[0];
-            					var lastChild = ctrl.element.children[ctrl.element.children.length - 1];
-            					ctrl.data.cellWidth = Math.min(firstChild.clientWidth, lastChild.clientWidth);
-            					ctrl.data.cellHeight = Math.min(firstChild.clientHeight, lastChild.clientHeight);
+            					var childs = ctrl.visibleChilds();
+            					var firstChild = childs[0];
+            					var w = firstChild.clientWidth;
+            					var h = firstChild.clientHeight;
+            					var l = childs.length;
+            					if (l > 10) l = 10;
+            					for (var i = 0, l = childs.length; i < l ; i++) {
+            						var item = childs[i];
+            						if (w == 0 || item.clientWidth < w) {
+            							w = item.clientWidth;
+            						}
+            						if (h == 0 || item.clientHeight < h) {
+            							h = item.clientHeight;
+            						}
+            					}
+            					ctrl.data.cellWidth = w;
+            					ctrl.data.cellHeight = h;
             				}
             			}
 
