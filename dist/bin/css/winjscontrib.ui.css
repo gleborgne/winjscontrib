@@ -49,6 +49,18 @@ body {
   -ms-touch-action: manipulation;
   touch-action: manipulation;
 }
+.toolbar {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.toolbar > .title,
+.toolbar > .titlearea {
+  flex-grow: 1;
+  align-self: center;
+}
+.toolbar > .actions {
+  align-self: center;
+}
 @keyframes pulseanimation {
   0% {
     -webkit-transform: scale(1);

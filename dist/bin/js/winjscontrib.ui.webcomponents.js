@@ -129,6 +129,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			var proto = Object.create(HTMLElement.prototype);
 			proto.createdCallback = function () {
 				var options = {};
+				this.mcnComponent = { attributes: [] };
 				if (this.dataset.winOptions) {
 					options = getWinJSOptions(this);
 				}
@@ -165,25 +166,24 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 					});
 				} else {
 					options[propertyName] = tmp;
-				}
-				return;
+				}				
 			}
-
-			options[propertyName] = val;
+			else{
+				options[propertyName] = val;
+			}
 		}
 
 		var component = element.mcnComponent;
 		if (component) {
 			component.attributes[propertyName.toUpperCase()] = function (val) {
 				var ctrl = element.winControl;
-				if (ctrl) {
-					if (resolve) {
-						var tmp = WinJSContrib.Utils.resolveValue(element, val);
-						if (tmp) {
-							ctrl[propertyName] = tmp;
-							return;
-						}
+				if (ctrl) {					
+					var tmp = WinJSContrib.Utils.resolveValue(element, val);
+					if (tmp) {
+						ctrl[propertyName] = tmp;
+						return;
 					}
+					
 					ctrl[propertyName] = val
 				}
 			}
