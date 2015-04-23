@@ -3,6 +3,10 @@ It provides some utilities, helpers and controls to make your developers life ha
 
 Have a look at [API documentation](http://gleborgne.github.io/winjscontrib/api/) to see a glimpse of what is available.
 
+We also rolled a series of blog post explaining what you can do with WinJS Contrib.
+[WinJS Contrib Basics](http://mcnextpost.com/2015/04/21/winjs-contrib-basics/)
+[WinJS and ES6](http://mcnextpost.com/2015/04/23/winjs-and-es6/)
+
 ## What is WinJS ?
 It is a single page application (SPA) framework. The goal of WinJS is to provide the basis for HTML5 applications with almost native performances. It was originally designed by Microsoft for making Windows applications in HTML5 (for Windows, Windows Phone and Xbox One app stores).
 Now WinJS is open source. it can still be used for Windows apps, but also in cross platform hybrid apps. All details are available on [WinJS website](http://www.buildwinjs.com), and you can experiment with it in their [playground](http://try.buildwinjs.com).
