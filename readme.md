@@ -4,7 +4,9 @@ It provides some utilities, helpers and controls to make your developers life ha
 Have a look at [API documentation](http://gleborgne.github.io/winjscontrib/api/) to see a glimpse of what is available.
 
 We also rolled a series of blog post explaining what you can do with WinJS Contrib.
+
 [WinJS Contrib Basics](http://mcnextpost.com/2015/04/21/winjs-contrib-basics/)
+
 [WinJS and ES6](http://mcnextpost.com/2015/04/23/winjs-and-es6/)
 
 ## What is WinJS ?
