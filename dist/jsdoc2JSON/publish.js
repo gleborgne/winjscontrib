@@ -1,4 +1,4 @@
-/**
+﻿/**
     @overview Builds a tree-like JSON string from the doclet data.
     @version 0.0.3
     @example

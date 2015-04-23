@@ -102,7 +102,7 @@
            		return new WinJS.Promise(function (complete, error) {
            			WinJS.Promise.wrap(that.closePage()).done(function () {
            				that.navigator.clear();
-           				that.navigator._element.innerText = '';
+           				that.navigator.element.innerText = '';
            				that.location = undefined;
            				complete();
            			});
@@ -118,7 +118,7 @@
            			return WinJS.Promise.wrapError();
            		}
 
-           		if (that.navigator._element.children.length == 1) {
+           		if (that.navigator.element.children.length == 1) {
            			that.hide(arg);
            		}
 

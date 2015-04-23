@@ -51,15 +51,13 @@ body {
 }
 .toolbar {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row nowrap;
+  align-items: center;
 }
 .toolbar > .title,
-.toolbar > .titlearea {
+.toolbar > .titlearea,
+.toolbar > .main {
   flex-grow: 1;
-  align-self: center;
-}
-.toolbar > .actions {
-  align-self: center;
 }
 @keyframes pulseanimation {
   0% {
