@@ -44,7 +44,7 @@
 
             	grid.element.className = grid.element.className + ' mcn-grid-ctrl mcn-layout-ctrl win-disposable';
             	grid.element.winControl = grid;
-            	
+
 
             	/**
                  * multipass renderer for the grid
@@ -58,12 +58,8 @@
             		itemInvoked: options.itemInvoked,
             	});
 
-            	/**
-                 * layout definitions for the grid. It's an object containing several grid layout options. See {@link WinJSContrib.UI.GridControlLayout}
-                 * @field
-                 * @type Object
-                 */
-            	grid.gridLayouts = options.layouts;
+
+            	grid.layouts = options.layouts;
 
             	/**
                  * default layout definitions for the grid
@@ -85,20 +81,23 @@
                  * @type boolean
                  */
             	grid.autolayout = options.autolayout || true;
-            	if (grid.autolayout) {
-            		var parent = WinJSContrib.Utils.getScopeControl(grid.element);
-            		if (parent && parent.pageLifeCycle) {
-            			parent.pageLifeCycle.steps.layout.attach(function () {
+
+            	var parent = WinJSContrib.Utils.getScopeControl(grid.element);
+            	if (parent && parent.pageLifeCycle) {
+            		parent.pageLifeCycle.steps.layout.attach(function () {
+            			if (grid.autolayout) {
             				grid.layout();
-            			});
-            		}
-            		else if (parent && parent.elementReady) {
-            			parent.elementReady.then(function () {
-            				parent.readyComplete.then(function () {
+            			}
+            		});
+            	}
+            	else if (parent && parent.elementReady) {
+            		parent.elementReady.then(function () {
+            			parent.readyComplete.then(function () {
+            				if (grid.autolayout) {
             					grid.layout();
-            				});
+            				}
             			});
-            		}
+            		});
             	}
             },
             /**
@@ -116,6 +115,48 @@
             		},
             		set: function (val) {
             			this.renderer.scrollContainer = val;
+            		}
+            	},
+
+            	/**
+                 * indicate if grid layout itself according to the page lifecycle (default to true)
+                 * @field
+                 * @type boolean
+                 */
+            	autolayout: {
+            		get: function () {
+            			return this._autolayout;
+            		},
+            		set: function (val) {
+            			this._autolayout = val;
+            		}
+            	},
+
+            	/**
+                 * layout definitions for the grid. It's an object containing several grid layout options. See {@link WinJSContrib.UI.GridControlLayout}
+                 * @field
+                 * @type Object
+                 */
+            	layouts: {
+            		get: function () {
+            			return this.gridLayouts;
+            		},
+            		set: function (val) {
+            			this.gridLayouts = val;
+            		}
+            	},
+
+            	/**
+                 * indicate the kind of multipass treatment
+                 * @field
+                 * @type string
+                 */
+            	multipass: {
+            		get: function () {
+            			return this.renderer.multipass;
+            		},
+            		set: function (val) {
+            			this.renderer.multipass = val;
             		}
             	},
 
@@ -162,6 +203,21 @@
             	},
 
             	/**
+                 * items to render
+                 * @field
+                 * @type Object
+                 */
+            	items: {
+            		get: function () {
+            			return;
+            		},
+            		set: function (val) {
+						if (val && val.length)
+            				this.prepareItems(val);
+            		}
+            	},
+
+            	/**
                  * render HTML for items
                  * @param {Array} items array of items to render
                  * @param {Object} renderOptions
@@ -184,15 +240,15 @@
             	},
 
             	resetElement: function (elt, isItem) {
-					var style = elt.style;
-					if (isItem && style.position) style.position = '';
-					if (!isItem && style.display) style.display = '';
-					if (style.width) style.width = '';
-					if (style.height) style.height = '';
-					if (style.minWidth) style.minWidth = '';
-					if (style.minHeight) style.minHeight = '';
-					if (style.left) style.left = '';
-					if (style.top) style.top = '';
+            		var style = elt.style;
+            		if (isItem && style.position) style.position = '';
+            		if (!isItem && style.display) style.display = '';
+            		if (style.width) style.width = '';
+            		if (style.height) style.height = '';
+            		if (style.minWidth) style.minWidth = '';
+            		if (style.minHeight) style.minHeight = '';
+            		if (style.left) style.left = '';
+            		if (style.top) style.top = '';
             	},
 
             	/**
@@ -606,12 +662,8 @@
 	});
 
 	if (WinJSContrib.UI.WebComponents) {
-		WinJSContrib.UI.WebComponents.register('mcn-grid', WinJSContrib.UI.GridControl, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'multipass', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'autolayout', options);
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'layouts', options);
-
-			return options;
+		WinJSContrib.UI.WebComponents.register('mcn-grid', WinJSContrib.UI.GridControl, {
+			props: ['multipass', 'autolayout', 'layouts', 'itemInvoked', 'itemTemplate', 'itemClassName', 'items']
 		});
 	}
 })();

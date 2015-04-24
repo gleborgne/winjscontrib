@@ -839,10 +839,7 @@ var WinJSContrib;
          * @returns {Object}
          */
         function resolveValue(element, text) {
-        	var methodName, control, method;
-        	if (!(typeof text === 'string'))
-        		return;
-
+            var methodName, control, method;
             var items = text.split(':');
             if (items.length > 1) {
                 var name = items[0];
@@ -2461,7 +2458,7 @@ var WinJSContrib;
                         that.ready(element, options);
                         that.pageLifeCycle.ended = new Date();
                         that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
-                        console.log('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
+                        //console.log('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
                         broadcast(that, element, 'pageReady', [element, options]);
                     }).then(function (result) {
                         return that.pageLifeCycle.steps.ready.resolve();
