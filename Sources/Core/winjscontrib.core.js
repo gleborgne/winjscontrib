@@ -2308,6 +2308,7 @@ var WinJSContrib;
                     this.queue = [];
                     this.isDone = false;
                     this.stepName = stepName;
+                    //this.created = new Date();
                     this.promise = new WinJS.Promise(function (c, e) {
                         _this._resolvePromise = c;
                         _this._rejectPromise = e;
@@ -2330,8 +2331,14 @@ var WinJSContrib;
                     }
                 };
                 PageLifeCycleStep.prototype.resolve = function (arg) {
-                    var _this = this;
+                    var step = this;
                     this.isDone = true;
+                    function closeStep() {
+                        //step.resolved = new Date();
+                        step._resolvePromise(arg);
+                        //console.log('resolved ' + step.stepName + '(' + (<any>step.resolved - <any>step.created) + 'ms)');
+                        return step.promise;
+                    }
                     if (this.queue && this.queue.length) {
                         var promises = [];
                         this.queue.forEach(function (q) {
@@ -2348,14 +2355,12 @@ var WinJSContrib;
                         });
                         this.queue = null;
                         return WinJS.Promise.join(promises).then(function () {
-                            _this._resolvePromise(arg);
-                            return _this.promise;
+                            return closeStep();
                         }, this.reject.bind(this));
                     }
                     else {
                         this.queue = null;
-                        this._resolvePromise(arg);
-                        return this.promise;
+                        return closeStep();
                     }
                 };
                 PageLifeCycleStep.prototype.reject = function (arg) {

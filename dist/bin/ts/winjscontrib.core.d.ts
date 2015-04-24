@@ -700,6 +700,8 @@ declare module WinJSContrib.UI.Pages {
     class PageLifeCycleStep {
         promise: WinJS.Promise<any>;
         isDone: boolean;
+        created: Date;
+        resolved: Date;
         stepName: string;
         _resolvePromise: any;
         _rejectPromise: any;

@@ -217,6 +217,8 @@ module WinJSContrib.UI.Pages {
 	export class PageLifeCycleStep {
 		public promise: WinJS.Promise<any>;
 		public isDone: boolean;
+		public created: Date;
+		public resolved: Date;
 		public stepName: string;
 		_resolvePromise: any;
 		_rejectPromise: any;
@@ -226,6 +228,7 @@ module WinJSContrib.UI.Pages {
 			this.queue = [];
 			this.isDone = false;
 			this.stepName = stepName;
+			//this.created = new Date();
 			this.promise = new WinJS.Promise((c, e) => {
 				this._resolvePromise = c;
 				this._rejectPromise = e;
@@ -250,7 +253,15 @@ module WinJSContrib.UI.Pages {
 		}
 
 		public resolve(arg) {
+			var step = this;
 			this.isDone = true;
+
+			function closeStep() {
+				//step.resolved = new Date();
+				step._resolvePromise(arg);
+				//console.log('resolved ' + step.stepName + '(' + (<any>step.resolved - <any>step.created) + 'ms)');
+				return step.promise;
+			}
 
 			if (this.queue && this.queue.length) {
 				var promises = [];
@@ -267,14 +278,12 @@ module WinJSContrib.UI.Pages {
 				});
 				this.queue = null;
 				return WinJS.Promise.join(promises).then(() => {
-					this._resolvePromise(arg);
-					return this.promise;
+					return closeStep();
 				}, this.reject.bind(this));
 
 			} else {
 				this.queue = null;
-				this._resolvePromise(arg);
-				return this.promise;
+				return closeStep();
 			}
 
 		}
