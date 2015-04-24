@@ -742,6 +742,7 @@ win-flipview,
 win-flyout,
 win-hub,
 win-hubsection,
-win-listview {
+win-listview,
+mcn-navigator {
   display: block;
 }

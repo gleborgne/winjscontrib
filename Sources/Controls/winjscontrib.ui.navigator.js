@@ -682,4 +682,22 @@
             }
         ), WinJS.Utilities.eventMixin)
 	});
+
+	if (WinJSContrib.UI.WebComponents) {
+		WinJSContrib.UI.WebComponents.register('mcn-navigator', WinJSContrib.UI.PageControlNavigator, {
+			props: ['global'],
+			map: {
+				"ENTERPAGEANIMATION": {
+					attribute: "enterPageAnimation",
+					property: "animations.enterPage",
+					resolve: true
+				},
+				"EXITPAGEANIMATION": {
+					attribute: "exitPageAnimation",
+					property: "animations.exitPage",
+					resolve: true
+				}
+			}
+		});
+	}
 })();

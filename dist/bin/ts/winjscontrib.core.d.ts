@@ -248,16 +248,17 @@ declare module WinJSContrib.Utils {
      * @namespace WinJSContrib.Utils.ValueParsers
      */
     var ValueParsers: {
-        "navpage": (element: any, text: any) => any;
-        "page": (element: any, text: any) => any;
-        "ctrl": (element: any, text: any) => any;
-        "select": (element: any, text: any) => any;
-        "obj": (element: any, text: any) => any;
-        "prom": (element: any, text: any) => any;
-        "list": (element: any, text: any) => any;
-        "global": (element: any, text: any) => any;
-        "templ": (element: any, text: any) => any;
-        "element": (element: any, text: any) => any;
+        "navpage": (element: any, text: any, context?: any) => any;
+        "page": (element: any, text: any, context?: any) => any;
+        "ctrl": (element: any, text: any, context?: any) => any;
+        "select": (element: any, text: any, context?: any) => any;
+        "obj": (element: any, text: any, context?: any) => any;
+        "prom": (element: any, text: any, context?: any) => any;
+        "list": (element: any, text: any, context?: any) => any;
+        "global": (element: any, text: any, context?: any) => any;
+        "templ": (element: any, text: any, context: any) => any;
+        "element": (element: any, text: any, context?: any) => any;
+        "event": (element: any, text: any, context?: any) => void;
     };
     /**
      * resolve value from an expression. This helper will crawl the DOM up, and provide the property or function from parent page or control.
@@ -266,7 +267,7 @@ declare module WinJSContrib.Utils {
      * @param {string} text expression like 'page:something' or 'ctrl:something' or 'something'
      * @returns {Object}
      */
-    function resolveValue(element: any, text: any): any;
+    function resolveValue(element: any, text: any, context?: any): any;
     /**
      * call resolve value and apply result to a target object
      * @function WinJSContrib.Utils.applyValue
@@ -275,7 +276,7 @@ declare module WinJSContrib.Utils {
      * @param {string} target target object
      * @param {string} targetPath path to dest property
      */
-    function applyValue(element: any, text: any, target: any, targetPath: any): void;
+    function applyValue(element: any, text: any, target: any, targetPath: any, context: any): void;
     /**
      * Checks in a safe way if an object has a value, which could be 'false', '0' or '""'
      * @function WinJSContrib.Utils.hasValue

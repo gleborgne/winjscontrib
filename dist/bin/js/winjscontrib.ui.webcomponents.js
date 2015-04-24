@@ -103,9 +103,13 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		element.setAttribute = function (name, val) {
 			if (element.winControl) {
 				setAttribute.call(this, name, val);
-				var map = element.winControl.constructor.mcnWebComponent;
-				if (map) {
-					map.applyAttribute(name, this);
+				var definition = element.winControl.constructor.mcnWebComponent;
+				if (definition) {
+					var map = definition[name.toUpperCase()];
+					if (map) {
+						var ctx = { control: element.winControl, name: map.property, data: {} }
+						definition.applyAttribute(name, this, ctx);
+					}
 				}
 			}
 		}
@@ -142,22 +146,28 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			map: mapping.map || {},
 			optionsCallback: mapping.optionsCallback,
 			applyAll: function (element) {
+				var contextData = {};
 				for (var item in this.map) {
-					this.applyAttribute(item, element);
+					var attrcontext = { control: element.winControl, name: this.map[item].property, data: contextData };
+					this.applyAttribute(item, element, null, attrcontext);
 				}
 			},
-			applyAttribute: function (name, element, attrvalue) {
+			applyAttribute: function (name, element, attrvalue, context) {
 				var map = this.map[name.toUpperCase()];
 				if (map) {
 					var val = attrvalue || element.getAttribute(map.attribute);
 					var ctrl = element.winControl;
 					if (val && ctrl) {
-						if (map.resolve) {
-							WinJSContrib.Utils.applyValue(element, val, ctrl, map.property);
-							return;
-						}
+						if (!map.type || map.type === 'property') {
+							if (map.resolve) {
+								WinJSContrib.Utils.applyValue(element, val, ctrl, map.property, context);
+								return;
+							}
 
-						WinJSContrib.Utils.writeProperty(ctrl, map.property, val);
+							WinJSContrib.Utils.writeProperty(ctrl, map.property, val);
+						} else if (map.type === 'event') {
+							WinJSContrib.Utils.resolveValue(element, val, context);
+						}
 					}
 				}
 			}
@@ -166,7 +176,15 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		if (mapping.props) {
 			mapping.props.forEach(function (p) {
 				if (p) {
-					ctor.mcnWebComponent.map[p.toUpperCase()] = { attribute: p, property: p, resolve: true };
+					ctor.mcnWebComponent.map[p.toUpperCase()] = { attribute: p, property: p, resolve: true, type: 'property' };
+				}
+			});
+		}
+
+		if (mapping.events) {
+			mapping.events.forEach(function (p) {
+				if (p) {
+					ctor.mcnWebComponent.map[p.toUpperCase()] = { attribute: p, property: p, resolve: true, type: 'event' };
 				}
 			});
 		}
@@ -209,9 +227,12 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 			proto.attributeChangedCallback = function (attrName, oldValue, newValue) {
 				if (this.winControl) {
-					var map = this.winControl.constructor.mcnWebComponent;
-					if (map) {
-						map.applyAttribute(attrName, this, newValue);
+					var definition = this.winControl.constructor.mcnWebComponent;
+					if (definition) {
+						var map = definition.map[attrName.toUpperCase()];
+						if (map) {
+							definition.applyAttribute(attrName, this, newValue, { control: element.winControl, name: map.property, data: {} });
+						}
 					}
 				}				
 			};
@@ -315,7 +336,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 				'itemTemplate', 'itemDataSource', 'itemsDraggable', 'itemsReorderable',
 				'oniteminvoked', 'groupHeaderTemplate', 'groupDataSource', 'swipeBehavior',
 				'selectBehavior', 'tapBehavior', 'header', 'footer'
-			]
+			],
+			events: ['iteminvoked']
 		});
 	}
 
