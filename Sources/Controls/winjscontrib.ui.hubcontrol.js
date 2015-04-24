@@ -350,13 +350,12 @@
 	});
 
 	if (WinJSContrib.UI.WebComponents) {
-		WinJSContrib.UI.WebComponents.register('mcn-hub', WinJSContrib.UI.HubControl, function (elt, options) {
-			WinJSContrib.UI.WebComponents.mapAttr(elt, 'multipass', options);
-			return options;
+		WinJSContrib.UI.WebComponents.register('mcn-hub', WinJSContrib.UI.HubControl, {
+			props: ['multipass']
 		});
 
-		WinJSContrib.UI.WebComponents.register('mcn-hub-section', WinJSContrib.UI.HubSection, function (elt, options) {
-			return options;
+		WinJSContrib.UI.WebComponents.register('mcn-hub-section', WinJSContrib.UI.HubSection, {
+			props: []
 		});
 	}
 

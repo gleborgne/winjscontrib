@@ -150,11 +150,8 @@
     });
 
     if (WinJSContrib.UI.WebComponents) {
-    	WinJSContrib.UI.WebComponents.register('mcn-smartlistlayout', WinJSContrib.UI.SmartListLayout, function (elt, options) {
-    		WinJSContrib.UI.WebComponents.mapAttr(elt, 'listView', options);
-    		WinJSContrib.UI.WebComponents.mapAttr(elt, 'layouts', options);
-
-    		return options;
+    	WinJSContrib.UI.WebComponents.register('mcn-smartlistlayout', WinJSContrib.UI.SmartListLayout, {
+    		props: ['listView', 'layouts']
     	});
     }
 })();
