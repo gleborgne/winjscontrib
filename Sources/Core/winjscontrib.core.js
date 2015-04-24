@@ -875,6 +875,22 @@ var WinJSContrib;
              */
             "global": function (element, text) {
                 return WinJSContrib.Utils.readProperty(window, text);
+            },
+            /**
+             * get a template from uri
+             * @function WinJSContrib.Utils.ValueParsers.templ
+             */
+            "templ": function (element, text) {
+                return WinJSContrib.Templates.get(text);
+            },
+            /**
+             * return element property
+             * @function WinJSContrib.Utils.ValueParsers.element
+             */
+            "element": function (element, text) {
+                var res = resolveValue(element, text);
+                if (res)
+                    return res.element;
             }
         };
         /**

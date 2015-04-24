@@ -11,7 +11,7 @@
             "examples": [],
             "meta": {
                 "filename": "winjscontrib.core.js",
-                "lineno": 1473
+                "lineno": 1498
             }
         },
         {
@@ -25,7 +25,7 @@
             "examples": [],
             "meta": {
                 "filename": "winjscontrib.core.js",
-                "lineno": 1519
+                "lineno": 1544
             }
         }
     ],
@@ -1309,7 +1309,7 @@
                     "virtual": false,
                     "meta": {
                         "filename": "winjscontrib.core.js",
-                        "lineno": 971
+                        "lineno": 996
                     },
                     "functions": [
                         {
@@ -1334,7 +1334,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 979
+                                "lineno": 1004
                             },
                             "returns": {
                                 "type": "WinJS.Binding.Template",
@@ -1373,7 +1373,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 993
+                                "lineno": 1018
                             },
                             "returns": {
                                 "type": "function",
@@ -1412,7 +1412,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1010
+                                "lineno": 1035
                             },
                             "returns": {
                                 "type": "function",
@@ -3708,7 +3708,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1057
+                                "lineno": 1082
                             }
                         },
                         {
@@ -3722,7 +3722,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1139
+                                "lineno": 1164
                             }
                         },
                         {
@@ -3736,7 +3736,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1155
+                                "lineno": 1180
                             }
                         },
                         {
@@ -3750,7 +3750,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1171
+                                "lineno": 1196
                             }
                         },
                         {
@@ -3764,7 +3764,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1187
+                                "lineno": 1212
                             }
                         },
                         {
@@ -3799,7 +3799,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1203
+                                "lineno": 1228
                             },
                             "returns": {
                                 "type": "WinJS.Promise",
@@ -3828,7 +3828,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1237
+                                "lineno": 1262
                             },
                             "returns": {
                                 "type": "WinJS.Promise",
@@ -3857,7 +3857,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1268
+                                "lineno": 1293
                             },
                             "returns": {
                                 "type": "Array",
@@ -3886,7 +3886,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1291
+                                "lineno": 1316
                             },
                             "returns": {
                                 "type": "WinJS.Promise",
@@ -3925,7 +3925,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1336
+                                "lineno": 1361
                             }
                         },
                         {
@@ -3950,7 +3950,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1389
+                                "lineno": 1414
                             }
                         },
                         {
@@ -3985,7 +3985,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1428
+                                "lineno": 1453
                             }
                         },
                         {
@@ -4020,7 +4020,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1444
+                                "lineno": 1469
                             }
                         },
                         {
@@ -4055,7 +4055,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1564
+                                "lineno": 1589
                             },
                             "returns": {
                                 "type": "function",
@@ -4084,7 +4084,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1647
+                                "lineno": 1672
                             }
                         },
                         {
@@ -4109,7 +4109,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1661
+                                "lineno": 1686
                             }
                         },
                         {
@@ -4154,7 +4154,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1675
+                                "lineno": 1700
                             }
                         },
                         {
@@ -4189,7 +4189,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1837
+                                "lineno": 1862
                             }
                         },
                         {
@@ -4266,7 +4266,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1077
+                                "lineno": 1102
                             },
                             "functions": [
                                 {
@@ -4321,7 +4321,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1084
+                                        "lineno": 1109
                                     },
                                     "returns": {
                                         "type": "function",
@@ -4370,7 +4370,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1111
+                                        "lineno": 1136
                                     }
                                 },
                                 {
@@ -4384,7 +4384,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1126
+                                        "lineno": 1151
                                     }
                                 }
                             ]
@@ -4427,7 +4427,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1455
+                                "lineno": 1480
                             },
                             "functions": [
                                 {
@@ -4472,7 +4472,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1484
+                                        "lineno": 1509
                                     }
                                 },
                                 {
@@ -4517,7 +4517,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1532
+                                        "lineno": 1557
                                     }
                                 },
                                 {
@@ -4552,7 +4552,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1541
+                                        "lineno": 1566
                                     },
                                     "returns": {
                                         "type": "",
@@ -4601,7 +4601,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1551
+                                        "lineno": 1576
                                     }
                                 }
                             ]
@@ -4666,7 +4666,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1861
+                                "lineno": 1886
                             },
                             "functions": [
                                 {
@@ -4691,7 +4691,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1892
+                                        "lineno": 1917
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4720,7 +4720,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1902
+                                        "lineno": 1927
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4749,7 +4749,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1912
+                                        "lineno": 1937
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4778,7 +4778,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1922
+                                        "lineno": 1947
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4796,7 +4796,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1932
+                                        "lineno": 1957
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4825,7 +4825,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1941
+                                        "lineno": 1966
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4854,7 +4854,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1951
+                                        "lineno": 1976
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4883,7 +4883,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1961
+                                        "lineno": 1986
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4922,7 +4922,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1971
+                                        "lineno": 1996
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4961,7 +4961,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1982
+                                        "lineno": 2007
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4990,7 +4990,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1993
+                                        "lineno": 2018
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -5029,7 +5029,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2003
+                                        "lineno": 2028
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -5078,7 +5078,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2014
+                                        "lineno": 2039
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -5117,7 +5117,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2029
+                                        "lineno": 2054
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -7148,7 +7148,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.smartlistlayout.js",
-                                        "lineno": 54
+                                        "lineno": 55
                                     }
                                 }
                             ],
@@ -7175,7 +7175,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.smartlistlayout.js",
-                                        "lineno": 79
+                                        "lineno": 85
                                     }
                                 }
                             ]
@@ -9533,7 +9533,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 877
+                                "lineno": 902
                             },
                             "returns": {
                                 "type": "Object",
@@ -9592,7 +9592,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 898
+                                "lineno": 923
                             }
                         },
                         {
@@ -9617,7 +9617,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 918
+                                "lineno": 943
                             },
                             "returns": {
                                 "type": "Boolean",
@@ -9635,7 +9635,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 928
+                                "lineno": 953
                             }
                         },
                         {
@@ -9660,7 +9660,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 936
+                                "lineno": 961
                             },
                             "returns": {
                                 "type": "function",
@@ -9678,7 +9678,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 957
+                                "lineno": 982
                             }
                         }
                     ],
@@ -9687,7 +9687,7 @@
                             "kind": "namespace",
                             "name": "ValueParsers",
                             "fullname": "WinJSContrib.Utils.ValueParsers",
-                            "description": "",
+                            "description": "Utility functions used by WinJSContrib.Utils.resolveValue and WinJSContrib.Utils.applyValue",
                             "access": "",
                             "virtual": false,
                             "meta": {
@@ -9706,7 +9706,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 766
+                                        "lineno": 767
                                     }
                                 },
                                 {
@@ -9720,7 +9720,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 786
+                                        "lineno": 787
                                     }
                                 },
                                 {
@@ -9734,7 +9734,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 798
+                                        "lineno": 799
                                     }
                                 },
                                 {
@@ -9748,7 +9748,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 810
+                                        "lineno": 811
                                     }
                                 },
                                 {
@@ -9762,7 +9762,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 824
+                                        "lineno": 833
                                     }
                                 },
                                 {
@@ -9776,7 +9776,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 841
+                                        "lineno": 850
                                     }
                                 },
                                 {
@@ -9790,7 +9790,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 853
+                                        "lineno": 862
                                     }
                                 },
                                 {
@@ -9804,7 +9804,35 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 869
+                                        "lineno": 878
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "templ",
+                                    "fullname": "WinJSContrib.Utils.ValueParsers.templ",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "get a template from uri",
+                                    "parameters": [],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 885
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "element",
+                                    "fullname": "WinJSContrib.Utils.ValueParsers.element",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "return element property",
+                                    "parameters": [],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 892
                                     }
                                 }
                             ]
