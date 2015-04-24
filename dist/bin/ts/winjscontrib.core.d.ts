@@ -243,6 +243,9 @@ declare module WinJSContrib.Utils {
      */
     function resolveMethod(element: any, text: any): any;
     function readValue(element: any, text: any): any;
+    /**
+     * @namespace WinJSContrib.Utils.ValueParsers
+     */
     var ValueParsers: {
         "navpage": (element: any, text: any) => any;
         "page": (element: any, text: any) => any;
@@ -261,6 +264,15 @@ declare module WinJSContrib.Utils {
      * @returns {Object}
      */
     function resolveValue(element: any, text: any): any;
+    /**
+     * call resolve value and apply result to a target object
+     * @function WinJSContrib.Utils.applyValue
+     * @param {HTMLElement} element DOM element to look
+     * @param {string} text expression like 'page:something' or 'ctrl:something' or 'something'
+     * @param {string} target target object
+     * @param {string} targetPath path to dest property
+     */
+    function applyValue(element: any, text: any, target: any, targetPath: any): void;
     /**
      * Checks in a safe way if an object has a value, which could be 'false', '0' or '""'
      * @function WinJSContrib.Utils.hasValue

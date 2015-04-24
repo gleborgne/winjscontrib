@@ -46,45 +46,45 @@
                 </div>
             </div>
 
-            <div id="semanticzoom" data-win-control="WinJSContrib.UI.SemanticListViews" data-win-options="{
-                 listview: { itemTemplate: select('#listItemTemplate'), groupHeaderTemplate : select('#groupItemTemplate')},
-                 zoomedOutListview: { itemTemplate: select('#semanticItemTemplate')},
-                 data: {
-                     defaultGroupLimit: 12,
-                     groupKind: WinJSContrib.UI.DataSources.Grouping.byField,
-                     field: 'metadata.genre',
-                     items: moviesSample
-                 }}">
-            </div>
-            <div id="zoomedInListLayout" data-win-control="WinJSContrib.UI.SmartListLayout" data-win-options="{
+			<mcn-semanticlistviews id="semanticzoom"
+				listview.itemtemplate="select:#listItemTemplate"
+				listview.groupheadertemplate="select:#groupItemTemplate"
+				zoomedoutlistview.itemtemplate="select:#semanticItemTemplate"
+				defaultGroupLimit="12"
+				groupKind="global:WinJSContrib.UI.DataSources.Grouping.byField"
+				field="metadata.genre"
+				items="global:moviesSample">				
+			</mcn-semanticlistviews>
+
+            <mcn-smartlistlayout id="zoomedInListLayout" data-win-options="{
                     listView: select('#semanticzoom').winControl.listview,
                     layouts:{
                         default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},
                         vert : { layout : WinJS.UI.GridLayout, query: '(orientation: portrait) and (min-width: 600px)', options: { orientation : 'vertical'}},
                         snap : { layout : WinJS.UI.ListLayout, query: '(orientation: portrait) and (max-width: 600px)'},
                     }
-                 }"></div>
+                 }"></mcn-smartlistlayout>
 
-            <div id="zoomedOutListLayout" data-win-control="WinJSContrib.UI.SmartListLayout" data-win-options="{
+            <mcn-smartlistlayout id="zoomedOutListLayout" data-win-options="{
                     listView: select('#semanticzoom').winControl.zoomedOutListview,
                     layouts:{
                         default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},
                         vert : { layout : WinJS.UI.GridLayout, query: '(orientation: portrait) and (min-width: 600px)', options: { orientation : 'vertical'}},
                         snap : { layout : WinJS.UI.ListLayout, query: '(orientation: portrait) and (max-width: 600px)'},
                     }
-                 }"></div>
+                 }"></mcn-smartlistlayout>
             <div id="filterTrigger" onclick="$('#filterFlyout')[0].winControl.show(this)">
                 <span class="symbol">&#xE16E;</span>
             </div>
         </section>
-        <div id="viewSelectionFlyout" data-win-control="WinJS.UI.Flyout">
+        <win-flyout id="viewSelectionFlyout">
             <div id="selectionPanel">
                 <div class="viewOption" data-page-action="viewByGenre">view by genre</div>
                 <div class="viewOption" data-page-action="viewByYear">view by year</div>
                 <div class="viewOption" data-page-action="viewAlphabetically">view alphabetically</div>
             </div>
-        </div>
-        <div id="filterFlyout" data-win-control="WinJS.UI.Flyout">
+        </win-flyout>
+        <win-flyout id="filterFlyout">
             <div id="filterPanel">
                 <div class="filterOption">
                     <label for="txtTitleFilter">Movie title</label>
@@ -95,7 +95,7 @@
                     <input type="text" id="txtGenreFilter" />
                 </div>
             </div>
-        </div>
+        </win-flyout>
     </div>
 </body>
 </html>

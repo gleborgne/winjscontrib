@@ -21,29 +21,31 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	function inspect(node) {
 		var customElement = null;
 		var ctrlName = node.nodeName;
-		if (node.attributes) {
-			var ctrlName = node.getAttribute("is");
-			if (ctrlName) {
-				//we uppercase because node names are uppercase
-				customElement = registered[ctrlName.toUpperCase()];
+		if (node.nodeName !== '#text') {
+			if (node.attributes) {
+				var ctrlName = node.getAttribute("is");
+				if (ctrlName) {
+					//we uppercase because node names are uppercase
+					customElement = registered[ctrlName.toUpperCase()];
+				}
 			}
-		}
 
-		if (!customElement) {
-			customElement = registered[node.nodeName];
-		}
+			if (!customElement && node.nodeName !== 'DIV' && node.nodeName !== 'SPAN') {
+				customElement = registered[node.nodeName];
+			}
 
-		if (customElement && !node.mcnComponent) {
-			createElement(node, customElement);
-		}
+			if (customElement && !node.mcnComponent) {
+				createElement(node, customElement);
+			}
 
-		if (node.msParentSelectorScope && node.winControl && node.winControl.pageLifeCycle && node.winControl.pageLifeCycle.observer) {
-			//element is a fragment with a mutation observer, no need to inspect childs
-			return;
-		}
+			if (node.msParentSelectorScope && node.winControl && node.winControl.pageLifeCycle && node.winControl.pageLifeCycle.observer) {
+				//element is a fragment with its own mutation observer, no need to inspect childs
+				return;
+			}
 
-		for (var i = 0, l = node.childNodes.length; i < l; i++) {
-			inspect(node.childNodes[i]);
+			for (var i = 0, l = node.childNodes.length; i < l; i++) {
+				inspect(node.childNodes[i]);
+			}
 		}
 	}
 
@@ -90,8 +92,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			process();
 		}
 
+		//put a proxy on setAttribute to detect changes in attributes
 		var setAttribute = element.setAttribute;
-
 		element.setAttribute = function (name, val) {
 			if (element.winControl) {
 				setAttribute.call(this, name, val);
@@ -131,7 +133,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 		ctor.mcnWebComponent = {
 			name: tagname,
-			map: {},
+			map: mapping.map || {},
 			optionsCallback: mapping.optionsCallback,
 			applyAll: function (element) {
 				for (var item in this.map) {
@@ -145,20 +147,11 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 					var ctrl = element.winControl;
 					if (val && ctrl) {
 						if (map.resolve) {
-							var tmp = WinJSContrib.Utils.resolveValue(element, val);
-							if (tmp) {
-								if (tmp.then && tmp.mcnMustResolve) {
-									tmp.then(function (data) {
-										ctrl[map.property] = data;
-									});
-								} else {
-									ctrl[map.property] = tmp;
-								}								
-								return;
-							}
+							WinJSContrib.Utils.applyValue(element, val, ctrl, map.property);
+							return;
 						}
 
-						ctrl[name] = val;
+						WinJSContrib.Utils.writeProperty(ctrl, map.property, val);
 					}
 				}
 			}
@@ -170,6 +163,22 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 					ctor.mcnWebComponent.map[p.toUpperCase()] = { attribute: p, property: p, resolve: true };
 				}
 			});
+		}
+
+		if (mapping.controls) {
+			for (var ctKey in mapping.controls) {
+				var control = mapping.controls[ctKey];
+				var controlDefinition = control.mcnWebComponent;
+				for (var mapKey in controlDefinition.map) {
+					var key = ctKey + '.' + mapKey;
+					var controlmap = controlDefinition.map[mapKey];
+					ctor.mcnWebComponent.map[key.toUpperCase()] = {
+						attribute: ctKey + '.' + controlmap.attribute,
+						property: ctKey + '.' + controlmap.property,
+						resolve: controlmap.resolve
+					};
+				}
+			}
 		}
 	}
 

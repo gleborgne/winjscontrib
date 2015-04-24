@@ -802,7 +802,14 @@ module WinJSContrib.Utils {
         return undefined;
     }
 
+	/**
+     * @namespace WinJSContrib.Utils.ValueParsers
+     */
 	export var ValueParsers = {
+		/**
+		 * Get value from current page in parent navigator
+		 * @function WinJSContrib.Utils.ValueParsers.navpage
+		 */
 		"navpage": function (element, text) {
 			var control = null;
 			if (WinJSContrib.Utils.getParentPage) {
@@ -822,6 +829,10 @@ module WinJSContrib.Utils {
 				return method;
 		},
 
+		/**
+		 * Get value from parent element with 'pagecontrol' class
+		 * @function WinJSContrib.Utils.ValueParsers.page
+		 */
 		"page": function (element, text) {
 			var control = WinJSContrib.Utils.getParentControlByClass('pagecontrol', element);
             var method = WinJSContrib.Utils.readProperty(control, text);
@@ -831,6 +842,10 @@ module WinJSContrib.Utils {
 				return method;
 		},
 
+		/**
+		 * Get value from parent scope
+		 * @function WinJSContrib.Utils.ValueParsers.ctrl
+		 */		
 		"ctrl": function (element, text) {
 			var control = WinJSContrib.Utils.getScopeControl(element);
             var method = WinJSContrib.Utils.readProperty(control, text);
@@ -840,6 +855,10 @@ module WinJSContrib.Utils {
 				return method;
 		},
 
+		/**
+		 * select a node from DOM
+		 * @function WinJSContrib.Utils.ValueParsers.select
+		 */		
 		"select": function (element, text) {
 			var control = WinJSContrib.Utils.getScopeControl(element);
 			var element = null;
@@ -853,6 +872,10 @@ module WinJSContrib.Utils {
 			return element;
 		},
 
+		/**
+		 * get an object formatted as JSON
+		 * @function WinJSContrib.Utils.ValueParsers.obj
+		 */		
 		"obj": function (element, text) {
 			return WinJS.UI.optionsParser(text, window, {
 				select: WinJS.Utilities.markSupportedForProcessing(function (text) {
@@ -867,14 +890,24 @@ module WinJSContrib.Utils {
 			});
 		},
 
+		/**
+		 * mark a promise for resolution (if used in applyValue, the promise will get resolved and the promise's result will be affected)
+		 * @function WinJSContrib.Utils.ValueParsers.prom
+		 */		
 		"prom": function (element, text) {
 			var res = resolveValue(element, text);
 			if (res.then) {
+				res = res.then(null, null);
 				res.mcnMustResolve = true;
 			}
 			return res;
 		},
 
+		/**
+		 * wrap result in WinJS.Binding.List().dataSource
+		 * usefull for ListViews
+		 * @function WinJSContrib.Utils.ValueParsers.list
+		 */		
 		"list": function (element, text) {
 			var res = resolveValue(element, text);
 			if (res.then) {
@@ -888,6 +921,10 @@ module WinJSContrib.Utils {
 			return new WinJS.Binding.List(res).dataSource;
 		},
 
+		/**
+		 * get value from global scope
+		 * @function WinJSContrib.Utils.ValueParsers.global
+		 */
 		"global": function (element, text) {
 			return WinJSContrib.Utils.readProperty(window, text);
 		}
@@ -915,6 +952,26 @@ module WinJSContrib.Utils {
 
 		return text; //WinJSContrib.Utils.readProperty(window, text);
     }
+
+	/**
+     * call resolve value and apply result to a target object
+     * @function WinJSContrib.Utils.applyValue
+     * @param {HTMLElement} element DOM element to look
+     * @param {string} text expression like 'page:something' or 'ctrl:something' or 'something'
+     * @param {string} target target object
+     * @param {string} targetPath path to dest property
+     */
+    export function applyValue(element, text, target, targetPath) {
+		var tmp = WinJSContrib.Utils.resolveValue(element, text);
+
+		if (tmp && tmp.then && tmp.mcnMustResolve) {
+			tmp.then(function (data) {
+				WinJSContrib.Utils.writeProperty(target, targetPath, data);
+			});
+		} else {
+			WinJSContrib.Utils.writeProperty(target, targetPath, tmp);
+		}
+	}
 
     /**
      * Checks in a safe way if an object has a value, which could be 'false', '0' or '""'

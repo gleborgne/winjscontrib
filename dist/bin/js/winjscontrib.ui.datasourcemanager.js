@@ -457,6 +457,22 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
     }), WinJS.UI.DOMEventMixin, WinJS.Utilities.createEventProperties("myevent"));
 })(WinJSContrib.UI.DataSources, WinJSContrib.UI.DataSources.Grouping);
 
+if (WinJSContrib.UI.WebComponents) {
+	WinJSContrib.UI.WebComponents.register('mcn-semanticlistviews', WinJSContrib.UI.SemanticListViews, {
+		props: [],
+		controls: {
+			"listview": WinJS.UI.ListView,
+			"zoomedOutListview": WinJS.UI.ListView,
+			"semanticZoom": WinJS.UI.SemanticZoom
+		},
+		map: {
+			"DEFAULTGROUPLIMIT": { attribute: 'defaultGroupLimit', property: '_dataManager.defaultGroupLimit', resolve: true },
+			"GROUPKIND": { attribute: 'groupKind', property: '_dataManager.groupKind', resolve: true },
+			"FIELD": { attribute: 'field', property: '_dataManager.field', resolve: true },
+			"ITEMS": { attribute: 'items', property: '_dataManager.items', resolve: true },
+		}
+	});
+}
 
 /** 
  * Custom grouping settings for {@link WinJSContrib.UI.DataSources.DataSourceManager}

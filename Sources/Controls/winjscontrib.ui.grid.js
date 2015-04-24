@@ -565,22 +565,24 @@
             			if (!ctrl.data.cellWidth || !ctrl.data.cellHeight) {
             				if (ctrl.element.childNodes && ctrl.element.children.length > 0) {
             					var childs = ctrl.visibleChilds();
-            					var firstChild = childs[0];
-            					var w = firstChild.clientWidth;
-            					var h = firstChild.clientHeight;
-            					var l = childs.length;
-            					if (l > 10) l = 10;
-            					for (var i = 0, l = childs.length; i < l ; i++) {
-            						var item = childs[i];
-            						if (w == 0 || item.clientWidth < w) {
-            							w = item.clientWidth;
+            					if (childs && childs.length) {
+            						var firstChild = childs[0];
+            						var w = firstChild.clientWidth;
+            						var h = firstChild.clientHeight;
+            						var l = childs.length;
+            						if (l > 10) l = 10;
+            						for (var i = 0, l = childs.length; i < l ; i++) {
+            							var item = childs[i];
+            							if (w == 0 || item.clientWidth < w) {
+            								w = item.clientWidth;
+            							}
+            							if (h == 0 || item.clientHeight < h) {
+            								h = item.clientHeight;
+            							}
             						}
-            						if (h == 0 || item.clientHeight < h) {
-            							h = item.clientHeight;
-            						}
+            						ctrl.data.cellWidth = w;
+            						ctrl.data.cellHeight = h;
             					}
-            					ctrl.data.cellWidth = w;
-            					ctrl.data.cellHeight = h;
             				}
             			}
 
