@@ -30,6 +30,7 @@
                 this._element.winControl = this;
                 this.queries = [];
                 this.listView = options ? options.listView : undefined;
+                this.layouts = options.layouts;
 
                 if (this.listView && this.listView.winControl && options.layouts) {
                     this.initQueries(options.layouts);
@@ -53,7 +54,12 @@
                         if (val && val.element && val.forceLayout)
                             this._listview = val.element;
                         else
-                            this._listview = val;
+                        	this._listview = val;
+
+                        if (val) {
+                        	this.initQueries(this.layouts);
+                        	this.applyPendingLayout();
+                        }
                     }
                 },
 

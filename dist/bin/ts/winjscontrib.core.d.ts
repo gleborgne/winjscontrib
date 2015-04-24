@@ -244,6 +244,7 @@ declare module WinJSContrib.Utils {
     function resolveMethod(element: any, text: any): any;
     function readValue(element: any, text: any): any;
     /**
+     * Utility functions used by WinJSContrib.Utils.resolveValue and WinJSContrib.Utils.applyValue
      * @namespace WinJSContrib.Utils.ValueParsers
      */
     var ValueParsers: {

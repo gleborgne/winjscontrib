@@ -56,8 +56,7 @@
 				items="global:moviesSample">				
 			</mcn-semanticlistviews>
 
-            <mcn-smartlistlayout id="zoomedInListLayout" data-win-options="{
-                    listView: select('#semanticzoom').winControl.listview,
+            <mcn-smartlistlayout id="zoomedInListLayout" listView="select:#semanticzoom|winControl.listview" data-win-options="{
                     layouts:{
                         default : { layout : WinJS.UI.GridLayout, query: '(orientation: landscape)'},
                         vert : { layout : WinJS.UI.GridLayout, query: '(orientation: portrait) and (min-width: 600px)', options: { orientation : 'vertical'}},

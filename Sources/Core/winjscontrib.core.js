@@ -754,6 +754,7 @@ var WinJSContrib;
         }
         Utils.readValue = readValue;
         /**
+         * Utility functions used by WinJSContrib.Utils.resolveValue and WinJSContrib.Utils.applyValue
          * @namespace WinJSContrib.Utils.ValueParsers
          */
         Utils.ValueParsers = {
@@ -808,12 +809,20 @@ var WinJSContrib;
             "select": function (element, text) {
                 var control = WinJSContrib.Utils.getScopeControl(element);
                 var element = null;
+                var items = text.split('|');
+                var selector = items[0];
                 if (control) {
-                    element = control.element.querySelector(text);
+                    element = control.element.querySelector(selector);
                 }
                 if (!element)
-                    element = document.querySelector(text);
-                return element;
+                    element = document.querySelector(selector);
+                if (items.length == 1) {
+                    return element;
+                }
+                else if (items.length > 1) {
+                    var val = readProperty(element, text.substr(items[0].length + 1));
+                    return val;
+                }
             },
             /**
              * get an object formatted as JSON
