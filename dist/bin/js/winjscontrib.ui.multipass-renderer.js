@@ -55,6 +55,12 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     		ctrl.items = [];
     	},
 
+    	clear: function () {
+    		var ctrl = this;
+    		WinJS.Utilities.disposeSubTree(ctrl.element);
+    		ctrl.element.innerHTML = '';
+    	},
+
     	/**
          * kind of multipass, can be 'section', or 'item'
          * @type {String}
@@ -418,9 +424,11 @@ WinJSContrib.UI = WinJSContrib.UI || {};
      */
     {
     	dispose: function () {
+    		var item = this;
     		item.renderer = null;
     		item.element = null;
     		item.itemInvoked = null;
+    		item.itemData = null;
     		item.itemDataPromise = null;
     		item.itemTemplate = null;
     		item.onitemContent = null;

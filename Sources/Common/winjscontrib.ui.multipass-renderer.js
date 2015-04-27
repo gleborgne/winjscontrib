@@ -49,6 +49,12 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     		ctrl.items = [];
     	},
 
+    	clear: function () {
+    		var ctrl = this;
+    		WinJS.Utilities.disposeSubTree(ctrl.element);
+    		ctrl.element.innerHTML = '';
+    	},
+
     	/**
          * kind of multipass, can be 'section', or 'item'
          * @type {String}

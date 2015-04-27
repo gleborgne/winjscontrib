@@ -245,11 +245,17 @@
             		if (style.top) style.top = '';
             	},
 
+            	clearContent: function () {
+            		var ctrl = this;
+            		ctrl.renderer.clear();
+            	},
+
             	/**
                  * Clear all layout and position styles on items
                  */
-            	clear: function () {
+            	clearLayout: function () {
             		var ctrl = this;
+            		
             		ctrl.resetElement(ctrl.element, false);
             		if (ctrl.element.children.length) {
             			for (var i = 0, l = ctrl.element.children.length; i < l; i++) {
@@ -603,7 +609,7 @@
 
             	changeLayout: function () {
             		var ctrl = this;
-            		ctrl.clear();
+            		ctrl.clearLayout();
             		ctrl.renderer.updateLayout();
             	},
 
