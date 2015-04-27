@@ -1,0 +1,51 @@
+.flipsnapcontainer {
+  width: 100%;
+  position: relative;
+}
+.flipsnapcontainer:hover .navbutton {
+  visibility: visible;
+}
+.flipsnapcontainer .navbutton {
+  border: none;
+  height: 36px;
+  width: 50px;
+  z-index: 1000;
+  position: absolute;
+  top: 50%;
+  color: white;
+  margin-top: -19px;
+  background-color: rgba(0, 0, 0, 0.4);
+  font-family: "Segoe UI Symbol", "Symbols";
+  font-size: 16pt;
+  padding: 0;
+  min-width: 0;
+  visibility: hidden;
+}
+.flipsnapcontainer .navbutton.hide {
+  display: none;
+}
+.flipsnapcontainer .navbutton:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.flipsnapcontainer .navbutton.navbutton-right {
+  margin-left: -50px;
+  left: 100%;
+}
+.flipsnapcontainer .navbutton.navbutton-left {
+  margin-right: -50px;
+  right: 100%;
+}
+.flipsnapcontainer .flipsnaplist {
+  position: relative;
+  height: 100%;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -ms-scroll-snap-type: mandatory;
+  -ms-scroll-snap-points-x: snapInterval(0, 800px);
+  width: 100%;
+  -ms-overflow-style: none;
+}
+.flipsnapcontainer .flipsnaplist .flipsnapitem {
+  margin-right: 10px;
+}
