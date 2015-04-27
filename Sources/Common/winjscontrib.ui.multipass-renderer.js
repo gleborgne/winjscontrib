@@ -37,6 +37,18 @@ WinJSContrib.UI = WinJSContrib.UI || {};
       * @lends WinJSContrib.UI.MultiPassRenderer.prototype
       */
     {
+    	dispose : function(){
+    		var ctrl = this;
+    		WinJSContrib.UI.untapAll(ctrl.element);
+    		WinJS.Utilities.disposeSubTree(ctrl.element);
+    		ctrl._unregisterScrollEvents();
+    		ctrl._scrollContainer = null;
+    		ctrl.element = null;
+    		ctrl._scrollProcessor = null;
+    		ctrl.rect = null;    		
+    		ctrl.items = [];
+    	},
+
     	/**
          * kind of multipass, can be 'section', or 'item'
          * @type {String}
@@ -369,16 +381,6 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     			}
     		});
     		ctrl.allRendered = true;
-    	},
-
-    	/**
-         * release resources for multipass renderer
-         */
-    	dispose: function () {
-    		var ctrl = this;
-    		ctrl._unregisterScrollEvents();
-    		WinJSContrib.UI.untapAll(ctrl.element);
-    		WinJS.Utilities.disposeSubTree(ctrl.element);
     	}
     });
 
@@ -392,7 +394,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     	var item = this;
     	item.renderer = renderer;
     	item.element = element || document.createElement('DIV');
-    	item.element.className = item.element.className + ' ' + options.className + ' mcn-multipass-item unloaded';
+    	item.element.className = item.element.className + ' ' + options.className + ' mcn-multipass-item unloaded win-disposable';
     	item.element.winControl = item;
 
     	item.itemInvoked = options.itemInvoked;
@@ -409,6 +411,17 @@ WinJSContrib.UI = WinJSContrib.UI || {};
      * @lends WinJSContrib.UI.MultiPassItem
      */
     {
+    	dispose: function () {
+    		var item = this;
+    		item.renderer = null;
+    		item.element = null;
+    		item.itemInvoked = null;
+    		item.itemData = null;
+    		item.itemDataPromise = null;
+    		item.itemTemplate = null;
+    		item.onitemContent = null;
+    	},
+
     	/**
          * render item content
          */
@@ -437,6 +450,38 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     		}
     	},
 
+    	_renderItemContent: function (rendered) {
+    		var ctrl = this;
+    		ctrl.element.appendChild(rendered);
+
+    		if (ctrl.itemInvoked) {
+    			if (typeof ctrl.itemInvoked == 'string')
+    				ctrl.itemInvoked = WinJSContrib.Utils.resolveMethod(ctrl.element, ctrl.itemInvoked);
+
+    			if (ctrl.itemInvoked) {
+    				WinJSContrib.UI.tap(ctrl.element, function (arg) {
+    					ctrl.itemInvoked(ctrl);
+    				});
+    			}
+    		}
+
+    		if (ctrl.onitemContent) {
+    			ctrl.onitemContent(ctrl.itemData, rendered);
+    		}
+    		else if (ctrl.renderer.onitemContent) {
+    			ctrl.renderer.onitemContent(ctrl.itemData, rendered);
+    		}
+
+    		setImmediate(function () {
+    			ctrl.element.classList.remove('unloaded');
+    			ctrl.element.classList.add('loaded');
+    		});
+
+    		ctrl.rendered = true;
+    		ctrl.contentElement = rendered;
+    		return rendered;
+    	},
+
     	_renderContent: function () {
     		var ctrl = this;
 
@@ -444,34 +489,7 @@ WinJSContrib.UI = WinJSContrib.UI || {};
     			return ctrl.itemDataPromise.then(function (data) {
     				ctrl.itemData = data;
     				return ctrl.itemTemplate.render(data).then(function (rendered) {
-    					ctrl.element.appendChild(rendered);
-
-    					if (ctrl.itemInvoked) {
-    						if (typeof ctrl.itemInvoked == 'string')
-    							ctrl.itemInvoked = WinJSContrib.Utils.resolveMethod(ctrl.element, ctrl.itemInvoked);
-
-    						if (ctrl.itemInvoked) {
-    							WinJSContrib.UI.tap(ctrl.element, function (arg) {
-    								ctrl.itemInvoked(ctrl);
-    							});
-    						}
-    					}
-
-    					if (ctrl.onitemContent) {
-    						ctrl.onitemContent(ctrl.itemData, rendered);
-    					}
-    					else if (ctrl.renderer.onitemContent) {
-    						ctrl.renderer.onitemContent(ctrl.itemData, rendered);
-    					}
-
-    					setImmediate(function () {
-    						ctrl.element.classList.remove('unloaded');
-    						ctrl.element.classList.add('loaded');
-    					});
-
-    					ctrl.rendered = true;
-    					ctrl.contentElement = rendered;
-    					return rendered;
+    					ctrl._renderItemContent(rendered);
     				});
     			});
     		}

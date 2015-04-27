@@ -651,6 +651,8 @@
                  * Release grid resources
                  */
             	dispose: function () {
+            		this.element = null;
+            		this.renderer.dispose();
             		if (WinJS.Utilities.disposeSubTree)
             			WinJS.Utilities.disposeSubTree(this.element);
             	}
