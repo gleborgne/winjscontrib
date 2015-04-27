@@ -216,17 +216,31 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			//register component with "real" webcomponent
 			var proto = Object.create(HTMLElement.prototype);
 			proto.createdCallback = function () {
-				getControlInstance(ctor, this);
+			}
+
+			proto.attachedCallback = function () {
+				var element = this;
+				var scope = WinJSContrib.Utils.getScopeControl(element);
+				var process = function () {
+					getControlInstance(ctor, element);
+				}
+
+				if (scope && scope.pageLifeCycle) {
+					//if the component is owned by a page/fragment, we process the control according to page lifecycle
+					scope.pageLifeCycle.steps.process.attach(process);
+				} else {
+					process();
+				}				
 			};
 
 			proto.attributeChangedCallback = function (attrName, oldValue, newValue) {
 				var element = this;
-				if (this.winControl) {
+				if (element.winControl) {
 					var definition = element.winControl.constructor.mcnWebComponent;
 					if (definition) {
 						var map = definition.map[attrName.toUpperCase()];
 						if (map) {
-							definition.applyAttribute(attrName, this, newValue, { control: element.winControl, name: map.property, data: {} });
+							definition.applyAttribute(attrName, element, newValue, { control: element.winControl, name: map.property, data: {} });
 						}
 					}
 				}				
