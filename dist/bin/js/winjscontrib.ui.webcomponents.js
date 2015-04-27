@@ -281,7 +281,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	if (WinJS.UI && WinJS.UI.AppBar) {
 		WinJSContrib.UI.WebComponents.register('win-appbar', WinJS.UI.AppBar, {
 			properties: ['closedDisplayMode', 'disabled', 'hidden', 'layout', 'placement', 'sticky', 'commands', 
-				'onafterhide', 'onaftershow', 'onbeforehide', 'onbeforeshow']
+				'onafterhide', 'onaftershow', 'onbeforehide', 'onbeforeshow'],
+			events: ['afterhide', 'aftershow', 'beforehide', 'beforeshow']
 		});
 	}
 
@@ -289,7 +290,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		WinJSContrib.UI.WebComponents.register('win-autosuggestbox', WinJS.UI.AutoSuggestBox, {
 			properties: ['chooseSuggestionOnEnter', 'disabled', 'onquerychanged', 'onquerysubmitted', 
 				'onresultsuggestionchosen', 'onsuggestionsrequested', 'placeholderText', 'queryText', 
-				'searchHistoryContext', 'searchHistoryDisabled']
+				'searchHistoryContext', 'searchHistoryDisabled'],
+			events: ['querychanged', 'querysubmitted', 'resultsuggestionchosen', 'suggestionsrequested']
 		});
 	}
 
@@ -300,14 +302,16 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	if (WinJS.UI && WinJS.UI.ContentDialog) {
 		WinJSContrib.UI.WebComponents.register('win-contentdialog', WinJS.UI.ContentDialog, {
 			properties: ['hidden', 'primaryCommandDisabled', 'primaryCommandText', 'secondaryCommandDisabled',
-				'secondaryCommandText', 'title', 'onafterhide', 'onaftershow', 'onbeforehide', 'onbeforeshow']
+				'secondaryCommandText', 'title', 'onafterhide', 'onaftershow', 'onbeforehide', 'onbeforeshow'],
+			events: ['afterhide', 'aftershow', 'beforehide', 'beforeshow']
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.DatePicker) {
 		WinJSContrib.UI.WebComponents.register('win-datepicker', WinJS.UI.DatePicker, {
 			properties: ['calendar', 'datePattern', 'disabled', 'maxYear', 'minYear', 
-				'monthPattern', 'yearPattern', 'onchange', 'current']
+				'monthPattern', 'yearPattern', 'onchange', 'current'],
+			events: ['change']
 		});
 	}
 
@@ -320,7 +324,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	if (WinJS.UI && WinJS.UI.Flyout) {
 		WinJSContrib.UI.WebComponents.register('win-flyout', WinJS.UI.Flyout, {
 			properties: ['alignment', 'anchor', 'disabled', 'hidden', 'placement', 
-				'onafterhide', 'onaftershow', 'onbeforehide', 'onbeforeshow']
+				'onafterhide', 'onaftershow', 'onbeforehide', 'onbeforeshow'],
+			events: ['afterhide', 'aftershow', 'beforehide', 'beforeshow']
 		});
 	}
 
@@ -328,7 +333,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		WinJSContrib.UI.WebComponents.register('win-hub', WinJS.UI.Hub, {
 			properties: ['headerTemplate', 'indexOfFirstVisible', 'indexOfLastVisible', 'loadingState', 
 				'oncontentanimating', 'onheaderinvoked', 'onloadingstatechanged', 
-				'orientation', 'scrollPosition', 'sectionOnScreen', 'sections', 'zoomableView']
+				'orientation', 'scrollPosition', 'sectionOnScreen', 'sections', 'zoomableView'],
+			events: ['contentanimating', 'headerinvoked', 'loadingstatechanged']
 		});
 	}
 
@@ -341,7 +347,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	if (WinJS.UI && WinJS.UI.ItemContainer) {
 		WinJSContrib.UI.WebComponents.register('win-itemcontainer', WinJS.UI.ItemContainer, {
 			properties: ['draggable', 'oninvoked', 'onselectionchanged', 'onselectionchanging', 'selected', 'selectionDisabled', 
-				'swipeBehavior', 'swipeOrientation', 'tapBehavior']
+				'swipeBehavior', 'swipeOrientation', 'tapBehavior'],
+			events: ['invoked', 'selectionchanged', 'selectionchanging']
 		});
 	}
 
@@ -359,14 +366,16 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	if (WinJS.UI && WinJS.UI.Menu) {
 		WinJSContrib.UI.WebComponents.register('win-menu', WinJS.UI.Menu, {
 			properties: ['alignment', 'anchor', 'commands', 'disabled', 'hidden', 'placement', 
-				'onafterhide', 'onaftershow', 'onbeforehide', 'onbeforeshow']
+				'onafterhide', 'onaftershow', 'onbeforehide', 'onbeforeshow'],
+			events: ['afterhide', 'aftershow', 'beforehide', 'beforeshow']
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.Pivot) {
 		WinJSContrib.UI.WebComponents.register('win-pivot', WinJS.UI.Pivot, {
 			properties: ['items', 'locked', 'onitemanimationend', 'onitemanimationstart', 'onselectionchanged', 
-				'selectedIndex', 'selectedItem', 'title']
+				'selectedIndex', 'selectedItem', 'title'],
+			events: ['itemanimationend', 'itemanimationstart', 'selectionchanged']
 		});
 	}
 
@@ -379,7 +388,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	if (WinJS.UI && WinJS.UI.Rating) {
 		WinJSContrib.UI.WebComponents.register('win-rating', WinJS.UI.Rating, {
 			properties: ['averageRating', 'disabled', 'enableClear', 'maxRating', 
-				'oncancel', 'onchange', 'onpreviewchange', 'tooltipStrings', 'userRating']
+				'oncancel', 'onchange', 'onpreviewchange', 'tooltipStrings', 'userRating'],
+			events: ['cancel', 'change', 'previewchange']
 		});
 	}
 
@@ -387,7 +397,10 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		WinJSContrib.UI.WebComponents.register('win-repeater', WinJS.UI.Repeater, {
 			properties: ['data', 'length', 'onitemchanged', 'onitemchanging', 'oniteminserted', 'oniteminserting', 
 				'onitemmoved', 'onitemmoving', 'onitemremoved', 'onitemremoving', 'onitemsloaded', 
-				'onitemsreloaded', 'onitemsreloading', 'template'] 
+				'onitemsreloaded', 'onitemsreloading', 'template'],
+			events: ['itemchanged', 'itemchanging', 'iteminserted', 'iteminserting',
+				'itemmoved', 'itemmoving', 'itemremoved', 'itemremoving', 'itemsloaded',
+				'itemsreloaded', 'itemsreloading']
 		});
 	}
 
@@ -395,33 +408,38 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		WinJSContrib.UI.WebComponents.register('win-searchbox', WinJS.UI.SearchBox, {
 			properties: ['chooseSuggestionOnEnter', 'disabled', 'focusOnKeyboardInput', 'onquerychanged', 'onquerysubmitted', 
 				'onresultsuggestionchosen', 'onsuggestionsrequested', 'placeholderText', 'queryText', 
-				'searchHistoryContext', 'searchHistoryDisabled']
+				'searchHistoryContext', 'searchHistoryDisabled'],
+			events: ['querychanged', 'querysubmitted', 'resultsuggestionchosen', 'suggestionsrequested']
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.SemanticZoom) {
 		WinJSContrib.UI.WebComponents.register('win-semanticzoom', WinJS.UI.SemanticZoom, {
-			properties: ['enableButton', 'locked', 'onzoomchanged', 'zoomedInItem', 'zoomedOut', 'zoomedOutItem', 'zoomFactor']
+			properties: ['enableButton', 'locked', 'onzoomchanged', 'zoomedInItem', 'zoomedOut', 'zoomedOutItem', 'zoomFactor'],
+			events: ['zoomchanged']
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.SplitView) {
 		WinJSContrib.UI.WebComponents.register('win-splitview', WinJS.UI.SplitView, {
 			properties: ['contentElement', 'hiddenDisplayMode', 'paneElement', 'paneHidden', 'panePlacement', 'shownDisplayMode',
-				'onafterhide', 'onaftershow', 'onbeforehide', 'onbeforeshow']
+				'onafterhide', 'onaftershow', 'onbeforehide', 'onbeforeshow'],
+			events: ['afterhide', 'aftershow', 'beforehide', 'beforeshow']
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.TimePicker) {
 		WinJSContrib.UI.WebComponents.register('win-timepicker', WinJS.UI.TimePicker, {
 			properties: ['onchange', 'clock', 'current', 'disabled', 'hourPattern',
-				'minuteIncrement', 'minutePattern', 'periodPattern']
+				'minuteIncrement', 'minutePattern', 'periodPattern'],
+			events: ['onchange']
 		});
 	}
 
 	if (WinJS.UI && WinJS.UI.ToggleSwitch) {
 		WinJSContrib.UI.WebComponents.register('win-toggleswitch', WinJS.UI.ToggleSwitch, {
-			properties: ['onchange', 'checked', 'disabled', 'labelOff', 'labelOn', 'title']
+			properties: ['onchange', 'checked', 'disabled', 'labelOff', 'labelOn', 'title'],
+			events: ['onchange']
 		});
 	}
 
@@ -432,7 +450,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	if (WinJS.UI && WinJS.UI.Tooltip) {
 		WinJSContrib.UI.WebComponents.register('win-tooltip', WinJS.UI.Tooltip, {
 			properties: ['contentElement', 'extraClass', 'infotip', 'innerHTML', 'onbeforeclose', 
-				'onbeforeopen',  'onclosed', 'onopened', 'placement']
+				'onbeforeopen', 'onclosed', 'onopened', 'placement'],
+			events: ['beforeclose', 'beforeopen', 'closed', 'opened']
 		});
 	}
 
