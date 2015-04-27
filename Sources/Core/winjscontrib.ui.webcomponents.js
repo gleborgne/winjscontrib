@@ -220,8 +220,9 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			};
 
 			proto.attributeChangedCallback = function (attrName, oldValue, newValue) {
+				var element = this;
 				if (this.winControl) {
-					var definition = this.winControl.constructor.mcnWebComponent;
+					var definition = element.winControl.constructor.mcnWebComponent;
 					if (definition) {
 						var map = definition.map[attrName.toUpperCase()];
 						if (map) {
