@@ -364,8 +364,8 @@ var WinJSContrib;
                     //we want to allow this mixins to provide their own addition to "dispose"
                     if (d && mixin.hasOwnProperty('dispose')) {
                         base.prototype.dispose = function () {
-                            d.apply(this);
                             mixin.dispose.apply(this);
+                            d.apply(this);
                         };
                     }
                     return base;

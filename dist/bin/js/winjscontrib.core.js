@@ -784,6 +784,8 @@ var WinJSContrib;
                 }
                 if (!control)
                     return;
+                if (context)
+                    context.parentControl = control;
                 var method = WinJSContrib.Utils.readProperty(control, text);
                 if (method && typeof method === 'function')
                     return method.bind(control);
@@ -803,6 +805,8 @@ var WinJSContrib;
                 }
                 if (!control)
                     return;
+                if (context)
+                    context.parentControl = control;
                 var method = WinJSContrib.Utils.readProperty(control, text);
                 if (method && typeof method === 'function')
                     return method.bind(control);
@@ -822,6 +826,8 @@ var WinJSContrib;
                 }
                 if (!control)
                     return;
+                if (context)
+                    context.parentControl = control;
                 var method = WinJSContrib.Utils.readProperty(control, text);
                 if (method && typeof method === 'function')
                     return method.bind(control);
@@ -926,19 +932,20 @@ var WinJSContrib;
                     return res.element;
             },
             "event": function (element, text, context) {
-                var control = (context && context.data) ? context.data.scope : null;
-                if (!control) {
-                    control = WinJSContrib.Utils.getScopeControl(element);
-                    if (context && context.data)
-                        context.data.scope = control;
-                }
-                if (!control || !context || !context.name) {
+                var res = resolveValue(element, text, context);
+                var parentControl = null;
+                if (!res || !context || !context.name) {
                     return;
                 }
-                var meth = control[text];
-                if (meth && control.eventTracker && typeof meth === 'function') {
-                    meth = meth.bind(control);
-                    control.eventTracker.addEvent(context.control, context.name, meth);
+                if (context)
+                    parentControl = context.parentControl;
+                if (res && typeof res === 'function') {
+                    if (parentControl && parentControl.eventTracker) {
+                        parentControl.eventTracker.addEvent(context.control, context.name, res);
+                    }
+                    else {
+                        context.control.addEventListener(context.name, res);
+                    }
                 }
             }
         };
@@ -2482,8 +2489,8 @@ var WinJSContrib;
                     //we want to allow this mixins to provide their own addition to "dispose"
                     if (d && mixin.hasOwnProperty('dispose')) {
                         base.prototype.dispose = function () {
-                            d.apply(this);
                             mixin.dispose.apply(this);
+                            d.apply(this);
                         };
                     }
                     return base;

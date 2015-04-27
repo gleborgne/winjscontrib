@@ -459,7 +459,7 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
 
 if (WinJSContrib.UI.WebComponents) {
 	WinJSContrib.UI.WebComponents.register('mcn-semanticlistviews', WinJSContrib.UI.SemanticListViews, {
-		props: [],
+		properties: [],
 		controls: {
 			"listview": WinJS.UI.ListView,
 			"zoomedOutListview": WinJS.UI.ListView,

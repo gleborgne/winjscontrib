@@ -659,7 +659,7 @@
 
 	if (WinJSContrib.UI.WebComponents) {
 		WinJSContrib.UI.WebComponents.register('mcn-grid', WinJSContrib.UI.GridControl, {
-			props: ['multipass', 'autolayout', 'layouts', 'itemInvoked', 'itemTemplate', 'itemClassName', 'items']
+			properties: ['multipass', 'autolayout', 'layouts', 'itemInvoked', 'itemTemplate', 'itemClassName', 'items']
 		});
 	}
 })();

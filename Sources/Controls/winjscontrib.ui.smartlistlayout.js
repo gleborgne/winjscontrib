@@ -157,7 +157,7 @@
 
     if (WinJSContrib.UI.WebComponents) {
     	WinJSContrib.UI.WebComponents.register('mcn-smartlistlayout', WinJSContrib.UI.SmartListLayout, {
-    		props: ['listView', 'layouts']
+    		properties: ['listView', 'layouts']
     	});
     }
 })();

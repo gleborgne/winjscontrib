@@ -357,11 +357,11 @@
 
 	if (WinJSContrib.UI.WebComponents) {
 		WinJSContrib.UI.WebComponents.register('mcn-hub', WinJSContrib.UI.HubControl, {
-			props: ['multipass']
+			properties: ['multipass']
 		});
 
 		WinJSContrib.UI.WebComponents.register('mcn-hub-section', WinJSContrib.UI.HubSection, {
-			props: []
+			properties: []
 		});
 	}
 
