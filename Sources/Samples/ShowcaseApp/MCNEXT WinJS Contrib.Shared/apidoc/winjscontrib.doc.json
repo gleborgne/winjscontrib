@@ -6583,7 +6583,7 @@
                                     "type": "",
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 351
+                                        "lineno": 357
                                     }
                                 }
                             ],
@@ -6639,8 +6639,8 @@
                                 },
                                 {
                                     "kind": "function",
-                                    "name": "clear",
-                                    "fullname": "WinJSContrib.UI.GridControl#clear",
+                                    "name": "clearLayout",
+                                    "fullname": "WinJSContrib.UI.GridControl#clearLayout",
                                     "access": "",
                                     "virtual": false,
                                     "description": "Clear all layout and position styles on items",
@@ -6648,7 +6648,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 257
+                                        "lineno": 262
                                     }
                                 },
                                 {
@@ -6662,7 +6662,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 557
+                                        "lineno": 563
                                     }
                                 },
                                 {
@@ -6676,7 +6676,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 619
+                                        "lineno": 625
                                     }
                                 },
                                 {
@@ -6690,7 +6690,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 627
+                                        "lineno": 633
                                     }
                                 },
                                 {
@@ -6704,7 +6704,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.grid.js",
-                                        "lineno": 659
+                                        "lineno": 665
                                     }
                                 }
                             ]
@@ -6801,7 +6801,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 51
+                                        "lineno": 69
                                     }
                                 },
                                 {
@@ -6819,7 +6819,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 66
+                                        "lineno": 84
                                     }
                                 },
                                 {
@@ -6837,7 +6837,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 80
+                                        "lineno": 98
                                     }
                                 },
                                 {
@@ -6855,7 +6855,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 94
+                                        "lineno": 112
                                     }
                                 },
                                 {
@@ -6873,7 +6873,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 109
+                                        "lineno": 127
                                     }
                                 }
                             ],
@@ -6889,7 +6889,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 166
+                                        "lineno": 184
                                     }
                                 },
                                 {
@@ -6903,7 +6903,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 203
+                                        "lineno": 221
                                     }
                                 },
                                 {
@@ -6917,7 +6917,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 214
+                                        "lineno": 232
                                     }
                                 },
                                 {
@@ -6952,7 +6952,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 308
+                                        "lineno": 326
                                     }
                                 },
                                 {
@@ -6966,7 +6966,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 359
+                                        "lineno": 377
                                     }
                                 },
                                 {
@@ -6980,21 +6980,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 368
-                                    }
-                                },
-                                {
-                                    "kind": "function",
-                                    "name": "dispose",
-                                    "fullname": "WinJSContrib.UI.MultiPassRenderer#dispose",
-                                    "access": "",
-                                    "virtual": false,
-                                    "description": "release resources for multipass renderer",
-                                    "parameters": [],
-                                    "examples": [],
-                                    "meta": {
-                                        "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 383
+                                        "lineno": 386
                                     }
                                 }
                             ]
@@ -7016,7 +7002,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.ui.multipass-renderer.js",
-                                "lineno": 392
+                                "lineno": 400
                             },
                             "functions": [
                                 {
@@ -7030,7 +7016,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 421
+                                        "lineno": 440
                                     }
                                 },
                                 {
@@ -7044,7 +7030,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.multipass-renderer.js",
-                                        "lineno": 436
+                                        "lineno": 455
                                     }
                                 }
                             ]
@@ -8440,6 +8426,102 @@
                                             }
                                         }
                                     ]
+                                }
+                            ]
+                        },
+                        {
+                            "kind": "namespace",
+                            "name": "WebComponents",
+                            "fullname": "WinJSContrib.UI.WebComponents",
+                            "description": "",
+                            "access": "",
+                            "virtual": false,
+                            "meta": {
+                                "filename": "winjscontrib.ui.webcomponents.js",
+                                "lineno": 19
+                            },
+                            "functions": [
+                                {
+                                    "kind": "function",
+                                    "name": "processAll",
+                                    "fullname": "WinJSContrib.UI.WebComponents.processAll",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "inspect current DOM element and create webcomponents found on that element and on its child.",
+                                    "parameters": [
+                                        {
+                                            "name": "element",
+                                            "fullname": null,
+                                            "type": "HTMLElement",
+                                            "description": "DOM element to inspect",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.ui.webcomponents.js",
+                                        "lineno": 72
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "register",
+                                    "fullname": "WinJSContrib.UI.WebComponents.register",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "Register a control to be used as a webcomponent. If a tagname has already been registered, \rthe function will throw an error unless you specify the override flag",
+                                    "parameters": [
+                                        {
+                                            "name": "tagname",
+                                            "fullname": null,
+                                            "type": "string",
+                                            "description": "name for DOM element for the component",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        },
+                                        {
+                                            "name": "ctor",
+                                            "fullname": null,
+                                            "type": "function",
+                                            "description": "constructor for the WinJS control",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        },
+                                        {
+                                            "name": "mapping",
+                                            "fullname": null,
+                                            "type": "Object",
+                                            "description": "definition for mapping between control and DOM element",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        },
+                                        {
+                                            "name": "override",
+                                            "fullname": null,
+                                            "type": "boolean",
+                                            "description": "indicate that you want to override an existing component definition",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [
+                                        "WinJSContrib.UI.WebComponents.register('mcn-semanticlistviews', WinJSContrib.UI.SemanticListViews, {\r\tproperties: [],\r\tcontrols: {\r\t\t\"listview\": WinJS.UI.ListView,\r\t\t\"zoomedOutListview\": WinJS.UI.ListView,\r\t\t\"semanticZoom\": WinJS.UI.SemanticZoom\r\t},\r\tmap: {\r\t\t\"DEFAULTGROUPLIMIT\": { attribute: 'defaultGroupLimit', property: '_dataManager.defaultGroupLimit', resolve: true },\r\t\t\"GROUPKIND\": { attribute: 'groupKind', property: '_dataManager.groupKind', resolve: true },\r\t\t\"FIELD\": { attribute: 'field', property: '_dataManager.field', resolve: true },\r\t\t\"ITEMS\": { attribute: 'items', property: '_dataManager.items', resolve: true },\r\t}\r});"
+                                    ],
+                                    "meta": {
+                                        "filename": "winjscontrib.ui.webcomponents.js",
+                                        "lineno": 249
+                                    }
                                 }
                             ]
                         }

@@ -149,6 +149,12 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\pageevents\pageevents.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\childcomponent\childcontrol1.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\childcomponent\childcontrol1.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\childcomponent\childcontrol1.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\childcomponent\childcontrol2.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\childcomponent\childcontrol2.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\childcomponent\childcontrol2.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\webcomponents.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\webcomponents.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\corefeatures\webcomponents\webcomponents.js" />

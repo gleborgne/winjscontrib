@@ -6,6 +6,10 @@ You must add winjscontrib.core.js before this file
 /// <reference path="winjscontrib.core.js" />
 var WinJSContrib = WinJSContrib || {};
 WinJSContrib.UI = WinJSContrib.UI || {};
+
+/**
+ * @namespace
+ */
 WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 (function (global) {
@@ -21,6 +25,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	function inspect(node) {
 		var customElement = null;
 		var ctrlName = node.nodeName;
+		var promises = [];
+
 		if (node.nodeName !== '#text') {
 			if (node.attributes) {
 				var ctrlName = node.getAttribute("is");
@@ -35,7 +41,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			}
 
 			if (customElement && !node.mcnComponent) {
-				createElement(node, customElement);
+				//createElement(node, customElement);
+				promises.push(createElement(node, customElement));
 			}
 
 			if (node.msParentSelectorScope && node.winControl && node.winControl.pageLifeCycle && node.winControl.pageLifeCycle.observer) {
@@ -44,15 +51,21 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 			}
 
 			for (var i = 0, l = node.childNodes.length; i < l; i++) {
-				inspect(node.childNodes[i]);
+				promises.push(inspect(node.childNodes[i]));
 			}
 		}
+
+		return WinJS.Promise.join(promises);
 	}
 
+	/**
+	 * inspect current DOM element and create webcomponents found on that element and on its child.
+	 * @function
+	 * @param {HTMLElement} element DOM element to inspect
+	 */
+	WinJSContrib.UI.WebComponents.processAll = function (element) { };
 	if (WinJSContrib.UI.WebComponents.polyfill) {
-		WinJSContrib.UI.WebComponents.inspect = inspect;
-	} else {
-		WinJSContrib.UI.WebComponents.inspect = function () { };
+		WinJSContrib.UI.WebComponents.processAll = inspect;
 	}
 
 	function observeMutations(element) {
@@ -81,13 +94,14 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		var ctrl = element.winControl;
 		element.mcnComponent = true;
 		var scope = WinJSContrib.Utils.getScopeControl(element);
+		var p = WinJS.Promise.wrap();
 		var process = function () {
 			getControlInstance(definition.ctor, element);
 		}
 
 		if (scope && scope.pageLifeCycle) {
 			//if the component is owned by a page/fragment, we process the control according to page lifecycle
-			scope.pageLifeCycle.steps.process.attach(process);
+			p = scope.pageLifeCycle.steps.process.attach(process);
 		} else {
 			process();
 		}
@@ -107,6 +121,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 				}
 			}
 		}
+
+		return p;
 	}
 
 	function getControlInstance(ctor, element) {
@@ -200,6 +216,31 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 		}
 	}
 
+	/**
+	* Register a control to be used as a webcomponent. If a tagname has already been registered, 
+	* the function will throw an error unless you specify the override flag
+	* @function
+	* @param {string} tagname name for DOM element for the component
+	* @param {function} ctor constructor for the WinJS control
+	* @param {Object} mapping definition for mapping between control and DOM element
+	* @param {boolean} override indicate that you want to override an existing component definition
+	* @example
+	* WinJSContrib.UI.WebComponents.register('mcn-semanticlistviews', WinJSContrib.UI.SemanticListViews, {
+	*	properties: ['nameOfProperty'],
+	*   events : ['nameOfEvent'],
+	*	controls: {
+	*		"listview": WinJS.UI.ListView,
+	*		"zoomedOutListview": WinJS.UI.ListView,
+	*		"semanticZoom": WinJS.UI.SemanticZoom
+	*	},
+	*	map: {
+	*		"DEFAULTGROUPLIMIT": { attribute: 'defaultGroupLimit', property: '_dataManager.defaultGroupLimit', resolve: true },
+	*		"GROUPKIND": { attribute: 'groupKind', property: '_dataManager.groupKind', resolve: true },
+	*		"FIELD": { attribute: 'field', property: '_dataManager.field', resolve: true },
+	*		"ITEMS": { attribute: 'items', property: '_dataManager.items', resolve: true },
+	*	}
+	*});
+	*/
 	WinJSContrib.UI.WebComponents.register = function register(tagname, ctor, mapping, override) {
 		var existing = registered[tagname.toUpperCase()];
 		if (existing && !override) {
@@ -311,7 +352,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 	if (WinJS.UI && WinJS.UI.FlipView) {
 		WinJSContrib.UI.WebComponents.register('win-flipview', WinJS.UI.FlipView, {
-			properties: ['itemTemplate', 'itemDataSource']
+			properties: ['currentPage', 'orientation', 'itemTemplate', 'itemDataSource', 'itemSpacing', 'ondatasourcecountchanged', 'onpagevisibilitychanged', 'onpageselected', 'onpagecompleted'],
+			events: ['datasourcecountchanged', 'pagevisibilitychanged', 'pageselected', 'pagecompleted']
 		});
 	}
 

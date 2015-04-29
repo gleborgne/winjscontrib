@@ -6,6 +6,7 @@
 
     <link href="webcomponents.css" rel="stylesheet" />
     <script src="webcomponents.js"></script>
+	<script src="childcomponent/childcontrol1.js"></script>
 </head>
 <body>
     <div class="webcomponents-page fragment">
@@ -29,6 +30,8 @@
                           itemtemplate="select:#listitemtemplate"
                           itemdatasource="list:ctrl:itemsPromise"
                           iteminvoked="event:ctrl:listItemInvoked"></win-listview>
+
+			<app-test-child1></app-test-child1>
         </section>
     </div>
 </body>

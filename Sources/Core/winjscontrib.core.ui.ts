@@ -885,8 +885,10 @@ module WinJSContrib.UI {
 	 * @param parentElt parent DOM element
 	 * @param {WinJSContrib.UI.FluentDOM} parent parent FluentDOM
 	 * @example
-	 * {@lang javascript}
-     * var elt = new WinJSContrib.UI.FluentDOM('DIV', 'item-content').text(item.title).display('none').element;
+     * var elt = new WinJSContrib.UI.FluentDOM('DIV', 'item-content')
+	 *    .text(item.title)
+	 *    .display('none')
+	 *    .element;
      */
 	export class FluentDOM {
 		public element: HTMLElement;

@@ -2601,7 +2601,7 @@ var WinJSContrib;
                         that.ready(element, options);
                         that.pageLifeCycle.ended = new Date();
                         that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
-                        //console.log('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
+                        console.log('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
                         broadcast(that, element, 'pageReady', [element, options]);
                     }).then(function (result) {
                         return that.pageLifeCycle.steps.ready.resolve();
