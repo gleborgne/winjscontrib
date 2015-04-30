@@ -386,8 +386,8 @@
             		},
 
             		flexvertical: function () {
-            			var ctrl = this;
-            			ctrl.renderer.orientation = 'vertical';
+            		    var ctrl = this;
+                        ctrl.renderer.orientation = 'vertical';
             			ctrl.element.style.position = 'relative';
             			ctrl.element.style.display = 'flex';
             			ctrl.element.style.flexFlow = 'row wrap';
@@ -561,7 +561,9 @@
                  * layout content items
                  */
             	layout: function () {
-            		var ctrl = this;
+            	    var ctrl = this;
+            	    if (!ctrl.element)
+            	        return;
             		var oldlayout = ctrl.data;
             		ctrl.data = ctrl.getLayout();
 
@@ -575,7 +577,7 @@
 
             			//if cell dimensions are not defined, take it from last child
             			if (!ctrl.data.cellWidth || !ctrl.data.cellHeight) {
-            				if (ctrl.element.childNodes && ctrl.element.children.length > 0) {
+            			    if (ctrl.element && ctrl.element.childNodes && ctrl.element.children.length > 0) {
             					var childs = ctrl.visibleChilds();
             					if (childs && childs.length) {
             						var firstChild = childs[0];
@@ -623,7 +625,9 @@
                  * update grid layout
                  */
             	updateLayout: function (element, viewState, lastViewState) {
-            		var ctrl = this;
+            	    var ctrl = this;
+            	    if (!ctrl.element)
+            	        return;
             		ctrl.layout();
             	},
 

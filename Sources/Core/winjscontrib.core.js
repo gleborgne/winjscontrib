@@ -1935,8 +1935,10 @@ var WinJSContrib;
          * @param parentElt parent DOM element
          * @param {WinJSContrib.UI.FluentDOM} parent parent FluentDOM
          * @example
-         * {@lang javascript}
-         * var elt = new WinJSContrib.UI.FluentDOM('DIV', 'item-content').text(item.title).display('none').element;
+         * var elt = new WinJSContrib.UI.FluentDOM('DIV', 'item-content')
+         *    .text(item.title)
+         *    .display('none')
+         *    .element;
          */
         var FluentDOM = (function () {
             function FluentDOM(nodeType, className, parentElt, parent) {

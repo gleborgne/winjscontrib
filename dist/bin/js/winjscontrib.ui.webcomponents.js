@@ -232,7 +232,8 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 	* @param {boolean} override indicate that you want to override an existing component definition
 	* @example
 	* WinJSContrib.UI.WebComponents.register('mcn-semanticlistviews', WinJSContrib.UI.SemanticListViews, {
-	*	properties: [],
+	*	properties: ['nameOfProperty'],
+	*   events : ['nameOfEvent'],
 	*	controls: {
 	*		"listview": WinJS.UI.ListView,
 	*		"zoomedOutListview": WinJS.UI.ListView,
