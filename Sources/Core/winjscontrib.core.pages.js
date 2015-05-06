@@ -89,18 +89,30 @@ var WinJSContrib;
                         if (childctrl) {
                             var event = childctrl.winControl[eventName];
                             if (event) {
-                                promises.push(WinJS.Promise.as(event.apply(childctrl.winControl, args)));
+                                if (childctrl.winControl.pageLifeCycle) {
+                                    promises.push(childctrl.winControl.pageLifeCycle.steps.layout.promise);
+                                }
+                                else {
+                                    promises.push(WinJS.Promise.as(event.apply(childctrl.winControl, args)));
+                                }
                             }
                         }
                         // Skip descendants
-                        //index += childctrl.querySelectorAll(".mcn-fragment, .mcn-layout-ctrl").length + 1;
-                        index += 1;
+                        if (childctrl && childctrl.winControl && childctrl.winControl.pageLifeCycle)
+                            index += childctrl.querySelectorAll(".mcn-fragment, .mcn-layout-ctrl").length + 1;
+                        else
+                            index += 1;
                     }
-                    if (after)
-                        promises.push(WinJS.Promise.as(after.apply(ctrl, args)));
-                    return WinJS.Promise.join(promises);
+                    //if (after)
+                    //    promises.push(WinJS.Promise.as(after.apply(ctrl, args)));
+                    return WinJS.Promise.join(promises).then(function () {
+                        if (after)
+                            return WinJS.Promise.as(after.apply(ctrl, args));
+                    });
                 }
                 else {
+                    if (after)
+                        return WinJS.Promise.as(after.apply(ctrl, args));
                     return WinJS.Promise.wrap();
                 }
             }
@@ -433,17 +445,17 @@ var WinJSContrib;
                         return that.rendered(element, options);
                     }).then(function (result) {
                         return that.pageLifeCycle.steps.render.resolve();
+                    }).then(function Pages_processed() {
+                        if (WinJSContrib.UI.WebComponents) {
+                            //add delay to enable webcomponent processing
+                            return WinJS.Promise.timeout();
+                        }
                     });
                     that.elementReady = renderCalled.then(function () {
                         return element;
                     });
                     that.renderComplete = renderCalled.then(function Pages_process() {
                         return that.process(element, options);
-                    }).then(function Pages_processed() {
-                        if (WinJSContrib.UI.WebComponents) {
-                            //add delay to enable webcomponent processing
-                            return WinJS.Promise.timeout();
-                        }
                     }).then(function (result) {
                         return that.pageLifeCycle.steps.process.resolve();
                     }).then(function Pages_processed() {
@@ -477,7 +489,7 @@ var WinJSContrib;
                         that.pageLifeCycle.ended = new Date();
                         that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
                         console.log('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
-                        broadcast(that, element, 'pageReady', [element, options]);
+                        //broadcast(that, element, 'pageReady', [element, options]);
                     }).then(function (result) {
                         return that.pageLifeCycle.steps.ready.resolve();
                     }).then(function () {

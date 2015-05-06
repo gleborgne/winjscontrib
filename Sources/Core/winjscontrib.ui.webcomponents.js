@@ -50,6 +50,10 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 				return;
 			}
 
+			//if (node.nodeName === 'WIN-TEMPLATE') {
+			//    return;
+			//}
+
 			for (var i = 0, l = node.childNodes.length; i < l; i++) {
 				promises.push(inspect(node.childNodes[i]));
 			}
@@ -101,7 +105,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 		if (scope && scope.pageLifeCycle) {
 			//if the component is owned by a page/fragment, we process the control according to page lifecycle
-			p = scope.pageLifeCycle.steps.process.attach(process);
+			p = scope.pageLifeCycle.steps.render.attach(process);
 		} else {
 			process();
 		}
@@ -268,7 +272,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 				if (scope && scope.pageLifeCycle) {
 					//if the component is owned by a page/fragment, we process the control according to page lifecycle
-					scope.pageLifeCycle.steps.process.attach(process);
+				    scope.pageLifeCycle.steps.render.attach(process);
 				} else {
 					process();
 				}				

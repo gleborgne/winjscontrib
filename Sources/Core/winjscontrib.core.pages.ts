@@ -90,33 +90,46 @@ module WinJSContrib.UI.Pages {
         var promises = [];
         if (before)
             promises.push(WinJS.Promise.as(before.apply(ctrl, args)));
-
-
         var query = element.querySelectorAll(".mcn-layout-ctrl");
-		if (query && query.length) {
-			var index = 0;
-			var length = query.length;
-			while (index < length) {
-				var childctrl = query[index];
-				if (childctrl) {
-					var event = childctrl.winControl[eventName];
-					if (event) {
-						promises.push(WinJS.Promise.as(event.apply(childctrl.winControl, args)));
-					}
-				}
+        if (query && query.length) {
+            var index = 0;
+            var length = query.length;
+            while (index < length) {
+                var childctrl = query[index];
+                if (childctrl) {
+                    var event = childctrl.winControl[eventName];
+                    if (event) {
+                        if (childctrl.winControl.pageLifeCycle) {
+                            promises.push(childctrl.winControl.pageLifeCycle.steps.layout.promise);
+                            //promises.push(childctrl.winControl.pageLifeCycle.steps.layout.attach(function () {
+                            //    event.apply(childctrl.winControl, args);
+                            //}));
+                        }
+                        else {
+                            promises.push(WinJS.Promise.as(event.apply(childctrl.winControl, args)));
+                        }
+                    }
+                }
+                // Skip descendants
+                if (childctrl && childctrl.winControl && childctrl.winControl.pageLifeCycle)
+                    index += childctrl.querySelectorAll(".mcn-fragment, .mcn-layout-ctrl").length + 1;
+                else
+                    index += 1;
+            }
 
-				// Skip descendants
-				//index += childctrl.querySelectorAll(".mcn-fragment, .mcn-layout-ctrl").length + 1;
-				index += 1;
-			}
+            //if (after)
+            //    promises.push(WinJS.Promise.as(after.apply(ctrl, args)));
+            return WinJS.Promise.join(promises).then(function () {
+                if (after)
+                    return WinJS.Promise.as(after.apply(ctrl, args));
+            });
+        }
+        else {
+            if (after)
+                return WinJS.Promise.as(after.apply(ctrl, args));
 
-			if (after)
-				promises.push(WinJS.Promise.as(after.apply(ctrl, args)));
-
-			return WinJS.Promise.join(promises);
-		} else {
-			return WinJS.Promise.wrap();
-		}
+            return WinJS.Promise.wrap();
+        }
     }
 
     /**
@@ -496,7 +509,12 @@ module WinJSContrib.UI.Pages {
 				return that.rendered(element, options);
 			}).then(function (result) {
 				return that.pageLifeCycle.steps.render.resolve();
-			});
+            }).then(function Pages_processed() {
+                if (WinJSContrib.UI.WebComponents) {
+                    //add delay to enable webcomponent processing
+                    return WinJS.Promise.timeout();
+                }
+            });
 
 			that.elementReady = renderCalled.then(function () {
 				return element;
@@ -504,11 +522,6 @@ module WinJSContrib.UI.Pages {
 
 			that.renderComplete = renderCalled.then(function Pages_process() {
 				return that.process(element, options);
-			}).then(function Pages_processed() {
-				if (WinJSContrib.UI.WebComponents) {
-					//add delay to enable webcomponent processing
-					return WinJS.Promise.timeout();
-				}
 			}).then(function (result) {
 				return that.pageLifeCycle.steps.process.resolve();
 			}).then(function Pages_processed() {
@@ -550,7 +563,7 @@ module WinJSContrib.UI.Pages {
 				that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
 				console.log('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
 
-				broadcast(that, element, 'pageReady', [element, options]);
+				//broadcast(that, element, 'pageReady', [element, options]);
 			}).then(function (result) {
 				return that.pageLifeCycle.steps.ready.resolve();
 			}).then(function () {
