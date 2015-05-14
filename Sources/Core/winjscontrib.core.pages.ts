@@ -572,7 +572,12 @@ module WinJSContrib.UI.Pages {
 				null,
 				function Pages_error(err) {
 					if (that.error)
-						return that.error(err);
+                        return that.error(err);
+
+                    if (err && err._value && err._value.name === "Canceled")
+                        return;
+
+                    return WinJS.Promise.wrapError(err);
 				});
 
 			that.__checkLayout = function () {

@@ -308,6 +308,7 @@ var WinJSContrib;
         UI.bindPageActions = bindPageActions;
         function bindLink(el, element) {
             el.classList.add('page-link');
+            var applink = el.getAttribute('applink');
             var target = el.dataset.pageLink || el.getAttribute('linkto');
             if (target && target.indexOf('/') < 0) {
                 var tmp = WinJSContrib.Utils.readProperty(window, target);
@@ -331,7 +332,7 @@ var WinJSContrib;
                         catch (exception) {
                         }
                     }
-                    if (WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
+                    if (!applink && WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
                         var nav = WinJSContrib.UI.parentNavigator(eltarg);
                         nav.navigate(target, actionArgs);
                     }

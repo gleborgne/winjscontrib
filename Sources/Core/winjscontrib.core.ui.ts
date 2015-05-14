@@ -330,7 +330,8 @@ module WinJSContrib.UI {
     }
 
 	function bindLink(el, element) {
-		el.classList.add('page-link');
+        el.classList.add('page-link');
+        var applink = el.getAttribute('applink');
 		var target = el.dataset.pageLink || el.getAttribute('linkto');
 
 		if (target && target.indexOf('/') < 0) {
@@ -355,7 +356,7 @@ module WinJSContrib.UI {
 					}
 				}
 
-				if (WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
+                if (!applink && WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
 					var nav = WinJSContrib.UI.parentNavigator(eltarg);
 					nav.navigate(target, actionArgs);
 				} else {
