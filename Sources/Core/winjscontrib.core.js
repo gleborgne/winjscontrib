@@ -1446,7 +1446,7 @@ var WinJSContrib;
                         catch (exception) {
                         }
                     }
-                    if (applink === undefined && WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
+                    if (!applink && WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
                         var nav = WinJSContrib.UI.parentNavigator(eltarg);
                         nav.navigate(target, actionArgs);
                     }
