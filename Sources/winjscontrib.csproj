@@ -65,6 +65,9 @@
     <Content Include="Controls\winjscontrib.ui.datetimescroller.less" />
     <Content Include="Controls\winjscontrib.ui.extended-splashscreen.css.map" />
     <Content Include="Controls\winjscontrib.ui.extended-splashscreen.less" />
+    <Content Include="Controls\winjscontrib.ui.extended-splashscreen.min.css">
+      <DependentUpon>winjscontrib.ui.extended-splashscreen.css</DependentUpon>
+    </Content>
     <Content Include="Controls\winjscontrib.ui.flipsnap.css">
       <DependentUpon>winjscontrib.ui.flipsnap.less</DependentUpon>
     </Content>

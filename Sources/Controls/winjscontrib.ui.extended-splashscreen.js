@@ -90,8 +90,11 @@
                         ctrl.splashLoader = document.createElement('div');
                         ctrl.splashLoader.style.opacity = 0;
                         ctrl.splashLoader.id = "mcn-splashscreen-loader";
+                        ctrl.splashLoader.className = "mcn-cordova-spalsh";
                         var cordova = document.createElement('div');
                         cordova.className = "cordova-ring";
+                        cordova.innerHTML = '<div class="wBall" id="wBall_1"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_2"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_3"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_4"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_5"><div class="wInnerBall"></div></div></div>'
+
                         ctrl.textElement = document.createElement('div');
                         ctrl.textElement.className = "mcn-splashscreen-loader-text";
                         ctrl.textElement.innerText = text || '';

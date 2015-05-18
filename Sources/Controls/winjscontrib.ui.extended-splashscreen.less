@@ -28,65 +28,174 @@
         color: white;
         max-width: 90%;
 
+        &.mcn-cordova-spalsh {
+            .cordova-ring {
 
+                @ballSize: 5px;
+                @ringsize: 40px;
+                margin-left: 10px;
+                position: relative;
+                width: @ringsize;
+                height: @ringsize;
 
-        .cordova-ring {
-            position: absolute;
-            width: 30px;
-            top: 15px;
-            height: 30px;
-            background: rgba(255,255,255,1);
-            border-radius: 50px;
-            -webkit-animation: cordova-ring 3s infinite linear;
+                .wBall {
+                    position: absolute;
+                    width: @ringsize - 5;
+                    height: @ringsize - 5;
+                    opacity: 0;
+                    -webkit-transform: rotate(225deg);
+                    -webkit-animation: orbit 7.15s infinite;
+                    transform: rotate(225deg);
+                    animation: orbit 7.15s infinite;
+                }
+
+                .wBall .wInnerBall {
+                    position: absolute;
+                    width: @ballSize;
+                    height: @ballSize;
+                    background-color: white;
+                    left: 0px;
+                    top: 0px;
+                    -webkit-border-radius: @ballSize;
+                    border-radius: @ballSize;
+                }
+
+                #wBall_1 {
+                    -webkit-animation-delay: 1.56s;
+                    animation-delay: 1.56s;
+                }
+
+                #wBall_2 {
+                    -webkit-animation-delay: 0.31s;
+                    animation-delay: 0.31s;
+                }
+
+                #wBall_3 {
+                    -webkit-animation-delay: 0.62s;
+                    animation-delay: 0.62s;
+                }
+
+                #wBall_4 {
+                    -webkit-animation-delay: 0.94s;
+                    animation-delay: 0.94s;
+                }
+
+                #wBall_5 {
+                    -webkit-animation-delay: 1.25s;
+                    animation-delay: 1.25s;
+                }
+            }
         }
 
-        .cordova-ring:after {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border-top: 10px solid rgba(255,255,255,1);
-            border-bottom: 10px solid rgba(255,255,255,1);
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-radius: 50px;
-            content: '';
-            top: -20px;
-            left: -20px;
-            -webkit-animation: cordova-ring_after 1.5s infinite linear;
+        @-webkit-keyframes orbit {
+            0% {
+                opacity: 1;
+                z-index: 99;
+                -webkit-transform: rotate(180deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+
+            7% {
+                opacity: 1;
+                -webkit-transform: rotate(300deg);
+                -webkit-animation-timing-function: linear;
+                -webkit-origin: 0%;
+            }
+
+            30% {
+                opacity: 1;
+                -webkit-transform: rotate(410deg);
+                -webkit-animation-timing-function: ease-in-out;
+                -webkit-origin: 7%;
+            }
+
+            39% {
+                opacity: 1;
+                -webkit-transform: rotate(645deg);
+                -webkit-animation-timing-function: linear;
+                -webkit-origin: 30%;
+            }
+
+            70% {
+                opacity: 1;
+                -webkit-transform: rotate(770deg);
+                -webkit-animation-timing-function: ease-out;
+                -webkit-origin: 39%;
+            }
+
+            75% {
+                opacity: 1;
+                -webkit-transform: rotate(900deg);
+                -webkit-animation-timing-function: ease-out;
+                -webkit-origin: 70%;
+            }
+
+            76% {
+                opacity: 0;
+                -webkit-transform: rotate(900deg);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform: rotate(900deg);
+            }
         }
-        
-@-webkit-keyframes cordova-ring {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
 
-    50% {
-        -webkit-transform: rotate(180deg);
-        background: rgba(255,255,255,1);
-    }
+        @keyframes orbit {
+            0% {
+                opacity: 1;
+                z-index: 99;
+                transform: rotate(180deg);
+                animation-timing-function: ease-out;
+            }
 
-    100% {
-        -webkit-transform: rotate(360deg);
-    }
-}
+            7% {
+                opacity: 1;
+                transform: rotate(300deg);
+                animation-timing-function: linear;
+                origin: 0%;
+            }
 
-@-webkit-keyframes cordova-ring_after {
-    0% {
-        border-top: 10px solid rgba(255,255,255,1);
-        border-bottom: 10px solid rgba(255,255,255,1);
-    }
+            30% {
+                opacity: 1;
+                transform: rotate(410deg);
+                animation-timing-function: ease-in-out;
+                origin: 7%;
+            }
 
-    50% {
-        border-top: 10px solid rgba(255,255,255,0.2);
-        border-bottom: 10px solid rgba(255,255,255,0.2);
-        -webkit-transform: scale(1.2);
-    }
+            39% {
+                opacity: 1;
+                transform: rotate(645deg);
+                animation-timing-function: linear;
+                origin: 30%;
+            }
 
-    100% {
-        border-top: 10px solid rgba(255,255,255,1);
-        border-bottom: 10px solid rgba(255,255,255,1);
-    }
-}
+            70% {
+                opacity: 1;
+                transform: rotate(770deg);
+                animation-timing-function: ease-out;
+                origin: 39%;
+            }
+
+            75% {
+                opacity: 1;
+                transform: rotate(900deg);
+                animation-timing-function: ease-out;
+                origin: 70%;
+            }
+
+            76% {
+                opacity: 0;
+                transform: rotate(900deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: rotate(900deg);
+            }
+        }
+
+
 
         progress {
             width: 40px;
