@@ -205,7 +205,9 @@
 
                 return;
             }
-
+            else {
+                messenger._send({ name: name, id: details.id, type: 'error', sender: 'WinJSContrib.WinJSContrib.Messenger', data: { message: 'callback function not found' } });
+            }
         } else {
             if (name && messenger[name]) {
                 messenger[name](data);
