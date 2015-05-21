@@ -98,10 +98,13 @@ var WinJSContrib;
                             }
                         }
                         // Skip descendants
-                        //if (childctrl && childctrl.winControl && childctrl.winControl.pageLifeCycle)
-                        //    index += childctrl.querySelectorAll(".mcn-fragment, .mcn-layout-ctrl").length + 1;
-                        //else
-                        index += 1;
+                        if (childctrl && childctrl.winControl && childctrl.winControl.pageLifeCycle) {
+                            index += childctrl.querySelectorAll(".mcn-fragment, .mcn-layout-ctrl").length + 1;
+                            childctrl.winControl.__checkLayout();
+                        }
+                        else {
+                            index += 1;
+                        }
                     }
                     //if (after)
                     //    promises.push(WinJS.Promise.as(after.apply(ctrl, args)));
