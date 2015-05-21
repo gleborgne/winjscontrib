@@ -111,9 +111,9 @@ module WinJSContrib.UI.Pages {
                     }
                 }
                 // Skip descendants
-                if (childctrl && childctrl.winControl && childctrl.winControl.pageLifeCycle)
-                    index += childctrl.querySelectorAll(".mcn-fragment, .mcn-layout-ctrl").length + 1;
-                else
+                //if (childctrl && childctrl.winControl && childctrl.winControl.pageLifeCycle)
+                //    index += childctrl.querySelectorAll(".mcn-fragment, .mcn-layout-ctrl").length + 1;
+                //else
                     index += 1;
             }
 

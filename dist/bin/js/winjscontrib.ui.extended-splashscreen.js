@@ -4,6 +4,12 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
+/* 
+ * WinJS Contrib v2.1.0.0
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
 /// <reference path="winjscontrib.core.js" />
 (function () {
     "use strict";
@@ -57,12 +63,16 @@
                     WinJSContrib.CrossPlatform.crossPlatformClass(ctrl.element);
                 ctrl.splashImageFile = options.image || '/images/splashscreen.png';
 
-                if (!ctrl.element.innerHTML) {                    
-                    ctrl.element.innerHTML = ctrl.defaultSplashContent(options.text || 'chargement en cours', options.description);
+                if (!ctrl.element.innerHTML) {
+                    ctrl.defaultSplashContent(options.text || 'chargement en cours', options.description);
                 }
-                ctrl.textElement = ctrl.element.querySelector('.mcn-splashscreen-loader-text');
-                ctrl.splashImage = ctrl.element.querySelector('#mcn-splashscreen-image');
-                ctrl.splashLoader = ctrl.element.querySelector('#mcn-splashscreen-loader');
+                console.log(ctrl.element.innerHTML)
+                if (!ctrl.textElement)
+                    ctrl.textElement = ctrl.element.querySelector('.mcn-splashscreen-loader-text');
+                if (!ctrl.splashImage)
+                    ctrl.splashImage = ctrl.element.querySelector('#mcn-splashscreen-image');
+                if (!ctrl.splashLoader)
+                    ctrl.splashLoader = ctrl.element.querySelector('#mcn-splashscreen-loader');
                 ctrl.handleResizeBinded = ctrl.handleResize.bind(ctrl);
                 ctrl.handleDismissedBinded = ctrl.handleDismissed.bind(ctrl);
             },
@@ -77,14 +87,26 @@
                  * @returns {string} HTML content
                  */
                 defaultSplashContent: function (text) {
+                    var ctrl = this;
                     if (WinJSContrib.CrossPlatform && (WinJSContrib.CrossPlatform.isMobile.Android() || WinJSContrib.CrossPlatform.isMobile.iOS())) {
-                        return '<img id="mcn-splashscreen-image" src="' + this.splashImageFile + '" alt="Splash screen image" />' +
-                            //'<div id="mcn-splashscreen-description" style="display: none">' + (description || '') + '<div>' +         
-                            '<div id="mcn-splashscreen-loader" style="opacity: 0">' +
-                            '<div class="cordova-ring"></div>' +
-                            '<div class="mcn-splashscreen-loader-text">' + (text || '') + '</div>' +
-                            '<div>';
+                        ctrl.splashImage = document.createElement('img');
+                        ctrl.splashImage.src = this.splashImageFile;
+                        ctrl.splashImage.id = "mcn-splashscreen-image";
+                        ctrl.element.appendChild(ctrl.splashImage);
+                        ctrl.splashLoader = document.createElement('div');
+                        ctrl.splashLoader.style.opacity = 0;
+                        ctrl.splashLoader.id = "mcn-splashscreen-loader";
+                        ctrl.splashLoader.className = "mcn-cordova-spalsh";
+                        var cordova = document.createElement('div');
+                        cordova.className = "cordova-ring";
+                        cordova.innerHTML = '<div class="wBall" id="wBall_1"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_2"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_3"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_4"><div class="wInnerBall"></div></div><div class="wBall" id="wBall_5"><div class="wInnerBall"></div></div></div>'
 
+                        ctrl.textElement = document.createElement('div');
+                        ctrl.textElement.className = "mcn-splashscreen-loader-text";
+                        ctrl.textElement.innerText = text || '';
+                        ctrl.splashLoader.appendChild(cordova);
+                        ctrl.splashLoader.appendChild(ctrl.textElement);
+                        ctrl.element.appendChild(ctrl.splashLoader);
                     }
                     else {
                         return '<img id="mcn-splashscreen-image" src="' + this.splashImageFile + '" alt="Splash screen image" />' +
@@ -92,7 +114,7 @@
                                '<div id="mcn-splashscreen-loader" style="opacity: 0">' +
                                    '<progress class="win-ring"></progress>' +
                                    '<div class="mcn-splashscreen-loader-text">' + (text || '') + '</div>' +
-                               '<div>';
+                               '</div>';
                     }
                 },
 
@@ -123,16 +145,28 @@
                  * @returns {WinJS.Promise} completion promise
                  */
                 show: function (dataLoadPromise, arg) {
+                    console.log('show splash')
                     var ctrl = this;
 
                     if (arg) {
                         ctrl.init(arg);
                     }
+                    if (ctrl)
+                        console.log('ctrl')
+                    console.log(ctrl)
+                    if (ctrl.splashLoader)
+                        console.log('ctrl.splashLoader')
+                    if (ctrl.splashLoader.style)
+                        console.log('ctrl.splashLoader.style')
+                    if (ctrl.element)
+                        console.log('ctrl.element')
 
                     ctrl.splashLoader.style.opacity = 0;
                     ctrl.element.style.display = '';
                     ctrl.element.style.opacity = '';
-                    WinJSContrib.UI.appbarsDisable();
+                    //WinJSContrib.UI.appbarsDisable();
+                    if (setImmediate)
+                        console.log('setImmediate')
 
                     return new WinJS.Promise(function (complete, error) {
                         setImmediate(function () {
@@ -142,8 +176,10 @@
                         });
 
                         WinJS.Promise.join([dataLoadPromise, WinJS.Promise.timeout(200)]).done(function () {
+                            console.log('show splash complete')
                             complete();
                         }, function () {
+                            console.log('show splash error')
                             error();
                         });
 

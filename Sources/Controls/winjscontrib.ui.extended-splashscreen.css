@@ -1,4 +1,4 @@
-﻿.mcn-splashscreen {
+.mcn-splashscreen {
   position: fixed;
   z-index: 3000;
   height: 100%;
@@ -179,4 +179,3 @@
 .mcn-xplat.mcn-splashscreen #mcn-splashscreen-loader {
   display: flex;
 }
-/*# sourceMappingURL=winjscontrib.ui.extended-splashscreen.css.map */
