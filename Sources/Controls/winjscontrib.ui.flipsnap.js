@@ -1,4 +1,10 @@
-﻿(function () {
+﻿/* 
+ * WinJS Contrib v2.1.0.1
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+(function () {
     'use strict';
     WinJS.Namespace.define("WinJSContrib.UI", {
         FlipSnap: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
@@ -245,10 +251,12 @@
                     });
                 }
                 ctrl.renderItems().then(function () {
-                    requestAnimationFrame(function () {
-                        ctrl._setStateNavBtns();
-                        ctrl.list.scrollLeft = (ctrl._itemw + ctrl._margeItem()) * (ctrl._currentPosition)
-                        ctrl.dispatchEvent("positionchanged", { currentPosition: ctrl._currentPosition });
+                    setImmediate(function () {
+                        requestAnimationFrame(function () {
+                            ctrl._setStateNavBtns();
+                            ctrl.list.scrollLeft = (ctrl._itemw + ctrl._margeItem()) * (ctrl._currentPosition)
+                            ctrl.dispatchEvent("positionchanged", { currentPosition: ctrl._currentPosition });
+                        });
                     });
                 });
             },
