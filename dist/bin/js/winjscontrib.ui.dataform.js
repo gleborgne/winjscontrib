@@ -4,6 +4,7 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
+
 (function () {
     'use strict';
     
@@ -265,6 +266,14 @@
          */
         {
             /**
+             * @namespace WinJSContrib.UI.DataForm.defaultBindingOptions
+             */
+            DefaultBindingOptions: {
+                trimText: true,
+                convertEmptyToNull: true,
+            },
+
+            /**
              * @namespace WinJSContrib.UI.DataForm.Converters
              */
             Converters: {
@@ -272,10 +281,10 @@
                  * @member
                  */
                 "none": {
-                    fromObject: function (val) {
+                    fromObject: function (val, options) {
                         return val.toString();
                     },
-                    fromInput: function (val) {
+                    fromInput: function (val, options) {
                         return val;
                     }
                 },
@@ -283,27 +292,36 @@
                  * @member
                  */
                 "text": {
-                    fromObject: function (val) {
+                    fromObject: function (val, options) {
                         if (typeof val === "undefined" || val === null)
                             return '';
 
-                        return val.toString();
+                        var res = val.toString();
+                        
+                        return res;
                     },
-                    fromInput: function (val) {
-                        return val;
+                    fromInput: function (val, options) {
+                        var res = val;
+                        if (res && options && options.trimText) {
+                            res = res.trim();
+                        }
+                        if (options && options.convertEmptyToNull) {
+                            res = (res === '') ? null : res;
+                        }
+                        return res;
                     }
                 },
                 /**
                  * @member
                  */
                 "number": {
-                    fromObject: function (val) {
+                    fromObject: function (val, options) {
                         if (typeof val !== "number")
                             return '';
 
                         return val.toString();
                     },
-                    fromInput: function (val) {
+                    fromInput: function (val, options) {
                         if (typeof val !== "undefined" && val !== null)
                             return parseFloat(val);
 
@@ -314,13 +332,13 @@
                  * @member
                  */
                 "boolean": {
-                    fromObject: function (val) {
+                    fromObject: function (val, options) {
                         if (typeof val === "undefined" || val === null)
                             return '';
 
                         return val.toString();
                     },
-                    fromInput: function (val) {
+                    fromInput: function (val, options) {
                         if (val === 'true')
                             return true;
                         if (val === 'false')
@@ -333,10 +351,10 @@
                  * @member
                  */
                 "object": {
-                    fromObject: function (val) {
+                    fromObject: function (val, options) {
                         return val;
                     },
-                    fromInput: function (val) {
+                    fromInput: function (val, options) {
                         return val;
                     }
                 },
@@ -344,10 +362,10 @@
                  * @member
                  */
                 "stringifiedObject": {
-                    fromObject: function (val) {
+                    fromObject: function (val, options) {
                         return JSON.stringify(val);
                     },
-                    fromInput: function (val) {
+                    fromInput: function (val, options) {
                         return JSON.parse(val);
                     }
                 }
@@ -367,6 +385,8 @@
             }
         },
 
+        
+
         /**
          * bi-directional binding for working with input fields and custom input controls. This binding expect a {@link WinJSContrib.UI.DataForm} to be found on the parent form
          * @function WinJSContrib.UI.DataFormBinding
@@ -377,6 +397,11 @@
          */
         DataFormBinding: WinJS.Binding.initializer(function (source, sourceProperty, dest, destProperty) {
             var dataform = WinJSContrib.UI.parentDataForm(dest);
+            var options = WinJSContrib.UI.DataForm.DefaultBindingOptions;
+            var optionsText = dest.getAttribute("data-formfield-options");
+            if (optionsText) {
+                options = WinJS.UI.optionsParser(optionsText, window);
+            }
             var fieldUpdated = false;
             dest.classList.add('mcn-dataform-field');
 
@@ -399,7 +424,7 @@
                 if (typeof data === "undefined")
                     data = null;
 
-                data = converter.fromObject(data);
+                data = converter.fromObject(data, options);
 
                 WinJSContrib.Utils.writeProperty(dest, destProperty, data);
             }
@@ -412,7 +437,7 @@
                 if (!dest.id || dataform.validator.element(dest)) {
                     var val = WinJSContrib.Utils.getProperty(dest, destProperty).propValue;
                     if (val !== undefined)
-                        val = converter.fromInput(val);
+                        val = converter.fromInput(val, options);
 
                     WinJSContrib.Utils.writeProperty(source, sourceProperty, val);
                 }
