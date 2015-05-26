@@ -1,0 +1,70 @@
+﻿.menu-button {
+    height: 60px;
+    line-height: 60px;
+    width: 60px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate3d(-130%, 0, 0);
+    background-color: #333;
+    text-align: center;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: transform 300ms ease, opacity 300ms ease;
+
+    &.active {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+
+    .menu-button-wrapper {
+        width: 24px;
+        height: 15px;
+        position: relative;
+        display: inline-block;
+
+        .menu-global {
+            backface-visibility: hidden;
+            position: absolute;
+            left: 0;
+            border-top: 3px solid white; /*(190,55,50);*/
+            width: 24px;
+            transition: 0.55s;
+        }
+
+        .menu-top {
+            top: 0;
+
+            &.activated {
+                backface-visibility: hidden;
+                top: 8px;
+                transform: rotate(45deg);
+                transition: 0.5s;
+                transition-delay: 200ms;
+            }
+        }
+
+        .menu-middle {
+            top: 7px;
+
+            &.activated {
+                transform: translate3d(-200%,0,0);
+                transition: 0.5s;
+                transition-delay: 200ms;
+                opacity: 0;
+            }
+        }
+
+        .menu-bottom {
+            top: 14px;
+
+            &.activated {
+                backface-visibility: hidden;
+                top: 8px;
+                transform: rotate(-45deg);
+                transition: 0.5s;
+                transition-delay: 200ms;
+            }
+        }
+    }
+}

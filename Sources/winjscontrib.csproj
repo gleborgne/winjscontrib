@@ -81,6 +81,8 @@
     <Content Include="Controls\winjscontrib.ui.flyoutpage.css.map" />
     <Content Include="Controls\winjscontrib.ui.flyoutpage.less" />
     <Content Include="Controls\winjscontrib.ui.globalprogress.less" />
+    <Content Include="Controls\winjscontrib.ui.hamburger.css" />
+    <Content Include="Controls\winjscontrib.ui.hamburger.js" />
     <Content Include="Controls\winjscontrib.ui.hub.css.map" />
     <Content Include="Controls\winjscontrib.ui.hub.less" />
     <Content Include="Controls\winjscontrib.ui.masterdetailview.css.map" />
@@ -97,6 +99,7 @@
       <DependentUpon>winjscontrib.ui.flipsnap.css</DependentUpon>
     </Content>
     <Content Include="Controls\winjscontrib.ui.elasticinput.js" />
+    <Content Include="Controls\winjscontrib.ui.hamburger.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
