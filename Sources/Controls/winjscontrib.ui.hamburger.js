@@ -7,6 +7,7 @@
                 options = options || {};
                 ctrl.element = element || document.createElement('div');
                 ctrl.element.classList.add('menu-button');
+                ctrl.element.classList.add('active');
                 ctrl.element.innerHTML = '<div class="menu-button-wrapper"><span class="menu-global menu-top"></span><span class="menu-global menu-middle"></span><span class="menu-global menu-bottom"></span></div>';
             }, {
                 activate: function () {
