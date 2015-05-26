@@ -103,7 +103,7 @@
                         ctrl.element.appendChild(ctrl.splashLoader);
                     }
                     else {
-                        return '<img id="mcn-splashscreen-image" src="' + this.splashImageFile + '" alt="Splash screen image" />' +
+                        ctrl.element.innerHTML = '<img id="mcn-splashscreen-image" src="' + this.splashImageFile + '" alt="Splash screen image" />' +
                                //'<div id="mcn-splashscreen-description" style="display: none">' + (description || '') + '<div>' +
                                '<div id="mcn-splashscreen-loader" style="opacity: 0">' +
                                    '<progress class="win-ring"></progress>' +
