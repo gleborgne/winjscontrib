@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TypeScriptToolsVersion>1.1</TypeScriptToolsVersion>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,6 +64,7 @@
     <Content Include="Controls\winjscontrib.ui.childviewflyout.less" />
     <Content Include="Controls\winjscontrib.ui.dataform.less" />
     <Content Include="Controls\winjscontrib.ui.datetimescroller.less" />
+    <Content Include="Controls\winjscontrib.ui.elasticinput.css" />
     <Content Include="Controls\winjscontrib.ui.extended-splashscreen.css.map" />
     <Content Include="Controls\winjscontrib.ui.extended-splashscreen.less" />
     <Content Include="Controls\winjscontrib.ui.extended-splashscreen.min.css">
@@ -94,6 +96,7 @@
     <Content Include="Controls\winjscontrib.ui.flipsnap.css.map">
       <DependentUpon>winjscontrib.ui.flipsnap.css</DependentUpon>
     </Content>
+    <Content Include="Controls\winjscontrib.ui.elasticinput.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
