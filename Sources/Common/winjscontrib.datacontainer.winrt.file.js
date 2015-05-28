@@ -90,6 +90,13 @@
 				return res;
 			},
 
+			deleteContainer: function () {
+			    var container = this;
+			    return container.folderPromise.then(function (folder) {
+			        return folder.deleteAsync();
+			    });
+			},
+
 			clearAllCache: function () {
 				var container = this;
 				container.clearCache();
