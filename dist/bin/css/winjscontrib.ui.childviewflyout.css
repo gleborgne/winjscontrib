@@ -52,3 +52,20 @@
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
+.childNavigator .childNavigator-contentPlaceholder.visible .mcn-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.childNavigator .childNavigator-contentPlaceholder.visible .mcn-close-btn.default-icon {
+  color: white;
+  font-family: "Segoe UI Symbol";
+  width: 40px;
+  line-height: 35px;
+  font-size: 30pt;
+  height: 40px;
+}
+.childNavigator .childNavigator-contentPlaceholder.visible .mcn-close-btn.default-icon:before {
+  content: '\e0e1';
+  /* '' */
+}
