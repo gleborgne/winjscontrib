@@ -176,10 +176,10 @@
 
                    //var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
                    //if (idx == WinJSContrib.UI.FlyoutPage.openPages.length - 1) {
-                   // ctrl.hide();
-                   // arg.handled = true;
-                   // if (arg.preventDefault)
-                   //   arg.preventDefault();
+                   //	ctrl.hide();
+                   //	arg.handled = true;
+                   //	if (arg.preventDefault)
+                   //		arg.preventDefault();
                    //}
                },
 
@@ -229,6 +229,7 @@
                        var page = null;
 
                        var manageClose = function (arg) {
+                           removePromise();
                            if (page)
                                page.removeEventListener("closing", manageClose);
                            ctrl.removeEventListener("beforehide", manageClose);
@@ -241,6 +242,7 @@
                        options.navigateStacked = true;
                        options.injectToPage = {
                            close: function (arg) {
+                               removePromise();
                                completed = true;
 
                                if (page)
@@ -264,12 +266,12 @@
                            ctrl.addEventListener("beforehide", manageClose, false);
                        });
                    });
-
-                   ctrl.pickPromises.push(pickPromise);
-                   pickPromise.then(function () {
+                   var removePromise = function () {
                        var idx = ctrl.pickPromises.indexOf(pickPromise);
                        ctrl.pickPromises.splice(idx, 1);
-                   });
+                   }
+                   ctrl.pickPromises.push(pickPromise);
+                   pickPromise.then(removePromise);
 
                    //if (this.pickPromise) {
                    //    this.pickPromise = this.pickPromise.then(function () {
