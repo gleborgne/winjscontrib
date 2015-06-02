@@ -1,4 +1,6 @@
-﻿(function () {
+﻿/// <reference path="winjscontrib.core.js" />
+
+(function () {
 
     WinJS.Namespace.define("WinJSContrib.UI", {
         parentChildView: function (element) {
@@ -78,8 +80,8 @@
                            that.closebtn.html(options.closeBtn.templatetext);
                        if (options.closeBtn.class)
                            that.closebtn.className(that.closebtn.element.className + " " + options.closeBtn.class);
-                       else if (!options.closeBtn.templatetext) {
-                           that.closebtn.className(that.closebtn.element.className + " default-icon");
+                       else if(!options.closeBtn.templatetext) {
+                           that.closebtn.className(that.closebtn.element.className + " default-icon" );
                        }
                        WinJSContrib.UI.tap(that.closebtn.element, function () { that.closePage(); });
                    }
@@ -168,10 +170,10 @@
 
                    //var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
                    //if (idx == WinJSContrib.UI.FlyoutPage.openPages.length - 1) {
-                   //	ctrl.hide();
-                   //	arg.handled = true;
-                   //	if (arg.preventDefault)
-                   //		arg.preventDefault();
+                   // ctrl.hide();
+                   // arg.handled = true;
+                   // if (arg.preventDefault)
+                   //   arg.preventDefault();
                    //}
                },
 
@@ -214,8 +216,9 @@
                pick: function (uri, options, skipHistory) {
                    var ctrl = this;
                    options = options || {};
+                   ctrl.pickPromises = ctrl.pickPromises || [];
 
-                   return new WinJS.Promise(function (complete, error) {
+                   var pickPromise = new WinJS.Promise(function (complete, error) {
                        var completed = false;
                        var page = null;
 
@@ -256,6 +259,19 @@
                        });
                    });
 
+                   ctrl.pickPromises.push(pickPromise);
+                   pickPromise.then(function () {
+                       var idx = ctrl.pickPromises.indexOf(pickPromise);
+                       ctrl.pickPromises.splice(idx, 1);
+                   });
+
+                   //if (this.pickPromise) {
+                   //    this.pickPromise = this.pickPromise.then(function () {
+                   //        return pickPromise;
+                   //    })
+                   //}
+
+                   return pickPromise;
                },
 
                /**
@@ -314,6 +330,12 @@
                hide: function (arg) {
                    var that = this;
                    if (that.isOpened) {
+
+                       if (that.pickPromises) {
+                           that.pickPromises.forEach(function (p) {
+                               p.cancel();
+                           });
+                       }
 
                        if (!that.canClose()) {
                            return false;
