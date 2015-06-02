@@ -623,6 +623,8 @@ var WinJSContrib;
          * @param {HTMLElement} target target node for moved elements
          */
         function moveChilds(source, target) {
+            if (!source || !target)
+                return;
             var childs = [];
             for (var i = 0; i < source.children.length; i++) {
                 childs.push(source.children[i]);
@@ -640,6 +642,8 @@ var WinJSContrib;
          * @returns {Object} WinJS control
          */
         function getParent(property, element) {
+            if (!element)
+                return;
             var current = element.parentNode;
             while (current) {
                 if (current[property] && current.winControl) {
@@ -657,6 +661,8 @@ var WinJSContrib;
          * @returns {Object} WinJS control
          */
         function getParentControlByClass(className, element) {
+            if (!element)
+                return;
             var current = element.parentNode;
             while (current) {
                 if (current.classList && current.classList.contains(className) && current.winControl) {

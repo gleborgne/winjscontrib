@@ -223,6 +223,9 @@
                  * @param {Object} renderOptions
                  */
             	prepareItems: function (items, renderOptions) {
+                    if (!this.element)
+                        return;
+                    
             		var parent = WinJSContrib.Utils.getParentControlByClass('mcn-layout-ctrl', this.element);
             		var parentMultipass = undefined;
             		if (!this.renderer.multipass && parent && parent.multipass) {
@@ -236,7 +239,9 @@
                  * force items content to render
                  */
             	renderItemsContent: function () {
-            		this.renderer.renderItemsContent();
+            		if (!this.renderer)
+                        return;
+                    this.renderer.renderItemsContent();
             	},
 
             	resetElement: function (elt, isItem) {

@@ -1,10 +1,5 @@
-﻿/* 
- * WinJS Contrib v2.1.0.1
- * licensed under MIT license (see http://opensource.org/licenses/MIT)
- * sources available at https://github.com/gleborgne/winjscontrib
- */
+﻿/// <reference path="winjscontrib.core.js" />
 
-/// <reference path="winjscontrib.core.js" />
 var WinJSContrib = WinJSContrib || {};
 WinJSContrib.WinRT = WinJSContrib.WinRT || {};
 WinJSContrib.WinRT.Audio = WinJSContrib.WinRT.Audio || {};
