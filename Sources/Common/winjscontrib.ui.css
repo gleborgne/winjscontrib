@@ -50,7 +50,18 @@ body {
 }
 .toolbar > .title,
 .toolbar > .titlearea,
-.toolbar > .main {
+.toolbar > .main,
+.toolbar > [stretch] {
+  flex-grow: 1;
+}
+.vblocs {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.vblocs > .title,
+.vblocs > .titlearea,
+.vblocs > .main,
+.vblocs > [stretch] {
   flex-grow: 1;
 }
 @keyframes pulseanimation {

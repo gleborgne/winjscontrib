@@ -55,7 +55,16 @@
 	flex-flow: row nowrap;
 	align-items: center;
 
-	>.title, >.titlearea, >.main {
+	>.title, >.titlearea, >.main, >[stretch] {
+		flex-grow: 1;
+	}
+}
+
+.vblocs{
+	display: flex;
+	flex-flow: column nowrap;
+
+	>.title, >.titlearea, >.main, >[stretch] {
 		flex-grow: 1;
 	}
 }
