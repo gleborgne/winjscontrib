@@ -5,16 +5,63 @@ WinJSContrib.WinRT.BgTask = WinJSContrib.WinRT.BgTask || {};
 (function () {
     "use strict";
 
-    function hasTask(taskName) {
-        var taskRegistered = false;
+    function clearAll(cancelRunningTasks) {
+        console.info("clear all bg task");
         var background = Windows.ApplicationModel.Background;
+
         var iter = background.BackgroundTaskRegistration.allTasks.first();
+
+        var hascur = iter.hasCurrent;
+
+        while (hascur) {
+            var cur = iter.current.value;
+            
+            console.log("clear bgtask " +  cur.name + " " + cur.taskId);
+            cur.unregister(cancelRunningTasks || false);
+
+            hascur = iter.moveNext();
+        }
+
+        return false;
+    }
+    WinJSContrib.WinRT.BgTask.clearAll = clearAll;
+
+    function remove(taskName, cancelRunningTask) {
+        var background = Windows.ApplicationModel.Background;
+
+        var iter = background.BackgroundTaskRegistration.allTasks.first();
+
         var hascur = iter.hasCurrent;
 
         while (hascur) {
             var cur = iter.current.value;
 
             if (cur.name === taskName) {
+                cur.unregister(cancelRunningTask || false);
+                return true;
+                break;
+            }
+
+            hascur = iter.moveNext();
+        }
+
+        return false;
+    }
+    WinJSContrib.WinRT.BgTask.remove = remove;
+
+    function hasTask(taskName) {
+        var taskRegistered = false;
+        
+        var background = Windows.ApplicationModel.Background;
+        
+        var iter = background.BackgroundTaskRegistration.allTasks.first();
+        
+        var hascur = iter.hasCurrent;
+
+        while (hascur) {
+            var cur = iter.current.value;
+            
+            if (cur.name === taskName) {                
                 return cur;
                 break;
             }
@@ -26,8 +73,10 @@ WinJSContrib.WinRT.BgTask = WinJSContrib.WinRT.BgTask || {};
     }
 
     WinJSContrib.WinRT.BgTask.registerBackgroundTask = function (taskEntryPoint, taskName, triggers, conditions) {
+        console.log('register bg task ' + taskName)
         var existing = hasTask(taskName);
         if (existing) {
+            console.log('bg task ' + taskName + ' already exists');
             attachProgressAndCompletedHandlers(existing);
             return;
         }
