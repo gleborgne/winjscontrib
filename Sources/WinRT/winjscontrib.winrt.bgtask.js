@@ -1,4 +1,4 @@
-﻿var WinJSContrib = WinJSContrib || {};
+var WinJSContrib = WinJSContrib || {};
 WinJSContrib.WinRT = WinJSContrib.WinRT || {};
 WinJSContrib.WinRT.BgTask = WinJSContrib.WinRT.BgTask || {};
 
@@ -81,31 +81,36 @@ WinJSContrib.WinRT.BgTask = WinJSContrib.WinRT.BgTask || {};
             return;
         }
 
-        var builder = new Windows.ApplicationModel.Background.BackgroundTaskBuilder();
-
-        builder.name = taskName;
-        builder.taskEntryPoint = taskEntryPoint;
-        triggers.forEach(function (trigger) {
-            builder.setTrigger(trigger);
-        });
-
-
-        if (conditions && conditions.length) {
-            conditions.forEach(function (condition) {
-                builder.addCondition(condition);
-            });
-
-        }
-
-        var task = builder.register();
-
-        attachProgressAndCompletedHandlers(task);
-
         //
         // Remove previous completion status from local settings.
         //
         var settings = Windows.Storage.ApplicationData.current.localSettings;
         settings.values.remove(taskName);
+
+        try {
+            var builder = new Windows.ApplicationModel.Background.BackgroundTaskBuilder();
+
+            builder.name = taskName;
+            builder.taskEntryPoint = taskEntryPoint;
+            triggers.forEach(function (trigger) {
+                builder.setTrigger(trigger);
+            });
+
+
+            if (conditions && conditions.length) {
+                conditions.forEach(function (condition) {
+                    builder.addCondition(condition);
+                });
+
+            }
+        
+            var task = builder.register();
+
+            attachProgressAndCompletedHandlers(task);
+        } catch (exception) {            
+            console.error("unable to register background task " + taskName, exception);
+            return WinJS.Promise.wrapError(exception);
+        }        
     }
 
     function attachProgressAndCompletedHandlers(task) {
@@ -121,10 +126,10 @@ WinJSContrib.WinRT.BgTask = WinJSContrib.WinRT.BgTask || {};
     WinJSContrib.WinRT.BgTask.registerTimeTriggerBackgroundTask = function (taskEntryPoint, taskName, triggers, conditions) {
         try {
             //cet appel plante dans le simulateur
-            Windows.ApplicationModel.Background.BackgroundExecutionManager.requestAccessAsync().done(function (bgmgr) {
+            return Windows.ApplicationModel.Background.BackgroundExecutionManager.requestAccessAsync().then(function (bgmgr) {
                 var e = bgmgr;
                 if (bgmgr === Windows.ApplicationModel.Background.BackgroundAccessStatus.allowedWithAlwaysOnRealTimeConnectivity || bgmgr === Windows.ApplicationModel.Background.BackgroundAccessStatus.allowedMayUseActiveRealTimeConnectivity) {
-                    WinJSContrib.WinRT.BgTask.registerBackgroundTask(taskEntryPoint, taskName, triggers, conditions);
+                    return WinJSContrib.WinRT.BgTask.registerBackgroundTask(taskEntryPoint, taskName, triggers, conditions);
                 }
             });
         } catch (exception) {

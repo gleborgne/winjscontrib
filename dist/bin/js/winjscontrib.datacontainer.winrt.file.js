@@ -16,7 +16,7 @@
 			container.options = options || {};
 			container.parent = parent;
 			container.folderPromise;
-			container.useDataCache = options.useDataCache || false;
+			container.useDataCache = container.options.useDataCache || false;
 			container.dataCache = {};
 
 			container.childs = {};
@@ -77,6 +77,23 @@
 					return deleteItemIfExistsAsync(folder, itemkey, container.options.logger);
 				});
 
+			},
+
+			listKeys: function () {
+			    var container = this;
+
+			    return container.folderPromise.then(function (folder) {
+			        return folder.getFilesAsync().then(function (files) {
+			            return files.map(function (f) {
+			                var key = f.path.substr(folder.path.length + 1);
+			                var ext = key.indexOf('.json');
+			                if (ext > 0) {
+			                    key = key.substr(0, ext);
+			                }
+			                return key;
+			            });
+			        });
+			    });
 			},
 
 			list: function () {
