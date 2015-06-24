@@ -75,6 +75,7 @@
                    that.contentPlaceholder = new FD('DIV', "childNavigator-contentPlaceholder", that.rootElement)
                        .append('DIV', null, function (nav) {
                            that.navigator = new WinJSContrib.UI.PageControlNavigator(nav.element, { global: false });
+                           that.navigator.animations.enterPage = WinJS.UI.Animation.fadeIn;
                            that.navigator.hide = function (arg) {
                                return that.hide(arg);
                            }
