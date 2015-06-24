@@ -13,8 +13,9 @@
                     download.load(downloads[i]);
                     downloadOperations.push(download);
                 }
-
+                printLog(downloadOperations.length + " pending downloads");
                 WinJSContrib.BgDownloads.currentDownloads = downloadOperations;
+                WinJS.Application.queueEvent({ type: "mcnbgdownload.init", downloads: downloadOperations });
                 complete(downloadOperations);
             }, function (err) {
                 var downloadOperations = new WinJS.Binding.List();
@@ -36,8 +37,9 @@
                     upload.load(uploads[i]);
                     uploadOperations.push(upload);
                 }
-
+                printLog(uploadOperations.length + " pending uploads");
                 WinJSContrib.BgDownloads.currentUploads = uploadOperations;
+                WinJS.Application.queueEvent({ type: "mcnbgupload.init", uploads: uploadOperations });
                 complete(uploadOperations);
             }, function (err) {
                 var uploadOperations = new WinJS.Binding.List();
@@ -200,6 +202,7 @@
 
             operation.ended = true;
             if (operation.download && operation.download.progress.status === Windows.Networking.BackgroundTransfer.BackgroundTransferStatus.completed) {
+                WinJS.Application.queueEvent({ type: "mcnbgdownload.success", uploadId: operation.download.guid });
                 if (operation.oncomplete) {
                     operation.oncomplete();
                     operation.oncomplete = null;
@@ -210,6 +213,7 @@
                 }
             }
             else {
+                if (operation.download) WinJS.Application.queueEvent({ type: "mcnbgdownload.error", uploadId: operation.download.guid });
                 operation._errorCallback('transfert problem');
             }
 
@@ -232,6 +236,7 @@
             operation.ended = true;
 
             if (operation.download) {
+                WinJS.Application.queueEvent({ type: "mcnbgdownload.error", uploadId: operation.download.guid });
                 operation.download.resultFile.deleteAsync().done(function () {
                 }, function () { });
                 operation.removeDownload(operation.download.guid);
@@ -294,7 +299,7 @@
 
                 var uploader = new Windows.Networking.BackgroundTransfer.BackgroundUploader();
                 printLog("bg upload using URI: " + uri.absoluteUri);
-
+                
                 operation.upload = uploader.createUpload(uri, uploadedFile);
                 operation.upload.priority = priority;
                 WinJSContrib.BgDownloads.currentUploads.push(operation);
@@ -405,6 +410,7 @@
 
             operation.ended = true;
             if (operation.upload && operation.upload.progress.status === Windows.Networking.BackgroundTransfer.BackgroundTransferStatus.completed) {
+                WinJS.Application.queueEvent({ type: "mcnbgupload.success", uploadId: operation.upload.guid, file: operation.upload.sourceFile.path });
                 if (operation.oncomplete) {
                     operation.oncomplete();
                     operation.oncomplete = null;
@@ -415,6 +421,7 @@
                 }
             }
             else {
+                if (operation.upload) WinJS.Application.queueEvent({ type: "mcnbgupload.error", uploadId: operation.upload.guid, file: operation.upload.sourceFile.path, uri: operation.upload.requestedUri });
                 operation._errorCallback('transfert problem');
             }
 
@@ -435,6 +442,7 @@
             operation.ended = true;
 
             if (operation.upload) {
+                WinJS.Application.queueEvent({ type: "mcnbgupload.error", uploadId: operation.upload.guid, file: operation.upload.sourceFile.path, uri: operation.upload.requestedUri });
                 operation.removeUpload(operation.upload.guid);
                 printLog(operation.upload.guid + " - upload completed with error.");
             }
