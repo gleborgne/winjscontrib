@@ -152,8 +152,8 @@ var WinJSContrib;
                     return p.then(function (r) {
                         return WinJS.Promise.join(items.map(function (item) {
                             return WinJS.Promise.as(promiseCallback(item));
-                        })).then(function (results) {
-                            results = results.concat(results);
+                        })).then(function (rls) {
+                            results = results.concat(rls);
                         }, function (errors) {
                             results = results.concat(errors);
                             hasErrors = true;
