@@ -494,8 +494,10 @@ WinJSContrib.UI = WinJSContrib.UI || {};
             }
 
             setImmediate(function () {
-                ctrl.element.classList.remove('unloaded');
-                ctrl.element.classList.add('loaded');
+                if (ctrl.element) {
+                    ctrl.element.classList.remove('unloaded');
+                    ctrl.element.classList.add('loaded');
+                }
             });
 
             ctrl.rendered = true;

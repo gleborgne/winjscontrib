@@ -252,7 +252,7 @@ module WinJSContrib.UI.Pages {
 			page.promises.push(this.promise);
 
 			//if their is a parent page fragment, we attach step to synchronize page construction
-			if (parent) {
+			if (parent && parent.pageLifeCycle) {
 				parent.pageLifeCycle.steps[stepName].attach(() => {
 					return this.promise;
 				});
