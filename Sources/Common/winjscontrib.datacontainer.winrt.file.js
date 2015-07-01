@@ -107,6 +107,26 @@
 				return res;
 			},
 
+			childWithTransaction: function (key, process) {
+			    var current = this;
+
+			    return this.child(key + "-tmp").folderPromise.then(function (winrtfolder) {
+			        return winrtfolder.deleteAsync().then(function () {
+			            return current.child(key + "-tmp");
+			        });
+			    }).then(function (folder) {
+			        return process(folder).then(function (data) {
+			            return folder.folderPromise.then(function (winrtfolder) {			                
+			                return winrtfolder.renameAsync(key, Windows.Storage.NameCollisionOption.replaceExisting).then(function () {
+			                    current.childs[key] = null;
+			                    current.childs[key + "-tmp"] = null;
+			                    return current.child(key);
+			                });
+			            });
+			        });
+			    });
+			},
+
 			deleteContainer: function () {
 			    var container = this;
 			    return container.folderPromise.then(function (folder) {
