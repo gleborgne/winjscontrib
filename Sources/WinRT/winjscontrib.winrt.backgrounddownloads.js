@@ -2,6 +2,7 @@
 (function () {
     WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
     WinJSContrib.BgDownloads.currentDownloads = new WinJS.Binding.List();
+    WinJSContrib.BgDownloads.currentUploads   = new WinJS.Binding.List();
 
     function initDownloads() {
         return new WinJS.Promise(function (complete, error) {
