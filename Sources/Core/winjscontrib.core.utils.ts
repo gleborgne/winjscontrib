@@ -246,6 +246,18 @@ module WinJSContrib.Utils {
         };
     }
 
+    export function asyncForEach(array, callback, batchsize:number = 1){
+        var i = 0;
+        while (i<array.length){
+            setImmediate(function(){
+                for (var j=0; j<batchsize && i < array.length; j++) {
+                    i++
+                    callback(array[i]);
+                 }
+             });
+        }
+    }
+
     /** indicate if string ends with featured characters 
      * @function WinJSContrib.Utils.endsWith
      * @param {string} str string to search within

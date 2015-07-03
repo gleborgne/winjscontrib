@@ -52,6 +52,7 @@ declare module WinJSContrib.Utils {
      * @returns {boolean} true if string starts with strToMatch
      */
     function startsWith(str: any, strToMatch: any): boolean;
+    function asyncForEach(array: any, callback: any, batchsize?: number): void;
     /** indicate if string ends with featured characters
      * @function WinJSContrib.Utils.endsWith
      * @param {string} str string to search within
@@ -571,6 +572,8 @@ declare module WinJSContrib.UI {
         childs: Array<FluentDOM>;
         parent: FluentDOM;
         constructor(nodeType: string, className?: string, parentElt?: Element, parent?: FluentDOM);
+        static for(element: HTMLElement): FluentDOM;
+        static fragment(): FluentDOM;
         control: any;
         /**
          * Add a css class
@@ -614,7 +617,7 @@ declare module WinJSContrib.UI {
          */
         visibility(visibility: string): FluentDOM;
         /**
-         * set innerText
+         * set textContent
          * @function WinJSContrib.UI.FluentDOM.prototype.text
          * @param text text
          * @returns {WinJSContrib.UI.FluentDOM}
@@ -644,6 +647,14 @@ declare module WinJSContrib.UI {
          */
         style(name: string, val: string): FluentDOM;
         /**
+         * set style property
+         * @function WinJSContrib.UI.FluentDOM.prototype.style
+         * @param name attribute name
+         * @param val attribute value
+         * @returns {WinJSContrib.UI.FluentDOM}
+         */
+        styles(obj: any): FluentDOM;
+        /**
          * append element to another DOM element
          * @function WinJSContrib.UI.FluentDOM.prototype.appendTo
          * @param elt parent element
@@ -664,9 +675,17 @@ declare module WinJSContrib.UI {
          * @param nodeType child node type
          * @param className css classes
          * @param callback callback receiving the new FluentDOM as an argument
-         * @returns {WinJSContrib.UI.FluentDOM}
+         * @returns {WinJSContrib.UI.FluentDOM} current instance (for method chaining)
          */
         append(nodeType: string, className?: string, callback?: (FluentDOM) => void): FluentDOM;
+        /**
+         * create a child FluentDOM and append it to current
+         * @function WinJSContrib.UI.FluentDOM.prototype.createChild
+         * @param nodeType child node type
+         * @param className css classes
+         * @returns {WinJSContrib.UI.FluentDOM} child FluentDOM
+         */
+        createChild(nodeType: string, className?: string): FluentDOM;
         /**
          * create a WinJS control
          * @function WinJSContrib.UI.FluentDOM.prototype.ctrl

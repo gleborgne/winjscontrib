@@ -220,6 +220,19 @@ var WinJSContrib;
                 return WinJSContrib.Utils.startsWith(this, str);
             };
         }
+        function asyncForEach(array, callback, batchsize) {
+            if (batchsize === void 0) { batchsize = 1; }
+            var i = 0;
+            while (i < array.length) {
+                setImmediate(function () {
+                    for (var j = 0; j < batchsize && i < array.length; j++) {
+                        i++;
+                        callback(array[i]);
+                    }
+                });
+            }
+        }
+        Utils.asyncForEach = asyncForEach;
         /** indicate if string ends with featured characters
          * @function WinJSContrib.Utils.endsWith
          * @param {string} str string to search within
@@ -1960,6 +1973,16 @@ var WinJSContrib;
                     parent.childs.push(this);
                 }
             }
+            FluentDOM.for = function (element) {
+                var res = new FluentDOM(null);
+                res.element = element;
+                return res;
+            };
+            FluentDOM.fragment = function () {
+                var res = new FluentDOM(null);
+                res.element = document.createDocumentFragment();
+                return res;
+            };
             Object.defineProperty(FluentDOM.prototype, "control", {
                 get: function () {
                     return this.element.winControl;
@@ -2027,13 +2050,13 @@ var WinJSContrib;
                 return this;
             };
             /**
-             * set innerText
+             * set textContent
              * @function WinJSContrib.UI.FluentDOM.prototype.text
              * @param text text
              * @returns {WinJSContrib.UI.FluentDOM}
              */
             FluentDOM.prototype.text = function (text) {
-                this.element.innerText = text;
+                this.element.textContent = text;
                 return this;
             };
             /**
@@ -2069,6 +2092,21 @@ var WinJSContrib;
                 return this;
             };
             /**
+             * set style property
+             * @function WinJSContrib.UI.FluentDOM.prototype.style
+             * @param name attribute name
+             * @param val attribute value
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.styles = function (obj) {
+                var st = this.element.style;
+                var keys = Object.keys(obj);
+                keys.forEach(function (k) {
+                    st[k] = obj[k];
+                });
+                return this;
+            };
+            /**
              * append element to another DOM element
              * @function WinJSContrib.UI.FluentDOM.prototype.appendTo
              * @param elt parent element
@@ -2095,7 +2133,7 @@ var WinJSContrib;
              * @param nodeType child node type
              * @param className css classes
              * @param callback callback receiving the new FluentDOM as an argument
-             * @returns {WinJSContrib.UI.FluentDOM}
+             * @returns {WinJSContrib.UI.FluentDOM} current instance (for method chaining)
              */
             FluentDOM.prototype.append = function (nodeType, className, callback) {
                 var child = new FluentDOM(nodeType, className, this.element, this);
@@ -2103,6 +2141,17 @@ var WinJSContrib;
                     callback(child);
                 }
                 return this;
+            };
+            /**
+             * create a child FluentDOM and append it to current
+             * @function WinJSContrib.UI.FluentDOM.prototype.createChild
+             * @param nodeType child node type
+             * @param className css classes
+             * @returns {WinJSContrib.UI.FluentDOM} child FluentDOM
+             */
+            FluentDOM.prototype.createChild = function (nodeType, className) {
+                var child = new FluentDOM(nodeType, className, this.element, this);
+                return child;
             };
             /**
              * create a WinJS control
