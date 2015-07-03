@@ -80,6 +80,7 @@
 .mcn-dataform.form-vertical p > input,
 .mcn-dataform.form-vertical p > select,
 .mcn-dataform.form-vertical p > textarea {
+  display: block;
   width: 100%;
 }
 .mcn-dataform.form-horizontal.label60 label {

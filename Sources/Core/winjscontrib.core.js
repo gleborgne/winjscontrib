@@ -152,8 +152,8 @@ var WinJSContrib;
                     return p.then(function (r) {
                         return WinJS.Promise.join(items.map(function (item) {
                             return WinJS.Promise.as(promiseCallback(item));
-                        })).then(function (rls) {
-                            results = results.concat(rls);
+                        })).then(function (results) {
+                            results = results.concat(results);
                         }, function (errors) {
                             results = results.concat(errors);
                             hasErrors = true;
@@ -2346,7 +2346,7 @@ var WinJSContrib;
                     });
                     page.promises.push(this.promise);
                     //if their is a parent page fragment, we attach step to synchronize page construction
-                    if (parent) {
+                    if (parent && parent.pageLifeCycle) {
                         parent.pageLifeCycle.steps[stepName].attach(function () {
                             return _this.promise;
                         });

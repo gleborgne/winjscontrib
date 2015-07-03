@@ -458,6 +458,9 @@ WinJSContrib.Search = WinJSContrib.Search || {};
      * @param {string} text
      */
     WinJSContrib.Search.Index.prototype.processText = function (text) {
+        if (typeof text == "number")
+            text = text.toString();
+
         var tokens = this.tokenize(text);
         var res = [];
         var size = tokens.length;
@@ -799,26 +802,26 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         var pipe = this;
         pipe.add(WinJSContrib.Search.Stemming.Op.lowerCase);
         pipe.add(WinJSContrib.Search.Stemming.Op.removeDiacritics);
-        pipe.add(WinJSContrib.Search.Stemming.Op.dedup);
-        pipe.add(WinJSContrib.Search.Stemming.Op.dropInitialLetters);
-        pipe.add(WinJSContrib.Search.Stemming.Op.dropBafterMAtEnd);
-        pipe.add(WinJSContrib.Search.Stemming.Op.transformCK);
-        pipe.add(WinJSContrib.Search.Stemming.Op.cTransform);
-        pipe.add(WinJSContrib.Search.Stemming.Op.dTransform);
-        pipe.add(WinJSContrib.Search.Stemming.Op.dropG);
-        pipe.add(WinJSContrib.Search.Stemming.Op.transformG);
-        pipe.add(WinJSContrib.Search.Stemming.Op.dropH);
-        pipe.add(WinJSContrib.Search.Stemming.Op.transformPH);
-        pipe.add(WinJSContrib.Search.Stemming.Op.transformQ);
-        pipe.add(WinJSContrib.Search.Stemming.Op.transformS);
-        pipe.add(WinJSContrib.Search.Stemming.Op.transformX);
-        pipe.add(WinJSContrib.Search.Stemming.Op.transformT);
-        pipe.add(WinJSContrib.Search.Stemming.Op.dropT);
-        pipe.add(WinJSContrib.Search.Stemming.Op.transformV);
-        pipe.add(WinJSContrib.Search.Stemming.Op.transformWH);
-        pipe.add(WinJSContrib.Search.Stemming.Op.dropW);
-        pipe.add(WinJSContrib.Search.Stemming.Op.dropY);
-        pipe.add(WinJSContrib.Search.Stemming.Op.transformZ);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.dedup);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.dropInitialLetters);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.dropBafterMAtEnd);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.transformCK);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.cTransform);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.dTransform);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.dropG);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.transformG);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.dropH);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.transformPH);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.transformQ);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.transformS);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.transformX);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.transformT);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.dropT);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.transformV);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.transformWH);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.dropW);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.dropY);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.transformZ);
     }
 
     /**
@@ -830,18 +833,21 @@ WinJSContrib.Search = WinJSContrib.Search || {};
          * 
          */
         lowerCase: function (token) {
+            if (!token) return;
             return token.toLowerCase();
         },
         /**
          * 
          */
         dedup: function (token) {
+            if (!token) return;
             return token.replace(/([^c])\1/g, '$1');
         },
         /**
          * 
          */
         dropInitialLetters: function (token) {
+            if (!token) return;
             if (token.match(/^(kn|gn|pn|ae|wr)/))
                 return token.substr(1, token.length - 1);
 
@@ -851,12 +857,14 @@ WinJSContrib.Search = WinJSContrib.Search || {};
          * 
          */
         dropBafterMAtEnd: function (token) {
+            if (!token) return;
             return token.replace(/mb$/, 'm');
         },
         /**
          * 
          */
         cTransform: function (token) {
+            if (!token) return;
             token = token.replace(/([^s]|^)(c)(h)/g, '$1x$3').trim();
             token = token.replace(/cia/g, 'xia');
             token = token.replace(/c(i|e|y)/g, 's$1');
@@ -868,6 +876,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
          * 
          */
         dTransform: function (token) {
+            if (!token) return;
             token = token.replace(/d(ge|gy|gi)/g, 'j$1');
             token = token.replace(/d/g, 't');
 
@@ -877,6 +886,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
          * 
          */
         dropG: function (token) {
+            if (!token) return;
             token = token.replace(/gh(^$|[^aeiou])/g, 'h$1');
             token = token.replace(/g(n|ned)$/g, '$1');
 
@@ -886,6 +896,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
          * 
          */
         transformG: function (token) {
+            if (!token) return;
             token = token.replace(/([^g]|^)(g)(i|e|y)/g, '$1j$3');
             token = token.replace(/gg/g, 'g');
             token = token.replace(/g/g, 'k');
@@ -896,36 +907,42 @@ WinJSContrib.Search = WinJSContrib.Search || {};
          * 
          */
         dropH: function (token) {
+            if (!token) return;
             return token.replace(/([aeiou])h([^aeiou])/g, '$1$2');
         },
         /**
          * 
          */
         transformCK: function (token) {
+            if (!token) return;
             return token.replace(/ck/g, 'k');
         },
         /**
          * 
          */
         transformPH: function (token) {
+            if (!token) return;
             return token.replace(/ph/g, 'f');
         },
         /**
          * 
          */
         transformQ: function (token) {
+            if (!token) return;
             return token.replace(/q/g, 'k');
         },
         /**
          * 
          */
         transformS: function (token) {
+            if (!token) return;
             return token.replace(/s(h|io|ia)/g, 'x$1');
         },
         /**
          * 
          */
         transformT: function (token) {
+            if (!token) return;
             token = token.replace(/t(ia|io)/g, 'x$1');
             token = token.replace(/th/, '0');
 
@@ -935,30 +952,35 @@ WinJSContrib.Search = WinJSContrib.Search || {};
          * 
          */
         dropT: function (token) {
+            if (!token) return;
             return token.replace(/tch/g, 'ch');
         },
         /**
          * 
          */
         transformV: function (token) {
+            if (!token) return;
             return token.replace(/v/g, 'f');
         },
         /**
          * 
          */
         transformWH: function (token) {
+            if (!token) return;
             return token.replace(/^wh/, 'w');
         },
         /**
          * 
          */
         dropW: function (token) {
+            if (!token) return;
             return token.replace(/w([^aeiou]|$)/g, '$1');
         },
         /**
          * 
          */
         transformX: function (token) {
+            if (!token) return;
             token = token.replace(/^x/, 's');
             token = token.replace(/x/g, 'ks');
             return token;
@@ -967,24 +989,28 @@ WinJSContrib.Search = WinJSContrib.Search || {};
          * 
          */
         dropY: function (token) {
+            if (!token) return;
             return token.replace(/y([^aeiou]|$)/g, '$1');
         },
         /**
          * 
          */
         transformZ: function (token) {
+            if (!token) return;
             return token.replace(/z/, 's');
         },
         /**
          * 
          */
         dropVowels: function (token) {
+            if (!token) return;
             return token.charAt(0) + token.substr(1, token.length).replace(/[aeiou]/g, '');
         },
         /**
          * 
          */
         removeDiacritics: function (s) {
+            if (!s) return;
             var r = s.toLowerCase();
             r = r.replace(new RegExp("/.../g", 'g'), " ");
             r = r.replace(new RegExp("[àáâãäå]", 'g'), "a");
