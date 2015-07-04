@@ -61,8 +61,8 @@
                 }
                 if (!this.animations.exitPage)
                     this.animations.exitPage = defaultExitPageAnimation;
-                this._systemBackBtn = options.systemBackBtn;
-                if (this._systemBackBtn && Windows && Windows.UI && Windows.UI.Core && Windows.UI.Core.SystemNavigationManager) {
+                this._handleSystemBackBtn = options.handleSystemBackBtn;
+                if (this._handleSystemBackBtn && Windows && Windows.UI && Windows.UI.Core && Windows.UI.Core.SystemNavigationManager) {
                     var systemNavigationManager = Windows.UI.Core.SystemNavigationManager.getForCurrentView();
                     systemNavigationManager.onbackrequested = function () {
                         if (WinJS.Navigation.canGoBack)
@@ -538,7 +538,7 @@
                     else {
                         var closeOldPagePromise = navigator.closePage(oldElement, args);
                     }
-                    if (this._systemBackBtn && Windows && Windows.UI && Windows.UI.Core && Windows.UI.Core.SystemNavigationManager) {
+                    if (this._handleSystemBackBtn && Windows && Windows.UI && Windows.UI.Core && Windows.UI.Core.SystemNavigationManager) {
                         if (navigator.canGoBack)
                             Windows.UI.Core.SystemNavigationManager.getForCurrentView().appViewBackButtonVisibility = Windows.UI.Core.AppViewBackButtonVisibility.visible;
                         else
