@@ -3,4 +3,8 @@
   <PropertyGroup>
     <ReferenceCachePath>C:\Users\mlahlou\AppData\Local\Temp\MCNEXT WinJS Contrib W10_refcache</ReferenceCachePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
+    <WindowsPhoneEmulatorID>01246343-E380-4DD1-9E28-947FC8179458;Mobile Emulator 10.0.10158.0 720p 5 inch 1GB</WindowsPhoneEmulatorID>
+  </PropertyGroup>
 </Project>

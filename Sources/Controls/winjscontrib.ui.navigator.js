@@ -61,16 +61,6 @@
                 }
                 if (!this.animations.exitPage)
                     this.animations.exitPage = defaultExitPageAnimation;
-                this._handleSystemBackBtn = options.handleSystemBackBtn;
-                //if (this._handleSystemBackBtn && Windows && Windows.UI && Windows.UI.Core && Windows.UI.Core.SystemNavigationManager) {
-                //    var systemNavigationManager = Windows.UI.Core.SystemNavigationManager.getForCurrentView();
-                //    systemNavigationManager.onbackrequested = function () {
-                //        if (WinJS.Navigation.canGoBack)
-                //            WinJS.Navigation.back();
-                //        else
-                //            systemNavigationManager.appViewBackButtonVisibility = Windows.UI.Core.AppViewBackButtonVisibility.visible;
-                //    }
-                //}
                 this.home = options.home;
                 if (appView)
                     this._lastViewstate = appView.value;
@@ -93,9 +83,11 @@
                     }
 
                     if (systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
-                        this.eventTracker.addEvent(systemNavigationManager, 'backrequested', function () {
-                            if (WinJS.Navigation.canGoBack)
+                        this.eventTracker.addEvent(systemNavigationManager, 'backrequested', function (arg) {
+                            if (WinJS.Navigation.canGoBack) {
                                 WinJS.Navigation.back();
+                                arg.handled = true;
+                            }
                         });
 
                     }

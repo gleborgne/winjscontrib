@@ -307,14 +307,10 @@
     <Content Include="default.html" />
     <Content Include="defaultchild.html" />
     <Content Include="images\logo.png" />
-    <Content Include="images\logo.scale-100.png" />
     <Content Include="images\logowide.png" />
     <Content Include="images\smalllogo.png" />
-    <Content Include="images\smalllogo.scale-100.png" />
     <Content Include="images\splashscreen.png" />
-    <Content Include="images\splashscreen.scale-100.png" />
     <Content Include="images\storelogo.png" />
-    <Content Include="images\storelogo.scale-100.png" />
     <Content Include="js\application.js" />
     <Content Include="js\default.js" />
     <Content Include="css\default.css" />

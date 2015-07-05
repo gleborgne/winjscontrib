@@ -34,7 +34,7 @@
       <uap:VisualElements
         DisplayName="MCNEXT WinJS Contrib W10"
         Description="MCNEXT WinJS Contrib W10"
-        BackgroundColor="#464646"
+        BackgroundColor="#a12121"
         Square150x150Logo="images\Logo.png"
         Square44x44Logo="images\SmallLogo.png">
 

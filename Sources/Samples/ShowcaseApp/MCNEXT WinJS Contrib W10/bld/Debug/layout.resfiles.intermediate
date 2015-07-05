@@ -74,14 +74,10 @@ css\default.css
 default.html
 defaultchild.html
 images\logo.png
-images\logo.scale-100.png
 images\logowide.png
 images\smalllogo.png
-images\smalllogo.scale-100.png
 images\splashscreen.png
-images\splashscreen.scale-100.png
 images\storelogo.png
-images\storelogo.scale-100.png
 js\application.js
 js\default.js
 js\mcnext\map\bingmap.v7.CustomInfobox.js
