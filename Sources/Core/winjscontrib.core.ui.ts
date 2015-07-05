@@ -1,9 +1,10 @@
 interface Window {
-	Touch: any;
+    Touch: any;
 }
 
 module WinJSContrib.UI {
-	export interface WinJSContribApplication {
+    export var enableSystemBackButton: boolean = false;
+    export interface WinJSContribApplication {
         navigator?: any
     }
 
@@ -161,15 +162,15 @@ module WinJSContrib.UI {
      * @function WinJSContrib.UI.appbarsEnable
      */
     export function appbarsEnable() {
-		var elements = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
-		if (elements && elements.length) {
-			for (var i = 0, l = elements.length; i < l; i++) {
-				var el = <any>elements[i];
-				if (el.winControl) {
-					el.winControl.disabled = false;
-				}
-			}
-		}
+        var elements = document.querySelectorAll('div[data-win-control="WinJS.UI.AppBar"],div[data-win-control="WinJS.UI.NavBar"]');
+        if (elements && elements.length) {
+            for (var i = 0, l = elements.length; i < l; i++) {
+                var el = <any>elements[i];
+                if (el.winControl) {
+                    el.winControl.disabled = false;
+                }
+            }
+        }
     }
 
 
@@ -285,31 +286,31 @@ module WinJSContrib.UI {
         });
     }
 
-	function bindAction(el, element, control) {
-		el.classList.add('page-action');
-		var actionName = el.dataset.pageAction || el.getAttribute('tap');
+    function bindAction(el, element, control) {
+        el.classList.add('page-action');
+        var actionName = el.dataset.pageAction || el.getAttribute('tap');
 
-		var action = control[actionName];
-		if (action && typeof action === 'function') {
-			WinJSContrib.UI.tap(el, function (eltarg) {
-				var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
-				if (actionArgs && typeof actionArgs == 'string') {
-					try {
-						var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
-						if (tmp) {
-							actionArgs = tmp;
-						} else {
-							actionArgs = JSON.parse(actionArgs);
-						}
-					} catch (exception) {
-						return;
-					}
-				}
+        var action = control[actionName];
+        if (action && typeof action === 'function') {
+            WinJSContrib.UI.tap(el, function (eltarg) {
+                var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
+                if (actionArgs && typeof actionArgs == 'string') {
+                    try {
+                        var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
+                        if (tmp) {
+                            actionArgs = tmp;
+                        } else {
+                            actionArgs = JSON.parse(actionArgs);
+                        }
+                    } catch (exception) {
+                        return;
+                    }
+                }
 
-				control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
-			});
-		}
-	}
+                control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
+            });
+        }
+    }
 
     /**
      * setup declarative binding to parent control function. It looks for "data-page-action" attributes, 
@@ -319,52 +320,52 @@ module WinJSContrib.UI {
      * @param {HTMLElement} element root node crawled for page actions
      * @param {Object} control control owning functions to call
      */
-    export function bindPageActions(element, control) {		
-		var elements = element.querySelectorAll('*[data-page-action], *[tap]');
-		if (elements && elements.length) {
-			for (var i = 0, l = elements.length; i < l; i++) {
-				var el = elements[i];
-				bindAction(el, element, control);		
-			}
-		}
+    export function bindPageActions(element, control) {
+        var elements = element.querySelectorAll('*[data-page-action], *[tap]');
+        if (elements && elements.length) {
+            for (var i = 0, l = elements.length; i < l; i++) {
+                var el = elements[i];
+                bindAction(el, element, control);
+            }
+        }
     }
 
-	function bindLink(el, element) {
+    function bindLink(el, element) {
         el.classList.add('page-link');
         var applink = el.getAttribute('applink');
-		var target = el.dataset.pageLink || el.getAttribute('linkto');
+        var target = el.dataset.pageLink || el.getAttribute('linkto');
 
-		if (target && target.indexOf('/') < 0) {
-			var tmp = WinJSContrib.Utils.readProperty(window, target);
-			if (tmp) {
-				target = tmp;
-			}
-		}
+        if (target && target.indexOf('/') < 0) {
+            var tmp = WinJSContrib.Utils.readProperty(window, target);
+            if (tmp) {
+                target = tmp;
+            }
+        }
 
-		if (target) {
-			WinJSContrib.UI.tap(el, function (eltarg) {
-				var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('linkto-args');
-				if (actionArgs && typeof actionArgs == 'string') {
-					try {
-						var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
-						if (tmp) {
-							actionArgs = tmp;
-						} else {
-							actionArgs = JSON.parse(actionArgs);
-						}
-					} catch (exception) {
-					}
-				}
+        if (target) {
+            WinJSContrib.UI.tap(el, function (eltarg) {
+                var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('linkto-args');
+                if (actionArgs && typeof actionArgs == 'string') {
+                    try {
+                        var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
+                        if (tmp) {
+                            actionArgs = tmp;
+                        } else {
+                            actionArgs = JSON.parse(actionArgs);
+                        }
+                    } catch (exception) {
+                    }
+                }
 
                 if (!applink && WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
-					var nav = WinJSContrib.UI.parentNavigator(eltarg);
-					nav.navigate(target, actionArgs);
-				} else {
-					WinJS.Navigation.navigate(target, actionArgs);
-				}
-			});
-		}
-	}
+                    var nav = WinJSContrib.UI.parentNavigator(eltarg);
+                    nav.navigate(target, actionArgs);
+                } else {
+                    WinJS.Navigation.navigate(target, actionArgs);
+                }
+            });
+        }
+    }
 
     /**
      * setup declarative binding to page link. It looks for "data-page-link" attributes. 
@@ -374,13 +375,13 @@ module WinJSContrib.UI {
      * @param {HTMLElement} element root node crawled for page actions
      */
     export function bindPageLinks(element) {
-		var elements = element.querySelectorAll('*[data-page-link], *[linkto]');
-		if (elements && elements.length) {
-			for (var i = 0, l = elements.length; i < l; i++) {
-				var el = elements[i];
-				bindLink(el, element);
-			}
-		}
+        var elements = element.querySelectorAll('*[data-page-link], *[linkto]');
+        if (elements && elements.length) {
+            for (var i = 0, l = elements.length; i < l; i++) {
+                var el = elements[i];
+                bindLink(el, element);
+            }
+        }
     }
 
     export function parentNavigator(element) {
@@ -394,19 +395,19 @@ module WinJSContrib.UI {
         }
     }
 
-	function bindMember(el, element, control) {
-		el.classList.add('page-member');
-		var memberName = el.dataset.pageMember || el.getAttribute('member');
-		if (!memberName)
-			memberName = el.id;
+    function bindMember(el, element, control) {
+        el.classList.add('page-member');
+        var memberName = el.dataset.pageMember || el.getAttribute('member');
+        if (!memberName)
+            memberName = el.id;
 
-		if (memberName && !control[memberName]) {
-			control[memberName] = el;
-			if (el.winControl) {
-				control[memberName] = el.winControl;
-			}
-		}
-	}
+        if (memberName && !control[memberName]) {
+            control[memberName] = el;
+            if (el.winControl) {
+                control[memberName] = el.winControl;
+            }
+        }
+    }
 
     /**
      * Add this element or control as member to the control. It looks for "data-page-member" attributes. If attribute is empty, it tooks the element id as member name.
@@ -415,13 +416,13 @@ module WinJSContrib.UI {
      * @param {Object} control control owning functions to call
      */
     export function bindMembers(element, control) {
-		var elements = element.querySelectorAll('*[data-page-member], *[member]');
-		if (elements && elements.length) {
-			for (var i = 0, l = elements.length; i < l; i++) {
-				var el = elements[i];
-				bindMember(el, element, control);		
-			}
-		}
+        var elements = element.querySelectorAll('*[data-page-member], *[member]');
+        if (elements && elements.length) {
+            for (var i = 0, l = elements.length; i < l; i++) {
+                var el = elements[i];
+                bindMember(el, element, control);
+            }
+        }
     }
 
 
@@ -568,27 +569,40 @@ module WinJSContrib.UI {
      * @param {function} callback callback to invoke when "back" is requested
      * @returns {function} function to call for releasing navigation handlers
      */
-	var registeredNavigationStack = [];
+    var registeredNavigationStack = [];
 
     export function registerNavigationEvents(control, callback) {
+        var systemNavigationManager = null;
+        if (WinJSContrib.UI.enableSystemBackButton && (<any>window).Windows && (<any>window).Windows.UI && (<any>window).Windows.UI.Core && (<any>window).Windows.UI.Core.SystemNavigationManager) {
+            systemNavigationManager = (<any>window).Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+        }
+        function setVisibilityBackButton() {
+            if (systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
+                if (registeredNavigationStack.length == 0)
+                    systemNavigationManager.appViewBackButtonVisibility = (<any>window).Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
+                else
+                    systemNavigationManager.appViewBackButtonVisibility = (<any>window).Windows.UI.Core.AppViewBackButtonVisibility.visible;
+            }
+        }
         var locked = [];
-		var registration = { control: control, callback: callback };
-		registeredNavigationStack.push(registration);
+        var registration = { control: control, callback: callback };
+        registeredNavigationStack.push(registration);
         //control.navLocks = control.navLocks || [];
         //control.navLocks.isActive = true;
 
         var backhandler = function (arg) {
-			var idx = registeredNavigationStack.indexOf(registration);
-			if (idx === registeredNavigationStack.length - 1) {
-				registration.callback.bind(registration.control)(arg);
-				idx--;
+            var idx = registeredNavigationStack.indexOf(registration);
+            if (idx === registeredNavigationStack.length - 1) {
+                registration.callback.bind(registration.control)(arg);
+                idx--;
 
-				while (idx >= 0 && !arg.handled) {
-					var tmp = registeredNavigationStack[idx];
-					tmp.callback.bind(tmp.control)(arg);
-					idx--;
-				}
-			}
+                while (idx >= 0 && !arg.handled) {
+                    var tmp = registeredNavigationStack[idx];
+                    tmp.callback.bind(tmp.control)(arg);
+                    idx--;
+                }
+            }
+            setVisibilityBackButton();
             //if (!control.navLocks || control.navLocks.length === 0) {
             //    callback.bind(control)(arg);
             //}
@@ -620,14 +634,17 @@ module WinJSContrib.UI {
             (<any>window).Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", backhandler);
         else
             document.addEventListener("backbutton", backhandler);
+        if (systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
+            systemNavigationManager.addEventListener('backrequested', backhandler);
+            setVisibilityBackButton();
+        }
+        var keypress = function (args) {
+            if (args.key === "Esc" || args.key === "Backspace") {
+                backhandler(args);
+            }
+        };
 
-		var keypress = function (args) {
-			if (args.key === "Esc" || args.key === "Backspace") {
-				backhandler(args);
-			}
-		};
-
-		document.body.addEventListener('keypress', keypress);
+        document.body.addEventListener('keypress', keypress);
 
         if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
             WinJSContrib.UI.Application.navigator.addLock();
@@ -643,10 +660,14 @@ module WinJSContrib.UI {
             //        navigationCtrl.navLocks.splice(idx, 1);
             //});
 
-			var idx = registeredNavigationStack.indexOf(registration);
-			registeredNavigationStack.splice(idx, 1);
+            var idx = registeredNavigationStack.indexOf(registration);
+            registeredNavigationStack.splice(idx, 1);
 
-			document.body.removeEventListener('keypress', keypress);
+            document.body.removeEventListener('keypress', keypress);
+            if (systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
+                systemNavigationManager.removeEventListener('backrequested', backhandler);
+                setVisibilityBackButton();
+            }
             WinJS.Navigation.removeEventListener('beforenavigate', cancelNavigation);
             if ((<any>window).Windows && (<any>window).Windows.Phone)
                 (<any>window).Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", backhandler);
@@ -660,30 +681,30 @@ module WinJSContrib.UI {
 	 * @function WinJSContrib.UI.untap
 	 * @param {HtmlElement} element element to clean
 	 */
-	export function untap(element) {
-		if (!element)
-			return;
+    export function untap(element) {
+        if (!element)
+            return;
 
-		if (element.mcnTapTracking) {
-			element.mcnTapTracking.dispose();
-			element.mcnTapTracking = null;
-		}
-	}
+        if (element.mcnTapTracking) {
+            element.mcnTapTracking.dispose();
+            element.mcnTapTracking = null;
+        }
+    }
 
 	/**
 	 * remove tap behavior from all childs
 	 * @function WinJSContrib.UI.untapAll
 	 * @param {HtmlElement} element element to clean
 	 */
-	export function untapAll(element) {
-		if (!element)
-			return;
+    export function untapAll(element) {
+        if (!element)
+            return;
 
-		var taps = element.querySelectorAll('.tap');
-		for (var i = 0, l = taps.length; i < l; i++) {
-			untap(taps[i]);
-		}
-	}	
+        var taps = element.querySelectorAll('.tap');
+        for (var i = 0, l = taps.length; i < l; i++) {
+            untap(taps[i]);
+        }
+    }	
 
 	/**
 	 * add tap behavior to an element, tap manages quirks like click delay, visual feedback, etc
@@ -692,166 +713,166 @@ module WinJSContrib.UI {
 	 * @param {function} callback callback function invoked on tap
 	 * @param {Object} options tap options
 	 */
-	export function tap(element, callback, options?) {
-		if (!element)
-			return;
+    export function tap(element, callback, options?) {
+        if (!element)
+            return;
 
-		var ptDown = function (event) {
-			var elt = event.currentTarget || event.target;
-			var tracking = elt.mcnTapTracking;
-			if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
+        var ptDown = function (event) {
+            var elt = event.currentTarget || event.target;
+            var tracking = elt.mcnTapTracking;
+            if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
 
-				if (tracking.lock) {
-					if (event.pointerId && event.currentTarget.setPointerCapture)
-						event.currentTarget.setPointerCapture(event.pointerId);
-					event.stopPropagation();
-					event.preventDefault();
-				}
-				WinJS.Utilities.addClass(elt, 'tapped');
-				if (event.changedTouches) {
-					tracking.pointerdown = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
-				} else {
-					tracking.pointerdown = { x: event.clientX, y: event.clientY };
-				}
-				tracking.animDown(event.currentTarget);
-				if (tracking.tapOnDown) {
-					tracking.callback(elt);
-				}
-			}
-		}
+                if (tracking.lock) {
+                    if (event.pointerId && event.currentTarget.setPointerCapture)
+                        event.currentTarget.setPointerCapture(event.pointerId);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+                WinJS.Utilities.addClass(elt, 'tapped');
+                if (event.changedTouches) {
+                    tracking.pointerdown = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
+                } else {
+                    tracking.pointerdown = { x: event.clientX, y: event.clientY };
+                }
+                tracking.animDown(event.currentTarget);
+                if (tracking.tapOnDown) {
+                    tracking.callback(elt);
+                }
+            }
+        }
 
-		var ptOut = function (event) {
-			var elt = event.currentTarget || event.target;
-			var tracking = elt.mcnTapTracking;
-			if (tracking && tracking.pointerdown) {
-				WinJS.Utilities.removeClass(elt, 'tapped');
+        var ptOut = function (event) {
+            var elt = event.currentTarget || event.target;
+            var tracking = elt.mcnTapTracking;
+            if (tracking && tracking.pointerdown) {
+                WinJS.Utilities.removeClass(elt, 'tapped');
 
-				if (event.pointerId && elt.releasePointerCapture)
-					elt.releasePointerCapture(event.pointerId);
+                if (event.pointerId && elt.releasePointerCapture)
+                    elt.releasePointerCapture(event.pointerId);
 
-				if (!tracking.disableAnimation)
-					tracking.animUp(event.currentTarget);
-			}
-		}
+                if (!tracking.disableAnimation)
+                    tracking.animUp(event.currentTarget);
+            }
+        }
 
-		var ptUp = function (event) {
-			var elt = event.currentTarget || event.target;
-			var tracking = elt.mcnTapTracking;
-			if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
-				if (elt.releasePointerCapture)
-					elt.releasePointerCapture(event.pointerId);
+        var ptUp = function (event) {
+            var elt = event.currentTarget || event.target;
+            var tracking = elt.mcnTapTracking;
+            if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
+                if (elt.releasePointerCapture)
+                    elt.releasePointerCapture(event.pointerId);
 
-				if (tracking && !tracking.tapOnDown) {
-					event.stopPropagation();
-					var resolveTap = function () {
-						if (tracking && tracking.pointerdown) {
-							if (event.changedTouches) {
-								var dX = Math.abs(tracking.pointerdown.x - event.changedTouches[0].clientX);
-								var dY = Math.abs(tracking.pointerdown.y - event.changedTouches[0].clientY);
-							} else {
-								var dX = Math.abs(tracking.pointerdown.x - event.clientX);
-								var dY = Math.abs(tracking.pointerdown.y - event.clientY);
-							}
+                if (tracking && !tracking.tapOnDown) {
+                    event.stopPropagation();
+                    var resolveTap = function () {
+                        if (tracking && tracking.pointerdown) {
+                            if (event.changedTouches) {
+                                var dX = Math.abs(tracking.pointerdown.x - event.changedTouches[0].clientX);
+                                var dY = Math.abs(tracking.pointerdown.y - event.changedTouches[0].clientY);
+                            } else {
+                                var dX = Math.abs(tracking.pointerdown.x - event.clientX);
+                                var dY = Math.abs(tracking.pointerdown.y - event.clientY);
+                            }
 
-							if (tracking.callback && dX < 15 && dY < 15) {
-								event.stopImmediatePropagation();
-								event.stopPropagation();
-								event.preventDefault();
-								tracking.callback(elt);
-							}
-							if (tracking && tracking.pointerdown)
-								tracking.pointerdown = undefined;
-						}
-					}
+                            if (tracking.callback && dX < 15 && dY < 15) {
+                                event.stopImmediatePropagation();
+                                event.stopPropagation();
+                                event.preventDefault();
+                                tracking.callback(elt);
+                            }
+                            if (tracking && tracking.pointerdown)
+                                tracking.pointerdown = undefined;
+                        }
+                    }
 
-					if (tracking.awaitAnim) {
-						tracking.animUp(elt).done(resolveTap);
-					}
-					else {
-						tracking.animUp(elt);
-						resolveTap();
-					}
-				}
-				WinJS.Utilities.removeClass(elt, 'tapped');
-			}
-		}
+                    if (tracking.awaitAnim) {
+                        tracking.animUp(elt).done(resolveTap);
+                    }
+                    else {
+                        tracking.animUp(elt);
+                        resolveTap();
+                    }
+                }
+                WinJS.Utilities.removeClass(elt, 'tapped');
+            }
+        }
 
-		var opt = options || {};
-		if (element.mcnTapTracking) {
-			element.mcnTapTracking.dispose();
-		}
+        var opt = options || {};
+        if (element.mcnTapTracking) {
+            element.mcnTapTracking.dispose();
+        }
 
-		WinJS.Utilities.addClass(element, 'tap');
+        WinJS.Utilities.addClass(element, 'tap');
 
-		element.mcnTapTracking = element.mcnTapTracking || {};
-		element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
-		element.mcnTapTracking.disableAnimation = opt.disableAnimation;
-		if (element.mcnTapTracking.disableAnimation) {
-			element.mcnTapTracking.animDown = function () { return WinJS.Promise.wrap() };
-			element.mcnTapTracking.animUp = function () { return WinJS.Promise.wrap() };
-		} else {
-			element.mcnTapTracking.animDown = opt.animDown || WinJS.UI.Animation.pointerDown;
-			element.mcnTapTracking.animUp = opt.animUp || WinJS.UI.Animation.pointerUp;
-		}
-		element.mcnTapTracking.element = element;
-		element.mcnTapTracking.callback = callback;
-		element.mcnTapTracking.lock = opt.lock;
-		element.mcnTapTracking.awaitAnim = opt.awaitAnim || false;
-		element.mcnTapTracking.disableAnimation = opt.disableAnimation;
-		element.mcnTapTracking.tapOnDown = opt.tapOnDown;
-		element.mcnTapTracking.pointerModel = 'none';
-		element.mcnTapTracking.dispose = function () {
-			WinJS.Utilities.removeClass(element, 'tap');
-			this.eventTracker.dispose();
-			element.mcnTapTracking = null;
-			element = null;
-		}
+        element.mcnTapTracking = element.mcnTapTracking || {};
+        element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
+        element.mcnTapTracking.disableAnimation = opt.disableAnimation;
+        if (element.mcnTapTracking.disableAnimation) {
+            element.mcnTapTracking.animDown = function () { return WinJS.Promise.wrap() };
+            element.mcnTapTracking.animUp = function () { return WinJS.Promise.wrap() };
+        } else {
+            element.mcnTapTracking.animDown = opt.animDown || WinJS.UI.Animation.pointerDown;
+            element.mcnTapTracking.animUp = opt.animUp || WinJS.UI.Animation.pointerUp;
+        }
+        element.mcnTapTracking.element = element;
+        element.mcnTapTracking.callback = callback;
+        element.mcnTapTracking.lock = opt.lock;
+        element.mcnTapTracking.awaitAnim = opt.awaitAnim || false;
+        element.mcnTapTracking.disableAnimation = opt.disableAnimation;
+        element.mcnTapTracking.tapOnDown = opt.tapOnDown;
+        element.mcnTapTracking.pointerModel = 'none';
+        element.mcnTapTracking.dispose = function () {
+            WinJS.Utilities.removeClass(element, 'tap');
+            this.eventTracker.dispose();
+            element.mcnTapTracking = null;
+            element = null;
+        }
 
-		if (element.onpointerdown !== undefined) {
-			element.mcnTapTracking.pointerModel = 'pointers';
-			element.mcnTapTracking.eventTracker.addEvent(element, 'pointerdown', ptDown);
-			element.mcnTapTracking.eventTracker.addEvent(element, 'pointerout', ptOut);
-			element.mcnTapTracking.eventTracker.addEvent(element, 'pointerup', ptUp);
-		} else if (window.Touch && !opt.noWebkitTouch) {
-			element.mcnTapTracking.pointerModel = 'touch';
-			element.mcnTapTracking.eventTracker.addEvent(element, 'touchstart', function (arg) {
-				element.mcnTapTracking.cancelMouse = true;
-				ptDown(arg);
-			});
-			element.mcnTapTracking.eventTracker.addEvent(element, 'touchcancel', function (arg) {
-				setTimeout(function () {
-					element.mcnTapTracking.cancelMouse = false;
-				}, 1000);
-				ptOut(arg);
-			});
-			element.mcnTapTracking.eventTracker.addEvent(element, 'touchend', function (arg) {
-				setTimeout(function () {
-					element.mcnTapTracking.cancelMouse = false;
-				}, 1000);
-				ptUp(arg);
-			});
+        if (element.onpointerdown !== undefined) {
+            element.mcnTapTracking.pointerModel = 'pointers';
+            element.mcnTapTracking.eventTracker.addEvent(element, 'pointerdown', ptDown);
+            element.mcnTapTracking.eventTracker.addEvent(element, 'pointerout', ptOut);
+            element.mcnTapTracking.eventTracker.addEvent(element, 'pointerup', ptUp);
+        } else if (window.Touch && !opt.noWebkitTouch) {
+            element.mcnTapTracking.pointerModel = 'touch';
+            element.mcnTapTracking.eventTracker.addEvent(element, 'touchstart', function (arg) {
+                element.mcnTapTracking.cancelMouse = true;
+                ptDown(arg);
+            });
+            element.mcnTapTracking.eventTracker.addEvent(element, 'touchcancel', function (arg) {
+                setTimeout(function () {
+                    element.mcnTapTracking.cancelMouse = false;
+                }, 1000);
+                ptOut(arg);
+            });
+            element.mcnTapTracking.eventTracker.addEvent(element, 'touchend', function (arg) {
+                setTimeout(function () {
+                    element.mcnTapTracking.cancelMouse = false;
+                }, 1000);
+                ptUp(arg);
+            });
 
-			element.mcnTapTracking.eventTracker.addEvent(element, 'mousedown', function (arg) {
-				if (!element.mcnTapTracking.cancelMouse)
-					ptDown(arg);
-			});
-			element.mcnTapTracking.eventTracker.addEvent(element, 'mouseleave', function (arg) {
-				ptOut(arg);
-			});
-			element.mcnTapTracking.eventTracker.addEvent(element, 'mouseup', function (arg) {
-				if (!element.mcnTapTracking.cancelMouse)
-					ptUp(arg);
-				else
-					ptOut(arg);
-			});
-		} else {
-			element.mcnTapTracking.pointerModel = 'mouse';
-			element.mcnTapTracking.eventTracker.addEvent(element, 'mousedown', ptDown);
-			element.mcnTapTracking.eventTracker.addEvent(element, 'mouseleave', ptOut);
-			element.mcnTapTracking.eventTracker.addEvent(element, 'mouseup', ptUp);
-		}
+            element.mcnTapTracking.eventTracker.addEvent(element, 'mousedown', function (arg) {
+                if (!element.mcnTapTracking.cancelMouse)
+                    ptDown(arg);
+            });
+            element.mcnTapTracking.eventTracker.addEvent(element, 'mouseleave', function (arg) {
+                ptOut(arg);
+            });
+            element.mcnTapTracking.eventTracker.addEvent(element, 'mouseup', function (arg) {
+                if (!element.mcnTapTracking.cancelMouse)
+                    ptUp(arg);
+                else
+                    ptOut(arg);
+            });
+        } else {
+            element.mcnTapTracking.pointerModel = 'mouse';
+            element.mcnTapTracking.eventTracker.addEvent(element, 'mousedown', ptDown);
+            element.mcnTapTracking.eventTracker.addEvent(element, 'mouseleave', ptOut);
+            element.mcnTapTracking.eventTracker.addEvent(element, 'mouseup', ptUp);
+        }
 
-	}
+    }
 
 	/**
 	 * return a promise completed after css transition on the element is ended
@@ -859,24 +880,24 @@ module WinJSContrib.UI {
 	 * @param {HtmlElement} element element to watch
 	 * @param {number} timeout timeout
 	 */
-	export function afterTransition(element, timeout?) {
-		var timeOutRef = null;
-		return new WinJS.Promise(function (complete, error) {
-			var onaftertransition = function (event) {
-				if (event.srcElement === element) {
-					close();
-				}
-			};
-			var close = function () {
-				clearTimeout(timeOutRef);
-				element.removeEventListener("transitionend", onaftertransition, false);
-				complete();
-			}
+    export function afterTransition(element, timeout?) {
+        var timeOutRef = null;
+        return new WinJS.Promise(function (complete, error) {
+            var onaftertransition = function (event) {
+                if (event.srcElement === element) {
+                    close();
+                }
+            };
+            var close = function () {
+                clearTimeout(timeOutRef);
+                element.removeEventListener("transitionend", onaftertransition, false);
+                complete();
+            }
 
-			element.addEventListener("transitionend", onaftertransition, false);
-			timeOutRef = setTimeout(close, timeout || 1000);
-		});
-	}
+            element.addEventListener("transitionend", onaftertransition, false);
+            timeOutRef = setTimeout(close, timeout || 1000);
+        });
+    }
 
 	/**
      * Utility class for building DOM elements through code with a fluent API
@@ -891,40 +912,40 @@ module WinJSContrib.UI {
 	 *    .display('none')
 	 *    .element;
      */
-	export class FluentDOM {
-		public element: HTMLElement;
-		public childs: Array<FluentDOM>;
-		public parent: FluentDOM;
+    export class FluentDOM {
+        public element: HTMLElement;
+        public childs: Array<FluentDOM>;
+        public parent: FluentDOM;
 
-		constructor(nodeType: string, className?: string, parentElt?: Element, parent?: FluentDOM) {
-			this.element = document.createElement(nodeType);
-			if (className)
-				this.element.className = className;
-			if (parentElt)
-				parentElt.appendChild(this.element);
+        constructor(nodeType: string, className?: string, parentElt?: Element, parent?: FluentDOM) {
+            this.element = document.createElement(nodeType);
+            if (className)
+                this.element.className = className;
+            if (parentElt)
+                parentElt.appendChild(this.element);
 
-			this.parent = parent;
-			this.childs = [];
-			if (parent) {
-				parent.childs.push(this);
-			}
-		}
+            this.parent = parent;
+            this.childs = [];
+            if (parent) {
+                parent.childs.push(this);
+            }
+        }
 
-		public static for(element: HTMLElement) {
+        public static for(element: HTMLElement) {
             var res = new FluentDOM(null);
             res.element = element;
             return res;
         }
 
-        public static fragment(){
-        	var res = new FluentDOM(null);
+        public static fragment() {
+            var res = new FluentDOM(null);
             res.element = <HTMLElement>document.createDocumentFragment();
             return res;
         }
 
-		get control() {
-			return this.element.winControl;
-		}
+        get control() {
+            return this.element.winControl;
+        }
 
 		/**
          * Add a css class
@@ -932,10 +953,10 @@ module WinJSContrib.UI {
          * @param classname css class
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		addClass(classname: string) {
-			this.element.classList.add(classname);
-			return this;
-		}
+        addClass(classname: string) {
+            this.element.classList.add(classname);
+            return this;
+        }
 
 		/**
          * set className
@@ -943,10 +964,10 @@ module WinJSContrib.UI {
          * @param classname css classes
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		className(classname: string) {
-			this.element.className = classname;
-			return this;
-		}
+        className(classname: string) {
+            this.element.className = classname;
+            return this;
+        }
 
 		/**
          * set opacity
@@ -954,10 +975,10 @@ module WinJSContrib.UI {
          * @param opacity opacity
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		opacity(opacity: string) {
-			this.element.style.opacity = opacity;
-			return this;
-		}
+        opacity(opacity: string) {
+            this.element.style.opacity = opacity;
+            return this;
+        }
 
 		/**
          * set display
@@ -965,20 +986,20 @@ module WinJSContrib.UI {
          * @param display display
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		display(display: string) {
-			this.element.style.display = display;
-			return this;
-		}
+        display(display: string) {
+            this.element.style.display = display;
+            return this;
+        }
 
 		/**
          * set display 'none'
          * @function WinJSContrib.UI.FluentDOM.prototype.hide
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		hide() {
-			this.element.style.display = 'none';
-			return this;
-		}
+        hide() {
+            this.element.style.display = 'none';
+            return this;
+        }
 
 		/**
          * set visibility
@@ -986,10 +1007,10 @@ module WinJSContrib.UI {
          * @param visibility visibility
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		visibility(visibility: string) {
-			this.element.style.visibility = visibility;
-			return this;
-		}
+        visibility(visibility: string) {
+            this.element.style.visibility = visibility;
+            return this;
+        }
 
 		/**
          * set textContent
@@ -997,10 +1018,10 @@ module WinJSContrib.UI {
          * @param text text
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		text(text: string) {
-			this.element.textContent = text;
-			return this;
-		}
+        text(text: string) {
+            this.element.textContent = text;
+            return this;
+        }
 
 		/**
          * set innerHTML
@@ -1008,10 +1029,10 @@ module WinJSContrib.UI {
          * @param text text
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		html(text: string) {
-			this.element.innerHTML = text;
-			return this;
-		}
+        html(text: string) {
+            this.element.innerHTML = text;
+            return this;
+        }
 
 		/**
          * set attribute
@@ -1020,10 +1041,10 @@ module WinJSContrib.UI {
 		 * @param val attribute value
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		attr(name: string, val: string) {
-			this.element.setAttribute(name, val);
-			return this;
-		}
+        attr(name: string, val: string) {
+            this.element.setAttribute(name, val);
+            return this;
+        }
 
 		/**
          * set style property
@@ -1032,10 +1053,10 @@ module WinJSContrib.UI {
 		 * @param val attribute value
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		style(name: string, val: string) {
-			this.element.style[name] = val;
-			return this;
-		}
+        style(name: string, val: string) {
+            this.element.style[name] = val;
+            return this;
+        }
 
         /**
          * set style property
@@ -1045,9 +1066,9 @@ module WinJSContrib.UI {
          * @returns {WinJSContrib.UI.FluentDOM}
          */
         styles(obj: any) {
-            var st  = this.element.style;
+            var st = this.element.style;
             var keys = Object.keys(obj);
-            keys.forEach(function(k){
+            keys.forEach(function (k) {
                 st[k] = obj[k];
             });
             return this;
@@ -1059,10 +1080,10 @@ module WinJSContrib.UI {
          * @param elt parent element
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		appendTo(elt: Element) {
-			elt.appendChild(this.element);
-			return this;
-		}
+        appendTo(elt: Element) {
+            elt.appendChild(this.element);
+            return this;
+        }
 
 		
 		/**
@@ -1072,10 +1093,10 @@ module WinJSContrib.UI {
 		 * @param options tap options
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		tap(callback, options?) {
-			WinJSContrib.UI.tap(this.element, callback, options);
-			return this;
-		}
+        tap(callback, options?) {
+            WinJSContrib.UI.tap(this.element, callback, options);
+            return this;
+        }
 
 		/**
          * create a child FluentDOM and append it to current
@@ -1085,13 +1106,13 @@ module WinJSContrib.UI {
 		 * @param callback callback receiving the new FluentDOM as an argument 
 		 * @returns {WinJSContrib.UI.FluentDOM} current instance (for method chaining)
          */
-		append(nodeType: string, className?: string, callback?: (FluentDOM) => void) {
-			var child = new FluentDOM(nodeType, className, this.element, this);
-			if (callback) {
-				callback(child);
-			}
-			return this;
-		}
+        append(nodeType: string, className?: string, callback?: (FluentDOM) => void) {
+            var child = new FluentDOM(nodeType, className, this.element, this);
+            if (callback) {
+                callback(child);
+            }
+            return this;
+        }
 
 		/**
          * create a child FluentDOM and append it to current
@@ -1100,7 +1121,7 @@ module WinJSContrib.UI {
 		 * @param className css classes
 		 * @returns {WinJSContrib.UI.FluentDOM} child FluentDOM
          */
-		createChild(nodeType: string, className?: string) {
+        createChild(nodeType: string, className?: string) {
             var child = new FluentDOM(nodeType, className, this.element, this);
             return child;
         }
@@ -1112,15 +1133,15 @@ module WinJSContrib.UI {
 		 * @param options control options
 		 * @returns {WinJSContrib.UI.FluentDOM}
          */
-		ctrl(ctrl, options?) {
-			var ctor = ctrl;
-			if (typeof ctrl === 'string')
-				ctor = WinJSContrib.Utils.readProperty(window, ctrl);
+        ctrl(ctrl, options?) {
+            var ctor = ctrl;
+            if (typeof ctrl === 'string')
+                ctor = WinJSContrib.Utils.readProperty(window, ctrl);
 
-			if (ctor) {
-				new ctor(this.element, options);
-			}
-			return this;
-		}
-	}
+            if (ctor) {
+                new ctor(this.element, options);
+            }
+            return this;
+        }
+    }
 }

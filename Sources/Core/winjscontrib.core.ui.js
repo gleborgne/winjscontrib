@@ -2,6 +2,7 @@ var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
     (function (UI) {
+        UI.enableSystemBackButton = false;
         UI.Application = {};
         /**
          * indicate if fragment should not look for resources when building control
@@ -527,6 +528,18 @@ var WinJSContrib;
          */
         var registeredNavigationStack = [];
         function registerNavigationEvents(control, callback) {
+            var systemNavigationManager = null;
+            if (WinJSContrib.UI.enableSystemBackButton && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+            }
+            function setVisibilityBackButton() {
+                if (systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
+                    if (registeredNavigationStack.length == 0)
+                        systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
+                    else
+                        systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.visible;
+                }
+            }
             var locked = [];
             var registration = { control: control, callback: callback };
             registeredNavigationStack.push(registration);
@@ -543,6 +556,7 @@ var WinJSContrib;
                         idx--;
                     }
                 }
+                setVisibilityBackButton();
                 //if (!control.navLocks || control.navLocks.length === 0) {
                 //    callback.bind(control)(arg);
                 //}
@@ -572,6 +586,10 @@ var WinJSContrib;
                 window.Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", backhandler);
             else
                 document.addEventListener("backbutton", backhandler);
+            if (systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
+                systemNavigationManager.addEventListener('backrequested', backhandler);
+                setVisibilityBackButton();
+            }
             var keypress = function (args) {
                 if (args.key === "Esc" || args.key === "Backspace") {
                     backhandler(args);
@@ -592,6 +610,10 @@ var WinJSContrib;
                 var idx = registeredNavigationStack.indexOf(registration);
                 registeredNavigationStack.splice(idx, 1);
                 document.body.removeEventListener('keypress', keypress);
+                if (systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
+                    systemNavigationManager.removeEventListener('backrequested', backhandler);
+                    setVisibilityBackButton();
+                }
                 WinJS.Navigation.removeEventListener('beforenavigate', cancelNavigation);
                 if (window.Windows && window.Windows.Phone)
                     window.Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", backhandler);
@@ -840,6 +862,16 @@ var WinJSContrib;
                     parent.childs.push(this);
                 }
             }
+            FluentDOM.for = function (element) {
+                var res = new FluentDOM(null);
+                res.element = element;
+                return res;
+            };
+            FluentDOM.fragment = function () {
+                var res = new FluentDOM(null);
+                res.element = document.createDocumentFragment();
+                return res;
+            };
             Object.defineProperty(FluentDOM.prototype, "control", {
                 get: function () {
                     return this.element.winControl;
@@ -907,13 +939,13 @@ var WinJSContrib;
                 return this;
             };
             /**
-             * set innerText
+             * set textContent
              * @function WinJSContrib.UI.FluentDOM.prototype.text
              * @param text text
              * @returns {WinJSContrib.UI.FluentDOM}
              */
             FluentDOM.prototype.text = function (text) {
-                this.element.innerText = text;
+                this.element.textContent = text;
                 return this;
             };
             /**
@@ -949,6 +981,21 @@ var WinJSContrib;
                 return this;
             };
             /**
+             * set style property
+             * @function WinJSContrib.UI.FluentDOM.prototype.style
+             * @param name attribute name
+             * @param val attribute value
+             * @returns {WinJSContrib.UI.FluentDOM}
+             */
+            FluentDOM.prototype.styles = function (obj) {
+                var st = this.element.style;
+                var keys = Object.keys(obj);
+                keys.forEach(function (k) {
+                    st[k] = obj[k];
+                });
+                return this;
+            };
+            /**
              * append element to another DOM element
              * @function WinJSContrib.UI.FluentDOM.prototype.appendTo
              * @param elt parent element
@@ -975,7 +1022,7 @@ var WinJSContrib;
              * @param nodeType child node type
              * @param className css classes
              * @param callback callback receiving the new FluentDOM as an argument
-             * @returns {WinJSContrib.UI.FluentDOM}
+             * @returns {WinJSContrib.UI.FluentDOM} current instance (for method chaining)
              */
             FluentDOM.prototype.append = function (nodeType, className, callback) {
                 var child = new FluentDOM(nodeType, className, this.element, this);
@@ -983,6 +1030,17 @@ var WinJSContrib;
                     callback(child);
                 }
                 return this;
+            };
+            /**
+             * create a child FluentDOM and append it to current
+             * @function WinJSContrib.UI.FluentDOM.prototype.createChild
+             * @param nodeType child node type
+             * @param className css classes
+             * @returns {WinJSContrib.UI.FluentDOM} child FluentDOM
+             */
+            FluentDOM.prototype.createChild = function (nodeType, className) {
+                var child = new FluentDOM(nodeType, className, this.element, this);
+                return child;
             };
             /**
              * create a WinJS control

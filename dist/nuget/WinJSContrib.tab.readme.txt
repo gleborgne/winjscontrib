@@ -1,6 +1,0 @@
-﻿WinJSContrib.Tab
-
-We are working hard at getting usefull help in this file
-
-If you need more, or need some help, look at the samples or start a new discussion at :
-https://github.com/gleborgne/winjscontrib

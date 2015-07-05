@@ -1,6 +1,0 @@
-﻿WinJSContrib.WinRT.DynamicScript
-
-We are working hard at making documentation for this module...
-
-If you need more, or need some help, look at the samples or start a new discussion at :
-https://github.com/gleborgne/winjscontrib
