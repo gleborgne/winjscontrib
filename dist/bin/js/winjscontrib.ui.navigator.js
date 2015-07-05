@@ -92,7 +92,21 @@
 
                     this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
                     this.eventTracker.addEvent(nav, 'navigated', this._navigated.bind(this));
+
+                    var systemNavigationManager = null;
+                    if (WinJSContrib.UI.enableSystemBackButton && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                        systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+                    }
+
+                    if (systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
+                        this.eventTracker.addEvent(systemNavigationManager, 'backrequested', function () {
+                            if (WinJS.Navigation.canGoBack)
+                                WinJS.Navigation.back();
+                        });
+
+                    }
                 }
+
                 else {
                     if (options.navigationEvents) {
                         this.addNavigationEvents();
@@ -410,7 +424,16 @@
                         page.style.visibility = 'hidden';
                         page.style.opacity = '';
                     }
-
+                    var systemNavigationManager = null;
+                    if (WinJSContrib.UI.enableSystemBackButton && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                        systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+                    }
+                    if (systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
+                        if (registeredNavigationStack.length == 0)
+                            systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
+                        else
+                            systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.visible;
+                    }
                     if (page && page.winControl && !page.winControl.exitPagePromise) {
                         if (page.winControl.exitPage) {
                             var exitPageResult = page.winControl.exitPage();
