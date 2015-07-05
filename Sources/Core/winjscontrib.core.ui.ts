@@ -3,7 +3,44 @@ interface Window {
 }
 
 module WinJSContrib.UI {
+    //export var enableSystemBackButton: boolean = false;
+    var _enableSystemBackButton: boolean = false;
     export var enableSystemBackButton: boolean = false;
+    Object.defineProperty(WinJSContrib.UI, 'enableSystemBackButton', {
+        get: function () {
+            return this._enableSystemBackButton;
+        },
+        set: function (value) {
+            this._enableSystemBackButton = value;
+            var htmlelement = (<HTMLElement> document.querySelector('html'));
+            if (value) {
+                if (htmlelement)
+                    htmlelement.classList.add("systemBackButton");
+            }
+            else {
+                if (htmlelement)
+                    htmlelement.classList.remove("systemBackButton");
+            }
+        }
+    });
+    //export var enableSystemBackButton = {
+    //    get value() {
+    //        return this._enableSystemBackButton;
+    //    },
+    //    set value(value) {
+    //        this._enableSystemBackButton = value;
+    //        var htmlelement = (<HTMLElement> document.querySelector('html'));
+    //        if (value) {
+    //            if (htmlelement)
+    //                htmlelement.classList.add("systemBackButton");
+    //        }
+    //        else {
+    //            if (htmlelement)
+    //                htmlelement.classList.remove("systemBackButton");
+    //        }
+    //    }
+    //}
+
     export interface WinJSContribApplication {
         navigator?: any
     }

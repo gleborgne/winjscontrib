@@ -1135,7 +1135,26 @@ var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
     (function (UI) {
+        //export var enableSystemBackButton: boolean = false;
+        var _enableSystemBackButton = false;
         UI.enableSystemBackButton = false;
+        Object.defineProperty(WinJSContrib.UI, 'enableSystemBackButton', {
+            get: function () {
+                return this._enableSystemBackButton;
+            },
+            set: function (value) {
+                this._enableSystemBackButton = value;
+                var htmlelement = document.querySelector('html');
+                if (value) {
+                    if (htmlelement)
+                        htmlelement.classList.add("systemBackButton");
+                }
+                else {
+                    if (htmlelement)
+                        htmlelement.classList.remove("systemBackButton");
+                }
+            }
+        });
         UI.Application = {};
         /**
          * indicate if fragment should not look for resources when building control
