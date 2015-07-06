@@ -5,6 +5,7 @@
 
     WinJS.Binding.optimizeBindingReferences = true;
     WinJSContrib.UI.enableSystemBackButton = true;
+    MSApp.execUnsafeLocalFunction = function (c) { c(); }
     var app = WinJS.Application;
     var activation = Windows.ApplicationModel.Activation;
     var nav = WinJS.Navigation;
@@ -19,7 +20,7 @@
     }, new WinJSContrib.Logging.Appenders.ConsoleAppender());
 
     function prepareApp(args) {
-        app.queueEvent({ type: 'WinJSContrib.app.started', startArgs : args });
+        app.queueEvent({ type: 'WinJSContrib.app.started', startArgs: args });
     }
 
     app.addEventListener("activated", function (args) {
@@ -41,8 +42,8 @@
                 nav.history = app.sessionState.history;
             }
 
-            
-            
+
+
             var preparepage = WinJS.UI.processAll().then(function () {
                 return WinJSContrib.UI.Application.splashscreen.init(args);
             });
@@ -86,7 +87,7 @@
             "aboutSettingsFlyout": { href: '/demos/settings/about/aboutPage.html', title: "About..." },
             "whatsNewSettingsFlyout": { href: '/demos/settings/whatsnew/whatsnew.html', title: "What's new ?" }
         };
-        WinJS.UI.SettingsFlyout.populateSettings(e);        
+        WinJS.UI.SettingsFlyout.populateSettings(e);
     });
 
     app.oncheckpoint = function (args) {
