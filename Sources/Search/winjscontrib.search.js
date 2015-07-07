@@ -1,254 +1,3 @@
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>WinJS Contrib Source: winjscontrib.search.js</title>
-
-	<!--[if lt IE 9]>
-	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
-
-	
-	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
-	
-</head>
-
-<body>
-<div class="container-fluid">
-	<div class="navbar navbar-fixed-top ">
-		<div class="navbar-inner">
-			<a class="brand" href="index.html">WinJS Contrib</a>
-			<ul class="nav">
-				
-				<li class="dropdown">
-					<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b
-						class="caret"></b></a>
-
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="global.html#WinJSContrib">WinJSContrib</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Alerts.html">Alerts</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Bindings.html">Bindings</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.CrossPlatform.html">CrossPlatform</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.CrossPlatform.isMobile.html">isMobile</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Logging.html">Logging</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Logging.Appenders.html">Appenders</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Search.html">Search</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Templates.html">Templates</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.html">UI</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.Animation.html">Animation</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.DataForm.Converters.html">Converters</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.DataForm.defaultBindingOptions.html">defaultBindingOptions</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.DataSources.html">DataSources</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.DataSources.Grouping.html">Grouping</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.WebComponents.html">WebComponents</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Utils.html">Utils</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Utils.ValueParsers.html">ValueParsers</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.WinRT.html">WinRT</a>
-						</li>
-						
-
-					</ul>
-				</li>
-				
-				<li class="dropdown">
-					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
-						class="caret"></b></a>
-
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="WinJSContrib.Logging.Appenders.ConsoleAppender.html">ConsoleAppender</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Logging.LoggerClass.html">LoggerClass</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Messenger.html">Messenger</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Messenger.SmartWorker.html">SmartWorker</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Search.Index.html">Index</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Search.IndexGroup.html">IndexGroup</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.Search.Stemming.Pipeline.html">Pipeline</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.ChildViewFlyout.html">ChildViewFlyout</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.DataForm.html">DataForm</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.DataSources.DataSourceManager.html">DataSourceManager</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.ElasticInput.html">ElasticInput</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.EventTracker.html">EventTracker</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.ExtendedSplash.html">ExtendedSplash</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.FlipSnap.html">FlipSnap</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.FlipViewPager.html">FlipViewPager</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.FluentDOM.html">FluentDOM</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.FlyoutPage.html">FlyoutPage</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.GlobalProgress.html">GlobalProgress</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.GridControl.html">GridControl</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.HubControl.html">HubControl</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.MediaTrigger.html">MediaTrigger</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.MultiPassItem.html">MultiPassItem</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.MultiPassRenderer.html">MultiPassRenderer</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.PageControlNavigator.html">PageControlNavigator</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.SemanticListViews.html">SemanticListViews</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UI.SmartListLayout.html">SmartListLayout</a>
-						</li>
-						
-						<li>
-							<a href="WinJSContrib.UPnP.UPnPDevice.html">UPnPDevice</a>
-						</li>
-						
-
-					</ul>
-				</li>
-				
-			</ul>
-		</div>
-	</div>
-
-	<div class="row-fluid">
-
-		
-			<div class="span12">
-				
-				<div id="main">
-					
-
-
-		<h1 class="page-title">Source: winjscontrib.search.js</h1>
-    
-    <section>
-        <article>
-            <pre class="sunlight-highlight-javascript linenums">/* 
- * WinJS Contrib v2.1.0.2
- * licensed under MIT license (see http://opensource.org/licenses/MIT)
- * sources available at https://github.com/gleborgne/winjscontrib
- */
-
 var WinJSContrib;
 (function (WinJSContrib) {
     var Search;
@@ -286,7 +35,7 @@ var WinJSContrib;
             return new WinJS.Promise(function (complete, error) {
                 folder.createFileAsync(fileName, CreationCollisionOption).done(function (docfile) {
                     Windows.Storage.FileIO.writeTextAsync(docfile, JSON.stringify(objectGraph)).done(function () {
-                        if (WinJS &amp;&amp; WinJS.log)
+                        if (WinJS && WinJS.log)
                             WinJS.log("File written " + docfile.path);
                         complete();
                     }, error);
@@ -339,7 +88,7 @@ var WinJSContrib;
                 index.folderPromise = Windows.Storage.ApplicationData.current.localFolder.createFolderAsync("WinJSContrib\\Search", Windows.Storage.CreationCollisionOption.openIfExists).then(function (folder) {
                     return folder;
                 }, function (err) {
-                    if (WinJS &amp;&amp; WinJS.log)
+                    if (WinJS && WinJS.log)
                         WinJS.log("Folder init error " + err.message);
                     return null;
                 });
@@ -397,7 +146,7 @@ var WinJSContrib;
                 if (typeof tmp == 'String')
                     tmp = JSON.parse(indexString);
                 if (tmp) {
-                    if (tmp.definition &amp;&amp; tmp.definition.fields &amp;&amp; tmp.items &amp;&amp; tmp.items.length) {
+                    if (tmp.definition && tmp.definition.fields && tmp.items && tmp.items.length) {
                         this.definition = tmp.definition;
                         this.pipeline.reload(this.definition);
                     }
@@ -437,19 +186,19 @@ var WinJSContrib;
                 var searchResult = [];
                 var size = index.items.length;
                 var lastprogress = -1;
-                for (var i = 0; i &lt; size; i++) {
+                for (var i = 0; i < size; i++) {
                     var itemResult = index._searchItem(preparedTokens, index.items[i]);
                     if (itemResult)
                         searchResult.push(itemResult);
-                    var p = (100 * i / size) &lt;&lt; 0;
-                    if (index.onprogress &amp;&amp; p != lastprogress)
+                    var p = (100 * i / size) << 0;
+                    if (index.onprogress && p != lastprogress)
                         index.onprogress({ progressPercent: p, items: size, current: i });
                     lastprogress = p;
                 }
                 searchResult = searchResult.sort(function (a, b) {
                     return b.rank - a.rank;
                 });
-                if (options &amp;&amp; options.limit) {
+                if (options && options.limit) {
                     searchResult = searchResult.slice(0, options.limit);
                 }
                 return searchResult;
@@ -467,22 +216,22 @@ var WinJSContrib;
                 var index = this;
                 var size = indexitem.items.length;
                 var points = 0;
-                for (var i = 0; i &lt; size; i++) {
+                for (var i = 0; i < size; i++) {
                     var tokenitem = indexitem.items[i];
-                    if (searchtokens.untokenized &amp;&amp; tokenitem.tokens.untokenized == searchtokens.untokenized) {
+                    if (searchtokens.untokenized && tokenitem.tokens.untokenized == searchtokens.untokenized) {
                         points += 4 * tokenitem.weight;
                     }
-                    if (searchtokens.untokenized &amp;&amp; tokenitem.tokens.untokenized &amp;&amp; tokenitem.tokens.untokenized.indexOf(searchtokens.untokenized) >= 0) {
+                    if (searchtokens.untokenized && tokenitem.tokens.untokenized && tokenitem.tokens.untokenized.indexOf(searchtokens.untokenized) >= 0) {
                         points += 2 * tokenitem.weight;
                     }
-                    for (var t = 0; t &lt; tokenitem.tokens.items.length; t++) {
+                    for (var t = 0; t < tokenitem.tokens.items.length; t++) {
                         var token = tokenitem.tokens.items[t];
-                        for (var s = 0; s &lt; searchtokens.items.length; s++) {
+                        for (var s = 0; s < searchtokens.items.length; s++) {
                             var stoken = searchtokens.items[s];
-                            if (stoken.length > 1 &amp;&amp; token == stoken) {
+                            if (stoken.length > 1 && token == stoken) {
                                 points += tokenitem.weight;
                             }
-                            if (stoken.length > 2 &amp;&amp; token.indexOf(stoken) >= 0) {
+                            if (stoken.length > 2 && token.indexOf(stoken) >= 0) {
                                 points += tokenitem.weight * 0.2;
                             }
                         }
@@ -546,12 +295,12 @@ var WinJSContrib;
                 var size = arr.length;
                 var indexed = [];
                 var lastprogress = -1;
-                for (var i = 0; i &lt; size; i++) {
+                for (var i = 0; i < size; i++) {
                     var item = index._add(arr[i]);
                     if (item)
                         indexed.push(item);
-                    var p = (100 * i / size) &lt;&lt; 0;
-                    if (progress &amp;&amp; p != lastprogress)
+                    var p = (100 * i / size) << 0;
+                    if (progress && p != lastprogress)
                         progress({ progressPercent: p, items: size, current: i });
                     lastprogress = p;
                 }
@@ -562,7 +311,7 @@ var WinJSContrib;
                 var old = index.items;
                 var size = old.length;
                 index.items = [];
-                for (var i = 0; i &lt; size; i++) {
+                for (var i = 0; i < size; i++) {
                     var item = index.items[i];
                     index.add(item.rawdata);
                 }
@@ -578,7 +327,7 @@ var WinJSContrib;
                 var tokens = this.tokenize(text);
                 var res = [];
                 var size = tokens.length;
-                for (var i = 0; i &lt; size; i++) {
+                for (var i = 0; i < size; i++) {
                     var txt = this.pipeline.run(tokens[i]);
                     if (txt.length > 1)
                         res.push(txt);
@@ -592,7 +341,7 @@ var WinJSContrib;
              */
             Index.prototype.checkWord = function (token) {
                 var size = this.stopWords.length;
-                for (var i = 0; i &lt; size; i++) {
+                for (var i = 0; i < size; i++) {
                     if (token == this.stopWords[i])
                         return '';
                 }
@@ -609,7 +358,7 @@ var WinJSContrib;
                 if (!token || !token.split)
                     return tokens;
                 var words = token.split(/\W+/);
-                for (var i = 0; i &lt; words.length; i++) {
+                for (var i = 0; i < words.length; i++) {
                     if (words[i].length > 0) {
                         tokens.push(words[i]);
                     }
@@ -666,7 +415,7 @@ var WinJSContrib;
                 else
                     var idx = new WinJSContrib.Search.Index(name, definition);
                 this.indexes[name] = idx;
-                if (items &amp;&amp; items.length) {
+                if (items && items.length) {
                     return idx.addRange(items).then(function () {
                         return idx;
                     });
@@ -682,7 +431,7 @@ var WinJSContrib;
              */
             IndexGroup.prototype.addRangefunction = function (name, items) {
                 var idx = this.indexes[name];
-                if (idx &amp;&amp; items &amp;&amp; items.length) {
+                if (idx && items && items.length) {
                     return idx.addRange(items);
                 }
                 return WinJS.Promise.wrapError({ message: 'search index ' + name + ' not found' });
@@ -697,7 +446,7 @@ var WinJSContrib;
                 var searchresult = { hasResult: false, allResults: [] };
                 function searchindex(name, index) {
                     return index.search(querytext).then(function (res) {
-                        if (res &amp;&amp; res.length) {
+                        if (res && res.length) {
                             res.forEach(function (item) {
                                 item.searchItemType = n;
                                 searchresult.allResults.push(item);
@@ -887,7 +636,7 @@ var WinJSContrib;
                             if (type === 'string') {
                                 processorNames = sets[definition.stemming];
                             }
-                            else if (definition.stemming &amp;&amp; definition.stemming.length) {
+                            else if (definition.stemming && definition.stemming.length) {
                                 processorNames = definition.stemming;
                             }
                         }
@@ -926,7 +675,7 @@ var WinJSContrib;
                 Pipeline.prototype.run = function (text) {
                     var size = this._processors.length;
                     var res = text;
-                    for (var i = 0; i &lt; size; i++) {
+                    for (var i = 0; i < size; i++) {
                         res = this._processors[i](res);
                     }
                     return res;
@@ -1387,68 +1136,4 @@ var WinJSContrib;
     })(Search = WinJSContrib.Search || (WinJSContrib.Search = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
-//# sourceMappingURL=winjscontrib.search.js.map</pre>
-        </article>
-    </section>
-
-
-
-
-
-				</div>
-
-				<div class="clearfix"></div>
-				<footer>
-					
-					by MCNEXT
-					<br />
-					
-					
-		<span class="copyright">
-		copyright MCNEXT
-		</span>
-					<br />
-					
-		<span class="jsdoc-message">
-		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a>
-		on Tue Jul 07 2015 11:05:32 GMT+0200 (Paris, Madrid (heure d’été)) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
-		</span>
-				</footer>
-			</div>
-
-			
-			<br clear="both">
-		</div>
-
-	</div>
-	<script src="scripts/sunlight.js"></script>
-	<script src="scripts/sunlight.javascript.js"></script>
-	<script src="scripts/sunlight-plugin.doclinks.js"></script>
-	<script src="scripts/sunlight-plugin.linenumbers.js"></script>
-	<script src="scripts/sunlight-plugin.menu.js"></script>
-	<script src="scripts/jquery.min.js"></script>
-	<script src="scripts/jquery.scrollTo.js"></script>
-	<script src="scripts/jquery.localScroll.js"></script>
-	<script src="scripts/bootstrap-dropdown.js"></script>
-	<script src="scripts/toc.js"></script>
-
-
-	<script>  Sunlight.highlightAll({lineNumbers:true,  showMenu: true, enableDoclinks :true}); </script>
-
-	<script>
-		$( function () {
-			$( "#toc" ).toc( {
-				selectors   : "h1,h2,h3,h4",
-				showAndHide : false,
-				scrollTo    : 60
-			} );
-			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
-			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
-
-		} );
-	</script>
-
-	
-
-</body>
-</html>
+//# sourceMappingURL=winjscontrib.search.js.map
