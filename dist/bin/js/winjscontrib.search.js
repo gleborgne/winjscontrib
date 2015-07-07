@@ -1,5 +1,5 @@
 /* 
- * WinJS Contrib v2.1.0.1
+ * WinJS Contrib v2.1.0.2
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -194,8 +194,8 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         index.storeData = true;
         index.onprogress = undefined;
         index.stopWords = WinJSContrib.Search.Stemming.StopWords.common;
-        index.pipeline = new WinJSContrib.Search.Stemming.Pipeline();
-        index.pipeline.registerDefault();
+        index.pipeline = new WinJSContrib.Search.Stemming.Pipeline(definition);
+        //index.pipeline.registerDefault();
 
         index.folderPromise = Windows.Storage.ApplicationData.current.localFolder.createFolderAsync("WinJSContrib\\Search", Windows.Storage.CreationCollisionOption.openIfExists).then(function (folder) {
             return folder;
@@ -260,8 +260,9 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         if (tmp) {
             if (tmp.definition && tmp.definition.fields && tmp.items && tmp.items.length) {
                 this.definition = tmp.definition;
+                this.pipeline.reload(this.definition);
             }
-            this.items = tmp.items;
+            this.items = tmp.items || [];
         }
     }
 
@@ -292,7 +293,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
         });
     }
 
-    WinJSContrib.Search.Index.prototype._runSearch = function (querytext) {
+    WinJSContrib.Search.Index.prototype._runSearch = function (querytext, options) {
         var index = this;
         var preparedTokens = index.processText(querytext);
         var searchResult = [];
@@ -314,6 +315,10 @@ WinJSContrib.Search = WinJSContrib.Search || {};
             return b.rank - a.rank;
         });
 
+        if (options && options.limit){
+            searchResult = searchResult.slice(0, options.limit);
+        }
+
         return searchResult;
     }
 
@@ -322,8 +327,7 @@ WinJSContrib.Search = WinJSContrib.Search || {};
      * @param {string} querytext
      * @returns {WinJS.Promise} search result
      */
-    WinJSContrib.Search.Index.prototype.search = function (querytext) {
-
+    WinJSContrib.Search.Index.prototype.search = function (querytext, options) {
         return WinJS.Promise.wrap(this._runSearch(querytext));
     }
 
@@ -417,17 +421,16 @@ WinJSContrib.Search = WinJSContrib.Search || {};
     /**
      * add an array of objects to index
      * @param {Array} items items array
-     * @param {WinJSContrib.Search.IndexDefinition} definition index definition (optional), use index's definition if not defined
      * @returns {WinJS.Promise}
      */
-    WinJSContrib.Search.Index.prototype.addRange = function (arr, definition, progress) {
+    WinJSContrib.Search.Index.prototype.addRange = function (arr, progress) {
         var index = this;
         var size = arr.length;
         var indexed = [];
         var lastprogress = -1;
 
         for (var i = 0 ; i < size; i++) {
-            var item = index._add(arr[i], definition);
+            var item = index._add(arr[i]);
             if (item)
                 indexed.push(item);
 
@@ -606,13 +609,69 @@ WinJSContrib.Search = WinJSContrib.Search || {};
      */
     WinJSContrib.Search.Stemming = {};
 
+    WinJSContrib.Search.Stemming.Presets = {
+        "standard" : [
+            "lowerCase",
+            "removeDiacritics"
+        ],
+        "full" : [
+            "lowerCase",
+            "removeDiacritics",
+            "dedup",
+            "dropInitialLetters",
+            "dropBafterMAtEnd",
+            "transformCK",
+            "cTransform",
+            "dTransform",
+            "dropG",
+            "transformG",
+            "dropH",
+            "transformPH",
+            "transformQ",
+            "transformS",
+            "transformX",
+            "transformT",
+            "dropT",
+            "transformV",
+            "transformWH",
+            "dropW",
+            "dropY",
+            "transformZ"
+        ]
+    };
+
     /**
      * stemming pipeline
      * @class
      */
-    WinJSContrib.Search.Stemming.Pipeline = function () {
-        this._processors = [];
+    WinJSContrib.Search.Stemming.Pipeline = function (definition) {
+        this.reload(definition);
     };
+
+    WinJSContrib.Search.Stemming.Pipeline.prototype.reload = function (definition) {
+        var pipe = this;
+        pipe._processors = [];
+        var processorNames = null;
+        if (definition){
+            var type = typeof definition.stemming;
+            if (type === 'string') {
+                processorNames = WinJSContrib.Search.Stemming.Presets[definition.stemming];
+            } else if (definition.stemming && definition.stemming.length) {
+                processorNames = definition.stemming;
+            }
+        }
+
+        if (!processorNames){
+            processorNames = WinJSContrib.Search.Stemming.Presets.standard;
+        }
+
+        processorNames.forEach(function(name){
+            var processor = WinJSContrib.Search.Stemming.Op[name];
+            if (processor){
+                pipe._processors.push(processor);
+            }
+        });
+    };    
 
     /**
      * add a stemming function to pipeline
@@ -799,9 +858,12 @@ WinJSContrib.Search = WinJSContrib.Search || {};
      * register default stemmings in pipeline
      */
     WinJSContrib.Search.Stemming.Pipeline.prototype.registerDefault = function () {
-        var pipe = this;
-        pipe.add(WinJSContrib.Search.Stemming.Op.lowerCase);
-        pipe.add(WinJSContrib.Search.Stemming.Op.removeDiacritics);
+        console.warn("WinJSContrib.Search.Stemming.Pipeline registerDefault is deprecated");
+        return;
+
+        //var pipe = this;
+        //pipe.add(WinJSContrib.Search.Stemming.Op.lowerCase);
+        //pipe.add(WinJSContrib.Search.Stemming.Op.removeDiacritics);
         //pipe.add(WinJSContrib.Search.Stemming.Op.dedup);
         //pipe.add(WinJSContrib.Search.Stemming.Op.dropInitialLetters);
         //pipe.add(WinJSContrib.Search.Stemming.Op.dropBafterMAtEnd);

@@ -157,6 +157,10 @@
             wrapper.complete = c;
             wrapper.error = e;
             wrapper.progress = p;
+        }, function oncancel() {
+            console.warn('message canceled');
+            event.type = 'cancel';
+            messenger._send(event);
         });
 
         messenger._pendings[wrapper.id] = wrapper;
@@ -171,6 +175,7 @@
 
     WinJSContrib.Messenger.prototype._processEvent = function (arg) {
         var messenger = this;
+       
         var details = typeof (arg.data) == 'string' ? JSON.parse(arg.data) : arg.data;
         var name = details.name;
         var data = details.data;
@@ -183,7 +188,14 @@
                 return;
             }
 
-            if (name && messenger[name]) {
+            if (details.type === 'cancel') {
+                var current = messenger._pendings[details.id];
+                if (current) {
+                    current.promise.cancel();
+                    delete messenger._pendings[details.id];
+                }
+            }
+            else if (details.type==='run' && name && messenger[name]) {
                 try {
                     var p = null;
                     if (asArgs) {
@@ -192,14 +204,19 @@
                         p = WinJS.Promise.as(messenger[name](data));
                     }
 
+                   messenger._pendings[details.id] = { promise: p, details: details };
+
                     p.then(function (arg) {
                         messenger._send({ name: name, id: details.id, type: 'complete', sender: 'WinJSContrib.WinJSContrib.Messenger', data: arg });
                     }, function (arg) {
                         messenger._send({ name: name, id: details.id, type: 'error', sender: 'WinJSContrib.WinJSContrib.Messenger', data: arg });
                     }, function (arg) {
                         messenger._send({ name: name, id: details.id, type: 'progress', sender: 'WinJSContrib.WinJSContrib.Messenger', data: arg });
+                    }).then(function () {
+                        delete messenger._pendings[details.id];
                     });
                 } catch (exception) {
+                    delete messenger._pendings[details.id];
                     messenger._send({ name: name, id: details.id, type: 'error', sender: 'WinJSContrib.WinJSContrib.Messenger', data: { description: exception.description, message: exception.message, stack: exception.stack } });
                 }
 

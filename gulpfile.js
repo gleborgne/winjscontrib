@@ -21,7 +21,7 @@ var flatten = require('gulp-flatten');
 //var config = require('./build.config.json');
 
 
-var WinJSContribVersion = "2.1.0.1";
+var WinJSContribVersion = "2.1.0.2";
 
 var typingsPath = 'Sources/typings/';
 var srcCorePath = 'Sources/Core/';
@@ -164,7 +164,7 @@ gulp.task('typescript', ['corecompile'], function() {
     ]);
 });
 
-gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
+gulp.task('jshint', ['cleanscripts', 'typescript'], function() {
 	gulp.src([srcCommonPath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
 	var header = licenseHeader();
 	
@@ -178,7 +178,24 @@ gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
 		])        
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(jshint())
-	.pipe(jshint.reporter('default'))
+	.pipe(jshint.reporter('default'));
+});
+
+gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
+	gulp.src([srcCommonPath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
+	var header = licenseHeader();
+	
+	return gulp.src([
+		srcCorePath + 'winjscontrib.core.js',
+		srcCorePath + 'winjscontrib.ui.webcomponents.js',
+		srcCorePath + 'winjscontrib.ui.pages.js',
+		srcCommonPath + '*.js',
+		srcControlsPath + '*.js',
+		srcWinRTPath + '*.js'
+		])        
+	.pipe(plumber({errorHandler: onError}))
+	//.pipe(jshint())
+	//.pipe(jshint.reporter('default'))
 	.pipe(insert.prepend(header))
 	.pipe(gulp.dest(jsDestPath))
 	    

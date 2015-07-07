@@ -1,0 +1,3744 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>WinJS Contrib Namespace: Animation</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+	
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">WinJS Contrib</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="global.html#WinJSContrib">WinJSContrib</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Alerts.html">Alerts</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Bindings.html">Bindings</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.CrossPlatform.html">CrossPlatform</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.CrossPlatform.isMobile.html">isMobile</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.html">Logging</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.Appenders.html">Appenders</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.html">Search</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.Stemming.html">Stemming</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.Stemming.Op.html">Op</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.Stemming.StopWords.html">StopWords</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Templates.html">Templates</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.html">UI</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.Animation.html">Animation</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.Converters.html">Converters</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.defaultBindingOptions.html">defaultBindingOptions</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.html">DataSources</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.Grouping.html">Grouping</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.WebComponents.html">WebComponents</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Utils.html">Utils</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Utils.ValueParsers.html">ValueParsers</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.WinRT.html">WinRT</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="WinJSContrib.Logging.Appenders.ConsoleAppender.html">ConsoleAppender</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.LoggerClass.html">LoggerClass</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Messenger.html">Messenger</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Messenger.SmartWorker.html">SmartWorker</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.Index.html">Index</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.IndexGroup.html">IndexGroup</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.IndexWorkerProxy.html">IndexWorkerProxy</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.Stemming.Pipeline.html">Pipeline</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ChildViewFlyout.html">ChildViewFlyout</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.html">DataForm</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.DataSourceManager.html">DataSourceManager</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ElasticInput.html">ElasticInput</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.EventTracker.html">EventTracker</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ExtendedSplash.html">ExtendedSplash</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlipSnap.html">FlipSnap</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlipViewPager.html">FlipViewPager</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FluentDOM.html">FluentDOM</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlyoutPage.html">FlyoutPage</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.GlobalProgress.html">GlobalProgress</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.GridControl.html">GridControl</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.HubControl.html">HubControl</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MediaTrigger.html">MediaTrigger</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MultiPassItem.html">MultiPassItem</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MultiPassRenderer.html">MultiPassRenderer</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.PageControlNavigator.html">PageControlNavigator</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.SemanticListViews.html">SemanticListViews</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.SmartListLayout.html">SmartListLayout</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UPnP.UPnPDevice.html">UPnPDevice</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+		<div class="span8">
+			
+				<div id="main">
+					
+
+
+	<h1 class="page-title">Namespace: Animation</h1>
+<section>
+
+<header>
+    <h2>
+        <span class="ancestors"><a href="global.html#WinJSContrib">WinJSContrib</a><a href="WinJSContrib.UI.html">.UI</a>.</span>
+    
+    Animation
+    </h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+
+        
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-7">line 7</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="Animation.Easings"><span class="type-signature">&lt;static> </span>Animation.Easings<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    
+
+    
+<dl class="details">
+    
+
+        <h5 class="subsection-title">Properties:</h5>
+
+        <dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+		<th>Default</th>
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInQuad</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.550, 0.085, 0.680, 0.530)
+                
+                </td>
+            
+
+            <td class="description last"><p>Quad ease in</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInCubic</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.550, 0.055, 0.675, 0.190)
+                
+                </td>
+            
+
+            <td class="description last"><p>Cubic ease in</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInQuart</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.895, 0.030, 0.685, 0.220)
+                
+                </td>
+            
+
+            <td class="description last"><p>Quart ease in</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInQuint</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.755, 0.050, 0.855, 0.060)
+                
+                </td>
+            
+
+            <td class="description last"><p>Quint ease in</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInSine</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.470, 0.000, 0.745, 0.715)
+                
+                </td>
+            
+
+            <td class="description last"><p>Sine ease in</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInExpo</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.950, 0.050, 0.795, 0.035)
+                
+                </td>
+            
+
+            <td class="description last"><p>Expo ease in</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInCirc</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.600, 0.040, 0.980, 0.335)
+                
+                </td>
+            
+
+            <td class="description last"><p>Circ ease in</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInBack</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.600, -0.280, 0.735, 0.045)
+                
+                </td>
+            
+
+            <td class="description last"><p>Back ease in</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeOutQuad</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.250, 0.460, 0.450, 0.940)
+                
+                </td>
+            
+
+            <td class="description last"><p>Quad ease out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeOutCubic</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.215, 0.610, 0.355, 1.000)
+                
+                </td>
+            
+
+            <td class="description last"><p>Cubic ease out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeOutQuart</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.165, 0.840, 0.440, 1.000)
+                
+                </td>
+            
+
+            <td class="description last"><p>Quart ease out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeOutQuint</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.230, 1.000, 0.320, 1.000)
+                
+                </td>
+            
+
+            <td class="description last"><p>Quint ease out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeOutSine</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.390, 0.575, 0.565, 1.000)
+                
+                </td>
+            
+
+            <td class="description last"><p>Sine ease out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeOutExpo</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.190, 1.000, 0.220, 1.000)
+                
+                </td>
+            
+
+            <td class="description last"><p>Expo ease out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeOutCirc</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.075, 0.820, 0.165, 1.000)
+                
+                </td>
+            
+
+            <td class="description last"><p>Circ ease out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeOutBack</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.175, 0.885, 0.320, 1.275)
+                
+                </td>
+            
+
+            <td class="description last"><p>Back ease out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInOutQuad</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.455, 0.030, 0.515, 0.955)
+                
+                </td>
+            
+
+            <td class="description last"><p>Quad ease in-out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInOutCubic</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.645, 0.045, 0.355, 1.000)
+                
+                </td>
+            
+
+            <td class="description last"><p>Cubic ease in-out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInOutQuart</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.770, 0.000, 0.175, 1.000)
+                
+                </td>
+            
+
+            <td class="description last"><p>Quart ease in-out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInOutQuint</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.860, 0.000, 0.070, 1.000)
+                
+                </td>
+            
+
+            <td class="description last"><p>Quint ease in-out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInOutSine</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.445, 0.050, 0.550, 0.950)
+                
+                </td>
+            
+
+            <td class="description last"><p>Sine ease in-out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInOutExpo</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(1.000, 0.000, 0.000, 1.000)
+                
+                </td>
+            
+
+            <td class="description last"><p>Expo ease in-out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInOutCirc</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.785, 0.135, 0.150, 0.860)
+                
+                </td>
+            
+
+            <td class="description last"><p>Circ ease in-out</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>easeInOutBack</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    cubic-bezier(0.680, -0.550, 0.265, 1.550)
+                
+                </td>
+            
+
+            <td class="description last"><p>Back ease in-out</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="enterGrow"><span class="type-signature">&lt;static> </span>enterGrow<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>enter and shrink animation</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-521">line 521</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="enterPage"><span class="type-signature">&lt;static> </span>enterPage<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable page enter effect</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-193">line 193</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="enterShrink"><span class="type-signature">&lt;static> </span>enterShrink<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>enter and shrink animation</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-488">line 488</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="exitGrow"><span class="type-signature">&lt;static> </span>exitGrow<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>exit and grow animation</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-393">line 393</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="exitShrink"><span class="type-signature">&lt;static> </span>exitShrink<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>exit and shrink animation</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-426">line 426</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="fadeIn"><span class="type-signature">&lt;static> </span>fadeIn<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable fade in</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-145">line 145</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="fadeOut"><span class="type-signature">&lt;static> </span>fadeOut<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable fade out</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-127">line 127</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="pageExit"><span class="type-signature">&lt;static> </span>pageExit<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable page exit effect</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-175">line 175</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="shrinkAndFall"><span class="type-signature">&lt;static> </span>shrinkAndFall<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>shrink and fall animation</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-459">line 459</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="slideFromBottom"><span class="type-signature">&lt;static> </span>slideFromBottom<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable slide effect</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like duration, delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-255">line 255</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="slideFromLeft"><span class="type-signature">&lt;static> </span>slideFromLeft<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable slide effect</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like duration, delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-275">line 275</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="slideFromRight"><span class="type-signature">&lt;static> </span>slideFromRight<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable slide effect</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like duration, delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-285">line 285</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="slideFromTop"><span class="type-signature">&lt;static> </span>slideFromTop<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable slide effect</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like duration, delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-265">line 265</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="slideToBottom"><span class="type-signature">&lt;static> </span>slideToBottom<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable slide effect</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like duration, delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-295">line 295</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="slideToLeft"><span class="type-signature">&lt;static> </span>slideToLeft<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable slide effect</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like duration, delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-315">line 315</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="slideToRight"><span class="type-signature">&lt;static> </span>slideToRight<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable slide effect</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like duration, delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-325">line 325</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="slideToTop"><span class="type-signature">&lt;static> </span>slideToTop<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>configurable slide effect</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like duration, delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-305">line 305</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="tabEnterPage"><span class="type-signature">&lt;static> </span>tabEnterPage<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>animation for tab exit</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like duration, delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-365">line 365</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="tabExitPage"><span class="type-signature">&lt;static> </span>tabExitPage<span class="signature">(elements, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>animation for tab exit</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>elements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>element or array of elements</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WinJSContrib.UI.AnimationOptions</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options like duration, delay, easing</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.animation.js.html">winjscontrib.ui.animation.js</a>, <a href="winjscontrib.ui.animation.js.html#sunlight-1-line-335">line 335</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer>
+					
+					by MCNEXT
+					<br />
+					
+					
+		<span class="copyright">
+		copyright MCNEXT
+		</span>
+					<br />
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a>
+		on Tue Jul 07 2015 08:57:14 GMT+0200 (Paris, Madrid (heure d’été)) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+				</footer>
+			</div>
+
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<script src="scripts/sunlight.js"></script>
+	<script src="scripts/sunlight.javascript.js"></script>
+	<script src="scripts/sunlight-plugin.doclinks.js"></script>
+	<script src="scripts/sunlight-plugin.linenumbers.js"></script>
+	<script src="scripts/sunlight-plugin.menu.js"></script>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery.scrollTo.js"></script>
+	<script src="scripts/jquery.localScroll.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+
+
+	<script>  Sunlight.highlightAll({lineNumbers:true,  showMenu: true, enableDoclinks :true}); </script>
+
+	<script>
+		$( function () {
+			$( "#toc" ).toc( {
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : 60
+			} );
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+
+		} );
+	</script>
+
+	
+
+</body>
+</html>
