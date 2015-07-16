@@ -226,6 +226,19 @@ var WinJSContrib;
                 return WinJSContrib.Utils.startsWith(this, str);
             };
         }
+        function asyncForEach(array, callback, batchsize) {
+            if (batchsize === void 0) { batchsize = 1; }
+            var i = 0;
+            while (i < array.length) {
+                setImmediate(function () {
+                    for (var j = 0; j < batchsize && i < array.length; j++) {
+                        i++;
+                        callback(array[i]);
+                    }
+                });
+            }
+        }
+        Utils.asyncForEach = asyncForEach;
         /** indicate if string ends with featured characters
          * @function WinJSContrib.Utils.endsWith
          * @param {string} str string to search within
@@ -1395,22 +1408,30 @@ var WinJSContrib;
             var action = control[actionName];
             if (action && typeof action === 'function') {
                 WinJSContrib.UI.tap(el, function (eltarg) {
+                    var p = WinJS.Promise.wrap();
                     var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
                     if (actionArgs && typeof actionArgs == 'string') {
-                        try {
-                            var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
-                            if (tmp) {
-                                actionArgs = tmp;
+                        var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
+                        p = WinJS.Promise.as(tmp).then(function (val) {
+                            if (typeof val === 'string') {
+                                try {
+                                    val = JSON.parse(val);
+                                }
+                                catch (exception) {
+                                    return;
+                                }
                             }
-                            else {
-                                actionArgs = JSON.parse(actionArgs);
-                            }
+                            return val;
+                        });
+                        if (tmp) {
+                            actionArgs = tmp;
                         }
-                        catch (exception) {
-                            return;
+                        else {
                         }
                     }
-                    control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
+                    p.then(function () {
+                        control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
+                    });
                 });
             }
         }
@@ -1444,27 +1465,30 @@ var WinJSContrib;
             }
             if (target) {
                 WinJSContrib.UI.tap(el, function (eltarg) {
+                    var p = WinJS.Promise.wrap();
                     var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('linkto-args');
                     if (actionArgs && typeof actionArgs == 'string') {
-                        try {
-                            var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
-                            if (tmp) {
-                                actionArgs = tmp;
+                        var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
+                        p = WinJS.Promise.as(tmp).then(function (val) {
+                            if (typeof val === 'string') {
+                                try {
+                                    val = JSON.parse(val);
+                                }
+                                catch (exception) {
+                                }
                             }
-                            else {
-                                actionArgs = JSON.parse(actionArgs);
-                            }
+                            return val;
+                        });
+                    }
+                    p.then(function (actionArgs) {
+                        if (!applink && WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
+                            var nav = WinJSContrib.UI.parentNavigator(eltarg);
+                            nav.navigate(target, actionArgs);
                         }
-                        catch (exception) {
+                        else {
+                            WinJS.Navigation.navigate(target, actionArgs);
                         }
-                    }
-                    if (!applink && WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
-                        var nav = WinJSContrib.UI.parentNavigator(eltarg);
-                        nav.navigate(target, actionArgs);
-                    }
-                    else {
-                        WinJS.Navigation.navigate(target, actionArgs);
-                    }
+                    });
                 });
             }
         }

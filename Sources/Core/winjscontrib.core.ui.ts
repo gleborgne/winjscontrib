@@ -292,21 +292,34 @@ module WinJSContrib.UI {
 		var action = control[actionName];
 		if (action && typeof action === 'function') {
 			WinJSContrib.UI.tap(el, function (eltarg) {
-				var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
+				var p = WinJS.Promise.wrap();
+                var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
 				if (actionArgs && typeof actionArgs == 'string') {
-					try {
+					
 						var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
+                        p = WinJS.Promise.as(tmp).then(function(val){
+                            if (typeof val === 'string') {
+                                try {
+                                    val = JSON.parse(val);
+
+                                } catch (exception) {
+                                    return;
+                                }
+                            }
+
+                            return val;
+                        });
 						if (tmp) {
 							actionArgs = tmp;
 						} else {
-							actionArgs = JSON.parse(actionArgs);
+                            
 						}
-					} catch (exception) {
-						return;
-					}
+					
 				}
 
-				control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
+                p.then(function(){
+				    control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
+                });
 			});
 		}
 	}
@@ -343,25 +356,32 @@ module WinJSContrib.UI {
 
 		if (target) {
 			WinJSContrib.UI.tap(el, function (eltarg) {
+                var p = WinJS.Promise.wrap();
 				var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('linkto-args');
 				if (actionArgs && typeof actionArgs == 'string') {
-					try {
+					
 						var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
-						if (tmp) {
-							actionArgs = tmp;
-						} else {
-							actionArgs = JSON.parse(actionArgs);
-						}
-					} catch (exception) {
-					}
+                        p = WinJS.Promise.as(tmp).then(function(val){                        
+                            if (typeof val === 'string') {
+                                try{
+                                    val = JSON.parse(val);                                
+                                }catch (exception){
+
+                                }
+                            }
+
+                            return val;
+                        });
 				}
 
-                if (!applink && WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
-					var nav = WinJSContrib.UI.parentNavigator(eltarg);
-					nav.navigate(target, actionArgs);
-				} else {
-					WinJS.Navigation.navigate(target, actionArgs);
-				}
+                p.then(function(actionArgs){
+                    if (!applink && WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
+    					var nav = WinJSContrib.UI.parentNavigator(eltarg);
+    					nav.navigate(target, actionArgs);
+    				} else {
+    					WinJS.Navigation.navigate(target, actionArgs);
+    				}
+                });
 			});
 		}
 	}
