@@ -1,0 +1,54 @@
+﻿bouton close dans childview
+gestion back dans sample navigator
+afficher exemples dans la doc
+samples navigator
+codeview -> fichiers additionnels
+
+api doc json
+samples manquants
+state button -> feedback, states sans SVG
+splash screen sur cordova, W10, ...
+mixins less
+rectifier description apps winjscontrib
+faire une doc ?
+cross platform css layout framework
+global progress sur cordova
+search sur phone
+naviguer sur samples dans menu phone
+garder pivot actif en mémoire quand on fait back
+mutualiser css phone
+
+refactoring : recupération controle parent par classe plutot que propriété custom
+cascade des évènements des layout ctrl => faire qq chose de plus "smart" pour gérer les imbrications
+gestion du bouton back avec plusieur childviews ouvertes
+Tabcontrol -> gestion state sur onglet ouvert lors de la navigation
+Brancher bouton hardware back sur navigator quand global=false
+
+Codeview
+	bouton close
+	bouton copy to clipboard
+flipview pager
+extended splash
+layout ctrl
+options du navigator comme blocage nav, purge historique, etc
+windows phone
+selecteur page: et ctrl:
+gestion layout avec datasourcemanager
+logique construction pages
+tab control -> horizontal + responsive
+sample search avec wiktionnary
+exemple ssm
+virtualized datasource
+qrcode
+publier sample sur code gallery : http://code.msdn.microsoft.com/site/search?f%5B0%5D.Type=Topic&f%5B0%5D.Value=Multi-Device%20Hybrid%20Apps&f%5B0%5D.Text=Multi-Device%20Hybrid%20Apps
+
+## controls & improvments
+binding string format
+template cache
+datasources avec regroupement => champ des items, alphabetique, date
+json file helpers
+typescript
+
+gestion zoom semantique dans le hub
+gestion page erreur dans navigator
+hub -> snappoints pour les sections

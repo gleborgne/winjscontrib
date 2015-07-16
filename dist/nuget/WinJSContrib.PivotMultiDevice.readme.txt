@@ -1,9 +1,0 @@
-﻿WinJSContrib.PivotMultiDevice
-
-Control wrap Pivot control of WinJS to provide sliding effect on swipe. 
-
-To use it, add a reference in your page or in default.html
-<script src="/scripts/winjscontrib/winjscontrib.ui.pivotmultidevice.js"></script>
-
-If you need more, or need some help, look at the samples or start a new discussion at :
-https://github.com/gleborgne/winjscontrib

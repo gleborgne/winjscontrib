@@ -338,6 +338,7 @@ interface Window {
     Touch: any;
 }
 declare module WinJSContrib.UI {
+    var enableSystemBackButton: boolean;
     interface WinJSContribApplication {
         navigator?: any;
     }

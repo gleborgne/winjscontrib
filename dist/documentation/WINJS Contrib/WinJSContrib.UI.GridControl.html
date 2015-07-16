@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>WinJS Contrib Class: GridControl</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+	
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">WinJS Contrib</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="global.html#WinJSContrib">WinJSContrib</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Alerts.html">Alerts</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Bindings.html">Bindings</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.CrossPlatform.html">CrossPlatform</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.CrossPlatform.isMobile.html">isMobile</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.html">Logging</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.Appenders.html">Appenders</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.html">Search</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Templates.html">Templates</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.html">UI</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.Animation.html">Animation</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.Converters.html">Converters</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.defaultBindingOptions.html">defaultBindingOptions</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.html">DataSources</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.Grouping.html">Grouping</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.WebComponents.html">WebComponents</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Utils.html">Utils</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Utils.ValueParsers.html">ValueParsers</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.WinRT.html">WinRT</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="WinJSContrib.Logging.Appenders.ConsoleAppender.html">ConsoleAppender</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.LoggerClass.html">LoggerClass</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Messenger.html">Messenger</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Messenger.SmartWorker.html">SmartWorker</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.Index.html">Index</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.IndexGroup.html">IndexGroup</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.Stemming.Pipeline.html">Pipeline</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ChildViewFlyout.html">ChildViewFlyout</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.html">DataForm</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.DataSourceManager.html">DataSourceManager</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ElasticInput.html">ElasticInput</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.EventTracker.html">EventTracker</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ExtendedSplash.html">ExtendedSplash</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlipSnap.html">FlipSnap</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlipViewPager.html">FlipViewPager</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FluentDOM.html">FluentDOM</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlyoutPage.html">FlyoutPage</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.GlobalProgress.html">GlobalProgress</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.GridControl.html">GridControl</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.HubControl.html">HubControl</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MediaTrigger.html">MediaTrigger</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MultiPassItem.html">MultiPassItem</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MultiPassRenderer.html">MultiPassRenderer</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.PageControlNavigator.html">PageControlNavigator</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.SemanticListViews.html">SemanticListViews</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.SmartListLayout.html">SmartListLayout</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UPnP.UPnPDevice.html">UPnPDevice</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+		<div class="span8">
+			
+				<div id="main">
+					
+
+
+	<h1 class="page-title">Class: GridControl</h1>
+<section>
+
+<header>
+    <h2>
+        <span class="ancestors"><a href="global.html#WinJSContrib">WinJSContrib</a><a href="WinJSContrib.UI.html">.UI</a>.</span>
+    
+    GridControl
+    </h2>
+    
+        <div class="class-description"><p>Control that layout it's children with different algorythms. Used with WinJSContrib.UI.Hub, The Grid could rely on multipass rendering to optimize large hub pages load.</p></div>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+<dt>
+    <h4 class="name" id="GridControl"><span class="type-signature"></span>new GridControl<span class="signature">(element, options)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>DOM element containing the control</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="autolayout"><span class="type-signature"></span>autolayout<span class="type-signature"> :boolean</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>indicate if grid layout itself according to the page lifecycle (default to true)</p>
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-126">line 126</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="GridLayoutsImpl"><span class="type-signature"></span>GridLayoutsImpl<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Layouts algorythm implementations</p>
+    </div>
+    
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-362">line 362</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="itemClassName"><span class="type-signature"></span>itemClassName<span class="type-signature"> :Object</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>css class added on item's placeholder</p>
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-196">line 196</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="itemInvoked"><span class="type-signature"></span>itemInvoked<span class="type-signature"> :HTMLElement</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>callback triggered when clicking on an item</p>
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">HTMLElement</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-168">line 168</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="items"><span class="type-signature"></span>items<span class="type-signature"> :Object</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>items to render</p>
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-210">line 210</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="itemTemplate"><span class="type-signature"></span>itemTemplate<span class="type-signature"> :Object</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>item template (WinJS Template or template function)</p>
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-182">line 182</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="layouts"><span class="type-signature"></span>layouts<span class="type-signature"> :Object</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>layout definitions for the grid. It's an object containing several grid layout options. See <a href="WinJSContrib.UI.html#GridControlLayout">WinJSContrib.UI.GridControlLayout</a></p>
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-140">line 140</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="multipass"><span class="type-signature"></span>multipass<span class="type-signature"> :string</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>indicate the kind of multipass treatment</p>
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-154">line 154</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="scrollContainer"><span class="type-signature"></span>scrollContainer<span class="type-signature"> :HTMLElement</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>scroll element containing the grid. Required for multi pass rendering</p>
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">HTMLElement</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-112">line 112</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="clearLayout"><span class="type-signature"></span>clearLayout<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Clear all layout and position styles on items</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-267">line 267</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="dispose"><span class="type-signature"></span>dispose<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Release grid resources</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-674">line 674</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getLayout"><span class="type-signature"></span>getLayout<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>get layout applicable to the current context</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-642">line 642</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="layout"><span class="type-signature"></span>layout<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>layout content items</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-568">line 568</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="prepareItems"><span class="type-signature"></span>prepareItems<span class="signature">(items, renderOptions)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>render HTML for items</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>items</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array of items to render</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>renderOptions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-225">line 225</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="renderItemsContent"><span class="type-signature"></span>renderItemsContent<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>force items content to render</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-241">line 241</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="updateLayout"><span class="type-signature"></span>updateLayout<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>update grid layout</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="winjscontrib.ui.grid.js.html">winjscontrib.ui.grid.js</a>, <a href="winjscontrib.ui.grid.js.html#sunlight-1-line-632">line 632</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer>
+					
+					by MCNEXT
+					<br />
+					
+					
+		<span class="copyright">
+		copyright MCNEXT
+		</span>
+					<br />
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a>
+		on Thu Jul 16 2015 17:20:44 GMT+0200 (Romance Daylight Time) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+				</footer>
+			</div>
+
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<script src="scripts/sunlight.js"></script>
+	<script src="scripts/sunlight.javascript.js"></script>
+	<script src="scripts/sunlight-plugin.doclinks.js"></script>
+	<script src="scripts/sunlight-plugin.linenumbers.js"></script>
+	<script src="scripts/sunlight-plugin.menu.js"></script>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery.scrollTo.js"></script>
+	<script src="scripts/jquery.localScroll.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+
+
+	<script>  Sunlight.highlightAll({lineNumbers:true,  showMenu: true, enableDoclinks :true}); </script>
+
+	<script>
+		$( function () {
+			$( "#toc" ).toc( {
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : 60
+			} );
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+
+		} );
+	</script>
+
+	
+
+</body>
+</html>

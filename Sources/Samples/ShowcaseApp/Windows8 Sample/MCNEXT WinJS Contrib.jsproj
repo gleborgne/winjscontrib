@@ -186,7 +186,7 @@
     <Content Include="..\..\..\Controls\winjscontrib.ui.flipviewpager.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.flipviewpager.js</Link>
     </Content>
-    <Content Include="C:\projects\github\winjscontrib\Sources\Controls\winjscontrib.ui.flipviewpager.js">
+    <Content Include="..\..\..\Controls\winjscontrib.ui.flipviewpager.js">
       <Link>winjscontrib.ui.flipviewpager.js</Link>
     </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.flipviewpager.less">
@@ -213,7 +213,7 @@
     <Content Include="..\..\..\Controls\winjscontrib.ui.grid.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.grid.js</Link>
     </Content>
-    <Content Include="C:\projects\github\winjscontrib\Sources\Controls\winjscontrib.ui.grid.js">
+    <Content Include="..\..\..\Controls\winjscontrib.ui.grid.js">
       <Link>winjscontrib.ui.grid.js</Link>
     </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.hub.css">
@@ -276,7 +276,7 @@
     <Content Include="..\..\..\Core\winjscontrib.ui.webcomponents.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.webcomponents.js</Link>
     </Content>
-    <Content Include="C:\projects\github\winjscontrib\Sources\Core\winjscontrib.ui.webcomponents.js">
+    <Content Include="..\..\..\Core\winjscontrib.ui.webcomponents.js">
       <Link>winjscontrib.ui.webcomponents.js</Link>
     </Content>
     <Content Include="..\..\..\WinRT\winjscontrib.winrt.audiorecording.js">

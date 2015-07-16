@@ -1,8 +1,0 @@
-WinJSContrib.Core
-
-This package contains base components for WinRT applications. Most notably, you will find helpers for checking connectivity, and for playing with various kinds of alerts (Message boxes, toast, ...)
-
-
-
-If you need more, or need some help, look at the samples or start a new discussion at :
-https://github.com/gleborgne/winjscontrib

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>WinJS Contrib Source: winjscontrib.winrt.core.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+	
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">WinJS Contrib</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="global.html#WinJSContrib">WinJSContrib</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Alerts.html">Alerts</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Bindings.html">Bindings</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.CrossPlatform.html">CrossPlatform</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.CrossPlatform.isMobile.html">isMobile</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.html">Logging</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.Appenders.html">Appenders</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.html">Search</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Templates.html">Templates</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.html">UI</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.Animation.html">Animation</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.Converters.html">Converters</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.defaultBindingOptions.html">defaultBindingOptions</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.html">DataSources</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.Grouping.html">Grouping</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.WebComponents.html">WebComponents</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Utils.html">Utils</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Utils.ValueParsers.html">ValueParsers</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.WinRT.html">WinRT</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="WinJSContrib.Logging.Appenders.ConsoleAppender.html">ConsoleAppender</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.LoggerClass.html">LoggerClass</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Messenger.html">Messenger</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Messenger.SmartWorker.html">SmartWorker</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.Index.html">Index</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.IndexGroup.html">IndexGroup</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.Stemming.Pipeline.html">Pipeline</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ChildViewFlyout.html">ChildViewFlyout</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.html">DataForm</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.DataSourceManager.html">DataSourceManager</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ElasticInput.html">ElasticInput</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.EventTracker.html">EventTracker</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ExtendedSplash.html">ExtendedSplash</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlipSnap.html">FlipSnap</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlipViewPager.html">FlipViewPager</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FluentDOM.html">FluentDOM</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlyoutPage.html">FlyoutPage</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.GlobalProgress.html">GlobalProgress</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.GridControl.html">GridControl</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.HubControl.html">HubControl</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MediaTrigger.html">MediaTrigger</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MultiPassItem.html">MultiPassItem</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MultiPassRenderer.html">MultiPassRenderer</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.PageControlNavigator.html">PageControlNavigator</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.SemanticListViews.html">SemanticListViews</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.SmartListLayout.html">SmartListLayout</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UPnP.UPnPDevice.html">UPnPDevice</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+			<div class="span12">
+				
+				<div id="main">
+					
+
+
+		<h1 class="page-title">Source: winjscontrib.winrt.core.js</h1>
+    
+    <section>
+        <article>
+            <pre class="sunlight-highlight-javascript linenums">/* 
+ * WinJS Contrib v2.1.0.2
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+var WinJSContrib = WinJSContrib || {};
+
+/**
+ * @namespace
+ */
+WinJSContrib.WinRT = WinJSContrib.WinRT || {};
+
+/**
+ * @namespace
+ */
+WinJSContrib.Alerts = WinJSContrib.Alerts || {};
+
+(function () {
+
+    /**
+     * read protocol arguments from application activation event arguments
+     * @param {Object} args WinJS application activation argument
+     * @returns {Object} protocol arguments
+     */
+    WinJSContrib.WinRT.readProtocol = function (args) {
+        if (args.detail.kind === Windows.ApplicationModel.Activation.ActivationKind.protocol &amp;&amp; args.detail.uri) {
+            var navArgs = { action: undefined };
+            var protocolArgs = {};
+            var queryargs = args.detail.uri.query;
+            if (queryargs[0] == '?') {
+                queryargs = queryargs.substr(1);
+            }
+            if (queryargs) {
+                queryargs.split('&amp;').forEach(function (item) {
+                    var arg = item.split('=');
+
+                    protocolArgs[arg[0]] = decodeURIComponent(arg[1]);
+                });
+            }
+
+            navArgs.protocol = {
+                action: args.detail.uri.host,
+                args: protocolArgs
+            };
+
+            return navArgs;
+        }
+    };
+
+    /**
+     * Indicate if a valid internet connection is available, even with constrained access
+     * @returns {boolean}
+     */
+    WinJSContrib.WinRT.isConnected = function () {
+        var nlvl = Windows.Networking.Connectivity.NetworkConnectivityLevel;
+        var profile = Windows.Networking.Connectivity.NetworkInformation.getInternetConnectionProfile();
+        if (profile !== null) {
+            var level = profile.getNetworkConnectivityLevel();
+            return level === nlvl.constrainedInternetAccess || level === nlvl.internetAccess;
+        }
+        return false;
+    };
+
+    /**
+     * Indicate if a valid internet connection is available
+     * @returns {boolean}
+     */
+    WinJSContrib.WinRT.hasInternetAccess = function () {
+        var nlvl = Windows.Networking.Connectivity.NetworkConnectivityLevel;
+        var profile = Windows.Networking.Connectivity.NetworkInformation.getInternetConnectionProfile();
+        if (profile !== null) {
+            var level = profile.getNetworkConnectivityLevel();
+            return level === nlvl.internetAccess;
+        }
+        return false;
+    };
+
+    /**
+     * trigger callback when internet connection status is changing
+     * @param {function} callback callback for internet status change notification
+     * @returns {function} function to call for unregistering the callback
+     */
+    WinJSContrib.WinRT.onInternetStatusChanged = function (callback) {
+        var handler = function (arg) {
+            var e = arg;
+            callback(WinJSContrib.WinRT.hasInternetAccess())
+        }
+
+        Windows.Networking.Connectivity.NetworkInformation.addEventListener('networkstatuschanged', handler);
+        return function () {
+            Windows.Networking.Connectivity.NetworkInformation.removeEventListener('networkstatuschanged', handler);
+        }
+    }
+
+    /**
+     * show system alert box
+     * @param {Object} opt message options
+     * @returns {WinJS.Promise}
+     */
+    WinJSContrib.Alerts.messageBox = function messageBox(opt) {
+        if (opt) {
+            if (window.Windows) {
+                var md = new Windows.UI.Popups.MessageDialog(opt.content);
+                if (opt.title) {
+                    md.title = opt.title;
+                }
+                if (opt.commands &amp;&amp; opt.commands.forEach) {                    
+                    opt.commands.forEach(function (command, index) {
+                        var cmd = new Windows.UI.Popups.UICommand();
+                        cmd.label = command.label;
+                        if (command.callback) {
+                            cmd.invoked = command.callback;
+                        }
+                        ((md.commands)).append(cmd);
+                        if (command.isDefault) {
+                            md.defaultCommandIndex = index;
+                        }
+                    });
+                }
+
+                return (md.showAsync());
+            } else {
+                return new WinJS.Promise(function (complete, error) {
+                    var title = "";
+                    if (opt.title) {
+                        title = opt.title;
+                    }
+
+
+                    var commands = [];
+                    if (opt.commands &amp;&amp; opt.commands.forEach) {
+                        //if (opt.commands.length > 2) {
+                        //    return WinJS.Promise.wrapError("you must specify maximum 2 commands on Cordova platforms");
+                        //}
+                        opt.commands.forEach(function (command, index) {
+                            commands.push(command.label);
+                        });
+                    } else
+                        commands = ['Ok'];
+
+
+                    if (navigator &amp;&amp; navigator.notification &amp;&amp; navigator.notification.confirm) {
+                        navigator.notification.confirm(
+							opt.content, // message
+							function (res) {
+							    if (opt.commands &amp;&amp; opt.commands[res - 1] &amp;&amp; opt.commands[res - 1].callback) {
+							        var c = opt.commands[res - 1].callback();
+							        if (c &amp;&amp; c.then) {
+							            c.then(function () {
+							                complete(true);
+							            });
+							        } else {
+							            complete(true);
+							        }
+							    }
+							    else if (res != 0)
+							        complete(true);
+							    else
+							        complete(false);
+							},            // callback to invoke with index of button pressed
+							title,           // title
+							commands     // buttonLabels
+							);
+                    }
+                    else {
+                        if (window.confirm(title))
+                            complete(true);
+                        else
+                            complete(false);
+                    }
+                });
+
+            }
+        }
+        return WinJS.Promise.wrapError("you must specify commands as an array of objects with properties text and callback such as {text: '', callback: function(c){}}");
+    };
+
+    /**
+     * show system alert box
+     * @param {string} title title of the alert
+     * @param {string} content text for the alert
+     * @returns {WinJS.Promise}
+     */
+    WinJSContrib.Alerts.message = function (title, content) {
+        return WinJSContrib.Alerts.messageBox({ title: title, content: content });
+    }
+
+    /**
+     * show system alert box
+     * @param {string} title title of the alert
+     * @param {string} content text for the alert
+     * @param {string} yes text for yes
+     * @param {string} no text for no
+     * @returns {WinJS.Promise}
+     */
+    WinJSContrib.Alerts.confirm = function (title, content, yes, no) {
+        return new WinJS.Promise(function (complete, error) {
+            WinJSContrib.Alerts.messageBox({
+                title: title,
+                content: content,
+                commands: [
+					{
+					    label: yes,
+					    callback: function (e) {
+					        complete(true);
+					    },
+					    isDefault: true
+					},
+					{
+					    label: no,
+					    callback: function (e) {
+					        complete(false);
+					    }
+					}
+                ]
+            });
+        });
+    }
+
+    /**
+     * show system toast notification
+     * @param {Object} data toast options
+     */
+    WinJSContrib.Alerts.toastNotification = function (data) {
+        if (Windows) {
+            var notifications = Windows.UI.Notifications;
+            var template = data.template || (data.picture ? notifications.ToastTemplateType.toastImageAndText01 : notifications.ToastTemplateType.toastText01);
+            //var template = notifications.ToastTemplateType[data.template]; //toastImageAndText01;
+            var toastXml = notifications.ToastNotificationManager.getTemplateContent(template);
+            var toastTextElements = toastXml.getElementsByTagName("text");
+            var toastImageElements = toastXml.getElementsByTagName("image");
+            if (data.launch) {
+                var toastElements = toastXml.getElementsByTagName("toast");
+                toastElements[0].setAttribute("launch", JSON.stringify(data.launch));
+            }
+
+            toastTextElements[0].appendChild(toastXml.createTextNode(data.text));
+
+            if (data.text2 &amp;&amp; toastTextElements.length > 1) {
+                toastTextElements[1].appendChild(toastXml.createTextNode(data.text2));
+            }
+
+            if (data.text3 &amp;&amp; toastTextElements.length > 1) {
+                toastTextElements[2].appendChild(toastXml.createTextNode(data.text3));
+            }
+
+            if (data.picture) {
+                toastImageElements[0].setAttribute("src", data.picture); //"ms-appx:///images/logo.png"
+                //toastImageElements[0].setAttribute("alt", "red graphic");
+            }
+
+            var toast = new notifications.ToastNotification(toastXml);
+            var toastNotifier = notifications.ToastNotificationManager.createToastNotifier();
+            toastNotifier.show(toast);
+        }
+        else {
+            throw "No notification plugin found";
+        }
+    }
+
+    /**
+     * show system toast notification
+     * @param {string} text text displayed in the toast
+     * @param {string} picture path to a picture to display in the toast
+     */
+    WinJSContrib.Alerts.toast = function (text, picture) {
+        WinJSContrib.Alerts.toastNotification({ text: text, picture: picture });
+    }
+})();
+</pre>
+        </article>
+    </section>
+
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer>
+					
+					by MCNEXT
+					<br />
+					
+					
+		<span class="copyright">
+		copyright MCNEXT
+		</span>
+					<br />
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a>
+		on Thu Jul 16 2015 17:20:42 GMT+0200 (Romance Daylight Time) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+				</footer>
+			</div>
+
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<script src="scripts/sunlight.js"></script>
+	<script src="scripts/sunlight.javascript.js"></script>
+	<script src="scripts/sunlight-plugin.doclinks.js"></script>
+	<script src="scripts/sunlight-plugin.linenumbers.js"></script>
+	<script src="scripts/sunlight-plugin.menu.js"></script>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery.scrollTo.js"></script>
+	<script src="scripts/jquery.localScroll.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+
+
+	<script>  Sunlight.highlightAll({lineNumbers:true,  showMenu: true, enableDoclinks :true}); </script>
+
+	<script>
+		$( function () {
+			$( "#toc" ).toc( {
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : 60
+			} );
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+
+		} );
+	</script>
+
+	
+
+</body>
+</html>

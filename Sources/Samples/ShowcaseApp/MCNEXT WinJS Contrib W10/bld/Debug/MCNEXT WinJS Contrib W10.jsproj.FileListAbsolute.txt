@@ -1,0 +1,15 @@
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bin\Debug\ReverseMap\resources.pri
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bin\Debug\AppxManifest.xml
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\priconfig.xml
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\priconfig.xml.intermediate
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\layout.resfiles
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\layout.resfiles.intermediate
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\resources.resfiles
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\resources.resfiles.intermediate
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\pri.resfiles
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\pri.resfiles.intermediate
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\qualifiers.txt
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\qualifiers.txt.intermediate
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\MultipleQualifiersPerDimensionFound.txt
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\ProjectArchitectures.txt
+C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bin\Debug\MCNEXT WinJS Contrib W10.build.appxrecipe

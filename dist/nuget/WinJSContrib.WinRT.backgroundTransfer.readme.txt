@@ -1,8 +1,0 @@
-﻿WinJSContrib.WinRT.BackgroundTransfer
-
-This package wrap background download and upload from winrt API. It helps manage the tracking of tranfered files
-
-Documentation will improve over time... 
-
-If you need more, or need some help, look at the samples or start a new discussion at :
-https://github.com/gleborgne/winjscontrib

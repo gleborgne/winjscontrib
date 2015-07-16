@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>WinJS Contrib Source: winjscontrib.ui.childviewflyout.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+	
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">WinJS Contrib</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="global.html#WinJSContrib">WinJSContrib</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Alerts.html">Alerts</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Bindings.html">Bindings</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.CrossPlatform.html">CrossPlatform</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.CrossPlatform.isMobile.html">isMobile</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.html">Logging</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.Appenders.html">Appenders</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.html">Search</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Templates.html">Templates</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.html">UI</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.Animation.html">Animation</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.Converters.html">Converters</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.defaultBindingOptions.html">defaultBindingOptions</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.html">DataSources</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.Grouping.html">Grouping</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.WebComponents.html">WebComponents</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Utils.html">Utils</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Utils.ValueParsers.html">ValueParsers</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.WinRT.html">WinRT</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="WinJSContrib.Logging.Appenders.ConsoleAppender.html">ConsoleAppender</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Logging.LoggerClass.html">LoggerClass</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Messenger.html">Messenger</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Messenger.SmartWorker.html">SmartWorker</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.Index.html">Index</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.IndexGroup.html">IndexGroup</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.Search.Stemming.Pipeline.html">Pipeline</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ChildViewFlyout.html">ChildViewFlyout</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataForm.html">DataForm</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.DataSources.DataSourceManager.html">DataSourceManager</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ElasticInput.html">ElasticInput</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.EventTracker.html">EventTracker</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.ExtendedSplash.html">ExtendedSplash</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlipSnap.html">FlipSnap</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlipViewPager.html">FlipViewPager</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FluentDOM.html">FluentDOM</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.FlyoutPage.html">FlyoutPage</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.GlobalProgress.html">GlobalProgress</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.GridControl.html">GridControl</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.HubControl.html">HubControl</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MediaTrigger.html">MediaTrigger</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MultiPassItem.html">MultiPassItem</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.MultiPassRenderer.html">MultiPassRenderer</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.PageControlNavigator.html">PageControlNavigator</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.SemanticListViews.html">SemanticListViews</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UI.SmartListLayout.html">SmartListLayout</a>
+						</li>
+						
+						<li>
+							<a href="WinJSContrib.UPnP.UPnPDevice.html">UPnPDevice</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+			<div class="span12">
+				
+				<div id="main">
+					
+
+
+		<h1 class="page-title">Source: winjscontrib.ui.childviewflyout.js</h1>
+    
+    <section>
+        <article>
+            <pre class="sunlight-highlight-javascript linenums">/* 
+ * WinJS Contrib v2.1.0.2
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+/// &lt;reference path="winjscontrib.core.js" />
+
+(function () {
+
+    WinJS.Namespace.define("WinJSContrib.UI", {
+        parentChildView: function (element) {
+            var current = element.parentNode;
+
+            while (current) {
+                if (current.mcnChildnav) {
+                    return current.winControl;
+                }
+                current = current.parentNode;
+            }
+        },
+
+        ChildViewFlyout: WinJS.Class.mix(WinJS.Class.define(
+        /** 
+         * 
+         * @class WinJSContrib.UI.ChildViewFlyout 
+         * @property {HTMLElement} pageControl
+         * @classdesc This control wrap a navigator into a flyout that appears typically as a side panel. 
+         * It's intended to provide a secondary navigation mecanism or to enable scenarios like master detail, or content selection
+         * @param {HTMLElement} element DOM element containing the control
+         * @param {Object} options
+         */
+           function (element, options) {
+               element.winControl = this;
+               options = options || {};
+               this.element = element || document.createElement("div");
+               if (options.inplace) {
+                   this.rootElement = this.element;
+               } else {
+                   this.rootElement = document.createElement("div");
+                   this.rootElement.mcnChildnav = true;
+                   this.rootElement.winControl = this;
+                   this.element.style.display = 'none';
+               }
+               document.body.appendChild(this.rootElement);
+
+               //tell if internal navigator must register for navigation events
+               this.navigationEvents = options.navigationEvents;
+
+               this.element.mcnChildnav = true;
+
+               this.element.classList.add("mcn-childview");
+               this.element.classList.add("win-disposable");
+               this.rootElement.classList.add("childNavigator");
+               this.element.classList.add('mcn-navigation-ctrl');
+               this._createContent(options);
+               this.isOpened = false;
+               this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
+               //this.cancelNavigationBinded = this.cancelNavigation.bind(this);
+           },
+           /**
+            * @lends WinJSContrib.UI.ChildViewFlyout.prototype 
+            */
+           {
+               _createContent: function (options) {
+                   var that = this;
+                   var FD = WinJSContrib.UI.FluentDOM;
+                   var overlay = new FD('DIV');
+                   that.overlay = new FD('DIV')
+                       .addClass("childNavigator-overlay")
+                       .appendTo(that.rootElement)
+                       .tap(that.hide.bind(that), { disableAnimation: true })
+                       .element;
+
+                   that.contentPlaceholder = new FD('DIV', "childNavigator-contentPlaceholder", that.rootElement)
+                       .append('DIV', null, function (nav) {
+                           that.navigator = new WinJSContrib.UI.PageControlNavigator(nav.element, { global: false });
+                           that.navigator.animations.enterPage = WinJS.UI.Animation.fadeIn;
+                           that.navigator.hide = function (arg) {
+                               return that.hide(arg);
+                           }
+                       })
+                       .element;
+                   if (options &amp;&amp; options.closeBtn &amp;&amp; options.closeBtn.active) {
+                       that.closebtn = new FD('DIV', 'mcn-close-btn', that.contentPlaceholder);
+                       if (options.closeBtn.templatetext)
+                           that.closebtn.html(options.closeBtn.templatetext);
+                       if (options.closeBtn.class)
+                           that.closebtn.className(that.closebtn.element.className + " " + options.closeBtn.class);
+                       else if(!options.closeBtn.templatetext) {
+                           that.closebtn.className(that.closebtn.element.className + " default-icon" );
+                       }
+                       WinJSContrib.UI.tap(that.closebtn.element, function () { that.closePage(); });
+                   }
+               },
+
+               /**
+                * navigate to target uri
+                * @param {string} uri target page uri
+                * @param {Object} options options for target page
+                * @param {boolean} skipHistory indicate if navigation should skip being added to history
+                * @returns {WinJS.Promise}
+                */
+               navigate: function (uri, options, skipHistory) {
+                   var that = this;
+                   return that.navigator.navigate(uri, options);
+               },
+
+               pageControl: {
+                   get: function () {
+                       return this.container &amp;&amp; this.container.winControl;
+                   }
+               },
+
+               /**
+                * clear all child view pages
+                */
+               clear: function () {
+                   var that = this;
+                   return new WinJS.Promise(function (complete, error) {
+                       WinJS.Promise.wrap(that.closePage()).done(function () {
+                           that.navigator.clear();
+                           that.navigator.element.innerText = '';
+                           that.location = undefined;
+                           complete();
+                       });
+                   });
+               },
+
+               /**
+                * close current page
+                */
+               closePage: function (arg, pageElement) {
+                   var that = this;
+                   if (!that.canClose()) {
+                       return WinJS.Promise.wrapError();
+                   }
+
+                   if (that.navigator.element.children.length == 1) {
+                       that.hide(arg);
+                   }
+
+                   that.navigator.triggerPageExit();
+                   return that.navigator.closePage(pageElement).then(function () {
+                       if (WinJSContrib.UI.Application.progress)
+                           WinJSContrib.UI.Application.progress.hide();
+                   });
+               },
+
+               /**
+                * navigate back
+                */
+               back: function (distance) {
+                   var that = this;
+                   return that.navigator.back(distance);
+               },
+
+               /**
+                * indicate if control can navigate back
+                */
+               canGoBack: function () {
+                   return that.navigator.canGoBack;
+               },
+
+               _childContentKeyUp: function (args) {
+                   if (args.key === "Esc") {
+                       this.hide();
+                   }
+               },
+
+               hardwareBackBtnPressed: function (arg) {
+                   var ctrl = this;
+                   if (!ctrl.navigator._checkBackNavigation(arg)) {
+                       ctrl.hide();
+                       arg.handled = true;
+                   }
+
+                   //var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
+                   //if (idx == WinJSContrib.UI.FlyoutPage.openPages.length - 1) {
+                   //	ctrl.hide();
+                   //	arg.handled = true;
+                   //	if (arg.preventDefault)
+                   //		arg.preventDefault();
+                   //}
+               },
+
+               //cancelNavigation: function (args) {
+               //    //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
+               //    var p = new WinJS.Promise(function (c) { });
+               //    args.detail.setPromise(p);
+               //    setImmediate(function () {
+               //        p.cancel();
+               //    });
+               //},
+
+               show: function (skipshowcontainer) {
+                   var that = this;
+
+                   if (!that.isOpened) {
+                       document.body.addEventListener('keyup', that.childContentKeyUp);
+                       that.isOpened = true;
+
+                       that.rootElement.classList.add("visible");
+                       that.overlay.classList.add("visible");
+                       if (!skipshowcontainer)
+                           that.contentPlaceholder.classList.add("visible");
+
+                       that.navEventsHandler = WinJSContrib.UI.registerNavigationEvents(that, this.hardwareBackBtnPressedBinded);
+                       if (that.navigationEvents) {
+                           that.navigator.addNavigationEvents();
+                       }
+                       //WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
+                       //if (window.Windows &amp;&amp; window.Windows.Phone)
+                       //    Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
+                       //else
+                       //    document.addEventListener("backbutton", this.hardwareBackBtnPressedBinded, true);
+
+                       //if (WinJSContrib.UI.Application &amp;&amp; WinJSContrib.UI.Application.navigator)
+                       //    WinJSContrib.UI.Application.navigator.addLock();
+                   }
+               },
+
+               pick: function (uri, options, skipHistory) {
+                   var ctrl = this;
+                   options = options || {};
+                   ctrl.pickPromises = ctrl.pickPromises || [];
+
+                   var pickPromise = new WinJS.Promise(function (complete, error) {
+                       var completed = false;
+                       var page = null;
+
+                       var manageClose = function (arg) {
+                           removePromise();
+                           if (page)
+                               page.removeEventListener("closing", manageClose);
+                           ctrl.removeEventListener("beforehide", manageClose);
+                           if (!completed) {
+                               completed = true;
+                               complete({ completed: false, data: null });
+                           }
+                       };
+
+                       options.navigateStacked = true;
+                       options.injectToPage = {
+                           close: function (arg) {
+                               removePromise();
+                               completed = true;
+
+                               if (page)
+                                   page.removeEventListener("closing", manageClose);
+                               ctrl.removeEventListener("beforehide", manageClose);
+                               ctrl.closePage(arg, this.rootElement).then(function () {
+                                   complete({ completed: true, data: arg });
+                               });
+                           },
+                           cancel: function () {
+                               manageClose();
+                               ctrl.closePage();
+                           }
+                       };
+
+                       ctrl.open(uri, options, skipHistory).then(function (arg) {
+                           page = ctrl.navigator.pageControl;
+                           if (page) {
+                               page.addEventListener("closing", manageClose);
+                           }
+                           ctrl.addEventListener("beforehide", manageClose, false);
+                       });
+                   });
+                   var removePromise = function () {
+                       var idx = ctrl.pickPromises.indexOf(pickPromise);
+                       ctrl.pickPromises.splice(idx, 1);
+                   }
+                   ctrl.pickPromises.push(pickPromise);
+                   pickPromise.then(removePromise);
+
+                   //if (this.pickPromise) {
+                   //    this.pickPromise = this.pickPromise.then(function () {
+                   //        return pickPromise;
+                   //    })
+                   //}
+
+                   return pickPromise;
+               },
+
+               /**
+                * display child view and navigate to target uri
+                * @param {string} uri target page uri
+                * @param {Object} options options for target page
+                * @param {boolean} skipHistory indicate if navigation should skip being added to history
+                * @returns {WinJS.Promise}
+                */
+               open: function (uri, options, skipHistory) {
+                   var that = this;
+                   that.rootElement.classList.add("visible");
+                   that.dispatchEvent('beforeshow');
+                   that.overlay.classList.add("enter");
+                   that.contentPlaceholder.classList.add("enter");
+                   return new WinJS.Promise(function (complete, error) {
+                       setImmediate(function () {
+                           that.overlay.classList.add("visible");
+                           that.contentPlaceholder.classList.add("visible");
+
+                           //setImmediate(function () {
+                           if (!that.isOpened) {
+                               that.show(true);
+                           }
+
+                           setImmediate(function () {
+                               that.navigate(uri, options, skipHistory).done(function (e) {
+                                   that.dispatchEvent('aftershow');
+                                   complete(e);
+                               }, error);
+                           });
+
+                           WinJSContrib.UI.afterTransition(that.contentPlaceholder).then(function () {
+                               that.overlay.classList.remove("enter");
+                               that.contentPlaceholder.classList.remove("enter");
+                           });
+                           //});
+                       });
+                   });
+               },
+
+               canClose: function () {
+                   var that = this;
+                   if (this.navigator.pageControl &amp;&amp; this.navigator.pageControl.canClose) {
+                       if (!this.navigator.pageControl.canClose()) {
+                           return false;
+                       }
+                   }
+
+                   return true;
+               },
+
+               /**
+                * close all content and hide child view
+                */
+               hide: function (arg) {
+                   var that = this;
+                   if (that.isOpened) {
+
+                       if (that.pickPromises) {
+                           that.pickPromises.forEach(function (p) {
+                               p.cancel();
+                           });
+                       }
+
+                       if (!that.canClose()) {
+                           return false;
+                       }
+
+                       document.body.removeEventListener('keyup', that.childContentKeyUp);
+                       that.isOpened = false;
+                       that.dispatchEvent('beforehide', arg);
+
+                       if (that.navEventsHandler) {
+                           that.navEventsHandler();
+                           that.navigator.removeNavigationEvents();
+                           that.navEventsHandler = null;
+                       }
+
+                       that.overlay.classList.remove("enter");
+                       that.contentPlaceholder.classList.remove("enter");
+
+                       if (that.overlay.classList.contains("visible")) {
+                           that.overlay.classList.add("leave");
+                           that.contentPlaceholder.classList.add("leave");
+                           setImmediate(function () {
+                               WinJSContrib.UI.afterTransition(that.contentPlaceholder).then(function () {
+                                   that.clear();
+                                   that.rootElement.classList.remove('visible');
+                                   that.dispatchEvent('afterhide', arg);
+                                   that.overlay.classList.remove("leave");
+                                   that.contentPlaceholder.classList.remove("leave");
+                               });
+
+                               that.overlay.classList.remove("visible");
+                               that.contentPlaceholder.classList.remove("visible");
+
+                           });
+                       }
+                   }
+                   return true;
+               },
+
+               dispose: function () {
+                   var ctrl = this;
+                   this.rootElement.winControl = null;
+                   WinJS.Utilities.disposeSubTree(this.rootElement);
+                   WinJS.Utilities.disposeSubTree(this.element);
+                   this.rootElement.parentElement.removeChild(this.rootElement);
+               }
+           }),
+           WinJS.Utilities.eventMixin,
+           WinJS.Utilities.createEventProperties("beforeshow", "beforehide", "aftershow", "afterhide"))
+
+    });
+})();</pre>
+        </article>
+    </section>
+
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer>
+					
+					by MCNEXT
+					<br />
+					
+					
+		<span class="copyright">
+		copyright MCNEXT
+		</span>
+					<br />
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a>
+		on Thu Jul 16 2015 17:20:42 GMT+0200 (Romance Daylight Time) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+				</footer>
+			</div>
+
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<script src="scripts/sunlight.js"></script>
+	<script src="scripts/sunlight.javascript.js"></script>
+	<script src="scripts/sunlight-plugin.doclinks.js"></script>
+	<script src="scripts/sunlight-plugin.linenumbers.js"></script>
+	<script src="scripts/sunlight-plugin.menu.js"></script>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery.scrollTo.js"></script>
+	<script src="scripts/jquery.localScroll.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+
+
+	<script>  Sunlight.highlightAll({lineNumbers:true,  showMenu: true, enableDoclinks :true}); </script>
+
+	<script>
+		$( function () {
+			$( "#toc" ).toc( {
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : 60
+			} );
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+
+		} );
+	</script>
+
+	
+
+</body>
+</html>

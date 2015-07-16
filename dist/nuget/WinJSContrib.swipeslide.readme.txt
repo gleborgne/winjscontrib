@@ -1,9 +1,0 @@
-﻿WinJSContrib.SwipeSlide
-
-Control for a sliding effect on swipe. It helps building navigation or custom controls behaving like a flipview. For now it works only for horizontal swipe/slide.
-
-To use it, add a reference in your page or in default.html
-<script src="/scripts/winjscontrib/winjscontrib.ui.swipeslide.js"></script>
-
-If you need more, or need some help, look at the samples or start a new discussion at :
-https://github.com/gleborgne/winjscontrib
