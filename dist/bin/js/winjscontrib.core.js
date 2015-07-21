@@ -1807,7 +1807,7 @@ var WinJSContrib;
                     }
                     tracking.animDown(event.currentTarget);
                     if (tracking.tapOnDown) {
-                        tracking.callback(elt);
+                        tracking.callback(elt, event);
                     }
                 }
             };
@@ -1844,7 +1844,7 @@ var WinJSContrib;
                                     event.stopImmediatePropagation();
                                     event.stopPropagation();
                                     event.preventDefault();
-                                    tracking.callback(elt);
+                                    tracking.callback(elt, event);
                                 }
                                 if (tracking && tracking.pointerdown)
                                     tracking.pointerdown = undefined;

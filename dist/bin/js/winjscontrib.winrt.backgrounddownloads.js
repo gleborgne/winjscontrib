@@ -241,6 +241,7 @@ var WinJSContrib = WinJSContrib || {};
         _errorCallback: function (err) {
             var operation = this;
             operation.ended = true;
+            operation.error = err;
 
             if (operation.download) {
                 WinJS.Application.queueEvent({ type: "mcnbgdownload.error", uploadId: operation.download.guid });
@@ -447,6 +448,7 @@ var WinJSContrib = WinJSContrib || {};
         _errorCallback: function (err) {
             var operation = this;
             operation.ended = true;
+            operation.error = err;
 
             if (operation.upload) {
                 WinJS.Application.queueEvent({ type: "mcnbgupload.error", uploadId: operation.upload.guid, file: operation.upload.sourceFile.path, uri: operation.upload.requestedUri });

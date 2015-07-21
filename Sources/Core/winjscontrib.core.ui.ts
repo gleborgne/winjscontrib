@@ -735,7 +735,7 @@ module WinJSContrib.UI {
 				}
 				tracking.animDown(event.currentTarget);
 				if (tracking.tapOnDown) {
-					tracking.callback(elt);
+					tracking.callback(elt, event);
 				}
 			}
 		}
@@ -777,7 +777,7 @@ module WinJSContrib.UI {
 								event.stopImmediatePropagation();
 								event.stopPropagation();
 								event.preventDefault();
-								tracking.callback(elt);
+								tracking.callback(elt, event);
 							}
 							if (tracking && tracking.pointerdown)
 								tracking.pointerdown = undefined;
