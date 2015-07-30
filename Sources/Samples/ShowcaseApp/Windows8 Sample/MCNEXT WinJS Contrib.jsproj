@@ -108,12 +108,6 @@
     <Content Include="..\..\..\Common\winjscontrib.mixin.less">
       <Link>css\winjscontrib\winjscontrib.mixin.less</Link>
     </Content>
-    <Content Include="..\..\..\Common\winjscontrib.search.js">
-      <Link>scripts\winjscontrib\winjscontrib.search.js</Link>
-    </Content>
-    <Content Include="..\..\..\Common\winjscontrib.search.worker.js">
-      <Link>scripts\winjscontrib\winjscontrib.search.worker.js</Link>
-    </Content>
     <Content Include="..\..\..\Common\winjscontrib.ui.animation.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.animation.js</Link>
     </Content>
@@ -279,6 +273,12 @@
     <Content Include="..\..\..\Core\winjscontrib.ui.webcomponents.js">
       <Link>winjscontrib.ui.webcomponents.js</Link>
     </Content>
+    <Content Include="..\..\..\Search\winjscontrib.search.js">
+      <Link>scripts\winjscontrib\winjscontrib.search.js</Link>
+    </Content>
+    <Content Include="..\..\..\Search\winjscontrib.search.worker.js">
+      <Link>scripts\winjscontrib\winjscontrib.search.worker.js</Link>
+    </Content>
     <Content Include="..\..\..\WinRT\winjscontrib.winrt.audiorecording.js">
       <Link>scripts\winjscontrib\winjscontrib.winrt.audiorecording.js</Link>
     </Content>
@@ -329,7 +329,6 @@
     <Content Include="js\movies.js" />
     <None Include="Package.StoreAssociation.xml" />
     <None Include="MCNEXT WinJS Contrib_StoreKey.pfx" />
-    <Content Include="packages.config" />
     <Content Include="default.html" />
     <Content Include="TODO.txt" />
     <None Include="MCNEXT.WinJSLibrary_TemporaryKey.pfx" />

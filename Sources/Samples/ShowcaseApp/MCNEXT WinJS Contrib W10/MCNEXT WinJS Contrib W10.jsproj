@@ -109,12 +109,6 @@
     <Content Include="..\..\..\Common\winjscontrib.mixin.less">
       <Link>css\winjscontrib\winjscontrib.mixin.less</Link>
     </Content>
-    <Content Include="..\..\..\Common\winjscontrib.search.js">
-      <Link>scripts\winjscontrib\winjscontrib.search.js</Link>
-    </Content>
-    <Content Include="..\..\..\Common\winjscontrib.search.worker.js">
-      <Link>scripts\winjscontrib\winjscontrib.search.worker.js</Link>
-    </Content>
     <Content Include="..\..\..\Common\winjscontrib.ui.animation.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.animation.js</Link>
     </Content>
@@ -271,6 +265,12 @@
     <Content Include="..\..\..\Core\winjscontrib.ui.webcomponents.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.webcomponents.js</Link>
     </Content>
+    <Content Include="..\..\..\Search\winjscontrib.search.js">
+      <Link>scripts\winjscontrib\winjscontrib.search.js</Link>
+    </Content>
+    <Content Include="..\..\..\Search\winjscontrib.search.worker.js">
+      <Link>scripts\winjscontrib\winjscontrib.search.worker.js</Link>
+    </Content>
     <Content Include="..\..\..\WinRT\winjscontrib.winrt.audiorecording.js">
       <Link>scripts\winjscontrib\winjscontrib.winrt.audiorecording.js</Link>
     </Content>
@@ -313,7 +313,6 @@
     <Content Include="images\storelogo.png" />
     <Content Include="js\application.js" />
     <Content Include="js\default.js" />
-    <Content Include="css\default.css" />
     <Content Include="js\mcnext\map\bingmap.v7.CustomInfobox.js" />
     <Content Include="js\mcnext\map\bingmap.v7.PointBasedClustering.js" />
     <Content Include="js\mcnext\map\mcnext.bingmap.js" />

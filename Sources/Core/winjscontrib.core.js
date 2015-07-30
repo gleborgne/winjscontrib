@@ -1810,8 +1810,14 @@ var WinJSContrib;
                 var tracking = elt.mcnTapTracking;
                 if (tracking && tracking.pointerdown) {
                     WinJS.Utilities.removeClass(elt, 'tapped');
-                    if (event.pointerId && elt.releasePointerCapture)
-                        elt.releasePointerCapture(event.pointerId);
+                    if (event.pointerId && elt.releasePointerCapture) {
+                        try {
+                            elt.releasePointerCapture(event.pointerId);
+                        }
+                        catch (exception) {
+                            console.error(exception);
+                        }
+                    }
                     if (!tracking.disableAnimation)
                         tracking.animUp(event.currentTarget);
                 }
@@ -1820,8 +1826,14 @@ var WinJSContrib;
                 var elt = event.currentTarget || event.target;
                 var tracking = elt.mcnTapTracking;
                 if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
-                    if (elt.releasePointerCapture)
-                        elt.releasePointerCapture(event.pointerId);
+                    if (elt.releasePointerCapture) {
+                        try {
+                            elt.releasePointerCapture(event.pointerId);
+                        }
+                        catch (exception) {
+                            console.error(exception);
+                        }
+                    }
                     if (tracking && !tracking.tapOnDown) {
                         event.stopPropagation();
                         var resolveTap = function () {

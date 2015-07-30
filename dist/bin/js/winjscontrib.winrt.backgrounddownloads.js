@@ -209,7 +209,7 @@ var WinJSContrib = WinJSContrib || {};
 
             operation.ended = true;
             if (operation.download && operation.download.progress.status === Windows.Networking.BackgroundTransfer.BackgroundTransferStatus.completed) {
-                WinJS.Application.queueEvent({ type: "mcnbgdownload.success", uploadId: operation.download.guid });
+                WinJS.Application.queueEvent({ type: "mcnbgdownload.success", uploadId: operation.download.guid, operation: operation });
                 if (operation.oncomplete) {
                     operation.oncomplete();
                     operation.oncomplete = null;
@@ -220,7 +220,7 @@ var WinJSContrib = WinJSContrib || {};
                 }
             }
             else {
-                if (operation.download) WinJS.Application.queueEvent({ type: "mcnbgdownload.error", uploadId: operation.download.guid });
+                if (operation.download) WinJS.Application.queueEvent({ type: "mcnbgdownload.error", uploadId: operation.download.guid, operation: operation });
                 operation._errorCallback('transfert problem');
             }
 
@@ -228,7 +228,7 @@ var WinJSContrib = WinJSContrib || {};
                 try {
                     var responseInfo = operation.download.getResponseInformation();
                     printLog(operation.download.guid + " - download complete. Status code: " + responseInfo.statusCode + "");
-                    WinJS.Application.queueEvent({ type: 'McnBgDownload', error:false, id: operation.download.guid });
+                    WinJS.Application.queueEvent({ type: 'McnBgDownload', error:false, id: operation.download.guid, operation: operation });
                     //displayStatus("Completed: " + download.guid + ", Status Code: " + responseInfo.statusCode);
                 } catch (err) {
                     printLog(err);
@@ -244,11 +244,11 @@ var WinJSContrib = WinJSContrib || {};
             operation.error = err;
 
             if (operation.download) {
-                WinJS.Application.queueEvent({ type: "mcnbgdownload.error", uploadId: operation.download.guid });
+                WinJS.Application.queueEvent({ type: "mcnbgdownload.error", uploadId: operation.download.guid, operation: operation });
                 operation.download.resultFile.deleteAsync().done(function () {
                 }, function () { });
                 operation.removeDownload(operation.download.guid);
-                WinJS.Application.queueEvent({ type: 'McnBgDownload', error: true, id: operation.download.guid });
+                WinJS.Application.queueEvent({ type: 'McnBgDownload', error: true, id: operation.download.guid, operation: operation });
                 printLog(operation.download.guid + " - download completed with error.");
             }
 
@@ -418,7 +418,7 @@ var WinJSContrib = WinJSContrib || {};
 
             operation.ended = true;
             if (operation.upload && operation.upload.progress.status === Windows.Networking.BackgroundTransfer.BackgroundTransferStatus.completed) {
-                WinJS.Application.queueEvent({ type: "mcnbgupload.success", uploadId: operation.upload.guid, file: operation.upload.sourceFile.path });
+                WinJS.Application.queueEvent({ type: "mcnbgupload.success", uploadId: operation.upload.guid, file: operation.upload.sourceFile.path, operation: operation });
                 if (operation.oncomplete) {
                     operation.oncomplete();
                     operation.oncomplete = null;
@@ -429,7 +429,7 @@ var WinJSContrib = WinJSContrib || {};
                 }
             }
             else {
-                if (operation.upload) WinJS.Application.queueEvent({ type: "mcnbgupload.error", uploadId: operation.upload.guid, file: operation.upload.sourceFile.path, uri: operation.upload.requestedUri });
+                if (operation.upload) WinJS.Application.queueEvent({ type: "mcnbgupload.error", uploadId: operation.upload.guid, file: operation.upload.sourceFile.path, uri: operation.upload.requestedUri, operation: operation });
                 operation._errorCallback('transfert problem');
             }
 
@@ -451,7 +451,7 @@ var WinJSContrib = WinJSContrib || {};
             operation.error = err;
 
             if (operation.upload) {
-                WinJS.Application.queueEvent({ type: "mcnbgupload.error", uploadId: operation.upload.guid, file: operation.upload.sourceFile.path, uri: operation.upload.requestedUri });
+                WinJS.Application.queueEvent({ type: "mcnbgupload.error", uploadId: operation.upload.guid, file: operation.upload.sourceFile.path, uri: operation.upload.requestedUri, operation: operation });
                 operation.removeUpload(operation.upload.guid);
                 printLog(operation.upload.guid + " - upload completed with error.");
             }

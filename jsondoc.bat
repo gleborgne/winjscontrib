@@ -3,3 +3,4 @@ node node_modules\gulp-jsdoc\node_modules\jsdoc\jsdoc "dist\bin\js" -r -t "dist\
 copy "dist\winjscontrib.doc.json" "sources\samples\ShowcaseApp\MCNEXT WinJS Contrib.Shared\apidoc\winjscontrib.doc.json"
 
 
+pause
