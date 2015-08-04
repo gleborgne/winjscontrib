@@ -378,9 +378,9 @@ module WinJSContrib.Utils {
                 return;
 
             var val = prop.substr(idx + 1, end - idx);
-            val = parseInt(val);
+            var intval = parseInt(val);
 
-            obj[val] = data;
+            obj[intval] = data;
         }
     }
 

@@ -156,9 +156,7 @@ var WinJSContrib;
                 var queueBatch = function (p, items) {
                     //var batchresults = [];
                     return p.then(function (r) {
-                        return WinJS.Promise.join(items.map(function (item) {
-                            return WinJS.Promise.as(promiseCallback(item));
-                        })).then(function (results) {
+                        return WinJS.Promise.join(items.map(function (item) { return WinJS.Promise.as(promiseCallback(item)); })).then(function (results) {
                             results = results.concat(results);
                         }, function (errors) {
                             results = results.concat(errors);
@@ -346,8 +344,8 @@ var WinJSContrib;
                 if (end < 0)
                     return;
                 var val = prop.substr(idx + 1, end - idx);
-                val = parseInt(val);
-                obj[val] = data;
+                var intval = parseInt(val);
+                obj[intval] = data;
             }
         }
         /** Read property value on an object based on expression
@@ -1661,8 +1659,7 @@ var WinJSContrib;
              * @param listener The listener to remove.
              * @param useCapture true if capture is to be initiated, otherwise false.
             **/
-            MediaTrigger.prototype.removeEventListener = function (type, listener, useCapture) {
-            };
+            MediaTrigger.prototype.removeEventListener = function (type, listener, useCapture) { };
             return MediaTrigger;
         })();
         UI.MediaTrigger = MediaTrigger;
@@ -1710,8 +1707,7 @@ var WinJSContrib;
             //}
             function cancelNavigation(args) {
                 //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
-                var p = new WinJS.Promise(function (c) {
-                });
+                var p = new WinJS.Promise(function (c) { });
                 args.detail.setPromise(p);
                 //setImmediate(function () {
                 p.cancel();
@@ -1882,12 +1878,8 @@ var WinJSContrib;
             element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
             element.mcnTapTracking.disableAnimation = opt.disableAnimation;
             if (element.mcnTapTracking.disableAnimation) {
-                element.mcnTapTracking.animDown = function () {
-                    return WinJS.Promise.wrap();
-                };
-                element.mcnTapTracking.animUp = function () {
-                    return WinJS.Promise.wrap();
-                };
+                element.mcnTapTracking.animDown = function () { return WinJS.Promise.wrap(); };
+                element.mcnTapTracking.animUp = function () { return WinJS.Promise.wrap(); };
             }
             else {
                 element.mcnTapTracking.animDown = opt.animDown || WinJS.UI.Animation.pointerDown;
@@ -2205,8 +2197,7 @@ var WinJSContrib;
 })(WinJSContrib || (WinJSContrib = {}));
 
 var __global = this;
-var profiler = __global.msWriteProfilerMark || function () {
-};
+var profiler = __global.msWriteProfilerMark || function () { };
 var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
@@ -2219,69 +2210,71 @@ var WinJSContrib;
              * @type {Array}
              */
             Pages.defaultFragmentMixins = [{
-                $: function (selector) {
-                    return $(selector, this.element || this._element);
-                },
-                q: function (selector) {
-                    if (!this.element)
-                        return;
-                    return this.element.querySelector(selector);
-                },
-                qAll: function (selector) {
-                    if (!this.element)
-                        return;
-                    var res = this.element.querySelectorAll(selector);
-                    if (res && !res.forEach) {
-                        res = [].slice.call(res);
-                    }
-                    return res;
-                },
-            }, {
-                dispose: function () {
-                    if (this._promises) {
-                        this.cancelPromises();
-                        this._promises = null;
-                    }
-                },
-                promises: {
-                    configurable: true,
-                    get: function () {
-                        if (!this._promises)
-                            this._promises = [];
-                        return this._promises;
-                    }
-                },
-                addPromise: function (prom) {
-                    this.promises.push(prom);
-                    return prom;
-                },
-                cancelPromises: function () {
-                    var page = this;
-                    if (page.promises) {
-                        for (var i = 0; i < page.promises.length; i++) {
-                            if (page.promises[i]) {
-                                page.promises[i].cancel();
-                            }
+                    $: function (selector) {
+                        return $(selector, this.element || this._element);
+                    },
+                    q: function (selector) {
+                        if (!this.element)
+                            return;
+                        return this.element.querySelector(selector);
+                    },
+                    qAll: function (selector) {
+                        if (!this.element)
+                            return;
+                        var res = this.element.querySelectorAll(selector);
+                        if (res && !res.forEach) {
+                            res = [].slice.call(res);
                         }
-                        page.promises = [];
-                    }
-                }
-            }, {
-                dispose: function () {
-                    if (this._eventTracker) {
-                        this._eventTracker.dispose();
-                        this._eventTracker = null;
+                        return res;
+                    },
+                },
+                {
+                    dispose: function () {
+                        if (this._promises) {
+                            this.cancelPromises();
+                            this._promises = null;
+                        }
+                    },
+                    promises: {
+                        configurable: true,
+                        get: function () {
+                            if (!this._promises)
+                                this._promises = [];
+                            return this._promises;
+                        }
+                    },
+                    addPromise: function (prom) {
+                        this.promises.push(prom);
+                        return prom;
+                    },
+                    cancelPromises: function () {
+                        var page = this;
+                        if (page.promises) {
+                            for (var i = 0; i < page.promises.length; i++) {
+                                if (page.promises[i]) {
+                                    page.promises[i].cancel();
+                                }
+                            }
+                            page.promises = [];
+                        }
                     }
                 },
-                eventTracker: {
-                    configurable: true,
-                    get: function () {
-                        if (!this._eventTracker)
-                            this._eventTracker = new WinJSContrib.UI.EventTracker();
-                        return this._eventTracker;
+                {
+                    dispose: function () {
+                        if (this._eventTracker) {
+                            this._eventTracker.dispose();
+                            this._eventTracker = null;
+                        }
+                    },
+                    eventTracker: {
+                        configurable: true,
+                        get: function () {
+                            if (!this._eventTracker)
+                                this._eventTracker = new WinJSContrib.UI.EventTracker();
+                            return this._eventTracker;
+                        }
                     }
-                }
-            }];
+                }];
             function broadcast(ctrl, element, eventName, args, before, after) {
                 var promises = [];
                 if (before)
@@ -2341,10 +2334,7 @@ var WinJSContrib;
                 element.setAttribute("dir", __global.getComputedStyle(element, null).direction);
                 element.style.opacity = '0';
                 container.appendChild(element);
-                var fragmentPromise = new WinJS.Promise(function (c, e) {
-                    fragmentCompleted = c;
-                    fragmentError = e;
-                });
+                var fragmentPromise = new WinJS.Promise(function (c, e) { fragmentCompleted = c; fragmentError = e; });
                 var parented = options.parented ? WinJS.Promise.as(options.parented) : null;
                 var layoutCtrls = [];
                 var pageConstructor = WinJS.UI.Pages.get(location);
@@ -2549,8 +2539,7 @@ var WinJSContrib;
                         /// </signature>
                         return ControlProcessor.processAll(element);
                     },
-                    processed: function (element, options) {
-                    },
+                    processed: function (element, options) { },
                     render: function (element, options, loadResult) {
                         /// <signature helpKeyword="WinJS.UI.Pages._mixin.render">
                         /// <summary locid="WinJS.UI.Pages._mixin.render">
@@ -2574,10 +2563,8 @@ var WinJSContrib;
                         }
                         return element;
                     },
-                    rendered: function (element, options) {
-                    },
-                    ready: function () {
-                    }
+                    rendered: function (element, options) { },
+                    ready: function () { }
                 };
                 function injectMixin(base, mixin) {
                     var d = base.prototype.dispose;
@@ -2750,6 +2737,9 @@ var WinJSContrib;
                         // This needs to follow the WinJS.UI.processAll "async constructor"
                         // pattern to interop nicely in the "Views.Control" use case.
                         //
+                        // This needs to follow the WinJS.UI.processAll "async constructor"
+                        // pattern to interop nicely in the "Views.Control" use case.
+                        //
                         function PageControl_ctor(element, options, complete, parentedPromise) {
                             var that = this;
                             var parent = WinJSContrib.Utils.getScopeControl(element);
@@ -2886,9 +2876,8 @@ var WinJSContrib;
                     /// document for the content of the page.
                     /// </param>
                     /// </signature>
-                    WinJS.UI.Pages.render(options.uri, element, options).then(complete, function () {
-                        complete();
-                    });
+                    WinJS.UI.Pages.render(options.uri, element, options).
+                        then(complete, function () { complete(); });
                 });
             })(WinJSContrib.UI.Pages, __global, WinJS, WinJS.UI.Pages, WinJS.Utilities, WinJS.Utilities, profiler, WinJS.Promise, WinJS.UI.Fragments, WinJS.UI);
         })(Pages = UI.Pages || (UI.Pages = {}));

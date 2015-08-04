@@ -12198,13 +12198,13 @@ declare module Windows {
                 updateAsync(): Windows.Foundation.IAsyncOperation<boolean>;
             }
             export interface ISecondaryTileFactory {
-                createTile(tileId: string, shortName: string, displayName: string, arguments: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri): Windows.UI.StartScreen.SecondaryTile;
-                createWideTile(tileId: string, shortName: string, displayName: string, arguments: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri, wideLogoReference: Windows.Foundation.Uri): Windows.UI.StartScreen.SecondaryTile;
+                createTile(tileId: string, shortName: string, displayName: string, args: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri): Windows.UI.StartScreen.SecondaryTile;
+                createWideTile(tileId: string, shortName: string, displayName: string, args: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri, wideLogoReference: Windows.Foundation.Uri): Windows.UI.StartScreen.SecondaryTile;
                 createWithId(tileId: string): Windows.UI.StartScreen.SecondaryTile;
             }
             export class SecondaryTile implements Windows.UI.StartScreen.ISecondaryTile {
-                constructor(tileId: string, shortName: string, displayName: string, arguments: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri);
-                constructor(tileId: string, shortName: string, displayName: string, arguments: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri, wideLogoReference: Windows.Foundation.Uri);
+                constructor(tileId: string, shortName: string, displayName: string, args: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri);
+                constructor(tileId: string, shortName: string, displayName: string, args: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri, wideLogoReference: Windows.Foundation.Uri);
                 constructor(tileId: string);
                 constructor();
                 arguments: string;

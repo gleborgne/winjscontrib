@@ -739,6 +739,7 @@ var WinJSContrib;
                 * @field WinJSContrib.Search.Stemming.StopWords.common
                 */
                 StopWords.common = [
+                    //french
                     "de",
                     "du",
                     "des",
@@ -758,6 +759,7 @@ var WinJSContrib;
                     "par",
                     "avec",
                     "si",
+                    //english
                     "a",
                     "able",
                     "about",
