@@ -1,5 +1,4 @@
-﻿
-(function () {
+﻿(function () {
     'use strict';
     
     var DataFormState = WinJS.Class.mix(WinJS.Class.define(function () {
@@ -110,7 +109,7 @@
                         dataform.state.item = val;
                     }
 
-                    dataform.state.updated = false;
+                    
                     dataform.validator.resetForm();
 
                     dataform.autobindFields();
@@ -121,6 +120,7 @@
                         dataform.allowTooltip = tooltips;
                         dataform.checkState();
                         dataform.initValidator();
+                        dataform.state.updated = false;
                     });
                     dataform.dispatchEvent("itemchanged", { dataform: this, item: val });
                 }
