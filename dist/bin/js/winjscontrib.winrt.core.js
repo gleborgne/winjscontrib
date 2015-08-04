@@ -107,7 +107,8 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
                 }
                 if (opt.commands && opt.commands.forEach) {                    
                     opt.commands.forEach(function (command, index) {
-                        var cmd = new Windows.UI.Popups.UICommand();
+                        var cmd = new Windows.UI.Popups.UICommand();                        
+                        if (command.id) cmd.id = command.id;
                         cmd.label = command.label;
                         if (command.callback) {
                             cmd.invoked = command.callback;
@@ -142,26 +143,26 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
 
                     if (navigator && navigator.notification && navigator.notification.confirm) {
                         navigator.notification.confirm(
-							opt.content, // message
-							function (res) {
-							    if (opt.commands && opt.commands[res - 1] && opt.commands[res - 1].callback) {
-							        var c = opt.commands[res - 1].callback();
-							        if (c && c.then) {
-							            c.then(function () {
-							                complete(true);
-							            });
-							        } else {
-							            complete(true);
-							        }
-							    }
-							    else if (res != 0)
-							        complete(true);
-							    else
-							        complete(false);
-							},            // callback to invoke with index of button pressed
-							title,           // title
-							commands     // buttonLabels
-							);
+                            opt.content, // message
+                            function (res) {
+                                if (opt.commands && opt.commands[res - 1] && opt.commands[res - 1].callback) {
+                                    var c = opt.commands[res - 1].callback();
+                                    if (c && c.then) {
+                                        c.then(function () {
+                                            complete(true);
+                                        });
+                                    } else {
+                                        complete(true);
+                                    }
+                                }
+                                else if (res != 0)
+                                    complete(true);
+                                else
+                                    complete(false);
+                            },            // callback to invoke with index of button pressed
+                            title,           // title
+                            commands     // buttonLabels
+                            );
                     }
                     else {
                         if (window.confirm(title))
@@ -200,19 +201,19 @@ WinJSContrib.Alerts = WinJSContrib.Alerts || {};
                 title: title,
                 content: content,
                 commands: [
-					{
-					    label: yes,
-					    callback: function (e) {
-					        complete(true);
-					    },
-					    isDefault: true
-					},
-					{
-					    label: no,
-					    callback: function (e) {
-					        complete(false);
-					    }
-					}
+                    {
+                        label: yes,
+                        callback: function (e) {
+                            complete(true);
+                        },
+                        isDefault: true
+                    },
+                    {
+                        label: no,
+                        callback: function (e) {
+                            complete(false);
+                        }
+                    }
                 ]
             });
         });

@@ -221,7 +221,7 @@
                    var ctrl = this;
                    options = options || {};
                    ctrl.pickPromises = ctrl.pickPromises || [];
-
+                   
                    var pickPromise = new WinJS.Promise(function (complete, error) {
                        var completed = false;
                        var page = null;
@@ -234,7 +234,7 @@
                            if (!completed) {
                                completed = true;
                                complete({ completed: false, data: null });
-                           }
+                           }                           
                        };
 
                        options.navigateStacked = true;
@@ -242,6 +242,7 @@
                            close: function (arg) {
                                removePromise();
                                completed = true;
+                               manageClose();
 
                                if (page)
                                    page.removeEventListener("closing", manageClose);
@@ -256,6 +257,8 @@
                            }
                        };
 
+                       var arg = JSON.parse(JSON.stringify(options));
+                       arg.navigateStacked = true;
                        ctrl.open(uri, options, skipHistory).then(function (arg) {
                            page = ctrl.navigator.pageControl;
                            if (page) {

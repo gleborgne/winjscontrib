@@ -4,7 +4,6 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
-
 (function () {
     'use strict';
     
@@ -116,7 +115,7 @@
                         dataform.state.item = val;
                     }
 
-                    dataform.state.updated = false;
+                    
                     dataform.validator.resetForm();
 
                     dataform.autobindFields();
@@ -127,6 +126,7 @@
                         dataform.allowTooltip = tooltips;
                         dataform.checkState();
                         dataform.initValidator();
+                        dataform.state.updated = false;
                     });
                     dataform.dispatchEvent("itemchanged", { dataform: this, item: val });
                 }

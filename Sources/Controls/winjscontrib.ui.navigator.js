@@ -374,7 +374,7 @@
                             p.cancel();
                             return;
                         }
-                        else if (page && page.winControl && page.winControl.canClose) {
+                        else if (page && page.winControl && !openStacked && page.winControl.canClose) {
                             var completeCallback = null;
                             var p = new WinJS.Promise(function (c) {
                                 completeCallback = c;
@@ -385,7 +385,7 @@
                                         p.cancel();
                                     }
                                     else {
-                                        navigator.triggerPageExit();
+                                        navigator.triggerPageExit(openStacked);
                                         completeCallback();
                                     }
                                 });
@@ -401,13 +401,19 @@
                         navigator.triggerPageExit();
                     },
 
-                    triggerPageExit: function () {
+                    triggerPageExit: function (openStacked) {
                         var navigator = this;
                         var page = this.pageElement;
+                        if (openStacked) {
+                            page.winControl.exitPagePromise = WinJS.Promise.wrap();
+                            return;
+                        }
                         var hidepage = function () {
-                            page.style.display = 'none';
-                            page.style.visibility = 'hidden';
-                            page.style.opacity = '';
+                            if (!openStacked) {
+                                page.style.display = 'none';
+                                page.style.visibility = 'hidden';
+                                page.style.opacity = '';
+                            }
                         }
                         if (page && page.winControl && !page.winControl.exitPagePromise) {
                             if (page.winControl.exitPage) {
