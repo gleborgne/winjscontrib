@@ -396,6 +396,12 @@
             if (optionsText) {
                 options = WinJS.UI.optionsParser(optionsText, window);
             }
+            var inputType = "";
+            var inputOption = dest.getAttribute("data-forminput");
+            if (inputOption) {
+                inputType = inputOption;
+            }
+
             var fieldUpdated = false;
             dest.classList.add('mcn-dataform-field');
 
@@ -442,6 +448,11 @@
                     dataform.validator.element(dest);
             }
 
+            
+            if (inputType) {
+                dest.addEventListener(inputType, updateObjectFromInput);
+            }
+
             dest.addEventListener("change", updateObjectFromInput);
             if (dest.id) {
                 dest.addEventListener("blur", validateObjectOnBlur);
@@ -453,6 +464,9 @@
                     dispose: function () {
                         dest.removeEventListener("change", updateObjectFromInput);
                         dest.removeEventListener("blur", validateObjectOnBlur);
+                        if (inputType) {
+                            dest.removeEventListener(inputType, updateObjectFromInput);
+                        }
                     }
                 }
             }
