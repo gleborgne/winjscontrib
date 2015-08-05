@@ -1407,7 +1407,7 @@ var WinJSContrib;
                         p = WinJS.Promise.as(tmp).then(function (val) {
                             if (typeof val === 'string') {
                                 try {
-                                    val = JSON.parse(val);
+                                    val = WinJS.UI.optionsParser(val, window);
                                 }
                                 catch (exception) {
                                     return;
@@ -1464,7 +1464,7 @@ var WinJSContrib;
                         p = WinJS.Promise.as(tmp).then(function (val) {
                             if (typeof val === 'string') {
                                 try {
-                                    val = JSON.parse(val);
+                                    val = WinJS.UI.optionsParser(val, window);
                                 }
                                 catch (exception) {
                                 }

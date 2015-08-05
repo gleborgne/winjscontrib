@@ -300,7 +300,7 @@ module WinJSContrib.UI {
                         p = WinJS.Promise.as(tmp).then(function(val){
                             if (typeof val === 'string') {
                                 try {
-                                    val = JSON.parse(val);
+                                    val = WinJS.UI.optionsParser(val, window);
 
                                 } catch (exception) {
                                     return;
@@ -364,7 +364,7 @@ module WinJSContrib.UI {
                         p = WinJS.Promise.as(tmp).then(function(val){                        
                             if (typeof val === 'string') {
                                 try{
-                                    val = JSON.parse(val);                                
+                                    val = WinJS.UI.optionsParser(val, window);                                
                                 }catch (exception){
 
                                 }
