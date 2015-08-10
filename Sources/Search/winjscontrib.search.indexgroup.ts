@@ -19,7 +19,7 @@
             if (definitions) {
                 for (var n in definitions) {
                     var elt = definitions[n];
-                    if (elt.async)
+                    if (!elt.useworker)
                         this.indexes[n] = new WinJSContrib.Search.Index(n, elt.definition);
                     else
                         this.indexes[n] = new WinJSContrib.Search.IndexWorkerProxy(n, elt.definition);
@@ -80,7 +80,7 @@
                 return index.search(querytext).then(function (res) {
                     if (res && res.length) {
                         res.forEach(function (item) {
-                            item.searchItemType = n;
+                            item.searchItemType = name;
                             searchresult.allResults.push(item);
                         });
                     }

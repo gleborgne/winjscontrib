@@ -32,21 +32,21 @@ var worker = this;
 
     messenger.save = function (data) {
         if (!idx.name || !idx.definition)
-            return WinJS.Promise.wrapError({ message: 'index not initialized' });
+            return WinJS.Promise.wrapError({ message: 'index ' + (idx?idx.name: '') + ' not initialized' });
 
         return idx.save();
     }
 
     messenger.load = function (data) {
         if (!idx.name)
-            return WinJS.Promise.wrapError({ message: 'index not initialized' });
+            return WinJS.Promise.wrapError({ message: 'index ' + (idx?idx.name: '') + ' not initialized' });
 
         return idx.load();
     }
 
     messenger.count = function (data) {
         if (!idx.name || !idx.definition)
-            return WinJS.Promise.wrapError({ message: 'index not initialized' });
+            return WinJS.Promise.wrapError({ message: 'index ' + (idx?idx.name: '') + ' not initialized' });
 
         return idx.items.length;
     }
@@ -62,7 +62,7 @@ var worker = this;
                 }
 
                 if (!idx.name || !idx.definition) {
-                    error({ message: 'index not initialized' });
+                    error({ message: 'index ' + (idx?idx.name: '') + ' not initialized' });
                     return 
                 }
 
@@ -103,7 +103,7 @@ var worker = this;
                 }
 
                 if (!idx.name || !idx.definition) {
-                    error({ message: 'index not initialized' });
+                    error({ message: 'index ' + (idx?idx.name: '') + ' not initialized' });
                     return
                 }
 
@@ -127,7 +127,7 @@ var worker = this;
 
     messenger.clear = function (arg) {
         if (!idx.name || !idx.definition)
-            return WinJS.Promise.wrapError({ message: 'index not initialized' });
+            return WinJS.Promise.wrapError({ message: 'index ' + (idx?idx.name: '') + ' not initialized' });
 
         return idx.clear();
     }

@@ -45,12 +45,12 @@ function licenseHeader(){
 }
 
 var onError = function(err) {
-	notify.onError({
-		title:    "Gulp",
-		subtitle: "Failure!",
-		message:  "Error: <%= error.message %>",
-		sound:    "Beep"
-	})(err);
+	//notify.onError({
+	//	title:    "Gulp",
+	//	subtitle: "Failure!",
+	//	message:  "Error: <%= error.message %>",
+	//	sound:    "Beep"
+	//})(err);
 
 	this.emit('end');
 };
