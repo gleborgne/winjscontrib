@@ -1,0 +1,19 @@
+.mcn-elasticbutton {
+  position: relative;
+  border: none;
+}
+.mcn-elasticbutton .mcn-elasticbutton-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.mcn-elasticbutton .mcn-elasticbutton-bg svg {
+  stroke: white;
+  stroke-width: 3px;
+  fill: transparent;
+}
+.mcn-elasticbutton .mcn-elasticbutton-content {
+  position: relative;
+}

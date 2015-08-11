@@ -291,7 +291,17 @@ module WinJSContrib.UI {
 
 		var action = control[actionName];
 		if (action && typeof action === 'function') {
-			WinJSContrib.UI.tap(el, function (eltarg) {
+			var options = el.dataset.pageActionOptions || el.getAttribute('tap-options');
+            if (options){
+                    try {
+                        options = WinJS.UI.optionsParser(options, window);
+
+                    } catch (exception) {
+                        return;
+                    }
+                }
+
+            WinJSContrib.UI.tap(el, function (eltarg) {
 				var p = WinJS.Promise.wrap();
                 var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
 				if (actionArgs && typeof actionArgs == 'string') {
@@ -317,10 +327,12 @@ module WinJSContrib.UI {
 					
 				}
 
+                
+
                 return p.then(function(){
 				    return control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
                 });
-			});
+			}, options);
 		}
 	}
 
@@ -355,6 +367,16 @@ module WinJSContrib.UI {
 		}
 
 		if (target) {
+            var options = el.dataset.pageActionOptions || el.getAttribute('tap-options');
+            if (options){
+                    try {
+                        options = WinJS.UI.optionsParser(options, window);
+
+                    } catch (exception) {
+                        return;
+                    }
+                }
+
 			WinJSContrib.UI.tap(el, function (eltarg) {
                 var p = WinJS.Promise.wrap();
 				var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('linkto-args');
@@ -382,7 +404,7 @@ module WinJSContrib.UI {
     					return WinJS.Navigation.navigate(target, actionArgs);
     				}
                 });
-			});
+			}, options);
 		}
 	}
 

@@ -1411,6 +1411,15 @@ var WinJSContrib;
             var actionName = el.dataset.pageAction || el.getAttribute('tap');
             var action = control[actionName];
             if (action && typeof action === 'function') {
+                var options = el.dataset.pageActionOptions || el.getAttribute('tap-options');
+                if (options) {
+                    try {
+                        options = WinJS.UI.optionsParser(options, window);
+                    }
+                    catch (exception) {
+                        return;
+                    }
+                }
                 WinJSContrib.UI.tap(el, function (eltarg) {
                     var p = WinJS.Promise.wrap();
                     var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
@@ -1436,7 +1445,7 @@ var WinJSContrib;
                     return p.then(function () {
                         return control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
                     });
-                });
+                }, options);
             }
         }
         /**
@@ -1468,6 +1477,15 @@ var WinJSContrib;
                 }
             }
             if (target) {
+                var options = el.dataset.pageActionOptions || el.getAttribute('tap-options');
+                if (options) {
+                    try {
+                        options = WinJS.UI.optionsParser(options, window);
+                    }
+                    catch (exception) {
+                        return;
+                    }
+                }
                 WinJSContrib.UI.tap(el, function (eltarg) {
                     var p = WinJS.Promise.wrap();
                     var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('linkto-args');
@@ -1493,7 +1511,7 @@ var WinJSContrib;
                             return WinJS.Navigation.navigate(target, actionArgs);
                         }
                     });
-                });
+                }, options);
             }
         }
         /**
