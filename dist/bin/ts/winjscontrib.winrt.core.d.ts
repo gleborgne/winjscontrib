@@ -64,5 +64,5 @@ declare module WinJSContrib.Alerts {
      * @param {string} text text displayed in the toast
      * @param {string} picture path to a picture to display in the toast
      */
-    function toast(text: any, picture: any): void;
+    function toast(text: any, picture?: any): void;
 }

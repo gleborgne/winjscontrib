@@ -1,11 +1,24 @@
-
-//polyfill setimmediate
-if (!this.setImmediate) {
-	this.setImmediate = function (callback: any, ...args: any[]): number {
-		setTimeout(callback, 0);
-		return 0;
+(function(_global) { 
+	//polyfill setimmediate
+	if (!this.setImmediate) {
+		this.setImmediate = function (callback: any, ...args: any[]): number {
+			setTimeout(callback, 0);
+			return 0;
+		}
 	}
-}
+
+	//Windows 10 doesn't have it anymore, polyfill for backward compat
+	if (!this.toStaticHTML) {
+		this.toStaticHTML = function (text: string): string {
+			return text;
+		}
+	}
+
+	var msapp = <any>_global.MSApp;
+	if (msapp && !msapp.execUnsafeLocalFunction){
+		msapp.execUnsafeLocalFunction = function(c) { c(); }
+	}
+})(this);
 
 interface Object {
     map(obj, mapping);
