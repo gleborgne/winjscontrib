@@ -1439,8 +1439,8 @@ var WinJSContrib;
                         else {
                         }
                     }
-                    p.then(function () {
-                        control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
+                    return p.then(function () {
+                        return control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
                     });
                 });
             }
@@ -1490,13 +1490,13 @@ var WinJSContrib;
                             return val;
                         });
                     }
-                    p.then(function (actionArgs) {
+                    return p.then(function (actionArgs) {
                         if (!applink && WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
                             var nav = WinJSContrib.UI.parentNavigator(eltarg);
-                            nav.navigate(target, actionArgs);
+                            return nav.navigate(target, actionArgs);
                         }
                         else {
-                            WinJS.Navigation.navigate(target, actionArgs);
+                            return WinJS.Navigation.navigate(target, actionArgs);
                         }
                     });
                 });
@@ -1864,7 +1864,15 @@ var WinJSContrib;
                                     event.stopImmediatePropagation();
                                     event.stopPropagation();
                                     event.preventDefault();
-                                    tracking.callback(elt, event);
+                                    var res = tracking.callback(elt, event);
+                                    if (WinJS.Promise.is(res)) {
+                                        elt.disabled = true;
+                                        WinJS.Utilities.addClass(elt, 'working');
+                                        res.then(function () {
+                                            elt.disabled = false;
+                                            WinJS.Utilities.removeClass(elt, 'working');
+                                        });
+                                    }
                                 }
                                 if (tracking && tracking.pointerdown)
                                     tracking.pointerdown = undefined;
