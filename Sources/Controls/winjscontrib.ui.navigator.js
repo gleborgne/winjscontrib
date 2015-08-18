@@ -589,12 +589,9 @@
                         navigator.currentPageDetails = args.detail;
 
                         var openNewPagePromise = WinJSContrib.UI.Pages.renderFragment(pagecontainer, args.detail.location, args.detail.state, {
-                            //delay: tempo,
                             enterPage: navigator.animations.enterPage,
 
-                            //parented: closeOldPagePromise.then(function () {
-                            //	return parented;
-                            //}),
+                            getFragmentElement : navigator.fragmentInjector,
 
                             closeOldPagePromise: closeOldPagePromise.then(function () { }, function () { }),
 
@@ -660,7 +657,7 @@
                                     if (control.updateLayout) {
                                         control.updateLayout.call(control, element, vw, navigator._lastViewstate);
                                     }
-                                    var layoutCtrls = element.element.querySelectorAll('.mcn-layout-ctrl');
+                                    var layoutCtrls = element.querySelectorAll('.mcn-layout-ctrl');
                                     if (layoutCtrls && layoutCtrls.length) {
                                         for (var i = 0 ; i < layoutCtrls.length; i++) {
                                             var ctrl = layoutCtrls[i].winControl;

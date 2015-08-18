@@ -696,8 +696,8 @@ module WinJSContrib.Utils {
             return;
             
         var childs = [];
-        for (var i = 0; i < source.children.length; i++) {
-            childs.push(source.children[i]);
+        for (var i = 0; i < source.childNodes.length; i++) {
+            childs.push(source.childNodes[i]);
         }
         childs.forEach(function (elt) {
             target.appendChild(elt);

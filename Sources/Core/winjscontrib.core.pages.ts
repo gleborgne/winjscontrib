@@ -150,7 +150,11 @@ module WinJSContrib.UI.Pages {
         var element = document.createElement("div");
         element.setAttribute("dir", __global.getComputedStyle(element, null).direction);
         element.style.opacity = '0';
-        container.appendChild(element);
+        if (options.getFragmentElement) {
+            container.appendChild(options.getFragmentElement(element));
+        } else {
+            container.appendChild(element);
+        }
 
         var fragmentPromise = new WinJS.Promise(function (c, e) { fragmentCompleted = c; fragmentError = e; });
         var parented = options.parented ? WinJS.Promise.as(options.parented) : null;

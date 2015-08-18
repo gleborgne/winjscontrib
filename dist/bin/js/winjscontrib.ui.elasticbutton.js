@@ -54,8 +54,7 @@
 			    if (!ctrl.contentElement) {
 			        ctrl.contentElement = document.createElement('DIV');
 			        ctrl.contentElement.className = 'mcn-elasticbutton-content';
-			        ctrl.contentElement.innerHTML = ctrl.element.innerHTML;
-			        ctrl.element.innerHTML = '';
+			        WinJSContrib.Utils.moveChilds(ctrl.element, ctrl.contentElement);
 			        contentCreated = true;
 			    }
 
@@ -104,7 +103,7 @@
 			},
 
 			dispose: function () {
-			    if (ctrl.eventTracker) ctrl.eventTracker.dispose();
+			    if (this.eventTracker) this.eventTracker.dispose();
 			    WinJS.Utilities.disposeSubTree(this.element);
 			    this.element = null;
 			}

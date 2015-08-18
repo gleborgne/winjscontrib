@@ -649,8 +649,8 @@ var WinJSContrib;
             if (!source || !target)
                 return;
             var childs = [];
-            for (var i = 0; i < source.children.length; i++) {
-                childs.push(source.children[i]);
+            for (var i = 0; i < source.childNodes.length; i++) {
+                childs.push(source.childNodes[i]);
             }
             childs.forEach(function (elt) {
                 target.appendChild(elt);
@@ -2365,7 +2365,12 @@ var WinJSContrib;
                 var element = document.createElement("div");
                 element.setAttribute("dir", __global.getComputedStyle(element, null).direction);
                 element.style.opacity = '0';
-                container.appendChild(element);
+                if (options.getFragmentElement) {
+                    container.appendChild(options.getFragmentElement(element));
+                }
+                else {
+                    container.appendChild(element);
+                }
                 var fragmentPromise = new WinJS.Promise(function (c, e) { fragmentCompleted = c; fragmentError = e; });
                 var parented = options.parented ? WinJS.Promise.as(options.parented) : null;
                 var layoutCtrls = [];
