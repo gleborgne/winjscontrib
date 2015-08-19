@@ -85,7 +85,7 @@
                     if (systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
                         this.eventTracker.addEvent(systemNavigationManager, 'backrequested', function (arg) {
                             if (WinJS.Navigation.canGoBack) {
-                                WinJS.Navigation.back();
+                                navigator.back();
                                 arg.handled = true;
                             }
                         });
@@ -257,8 +257,8 @@
                         if ((args.key === "Left" && args.altKey) || (args.key === "BrowserBack")) {
                             this.back();
                         }/* else if ((args.key === "Right" && args.altKey) || (args.key === "BrowserForward")) {
-            			nav.forward();
-            		}*/
+                        nav.forward();
+                    }*/
                     },
 
                     // This function responds to clicks to enable navigation using
@@ -271,7 +271,7 @@
                         }
                     },
 
-                    navigate: function (location, initialState, skipHistory, isback) {
+                    navigate: function (location, initialState, skipHistory, isback, stacked) {
                         var nav = this;
                         if (this.global) {
                             return WinJS.Navigation.navigate(location, initialState);
@@ -281,6 +281,7 @@
                                 detail: {
                                     location: location,
                                     state: initialState,
+                                    navigateStacked : stacked,
                                     setPromise: function (promise) {
                                         this.pagePromise = promise;
                                     }
@@ -349,7 +350,20 @@
 
                     back: function (distance) {
                         var navigator = this;
+                        
                         if (navigator.global) {
+                            var isStacked = navigator.stackNavigation == true || (WinJS.Navigation.history.current.state && WinJS.Navigation.history.current.state.navigateStacked);
+                            if (isStacked) {
+                                var previousPage = navigator.element.children[navigator.element.children.length - 2];
+                                if (previousPage) {
+                                    return navigator.closePage(navigator.pageControl.element).then(function () {
+                                        if (previousPage.winControl && previousPage.winControl.navactivate) {
+                                            previousPage.winControl.navactivate();
+                                        }
+                                    });
+                                }
+                            }
+
                             return WinJS.Navigation.back(distance);
                         }
                         else {
@@ -366,7 +380,7 @@
                         var navigator = this;
                         var page = this.pageElement;
                         args.detail.state = args.detail.state || {};
-                        var openStacked = navigator.stackNavigation == true || args.detail.state.navigateStacked;
+                        var openStacked = navigator.stackNavigation == true || args.detail.navigateStacked || args.detail.state.navigateStacked;
 
                         if (this.locks > 0) {
                             var p = new WinJS.Promise(function (c) { });
@@ -395,8 +409,12 @@
                             return;
                         }
 
-                        if (openStacked && !args.detail.state.mcnNavigationDetails)
+                        if (openStacked && !args.detail.state.mcnNavigationDetails) {
+                            if (page.winControl.navdeactivate) {
+                                return page.winControl.navdeactivate();
+                            }
                             return;
+                        }
 
                         navigator.triggerPageExit();
                     },
@@ -405,7 +423,11 @@
                         var navigator = this;
                         var page = this.pageElement;
                         if (openStacked) {
-                            page.winControl.exitPagePromise = WinJS.Promise.wrap();
+                            if (page.winControl.navdeactivate) {
+                                page.winControl.exitPagePromise = WinJS.Promise.as(page.winControl.navdeactivate());
+                            } else {
+                                page.winControl.exitPagePromise = WinJS.Promise.wrap();
+                            }
                             return;
                         }
                         var hidepage = function () {
@@ -519,6 +541,7 @@
                     _navigated: function (args) {
                         var navigator = this;
                         var systemNavigationManager = null;
+
                         if (WinJSContrib.UI.enableSystemBackButton && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
                             systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
                         }
@@ -533,7 +556,7 @@
                         var pagecontainer = navigator.element;
                         var oldPage = this.pageControl;
                         var oldElement = this.pageElement;
-                        var openStacked = navigator.stackNavigation == true || (args.detail.state && args.detail.state.navigateStacked);
+                        var openStacked = navigator.stackNavigation == true || args.detail.navigateStacked || (args.detail.state && args.detail.state.navigateStacked);
 
                         if (this._lastNavigationPromise) {
                             this._lastNavigationPromise.cancel();
@@ -589,7 +612,12 @@
                         navigator.currentPageDetails = args.detail;
 
                         var openNewPagePromise = WinJSContrib.UI.Pages.renderFragment(pagecontainer, args.detail.location, args.detail.state, {
+                            //delay: tempo,
                             enterPage: navigator.animations.enterPage,
+
+                            //parented: closeOldPagePromise.then(function () {
+                            //  return parented;
+                            //}),
 
                             getFragmentElement : navigator.fragmentInjector,
 

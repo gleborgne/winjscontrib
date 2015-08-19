@@ -150,11 +150,7 @@ module WinJSContrib.UI.Pages {
         var element = document.createElement("div");
         element.setAttribute("dir", __global.getComputedStyle(element, null).direction);
         element.style.opacity = '0';
-        if (options.getFragmentElement) {
-            container.appendChild(options.getFragmentElement(element));
-        } else {
-            container.appendChild(element);
-        }
+        container.appendChild(element);
 
         var fragmentPromise = new WinJS.Promise(function (c, e) { fragmentCompleted = c; fragmentError = e; });
         var parented = options.parented ? WinJS.Promise.as(options.parented) : null;
@@ -162,6 +158,9 @@ module WinJSContrib.UI.Pages {
         var pageConstructor = WinJS.UI.Pages.get(location);
 
         function preparePageControl(elementCtrl) {
+            if (options.getFragmentElement) {
+                options.getFragmentElement(elementCtrl);
+            }
             if (args && args.injectToPage) { //used by childviewflyout to inject custom functions
                 WinJSContrib.Utils.inject(elementCtrl, args.injectToPage);
             }
