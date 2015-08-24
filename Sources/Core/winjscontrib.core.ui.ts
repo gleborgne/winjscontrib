@@ -290,17 +290,7 @@ module WinJSContrib.UI {
 		var actionName = el.dataset.pageAction || el.getAttribute('tap');
 
 		var action = control[actionName];
-		if (action && typeof action === 'function') {
-			var options = el.dataset.pageActionOptions || el.getAttribute('tap-options');
-            if (options){
-                    try {
-                        options = WinJS.UI.optionsParser(options, window);
-
-                    } catch (exception) {
-                        return;
-                    }
-                }
-
+		if (action && typeof action === 'function') {			
             WinJSContrib.UI.tap(el, function (eltarg) {
 				var p = WinJS.Promise.wrap();
                 var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
@@ -332,7 +322,7 @@ module WinJSContrib.UI {
                 return p.then(function(){
 				    return control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
                 });
-			}, options);
+			});
 		}
 	}
 
@@ -727,6 +717,13 @@ module WinJSContrib.UI {
 		}
 	}	
 
+    export var defaultTapBehavior = {
+        animDown : WinJS.UI.Animation.pointerDown,
+        animUp : WinJS.UI.Animation.pointerUp,
+        disableAnimation : false,
+        awaitAnim : false
+    }
+
 	/**
 	 * add tap behavior to an element, tap manages quirks like click delay, visual feedback, etc
 	 * @function WinJSContrib.UI.tap
@@ -828,6 +825,17 @@ module WinJSContrib.UI {
 			}
 		}
 
+        if (!options){
+            var attroptions = element.getAttribute('tap-options');
+            if (attroptions){
+                    try {
+                        options = WinJS.UI.optionsParser(attroptions, window);
+                    } catch (exception) {
+                        return;
+                    }
+                }
+        }
+
 		var opt = options || {};
 		if (element.mcnTapTracking) {
 			element.mcnTapTracking.dispose();
@@ -837,19 +845,18 @@ module WinJSContrib.UI {
 
 		element.mcnTapTracking = element.mcnTapTracking || {};
 		element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
-		element.mcnTapTracking.disableAnimation = opt.disableAnimation;
+		element.mcnTapTracking.disableAnimation = opt.disableAnimation|| defaultTapBehavior.disableAnimation;
 		if (element.mcnTapTracking.disableAnimation) {
 			element.mcnTapTracking.animDown = function () { return WinJS.Promise.wrap() };
 			element.mcnTapTracking.animUp = function () { return WinJS.Promise.wrap() };
 		} else {
-			element.mcnTapTracking.animDown = opt.animDown || WinJS.UI.Animation.pointerDown;
-			element.mcnTapTracking.animUp = opt.animUp || WinJS.UI.Animation.pointerUp;
+			element.mcnTapTracking.animDown = opt.animDown || defaultTapBehavior.animDown;
+			element.mcnTapTracking.animUp = opt.animUp || defaultTapBehavior.animUp;
 		}
 		element.mcnTapTracking.element = element;
 		element.mcnTapTracking.callback = callback;
 		element.mcnTapTracking.lock = opt.lock;
-		element.mcnTapTracking.awaitAnim = opt.awaitAnim || false;
-		element.mcnTapTracking.disableAnimation = opt.disableAnimation;
+		element.mcnTapTracking.awaitAnim = opt.awaitAnim || defaultTapBehavior.awaitAnim;		
 		element.mcnTapTracking.tapOnDown = opt.tapOnDown;
 		element.mcnTapTracking.pointerModel = 'none';
 		element.mcnTapTracking.dispose = function () {

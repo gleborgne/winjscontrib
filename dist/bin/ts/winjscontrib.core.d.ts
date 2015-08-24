@@ -539,6 +539,12 @@ declare module WinJSContrib.UI {
      * @param {HtmlElement} element element to clean
      */
     function untapAll(element: any): void;
+    var defaultTapBehavior: {
+        animDown: (element: any) => WinJS.Promise<any>;
+        animUp: (element: any) => WinJS.Promise<any>;
+        disableAnimation: boolean;
+        awaitAnim: boolean;
+    };
     /**
      * add tap behavior to an element, tap manages quirks like click delay, visual feedback, etc
      * @function WinJSContrib.UI.tap

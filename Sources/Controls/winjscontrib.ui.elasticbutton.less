@@ -18,5 +18,12 @@
 
     .mcn-elasticbutton-content{
         position: relative;
+        transition: transform 80ms ease-out;
 	}
+
+    &.pressed {
+        .mcn-elasticbutton-content{
+            transform: scale(0.9);
+        }
+    }
 }

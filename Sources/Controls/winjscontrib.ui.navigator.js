@@ -257,8 +257,8 @@
                         if ((args.key === "Left" && args.altKey) || (args.key === "BrowserBack")) {
                             this.back();
                         }/* else if ((args.key === "Right" && args.altKey) || (args.key === "BrowserForward")) {
-                        nav.forward();
-                    }*/
+            			nav.forward();
+            		}*/
                     },
 
                     // This function responds to clicks to enable navigation using
@@ -311,12 +311,13 @@
 
                     closeAllPages: function () {
                         var navigator = this;
-                        var pages = navigator.element.querySelectorAll('.pagecontrol');
-                        for (var i = 0, l = pages.length ; i < l ; i++) {
+                        var pages = navigator.element.children;
+                        
+                        for (var i = pages.length-1 ; i >= 0 ; i--) {
                             var page = pages[i];
-                            if (page.parentElement == navigator.element) {
-                                page.winControl.dispose();
+                            if (page.classList.contains("pagecontrol")) {
                                 navigator.element.removeChild(page);
+                                page.winControl.dispose();
                             }
                         }
                     },
@@ -356,7 +357,10 @@
                             if (isStacked) {
                                 var previousPage = navigator.element.children[navigator.element.children.length - 2];
                                 if (previousPage) {
+                                    WinJS.Navigation.history.backStack.splice(WinJS.Navigation.history.backStack.length - 1, 1);
+
                                     return navigator.closePage(navigator.pageControl.element).then(function () {
+                                        navigator._updateBackButton(previousPage.winControl.element);
                                         if (previousPage.winControl && previousPage.winControl.navactivate) {
                                             previousPage.winControl.navactivate();
                                         }
@@ -381,6 +385,8 @@
                         var page = this.pageElement;
                         args.detail.state = args.detail.state || {};
                         var openStacked = navigator.stackNavigation == true || args.detail.navigateStacked || args.detail.state.navigateStacked;
+
+                        
 
                         if (this.locks > 0) {
                             var p = new WinJS.Promise(function (c) { });
@@ -411,9 +417,20 @@
 
                         if (openStacked && !args.detail.state.mcnNavigationDetails) {
                             if (page.winControl.navdeactivate) {
-                                return page.winControl.navdeactivate();
+                                args.detail.setPromise(WinJS.Promise.as(page.winControl.navdeactivate()));
+                                return;
                             }
                             return;
+                        }
+
+                        if (navigator.global && !openStacked && WinJS.Navigation.history.current.state && WinJS.Navigation.history.current.state.navigateStacked) {
+                            navigator.closeAllPages();
+                            var backstack = WinJS.Navigation.history.backStack;
+                            for (var i = backstack.length - 1 ; i >= 0 ; i--) {
+                                if (backstack[i].state && backstack[i].state.navigateStacked) {
+                                    backstack.splice(i, 1);
+                                }
+                            }
                         }
 
                         navigator.triggerPageExit();
@@ -540,17 +557,7 @@
                     // Responds to navigation by adding new pages to the DOM.
                     _navigated: function (args) {
                         var navigator = this;
-                        var systemNavigationManager = null;
-
-                        if (WinJSContrib.UI.enableSystemBackButton && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
-                            systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
-                        }
-                        if (navigator.global && systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
-                            if (!WinJS.Navigation.canGoBack)
-                                systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
-                            else
-                                systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.visible;
-                        }
+                        
 
                         args.detail.state = args.detail.state || {};
                         var pagecontainer = navigator.element;
@@ -577,11 +584,22 @@
                             if (!navigator.global && !navigator.disableHistory && oldElement && oldElement.winControl && oldElement.winControl.navigationState && !args.skipHistory) {
                                 navigator._history.backstack.push(oldElement.winControl.navigationState);
                             }
+                            
                             var closeOldPagePromise = WinJS.Promise.wrap();
                         }
                         else {
                             var closeOldPagePromise = navigator.closePage(oldElement, args);
                         }
+
+                        if (navigator.global && !openStacked) {
+                            var backstack = WinJS.Navigation.history.backStack;
+                            for (var i = backstack.length - 1 ; i >= 0 ; i--) {
+                                if (backstack[i].state && backstack[i].state.navigateStacked) {
+                                    backstack.splice(i, 1);
+                                }
+                            }
+                        }
+
                         //if (this._handleSystemBackBtn && Windows && Windows.UI && Windows.UI.Core && Windows.UI.Core.SystemNavigationManager) {
                         //    if (navigator.canGoBack)
                         //        Windows.UI.Core.SystemNavigationManager.getForCurrentView().appViewBackButtonVisibility = Windows.UI.Core.AppViewBackButtonVisibility.visible;
@@ -616,7 +634,7 @@
                             enterPage: navigator.animations.enterPage,
 
                             //parented: closeOldPagePromise.then(function () {
-                            //  return parented;
+                            //	return parented;
                             //}),
 
                             getFragmentElement : navigator.fragmentInjector,
@@ -708,6 +726,20 @@
                     // completed.
                     _updateBackButton: function (element) {
                         var ctrl = this;
+                        var canGoBack = ctrl.canGoBack;
+
+                        var systemNavigationManager = null;
+
+                        if (WinJSContrib.UI.enableSystemBackButton && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                            systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+                        }
+                        if (ctrl.global && systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
+                            if (!canGoBack)
+                                systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
+                            else
+                                systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.visible;
+                        }
+
                         var backButtons = element.querySelectorAll(".win-backbutton, .back-button, .win-navigation-backbutton");
                         //var backButton = this.pageElement.querySelector("header[role=banner] .win-backbutton");
 
@@ -719,7 +751,7 @@
 
                             for (var i = 0, l = backButtons.length; i < l ; i++) {
                                 var btn = backButtons[i];
-                                if (ctrl.canGoBack && !clearNav) {
+                                if (canGoBack && !clearNav) {
                                     btn.classList.remove('disabled');
                                     btn.disabled = false;
                                 } else {
