@@ -146,7 +146,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    export function fadeOut(elements, options: AnimationOptions) {
+    export function fadeOut(elements, options?: AnimationOptions) {
         options = getOpt(options);
 
         var args = {
@@ -166,7 +166,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    export function fadeIn(elements, options: AnimationOptions) {
+    export function fadeIn(elements, options?: AnimationOptions) {
         options = getOpt(options);
 
         return WinJS.UI.executeTransition(
@@ -200,7 +200,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    export function pageExit(elements, options: AnimationOptions) {
+    export function pageExit(elements, options?: AnimationOptions) {
         options = getOpt(options);
 
         var args = {
@@ -220,7 +220,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    export function enterPage(elements, options: AnimationOptions) {
+    export function enterPage(elements, options?: AnimationOptions) {
         options = getOpt(options);
 
         var stagger = staggerDelay(options.delay !== undefined ? options.delay : 5, options.itemdelay !== undefined ? options.itemdelay : 120, 1, options.maxdelay !== undefined ? options.maxdelay : 333);
@@ -247,7 +247,7 @@ module WinJSContrib.UI.Animation {
         return WinJS.Promise.join([promise1, promise2]);
     }
 
-    function slideAnim(element, keyframeName: string, isIn: boolean, options: AnimationOptions) {
+    function slideAnim(element, keyframeName: string, isIn: boolean, options?: AnimationOptions) {
         var offsetArray;
         options = getOpt(options);
 
@@ -293,7 +293,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    export function slideFromBottom(elements, options: AnimationOptions) {
+    export function slideFromBottom(elements, options?: AnimationOptions) {
         return slideAnim(elements, 'WinJSContrib-slideFromBottom', true, options);
     }
 
@@ -303,7 +303,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    export function slideFromTop(elements, options: AnimationOptions) {
+    export function slideFromTop(elements, options?: AnimationOptions) {
         return slideAnim(elements, 'WinJSContrib-slideFromTop', true, options);
     }
 
@@ -313,7 +313,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    export function slideFromLeft(elements, options: AnimationOptions) {
+    export function slideFromLeft(elements, options?: AnimationOptions) {
         return slideAnim(elements, 'WinJSContrib-slideFromLeft', true, options);
     }
 
@@ -323,7 +323,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    export function slideFromRight(elements, options: AnimationOptions) {
+    export function slideFromRight(elements, options?: AnimationOptions) {
         return slideAnim(elements, 'WinJSContrib-slideFromRight', true, options);
     }
 
@@ -333,7 +333,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    export function slideToBottom(elements, options: AnimationOptions) {
+    export function slideToBottom(elements, options?: AnimationOptions) {
         return slideAnim(elements, 'WinJSContrib-slideToBottom', false, options);
     }
 
@@ -343,7 +343,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    export function slideToTop(elements, options: AnimationOptions) {
+    export function slideToTop(elements, options?: AnimationOptions) {
         return slideAnim(elements, 'WinJSContrib-slideToTop', false, options);
     }
 
@@ -353,7 +353,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    export function slideToLeft(elements, options: AnimationOptions) {
+    export function slideToLeft(elements, options?: AnimationOptions) {
         return slideAnim(elements, 'WinJSContrib-slideToLeft', false, options);
     }
 
@@ -363,7 +363,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    export function slideToRight(elements, options: AnimationOptions) {
+    export function slideToRight(elements, options?: AnimationOptions) {
         return slideAnim(elements, 'WinJSContrib-slideToRight', false, options);
     }
 
@@ -373,7 +373,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    export function tabExitPage(elements, options: AnimationOptions) {
+    export function tabExitPage(elements, options?: AnimationOptions) {
         var offsetArray;
         options = getOpt(options);
 
@@ -406,7 +406,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    export function tabEnterPage(elements, options: AnimationOptions) {
+    export function tabEnterPage(elements, options?: AnimationOptions) {
         var offsetArray;
         options = getOpt(options);
         var stagger = staggerDelay(options.delay !== undefined ? options.delay : 5, options.itemdelay !== undefined ? options.itemdelay : 83, 1, options.maxdelay !== undefined ? options.maxdelay : 333);
@@ -438,7 +438,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    export function exitGrow(elements, options: AnimationOptions) {
+    export function exitGrow(elements, options?: AnimationOptions) {
         var offsetArray;
         options = getOpt(options);
         var keyframeName = "WinJSContrib-exitGrow";
@@ -476,7 +476,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    export function exitShrink(elements, options: AnimationOptions) {
+    export function exitShrink(elements, options?: AnimationOptions) {
         var offsetArray;
         options = getOpt(options);
         var keyframeName = "WinJSContrib-exitShrink";
@@ -515,7 +515,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    export function shrinkAndFall(elements, options: AnimationOptions) {
+    export function shrinkAndFall(elements, options?: AnimationOptions) {
         var offsetArray;
         
         options = getOpt(options);
@@ -549,7 +549,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    export function enterShrink(elements, options: AnimationOptions) {
+    export function enterShrink(elements, options?: AnimationOptions) {
         var offsetArray;
         options = getOpt(options);
         var keyframeName = "WinJSContrib-enterShrink";
@@ -592,7 +592,7 @@ module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    export function enterGrow(elements, options) {
+    export function enterGrow(elements, options?: AnimationOptions) {
         var offsetArray;
         options = getOpt(options);
         var keyframeName = "WinJSContrib-enterGrow";

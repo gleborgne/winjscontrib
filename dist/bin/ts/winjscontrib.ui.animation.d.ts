@@ -57,131 +57,131 @@ declare module WinJSContrib.UI.Animation {
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    function fadeOut(elements: any, options: AnimationOptions): WinJS.Promise<any>;
+    function fadeOut(elements: any, options?: AnimationOptions): WinJS.Promise<any>;
     /**
      * configurable fade in
      * @function WinJSContrib.UI.Animation.fadeIn
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    function fadeIn(elements: any, options: AnimationOptions): WinJS.Promise<any>;
+    function fadeIn(elements: any, options?: AnimationOptions): WinJS.Promise<any>;
     /**
      * configurable page exit effect
      * @function WinJSContrib.UI.Animation.pageExit
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    function pageExit(elements: any, options: AnimationOptions): WinJS.Promise<any>;
+    function pageExit(elements: any, options?: AnimationOptions): WinJS.Promise<any>;
     /**
      * configurable page enter effect
      * @function WinJSContrib.UI.Animation.enterPage
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    function enterPage(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function enterPage(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * configurable slide effect
      * @function WinJSContrib.UI.Animation.slideFromBottom
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    function slideFromBottom(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function slideFromBottom(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * configurable slide effect
      * @function WinJSContrib.UI.Animation.slideFromTop
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    function slideFromTop(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function slideFromTop(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * configurable slide effect
      * @function WinJSContrib.UI.Animation.slideFromLeft
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    function slideFromLeft(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function slideFromLeft(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * configurable slide effect
      * @function WinJSContrib.UI.Animation.slideFromRight
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    function slideFromRight(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function slideFromRight(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * configurable slide effect
      * @function WinJSContrib.UI.Animation.slideToBottom
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    function slideToBottom(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function slideToBottom(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * configurable slide effect
      * @function WinJSContrib.UI.Animation.slideToTop
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    function slideToTop(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function slideToTop(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * configurable slide effect
      * @function WinJSContrib.UI.Animation.slideToLeft
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    function slideToLeft(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function slideToLeft(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * configurable slide effect
      * @function WinJSContrib.UI.Animation.slideToRight
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    function slideToRight(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function slideToRight(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * animation for tab exit
      * @function WinJSContrib.UI.Animation.tabExitPage
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    function tabExitPage(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function tabExitPage(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * animation for tab exit
      * @function WinJSContrib.UI.Animation.tabEnterPage
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like duration, delay, easing
      */
-    function tabEnterPage(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function tabEnterPage(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * exit and grow animation
      * @function WinJSContrib.UI.Animation.exitGrow
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    function exitGrow(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function exitGrow(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * exit and shrink animation
      * @function WinJSContrib.UI.Animation.exitShrink
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    function exitShrink(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function exitShrink(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * shrink and fall animation
      * @function WinJSContrib.UI.Animation.shrinkAndFall
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    function shrinkAndFall(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function shrinkAndFall(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * enter and shrink animation
      * @function WinJSContrib.UI.Animation.enterShrink
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    function enterShrink(elements: any, options: AnimationOptions): WinJS.IPromise<any>;
+    function enterShrink(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
     /**
      * enter and shrink animation
      * @function WinJSContrib.UI.Animation.enterGrow
      * @param {Object} elements element or array of elements
      * @param {WinJSContrib.UI.AnimationOptions} options options like delay, easing
      */
-    function enterGrow(elements: any, options: any): WinJS.IPromise<any>;
+    function enterGrow(elements: any, options?: AnimationOptions): WinJS.IPromise<any>;
 }

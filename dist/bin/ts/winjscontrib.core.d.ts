@@ -376,7 +376,7 @@ declare module WinJSContrib.UI {
          * @param {boolean} capture
          * @returns {function} function to call for unregistering the event
          */
-        addEvent(e: any, eventName: string, handler: any, capture: boolean): () => void;
+        addEvent(e: any, eventName: string, handler: any, capture?: boolean): () => void;
         /**
          * register binding event
          * @function WinJSContrib.UI.EventTracker.prototype.addBinding

@@ -61,7 +61,7 @@ module WinJSContrib.UI {
          * @param {boolean} capture
          * @returns {function} function to call for unregistering the event
          */
-        public addEvent(e, eventName: string, handler, capture: boolean) {
+        public addEvent(e, eventName: string, handler, capture?: boolean) {
             var tracker = this;
             e.addEventListener(eventName, handler, capture);
             var unregister = function () {
