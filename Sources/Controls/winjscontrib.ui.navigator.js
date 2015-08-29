@@ -257,8 +257,8 @@
                         if ((args.key === "Left" && args.altKey) || (args.key === "BrowserBack")) {
                             this.back();
                         }/* else if ((args.key === "Right" && args.altKey) || (args.key === "BrowserForward")) {
-            			nav.forward();
-            		}*/
+                        nav.forward();
+                    }*/
                     },
 
                     // This function responds to clicks to enable navigation using
@@ -349,9 +349,8 @@
                         }
                     },
 
-                    back: function (distance) {
+                    _handleStackedBack: function () {
                         var navigator = this;
-                        
                         if (navigator.global) {
                             var isStacked = navigator.stackNavigation == true || (WinJS.Navigation.history.current.state && WinJS.Navigation.history.current.state.navigateStacked);
                             if (isStacked) {
@@ -367,6 +366,14 @@
                                     });
                                 }
                             }
+                        }
+                    },
+
+                    back: function (distance) {
+                        var navigator = this;
+                        
+                        if (navigator.global) {
+                            //navigator._handleBack();
 
                             return WinJS.Navigation.back(distance);
                         }
@@ -383,10 +390,28 @@
                     _beforeNavigate: function (args) {
                         var navigator = this;
                         var page = this.pageElement;
+                        var navlocation = args.detail.location;
+                        var navstate = args.detail.state;
+
                         args.detail.state = args.detail.state || {};
                         var openStacked = navigator.stackNavigation == true || args.detail.navigateStacked || args.detail.state.navigateStacked;
 
-                        
+                        if (navigator.global && page && page.winControl && page.winControl.navigationState && page.winControl.navigationState.state && page.winControl.navigationState.state.navigateStacked) {
+                            var history = WinJS.Navigation.history.backStack[WinJS.Navigation.history.backStack.length - 1];
+                            if (navlocation == history.location && navstate == history.state) {
+                                var res = navigator._handleStackedBack();
+                                if (WinJS.Promise.is(res)) {
+                                    WinJS.Navigation.history.current = history;
+                                    args.detail.setPromise(res.then(function () {
+                                        var p = new WinJS.Promise(function (c) { });
+                                        args.detail.setPromise(p);
+                                        p.cancel();
+                                        return p;
+                                    }));
+                                    return;
+                                }
+                            }
+                        }
 
                         if (this.locks > 0) {
                             var p = new WinJS.Promise(function (c) { });
@@ -417,7 +442,7 @@
 
                         if (openStacked && !args.detail.state.mcnNavigationDetails) {
                             if (page.winControl.navdeactivate) {
-                                args.detail.setPromise(WinJS.Promise.as(page.winControl.navdeactivate()));
+                                args.detail.setPromise(WinJS.Promise.as(page.winControl.navdeactivate.apply(page.winControl)));
                                 return;
                             }
                             return;
@@ -634,7 +659,7 @@
                             enterPage: navigator.animations.enterPage,
 
                             //parented: closeOldPagePromise.then(function () {
-                            //	return parented;
+                            //  return parented;
                             //}),
 
                             getFragmentElement : navigator.fragmentInjector,
