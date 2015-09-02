@@ -457,8 +457,11 @@
             if (dest.id) {
                 dest.addEventListener("blur", validateObjectOnBlur);
             }
-
+            if (dest.eventAdded && dest.winControl) {
+                dest.winControl.dispose();
+            }
             if (!dest.winControl) {
+                dest.eventAdded = true;
                 dest.classList.add('win-disposable');
                 dest.winControl = {
                     dispose: function () {
