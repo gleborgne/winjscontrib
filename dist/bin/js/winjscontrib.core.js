@@ -1799,7 +1799,8 @@ var WinJSContrib;
             animDown: WinJS.UI.Animation.pointerDown,
             animUp: WinJS.UI.Animation.pointerUp,
             disableAnimation: false,
-            awaitAnim: false
+            awaitAnim: false,
+            errorDelay: 3000
         };
         /**
          * add tap behavior to an element, tap manages quirks like click delay, visual feedback, etc
@@ -1822,6 +1823,8 @@ var WinJSContrib;
                         event.preventDefault();
                     }
                     WinJS.Utilities.addClass(elt, 'tapped');
+                    WinJS.Utilities.removeClass(elt, 'tap-error');
+                    clearTimeout(tracking.pendingErrorTimeout);
                     if (event.changedTouches) {
                         tracking.pointerdown = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
                     }
@@ -1882,10 +1885,21 @@ var WinJSContrib;
                                     var res = tracking.callback(elt, event);
                                     if (WinJS.Promise.is(res)) {
                                         elt.disabled = true;
-                                        WinJS.Utilities.addClass(elt, 'working');
+                                        WinJS.Utilities.addClass(elt, 'tap-working');
                                         res.then(function () {
                                             elt.disabled = false;
-                                            WinJS.Utilities.removeClass(elt, 'working');
+                                            WinJS.Utilities.removeClass(elt, 'tap-working');
+                                        }, function (err) {
+                                            elt.disabled = false;
+                                            WinJS.Utilities.removeClass(elt, 'tap-working');
+                                            console.error(err);
+                                            WinJS.Utilities.addClass(elt, 'tap-error');
+                                            if (tracking.errorDelay) {
+                                                tracking.pendingErrorTimeout = setTimeout(function () {
+                                                    tracking.pendingErrorTimeout = null;
+                                                    WinJS.Utilities.removeClass(elt, 'tap-error');
+                                                }, tracking.errorDelay);
+                                            }
                                         });
                                     }
                                 }
@@ -1935,6 +1949,7 @@ var WinJSContrib;
             element.mcnTapTracking.callback = callback;
             element.mcnTapTracking.lock = opt.lock;
             element.mcnTapTracking.awaitAnim = opt.awaitAnim || UI.defaultTapBehavior.awaitAnim;
+            element.mcnTapTracking.errorDelay = opt.errorDelay || UI.defaultTapBehavior.errorDelay;
             element.mcnTapTracking.tapOnDown = opt.tapOnDown;
             element.mcnTapTracking.pointerModel = 'none';
             element.mcnTapTracking.dispose = function () {

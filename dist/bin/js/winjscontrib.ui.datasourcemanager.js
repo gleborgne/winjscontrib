@@ -294,7 +294,7 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
                         semzoom.locked = false;
                     }
                 }
-                else if (this.filteredlist && this.filteredlist.length >= this.defaultGroupLimit) {
+                else if (this.filteredlist && (this.filteredlist.length >= this.defaultGroupLimit || !this.groupedList)) {
                     this.listview.itemDataSource = this.filteredlist.dataSource;
                     this.listview.groupDataSource = null;
                     var semzoom = this.parentSemanticZoom();
@@ -302,10 +302,14 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
                         semzoom.locked = true;
                     }
                 }
-                else if (this.filteredlist && this.filteredlist.length) {
-                    this.listview.itemDataSource = this.filteredlist.dataSource;
-                    this.listview.groupDataSource = null;
-                }
+                //else if (this.filteredlist && this.filteredlist.length) {
+                //    this.listview.itemDataSource = this.filteredlist.dataSource;
+                //    this.listview.groupDataSource = null;
+                //    var semzoom = this.parentSemanticZoom();
+                //    if (semzoom) {
+                //        semzoom.locked = true;
+                //    }
+                //}
                 else {
                     if (this.groupedList)
                         this.listview.itemDataSource = this.groupedList.dataSource;

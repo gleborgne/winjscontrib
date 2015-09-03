@@ -721,7 +721,8 @@ module WinJSContrib.UI {
         animDown : WinJS.UI.Animation.pointerDown,
         animUp : WinJS.UI.Animation.pointerUp,
         disableAnimation : false,
-        awaitAnim : false
+        awaitAnim : false,
+        errorDelay : 3000
     }
 
 	/**
@@ -747,6 +748,8 @@ module WinJSContrib.UI {
 					event.preventDefault();
 				}
 				WinJS.Utilities.addClass(elt, 'tapped');
+                WinJS.Utilities.removeClass(elt, 'tap-error');
+                clearTimeout(tracking.pendingErrorTimeout);
 				if (event.changedTouches) {
 					tracking.pointerdown = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
 				} else {
@@ -801,10 +804,21 @@ module WinJSContrib.UI {
 								var res = tracking.callback(elt, event);
                                 if (WinJS.Promise.is(res)){
                                     elt.disabled = true;
-                                    WinJS.Utilities.addClass(elt, 'working');
+                                    WinJS.Utilities.addClass(elt, 'tap-working');
                                     res.then(function(){
                                         elt.disabled = false;
-                                        WinJS.Utilities.removeClass(elt, 'working');
+                                        WinJS.Utilities.removeClass(elt, 'tap-working');
+                                    }, function(err){
+                                        elt.disabled = false;
+                                        WinJS.Utilities.removeClass(elt, 'tap-working');
+                                        console.error(err);
+                                        WinJS.Utilities.addClass(elt, 'tap-error');
+                                        if (tracking.errorDelay){
+                                            tracking.pendingErrorTimeout = setTimeout(() => {
+                                                tracking.pendingErrorTimeout = null;
+                                                WinJS.Utilities.removeClass(elt, 'tap-error');
+                                            }, tracking.errorDelay);
+                                        }
                                     })
                                 }
 							}
@@ -856,7 +870,8 @@ module WinJSContrib.UI {
 		element.mcnTapTracking.element = element;
 		element.mcnTapTracking.callback = callback;
 		element.mcnTapTracking.lock = opt.lock;
-		element.mcnTapTracking.awaitAnim = opt.awaitAnim || defaultTapBehavior.awaitAnim;		
+		element.mcnTapTracking.awaitAnim = opt.awaitAnim || defaultTapBehavior.awaitAnim;	
+        element.mcnTapTracking.errorDelay = opt.errorDelay || defaultTapBehavior.errorDelay;
 		element.mcnTapTracking.tapOnDown = opt.tapOnDown;
 		element.mcnTapTracking.pointerModel = 'none';
 		element.mcnTapTracking.dispose = function () {

@@ -544,6 +544,7 @@ declare module WinJSContrib.UI {
         animUp: (element: any) => WinJS.Promise<any>;
         disableAnimation: boolean;
         awaitAnim: boolean;
+        errorDelay: number;
     };
     /**
      * add tap behavior to an element, tap manages quirks like click delay, visual feedback, etc
