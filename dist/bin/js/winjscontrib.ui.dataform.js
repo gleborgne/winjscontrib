@@ -1,5 +1,5 @@
-/* 
- * WinJS Contrib v2.1.0.2
+﻿/* 
+ * WinJS Contrib v2.1.0.3
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -463,8 +463,11 @@
             if (dest.id) {
                 dest.addEventListener("blur", validateObjectOnBlur);
             }
-
+            if (dest.eventAdded && dest.winControl) {
+                dest.winControl.dispose();
+            }
             if (!dest.winControl) {
+                dest.eventAdded = true;
                 dest.classList.add('win-disposable');
                 dest.winControl = {
                     dispose: function () {

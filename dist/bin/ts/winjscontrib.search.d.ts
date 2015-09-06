@@ -1,4 +1,4 @@
-declare module WinJSContrib.Utils {
+﻿declare module WinJSContrib.Utils {
     function readProperty(obj: any, name: string): any;
 }
 declare module WinJSContrib.Messenger {

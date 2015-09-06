@@ -1,4 +1,4 @@
-(function (_global) {
+﻿(function (_global) {
     //polyfill setimmediate
     if (!this.setImmediate) {
         this.setImmediate = function (callback) {

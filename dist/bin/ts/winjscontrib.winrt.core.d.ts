@@ -1,4 +1,4 @@
-declare module WinJSContrib.WinRT {
+﻿declare module WinJSContrib.WinRT {
     /**
      * read protocol arguments from application activation event arguments
      * @function WinJSContrib.WinRT.readProtocol

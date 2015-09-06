@@ -1,4 +1,4 @@
-interface Object {
+﻿interface Object {
     map(obj: any, mapping: any): any;
 }
 interface String {

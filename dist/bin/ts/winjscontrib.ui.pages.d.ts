@@ -1,2 +1,2 @@
-declare module WinJSContrib.UI.Pages {
+﻿declare module WinJSContrib.UI.Pages {
 }

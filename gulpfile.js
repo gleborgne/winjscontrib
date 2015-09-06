@@ -18,10 +18,11 @@ var merge = require('merge-stream');
 var ts = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
 var flatten = require('gulp-flatten');
+var bom = require('gulp-bom');
 //var config = require('./build.config.json');
 
 
-var WinJSContribVersion = "2.1.0.2";
+var WinJSContribVersion = "2.1.0.3";
 
 var typingsPath = 'Sources/typings/';
 var srcCorePath = 'Sources/Core/';
@@ -64,6 +65,7 @@ gulp.task('distrib', ['cleannuget', 'build'], function() {
 		console.log('process file: ' + file.path);
 
 		return stream.pipe(nuget.pack({ nuspec: file.path, nuget: 'dist/Lib/nuget.exe', version: WinJSContribVersion }))
+		.pipe(bom())
 		.pipe(gulp.dest('dist/nuget'))
 		.pipe(shell(['"dist/Lib/nuget.exe" Push <%= file.path %>']));
 	}));
@@ -85,12 +87,13 @@ function compileLessFilesIn(path){
 	return gulp.src([path + '**/*.less'])
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(less())	
+	.pipe(bom())
 	.pipe(gulp.dest(path))
 }
 
 gulp.task('styles', ['cleanstyles'], function() {
 	var header = licenseHeader();
-	gulp.src([srcCommonPath + 'winjscontrib.mixin.less']).pipe(gulp.dest(cssDestPath));
+	gulp.src([srcCommonPath + 'winjscontrib.mixin.less']).pipe(bom()).pipe(gulp.dest(cssDestPath));
 	return merge(
 		compileLessFilesIn(srcCorePath),
 		compileLessFilesIn(srcCommonPath),
@@ -98,6 +101,7 @@ gulp.task('styles', ['cleanstyles'], function() {
 		compileLessFilesIn(srcWinRTPath)
 		)	
 	.pipe(insert.prepend(header))
+	.pipe(bom())
 	.pipe(gulp.dest(cssDestPath))	
 	//.pipe(gulp.dest('src/'))
 	.pipe(minifycss())
@@ -107,6 +111,7 @@ gulp.task('styles', ['cleanstyles'], function() {
         }
     }))
     .pipe(insert.prepend(header))
+    .pipe(bom())
     .pipe(gulp.dest(cssDestPath))
 	//.pipe(concat('main.css'))
 	
@@ -116,6 +121,7 @@ gulp.task('sourcesstyles', function() {
 	return gulp.src(['Sources/**/*.less', '!Sources/**/bld/**/*.less', '!Sources/**/bin/**/*.less', '!Sources/**/bld/**/*.less'], { base : '.' })
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(less())
+	.pipe(bom())
 	.pipe(gulp.dest(''));	
 });
 
@@ -138,10 +144,11 @@ gulp.task('corecompile', function() {
 	.pipe(sourcemaps.init()) 
 	.pipe(ts(tsCoreProject));
     return merge([
-        tsResult.dts.pipe(flatten()).pipe(concat('winjscontrib.core.d.ts')).pipe(gulp.dest(tsDestPath)),
+        tsResult.dts.pipe(flatten()).pipe(concat('winjscontrib.core.d.ts')).pipe(bom()).pipe(gulp.dest(tsDestPath)),
         tsResult.js
             .pipe(concat('winjscontrib.core.js'))
         	.pipe(sourcemaps.write("."))
+        	.pipe(bom())
         	.pipe(gulp.dest(srcCorePath))
     ]);
 });
@@ -168,10 +175,11 @@ gulp.task('searchcompile', function() {
 	.pipe(sourcemaps.init()) 
 	.pipe(ts(tsSearchProject));
     return merge([
-        tsResult.dts.pipe(flatten()).pipe(concat('winjscontrib.search.d.ts')).pipe(gulp.dest(tsDestPath)),
+        tsResult.dts.pipe(flatten()).pipe(concat('winjscontrib.search.d.ts')).pipe(bom()).pipe(gulp.dest(tsDestPath)),
         tsResult.js
             .pipe(concat('winjscontrib.search.js'))
         	.pipe(sourcemaps.write("."))
+        	.pipe(bom())
         	.pipe(gulp.dest(srcSearchPath))
     ]);
 });
@@ -196,15 +204,16 @@ gulp.task('typescript', ['corecompile', 'searchcompile'], function() {
 	.pipe(sourcemaps.init()) 
 	.pipe(ts(tsGlobalProject));
     return merge([
-        tsResult.dts.pipe(flatten()).pipe(gulp.dest(tsDestPath)),
+        tsResult.dts.pipe(flatten()).pipe(bom()).pipe(gulp.dest(tsDestPath)),
         tsResult.js
         	.pipe(sourcemaps.write("."))
+        	.pipe(bom())
         	.pipe(gulp.dest(''))
     ]);
 });
 
 gulp.task('jshint', ['cleanscripts', 'typescript'], function() {
-	gulp.src([srcCommonPath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
+	gulp.src([srcCommonPath + 'winjscontrib.dynamicscripts.html']).pipe(bom()).pipe(gulp.dest(jsDestPath));
 	var header = licenseHeader();
 	
 	return gulp.src([
@@ -222,7 +231,7 @@ gulp.task('jshint', ['cleanscripts', 'typescript'], function() {
 });
 
 gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
-	gulp.src([srcCommonPath + 'winjscontrib.dynamicscripts.html']).pipe(gulp.dest(jsDestPath));
+	gulp.src([srcCommonPath + 'winjscontrib.dynamicscripts.html']).pipe(bom()).pipe(gulp.dest(jsDestPath));
 	var header = licenseHeader();
 	
 	return gulp.src([
@@ -239,6 +248,7 @@ gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
 	//.pipe(jshint())
 	//.pipe(jshint.reporter('default'))
 	.pipe(insert.prepend(header))
+	.pipe(bom())
 	.pipe(gulp.dest(jsDestPath))
 	    
 	.pipe(rename(function (path) {
@@ -250,6 +260,7 @@ gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
 	//.pipe(uglify())
 	//.pipe(concat('main.js'))
 	.pipe(insert.prepend(header))
+	.pipe(bom())
 	.pipe(gulp.dest(jsDestPath));
 });
 

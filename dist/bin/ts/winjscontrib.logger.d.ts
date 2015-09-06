@@ -1,4 +1,4 @@
-declare module WinJSContrib.Logging {
+﻿declare module WinJSContrib.Logging {
     /**
     * enumeration for log levels
     * @enum {number} Levels
