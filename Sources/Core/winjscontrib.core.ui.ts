@@ -718,11 +718,16 @@ module WinJSContrib.UI {
 	}	
 
     export var defaultTapBehavior = {
-        animDown : WinJS.UI.Animation.pointerDown,
-        animUp : WinJS.UI.Animation.pointerUp,
+        animDown : null, 
+        animUp : null, 
         disableAnimation : false,
         awaitAnim : false,
         errorDelay : 3000
+    }
+
+    if (WinJS && WinJS.UI && WinJS.UI.Animation){
+        defaultTapBehavior.animDown = WinJS.UI.Animation.pointerDown;
+        defaultTapBehavior.animUp = WinJS.UI.Animation.pointerUp;
     }
 
 	/**

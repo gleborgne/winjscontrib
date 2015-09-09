@@ -1,0 +1,146 @@
+﻿body {
+}
+
+.input {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    width: 100%;
+    z-index: 1;
+}
+
+.input__elasticinput .input__field {
+    background: none repeat scroll 0 0 #f0f0f0;
+    border: medium none;
+    border-radius: 0;
+    color: #aaa;
+    display: block;
+    float: right;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    padding: 0.8em;
+    position: relative;
+    width: 60%;
+}
+
+    .input__elasticinput .input__field:focus {
+        outline: medium none;
+    }
+
+.input__label {
+    -moz-user-select: none;
+    color: #696969;
+    display: inline-block;
+    float: right;
+    font-size: 70.25%;
+    font-weight: bold;
+    padding: 0 1em;
+    width: 40%;
+}
+
+.input__label-content {
+    display: block;
+    padding: 1.6em 0;
+    position: relative;
+    width: 100%;
+}
+
+.graphic {
+    fill: none;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+.input__elasticinput {
+    overflow: hidden;
+    padding-bottom: 0.5em;
+}
+
+    .input__elasticinput .input__field__elasticinput {
+        background: none repeat scroll 0 0 transparent !important;
+        color: #2f3238;
+        font-size: 1.55em;
+        margin-top: 1.25em;
+        opacity: 0;
+        padding: 0.25em 0.5em;
+        width: 100%;
+    }
+
+.input__label__elasticinput {
+    overflow: hidden;
+    padding: 0 0.25em;
+    pointer-events: none;
+    position: absolute;
+    text-align: left;
+    top: 0em;
+    transform: translate3d(1em, 2.75em, 0px);
+    transition: transform 0.3s ease 0s;
+    width: 100%;
+}
+
+.input__label-content__elasticinput {
+    color: #a4a5a6;
+    padding: 0.4em 0 0.25em;
+    transition: transform 0.3s ease 0s;
+}
+
+    .input__label-content__elasticinput::after {
+        color: #fff;
+        content: attr(data-content);
+        font-size: 0.85em;
+        font-weight: 800;
+        height: 100%;
+        left: 0;
+        letter-spacing: 1px;
+        padding: 0.25em 0;
+        position: absolute;
+        text-transform: uppercase;
+        top: 100%;
+        width: 100%;
+    }
+
+.graphic__elasticinput {
+    bottom: 0;
+    fill: #6e4673;
+    height: 4.5em;
+    pointer-events: none;
+    top: 1em;
+    transition-delay: 0s, 0s;
+    transition-duration: 0.7s, 0.7s;
+    transition-property: transform, fill;
+    transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
+    z-index: -1;
+}
+
+.input__elasticinput.forceshow .input__field,
+.input__elasticinput .input__field__elasticinput:focus,
+.input__elasticinput.input--filled .input__field__elasticinput {
+    opacity: 1;
+    transition: opacity 0s ease 0.35s;
+}
+
+.input__elasticinput.forceshow .input__field {
+    color: #000000;
+    background-color: #ffffff;
+}
+
+.input__elasticinput.forceshow .input__label__elasticinput,
+.input__elasticinput .input__field__elasticinput:focus + .input__label__elasticinput,
+.input__elasticinput.input--filled .input__label__elasticinput {
+    transform: translate3d(0px, 0px, 0px);
+    transition-delay: 0.15s;
+}
+
+    .input__elasticinput .input__field__elasticinput:focus + .input__label__elasticinput .input__label-content__elasticinput,
+    .input__elasticinput.input--filled .input__label-content__elasticinput {
+        transform: translate3d(0px, -100%, 0px);
+        transition-delay: 0.15s;
+    }
+
+.input__elasticinput.forceshow .graphic__elasticinput,
+.input__elasticinput .input__field__elasticinput:focus ~ .graphic__elasticinput,
+.input__elasticinput.input--filled .graphic__elasticinput {
+    fill: #fff;
+    transform: translate3d(-66.6%, 0px, 0px);
+}

@@ -4,7 +4,7 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
-﻿.ui-date-time-scroller {
+.ui-date-time-scroller {
   position: relative;
   display: -ms-inline-grid;
   -ms-grid-rows: 1fr;

@@ -263,8 +263,8 @@
                         if ((args.key === "Left" && args.altKey) || (args.key === "BrowserBack")) {
                             this.back();
                         }/* else if ((args.key === "Right" && args.altKey) || (args.key === "BrowserForward")) {
-            			nav.forward();
-            		}*/
+                        nav.forward();
+                    }*/
                     },
 
                     // This function responds to clicks to enable navigation using
@@ -446,7 +446,7 @@
                             return;
                         }
 
-                        if (openStacked && !args.detail.state.mcnNavigationDetails) {
+                        if (openStacked && !args.detail.state.mcnNavigationDetails && page && page.winControl) {
                             if (page.winControl.navdeactivate) {
                                 args.detail.setPromise(WinJS.Promise.as(page.winControl.navdeactivate.apply(page.winControl)));
                                 return;
@@ -665,7 +665,7 @@
                             enterPage: navigator.animations.enterPage,
 
                             //parented: closeOldPagePromise.then(function () {
-                            //	return parented;
+                            //  return parented;
                             //}),
 
                             getFragmentElement : navigator.fragmentInjector,

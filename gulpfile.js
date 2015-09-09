@@ -87,13 +87,16 @@ function compileLessFilesIn(path){
 	return gulp.src([path + '**/*.less'])
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(less())	
-	.pipe(bom())
+	//.pipe(bom())
 	.pipe(gulp.dest(path))
 }
 
 gulp.task('styles', ['cleanstyles'], function() {
 	var header = licenseHeader();
-	gulp.src([srcCommonPath + 'winjscontrib.mixin.less']).pipe(bom()).pipe(gulp.dest(cssDestPath));
+	gulp.src([srcCommonPath + 'winjscontrib.mixin.less'])
+		//.pipe(bom())
+		.pipe(gulp.dest(cssDestPath));
+
 	return merge(
 		compileLessFilesIn(srcCorePath),
 		compileLessFilesIn(srcCommonPath),
@@ -121,7 +124,7 @@ gulp.task('sourcesstyles', function() {
 	return gulp.src(['Sources/**/*.less', '!Sources/**/bld/**/*.less', '!Sources/**/bin/**/*.less', '!Sources/**/bld/**/*.less'], { base : '.' })
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(less())
-	.pipe(bom())
+	//.pipe(bom())
 	.pipe(gulp.dest(''));	
 });
 

@@ -1796,12 +1796,16 @@ var WinJSContrib;
         }
         UI.untapAll = untapAll;
         UI.defaultTapBehavior = {
-            animDown: WinJS.UI.Animation.pointerDown,
-            animUp: WinJS.UI.Animation.pointerUp,
+            animDown: null,
+            animUp: null,
             disableAnimation: false,
             awaitAnim: false,
             errorDelay: 3000
         };
+        if (WinJS && WinJS.UI && WinJS.UI.Animation) {
+            UI.defaultTapBehavior.animDown = WinJS.UI.Animation.pointerDown;
+            UI.defaultTapBehavior.animUp = WinJS.UI.Animation.pointerUp;
+        }
         /**
          * add tap behavior to an element, tap manages quirks like click delay, visual feedback, etc
          * @function WinJSContrib.UI.tap

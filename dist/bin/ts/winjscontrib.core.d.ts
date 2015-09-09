@@ -540,8 +540,8 @@ declare module WinJSContrib.UI {
      */
     function untapAll(element: any): void;
     var defaultTapBehavior: {
-        animDown: (element: any) => WinJS.Promise<any>;
-        animUp: (element: any) => WinJS.Promise<any>;
+        animDown: any;
+        animUp: any;
         disableAnimation: boolean;
         awaitAnim: boolean;
         errorDelay: number;
