@@ -569,7 +569,7 @@
                                 //oldElement.innerHTML = '';
                                 //setImmediate(function () {
                                 try {
-                                    oldElement.parentElement.removeChild(oldElement);
+                                    if (oldElement.parentElement) oldElement.parentElement.removeChild(oldElement);
                                 }
                                 catch (exception) {
                                     console.log('cannot remove page, WTF ????????')

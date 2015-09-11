@@ -575,7 +575,7 @@
                                 //oldElement.innerHTML = '';
                                 //setImmediate(function () {
                                 try {
-                                    oldElement.parentElement.removeChild(oldElement);
+                                    if (oldElement.parentElement) oldElement.parentElement.removeChild(oldElement);
                                 }
                                 catch (exception) {
                                     console.log('cannot remove page, WTF ????????')
@@ -692,6 +692,14 @@
                                 if (args.detail.state && args.detail.state.clearNavigationHistory) {
                                     if (navigator.global) {
                                         WinJS.Navigation.history.backStack = [];
+
+                                        var systemNavigationManager = null;
+                                        if (WinJSContrib.UI.enableSystemBackButton && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                                            systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+                                            if (systemNavigationManager) {
+                                                systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
+                                            }
+                                        }
                                     } else {
                                         navigator._history.backstack = [];
                                     }
