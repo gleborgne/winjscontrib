@@ -287,7 +287,7 @@ module WinJSContrib.UI.Pages {
 
                 if (verboseTraces) {
                     step.resolved = new Date();
-                    logger.verbose('resolved ' + step.stepName + '(' + (<any>step.resolved - <any>step.created) + 'ms)');
+                    logger.verbose('resolved ' + step.stepName + '(' + (<any>step.resolved - <any>step.created) + 'ms) ');
                 }
 
 				return step.promise;

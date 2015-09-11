@@ -246,7 +246,7 @@ var WinJSContrib;
                         step._resolvePromise(arg);
                         if (Pages.verboseTraces) {
                             step.resolved = new Date();
-                            logger.verbose('resolved ' + step.stepName + '(' + (step.resolved - step.created) + 'ms)');
+                            logger.verbose('resolved ' + step.stepName + '(' + (step.resolved - step.created) + 'ms) ');
                         }
                         return step.promise;
                     }

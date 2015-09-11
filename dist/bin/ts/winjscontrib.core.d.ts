@@ -1,8 +1,8 @@
 ﻿declare module WinJSContrib.Logs.Appenders {
     interface ILogAppender {
         clone(): any;
-        format(message: string, group: string, level: Logs.Levels): any;
-        log(logger: Logs.Logger, message: string, group: string, level: Logs.Levels): any;
+        format(message: string, level: Logs.Levels): any;
+        log(logger: Logs.Logger, message: string, level: Logs.Levels): any;
         group(title: string): any;
         groupCollapsed(title: string): any;
         groupEnd(): any;
@@ -23,10 +23,9 @@
          * log item
          * @function WinJSContrib.Logs.Appenders.ConsoleAppender.prototype.log
          * @param {string} message log message
-         * @param {string} group group/category for the entry
          * @param {WinJSContrib.Logs.Levels} log level
          */
-        log(logger: Logs.Logger, message: string, group: string, level: Logs.Levels): void;
+        log(logger: Logs.Logger, message: string, level: Logs.Levels): any;
         /**
          * create log group
          * @function WinJSContrib.Logs.Appenders.ConsoleAppender.prototype.group
@@ -42,7 +41,7 @@
          * @function WinJSContrib.Logs.Appenders.ConsoleAppender.prototype.groupEnd
          */
         groupEnd(): void;
-        format(message: string, group: string, level: Logs.Levels): string;
+        format(message: string, level: Logs.Levels): string;
     }
 }
 declare module WinJSContrib.Logs {
@@ -84,7 +83,6 @@ declare module WinJSContrib.Logs {
     interface ILoggerConfig {
         level: Logs.Levels;
         hideLevelInMessage?: boolean;
-        hideGroupInMessage?: boolean;
         appenders?: any[];
     }
     var defaultConfig: ILoggerConfig;
@@ -123,10 +121,9 @@ declare module WinJSContrib.Logs {
          * Add log entry
          * @function WinJSContrib.Logs.Logger.prototype.log
          * @param {string} message log message
-         * @param {string} group group/category for the entry
          * @param {WinJSContrib.Logs.Levels} log level
          */
-        log(message: string, group: string, level: Logs.Levels): void;
+        log(message: string, level: Logs.Levels, ...args: any[]): void;
         /**
          * format log entry
          * @function WinJSContrib.Logs.Logger.prototype.format
@@ -134,42 +131,38 @@ declare module WinJSContrib.Logs {
          * @param {string} group group/category for the entry
          * @param {WinJSContrib.Logs.Levels} log level
          */
-        format(message: string, group: string, level: Logs.Levels): string;
+        format(message: string, level: Logs.Levels): string;
         /**
          * add debug log entry
          * @function WinJSContrib.Logs.Logger.prototype.debug
          * @param {string} message log message
-         * @param {string} [group] log group name
          */
-        verbose(message: string, group?: string): void;
+        verbose(message: string): void;
         /**
          * add debug log entry
          * @function WinJSContrib.Logs.Logger.prototype.debug
          * @param {string} message log message
-         * @param {string} [group] log group name
          */
-        debug(message: string, group?: string): void;
+        debug(message: string): void;
         /**
          * add info log entry
          * @function WinJSContrib.Logs.Logger.prototype.info
          * @param {string} message log message
          * @param {string} [group] log group name
          */
-        info(message: string, group?: string): void;
+        info(message: string): void;
         /**
          * add warn log entry
          * @function WinJSContrib.Logs.Logger.prototype.warn
          * @param {string} message log message
-         * @param {string} [group] log group name
          */
-        warn(message: string, group?: string): void;
+        warn(message: string, ...args: any[]): void;
         /**
          * add error log entry
          * @function WinJSContrib.Logs.Logger.prototype.error
          * @param {string} message log message
-         * @param {string} [group] log group name
          */
-        error(message: string, group?: string): void;
+        error(message: string, ...args: any[]): void;
         /**
          * create a log group
          * @function WinJSContrib.Logs.Logger.prototype.group

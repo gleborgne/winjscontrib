@@ -6,8 +6,8 @@
 
     export interface ILogAppender {
         clone();
-        format(message: string, group: string, level: Logs.Levels);
-        log(logger: Logs.Logger, message: string, group: string, level: Logs.Levels);
+        format(message: string, level: Logs.Levels);
+        log(logger: Logs.Logger, message: string, level: Logs.Levels);
         group(title: string);
         groupCollapsed(title: string);
         groupEnd();
@@ -36,21 +36,22 @@
          * log item
          * @function WinJSContrib.Logs.Appenders.ConsoleAppender.prototype.log
          * @param {string} message log message
-         * @param {string} group group/category for the entry
          * @param {WinJSContrib.Logs.Levels} log level
          */
-        public log(logger: Logs.Logger, message: string, group: string, level: Logs.Levels) {
+        public log(logger: Logs.Logger, message: string, level: Logs.Levels) {
+            var msg = [this.format(message, level)];
+
             switch (level) {
                 case Levels.verbose:
-                    return console.log(this.format(message, group, level));
+                    return console.log.apply(console, msg);
                 case Levels.debug:
-                    return console.log(this.format(message, group, level));
+                    return console.log.apply(console, msg);
                 case Levels.info:
-                    return console.info(this.format(message, group, level));
+                    return console.info.apply(console, msg);
                 case Levels.warn:
-                    return console.warn(this.format(message, group, level));
+                    return console.warn.apply(console, msg);
                 case Levels.error:
-                    return console.error(this.format(message, group, level));
+                    return console.error.apply(console, msg);
             }
         }
 
@@ -78,10 +79,9 @@
             console.groupEnd();
         }
 
-        public format(message: string, group: string, level: Logs.Levels) {
+        public format(message: string, level: Logs.Levels) {
             var finalMessage = "";
             if (!this.config.hideLevelInMessage) finalMessage += logginLevelToString(level) + " - ";
-            if (!this.config.hideGroupInMessage && group) finalMessage += group + ": ";
             finalMessage += message;
             return finalMessage;
         }
@@ -135,7 +135,6 @@ module WinJSContrib.Logs {
     export interface ILoggerConfig {
         level: Logs.Levels,
         hideLevelInMessage?: boolean,
-        hideGroupInMessage?: boolean,
         appenders?: any[]
     }
 
@@ -143,7 +142,6 @@ module WinJSContrib.Logs {
     export var defaultConfig = <ILoggerConfig>{
         "level": Levels.off,
         "hideLevelInMessage": false,
-        "hideGroupInMessage": true,
         "appenders": []
     };
 
@@ -206,6 +204,8 @@ module WinJSContrib.Logs {
     export function logginLevelToString(level) {
         switch (level) {
             default:
+            case Levels.verbose:
+                return "VERBOSE";
             case Levels.debug:
                 return "DEBUG";
             case Levels.info:
@@ -247,8 +247,7 @@ module WinJSContrib.Logs {
 
             if (typeof newValue.level === "number") this.Config.level = newValue.level;
             if (typeof newValue.hideLevelInMessage === "boolean") this.Config.hideLevelInMessage = newValue.hideLevelInMessage;
-            if (typeof newValue.hideGroupInMessage === "boolean") this.Config.hideGroupInMessage = newValue.hideGroupInMessage;
-
+            
             if (this._config.appenders) {
                 this._config.appenders.forEach((a) => {
                     this.addAppender(a);
@@ -287,10 +286,9 @@ module WinJSContrib.Logs {
          * Add log entry
          * @function WinJSContrib.Logs.Logger.prototype.log
          * @param {string} message log message
-         * @param {string} group group/category for the entry
          * @param {WinJSContrib.Logs.Levels} log level
          */
-        public log(message: string, group: string, level: Logs.Levels) {
+        public log(message: string, level: Logs.Levels, ...args) {
             // If general logging level is set to 'none', returns
             if (this._config.level === WinJSContrib.Logs.Levels.off || level < this._config.level)
                 return;
@@ -298,8 +296,15 @@ module WinJSContrib.Logs {
             if (!this.appenders || !this.appenders.length)
                 return;
 
+            var fnargs = [this, message, level];
+            if (args.length) {
+                for (var i = 0; i < args.length; i++) {
+                    fnargs.push(args[i]);
+                }
+            }
+
             this.appenders.forEach((a) => {
-                a.log(this, message, group, level);
+                a.log.apply(a, fnargs);
             });
         }
 
@@ -310,10 +315,9 @@ module WinJSContrib.Logs {
          * @param {string} group group/category for the entry
          * @param {WinJSContrib.Logs.Levels} log level
          */
-        public format(message: string, group: string, level: Logs.Levels) {
+        public format(message: string, level: Logs.Levels) {
             var finalMessage = "";
             if (!this.Config.hideLevelInMessage) finalMessage += logginLevelToString(level) + " - ";
-            if (!this.Config.hideGroupInMessage && group) finalMessage += group + ": ";
             finalMessage += message;
             return finalMessage;
         }
@@ -322,20 +326,20 @@ module WinJSContrib.Logs {
          * add debug log entry
          * @function WinJSContrib.Logs.Logger.prototype.debug
          * @param {string} message log message
-         * @param {string} [group] log group name
          */
-        public verbose(message: string, group?: string) {
-            this.log(message, group, Logs.Levels.verbose);
+        public verbose(message: string) {
+            if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.verbose) return;
+            this.log(message, Logs.Levels.verbose);
         }
 
         /**
          * add debug log entry
          * @function WinJSContrib.Logs.Logger.prototype.debug
          * @param {string} message log message
-         * @param {string} [group] log group name
          */
-        public debug(message: string, group?: string) {
-            this.log(message, group, Logs.Levels.debug);
+        public debug(message: string) {
+            if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.debug) return;
+            this.log(message, Logs.Levels.debug);
         }
 
         /**
@@ -344,28 +348,29 @@ module WinJSContrib.Logs {
          * @param {string} message log message
          * @param {string} [group] log group name
          */
-        public info(message: string, group?: string) {
-            this.log(message, group, Logs.Levels.info);
+        public info(message: string) {
+            if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.info) return;
+            this.log(message, Logs.Levels.info);
         }
 
         /**
          * add warn log entry
          * @function WinJSContrib.Logs.Logger.prototype.warn
          * @param {string} message log message
-         * @param {string} [group] log group name
          */
-        public warn(message: string, group?: string) {
-            this.log(message, group, Logs.Levels.warn);
+        public warn(message: string, ...args) {
+            if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.warn) return;
+            this.log(message, Logs.Levels.warn, args);
         }
 
         /**
          * add error log entry
          * @function WinJSContrib.Logs.Logger.prototype.error
          * @param {string} message log message
-         * @param {string} [group] log group name
          */
-        public error(message: string, group?: string) {
-            this.log(message, group, Logs.Levels.error);
+        public error(message: string, ...args) {
+            if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.error) return;
+            this.log(message, Logs.Levels.error, args);
         }
 
         /**
@@ -402,8 +407,6 @@ module WinJSContrib.Logs {
                     a.groupEnd();
             });
         }
-
-        
 
         /**
          * Get a child logger

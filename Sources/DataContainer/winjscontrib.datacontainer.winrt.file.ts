@@ -2,7 +2,8 @@ var __global = this;
 
 module WinJSContrib.DataContainer {
     export var current = WinJSContrib.DataContainer.current || null;
-
+    var containerLogger = WinJSContrib.Logs.getLogger("WinJSContrib.DataContainer.WinRT");
+        
     export class WinRTFilesContainer implements IDataContainer {
         public key: string;
         public parent: WinRTFilesContainer;
@@ -59,6 +60,7 @@ module WinJSContrib.DataContainer {
 
             return container.folderPromise.then(function (folder) {
                 return readFileAsync(folder, itemkey, container.options.encrypted, Windows.Storage.CreationCollisionOption.openIfExists, 0, container.options.logger).then(function (data) {
+                    
                     if (container.useDataCache) {
                         container.dataCache[itemkey] = data;
                     }
@@ -227,6 +229,7 @@ module WinJSContrib.DataContainer {
     }
 
     function readFileAsync(folder, fileName, encrypted, creationCollisionOption, retry, logger) {
+        logger = logger || containerLogger;
         return new WinJS.Promise(function (readComplete, readError) {
             retry = retry || 0;
             creationCollisionOption = creationCollisionOption || Windows.Storage.CreationCollisionOption.openIfExists;
@@ -236,19 +239,19 @@ module WinJSContrib.DataContainer {
             folder.getFileAsync(filename).then(function (file) {
                 return getFileContentAsJSONAsync(file, encrypted);
             }).then(function (res) {
-                if (logger) logger.debug("read " + folder.path + '\\' + toJSONFileName(fileName));
+                logger.verbose("read " + folder.path + '\\' + toJSONFileName(fileName));
                 readComplete(res);
             }, function (err) {
                 if (err.number == -2147024894) {
-                    if (logger) logger.debug("read empty " + folder.path + '\\' + toJSONFileName(fileName));
+                    logger.debug("read empty " + folder.path + '\\' + toJSONFileName(fileName));
                     readComplete();
                     return;
                 }
 
-                if (logger) logger.warn("error reading " + folder.path + '\\' + toJSONFileName(fileName));
+                logger.warn("error reading " + folder.path + '\\' + toJSONFileName(fileName));
                 if (retry < 2) {
                     setImmediate(function () {
-                        if (logger) logger.debug("retry reading " + folder.path + '\\' + toJSONFileName(fileName));
+                        logger.info("retry reading " + folder.path + '\\' + toJSONFileName(fileName));
                         readFileAsync(folder, fileName, encrypted, creationCollisionOption, retry + 1, logger).then(readComplete, readError);
                     });
                 } else {
@@ -259,6 +262,7 @@ module WinJSContrib.DataContainer {
     }
 
     function writeFileAsync(folder, fileName, objectGraph, encrypt, creationCollisionOption, retry, logger) {
+        logger = logger || containerLogger;
         return new WinJS.Promise(function (writeComplete, writeError) {
             retry = retry || 0;
             creationCollisionOption = creationCollisionOption || Windows.Storage.CreationCollisionOption.replaceExisting;
@@ -268,10 +272,10 @@ module WinJSContrib.DataContainer {
             }
 
             function manageError(err) {
-                if (logger) logger.warn("error writing " + folder.path + '\\' + toJSONFileName(fileName));
+                logger.warn("error writing " + folder.path + '\\' + toJSONFileName(fileName));
                 if (retry < 2) {
                     setImmediate(function () {
-                        if (logger) logger.debug("retry writing " + folder.path + '\\' + toJSONFileName(fileName));
+                        logger.info("retry writing " + folder.path + '\\' + toJSONFileName(fileName));
                         writeFileAsync(folder, fileName, objectGraph, encrypt, creationCollisionOption, retry + 1, logger).then(writeComplete, writeError);
                     });
                 }
@@ -289,7 +293,7 @@ module WinJSContrib.DataContainer {
                 var protectedData = data[1];
 
                 Windows.Storage.FileIO.writeBufferAsync(file, protectedData).then(function () {
-                    if (logger) logger.debug("file written " + file.path);
+                    logger.verbose("file written " + file.path);
                     //setImmediate(function () {
                     writeComplete(file);
                     //});

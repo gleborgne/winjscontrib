@@ -165,7 +165,7 @@ var tsSearchProject = ts.createProject({
     noEmitOnError : false
 });
 
-gulp.task('searchcompile', function() {
+gulp.task('searchcompile', ["datacontainercompile"], function() {
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
 		srcDataContainerPath + '*.d.ts', 	
@@ -197,9 +197,10 @@ var tsDataContainerProject = ts.createProject({
     noEmitOnError : false
 });
 
-gulp.task('datacontainercompile', function() {
+gulp.task('datacontainercompile', ["corecompile"], function() {
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
+		tsDestPath + 'winjscontrib.core.d.ts',
 		srcDataContainerPath + '*.d.ts', 		
 		srcDataContainerPath + 'winjscontrib.datacontainer.winrt.file.ts',
 		srcDataContainerPath + 'winjscontrib.datacontainer.localstorage.ts'
@@ -229,7 +230,7 @@ var tsGlobalProject = ts.createProject({
     noEmitOnError : false
 });
 
-gulp.task('typescript', ['corecompile', 'datacontainercompile', 'searchcompile'], function() {
+gulp.task('typescript', ['searchcompile'], function() {
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
 		tsDestPath + 'winjscontrib.core.d.ts',
