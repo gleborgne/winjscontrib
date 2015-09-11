@@ -100,6 +100,7 @@
     </Content>
     <Content Include="Controls\winjscontrib.ui.elasticinput.js" />
     <Content Include="Controls\winjscontrib.ui.hamburger.less" />
+    <Content Include="Search\winjscontrib.search.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -153,6 +154,7 @@
     <Content Include="Common\winjscontrib.mixin.css" />
     <Content Include="Common\winjscontrib.search.js" />
     <Content Include="Common\winjscontrib.search.worker.js" />
+    <TypeScriptCompile Include="Core\winjscontrib.core.logging.ts" />
     <TypeScriptCompile Include="Core\winjscontrib.core.utils.ts" />
     <TypeScriptCompile Include="Core\winjscontrib.core.ui.ts" />
     <TypeScriptCompile Include="Core\winjscontrib.core.pages.ts" />
@@ -166,6 +168,11 @@
     <TypeScriptCompile Include="Core\winjscontrib.ui.pages.ts" />
     <Content Include="Core\winjscontrib.core.js" />
     <Content Include="Core\winjscontrib.ui.webcomponents.js" />
+    <Content Include="DataContainer\winjscontrib.datacontainer.cordova.database.js" />
+    <Content Include="DataContainer\winjscontrib.datacontainer.cordova.file.js" />
+    <TypeScriptCompile Include="DataContainer\winjscontrib.datacontainer.localstorage.ts" />
+    <Content Include="Search\winjscontrib.search.js" />
+    <Content Include="Search\winjscontrib.search.worker.js" />
     <Content Include="Web.config" />
     <Content Include="WinRT\winjscontrib.winrt.audiorecording.js" />
     <Content Include="WinRT\winjscontrib.winrt.backgrounddownloads.js" />
@@ -180,6 +187,13 @@
     <Content Include="WinRT\winjscontrib.winrt.upnp.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="DataContainer\winjscontrib.datacontainer.d.ts" />
+    <TypeScriptCompile Include="DataContainer\winjscontrib.datacontainer.winrt.file.ts" />
+    <TypeScriptCompile Include="Search\winjscontrib.search.index.ts" />
+    <TypeScriptCompile Include="Search\winjscontrib.search.indexgroup.ts" />
+    <TypeScriptCompile Include="Search\winjscontrib.search.indexworkerproxy.ts" />
+    <TypeScriptCompile Include="Search\winjscontrib.search.stemming.ts" />
+    <TypeScriptCompile Include="Search\winjscontrib.search.ts" />
     <TypeScriptCompile Include="typings\jquery.d.ts" />
     <TypeScriptCompile Include="typings\winjs.d.ts" />
     <TypeScriptCompile Include="typings\winrt.d.ts" />

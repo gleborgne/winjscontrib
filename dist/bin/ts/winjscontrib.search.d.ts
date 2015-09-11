@@ -35,17 +35,24 @@ declare module WinJSContrib.Search {
      * @type {string}
      */
     var workerPath: string;
-    function writeFile(folder: any, fileName: any, CreationCollisionOption: any, objectGraph: any): WinJS.Promise<{}>;
-    function openFile(folder: any, fileName: any): WinJS.Promise<{}>;
+    function writeWinRTFile(folder: any, fileName: any, CreationCollisionOption: any, objectGraph: any): WinJS.Promise<{}>;
+    function openWinRTFile(folder: any, fileName: any): WinJS.Promise<{}>;
 }
 
+declare var __global: any;
 declare module WinJSContrib.Search {
+    interface ISearchResultItem {
+        rank: number;
+        key: any;
+        item: any;
+    }
     class Index {
         name: string;
         definition: any;
         onprogress: any;
         folderPromise: any;
         stopWords: any[];
+        container: WinJSContrib.DataContainer.IDataContainer;
         items: any[];
         storeData: boolean;
         pipeline: WinJSContrib.Search.Stemming.Pipeline;
@@ -58,7 +65,7 @@ declare module WinJSContrib.Search {
          * @param {string} name index name
          * @param {WinJSContrib.Search.IndexDefinition} definition index definition
          */
-        constructor(name: any, definition: any);
+        constructor(name: any, definition: any, container?: WinJSContrib.DataContainer.IDataContainer);
         /**
          * get number of items in index
          * @function WinJSContrib.Search.Index.prototype.count
@@ -99,26 +106,22 @@ declare module WinJSContrib.Search {
          * @function WinJSContrib.Search.Index.prototype.save
          * @returns {WinJS.Promise}
          */
-        save(): any;
+        save(): WinJS.Promise<any>;
         /**
          * load index from storage
          * @function WinJSContrib.Search.Index.prototype.load
          * @returns {WinJS.Promise}
          */
-        load(): any;
-        _runSearch(querytext: any, options: any): any[];
+        load(): WinJS.Promise<any>;
+        _runSearch(querytext: any, options: any): ISearchResultItem[];
         /**
          * search index
          * @function WinJSContrib.Search.Index.prototype.search
          * @param {string} querytext
          * @returns {WinJS.Promise} search result
          */
-        search(querytext: any, options: any): WinJS.IPromise<any[]>;
-        _searchItem(searchtokens: any, indexitem: any): {
-            rank: number;
-            key: any;
-            item: any;
-        };
+        search(querytext: any, options: any): WinJS.Promise<ISearchResultItem[]>;
+        _searchItem(searchtokens: any, indexitem: any): ISearchResultItem;
         /**
          * set index definition
          * @function WinJSContrib.Search.Index.prototype.define
@@ -195,7 +198,7 @@ declare module WinJSContrib.Search {
          * @params {Array} items array of items to index
          * @returns {WinJS.Promise}
          */
-        addIndex(name: any, definition: any, async: any, items: any): any;
+        addIndex(name: any, definition: any, async: any, items: any): WinJS.Promise<any>;
         /**
          * add items to an index
          * @function WinJSContrib.Search.IndexGroup.prototype.addRange
@@ -211,7 +214,7 @@ declare module WinJSContrib.Search {
          */
         search(querytext: any): WinJS.IPromise<{
             hasResult: boolean;
-            allResults: any[];
+            allResults: ISearchResultItem[];
         }>;
         /**
          * save group indexes

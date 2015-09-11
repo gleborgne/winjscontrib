@@ -1,23 +1,22 @@
 ﻿/* 
- * WinJS Contrib v2.1.0.3
+ * WinJS Contrib v2.1.0.4
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
 //module for managing multithreading in the search engine
 
-/// <reference path="WinJSContrib.core.js" />
-/// <reference path="//Microsoft.WinJS.2.0/js/base.js" />
+//to use search in a worker, create a new js file and add those imports (with appropriate pathes
+//importScripts('//Microsoft.WinJS.2.0/js/base.js');
+//importScripts('/scripts/winjscontrib/winjscontrib.core.js');
+//importScripts('/scripts/winjscontrib/winjscontrib.messenger.js');
+//importScripts('/scripts/winjscontrib/winjscontrib.search.js');
+//importScripts('/scripts/winjscontrib/winjscontrib.search.worker.js');
 
 var worker = this;
 (function () {
     'use strict';
-
-    importScripts('//Microsoft.WinJS.2.0/js/base.js');
-    importScripts('/scripts/winjscontrib/winjscontrib.core.js');
-    importScripts('/scripts/winjscontrib/winjscontrib.messenger.js');
-    importScripts('/scripts/winjscontrib/winjscontrib.search.js');
-
+    
     var idx = null;
     var messenger = new WinJSContrib.Messenger(worker, worker);
 

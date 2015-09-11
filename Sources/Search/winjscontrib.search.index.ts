@@ -1,4 +1,11 @@
-﻿module WinJSContrib.Search {
+﻿var __global = this;
+module WinJSContrib.Search {
+
+    export interface ISearchResultItem {
+        rank: number,
+        key: any,
+        item : any
+    }
 
     export class Index {
         public name: string;
@@ -6,8 +13,9 @@
         public onprogress: any;
         public folderPromise: any;
         public stopWords: any[];
+        public container: WinJSContrib.DataContainer.IDataContainer;
         public items: any[] = [];
-        public storeData : boolean = true;
+        public storeData: boolean = true;
         public pipeline: WinJSContrib.Search.Stemming.Pipeline;
 
         /**
@@ -19,24 +27,33 @@
          * @param {string} name index name
          * @param {WinJSContrib.Search.IndexDefinition} definition index definition
          */
-        constructor(name, definition) {
+        constructor(name, definition, container?: WinJSContrib.DataContainer.IDataContainer) {
             var index = this;
             index.name = name || 'defaultIndex';
             index.definition = definition || {};
             index.items = [];
             index.storeData = true;
             index.onprogress = undefined;
+
             index.stopWords = WinJSContrib.Search.Stemming.StopWords.common;
             index.pipeline = new WinJSContrib.Search.Stemming.Pipeline(definition);
-            //index.pipeline.registerDefault();
-
-            index.folderPromise = Windows.Storage.ApplicationData.current.localFolder.createFolderAsync("WinJSContrib\\Search", Windows.Storage.CreationCollisionOption.openIfExists).then(function (folder) {
-                return folder;
-            }, function (err) {
-                if (WinJS && WinJS.log) 
-                    WinJS.log("Folder init error " + err.message);
-                return null;
-            });
+            
+            if (container) {
+                index.container = container;
+            }
+            else if (WinJSContrib.DataContainer && WinJSContrib.DataContainer.current) {
+                index.container = WinJSContrib.DataContainer.current.child("WinJSContribSearch");
+            } else if (__global.Windows) {
+                index.folderPromise = Windows.Storage.ApplicationData.current.localFolder.createFolderAsync("WinJSContrib\\Search", Windows.Storage.CreationCollisionOption.openIfExists).then(function (folder) {
+                    return folder;
+                }, function (err) {
+                    if (WinJS && WinJS.log)
+                        WinJS.log("Folder init error " + err.message);
+                    return null;
+                });
+            } else {
+                throw "You must provide at lease a default WinJSContrib.DataContainer to persist search index";
+            }
         }
 
         /**
@@ -112,14 +129,19 @@
          * @function WinJSContrib.Search.Index.prototype.save
          * @returns {WinJS.Promise}
          */
-        public save() {
-            var idx = this;
-            var exp = idx.export();
-            return idx.folderPromise.then(function (folder) {
-                return writeFile(folder, idx.name, Windows.Storage.CreationCollisionOption.replaceExisting, exp).then(function (filename) {
-                    return { index: idx };
+        public save(): WinJS.Promise<any> {
+            var exp = this.export();
+            if (this.container) {
+                return this.container.save(this.name, exp);
+            } else if (__global.Windows) {
+                return this.folderPromise.then((folder) => {
+                    return writeWinRTFile(folder, this.name, Windows.Storage.CreationCollisionOption.replaceExisting, exp).then((filename) => {
+                        return { index: this };
+                    });
                 });
-            });
+            } else {
+                return WinJS.Promise.wrapError({ message: "you must provide a WinJSContrib.DataContainer to persist seach index" });
+            }
         }
 
         /**
@@ -127,26 +149,34 @@
          * @function WinJSContrib.Search.Index.prototype.load
          * @returns {WinJS.Promise}
          */
-        public load() {
-            var idx = this;
-            return idx.folderPromise.then(function (folder) {
-                return openFile(folder, idx.name).then(function (savedidx) {
-                    idx.loadData(savedidx);
+        public load(): WinJS.Promise<any> {
+            if (this.container) {
+                return this.container.read(this.name).then((savedidx) => {
+                    this.loadData(savedidx);
                 });
-            });
+            } else if (__global.Windows) {
+                return this.folderPromise.then((folder) => {
+                    return openWinRTFile(folder, this.name).then((savedidx) => {
+                        this.loadData(savedidx);
+                    });
+                });
+            } else {
+                return WinJS.Promise.wrapError({ message: "you must provide a WinJSContrib.DataContainer to persist seach index" });
+            }
         }
 
-        _runSearch(querytext, options) {
+        _runSearch(querytext, options): ISearchResultItem[] {
             var index = this;
             var preparedTokens = index.processText(querytext);
-            var searchResult = [];
+            var searchResult: ISearchResultItem[] = [];
             var size = index.items.length;
             var lastprogress = -1;
 
-            for (var i = 0 ; i < size; i++) {
+            for (var i = 0; i < size; i++) {
                 var itemResult = index._searchItem(preparedTokens, index.items[i]);
-                if (itemResult)
+                if (itemResult) {
                     searchResult.push(itemResult);
+                }
 
                 var p = (100 * i / size) << 0;
                 if (index.onprogress && p != lastprogress)
@@ -158,7 +188,7 @@
                 return b.rank - a.rank;
             });
 
-            if (options && options.limit){
+            if (options && options.limit) {
                 searchResult = searchResult.slice(0, options.limit);
             }
 
@@ -171,16 +201,16 @@
          * @param {string} querytext
          * @returns {WinJS.Promise} search result
          */
-        public search(querytext, options) {
+        public search(querytext, options): WinJS.Promise<ISearchResultItem[]> {
             return WinJS.Promise.wrap(this._runSearch(querytext, options));
         }
 
-        _searchItem(searchtokens, indexitem) {
+        _searchItem(searchtokens, indexitem): ISearchResultItem {
             var index = this;
             var size = indexitem.items.length;
             var points = 0;
 
-            for (var i = 0 ; i < size; i++) {
+            for (var i = 0; i < size; i++) {
                 var tokenitem = indexitem.items[i];
 
                 if (searchtokens.untokenized && tokenitem.tokens.untokenized == searchtokens.untokenized) {
@@ -191,9 +221,9 @@
                     points += 2 * tokenitem.weight;
                 }
 
-                for (var t = 0 ; t < tokenitem.tokens.items.length; t++) {
+                for (var t = 0; t < tokenitem.tokens.items.length; t++) {
                     var token = tokenitem.tokens.items[t];
-                    for (var s = 0 ; s < searchtokens.items.length; s++) {
+                    for (var s = 0; s < searchtokens.items.length; s++) {
                         var stoken = searchtokens.items[s];
 
                         if (stoken.length > 1 && token == stoken) {
@@ -241,7 +271,8 @@
 
             for (var elt in def.fields) {
                 if (def.fields.hasOwnProperty(elt)) {
-                    var weight = def.fields[elt].weight || 1;
+                    var item = def.fields[elt];
+                    var weight = item.weight || 1;
                     var value = WinJSContrib.Utils.readProperty(obj, elt.split('.'));
 
                     if (value)
@@ -250,6 +281,7 @@
             }
 
             index.items.push(res);
+
             return WinJS.Promise.wrap(res);
         }
 
@@ -276,7 +308,7 @@
             var indexed = [];
             var lastprogress = -1;
 
-            for (var i = 0 ; i < size; i++) {
+            for (var i = 0; i < size; i++) {
                 var item = index._add(arr[i]);
                 if (item)
                     indexed.push(item);
@@ -295,7 +327,7 @@
             var old = index.items;
             var size = old.length;
             index.items = [];
-            for (var i = 0 ; i < size; i++) {
+            for (var i = 0; i < size; i++) {
                 var item = index.items[i];
                 index.add(item.rawdata);
             }
@@ -313,7 +345,7 @@
             var tokens = this.tokenize(text);
             var res = [];
             var size = tokens.length;
-            for (var i = 0 ; i < size; i++) {
+            for (var i = 0; i < size; i++) {
                 var txt = this.pipeline.run(tokens[i]);
                 if (txt.length > 1)
                     res.push(txt);
@@ -329,7 +361,7 @@
          */
         public checkWord(token) {
             var size = this.stopWords.length;
-            for (var i = 0 ; i < size; i++) {
+            for (var i = 0; i < size; i++) {
                 if (token == this.stopWords[i])
                     return '';
             }
@@ -349,7 +381,7 @@
                 return tokens;
 
             var words = token.split(/\W+/);
-            for (var i = 0 ; i < words.length; i++) {
+            for (var i = 0; i < words.length; i++) {
                 if (words[i].length > 0) {
                     tokens.push(words[i]);
                 }

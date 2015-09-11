@@ -22,13 +22,14 @@ var bom = require('gulp-bom');
 //var config = require('./build.config.json');
 
 
-var WinJSContribVersion = "2.1.0.3";
+var WinJSContribVersion = "2.1.0.4";
 
 var typingsPath = 'Sources/typings/';
 var srcCorePath = 'Sources/Core/';
 var srcSearchPath = 'Sources/Search/';
 var srcCommonPath = 'Sources/Common/';
 var srcControlsPath = 'Sources/Controls/';
+var srcDataContainerPath = 'Sources/DataContainer/';
 var srcWinRTPath = 'Sources/WinRT/';
 var jsFilesPath = 'Sources/Samples/MCNEXT WinJS Contrib.Shared/scripts/winjscontrib/';
 var jsDestPath = 'dist/bin/js/';
@@ -139,9 +140,10 @@ var tsCoreProject = ts.createProject({
 gulp.task('corecompile', function() {
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
+		srcCorePath + 'winjscontrib.core.logging.ts',		 
 		srcCorePath + 'winjscontrib.core.utils.ts', 
 		srcCorePath + 'winjscontrib.core.ui.ts', 
-		srcCorePath + 'winjscontrib.core.pages.ts'		 
+		srcCorePath + 'winjscontrib.core.pages.ts',
 	], { base : '.' })	
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(sourcemaps.init()) 
@@ -166,6 +168,7 @@ var tsSearchProject = ts.createProject({
 gulp.task('searchcompile', function() {
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
+		srcDataContainerPath + '*.d.ts', 	
 		srcSearchPath + 'winjscontrib.search.ts', 
 		srcSearchPath + 'winjscontrib.search.index.ts', 
 		srcSearchPath + 'winjscontrib.search.indexgroup.ts', 
@@ -187,6 +190,38 @@ gulp.task('searchcompile', function() {
     ]);
 });
 
+var tsDataContainerProject = ts.createProject({
+    declarationFiles: true,
+	noExternalResolve: true,
+	target : 'ES5',
+    noEmitOnError : false
+});
+
+gulp.task('datacontainercompile', function() {
+	var tsResult = gulp.src([
+		typingsPath + '*.d.ts', 
+		srcDataContainerPath + '*.d.ts', 		
+		srcDataContainerPath + 'winjscontrib.datacontainer.winrt.file.ts',
+		srcDataContainerPath + 'winjscontrib.datacontainer.localstorage.ts'
+		//srcSearchPath + 'winjscontrib.search.indexgroup.ts', 
+		//srcSearchPath + 'winjscontrib.search.indexworkerproxy.ts', 
+		//srcSearchPath + 'winjscontrib.search.stemming.ts', 
+		//srcCorePath + 'winjscontrib.core.ui.ts', 
+		//srcCorePath + 'winjscontrib.core.pages.ts'		 
+	], { base : '.' })	
+	.pipe(plumber({errorHandler: onError}))
+	.pipe(sourcemaps.init()) 
+	.pipe(ts(tsDataContainerProject));
+    return merge([
+        tsResult.dts.pipe(flatten()).pipe(bom()).pipe(gulp.dest(tsDestPath)),
+        tsResult.js
+            .pipe(sourcemaps.write("."))
+        	.pipe(bom())
+        	.pipe(gulp.dest(srcSearchPath))
+    ]);
+});
+
+
 var tsGlobalProject = ts.createProject({
     declarationFiles: true,
 	noExternalResolve: true,
@@ -194,7 +229,7 @@ var tsGlobalProject = ts.createProject({
     noEmitOnError : false
 });
 
-gulp.task('typescript', ['corecompile', 'searchcompile'], function() {
+gulp.task('typescript', ['corecompile', 'datacontainercompile', 'searchcompile'], function() {
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
 		tsDestPath + 'winjscontrib.core.d.ts',
@@ -242,9 +277,10 @@ gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
 		srcCorePath + 'winjscontrib.ui.webcomponents.js',
 		srcCorePath + 'winjscontrib.ui.pages.js',
 		srcSearchPath + 'winjscontrib.search.js',
-		srcSearchPath + 'winjscontrib.search.worker.js',
-		srcCommonPath + '*.js',
+		srcSearchPath + 'winjscontrib.search.worker.js',		
+		srcCommonPath + '*.js',		
 		srcControlsPath + '*.js',
+		srcDataContainerPath + '*.js',
 		srcWinRTPath + '*.js'
 		])        
 	.pipe(plumber({errorHandler: onError}))
@@ -340,6 +376,7 @@ gulp.task('watch', function() {
 	], ['typescript']);
 });
 
-gulp.task('build', ['styles', 'doc']);
+gulp.task('buildAndDoc', ['styles', 'doc']);
+gulp.task('build', ['styles', 'scripts']);
 
-gulp.task('default', ['build']);
+gulp.task('default', ['buildAndDoc']);

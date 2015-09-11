@@ -1,8 +1,399 @@
 ﻿/* 
- * WinJS Contrib v2.1.0.3
+ * WinJS Contrib v2.1.0.4
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
+
+var WinJSContrib;
+(function (WinJSContrib) {
+    var Logs;
+    (function (Logs) {
+        var Appenders;
+        (function (Appenders) {
+            /**
+             * @namespace
+             */
+            WinJSContrib.Logs.Appenders = WinJSContrib.Logs.Appenders;
+            var ConsoleAppender = (function () {
+                /**
+                 * Appender writing to console
+                 * @class WinJSContrib.Logs.Appenders.ConsoleAppender
+                 */
+                function ConsoleAppender(config) {
+                    this.config = config || { level: Logs.Levels.inherit };
+                }
+                /**
+                 * clone appender
+                 * @function WinJSContrib.Logs.Appenders.ConsoleAppender.prototype.clone
+                 */
+                ConsoleAppender.prototype.clone = function () {
+                    return new WinJSContrib.Logs.Appenders.ConsoleAppender(this.config);
+                };
+                /**
+                 * log item
+                 * @function WinJSContrib.Logs.Appenders.ConsoleAppender.prototype.log
+                 * @param {string} message log message
+                 * @param {string} group group/category for the entry
+                 * @param {WinJSContrib.Logs.Levels} log level
+                 */
+                ConsoleAppender.prototype.log = function (logger, message, group, level) {
+                    switch (level) {
+                        case Logs.Levels.verbose:
+                            return console.log(this.format(message, group, level));
+                        case Logs.Levels.debug:
+                            return console.log(this.format(message, group, level));
+                        case Logs.Levels.info:
+                            return console.info(this.format(message, group, level));
+                        case Logs.Levels.warn:
+                            return console.warn(this.format(message, group, level));
+                        case Logs.Levels.error:
+                            return console.error(this.format(message, group, level));
+                    }
+                };
+                /**
+                 * create log group
+                 * @function WinJSContrib.Logs.Appenders.ConsoleAppender.prototype.group
+                 */
+                ConsoleAppender.prototype.group = function (title) {
+                    console.group(title);
+                };
+                /**
+                 * create collapsed log group
+                 * @function WinJSContrib.Logs.Appenders.ConsoleAppender.prototype.groupCollapsed
+                 */
+                ConsoleAppender.prototype.groupCollapsed = function (title) {
+                    console.groupCollapsed(title);
+                };
+                /**
+                 * close log group
+                 * @function WinJSContrib.Logs.Appenders.ConsoleAppender.prototype.groupEnd
+                 */
+                ConsoleAppender.prototype.groupEnd = function () {
+                    console.groupEnd();
+                };
+                ConsoleAppender.prototype.format = function (message, group, level) {
+                    var finalMessage = "";
+                    if (!this.config.hideLevelInMessage)
+                        finalMessage += Logs.logginLevelToString(level) + " - ";
+                    if (!this.config.hideGroupInMessage && group)
+                        finalMessage += group + ": ";
+                    finalMessage += message;
+                    return finalMessage;
+                };
+                return ConsoleAppender;
+            })();
+            Appenders.ConsoleAppender = ConsoleAppender;
+        })(Appenders = Logs.Appenders || (Logs.Appenders = {}));
+    })(Logs = WinJSContrib.Logs || (WinJSContrib.Logs = {}));
+})(WinJSContrib || (WinJSContrib = {}));
+var WinJSContrib;
+(function (WinJSContrib) {
+    var Logs;
+    (function (Logs) {
+        /**
+         * @namespace WinJSContrib.Logs
+         */
+        WinJSContrib.Logs = WinJSContrib.Logs;
+        /**
+        * enumeration for log levels
+        * @enum {number} Levels
+        * @memberof WinJSContrib.Logs
+        */
+        (function (Levels) {
+            /**
+             * disabled
+             */
+            Levels[Levels["inherit"] = 512] = "inherit";
+            /**
+             * disabled
+             */
+            Levels[Levels["off"] = 256] = "off";
+            /**
+             * log error
+             */
+            Levels[Levels["error"] = 32] = "error";
+            /**
+             * log warn and error
+             */
+            Levels[Levels["warn"] = 16] = "warn";
+            /**
+             * log info, warn, error
+             */
+            Levels[Levels["info"] = 8] = "info";
+            /**
+             * log debug, info, warn, error
+             */
+            Levels[Levels["debug"] = 4] = "debug";
+            /**
+            * verbose mode
+            */
+            Levels[Levels["verbose"] = 2] = "verbose";
+        })(Logs.Levels || (Logs.Levels = {}));
+        var Levels = Logs.Levels;
+        ;
+        // Default config
+        Logs.defaultConfig = {
+            "level": Levels.off,
+            "hideLevelInMessage": false,
+            "hideGroupInMessage": true,
+            "appenders": []
+        };
+        var Loggers = {};
+        Logs.RuntimeAppenders = {
+            "DefaultConsole": new Logs.Appenders.ConsoleAppender()
+        };
+        /**
+         * get a logger, logger is created if it does not exists
+         * @function WinJSContrib.Logs.getLogger
+         * @param {string} name name for the logger
+         * @param {Object} config logger configuration
+         * @param {...Object} appenders appenders to add to the logger
+         * @returns {WinJSContrib.Logs.Logger}
+         */
+        function getLogger(name, config) {
+            var existing = Loggers[name];
+            if (!existing) {
+                existing = new Logger(config || Logs.defaultConfig);
+                existing.name = name;
+                Loggers[name] = existing;
+            }
+            configure.apply(null, arguments);
+            return existing;
+        }
+        Logs.getLogger = getLogger;
+        function configure(name, config) {
+            var existing = Loggers[name];
+            if (existing) {
+                if (config)
+                    existing.Config = config;
+                if (arguments.length > 2) {
+                    for (var i = 2; i < arguments.length; i++) {
+                        existing.addAppender(arguments[i]);
+                    }
+                }
+            }
+        }
+        Logs.configure = configure;
+        function loggingLevelStringToEnum(level) {
+            switch (level.toLowerCase()) {
+                default:
+                case "log":
+                case "debug":
+                    return Levels.debug;
+                case "info":
+                    return Levels.info;
+                case "warn":
+                    return Levels.warn;
+                case "error":
+                    return Levels.error;
+            }
+        }
+        Logs.loggingLevelStringToEnum = loggingLevelStringToEnum;
+        function logginLevelToString(level) {
+            switch (level) {
+                default:
+                case Levels.debug:
+                    return "DEBUG";
+                case Levels.info:
+                    return "INFO";
+                case Levels.warn:
+                    return "WARN";
+                case Levels.error:
+                    return "ERROR";
+            }
+        }
+        Logs.logginLevelToString = logginLevelToString;
+        var Logger = (function () {
+            /**
+             * @class WinJSContrib.Logs.Logger
+             * @param {Object} config logger configuration
+             */
+            function Logger(config) {
+                this.appenders = [];
+                /**
+                 * Logger configuration
+                 * @field Config
+                 * @type {Object}
+                 */
+                this.Config = config || Logs.defaultConfig;
+            }
+            Object.defineProperty(Logger.prototype, "Config", {
+                get: function () {
+                    return this._config;
+                },
+                set: function (newValue) {
+                    var _this = this;
+                    this._config = newValue || { level: Logs.Levels.off, hideGroupInMessage: false, hideLevelInMessage: false };
+                    if (typeof newValue.level === "number")
+                        this.Config.level = newValue.level;
+                    if (typeof newValue.hideLevelInMessage === "boolean")
+                        this.Config.hideLevelInMessage = newValue.hideLevelInMessage;
+                    if (typeof newValue.hideGroupInMessage === "boolean")
+                        this.Config.hideGroupInMessage = newValue.hideGroupInMessage;
+                    if (this._config.appenders) {
+                        this._config.appenders.forEach(function (a) {
+                            _this.addAppender(a);
+                        });
+                    }
+                    else {
+                        this._config.appenders = [];
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+            /**
+             * add appender to logger
+             * @function WinJSContrib.Logs.Logger.prototype.addAppender
+             * @param {Object} appender
+             */
+            Logger.prototype.addAppender = function (appender) {
+                if (typeof appender == "string") {
+                    appender = WinJSContrib.Logs.RuntimeAppenders[appender];
+                }
+                var currentappender = appender;
+                if (!currentappender)
+                    return;
+                var exists = this.appenders.indexOf(currentappender) >= 0;
+                if (exists)
+                    return;
+                if (!currentappender.format)
+                    currentappender.format = this.format.bind(this);
+                this.appenders.push(currentappender);
+            };
+            /**
+             * Add log entry
+             * @function WinJSContrib.Logs.Logger.prototype.log
+             * @param {string} message log message
+             * @param {string} group group/category for the entry
+             * @param {WinJSContrib.Logs.Levels} log level
+             */
+            Logger.prototype.log = function (message, group, level) {
+                var _this = this;
+                // If general logging level is set to 'none', returns
+                if (this._config.level === WinJSContrib.Logs.Levels.off || level < this._config.level)
+                    return;
+                if (!this.appenders || !this.appenders.length)
+                    return;
+                this.appenders.forEach(function (a) {
+                    a.log(_this, message, group, level);
+                });
+            };
+            /**
+             * format log entry
+             * @function WinJSContrib.Logs.Logger.prototype.format
+             * @param {string} message log message
+             * @param {string} group group/category for the entry
+             * @param {WinJSContrib.Logs.Levels} log level
+             */
+            Logger.prototype.format = function (message, group, level) {
+                var finalMessage = "";
+                if (!this.Config.hideLevelInMessage)
+                    finalMessage += logginLevelToString(level) + " - ";
+                if (!this.Config.hideGroupInMessage && group)
+                    finalMessage += group + ": ";
+                finalMessage += message;
+                return finalMessage;
+            };
+            /**
+             * add debug log entry
+             * @function WinJSContrib.Logs.Logger.prototype.debug
+             * @param {string} message log message
+             * @param {string} [group] log group name
+             */
+            Logger.prototype.verbose = function (message, group) {
+                this.log(message, group, Logs.Levels.verbose);
+            };
+            /**
+             * add debug log entry
+             * @function WinJSContrib.Logs.Logger.prototype.debug
+             * @param {string} message log message
+             * @param {string} [group] log group name
+             */
+            Logger.prototype.debug = function (message, group) {
+                this.log(message, group, Logs.Levels.debug);
+            };
+            /**
+             * add info log entry
+             * @function WinJSContrib.Logs.Logger.prototype.info
+             * @param {string} message log message
+             * @param {string} [group] log group name
+             */
+            Logger.prototype.info = function (message, group) {
+                this.log(message, group, Logs.Levels.info);
+            };
+            /**
+             * add warn log entry
+             * @function WinJSContrib.Logs.Logger.prototype.warn
+             * @param {string} message log message
+             * @param {string} [group] log group name
+             */
+            Logger.prototype.warn = function (message, group) {
+                this.log(message, group, Logs.Levels.warn);
+            };
+            /**
+             * add error log entry
+             * @function WinJSContrib.Logs.Logger.prototype.error
+             * @param {string} message log message
+             * @param {string} [group] log group name
+             */
+            Logger.prototype.error = function (message, group) {
+                this.log(message, group, Logs.Levels.error);
+            };
+            /**
+             * create a log group
+             * @function WinJSContrib.Logs.Logger.prototype.group
+             * @param {string} title group title
+             */
+            Logger.prototype.group = function (title) {
+                this.appenders.forEach(function (a) {
+                    if (a.group)
+                        a.group(title);
+                });
+            };
+            /**
+             * create a collapsed log group
+             * @function WinJSContrib.Logs.Logger.prototype.groupCollapsed
+             * @param {string} title group title
+             */
+            Logger.prototype.groupCollapsed = function (title) {
+                this.appenders.forEach(function (a) {
+                    if (a.groupCollapsed)
+                        a.groupCollapsed(title);
+                });
+            };
+            /**
+             * end current group
+             * @function WinJSContrib.Logs.Logger.prototype.groupEnd
+             */
+            Logger.prototype.groupEnd = function () {
+                this.appenders.forEach(function (a) {
+                    if (a.groupEnd)
+                        a.groupEnd();
+                });
+            };
+            /**
+             * Get a child logger
+             * @function WinJSContrib.Logs.Logger.prototype.getChildLogger
+             * @param {string} name child logger name
+             * @param {WinJSContrib.Logs.Levels} level
+             */
+            Logger.prototype.getChildLogger = function (name, level) {
+                var res = WinJSContrib.Logs.getLogger(this.name + '.' + name, JSON.parse(JSON.stringify(this.Config)));
+                res.Config.appenders = [];
+                this.appenders.forEach(function (a) {
+                    if (a.clone)
+                        res.addAppender(a.clone());
+                });
+                if (level)
+                    res.Config.level = level;
+                return res;
+            };
+            return Logger;
+        })();
+        Logs.Logger = Logger;
+    })(Logs = WinJSContrib.Logs || (WinJSContrib.Logs = {}));
+})(WinJSContrib || (WinJSContrib = {}));
 
 (function (_global) {
     //polyfill setimmediate
@@ -2268,6 +2659,8 @@ var WinJSContrib;
     (function (UI) {
         var Pages;
         (function (Pages) {
+            var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Pages");
+            Pages.verboseTraces = false;
             /**
              * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
              * @field WinJSContrib.UI.Pages.defaultFragmentMixins
@@ -2474,7 +2867,9 @@ var WinJSContrib;
                     this.queue = [];
                     this.isDone = false;
                     this.stepName = stepName;
-                    //this.created = new Date();
+                    if (Pages.verboseTraces) {
+                        this.created = new Date();
+                    }
                     this.promise = new WinJS.Promise(function (c, e) {
                         _this._resolvePromise = c;
                         _this._rejectPromise = e;
@@ -2500,9 +2895,12 @@ var WinJSContrib;
                     var step = this;
                     this.isDone = true;
                     function closeStep() {
-                        //step.resolved = new Date();
+                        step.resolved = new Date();
                         step._resolvePromise(arg);
-                        //console.log('resolved ' + step.stepName + '(' + (<any>step.resolved - <any>step.created) + 'ms)');
+                        if (Pages.verboseTraces) {
+                            step.resolved = new Date();
+                            logger.verbose('resolved ' + step.stepName + '(' + (step.resolved - step.created) + 'ms)');
+                        }
                         return step.promise;
                     }
                     if (this.queue && this.queue.length) {
@@ -2751,7 +3149,7 @@ var WinJSContrib;
                         that.ready(element, options);
                         that.pageLifeCycle.ended = new Date();
                         that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
-                        console.log('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
+                        logger.debug('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
                         //broadcast(that, element, 'pageReady', [element, options]);
                     }).then(function (result) {
                         return that.pageLifeCycle.steps.ready.resolve();

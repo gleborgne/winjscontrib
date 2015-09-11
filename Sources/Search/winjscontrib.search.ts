@@ -48,7 +48,7 @@ module WinJSContrib.Search {
     export var workerPath = './scripts/winjscontrib/winjscontrib.search.worker.js';
     
 
-    export function writeFile(folder, fileName, CreationCollisionOption, objectGraph) {
+    export function writeWinRTFile(folder, fileName, CreationCollisionOption, objectGraph) {
         return new WinJS.Promise(function (complete, error) {
             folder.createFileAsync(fileName, CreationCollisionOption).done(function (docfile) {
                 Windows.Storage.FileIO.writeTextAsync(docfile, JSON.stringify(objectGraph)).done(function () {
@@ -59,7 +59,7 @@ module WinJSContrib.Search {
         });
     }
 
-    export function openFile(folder, fileName) {
+    export function openWinRTFile(folder, fileName) {
         return new WinJS.Promise(function (complete, error) {
             folder.createFileAsync(fileName, Windows.Storage.CreationCollisionOption.openIfExists).then(function (file) {
                 Windows.Storage.FileIO.readTextAsync(file).done(function (text) {

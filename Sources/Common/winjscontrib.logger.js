@@ -1,8 +1,10 @@
-﻿var WinJSContrib;
+﻿console.warn("WinJSContrib.Logging is deprecated, please use WinJSContrib.Logs instead");
+var WinJSContrib;
 (function (WinJSContrib) {
     var Logging;
     (function (Logging) {
         /**
+         * This API is deprecated, please use WinJSContrib.Logs instead
          * @namespace WinJSContrib.Logging
          */
         WinJSContrib.Logging = WinJSContrib.Logging;

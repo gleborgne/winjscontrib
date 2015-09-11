@@ -6,6 +6,9 @@ declare module WinJSContrib.UI.WebComponents {
 var profiler = __global.msWriteProfilerMark || function () { };
 
 module WinJSContrib.UI.Pages {
+    var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Pages");
+    export var verboseTraces = false;
+
     /**
      * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
      * @field WinJSContrib.UI.Pages.defaultFragmentMixins
@@ -247,7 +250,10 @@ module WinJSContrib.UI.Pages {
 			this.queue = [];
 			this.isDone = false;
 			this.stepName = stepName;
-			//this.created = new Date();
+            if (verboseTraces) {
+                this.created = new Date();
+            }
+
 			this.promise = new WinJS.Promise((c, e) => {
 				this._resolvePromise = c;
 				this._rejectPromise = e;
@@ -276,9 +282,14 @@ module WinJSContrib.UI.Pages {
 			this.isDone = true;
 
 			function closeStep() {
-				//step.resolved = new Date();
-				step._resolvePromise(arg);
-				//console.log('resolved ' + step.stepName + '(' + (<any>step.resolved - <any>step.created) + 'ms)');
+				step.resolved = new Date();
+                step._resolvePromise(arg);
+
+                if (verboseTraces) {
+                    step.resolved = new Date();
+                    logger.verbose('resolved ' + step.stepName + '(' + (<any>step.resolved - <any>step.created) + 'ms)');
+                }
+
 				return step.promise;
 			}
 
@@ -567,7 +578,7 @@ module WinJSContrib.UI.Pages {
 
 				that.pageLifeCycle.ended = new Date();
 				that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
-				console.log('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
+                logger.debug('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
 
 				//broadcast(that, element, 'pageReady', [element, options]);
 			}).then(function (result) {

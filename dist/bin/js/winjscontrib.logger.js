@@ -1,14 +1,16 @@
 ﻿/* 
- * WinJS Contrib v2.1.0.3
+ * WinJS Contrib v2.1.0.4
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
+console.warn("WinJSContrib.Logging is deprecated, please use WinJSContrib.Logs instead");
 var WinJSContrib;
 (function (WinJSContrib) {
     var Logging;
     (function (Logging) {
         /**
+         * This API is deprecated, please use WinJSContrib.Logs instead
          * @namespace WinJSContrib.Logging
          */
         WinJSContrib.Logging = WinJSContrib.Logging;

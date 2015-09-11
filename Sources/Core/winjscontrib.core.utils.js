@@ -1,14 +1,26 @@
-//polyfill setimmediate
-if (!this.setImmediate) {
-    this.setImmediate = function (callback) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        setTimeout(callback, 0);
-        return 0;
-    };
-}
+(function (_global) {
+    //polyfill setimmediate
+    if (!this.setImmediate) {
+        this.setImmediate = function (callback) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            setTimeout(callback, 0);
+            return 0;
+        };
+    }
+    //Windows 10 doesn't have it anymore, polyfill for backward compat
+    if (!this.toStaticHTML) {
+        this.toStaticHTML = function (text) {
+            return text;
+        };
+    }
+    var msapp = _global.MSApp;
+    if (msapp && !msapp.execUnsafeLocalFunction) {
+        msapp.execUnsafeLocalFunction = function (c) { c(); };
+    }
+})(this);
 if (!Object.map) {
     Object.map = function (obj, mapping) {
         var mapped = {};
@@ -150,9 +162,7 @@ var WinJSContrib;
                 var queueBatch = function (p, items) {
                     //var batchresults = [];
                     return p.then(function (r) {
-                        return WinJS.Promise.join(items.map(function (item) {
-                            return WinJS.Promise.as(promiseCallback(item));
-                        })).then(function (results) {
+                        return WinJS.Promise.join(items.map(function (item) { return WinJS.Promise.as(promiseCallback(item)); })).then(function (results) {
                             results = results.concat(results);
                         }, function (errors) {
                             results = results.concat(errors);
@@ -220,6 +230,19 @@ var WinJSContrib;
                 return WinJSContrib.Utils.startsWith(this, str);
             };
         }
+        function asyncForEach(array, callback, batchsize) {
+            if (batchsize === void 0) { batchsize = 1; }
+            var i = 0;
+            while (i < array.length) {
+                setImmediate(function () {
+                    for (var j = 0; j < batchsize && i < array.length; j++) {
+                        i++;
+                        callback(array[i]);
+                    }
+                });
+            }
+        }
+        Utils.asyncForEach = asyncForEach;
         /** indicate if string ends with featured characters
          * @function WinJSContrib.Utils.endsWith
          * @param {string} str string to search within
@@ -327,8 +350,8 @@ var WinJSContrib;
                 if (end < 0)
                     return;
                 var val = prop.substr(idx + 1, end - idx);
-                val = parseInt(val);
-                obj[val] = data;
+                var intval = parseInt(val);
+                obj[intval] = data;
             }
         }
         /** Read property value on an object based on expression
@@ -623,9 +646,11 @@ var WinJSContrib;
          * @param {HTMLElement} target target node for moved elements
          */
         function moveChilds(source, target) {
+            if (!source || !target)
+                return;
             var childs = [];
-            for (var i = 0; i < source.children.length; i++) {
-                childs.push(source.children[i]);
+            for (var i = 0; i < source.childNodes.length; i++) {
+                childs.push(source.childNodes[i]);
             }
             childs.forEach(function (elt) {
                 target.appendChild(elt);
@@ -640,6 +665,8 @@ var WinJSContrib;
          * @returns {Object} WinJS control
          */
         function getParent(property, element) {
+            if (!element)
+                return;
             var current = element.parentNode;
             while (current) {
                 if (current[property] && current.winControl) {
@@ -657,6 +684,8 @@ var WinJSContrib;
          * @returns {Object} WinJS control
          */
         function getParentControlByClass(className, element) {
+            if (!element)
+                return;
             var current = element.parentNode;
             while (current) {
                 if (current.classList && current.classList.contains(className) && current.winControl) {
@@ -1111,4 +1140,3 @@ var WinJSContrib;
         Templates.makeInteractive = makeInteractive;
     })(Templates = WinJSContrib.Templates || (WinJSContrib.Templates = {}));
 })(WinJSContrib || (WinJSContrib = {}));
-//# sourceMappingURL=winjscontrib.core.utils.js.map

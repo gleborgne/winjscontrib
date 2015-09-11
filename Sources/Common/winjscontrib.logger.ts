@@ -1,5 +1,7 @@
-﻿module WinJSContrib.Logging {
+﻿console.warn("WinJSContrib.Logging is deprecated, please use WinJSContrib.Logs instead");
+module WinJSContrib.Logging {
     /**
+     * This API is deprecated, please use WinJSContrib.Logs instead
      * @namespace WinJSContrib.Logging
      */
     WinJSContrib.Logging = WinJSContrib.Logging;
