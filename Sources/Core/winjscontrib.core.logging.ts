@@ -38,8 +38,13 @@
          * @param {string} message log message
          * @param {WinJSContrib.Logs.Levels} log level
          */
-        public log(logger: Logs.Logger, message: string, level: Logs.Levels) {
+        public log(logger: Logs.Logger, message: string, level: Logs.Levels, ...args) {
             var msg = [this.format(message, level)];
+            if (args.length) {
+                args.forEach((a) => {
+                    msg.push(a);
+                });
+            }
 
             switch (level) {
                 case Levels.verbose:
@@ -327,9 +332,9 @@ module WinJSContrib.Logs {
          * @function WinJSContrib.Logs.Logger.prototype.debug
          * @param {string} message log message
          */
-        public verbose(message: string) {
+        public verbose(message: string, ...args) {
             if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.verbose) return;
-            this.log(message, Logs.Levels.verbose);
+            this.log(message, Logs.Levels.verbose, args);
         }
 
         /**
@@ -337,9 +342,9 @@ module WinJSContrib.Logs {
          * @function WinJSContrib.Logs.Logger.prototype.debug
          * @param {string} message log message
          */
-        public debug(message: string) {
+        public debug(message: string, ...args) {
             if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.debug) return;
-            this.log(message, Logs.Levels.debug);
+            this.log(message, Logs.Levels.debug, args);
         }
 
         /**
@@ -348,9 +353,9 @@ module WinJSContrib.Logs {
          * @param {string} message log message
          * @param {string} [group] log group name
          */
-        public info(message: string) {
+        public info(message: string, ...args) {
             if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.info) return;
-            this.log(message, Logs.Levels.info);
+            this.log(message, Logs.Levels.info, args);
         }
 
         /**

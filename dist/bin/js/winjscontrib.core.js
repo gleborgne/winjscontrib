@@ -36,7 +36,16 @@ var WinJSContrib;
                  * @param {WinJSContrib.Logs.Levels} log level
                  */
                 ConsoleAppender.prototype.log = function (logger, message, level) {
+                    var args = [];
+                    for (var _i = 3; _i < arguments.length; _i++) {
+                        args[_i - 3] = arguments[_i];
+                    }
                     var msg = [this.format(message, level)];
+                    if (args.length) {
+                        args.forEach(function (a) {
+                            msg.push(a);
+                        });
+                    }
                     switch (level) {
                         case Logs.Levels.verbose:
                             return console.log.apply(console, msg);
@@ -304,9 +313,13 @@ var WinJSContrib;
              * @param {string} message log message
              */
             Logger.prototype.verbose = function (message) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
                 if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.verbose)
                     return;
-                this.log(message, Logs.Levels.verbose);
+                this.log(message, Logs.Levels.verbose, args);
             };
             /**
              * add debug log entry
@@ -314,9 +327,13 @@ var WinJSContrib;
              * @param {string} message log message
              */
             Logger.prototype.debug = function (message) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
                 if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.debug)
                     return;
-                this.log(message, Logs.Levels.debug);
+                this.log(message, Logs.Levels.debug, args);
             };
             /**
              * add info log entry
@@ -325,9 +342,13 @@ var WinJSContrib;
              * @param {string} [group] log group name
              */
             Logger.prototype.info = function (message) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
                 if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.info)
                     return;
-                this.log(message, Logs.Levels.info);
+                this.log(message, Logs.Levels.info, args);
             };
             /**
              * add warn log entry

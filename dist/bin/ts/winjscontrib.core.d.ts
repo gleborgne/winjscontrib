@@ -25,7 +25,7 @@
          * @param {string} message log message
          * @param {WinJSContrib.Logs.Levels} log level
          */
-        log(logger: Logs.Logger, message: string, level: Logs.Levels): any;
+        log(logger: Logs.Logger, message: string, level: Logs.Levels, ...args: any[]): any;
         /**
          * create log group
          * @function WinJSContrib.Logs.Appenders.ConsoleAppender.prototype.group
@@ -137,20 +137,20 @@ declare module WinJSContrib.Logs {
          * @function WinJSContrib.Logs.Logger.prototype.debug
          * @param {string} message log message
          */
-        verbose(message: string): void;
+        verbose(message: string, ...args: any[]): void;
         /**
          * add debug log entry
          * @function WinJSContrib.Logs.Logger.prototype.debug
          * @param {string} message log message
          */
-        debug(message: string): void;
+        debug(message: string, ...args: any[]): void;
         /**
          * add info log entry
          * @function WinJSContrib.Logs.Logger.prototype.info
          * @param {string} message log message
          * @param {string} [group] log group name
          */
-        info(message: string): void;
+        info(message: string, ...args: any[]): void;
         /**
          * add warn log entry
          * @function WinJSContrib.Logs.Logger.prototype.warn
