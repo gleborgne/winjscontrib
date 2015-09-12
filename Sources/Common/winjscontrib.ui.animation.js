@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @namespace WinJSContrib.UI.Animation
  */
 /**
@@ -548,5 +548,3 @@ var WinJSContrib;
         })(Animation = UI.Animation || (UI.Animation = {}));
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
-
-//# sourceMappingURL=../../Sources/Common/winjscontrib.ui.animation.js.map

@@ -6,7 +6,7 @@
 
     export interface ILogAppender {
         clone();
-        format(message: string, level: Logs.Levels);
+        format(logger: Logs.Logger, message: string, level: Logs.Levels);
         log(logger: Logs.Logger, message: string, level: Logs.Levels);
         group(title: string);
         groupCollapsed(title: string);
@@ -39,7 +39,7 @@
          * @param {WinJSContrib.Logs.Levels} log level
          */
         public log(logger: Logs.Logger, message: string, level: Logs.Levels, ...args) {
-            var msg = [this.format(message, level)];
+            var msg = [this.format(logger, message, level)];
             if (args.length) {
                 args.forEach((a) => {
                     msg.push(a);
@@ -84,9 +84,10 @@
             console.groupEnd();
         }
 
-        public format(message: string, level: Logs.Levels) {
+        public format(logger: Logger, message: string, level: Logs.Levels) {
             var finalMessage = "";
-            if (!this.config.hideLevelInMessage) finalMessage += logginLevelToString(level) + " - ";
+            if (this.config.showLoggerNameInMessage) finalMessage += logger.name + " - ";
+            if (this.config.showLevelInMessage) finalMessage += logginLevelToString(level) + " - ";
             finalMessage += message;
             return finalMessage;
         }
@@ -139,14 +140,16 @@ module WinJSContrib.Logs {
 
     export interface ILoggerConfig {
         level: Logs.Levels,
-        hideLevelInMessage?: boolean,
+        showLevelInMessage?: boolean,
+        showLoggerNameInMessage?: boolean,
         appenders?: any[]
     }
 
     // Default config
     export var defaultConfig = <ILoggerConfig>{
         "level": Levels.off,
-        "hideLevelInMessage": false,
+        "showLevelInMessage": false,
+        "showLoggerNameInMessage": false,
         "appenders": []
     };
 
@@ -226,8 +229,16 @@ module WinJSContrib.Logs {
 
     export class Logger {
         public appenders: Array<WinJSContrib.Logs.Appenders.ILogAppender>;
-        public _config: ILoggerConfig;
+        _config: ILoggerConfig;
+        _level: Logs.Levels;
         public name: string;
+        static noop = (message: string, ...args) => { };
+        static verbose = function (message: string, ...args) { this.log(message, Logs.Levels.verbose, args); };
+        static debug = function (message: string, ...args) { this.log(message, Logs.Levels.debug, args); };
+        static info = function (message: string, ...args) { this.log(message, Logs.Levels.info, args); };
+        static warn = function (message: string, ...args) { this.log(message, Logs.Levels.warn, args); };
+        static error = function (message: string, ...args) { this.log(message, Logs.Levels.error, args); };
+
 
         /**
          * @class WinJSContrib.Logs.Logger
@@ -250,8 +261,9 @@ module WinJSContrib.Logs {
         public set Config(newValue: ILoggerConfig) {
             this._config = newValue || { level: Logs.Levels.off, hideGroupInMessage: false, hideLevelInMessage: false };
 
-            if (typeof newValue.level === "number") this.Config.level = newValue.level;
-            if (typeof newValue.hideLevelInMessage === "boolean") this.Config.hideLevelInMessage = newValue.hideLevelInMessage;
+            if (typeof newValue.level === "number") this.Level = newValue.level;
+            if (typeof newValue.showLevelInMessage === "boolean") this.Config.showLevelInMessage = newValue.showLevelInMessage;
+            if (typeof newValue.showLoggerNameInMessage === "boolean") this.Config.showLoggerNameInMessage = newValue.showLoggerNameInMessage;
             
             if (this._config.appenders) {
                 this._config.appenders.forEach((a) => {
@@ -260,6 +272,20 @@ module WinJSContrib.Logs {
             } else {
                 this._config.appenders = [];
             }
+        }
+
+        public get Level(): Logs.Levels {
+            return this._level;
+        }
+
+        public set Level(val) {
+            this._level = val;
+             
+            if (this._level <= Logs.Levels.verbose) { this.verbose = Logger.verbose; } else { this.verbose = Logger.noop }
+            if (this._level <= Logs.Levels.debug) { this.debug = Logger.debug; } else { this.debug = Logger.noop }
+            if (this._level <= Logs.Levels.info) { this.info = Logger.info; } else { this.info = Logger.noop }
+            if (this._level <= Logs.Levels.warn) { this.warn = Logger.warn; } else { this.warn = Logger.noop }
+            if (this._level <= Logs.Levels.error) { this.error = Logger.error; } else { this.error= Logger.noop }            
         }
 
         /**
@@ -281,8 +307,8 @@ module WinJSContrib.Logs {
             if (exists)
                 return;
 
-            if (!currentappender.format)
-                currentappender.format = this.format.bind(this);
+            //if (!currentappender.format)
+            //    currentappender.format = this.format.bind(this);
 
             this.appenders.push(currentappender);
         }
@@ -313,19 +339,19 @@ module WinJSContrib.Logs {
             });
         }
 
-        /**
-         * format log entry
-         * @function WinJSContrib.Logs.Logger.prototype.format
-         * @param {string} message log message
-         * @param {string} group group/category for the entry
-         * @param {WinJSContrib.Logs.Levels} log level
-         */
-        public format(message: string, level: Logs.Levels) {
-            var finalMessage = "";
-            if (!this.Config.hideLevelInMessage) finalMessage += logginLevelToString(level) + " - ";
-            finalMessage += message;
-            return finalMessage;
-        }
+        ///**
+        // * format log entry
+        // * @function WinJSContrib.Logs.Logger.prototype.format
+        // * @param {string} message log message
+        // * @param {string} group group/category for the entry
+        // * @param {WinJSContrib.Logs.Levels} log level
+        // */
+        //public format(message: string, level: Logs.Levels) {
+        //    var finalMessage = "";
+        //    if (!this.Config.hideLevelInMessage) finalMessage += logginLevelToString(level) + " - ";
+        //    finalMessage += message;
+        //    return finalMessage;
+        //}
 
         /**
          * add debug log entry
@@ -333,8 +359,6 @@ module WinJSContrib.Logs {
          * @param {string} message log message
          */
         public verbose(message: string, ...args) {
-            if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.verbose) return;
-            this.log(message, Logs.Levels.verbose, args);
         }
 
         /**
@@ -343,8 +367,6 @@ module WinJSContrib.Logs {
          * @param {string} message log message
          */
         public debug(message: string, ...args) {
-            if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.debug) return;
-            this.log(message, Logs.Levels.debug, args);
         }
 
         /**
@@ -354,8 +376,6 @@ module WinJSContrib.Logs {
          * @param {string} [group] log group name
          */
         public info(message: string, ...args) {
-            if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.info) return;
-            this.log(message, Logs.Levels.info, args);
         }
 
         /**
@@ -364,8 +384,6 @@ module WinJSContrib.Logs {
          * @param {string} message log message
          */
         public warn(message: string, ...args) {
-            if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.warn) return;
-            this.log(message, Logs.Levels.warn, args);
         }
 
         /**
@@ -374,8 +392,6 @@ module WinJSContrib.Logs {
          * @param {string} message log message
          */
         public error(message: string, ...args) {
-            if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.error) return;
-            this.log(message, Logs.Levels.error, args);
         }
 
         /**

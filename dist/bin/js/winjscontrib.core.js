@@ -40,7 +40,7 @@ var WinJSContrib;
                     for (var _i = 3; _i < arguments.length; _i++) {
                         args[_i - 3] = arguments[_i];
                     }
-                    var msg = [this.format(message, level)];
+                    var msg = [this.format(logger, message, level)];
                     if (args.length) {
                         args.forEach(function (a) {
                             msg.push(a);
@@ -80,9 +80,11 @@ var WinJSContrib;
                 ConsoleAppender.prototype.groupEnd = function () {
                     console.groupEnd();
                 };
-                ConsoleAppender.prototype.format = function (message, level) {
+                ConsoleAppender.prototype.format = function (logger, message, level) {
                     var finalMessage = "";
-                    if (!this.config.hideLevelInMessage)
+                    if (this.config.showLoggerNameInMessage)
+                        finalMessage += logger.name + " - ";
+                    if (this.config.showLevelInMessage)
                         finalMessage += Logs.logginLevelToString(level) + " - ";
                     finalMessage += message;
                     return finalMessage;
@@ -141,7 +143,8 @@ var WinJSContrib;
         // Default config
         Logs.defaultConfig = {
             "level": Levels.off,
-            "hideLevelInMessage": false,
+            "showLevelInMessage": false,
+            "showLoggerNameInMessage": false,
             "appenders": []
         };
         var Loggers = {};
@@ -233,9 +236,11 @@ var WinJSContrib;
                     var _this = this;
                     this._config = newValue || { level: Logs.Levels.off, hideGroupInMessage: false, hideLevelInMessage: false };
                     if (typeof newValue.level === "number")
-                        this.Config.level = newValue.level;
-                    if (typeof newValue.hideLevelInMessage === "boolean")
-                        this.Config.hideLevelInMessage = newValue.hideLevelInMessage;
+                        this.Level = newValue.level;
+                    if (typeof newValue.showLevelInMessage === "boolean")
+                        this.Config.showLevelInMessage = newValue.showLevelInMessage;
+                    if (typeof newValue.showLoggerNameInMessage === "boolean")
+                        this.Config.showLoggerNameInMessage = newValue.showLoggerNameInMessage;
                     if (this._config.appenders) {
                         this._config.appenders.forEach(function (a) {
                             _this.addAppender(a);
@@ -243,6 +248,46 @@ var WinJSContrib;
                     }
                     else {
                         this._config.appenders = [];
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Logger.prototype, "Level", {
+                get: function () {
+                    return this._level;
+                },
+                set: function (val) {
+                    this._level = val;
+                    if (this._level <= Logs.Levels.verbose) {
+                        this.verbose = Logger.verbose;
+                    }
+                    else {
+                        this.verbose = Logger.noop;
+                    }
+                    if (this._level <= Logs.Levels.debug) {
+                        this.debug = Logger.debug;
+                    }
+                    else {
+                        this.debug = Logger.noop;
+                    }
+                    if (this._level <= Logs.Levels.info) {
+                        this.info = Logger.info;
+                    }
+                    else {
+                        this.info = Logger.noop;
+                    }
+                    if (this._level <= Logs.Levels.warn) {
+                        this.warn = Logger.warn;
+                    }
+                    else {
+                        this.warn = Logger.noop;
+                    }
+                    if (this._level <= Logs.Levels.error) {
+                        this.error = Logger.error;
+                    }
+                    else {
+                        this.error = Logger.noop;
                     }
                 },
                 enumerable: true,
@@ -263,8 +308,8 @@ var WinJSContrib;
                 var exists = this.appenders.indexOf(currentappender) >= 0;
                 if (exists)
                     return;
-                if (!currentappender.format)
-                    currentappender.format = this.format.bind(this);
+                //if (!currentappender.format)
+                //    currentappender.format = this.format.bind(this);
                 this.appenders.push(currentappender);
             };
             /**
@@ -293,20 +338,19 @@ var WinJSContrib;
                     a.log.apply(a, fnargs);
                 });
             };
-            /**
-             * format log entry
-             * @function WinJSContrib.Logs.Logger.prototype.format
-             * @param {string} message log message
-             * @param {string} group group/category for the entry
-             * @param {WinJSContrib.Logs.Levels} log level
-             */
-            Logger.prototype.format = function (message, level) {
-                var finalMessage = "";
-                if (!this.Config.hideLevelInMessage)
-                    finalMessage += logginLevelToString(level) + " - ";
-                finalMessage += message;
-                return finalMessage;
-            };
+            ///**
+            // * format log entry
+            // * @function WinJSContrib.Logs.Logger.prototype.format
+            // * @param {string} message log message
+            // * @param {string} group group/category for the entry
+            // * @param {WinJSContrib.Logs.Levels} log level
+            // */
+            //public format(message: string, level: Logs.Levels) {
+            //    var finalMessage = "";
+            //    if (!this.Config.hideLevelInMessage) finalMessage += logginLevelToString(level) + " - ";
+            //    finalMessage += message;
+            //    return finalMessage;
+            //}
             /**
              * add debug log entry
              * @function WinJSContrib.Logs.Logger.prototype.debug
@@ -317,9 +361,6 @@ var WinJSContrib;
                 for (var _i = 1; _i < arguments.length; _i++) {
                     args[_i - 1] = arguments[_i];
                 }
-                if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.verbose)
-                    return;
-                this.log(message, Logs.Levels.verbose, args);
             };
             /**
              * add debug log entry
@@ -331,9 +372,6 @@ var WinJSContrib;
                 for (var _i = 1; _i < arguments.length; _i++) {
                     args[_i - 1] = arguments[_i];
                 }
-                if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.debug)
-                    return;
-                this.log(message, Logs.Levels.debug, args);
             };
             /**
              * add info log entry
@@ -346,9 +384,6 @@ var WinJSContrib;
                 for (var _i = 1; _i < arguments.length; _i++) {
                     args[_i - 1] = arguments[_i];
                 }
-                if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.info)
-                    return;
-                this.log(message, Logs.Levels.info, args);
             };
             /**
              * add warn log entry
@@ -360,9 +395,6 @@ var WinJSContrib;
                 for (var _i = 1; _i < arguments.length; _i++) {
                     args[_i - 1] = arguments[_i];
                 }
-                if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.warn)
-                    return;
-                this.log(message, Logs.Levels.warn, args);
             };
             /**
              * add error log entry
@@ -374,9 +406,6 @@ var WinJSContrib;
                 for (var _i = 1; _i < arguments.length; _i++) {
                     args[_i - 1] = arguments[_i];
                 }
-                if (this._config.level == Logs.Levels.off || this._config.level > Logs.Levels.error)
-                    return;
-                this.log(message, Logs.Levels.error, args);
             };
             /**
              * create a log group
@@ -426,6 +455,47 @@ var WinJSContrib;
                 if (level)
                     res.Config.level = level;
                 return res;
+            };
+            Logger.noop = function (message) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
+            };
+            Logger.verbose = function (message) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
+                this.log(message, Logs.Levels.verbose, args);
+            };
+            Logger.debug = function (message) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
+                this.log(message, Logs.Levels.debug, args);
+            };
+            Logger.info = function (message) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
+                this.log(message, Logs.Levels.info, args);
+            };
+            Logger.warn = function (message) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
+                this.log(message, Logs.Levels.warn, args);
+            };
+            Logger.error = function (message) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
+                this.log(message, Logs.Levels.error, args);
             };
             return Logger;
         })();
