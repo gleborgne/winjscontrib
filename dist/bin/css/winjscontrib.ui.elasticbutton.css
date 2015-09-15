@@ -1,0 +1,29 @@
+﻿/* 
+ * WinJS Contrib v2.1.0.4
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+.mcn-elasticbutton {
+  position: relative;
+  border: none;
+}
+.mcn-elasticbutton .mcn-elasticbutton-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.mcn-elasticbutton .mcn-elasticbutton-bg svg {
+  stroke: white;
+  stroke-width: 3px;
+  fill: transparent;
+}
+.mcn-elasticbutton .mcn-elasticbutton-content {
+  position: relative;
+  transition: transform 80ms ease-out;
+}
+.mcn-elasticbutton.pressed .mcn-elasticbutton-content {
+  transform: scale(0.9);
+}
