@@ -168,6 +168,7 @@ var tsSearchProject = ts.createProject({
 gulp.task('searchcompile', ["datacontainercompile"], function() {
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
+		tsDestPath + 'winjscontrib.core.d.ts',
 		srcDataContainerPath + '*.d.ts', 	
 		srcSearchPath + 'winjscontrib.search.ts', 
 		srcSearchPath + 'winjscontrib.search.index.ts', 

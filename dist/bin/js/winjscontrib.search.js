@@ -70,6 +70,7 @@ var WinJSContrib;
 (function (WinJSContrib) {
     var Search;
     (function (Search) {
+        var logger = WinJSContrib.Logs.getLogger("WinJSContrib.Search");
         var Index = (function () {
             /**
              * Search index
@@ -101,8 +102,7 @@ var WinJSContrib;
                     index.folderPromise = Windows.Storage.ApplicationData.current.localFolder.createFolderAsync("WinJSContrib\\Search", Windows.Storage.CreationCollisionOption.openIfExists).then(function (folder) {
                         return folder;
                     }, function (err) {
-                        if (WinJS && WinJS.log)
-                            WinJS.log("Folder init error " + err.message);
+                        logger.error("Folder init error " + err.message);
                         return null;
                     });
                 }
@@ -304,8 +304,23 @@ var WinJSContrib;
                         var item = def.fields[elt];
                         var weight = item.weight || 1;
                         var value = WinJSContrib.Utils.readProperty(obj, elt.split('.'));
-                        if (value)
-                            res.items.push({ tokens: index.processText(value), weight: weight });
+                        if (value) {
+                            var valueType = typeof value;
+                            if (valueType !== 'string' && (value.length !== null && value.length !== undefined)) {
+                                for (var i = 0, l = value.length; i < l; i++) {
+                                    var item = value[i];
+                                    if (item && typeof item == 'string') {
+                                        res.items.push({ tokens: index.processText(item), weight: weight });
+                                    }
+                                }
+                            }
+                            else if (valueType === 'string') {
+                                res.items.push({ tokens: index.processText(value), weight: weight });
+                            }
+                            else {
+                                logger.warn(elt + " is of type " + valueType);
+                            }
+                        }
                     }
                 }
                 index.items.push(res);
