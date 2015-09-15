@@ -1,4 +1,4 @@
-console.warn("WinJSContrib.Logging is deprecated, please use WinJSContrib.Logs instead");
+﻿console.warn("WinJSContrib.Logging is deprecated, please use WinJSContrib.Logs instead");
 var WinJSContrib;
 (function (WinJSContrib) {
     var Logging;
@@ -354,3 +354,5 @@ var WinJSContrib;
     defaultLogger.addAppender(new WinJSContrib.Logging.Appenders.ConsoleAppender());
     WinJSContrib.Logger = defaultLogger;
 })();
+
+//# sourceMappingURL=../../Sources/Common/winjscontrib.logger.js.map

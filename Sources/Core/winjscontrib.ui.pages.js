@@ -1,4 +1,4 @@
-var WinJSContrib;
+﻿var WinJSContrib;
 (function (WinJSContrib) {
     var UI;
     (function (UI) {
@@ -8,3 +8,5 @@ var WinJSContrib;
         })(Pages = UI.Pages || (UI.Pages = {}));
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
+
+//# sourceMappingURL=../../Sources/Core/winjscontrib.ui.pages.js.map
