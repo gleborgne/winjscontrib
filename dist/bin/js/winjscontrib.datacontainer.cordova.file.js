@@ -8,6 +8,7 @@
 
 (function () {
     'use strict';
+    var containerLogger = WinJSContrib.Logs.getLogger("WinJSContrib.DataContainer.Cordova");
     WinJS.Namespace.define("WinJSContrib.DataContainer", {
         CordovaContainer: WinJS.Class.define(function ctor(key, options, parent) {
             this.key = key || 'mcndatacontainer';
@@ -29,9 +30,9 @@
                     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, //"Android/data/io.cordova.MCNEXT.Survey/files", 0,
                         function (fileSystem) {
                             var root = fileSystem.root;
-                            console.log('getting directory ' + container.key);
+                            containerLogger.verbose('getting directory ' + container.key);
                             var rootDir = container.key;
-                            if (options.packageId && (window && window.cordova && window.cordova.platformId != "ios")) {
+                            if (options && options.packageId && (window && window.cordova && window.cordova.platformId != "ios")) {
                                 rootDir = "Android/data/" + options.packageId + "/files/" + rootDir
                             }
                             //else 
@@ -39,35 +40,35 @@
                                 rootDir = container.key;
                             }
                             else {
-                                console.error("WARNING !!!! you have to provide the packageId");
+                                containerLogger.error("WARNING !!!! you have to provide the packageId");
                             }
                             root.getDirectory(rootDir, { create: true }, function (directory) {
-                                console.log('got the directory ' + container.key);
+                                containerLogger.debug('got the directory ' + container.key);
                                 container.folder = directory;
                                 readComplete(container.folder);
                             }, function (ee) {
-                                console.log("(0) I failed at getting a directory " + container.key);
+                                containerLogger.verbose("(0) I failed at getting a directory " + container.key);
                                 readError(ee);
                             });
                         }, function (ee) {
-                            console.log("(1) I failed at getting a directory " + container.key);
+                            containerLogger.warn("(1) I failed at getting a directory " + container.key);
                             readError(ee);
                         });
                 }
                 else {
-                    console.log('trying to get the directory ' + container.key + " from parent " + parent.key);
+                    containerLogger.verbose('trying to get the directory ' + container.key + " from parent " + parent.key);
                     parent.folderPromise.then(function (folder) {
-                        console.log('get the directory ' + container.key + " from parent " + parent.key);
+                        containerLogger.verbose('get the directory ' + container.key + " from parent " + parent.key);
                         folder.getDirectory(container.key, { create: true }, function (directory) {
-                            console.log('got the directory');
+                            containerLogger.debug('got the directory');
                             container.folder = directory;
                             readComplete(container.folder);
                         }, function (ee) {
-                            console.log("I failed at getting a directory");
+                            containerLogger.warn("I failed at getting a directory");
                             readError(ee);
                         });
                     }, function (ee) {
-                        console.log("I failed at getting a directory " + container.key + "from parent " + parent.key);
+                        containerLogger.warn("I failed at getting a directory " + container.key + "from parent " + parent.key);
                         readError(ee);
                     });
                 }
@@ -76,19 +77,19 @@
         }, {
             read: function (itemkey) {
                 var container = this;
-                console.log('trying to read ' + itemkey);
+                containerLogger.verbose('trying to read ' + itemkey);
                 return new WinJS.Promise(function (readComplete, readError) {
-                    console.log('get container folder promise for ' + itemkey);
+                    containerLogger.verbose('get container folder promise for ' + itemkey);
 
                     container.folderPromise.then(function (folder) {
-                        console.log('got container folder promise for ' + itemkey);
-                        console.log('trying to read file ' + itemkey);
+                        containerLogger.verbose('got container folder promise for ' + itemkey);
+                        containerLogger.verbose('trying to read file ' + itemkey);
 
                         folder.getFile(toJSONFileName(itemkey), {
                             create: true, exclusive: false
                         },
                         function (fileEntry) {
-                            console.log('read file ' + itemkey);
+                            containerLogger.debug('read file ' + itemkey);
                             //getfile
                             fileEntry.file(function (e) {
                                 var reader = new FileReader();
@@ -102,25 +103,25 @@
                                         }
                                     }
                                     catch (e) {
-                                        console.log('error read file');
+                                        containerLogger.warn('error read file');
                                         readError();
                                     }
                                 };
                                 reader.readAsText(e);
                                 //  reader.abort();
                                 reader.onerror = function (evt) {
-                                    console.log('error read file');
+                                    containerLogger.warn('error read file');
                                     readError();
                                 };
                             });
 
                         }
-                        , function () { //fail 
-                            console.log('error read file');
+                        , function (err) { //fail 
+                            containerLogger.warn('error read file', err);
                             readError();
                         });
-                    }, function () {
-                        console.log('error folder promise');
+                    }, function (err) {
+                        containerLogger.warn('error folder promise', err);
                         readError();
                     });
                 });
@@ -167,10 +168,10 @@
                         function (fileEntry) {
                             //getfile
                             fileEntry.remove(function () {
-                                console.log('file removed :' + itemkey);
+                                containerLogger.debug('file removed :' + itemkey);
                                 deleteComplete();
                             }, function () {
-                                console.log('faild to remove ' + itemkey);
+                                containerLogger.warn('faild to remove ' + itemkey);
                             });
                         }
                         , function () { //fail 
@@ -203,13 +204,18 @@
             child: function (key) {
                 if (this[key])
                     return this[key];
-                console.log('getting child');
+                containerLogger.verbose('getting child');
                 var res = new WinJSContrib.DataContainer.CordovaContainer(key, this.options, this);
                 this[key] = res;
                 return res;
             }
         })
     });
+
+    WinJSContrib.DataContainer.current = WinJSContrib.DataContainer.current || null;
+    WinJSContrib.DataContainer.CordovaContainer.makeCurrent = function (key, options) {
+        WinJSContrib.DataContainer.current = new WinJSContrib.DataContainer.CordovaContainer(key, options);
+    };
 
     function toJSONFileName(fileName) {
         return encodeURIComponent(fileName) + ".json";

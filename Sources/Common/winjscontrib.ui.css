@@ -1,9 +1,3 @@
-/* 
- * WinJS Contrib v2.1.0.3
- * licensed under MIT license (see http://opensource.org/licenses/MIT)
- * sources available at https://github.com/gleborgne/winjscontrib
- */
-
 html,
 body {
   width: 100%;
@@ -141,15 +135,7 @@ body {
   -webkit-animation: spin 1s linear infinite;
 }
 .mcn-xplat.mcn-xplat-windows progress.win-ring {
-  content: "";
-  display: inline-block;
-  width: 0;
-  height: 0;
   border: none;
-  margin-left: 10px;
-  border-radius: 5em;
-  border-color: transparent transparent white transparent;
-  -webkit-animation: spin 1s linear infinite;
 }
 .mcn-xplat progress.bar {
   width: 100%;

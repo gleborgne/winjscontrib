@@ -140,6 +140,9 @@ body {
   border-color: transparent transparent white transparent;
   -webkit-animation: spin 1s linear infinite;
 }
+.mcn-xplat.mcn-xplat-windows progress.win-ring {
+  border: none;
+}
 .mcn-xplat progress.bar {
   width: 100%;
   height: 2px !important;
