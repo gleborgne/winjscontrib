@@ -2469,13 +2469,15 @@ var WinJSContrib;
                 });
                 element.mcnTapTracking.eventTracker.addEvent(element, 'touchcancel', function (arg) {
                     setTimeout(function () {
-                        element.mcnTapTracking.cancelMouse = false;
+                        if (element && element.mcnTapTracking)
+                            element.mcnTapTracking.cancelMouse = false;
                     }, 1000);
                     ptOut(arg);
                 });
                 element.mcnTapTracking.eventTracker.addEvent(element, 'touchend', function (arg) {
                     setTimeout(function () {
-                        element.mcnTapTracking.cancelMouse = false;
+                        if (element && element.mcnTapTracking)
+                            element.mcnTapTracking.cancelMouse = false;
                     }, 1000);
                     ptUp(arg);
                 });
