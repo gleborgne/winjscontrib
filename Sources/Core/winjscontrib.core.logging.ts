@@ -150,7 +150,7 @@ module WinJSContrib.Logs {
         "level": Levels.off,
         "showLevelInMessage": false,
         "showLoggerNameInMessage": false,
-        "appenders": []
+        "appenders": ["DefaultConsole"]
     };
 
     var Loggers = {};
@@ -174,8 +174,9 @@ module WinJSContrib.Logs {
             existing.name = name;
             Loggers[name] = existing;
         }
-
-        configure.apply(null, arguments);
+        
+        if (config || arguments.length > 2)
+            configure.apply(null, arguments);
 
         return existing;
     }
@@ -259,7 +260,7 @@ module WinJSContrib.Logs {
         }
 
         public set Config(newValue: ILoggerConfig) {
-            this._config = newValue || { level: Logs.Levels.off, hideGroupInMessage: false, hideLevelInMessage: false };
+            this._config = newValue || { level: Logs.Levels.off, showLevelInMessage: false, showLoggerNameInMessage: false };
 
             if (typeof newValue.level === "number") this.Level = newValue.level;
             if (typeof newValue.showLevelInMessage === "boolean") this.Config.showLevelInMessage = newValue.showLevelInMessage;

@@ -158,6 +158,28 @@ var WinJSContrib;
         });
 
         /**
+         * add css class based on truthy/falsy value from the source object
+         * css class has to be precised through data-win-bind-args='{"className": ""}' attribute
+         * @function
+         * @param {Object} source object owning data
+         * @param {string[]} sourceProperty path to object data
+         * @param {HTMLElement} dest DOM element targeted by binding
+         * @param {string[]} destProperty path to DOM element property targeted by binding
+         */
+        WinJSContrib.Bindings.showClassIf = WinJS.Binding.initializer(function showClassIfBinding(source, sourceProperty, dest, destProperty) {
+            function setClass(newval, oldval) {
+                var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
+                var className = bindingArguments(dest, 'className');
+                dest.classList.remove(className);
+                if (data)
+                    dest.classList.add(className);
+            }
+            var bindingDesc = {};
+            bindingDesc[sourceProperty] = setClass;
+            return WinJS.Binding.bind(source, bindingDesc);
+        });
+
+        /**
          * convert a url string for use as a background image url
          * @function
          * @param {Object} source object owning data

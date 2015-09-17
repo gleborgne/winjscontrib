@@ -363,12 +363,14 @@
                                 var previousPage = navigator.element.children[navigator.element.children.length - 2];
                                 if (previousPage) {
                                     WinJS.Navigation.history.backStack.splice(WinJS.Navigation.history.backStack.length - 1, 1);
-
+                                    navigator.triggerPageExit();
                                     return navigator.closePage(navigator.pageControl.element).then(function () {
                                         navigator._updateBackButton(previousPage.winControl.element);
                                         if (previousPage.winControl && previousPage.winControl.navactivate) {
                                             previousPage.winControl.navactivate();
                                         }
+                                        if (WinJSContrib.UI.Application.progress)
+                                            WinJSContrib.UI.Application.progress.hide();
                                     });
                                 }
                             }
