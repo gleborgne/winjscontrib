@@ -518,7 +518,7 @@ WinJSContrib.UI.DataSources.Grouping = WinJSContrib.UI.DataSources.Grouping || {
                 return this.defaultGroupName;
 
             var val = WinJSContrib.Utils.readProperty(dataItem, this.field);
-            if (!val)
+            if (!val || !val[0])
                 return this.defaultGroupName;
 
             var key = val[0].toUpperCase();
@@ -529,7 +529,7 @@ WinJSContrib.UI.DataSources.Grouping = WinJSContrib.UI.DataSources.Grouping || {
             var val = '#';
             if (dataItem)
                 val = WinJSContrib.Utils.readProperty(dataItem, this.field);
-            if (!val)
+            if (!val || !val[0])
                 val = this.defaultGroupName;
 
             var key = val[0].toUpperCase();
@@ -559,14 +559,22 @@ WinJSContrib.UI.DataSources.Grouping = WinJSContrib.UI.DataSources.Grouping || {
 
         options.getGroupKey = options.getGroupKey || function (dataItem) {
             if (!dataItem)
-                return this.defaultGroupName;
+                return options.defaultGroupNam;
 
             var val = WinJSContrib.Utils.readProperty(dataItem, this.field);
             if (!val)
                 return this.defaultGroupName;
+            var key = val.toString();
+            if (typeof val !== 'string' && (val.length != null && val.length != undefined)) {
+                key = val.join(", ");
+            }
+            
+            if (key.trim().length == 0)
+                key = options.defaultGroupName;
 
-            var key = val.toString().toUpperCase();
-            return key;
+            key = key.toUpperCase();
+
+            return key || options.defaultGroupName;
         }
 
         options.getGroupData = options.getGroupData || function (dataItem) {
@@ -576,9 +584,16 @@ WinJSContrib.UI.DataSources.Grouping = WinJSContrib.UI.DataSources.Grouping || {
             if (!val)
                 val = this.defaultGroupName;
 
-            var key = val;
+            var key = val.toString();
+            if (typeof val !== 'string' && (val.length != null && val.length != undefined)) {
+                key = val.join(", ");
+            }
+            
+            if (key.trim().length == 0)
+                key = options.defaultGroupName;
+
             return {
-                title: key
+                title: key || options.defaultGroupName
             };
         }
 
