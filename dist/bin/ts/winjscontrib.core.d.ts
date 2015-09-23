@@ -82,6 +82,7 @@ declare module WinJSContrib.Logs {
     }
     interface ILoggerConfig {
         level: Logs.Levels;
+        prefix?: string;
         showLevelInMessage?: boolean;
         showLoggerNameInMessage?: boolean;
         appenders?: any[];

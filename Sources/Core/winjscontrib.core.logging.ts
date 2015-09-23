@@ -86,8 +86,9 @@
 
         public format(logger: Logger, message: string, level: Logs.Levels) {
             var finalMessage = "";
-            if (this.config.showLoggerNameInMessage) finalMessage += logger.name + " - ";
-            if (this.config.showLevelInMessage) finalMessage += logginLevelToString(level) + " - ";
+            if (logger.Config && logger.Config.prefix) finalMessage += logger.Config.prefix + " # ";
+            if (this.config.showLoggerNameInMessage) finalMessage += logger.name + " # ";
+            if (this.config.showLevelInMessage) finalMessage += logginLevelToString(level) + " # ";
             finalMessage += message;
             return finalMessage;
         }
@@ -140,6 +141,7 @@ module WinJSContrib.Logs {
 
     export interface ILoggerConfig {
         level: Logs.Levels,
+        prefix? : string,
         showLevelInMessage?: boolean,
         showLoggerNameInMessage?: boolean,
         appenders?: any[]

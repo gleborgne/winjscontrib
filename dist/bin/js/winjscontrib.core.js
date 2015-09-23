@@ -82,10 +82,12 @@ var WinJSContrib;
                 };
                 ConsoleAppender.prototype.format = function (logger, message, level) {
                     var finalMessage = "";
+                    if (logger.Config && logger.Config.prefix)
+                        finalMessage += logger.Config.prefix + " # ";
                     if (this.config.showLoggerNameInMessage)
-                        finalMessage += logger.name + " - ";
+                        finalMessage += logger.name + " # ";
                     if (this.config.showLevelInMessage)
-                        finalMessage += Logs.logginLevelToString(level) + " - ";
+                        finalMessage += Logs.logginLevelToString(level) + " # ";
                     finalMessage += message;
                     return finalMessage;
                 };

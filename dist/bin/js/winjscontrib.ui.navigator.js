@@ -696,7 +696,7 @@
                                         WinJS.Navigation.history.backStack = [];
 
                                         var systemNavigationManager = null;
-                                        if (WinJSContrib.UI.enableSystemBackButton && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                                        if (WinJSContrib.UI.enableSystemBackButtonVisibility && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
                                             systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
                                             if (systemNavigationManager) {
                                                 systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
@@ -776,10 +776,10 @@
 
                         var systemNavigationManager = null;
 
-                        if (WinJSContrib.UI.enableSystemBackButton && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                        if ((WinJSContrib.UI.enableSystemBackButtonVisibility) && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
                             systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
                         }
-                        if (ctrl.global && systemNavigationManager && WinJSContrib.UI.enableSystemBackButton) {
+                        if (ctrl.global && systemNavigationManager && WinJSContrib.UI.enableSystemBackButtonVisibility) {
                             if (!canGoBack)
                                 systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
                             else
