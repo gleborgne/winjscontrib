@@ -109,11 +109,12 @@ declare module WinJSContrib.Logs {
         _level: Logs.Levels;
         name: string;
         static noop: (message: string, ...args: any[]) => void;
-        static verbose: (message: string, ...args: any[]) => void;
-        static debug: (message: string, ...args: any[]) => void;
-        static info: (message: string, ...args: any[]) => void;
-        static warn: (message: string, ...args: any[]) => void;
-        static error: (message: string, ...args: any[]) => void;
+        static getLogFn: (level: Levels) => (message: string) => void;
+        static verbose: (message: string) => void;
+        static debug: (message: string) => void;
+        static info: (message: string) => void;
+        static warn: (message: string) => void;
+        static error: (message: string) => void;
         /**
          * @class WinJSContrib.Logs.Logger
          * @param {Object} config logger configuration

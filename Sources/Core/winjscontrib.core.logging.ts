@@ -236,11 +236,27 @@ module WinJSContrib.Logs {
         _level: Logs.Levels;
         public name: string;
         static noop = (message: string, ...args) => { };
-        static verbose = function (message: string, ...args) { this.log(message, Logs.Levels.verbose, args); };
-        static debug = function (message: string, ...args) { this.log(message, Logs.Levels.debug, args); };
-        static info = function (message: string, ...args) { this.log(message, Logs.Levels.info, args); };
-        static warn = function (message: string, ...args) { this.log(message, Logs.Levels.warn, args); };
-        static error = function (message: string, ...args) { this.log(message, Logs.Levels.error, args); };
+
+        static getLogFn = function(level : Logs.Levels){
+            return function(message: string) {
+                var args = null;
+                if (arguments.length > 1) {
+                    args = [];
+                    for (var i = 1; i < arguments.length; i++) {
+                        args.push(arguments[i]);
+                    }
+                    this.log(message, level, args);
+                }
+                else
+                    this.log(message, level);
+            }    
+        }
+
+        static verbose = Logger.getLogFn(Logs.Levels.verbose);
+        static debug = Logger.getLogFn(Logs.Levels.debug);
+        static info = Logger.getLogFn(Logs.Levels.info);
+        static warn = Logger.getLogFn(Logs.Levels.warn);
+        static error = Logger.getLogFn(Logs.Levels.error);
 
 
         /**
