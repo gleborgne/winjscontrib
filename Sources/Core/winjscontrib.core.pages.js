@@ -549,9 +549,6 @@ var WinJSContrib;
                         // This needs to follow the WinJS.UI.processAll "async constructor"
                         // pattern to interop nicely in the "Views.Control" use case.
                         //
-                        // This needs to follow the WinJS.UI.processAll "async constructor"
-                        // pattern to interop nicely in the "Views.Control" use case.
-                        //
                         function PageControl_ctor(element, options, complete, parentedPromise) {
                             var that = this;
                             var parent = WinJSContrib.Utils.getScopeControl(element);

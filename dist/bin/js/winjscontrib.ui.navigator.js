@@ -321,7 +321,7 @@
                         
                         for (var i = pages.length-1 ; i >= 0 ; i--) {
                             var page = pages[i];
-                            if (page.classList.contains("pagecontrol")) {
+                            if (page && page.classList.contains("pagecontrol")) {
                                 navigator.element.removeChild(page);
                                 page.winControl.dispose();
                             }
@@ -797,21 +797,23 @@
 
                             for (var i = 0, l = backButtons.length; i < l ; i++) {
                                 var btn = backButtons[i];
-                                if (canGoBack && !clearNav) {
-                                    btn.classList.remove('disabled');
-                                    btn.disabled = false;
-                                } else {
-                                    btn.classList.add('disabled');
-                                    btn.disabled = true;
-                                }
-
-                                btn.onclick = function (arg) {
-                                    if (ctrl.global) {
-                                        nav.back();
+                                if (btn) {
+                                    if (canGoBack && !clearNav) {
+                                        btn.classList.remove('disabled');
+                                        btn.disabled = false;
+                                    } else {
+                                        btn.classList.add('disabled');
+                                        btn.disabled = true;
                                     }
-                                    else {
-                                        var navigator = WinJSContrib.UI.parentNavigator(arg.currentTarget);
-                                        navigator.back();
+
+                                    btn.onclick = function (arg) {
+                                        if (ctrl.global) {
+                                            nav.back();
+                                        }
+                                        else {
+                                            var navigator = WinJSContrib.UI.parentNavigator(arg.currentTarget);
+                                            navigator.back();
+                                        }
                                     }
                                 }
                             }

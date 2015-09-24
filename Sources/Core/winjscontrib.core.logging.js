@@ -76,10 +76,12 @@ var WinJSContrib;
                 };
                 ConsoleAppender.prototype.format = function (logger, message, level) {
                     var finalMessage = "";
+                    if (logger.Config && logger.Config.prefix)
+                        finalMessage += logger.Config.prefix + " # ";
                     if (this.config.showLoggerNameInMessage)
-                        finalMessage += logger.name + " - ";
+                        finalMessage += logger.name + " # ";
                     if (this.config.showLevelInMessage)
-                        finalMessage += Logs.logginLevelToString(level) + " - ";
+                        finalMessage += Logs.logginLevelToString(level) + " # ";
                     finalMessage += message;
                     return finalMessage;
                 };
@@ -139,7 +141,7 @@ var WinJSContrib;
             "level": Levels.off,
             "showLevelInMessage": false,
             "showLoggerNameInMessage": false,
-            "appenders": []
+            "appenders": ["DefaultConsole"]
         };
         var Loggers = {};
         Logs.RuntimeAppenders = {
@@ -160,7 +162,8 @@ var WinJSContrib;
                 existing.name = name;
                 Loggers[name] = existing;
             }
-            configure.apply(null, arguments);
+            if (config || arguments.length > 2)
+                configure.apply(null, arguments);
             return existing;
         }
         Logs.getLogger = getLogger;
@@ -228,7 +231,7 @@ var WinJSContrib;
                 },
                 set: function (newValue) {
                     var _this = this;
-                    this._config = newValue || { level: Logs.Levels.off, hideGroupInMessage: false, hideLevelInMessage: false };
+                    this._config = newValue || { level: Logs.Levels.off, showLevelInMessage: false, showLoggerNameInMessage: false };
                     if (typeof newValue.level === "number")
                         this.Level = newValue.level;
                     if (typeof newValue.showLevelInMessage === "boolean")
@@ -456,41 +459,25 @@ var WinJSContrib;
                     args[_i - 1] = arguments[_i];
                 }
             };
-            Logger.verbose = function (message) {
-                var args = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    args[_i - 1] = arguments[_i];
-                }
-                this.log(message, Logs.Levels.verbose, args);
+            Logger.getLogFn = function (level) {
+                return function (message) {
+                    var args = null;
+                    if (arguments.length > 1) {
+                        args = [];
+                        for (var i = 1; i < arguments.length; i++) {
+                            args.push(arguments[i]);
+                        }
+                        this.log(message, level, args);
+                    }
+                    else
+                        this.log(message, level);
+                };
             };
-            Logger.debug = function (message) {
-                var args = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    args[_i - 1] = arguments[_i];
-                }
-                this.log(message, Logs.Levels.debug, args);
-            };
-            Logger.info = function (message) {
-                var args = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    args[_i - 1] = arguments[_i];
-                }
-                this.log(message, Logs.Levels.info, args);
-            };
-            Logger.warn = function (message) {
-                var args = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    args[_i - 1] = arguments[_i];
-                }
-                this.log(message, Logs.Levels.warn, args);
-            };
-            Logger.error = function (message) {
-                var args = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    args[_i - 1] = arguments[_i];
-                }
-                this.log(message, Logs.Levels.error, args);
-            };
+            Logger.verbose = Logger.getLogFn(Logs.Levels.verbose);
+            Logger.debug = Logger.getLogFn(Logs.Levels.debug);
+            Logger.info = Logger.getLogFn(Logs.Levels.info);
+            Logger.warn = Logger.getLogFn(Logs.Levels.warn);
+            Logger.error = Logger.getLogFn(Logs.Levels.error);
             return Logger;
         })();
         Logs.Logger = Logger;
