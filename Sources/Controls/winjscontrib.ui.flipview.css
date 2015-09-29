@@ -1,0 +1,63 @@
+﻿.mcn-flipview {
+    width: 100%;
+    height : 100%;
+}
+
+.mcn-flipview .mcn-flipview-wrapper {
+    position: relative;
+    width: 100%;
+    height : 100%;
+}
+
+.mcn-flipview .mcn-flipview-buttons .mcn-nav-button {
+    position: absolute;
+    top: 50%;
+    height : 40px;
+    margin-top : -20px;
+    width: auto;
+    font-family : "Symbols";
+    padding : 10px;
+    font-size : 14pt;
+    border: none;
+    background-color: rgba(0,0,0,0.2);
+}
+
+    .mcn-flipview .mcn-flipview-buttons .mcn-nav-button.hidden {
+        display: none;
+    }
+
+.mcn-flipview .mcn-flipview-buttons .mcn-nav-button.win-navleft {
+    left: 0;
+}
+
+    /*.mcn-flipview .mcn-flipview-buttons .mcn-nav-button.win-navleft:before {
+        content : '\E57570';
+    }*/
+
+.mcn-flipview .mcn-flipview-buttons .mcn-nav-button.win-navright {
+    right: 0;
+}
+
+    /*.mcn-flipview .mcn-flipview-buttons .mcn-nav-button.win-navright:before {
+        content : '\E57571';
+    }*/
+
+.mcn-flipview .mcn-flipview-pages {
+    position: relative;
+    width: 100%;
+    height : 100%;
+}
+
+.mcn-flipview .mcn-flipview-pages .mcn-flipview-page {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height : 100%;
+    -ms-scroll-chaining: none;
+}
+
+    .mcn-flipview .mcn-flipview-pages .mcn-flipview-page.hidden {
+        visibility: hidden;
+        pointer-events: none;
+    }

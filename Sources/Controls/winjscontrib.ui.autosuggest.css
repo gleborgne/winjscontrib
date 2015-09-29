@@ -1,0 +1,26 @@
+﻿.mcn-autosuggest-flyout {
+    background-color: white;
+    border : 1px solid #DDD;
+    overflow-x : hidden;
+    overflow-y : auto;
+    box-sizing: border-box;
+}
+
+.mcn-autosuggest-flyout .mcn-autosuggest-flyoutcontent {
+    padding : 10px;
+    box-sizing: border-box;
+}
+
+.mcn-autosuggest-flyout .mcn-autosuggest-item {
+    padding : 10px;
+    box-sizing: border-box;
+    margin-bottom : 0.3em; 
+}
+
+.mcn-autosuggest-flyout .mcn-autosuggest-item .title {
+    font-weight: bold;
+}
+
+.mcn-autosuggest-flyout .mcn-autosuggest-item .desc {
+    color: #999;
+}
