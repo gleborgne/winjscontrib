@@ -26,14 +26,6 @@
             WinJS.UI.setOptions(this, options);
             this.thresholdFactor = this.thresholdFactor || 4;
         }, {
-            //someProperty: {
-            //    get: function () {
-            //        return this._someProperty;
-            //    },
-            //    set: function (val) {
-            //        this._someProperty = val;
-            //    }
-            //},
 
             registerEvents: function () {
                 if (this.element.onpointerdown !== undefined) {
@@ -141,18 +133,19 @@
 
                 debugLog('swipe slide, cancel move ' + x + '/' + y);
                 if (target) {
-                    WinJS.UI.executeTransition(target, {
-                        property: "transform",
-                        delay: 10,
-                        duration: 400,
-                        easing: 'ease-out',
-                        to: 'translate3d(' + ctrl._toSize(x) + ', ' + ctrl._toSize(y) + ', 0px)'
-                    }).then(function () {
-
+                    target.style.transition = "transform 120ms ease-out";
+                    if (target.style.hasOwnProperty('webkitTransition'))
+                        target.style.webkitTransition = 'transform 90ms ease-out';
+                    setImmediate(function () {
                         target.style.transform = 'translate3d(' + ctrl._toSize(x) + ', ' + ctrl._toSize(y) + ', 0px)';
                         if (target.style.hasOwnProperty('webkitTransform'))
                             target.style.webkitTransform = 'translate3d(' + ctrl._toSize(x) + ', ' + ctrl._toSize(y) + ', 0px)';
 
+                        setTimeout(function () {
+                            target.style.transition = "";
+                            if (target.style.hasOwnProperty('webkitTransition'))
+                                target.style.webkitTransition = '';
+                        }, 100);
                     });
                 }
             },
