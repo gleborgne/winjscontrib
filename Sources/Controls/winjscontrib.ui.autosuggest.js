@@ -1,6 +1,4 @@
-﻿//this is a blank WinJS control structure. It's intended to use as a startup for new controls
-
-(function () {
+﻿(function () {
     'use strict';
     WinJS.Namespace.define("WinJSContrib.UI", {
         AutoSuggest: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
@@ -65,8 +63,8 @@
                     var arg = {
                         queryText: ctrl.input.value,
                         searchSuggestionCollection : {
-                            appendResultSuggestion: function (title, desc, data) {
-                                suggestions.push({ title: title, desc: desc, data: data });
+                            appendResultSuggestion: function (title, desc, data, options) {
+                                suggestions.push({ title: title, desc: desc, data: data, options: options });
                             }
                         },
                         setPromise: function (p) {
@@ -85,16 +83,26 @@
                             var elt = document.createElement("DIV");
                             elt.className = "mcn-autosuggest-item";
                             
+                            if (s.options && s.options.cssIcon) {
+                                var icon = document.createElement("DIV");
+                                icon.className = "cssicon " + s.options.cssIcon;
+                                elt.appendChild(icon);
+                            }
+
+                            var content = document.createElement("DIV");
+                            content.className = "mcn-autosuggest-content";
+                            elt.appendChild(content);
+
                             var title = document.createElement("DIV");
                             title.className = "title";
                             title.innerText = s.title;
-                            elt.appendChild(title);
+                            content.appendChild(title);
 
                             if (s.desc) {
                                 var desc = document.createElement("DIV");
                                 desc.className = "desc";
                                 desc.innerText = s.desc;
-                                elt.appendChild(desc);
+                                content.appendChild(desc);
                             }
                             container.appendChild(elt);
                             elt.onclick = function () {
@@ -143,7 +151,7 @@
                 this.element = null;
             }
         }),
-		WinJS.Utilities.eventMixin,
-		WinJS.Utilities.createEventProperties("suggestionsrequested", "resultsuggestionchosen"))
+        WinJS.Utilities.eventMixin,
+        WinJS.Utilities.createEventProperties("suggestionsrequested", "resultsuggestionchosen"))
     });
 })();

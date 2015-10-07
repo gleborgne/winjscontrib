@@ -1,26 +1,41 @@
 ﻿.mcn-autosuggest-flyout {
     background-color: white;
-    border : 1px solid #DDD;
-    overflow-x : hidden;
-    overflow-y : auto;
+    border: 1px solid #DDD;
+    overflow-x: hidden;
+    overflow-y: auto;
     box-sizing: border-box;
+    -ms-scroll-chaining: none;
 }
 
-.mcn-autosuggest-flyout .mcn-autosuggest-flyoutcontent {
-    padding : 10px;
-    box-sizing: border-box;
-}
+    .mcn-autosuggest-flyout .mcn-autosuggest-flyoutcontent {
+        padding: 10px;
+        box-sizing: border-box;
+    }
 
-.mcn-autosuggest-flyout .mcn-autosuggest-item {
-    padding : 10px;
-    box-sizing: border-box;
-    margin-bottom : 0.3em; 
-}
+    .mcn-autosuggest-flyout .mcn-autosuggest-item {
+        padding: 10px;
+        box-sizing: border-box;
+        margin-bottom: 0.3em;
+    }
 
-.mcn-autosuggest-flyout .mcn-autosuggest-item .title {
-    font-weight: bold;
-}
+        .mcn-autosuggest-flyout .mcn-autosuggest-item .cssicon {
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            float: left;
+            color: #777;
+            font-size: 26pt;
+            margin-right: 20px;
+        }
 
-.mcn-autosuggest-flyout .mcn-autosuggest-item .desc {
-    color: #999;
-}
+        .mcn-autosuggest-flyout .mcn-autosuggest-item .mcn-autosuggest-content{
+            overflow : hidden;
+        }
+
+        .mcn-autosuggest-flyout .mcn-autosuggest-item .mcn-autosuggest-content .title {
+            font-weight: bold;
+        }
+
+        .mcn-autosuggest-flyout .mcn-autosuggest-item .mcn-autosuggest-content .desc {
+            color: #999;
+        }
