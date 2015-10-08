@@ -82,29 +82,15 @@
                         suggestions.forEach(function (s) {
                             var elt = document.createElement("DIV");
                             elt.className = "mcn-autosuggest-item";
-                            
-                            if (s.options && s.options.cssIcon) {
-                                var icon = document.createElement("DIV");
-                                icon.className = "cssicon " + s.options.cssIcon;
-                                elt.appendChild(icon);
+
+                            if (s.options && s.options.template) {
+                                ctrl.renderItemFromTemplate(s.data, elt, s.options.template);
+                            } else {
+                                ctrl.renderItem(s, elt);
                             }
 
-                            var content = document.createElement("DIV");
-                            content.className = "mcn-autosuggest-content";
-                            elt.appendChild(content);
-
-                            var title = document.createElement("DIV");
-                            title.className = "title";
-                            title.innerText = s.title;
-                            content.appendChild(title);
-
-                            if (s.desc) {
-                                var desc = document.createElement("DIV");
-                                desc.className = "desc";
-                                desc.innerText = s.desc;
-                                content.appendChild(desc);
-                            }
                             container.appendChild(elt);
+                            
                             elt.onclick = function () {
                                 ctrl.dispatchEvent("resultsuggestionchosen", { tag: s.data });
                                 ctrl.hideFlyout();
@@ -118,6 +104,47 @@
                         console.log("suggestions cancel")
                     });
                 }
+            },
+
+            renderItemFromTemplate: function (item, container, template) {
+                if (template.winControl)
+                    template = template.winControl;
+
+                if (typeof template == 'function') {
+                    template(WinJS.Promise.wrap(item)).then(function (rendered) {
+                        container.appendChild(rendered);
+                    });
+                } else if (template.render) {
+                    template.render(item).then(function (rendered) {
+                        container.appendChild(rendered);
+                    });
+                }
+            },
+
+            renderItem: function (item, container) {
+                var ctrl = this;                
+
+                if (s.options && s.options.cssIcon) {
+                    var icon = document.createElement("DIV");
+                    icon.className = "cssicon " + s.options.cssIcon;
+                    container.appendChild(icon);
+                }
+
+                var content = document.createElement("DIV");
+                content.className = "mcn-autosuggest-content";
+                container.appendChild(content);
+
+                var title = document.createElement("DIV");
+                title.className = "title";
+                title.innerText = s.title;
+                content.appendChild(title);
+
+                if (s.desc) {
+                    var desc = document.createElement("DIV");
+                    desc.className = "desc";
+                    desc.innerText = s.desc;
+                    content.appendChild(desc);
+                }                
             },
 
             updateFlyoutPosition: function () {
