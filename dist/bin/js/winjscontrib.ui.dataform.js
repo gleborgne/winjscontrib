@@ -323,7 +323,8 @@
                     },
                     fromInput: function (val, options) {
                         if (typeof val !== "undefined" && val !== null)
-                            return parseFloat(val);
+                          //return parseFloat(val);
+                          return parseFloat(val.replace(',', '.').replace(' ', ''));
 
                         return null;
                     }
@@ -463,11 +464,8 @@
             if (dest.id) {
                 dest.addEventListener("blur", validateObjectOnBlur);
             }
-            if (dest.eventAdded && dest.winControl) {
-                dest.winControl.dispose();
-            }
+
             if (!dest.winControl) {
-                dest.eventAdded = true;
                 dest.classList.add('win-disposable');
                 dest.winControl = {
                     dispose: function () {
