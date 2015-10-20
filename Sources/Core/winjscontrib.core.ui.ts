@@ -295,7 +295,7 @@ module WinJSContrib.UI {
         var action = control[actionName];
         if (action && typeof action === 'function') {
             WinJSContrib.UI.tap(el, function (eltarg) {
-                var p = WinJS.Promise.wrap();
+                var p = WinJS.Promise.wrap(actionArgs);
                 var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
 
                 if (actionArgs && typeof actionArgs == 'string') {
@@ -317,8 +317,8 @@ module WinJSContrib.UI {
                     } 
                 }
 
-                return p.then(function () {
-                    return control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
+                return p.then(function (arg) {
+                    return control[actionName].bind(control)({ elt: eltarg, args: arg });
                 });
             });
         }

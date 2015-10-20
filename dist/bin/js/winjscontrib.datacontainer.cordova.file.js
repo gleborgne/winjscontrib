@@ -4,7 +4,6 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
-//example of expected signature for data container
 
 (function () {
     'use strict';
@@ -200,10 +199,34 @@
                     });
                 });
             },
+            listKeys : function(){
+                var container = this;
+                return new WinJS.Promise(function (readComplete, readError) {
+                    container.folderPromise.then(function (folder) {
+                        var directoryReader = folder.createReader();
+                        directoryReader.readEntries(function (entries) {
+                            var res = [];
+                            for (var i = 0; i < entries.length; i++) {
+                                res.push(entries[i].name.substring(0, entries[i].name.length - 5));
+                            }
+                            readComplete(res)
+                        }, function () {
+                            readComplete([])
+                        });
 
+                    });
+                });
+            },
             child: function (key) {
+                if (!key)
+                    return;
+
+                if (typeof key === "number")
+                    key = key.toString();
+
                 if (this[key])
                     return this[key];
+
                 containerLogger.verbose('getting child');
                 var res = new WinJSContrib.DataContainer.CordovaContainer(key, this.options, this);
                 this[key] = res;

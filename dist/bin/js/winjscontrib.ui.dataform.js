@@ -397,6 +397,9 @@
          * @param {string[]} destProperty path to DOM element property targeted by binding
          */
         DataFormBinding: WinJS.Binding.initializer(function (source, sourceProperty, dest, destProperty) {
+            if (dest.binded && dest.winControl)
+                dest.winControl.dispose();
+
             var dataform = WinJSContrib.UI.parentDataForm(dest);
             var options = WinJSContrib.UI.DataForm.DefaultBindingOptions;
             var optionsText = dest.getAttribute("data-formfield-options");
@@ -438,9 +441,6 @@
 
             function updateObjectFromInput() {
                 dataform.checkState();
-                dataform.updated = true;
-                fieldUpdated = true;
-
                 if (!dest.id || dataform.validator.element(dest)) {
                     var val = WinJSContrib.Utils.getProperty(dest, destProperty).propValue;
                     if (val !== undefined)
@@ -448,34 +448,38 @@
 
                     WinJSContrib.Utils.writeProperty(source, sourceProperty, val);
                 }
+                dataform.updated = true;
             }
 
             function validateObjectOnBlur() {
                 if (fieldUpdated)
                     dataform.validator.element(dest);
             }
+            if (!dest.binded)
+                dest.binded = true;
 
-            
-            if (inputType) {
-                dest.addEventListener(inputType, updateObjectFromInput);
-            }
-
-            dest.addEventListener("change", updateObjectFromInput);
-            if (dest.id) {
-                dest.addEventListener("blur", validateObjectOnBlur);
-            }
 
             if (!dest.winControl) {
                 dest.classList.add('win-disposable');
                 dest.winControl = {
                     dispose: function () {
-                        dest.removeEventListener("change", updateObjectFromInput);
-                        dest.removeEventListener("blur", validateObjectOnBlur);
+                        dest.removeEventListener("change", dest.winControl.updateObjectFromInput);
+                        dest.removeEventListener("blur", dest.winControl.validateObjectOnBlur);
                         if (inputType) {
-                            dest.removeEventListener(inputType, updateObjectFromInput);
+                            dest.removeEventListener(inputType, dest.winControl.updateObjectFromInput);
                         }
                     }
                 }
+            }
+            dest.winControl.updateObjectFromInput = updateObjectFromInput;
+            dest.winControl.validateObjectOnBlur = validateObjectOnBlur;
+
+            if (inputType) {
+                dest.addEventListener(inputType, dest.winControl.updateObjectFromInput);
+            }
+            dest.addEventListener("change", dest.winControl.updateObjectFromInput);
+            if (dest.id) {
+                dest.addEventListener("blur", validateObjectOnBlur);
             }
 
             var bindingDesc = {

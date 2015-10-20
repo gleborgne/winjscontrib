@@ -1900,7 +1900,7 @@ var WinJSContrib;
             var action = control[actionName];
             if (action && typeof action === 'function') {
                 WinJSContrib.UI.tap(el, function (eltarg) {
-                    var p = WinJS.Promise.wrap();
+                    var p = WinJS.Promise.wrap(actionArgs);
                     var actionArgs = eltarg.dataset.pageActionArgs || el.getAttribute('tap-args');
                     if (actionArgs && typeof actionArgs == 'string') {
                         var tmp = WinJSContrib.Utils.readValue(eltarg, actionArgs);
@@ -1919,8 +1919,8 @@ var WinJSContrib;
                             actionArgs = tmp;
                         }
                     }
-                    return p.then(function () {
-                        return control[actionName].bind(control)({ elt: eltarg, args: actionArgs });
+                    return p.then(function (arg) {
+                        return control[actionName].bind(control)({ elt: eltarg, args: arg });
                     });
                 });
             }
