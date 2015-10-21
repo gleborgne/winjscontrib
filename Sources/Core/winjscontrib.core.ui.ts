@@ -821,6 +821,7 @@ module WinJSContrib.UI {
                                         elt.disabled = false;
                                         WinJS.Utilities.removeClass(elt, 'tap-working');
                                         console.error(err);
+                                        WinJS.Application.queueEvent({ type: "mcn-taperror", error: err });
                                         WinJS.Utilities.addClass(elt, 'tap-error');
                                         if (tracking.errorDelay) {
                                             tracking.pendingErrorTimeout = setTimeout(() => {

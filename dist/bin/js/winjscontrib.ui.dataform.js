@@ -324,7 +324,7 @@
                     fromInput: function (val, options) {
                         if (typeof val !== "undefined" && val !== null)
                           //return parseFloat(val);
-                          return parseFloat(val.replace(',', '.').replace(' ', ''));
+                          return parseFloat(val.toString().replace(',', '.').replace(' ', ''));
 
                         return null;
                     }
