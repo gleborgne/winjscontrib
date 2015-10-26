@@ -82,8 +82,9 @@ appinsightWrapper.tracker.trackEvent("app start");
 				}
 				component.tracker.flush();
 
-				WinJS.Navigation.navigate("/pages/errorpage/errorpage.html");
-				return true;
+				if (component.onerror) {
+					return component.onerror(arg);
+				}
 			});
 		} else {
 			window.addEventListener("error", function (err, url, lineNumber) {
@@ -111,6 +112,9 @@ appinsightWrapper.tracker.trackEvent("app start");
 					component.tracker.trackException("unknown error", "Unhandled", arg.error || arg.detail);
 				}
 				component.tracker.flush();
+				if (component.ontaperror) {
+					return component.ontaperror(arg);
+				}
 			});
 		}
 	};
@@ -167,6 +171,14 @@ appinsightWrapper.tracker.trackEvent("app start");
 		}
 
 		return null;
+	}
+
+	WinJSContrib.WinRT.AppInsight.prototype.wrapWinJSNavigation = function (disablePageArguments) {
+		var component = this;
+		WinJS.Navigation.addEventListener("navigated", function (arg) {
+			var navargs = arg.detail;
+			component.tracker.trackPageView(null, navargs.location, disablePageArguments ? null : navargs.state);
+		});
 	}
 
 	function merge(source, addendum) {
