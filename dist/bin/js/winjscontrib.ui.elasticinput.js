@@ -41,7 +41,7 @@
             	ctrl.label.className = 'input__label__elasticinput';
             	ctrl.svg = document.createElement('div');
             	ctrl.element.appendChild(ctrl.label);
-            	if (MSApp.execUnsafeLocalFunction) {
+            	if (window.MSApp && window.MSApp.execUnsafeLocalFunction) {
             	    MSApp.execUnsafeLocalFunction(function () {
             	        ctrl.element.innerHTML += '<svg focusable="false" class="graphic graphic__elasticinput" preserveAspectRatio="none" viewBox="0 0 1200 60" height="100%" width="300%" class="graphic graphic__elasticinput"><path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z"/></svg>';
             	    });
