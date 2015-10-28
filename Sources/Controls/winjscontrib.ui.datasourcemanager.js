@@ -385,6 +385,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         semanticZoom: {
             get: function () {
                 return this._semanticZoom;
+            },
+            set: function (val) {
+                this._semanticZoom = val;
             }
         },
 
@@ -396,6 +399,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         listview: {
             get: function () {
                 return this._listview;
+            },
+            set: function (val) {
+                this._listview = val;
             }
         },
 
@@ -407,6 +413,9 @@ WinJSContrib.UI.DataSources = WinJSContrib.UI.DataSources || {};
         zoomedOutListview: {
             get: function () {
                 return this._zoomedOutListview;
+            },
+            set: function (val) {
+                this._zoomedOutListview = val;
             }
         },
 
