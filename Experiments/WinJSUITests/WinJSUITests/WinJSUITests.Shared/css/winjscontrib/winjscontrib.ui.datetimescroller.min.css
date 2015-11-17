@@ -1,0 +1,7 @@
+/* 
+ * WinJS Contrib v2.1.0.2
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+.ui-date-time-scroller{position:relative;display:-ms-inline-grid;-ms-grid-rows:1fr;-ms-grid-columns:1fr 10px auto}.ui-date-time-scroller .ui-date-time-input{-ms-grid-column:1;-ms-grid-row:1;-ms-grid-row-align:stretch}.ui-date-time-scroller .ui-date-time-reset{-ms-grid-column:3;-ms-grid-row:1;color:#000;background-color:transparent;margin:5px 0 0;padding:0;border:none;box-sizing:border-box;text-align:center;min-width:0;width:40px}.ui-date-time-scroller .ui-date-time-reset span.icon{font-size:20pt;margin:0;line-height:40px}.ui-date-time-scroller .ui-date-time-reset span.icon.icon-remove::before{content:"\e10a";font-family:'Segoe UI Symbol';color:#999}.ui-date-time-scroller .ui-date-time-reset:active span.icon.icon-remove::before{color:#fff}

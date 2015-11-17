@@ -1,0 +1,53 @@
+﻿.mcn-testrunner {
+  background-color: black;
+  color: white;
+}
+.mcn-testrunner.expanded {
+  display: -ms-grid;
+  -ms-grid-rows: auto 1fr;
+  -ms-grid-columns: 1fr;
+}
+.mcn-testrunner.expanded .expandedrunner {
+  -ms-grid-row: 2;
+}
+.mcn-testrunner.collapsed .expandedrunner {
+  display: none;
+}
+.mcn-testrunner .collapsedrunner {
+  height: 60px;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.mcn-testrunner .collapsedrunner .campaign-status {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #777;
+  margin-right: 10px;
+}
+.mcn-testrunner .collapsedrunner .campaignrun {
+  width: 100%;
+}
+.mcn-testrunner .collapsedrunner .campaign {
+  display: flex;
+}
+.mcn-testrunner .collapsedrunner .campaign .name {
+  flex: 1;
+}
+.mcn-testrunner .expandedrunner {
+  width: 100%;
+  height: 100%;
+  display: -ms-grid;
+  -ms-grid-rows: auto 1fr;
+  -ms-grid-columns: 1fr;
+}
+.mcn-testrunner .expandedrunner > header {
+  height: 60px;
+  background-color: #555;
+}
+.mcn-testrunner .expandedrunner > section {
+  -ms-grid-row: 2;
+}

@@ -1,0 +1,130 @@
+/* 
+ * WinJS Contrib v2.1.0.2
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+mcn-hub,
+mcn-hub-section {
+  display: block;
+}
+.mcn-hub-ctrl {
+  overflow-y: hidden;
+  overflow-x: auto;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.mcn-hub-surface {
+  display: flex;
+  flex-flow: row nowrap;
+  align-content: flex-start;
+  margin-left: 120px;
+  margin-right: 120px;
+  height: 100%;
+}
+.mcn-hub-section {
+  height: 100%;
+  margin-right: 60px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+.mcn-hub-section-spacer {
+  width: 1px;
+}
+.mcn-hub-section-titled {
+  display: -ms-grid;
+  /*min-width: 750px;*/
+  -ms-grid-columns: 1fr 0px;
+  -ms-grid-rows: 70px 1fr 0px;
+}
+.mcn-hub-section h2 {
+  -ms-grid-row-align: end;
+  font-size: 24pt;
+  margin-bottom: 15px;
+  line-height: 1.0em;
+}
+.mcn-hub-section-titled .mcn-hub-section-content {
+  -ms-grid-row: 2;
+}
+.mcn-hub-section-content {
+  display: block;
+  height: calc(100% - 30px);
+  /*background-color:red;*/
+}
+.mcn-hub-section-content.mcn-hub-section-withblocs {
+  display: -ms-grid;
+  -ms-grid-rows: 1fr;
+  -ms-grid-columns: auto auto auto;
+}
+.mcn-hub-section-content.mcn-hub-section-withblocs .bloc1 {
+  -ms-grid-column: 1;
+}
+.mcn-hub-section-content.mcn-hub-section-withblocs .bloc2 {
+  -ms-grid-column: 2;
+}
+.mcn-hub-section-content.mcn-hub-section-withblocs .bloc3 {
+  -ms-grid-column: 3;
+}
+.mcn-hub-section-spacer {
+  margin-left: 120px;
+  width: 1px;
+  height: 1px;
+}
+@media screen and (orientation: portrait) {
+  .mcn-hub-ctrl {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+  }
+  .mcn-hub-surface {
+    display: block;
+    margin-left: 0px;
+    height: auto;
+    width: 100%;
+  }
+  .mcn-hub-section {
+    height: auto;
+    width: calc(100% - 110px);
+    margin: 0;
+    margin-left: 80px;
+  }
+  .mcn-hub-section-titled .mcn-hub-section-content {
+    height: auto;
+    width: 100%;
+  }
+  .mcn-hub-section-titled .mcn-hub-section-content.mcn-hub-section-withblocs {
+    display: block;
+  }
+  .mcn-hub-section-spacer {
+    margin-top: 40px;
+    width: 1px;
+    height: 1px;
+  }
+}
+@media screen and (orientation: portrait) and (max-width: 600px) {
+  .mcn-hub-section {
+    height: auto;
+    width: calc(100% - 60px);
+    margin: 0;
+    margin-left: 40px;
+  }
+}
+@media screen and (orientation: portrait) and (max-width: 340px) {
+  .mcn-hub-section {
+    width: calc(100% - 20px);
+    margin: 0;
+    margin-left: 10px;
+  }
+  .mcn-hub-section h2 {
+    font-size: 24pt;
+    -ms-grid-row-align: end;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    line-height: 1.15em;
+  }
+  .mcn-hub-section-titled {
+    -ms-grid-rows: 120px 1fr 0px;
+  }
+}

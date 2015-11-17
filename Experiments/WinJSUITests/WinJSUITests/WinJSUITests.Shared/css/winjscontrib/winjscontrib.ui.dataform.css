@@ -1,0 +1,164 @@
+/* 
+ * WinJS Contrib v2.1.0.2
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+.mcn-dataform input,
+.mcn-dataform select,
+.mcn-dataform textarea {
+  box-sizing: border-box;
+}
+.mcn-dataform input.error,
+.mcn-dataform select.error,
+.mcn-dataform textarea.error,
+.mcn-dataform input.error:invalid,
+.mcn-dataform select.error:invalid,
+.mcn-dataform textarea.error:invalid,
+.mcn-dataform input:invalid,
+.mcn-dataform select:invalid,
+.mcn-dataform textarea:invalid {
+  border-color: #fa6c6c;
+}
+.mcn-dataform p {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.mcn-dataform p > label {
+  font-weight: bold;
+  font-size: 0.9em;
+}
+.mcn-dataform p.actions {
+  text-align: right;
+}
+.mcn-dataform .controlgroup {
+  display: block;
+}
+.mcn-dataform .controlgroup label {
+  display: inline;
+}
+.mcn-dataform .controlgroup input[type=radio],
+.mcn-dataform .controlgroup input[type=checkbox] {
+  width: auto;
+  background-color: transparent;
+}
+.mcn-dataform .controlgroup input[type=text],
+.mcn-dataform .controlgroup input[type=number],
+.mcn-dataform .controlgroup input[type=email],
+.mcn-dataform .controlgroup select,
+.mcn-dataform .controlgroup textarea {
+  width: 100%;
+}
+.mcn-dataform .grid {
+  display: -ms-grid;
+  -ms-grid-rows: auto;
+}
+.mcn-dataform .grid .col1 {
+  -ms-grid-column: 1;
+}
+.mcn-dataform .grid .col2 {
+  -ms-grid-column: 3;
+}
+.mcn-dataform .grid .col3 {
+  -ms-grid-column: 5;
+}
+.mcn-dataform .grid .col4 {
+  -ms-grid-column: 7;
+}
+.mcn-dataform .grid .col5 {
+  -ms-grid-column: 9;
+}
+.mcn-dataform .grid1-1 {
+  -ms-grid-columns: 1fr 5px 1fr;
+}
+.mcn-dataform .grid1-2 {
+  -ms-grid-columns: 1fr 5px 2fr;
+}
+.mcn-dataform .grid2-1 {
+  -ms-grid-columns: 2fr 5px 1fr;
+}
+.mcn-dataform .grid1-1-1 {
+  -ms-grid-columns: 1fr 5px 1fr 5px 1fr;
+}
+.mcn-dataform.form-vertical p > label {
+  display: block;
+}
+.mcn-dataform.form-vertical p > input,
+.mcn-dataform.form-vertical p > select,
+.mcn-dataform.form-vertical p > textarea {
+  display: block;
+  width: 100%;
+}
+.mcn-dataform.form-horizontal.label60 label {
+  width: 60px;
+}
+.mcn-dataform.form-horizontal.label80 label {
+  width: 80px;
+}
+.mcn-dataform.form-horizontal.label100 label {
+  width: 100px;
+}
+.mcn-dataform.form-horizontal.label120 label {
+  width: 100px;
+}
+.mcn-dataform.form-horizontal.label140 label {
+  width: 100px;
+}
+.mcn-dataform.form-horizontal.label160 label {
+  width: 100px;
+}
+.mcn-dataform.form-horizontal.label180 label {
+  width: 100px;
+}
+.mcn-dataform.form-horizontal > p {
+  display: -ms-grid;
+  -ms-grid-rows: auto;
+  -ms-grid-columns: auto 1fr auto;
+}
+.mcn-dataform.form-horizontal > p.actions {
+  display: block;
+}
+.mcn-dataform.form-horizontal > p > label {
+  display: block;
+  -ms-grid-column: 1;
+  -ms-grid-column-align: start;
+  margin-top: 0.35em;
+  margin-right: 10px;
+  text-align: right;
+}
+.mcn-dataform.form-horizontal > p > input,
+.mcn-dataform.form-horizontal > p > select,
+.mcn-dataform.form-horizontal > p > textarea,
+.mcn-dataform.form-horizontal > p > .controlgroup {
+  width: 100%;
+  -ms-grid-column: 2;
+}
+.tooltipster-error {
+  border-radius: 2px;
+  border: 1px solid #e41717;
+  background: #c32f2f;
+  color: #fff;
+}
+.tooltipster-error .tooltipster-content {
+  font-family: Segoe UI, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 8px 10px;
+  overflow: hidden;
+}
+.tooltipster-help {
+  border-radius: 2px;
+  border: 1px solid #7a7ad1;
+  background: #6464b0;
+  color: #fff;
+}
+.tooltipster-help .tooltipster-content {
+  font-family: Segoe UI, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 8px 10px;
+  overflow: hidden;
+}
+.mcn-xplat.mcn-dataform.form-horizontal > p {
+  display: flex;
+}

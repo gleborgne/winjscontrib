@@ -1,0 +1,129 @@
+/* 
+ * WinJS Contrib v2.1.0.2
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+.mcn-flyoutpage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  top: 0;
+  /*visibility: hidden;*/
+}
+.mcn-flyoutpage.visible {
+  left: 0 !important;
+  top: 0 !important;
+}
+.mcn-flyoutpage .mcn-flyoutpage-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.mcn-flyoutpage .mcn-flyoutpage-area .mcn-flyoutpage-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+}
+.mcn-flyoutpage .mcn-flyoutpage-area .mcn-flyoutpage-overlay.visible {
+  visibility: visible;
+}
+.mcn-flyoutpage .mcn-flyoutpage-area .mcn-flyoutpage-overlay .mcn-flyoutpage-overlay-bg {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.4;
+}
+.mcn-flyoutpage .mcn-flyoutpage-area .mcn-flyoutpage-contentwrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /*visibility: hidden;*/
+  /*&.visible {
+                visibility: visible;
+            }*/
+}
+.mcn-flyoutpage .mcn-flyoutpage-area .mcn-flyoutpage-contentwrapper .mcn-flyoutpage-contentwrapperarea {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.mcn-flyoutpage .mcn-flyoutpage-area .mcn-flyoutpage-contentwrapper .mcn-flyoutpage-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.9;
+}
+.mcn-flyoutpage .mcn-flyoutpage-area .mcn-flyoutpage-contentwrapper .mcn-flyoutpage-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: white;
+  overflow: hidden;
+}
+.mcn-edgeswipe {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 15px;
+  /*background-color: rgba(0, 255, 0, 0.6);*/
+  z-index: 200;
+}
+.mcn-edgeswipe.mcn-edgeswipe-left {
+  left: 0;
+}
+.mcn-edgeswipe.mcn-edgeswipe-right {
+  right: 0;
+}
+.mcn-flyoutpage.partial-right {
+  left: 100%;
+}
+.mcn-flyoutpage.partial-right > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper {
+  width: 80%;
+  top: 0;
+}
+.mcn-flyoutpage.partial-right.mcn-overlay.visible {
+  left: 0;
+}
+.mcn-flyoutpage.partial-right.mcn-overlay.visible > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper.visible {
+  right: 0;
+}
+.mcn-flyoutpage.partial-left {
+  left: -100%;
+}
+.mcn-flyoutpage.partial-left > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper {
+  width: 80%;
+  right: 0;
+  top: 0;
+}
+.mcn-flyoutpage.partial-left.mcn-overlay.visible {
+  left: 0;
+}
+.mcn-flyoutpage.partial-left.mcn-overlay.visible > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper {
+  width: 80%;
+  right: auto;
+  left: 0;
+  top: 0;
+}
+.mcn-flyoutpage.partial-bottom {
+  top: 100%;
+}
+.mcn-flyoutpage.partial-bottom > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper {
+  height: 70%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.mcn-flyoutpage.partial-top {
+  top: -100%;
+}
+.mcn-flyoutpage.partial-top > .mcn-flyoutpage-area > .mcn-flyoutpage-contentwrapper {
+  height: 70%;
+  left: 0;
+  right: 0;
+  top: 0;
+}
