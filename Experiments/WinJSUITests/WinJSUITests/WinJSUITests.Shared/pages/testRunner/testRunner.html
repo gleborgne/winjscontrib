@@ -10,7 +10,7 @@
 <body>
     <div class="testRunner">
         <div member="testCampaignRunTemplate" data-win-control="WinJS.Binding.Template">
-            <div class="campaign-status"></div>
+            <div class="campaign-status"  data-win-bind="innerText : nbRunned WinJSContrib.UI.Tests.campaignStatus"></div>
             <div class="campaignrun">
                 <div class="campaign">
                     <div class="name" data-win-bind="innerText : name"></div>
@@ -28,11 +28,10 @@
         </div>
         <div class="expandedrunner" member="expandedrunner">
             <header member="expandedrunnerHeader">
-                <select member="selectcampaign">
+                <select class="selectcampaign" member="selectcampaign">
 
                 </select>
-                <button tap="runCampaign">Run tests</button>
-                <button tap="closeTestRunner">Close Runner</button>
+                <button tap="runCampaign" member="runBtn">Run tests</button>
             </header>
             <section member="scenariosList">
                 

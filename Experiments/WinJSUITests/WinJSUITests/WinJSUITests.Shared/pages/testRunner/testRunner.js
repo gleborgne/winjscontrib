@@ -34,14 +34,14 @@
             }
 
             ctrl.collapsedrunner.onclick = function () {
-                ctrl.element.classList.remove("collapsed");
-                ctrl.element.classList.add("expanded");
+                ctrl.element.classList.toggle("collapsed");
+                ctrl.element.classList.toggle("expanded");
             }
 
-            ctrl.closeTestRunner.onclick = function () {
-                ctrl.element.classList.remove("expanded");
-                ctrl.element.classList.add("collapsed");
-            }
+            //ctrl.closeTestRunner.onclick = function () {
+            //    ctrl.element.classList.remove("expanded");
+            //    ctrl.element.classList.add("collapsed");
+            //}
         },
 
         selectCampaign: function (campaign) {
@@ -52,7 +52,7 @@
             campaign.scenarios.forEach(function (scenario, index) {                
                 var scenarioElt = document.createElement("DIV")
                 scenarioElt.className = "scenario";
-                scenarioElt.innerHTML = '<div class="status"  data-win-bind="innerText : state"></div><div class="name" data-win-bind="innerText : name"></div>';
+                scenarioElt.innerHTML = '<header><div class="status" data-win-bind="innerText : state WinJSContrib.UI.Tests.scenarioStatus"></div><div class="name" data-win-bind="innerText : name"></div></header><section  data-win-bind="innerText : message; display: message WinJSContrib.Bindings.showIf"></section>';
                 WinJS.Binding.processAll(scenarioElt, scenario);
                 ctrl.scenariosList.appendChild(scenarioElt);
             });
@@ -67,18 +67,51 @@
         runCampaign: function () {
             var ctrl = this;
             
-            if (ctrl.currentCampaign) {
-                
+            if (ctrl.currentCampaign) {                
                 ctrl.collapsedrunner.innerHTML = '';
-                ctrl.testCampaignRunTemplate.render(ctrl.currentCampaign, ctrl.collapsedrunner).then(function () {
+                return ctrl.testCampaignRunTemplate.render(ctrl.currentCampaign, ctrl.collapsedrunner).then(function () {
                     ctrl.closeTestRunner();
-                    ctrl.currentCampaign.run();
+                    return ctrl.currentCampaign.run();
                 });
             }
         }
     });
 
     WinJS.Namespace.define("WinJSContrib.UI.Tests", {
-        RunnerCtrl: ctor
+        RunnerCtrl: ctor,
+        scenarioStatus: WinJS.Binding.initializer(function (source, sourceProperty, dest, destProperty) {
+            function setState(newval, oldval) {
+                var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
+                if (data == WinJSContrib.UI.Tests.TestStatus.running) { 
+                    dest.className = "status running";
+                } else if (data == WinJSContrib.UI.Tests.TestStatus.pending) {
+                    dest.className = "status pending";
+                } else if (data == WinJSContrib.UI.Tests.TestStatus.success) {
+                    dest.className = "status success";
+                } else if (data == WinJSContrib.UI.Tests.TestStatus.failed) {
+                    dest.className = "status failed";
+                }
+            }
+
+            var bindingDesc = {};
+            bindingDesc[sourceProperty] = setState;
+            return WinJS.Binding.bind(source, bindingDesc);
+        }),
+
+        campaignStatus: WinJS.Binding.initializer(function (source, sourceProperty, dest, destProperty) {
+            function setState(newval, oldval) {
+                if (source.nbFail > 0) {
+                    dest.classList.add("failed");
+                }
+
+                if (source.nbRunned == source.total && source.nbFail == 0) {
+                    dest.classList.add("success");
+                }
+            }
+
+            var bindingDesc = {};
+            bindingDesc[sourceProperty] = setState;
+            return WinJS.Binding.bind(source, bindingDesc);
+        })
     });
 })();

@@ -12,6 +12,13 @@ var WinJSContrib;
     (function (UI) {
         var Tests;
         (function (Tests) {
+            (function (TestStatus) {
+                TestStatus[TestStatus["failed"] = 0] = "failed";
+                TestStatus[TestStatus["success"] = 1] = "success";
+                TestStatus[TestStatus["running"] = 2] = "running";
+                TestStatus[TestStatus["pending"] = -1] = "pending";
+            })(Tests.TestStatus || (Tests.TestStatus = {}));
+            var TestStatus = Tests.TestStatus;
             Tests.RegisteredCampaigns = [];
             Tests.Scenario = WinJS.Binding.define({
                 name: '',
@@ -34,9 +41,11 @@ var WinJSContrib;
                     this.nbFail = 0;
                     this.nbSuccess = 0;
                     this.nbRun = 0;
+                    this.nbRunned = 0;
                     this.isRunning = true;
                     this.scenarios.forEach(function (scenario) {
-                        scenario.state = -1;
+                        scenario.state = TestStatus.pending;
+                        scenario.message = "";
                     });
                     return WinJSContrib.Promise.waterfall(this.scenarios, function (scenario) {
                         return _this.runScenario(document, scenario, options);
@@ -49,18 +58,21 @@ var WinJSContrib;
                     var _this = this;
                     options = options || {};
                     this.nbRun++;
-                    scenario.state = 2;
+                    scenario.state = TestStatus.running;
                     console.info("RUNNING " + scenario.name);
                     this.currentTest = scenario.name;
                     if (options.onteststart) {
                         options.onteststart(scenario);
                     }
                     return scenario.run(document).then(function () {
-                        scenario.state = 1;
+                        scenario.state = TestStatus.success;
+                        _this.nbRunned++;
                         _this.nbSuccess++;
+                        scenario.message = "";
                         return { success: true };
                     }, function (err) {
-                        scenario.state = 0;
+                        scenario.state = TestStatus.failed;
+                        _this.nbRunned++;
                         _this.nbFail++;
                         if (err.stack) {
                             scenario.message = err.stack;
@@ -76,12 +88,55 @@ var WinJSContrib;
                 };
                 return _Campaign;
             })();
-            Tests.Campaign = WinJS.Class.mix(_Campaign, WinJS.Binding.mixin, WinJS.Binding.expandProperties({ nbRun: 0, nbSuccess: 0, nbFail: 0, total: 0, currentTest: 0, isRunning: false }));
-            var UIElementAction = (function () {
-                function UIElementAction(element) {
+            Tests.Campaign = WinJS.Class.mix(_Campaign, WinJS.Binding.mixin, WinJS.Binding.expandProperties({ nbRun: 0, nbSuccess: 0, nbFail: 0, total: 0, currentTest: 0, nbRunned: 0, isRunning: false }));
+            function _waitForElement(parent, selector, timeout) {
+                if (timeout === void 0) { timeout = 3000; }
+                var completed = false;
+                var optimeout = setTimeout(function () {
+                    completed = true;
+                }, timeout);
+                var p = new WinJS.Promise(function (complete, error) {
+                    var promise = p;
+                    var check = function () {
+                        var elt = parent.querySelector(selector);
+                        if (!completed && elt) {
+                            completed = true;
+                            clearTimeout(optimeout);
+                            complete(elt);
+                        }
+                        else if (!completed) {
+                            setTimeout(function () { check(); }, 50);
+                        }
+                        else {
+                            completed = true;
+                            error({ message: 'element not found ' + selector });
+                        }
+                    };
+                    check();
+                });
+                return p;
+            }
+            var UIElementWrapper = (function () {
+                function UIElementWrapper(element) {
                     this.element = element;
                 }
-                UIElementAction.prototype.click = function () {
+                UIElementWrapper.prototype.on = function (selector) {
+                    var elt = this.element.querySelector(selector);
+                    if (!elt) {
+                        console.error("element action not found for " + selector);
+                        throw new Error("element action not found for " + selector);
+                    }
+                    console.log("element found " + selector);
+                    var res = new UIElementWrapper(elt);
+                    return res;
+                };
+                UIElementWrapper.prototype.waitForElement = function (selector, timeout) {
+                    if (timeout === void 0) { timeout = 3000; }
+                    return _waitForElement(this.element, selector, timeout).then(function (elt) {
+                        return new UIElementWrapper(elt);
+                    });
+                };
+                UIElementWrapper.prototype.click = function () {
                     var el = this.element;
                     console.log("trigger click");
                     if (el.mcnTapTracking) {
@@ -91,88 +146,18 @@ var WinJSContrib;
                         this.element.click();
                     }
                 };
-                UIElementAction.prototype.input = function (val) {
+                UIElementWrapper.prototype.input = function (val) {
                     this.element.value = val;
                 };
-                return UIElementAction;
-            })();
-            Tests.UIElementAction = UIElementAction;
-            var UIElementCheck = (function () {
-                function UIElementCheck(element) {
-                    this.element = element;
-                }
-                UIElementCheck.prototype.hasText = function (val) {
+                UIElementWrapper.prototype.textEquals = function (val) {
                     throw new Error("not implemented");
                 };
-                UIElementCheck.prototype.hasValue = function (val) {
+                UIElementWrapper.prototype.valueEquals = function (val) {
                     throw new Error("not implemented");
                 };
-                return UIElementCheck;
+                return UIElementWrapper;
             })();
-            Tests.UIElementCheck = UIElementCheck;
-            var UIElementRoot = (function () {
-                function UIElementRoot(root) {
-                    this.root = root;
-                }
-                UIElementRoot.prototype.on = function (selector) {
-                    var elt = this.root.querySelector(selector);
-                    if (!elt) {
-                        console.error("element action not found for " + selector);
-                        throw new Error("element action not found for " + selector);
-                    }
-                    console.log("element found " + selector);
-                    var res = new UIElementAction(elt);
-                    return res;
-                };
-                UIElementRoot.prototype.check = function (selector) {
-                    var elt = this.root.querySelector(selector);
-                    if (!elt)
-                        throw new Error("element check not found for " + selector);
-                    var res = new UIElementCheck(elt);
-                    return res;
-                };
-                UIElementRoot.prototype._waitForElement = function (selector, timeout) {
-                    if (timeout === void 0) { timeout = 3000; }
-                    var completed = false;
-                    var optimeout = setTimeout(function () {
-                        completed = true;
-                    }, timeout);
-                    var p = new WinJS.Promise(function (complete, error) {
-                        var promise = p;
-                        var check = function () {
-                            var elt = this.root.querySelector(selector);
-                            if (!completed && elt) {
-                                completed = true;
-                                clearTimeout(optimeout);
-                                complete(elt);
-                            }
-                            else if (!completed) {
-                                setTimeout(function () { check(); }, 50);
-                            }
-                            else {
-                                completed = true;
-                                error({ message: 'element not found ' + selector });
-                            }
-                        };
-                        check();
-                    });
-                    return p;
-                };
-                UIElementRoot.prototype.waitForElement = function (selector, timeout) {
-                    if (timeout === void 0) { timeout = 3000; }
-                    return this._waitForElement(selector, timeout).then(function (elt) {
-                        return new UIElementAction(elt);
-                    });
-                };
-                UIElementRoot.prototype.waitForRoot = function (selector, timeout) {
-                    if (timeout === void 0) { timeout = 3000; }
-                    return this._waitForElement(selector, timeout).then(function (elt) {
-                        return new UIElementRoot(elt);
-                    });
-                };
-                return UIElementRoot;
-            })();
-            Tests.UIElementRoot = UIElementRoot;
+            Tests.UIElementWrapper = UIElementWrapper;
             var Document = (function (_super) {
                 __extends(Document, _super);
                 function Document() {
@@ -239,7 +224,7 @@ var WinJSContrib;
                     return p;
                 };
                 return Document;
-            })(UIElementRoot);
+            })(UIElementWrapper);
             Tests.Document = Document;
             var Page = (function (_super) {
                 __extends(Page, _super);
@@ -247,7 +232,7 @@ var WinJSContrib;
                     _super.apply(this, arguments);
                 }
                 return Page;
-            })(UIElementRoot);
+            })(UIElementWrapper);
             Tests.Page = Page;
         })(Tests = UI.Tests || (UI.Tests = {}));
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));

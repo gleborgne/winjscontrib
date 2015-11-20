@@ -2,6 +2,13 @@
 /// <reference path="typings/winjscontrib/winjscontrib.core.d.ts" />
 var __global = this;
 module WinJSContrib.UI.Tests {
+    export enum TestStatus {
+        failed = 0,
+        success = 1,
+        running = 2,
+        pending = -1
+    }
+
     export var RegisteredCampaigns: ICampaign[] = [];
     export var Scenario = WinJS.Binding.define({
         name: '',
@@ -35,6 +42,7 @@ module WinJSContrib.UI.Tests {
 
     class _Campaign {
         public nbRun: number;
+        public nbRunned: number;
         public nbSuccess: number;
         public nbFail: number;
         public total: number;
@@ -53,10 +61,12 @@ module WinJSContrib.UI.Tests {
             this.nbFail = 0;
             this.nbSuccess = 0;
             this.nbRun = 0;
+            this.nbRunned = 0;
             this.isRunning = true;
 
             this.scenarios.forEach(function (scenario) {
-                scenario.state = -1;
+                scenario.state = TestStatus.pending;
+                scenario.message = "";
             });
 
             return WinJSContrib.Promise.waterfall(this.scenarios, (scenario: IScenario) => {
@@ -70,7 +80,7 @@ module WinJSContrib.UI.Tests {
         runScenario(document: Document, scenario: IScenario, options?: IRunOptions) {
             options = options || {};
             this.nbRun++;
-            scenario.state = 2;
+            scenario.state = TestStatus.running;
             console.info("RUNNING " + scenario.name);
             this.currentTest = scenario.name;
 
@@ -79,11 +89,14 @@ module WinJSContrib.UI.Tests {
             }
 
             return scenario.run(document).then(() => {
-                scenario.state = 1;
+                scenario.state = TestStatus.success;
+                this.nbRunned++;
                 this.nbSuccess++;
+                scenario.message = "";
                 return { success: true };
             }, (err) => {
-                scenario.state = 0;
+                scenario.state = TestStatus.failed;
+                this.nbRunned++;
                 this.nbFail++;
                 if (err.stack) {
                     scenario.message = err.stack;
@@ -101,13 +114,58 @@ module WinJSContrib.UI.Tests {
     export var Campaign = WinJS.Class.mix(
         _Campaign,
         WinJS.Binding.mixin,
-        WinJS.Binding.expandProperties({ nbRun: 0, nbSuccess: 0, nbFail: 0, total: 0, currentTest: 0, isRunning: false })
+        WinJS.Binding.expandProperties({ nbRun: 0, nbSuccess: 0, nbFail: 0, total: 0, currentTest: 0, nbRunned : 0, isRunning: false })
     );
-    
 
-    export class UIElementAction {
+    function _waitForElement(parent: HTMLElement, selector: string, timeout: number = 3000): WinJS.Promise<HTMLElement> {
+        var completed = false;
+        var optimeout = setTimeout(() => {
+            completed = true;
+        }, timeout);
+
+        var p = new WinJS.Promise<HTMLElement>((complete, error) => {
+            var promise = p as any;
+            var check = function () {
+                var elt = <HTMLElement>parent.querySelector(selector);
+                if (!completed && elt) {
+                    completed = true;
+                    clearTimeout(optimeout);
+                    complete(elt);
+                } else if (!completed) {
+                    setTimeout(() => { check(); }, 50);
+                } else {
+                    completed = true;
+                    error({ message: 'element not found ' + selector });
+                }
+            }
+            check();
+        });
+
+        return p;
+    }
+
+    export class UIElementWrapper {
         constructor(public element: HTMLElement) {
         }
+
+        on(selector: string): UIElementWrapper {
+            var elt = <HTMLElement>this.element.querySelector(selector);
+            if (!elt) {
+                console.error("element action not found for " + selector);
+                throw new Error("element action not found for " + selector);
+            }
+            console.log("element found " + selector);
+            var res = new UIElementWrapper(elt);
+            return res;
+        }
+
+
+
+        waitForElement(selector: string, timeout: number = 3000): WinJS.Promise<UIElementWrapper> {
+            return _waitForElement(this.element, selector, timeout).then((elt) => {
+                return new UIElementWrapper(elt);
+            });
+        }        
 
         click() {
             var el = <any>this.element;
@@ -122,86 +180,18 @@ module WinJSContrib.UI.Tests {
         input(val: string) {
             (this.element as HTMLInputElement).value = val;
         }
-    }
-
-    export class UIElementCheck {
-        constructor(public element: HTMLElement) {
-        }
-
-        hasText(val : string) {
+        
+        textEquals(val: string) {
             throw new Error("not implemented");
         }
 
-        hasValue(val: string) {
+        valueEquals(val: string) {
             throw new Error("not implemented");
         }
-    }
+    }    
     
-    export class UIElementRoot {
-        constructor(public root: HTMLElement) {
-        }
 
-        on(selector: string): UIElementAction {
-            var elt = <HTMLElement>this.root.querySelector(selector);
-            if (!elt) {
-                console.error("element action not found for " + selector);
-                throw new Error("element action not found for " + selector);
-            }
-            console.log("element found " + selector);
-            var res = new UIElementAction(elt);
-            return res;
-        }
-
-        check(selector: string): UIElementCheck {
-            var elt = <HTMLElement>this.root.querySelector(selector);
-            if (!elt)
-                throw new Error("element check not found for " + selector);
-
-            var res = new UIElementCheck(elt);
-            return res;
-        }
-
-        _waitForElement(selector: string, timeout: number = 3000): WinJS.Promise<HTMLElement> {
-            var completed = false;
-            var optimeout = setTimeout(() => {
-                completed = true;
-            }, timeout);
-
-            var p = new WinJS.Promise<HTMLElement>((complete, error) => {
-                var promise = p as any;
-                var check = function () {
-                    var elt = <HTMLElement>this.root.querySelector(selector);
-                    if (!completed && elt) {
-                        completed = true;
-                        clearTimeout(optimeout);
-                        complete(elt);
-                    } else if (!completed) {
-                        setTimeout(() => { check(); }, 50);
-                    } else {
-                        completed = true;
-                        error({ message: 'element not found ' + selector });
-                    }
-                }
-                check();
-            });
-
-            return p;
-        }
-
-        waitForElement(selector: string, timeout: number = 3000): WinJS.Promise<UIElementAction> {
-            return this._waitForElement(selector, timeout).then((elt) => {
-                return new UIElementAction(elt);
-            });
-        }
-
-        waitForRoot(selector: string, timeout: number = 3000): WinJS.Promise<UIElementRoot> {
-            return this._waitForElement(selector, timeout).then((elt) => {
-                return new UIElementRoot(elt);
-            });
-        }
-    }
-
-    export class Document extends UIElementRoot {
+    export class Document extends UIElementWrapper {
         clearHistory() {
             WinJS.Navigation.history.backStack = [];
         }
@@ -267,6 +257,6 @@ module WinJSContrib.UI.Tests {
         }
     }
 
-    export class Page extends UIElementRoot {
+    export class Page extends UIElementWrapper {
     }
 }

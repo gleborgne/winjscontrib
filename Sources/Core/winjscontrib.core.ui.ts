@@ -748,7 +748,7 @@ module WinJSContrib.UI {
         var ptDown = function (event) {
             var elt = event.currentTarget || event.target;
             var tracking = elt.mcnTapTracking;
-            if (tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
+            if (!elt.disabled && tracking && (event.button === undefined || event.button === 0 || (tracking.allowRickClickTap && event.button === 2))) {
 
                 if (tracking.lock) {
                     if (event.pointerId && event.currentTarget.setPointerCapture)

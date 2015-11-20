@@ -1,4 +1,5 @@
 ﻿.mcn-testrunner {
+  font-size: 13pt;
   background-color: black;
   color: white;
 }
@@ -28,6 +29,12 @@
   border: 1px solid #777;
   margin-right: 10px;
 }
+.mcn-testrunner .collapsedrunner .campaign-status.failed {
+  background-color: red;
+}
+.mcn-testrunner .collapsedrunner .campaign-status.success {
+  background-color: green;
+}
 .mcn-testrunner .collapsedrunner .campaignrun {
   width: 100%;
 }
@@ -46,8 +53,59 @@
 }
 .mcn-testrunner .expandedrunner > header {
   height: 60px;
+  padding: 10px;
+  box-sizing: border-box;
   background-color: #555;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.mcn-testrunner .expandedrunner > header .selectcampaign {
+  flex: 1;
+  margin-right: 10px;
+  padding: 10px;
+}
+.mcn-testrunner .expandedrunner > header button {
+  padding: 10px;
 }
 .mcn-testrunner .expandedrunner > section {
   -ms-grid-row: 2;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+}
+.mcn-testrunner .expandedrunner > section .scenario {
+  padding: 10px;
+  box-sizing: border-box;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header {
+  display: flex;
+  flex-flow: row nowrap;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .status {
+  border: 1px solid #AAA;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  font-family: "Segoe UI Symbol";
+  text-align: center;
+  margin-right: 10px;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .status.running {
+  background-color: blue;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .status.success {
+  background-color: green;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .status.failed {
+  background-color: red;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .name {
+  flex: 1;
+}
+.mcn-testrunner .expandedrunner > section .scenario > section {
+  color: #CCC;
+  font-style: italic;
 }
