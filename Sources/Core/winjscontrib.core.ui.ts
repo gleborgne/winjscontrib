@@ -811,7 +811,7 @@ module WinJSContrib.UI {
                                 event.stopPropagation();
                                 event.preventDefault();
                                 var res = tracking.callback(elt, event);
-                                if (WinJS.Promise.is(res)) {
+                                if (res && WinJS.Promise.is(res)) {
                                     elt.disabled = true;
                                     WinJS.Utilities.addClass(elt, 'tap-working');
                                     res.then(function () {
