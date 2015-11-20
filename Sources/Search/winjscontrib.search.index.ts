@@ -45,7 +45,7 @@ module WinJSContrib.Search {
             else if (WinJSContrib.DataContainer && WinJSContrib.DataContainer.current) {
                 index.container = WinJSContrib.DataContainer.current.child("WinJSContribSearch");
             } else if (__global.Windows) {
-                index.folderPromise = Windows.Storage.ApplicationData.current.localFolder.createFolderAsync("WinJSContrib\\Search", Windows.Storage.CreationCollisionOption.openIfExists).then(function (folder) {
+                index.folderPromise = Windows.Storage.ApplicationData.current.localFolder.createFolderAsync("WinJSContribSearch", Windows.Storage.CreationCollisionOption.openIfExists).then(function (folder) {
                     return folder;
                 }, function (err) {
                     logger.error("Folder init error " + err.message);
