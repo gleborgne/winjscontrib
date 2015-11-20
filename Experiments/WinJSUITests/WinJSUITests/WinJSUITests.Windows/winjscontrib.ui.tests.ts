@@ -144,8 +144,62 @@ module WinJSContrib.UI.Tests {
         return p;
     }
 
+    function _waitForClass(parent: HTMLElement, classToWatch: string, timeout: number = 3000): WinJS.Promise<any> {
+        var completed = false;
+        var optimeout = setTimeout(() => {
+            completed = true;
+        }, timeout);
+
+        var p = new WinJS.Promise<HTMLElement>((complete, error) => {
+            var promise = p as any;
+            var check = function () {
+                var hasClass = parent.classList.contains(classToWatch);
+                if (!completed && hasClass) {
+                    completed = true;
+                    clearTimeout(optimeout);
+                    complete();
+                } else if (!completed) {
+                    setTimeout(() => { check(); }, 50);
+                } else {
+                    completed = true;
+                    error({ message: 'class not added ' + classToWatch });
+                }
+            }
+            check();
+        });
+
+        return p;
+    }
+
+    function _waitForClassGone(parent: HTMLElement, classToWatch: string, timeout: number = 3000): WinJS.Promise<any> {
+        var completed = false;
+        var optimeout = setTimeout(() => {
+            completed = true;
+        }, timeout);
+
+        var p = new WinJS.Promise<HTMLElement>((complete, error) => {
+            var promise = p as any;
+            var check = function () {
+                var classGone = !parent.classList.contains(classToWatch);
+                if (!completed && classGone) {
+                    completed = true;
+                    clearTimeout(optimeout);
+                    complete();
+                } else if (!completed) {
+                    setTimeout(() => { check(); }, 50);
+                } else {
+                    completed = true;
+                    error({ message: 'class not gone ' + classToWatch });
+                }
+            }
+            check();
+        });
+
+        return p;
+    }
+
     export class UIElementWrapper {
-        constructor(public element: HTMLElement) {
+        constructor(public element: HTMLElement, public selector? : string) {
         }
 
         on(selector: string): UIElementWrapper {
@@ -155,15 +209,21 @@ module WinJSContrib.UI.Tests {
                 throw new Error("element action not found for " + selector);
             }
             console.log("element found " + selector);
-            var res = new UIElementWrapper(elt);
+            var res = new UIElementWrapper(elt, selector);
             return res;
         }
 
+        waitForClass(classToWatch: string, timeout: number = 3000): WinJS.Promise<any> {
+            return _waitForClass(this.element, classToWatch, timeout);
+        }
 
+        waitForClassGone(classToWatch: string, timeout: number = 3000): WinJS.Promise<any> {
+            return _waitForClassGone(this.element, classToWatch, timeout);
+        }
 
         waitForElement(selector: string, timeout: number = 3000): WinJS.Promise<UIElementWrapper> {
             return _waitForElement(this.element, selector, timeout).then((elt) => {
-                return new UIElementWrapper(elt);
+                return new UIElementWrapper(elt, selector);
             });
         }        
 
@@ -181,15 +241,24 @@ module WinJSContrib.UI.Tests {
             (this.element as HTMLInputElement).value = val;
         }
         
-        textEquals(val: string) {
-            throw new Error("not implemented");
+        textMustEquals(val: string) {
+            if (this.element.innerText != val) {
+                throw new Error("text mismatch, expected \"" + val + "\" but found \"" + this.element.innerText + "\"");
+            }
         }
 
-        valueEquals(val: string) {
-            throw new Error("not implemented");
+        valueMustEquals(val: string) {
+            if ((this.element as HTMLInputElement).value != val) {
+                throw new Error("value mismatch, expected \"" + val + "\" but found \"" + (this.element as HTMLInputElement).value + "\"");
+            }
+        }
+
+        disabledMustEquals(val: boolean) {
+            if ((this.element as HTMLButtonElement).disabled != val) {
+                throw new Error("disabled mismatch, expected \"" + val + "\" but found \"" + (this.element as HTMLButtonElement).disabled + "\"");
+            }
         }
     }    
-    
 
     export class Document extends UIElementWrapper {
         clearHistory() {

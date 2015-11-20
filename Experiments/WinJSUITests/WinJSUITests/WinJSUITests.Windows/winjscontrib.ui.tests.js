@@ -116,9 +116,64 @@ var WinJSContrib;
                 });
                 return p;
             }
+            function _waitForClass(parent, classToWatch, timeout) {
+                if (timeout === void 0) { timeout = 3000; }
+                var completed = false;
+                var optimeout = setTimeout(function () {
+                    completed = true;
+                }, timeout);
+                var p = new WinJS.Promise(function (complete, error) {
+                    var promise = p;
+                    var check = function () {
+                        var hasClass = parent.classList.contains(classToWatch);
+                        if (!completed && hasClass) {
+                            completed = true;
+                            clearTimeout(optimeout);
+                            complete();
+                        }
+                        else if (!completed) {
+                            setTimeout(function () { check(); }, 50);
+                        }
+                        else {
+                            completed = true;
+                            error({ message: 'class not added ' + classToWatch });
+                        }
+                    };
+                    check();
+                });
+                return p;
+            }
+            function _waitForClassGone(parent, classToWatch, timeout) {
+                if (timeout === void 0) { timeout = 3000; }
+                var completed = false;
+                var optimeout = setTimeout(function () {
+                    completed = true;
+                }, timeout);
+                var p = new WinJS.Promise(function (complete, error) {
+                    var promise = p;
+                    var check = function () {
+                        var classGone = !parent.classList.contains(classToWatch);
+                        if (!completed && classGone) {
+                            completed = true;
+                            clearTimeout(optimeout);
+                            complete();
+                        }
+                        else if (!completed) {
+                            setTimeout(function () { check(); }, 50);
+                        }
+                        else {
+                            completed = true;
+                            error({ message: 'class not gone ' + classToWatch });
+                        }
+                    };
+                    check();
+                });
+                return p;
+            }
             var UIElementWrapper = (function () {
-                function UIElementWrapper(element) {
+                function UIElementWrapper(element, selector) {
                     this.element = element;
+                    this.selector = selector;
                 }
                 UIElementWrapper.prototype.on = function (selector) {
                     var elt = this.element.querySelector(selector);
@@ -127,13 +182,21 @@ var WinJSContrib;
                         throw new Error("element action not found for " + selector);
                     }
                     console.log("element found " + selector);
-                    var res = new UIElementWrapper(elt);
+                    var res = new UIElementWrapper(elt, selector);
                     return res;
+                };
+                UIElementWrapper.prototype.waitForClass = function (classToWatch, timeout) {
+                    if (timeout === void 0) { timeout = 3000; }
+                    return _waitForClass(this.element, classToWatch, timeout);
+                };
+                UIElementWrapper.prototype.waitForClassGone = function (classToWatch, timeout) {
+                    if (timeout === void 0) { timeout = 3000; }
+                    return _waitForClassGone(this.element, classToWatch, timeout);
                 };
                 UIElementWrapper.prototype.waitForElement = function (selector, timeout) {
                     if (timeout === void 0) { timeout = 3000; }
                     return _waitForElement(this.element, selector, timeout).then(function (elt) {
-                        return new UIElementWrapper(elt);
+                        return new UIElementWrapper(elt, selector);
                     });
                 };
                 UIElementWrapper.prototype.click = function () {
@@ -149,11 +212,20 @@ var WinJSContrib;
                 UIElementWrapper.prototype.input = function (val) {
                     this.element.value = val;
                 };
-                UIElementWrapper.prototype.textEquals = function (val) {
-                    throw new Error("not implemented");
+                UIElementWrapper.prototype.textMustEquals = function (val) {
+                    if (this.element.innerText != val) {
+                        throw new Error("text mismatch, expected \"" + val + "\" but found \"" + this.element.innerText + "\"");
+                    }
                 };
-                UIElementWrapper.prototype.valueEquals = function (val) {
-                    throw new Error("not implemented");
+                UIElementWrapper.prototype.valueMustEquals = function (val) {
+                    if (this.element.value != val) {
+                        throw new Error("value mismatch, expected \"" + val + "\" but found \"" + this.element.value + "\"");
+                    }
+                };
+                UIElementWrapper.prototype.disabledMustEquals = function (val) {
+                    if (this.element.disabled != val) {
+                        throw new Error("disabled mismatch, expected \"" + val + "\" but found \"" + this.element.disabled + "\"");
+                    }
                 };
                 return UIElementWrapper;
             })();
