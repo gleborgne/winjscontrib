@@ -17,10 +17,10 @@
                 ctrl.element.innerHTML = '<div class="menu-button-wrapper"><span class="menu-global menu-top"></span><span class="menu-global menu-middle"></span><span class="menu-global menu-bottom"></span></div>';
             }, {
                 activate: function () {
-                    ctrl.element.classList.add('active');
+                    this.element.classList.add('active');
                 },
                 deactivate: function () {
-                    ctrl.element.classList.remove('active');
+                    this.element.classList.remove('active');
                 },
                 on: function () {
                     var ctrl = this;
