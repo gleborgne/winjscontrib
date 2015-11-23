@@ -16,7 +16,27 @@
             </h1>
         </header>
         <section class="page-section" aria-label="Main content" role="main">
-            <p>Content goes here.</p>
+            <form action="#" id="formtest" member>
+                <p>
+                    <label for="slgender">gender</label>
+                    <select id="slgender" name="slgender" required>
+                        <option value=""></option>
+                        <option value="male">male</option>
+                        <option value="female">male</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="txtfirstname">first name</label>
+                    <input id="txtfirstname" name="txtfirstname" />
+                </p>
+                <p>
+                    <label for="txtlastname">last name</label>
+                    <input id="txtlastname" name="txtlastname" required />
+                </p>
+                <p>
+                    <button id="btnsubmit" tap="checkForm">submit</button>
+                </p>
+            </form>
         </section>
     </div>
 </body>

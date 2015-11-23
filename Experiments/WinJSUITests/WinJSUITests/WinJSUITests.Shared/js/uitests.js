@@ -7,6 +7,6 @@ UITests.Scenarios = UITests.Scenarios || {};
     WinJSContrib.UI.Tests.RegisteredCampaigns.push(new WinJSContrib.UI.Tests.Campaign("Basics",
         [
             UITests.Scenarios.simpleNavigation,
-            UITests.Scenarios.anotherSimpleNavigation
+            UITests.Scenarios.fillForm
         ]));
 })();

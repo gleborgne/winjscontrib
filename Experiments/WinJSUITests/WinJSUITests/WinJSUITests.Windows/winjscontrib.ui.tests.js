@@ -208,24 +208,29 @@ var WinJSContrib;
                     else {
                         this.element.click();
                     }
+                    return this;
                 };
                 UIElementWrapper.prototype.input = function (val) {
                     this.element.value = val;
+                    return this;
                 };
                 UIElementWrapper.prototype.textMustEquals = function (val) {
                     if (this.element.innerText != val) {
                         throw new Error("text mismatch, expected \"" + val + "\" but found \"" + this.element.innerText + "\"");
                     }
+                    return this;
                 };
                 UIElementWrapper.prototype.valueMustEquals = function (val) {
                     if (this.element.value != val) {
                         throw new Error("value mismatch, expected \"" + val + "\" but found \"" + this.element.value + "\"");
                     }
+                    return this;
                 };
                 UIElementWrapper.prototype.disabledMustEquals = function (val) {
                     if (this.element.disabled != val) {
                         throw new Error("disabled mismatch, expected \"" + val + "\" but found \"" + this.element.disabled + "\"");
                     }
+                    return this;
                 };
                 return UIElementWrapper;
             })();

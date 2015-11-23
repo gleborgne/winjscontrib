@@ -235,28 +235,34 @@ module WinJSContrib.UI.Tests {
             } else {
                 this.element.click();
             }
+
+            return this;
         }
 
         input(val: string) {
             (this.element as HTMLInputElement).value = val;
+            return this;
         }
         
         textMustEquals(val: string) {
             if (this.element.innerText != val) {
                 throw new Error("text mismatch, expected \"" + val + "\" but found \"" + this.element.innerText + "\"");
             }
+            return this;
         }
 
         valueMustEquals(val: string) {
             if ((this.element as HTMLInputElement).value != val) {
                 throw new Error("value mismatch, expected \"" + val + "\" but found \"" + (this.element as HTMLInputElement).value + "\"");
             }
+            return this;
         }
 
         disabledMustEquals(val: boolean) {
             if ((this.element as HTMLButtonElement).disabled != val) {
                 throw new Error("disabled mismatch, expected \"" + val + "\" but found \"" + (this.element as HTMLButtonElement).disabled + "\"");
             }
+            return this;
         }
     }    
 

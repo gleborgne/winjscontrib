@@ -49,12 +49,15 @@
             ctrl.currentCampaign = campaign;
             ctrl.scenariosList.innerHTML = "";
 
-            campaign.scenarios.forEach(function (scenario, index) {                
-                var scenarioElt = document.createElement("DIV")
-                scenarioElt.className = "scenario";
-                scenarioElt.innerHTML = '<header><div class="status" data-win-bind="innerText : state WinJSContrib.UI.Tests.scenarioStatus"></div><div class="name" data-win-bind="innerText : name"></div></header><section  data-win-bind="innerText : message; display: message WinJSContrib.Bindings.showIf"></section>';
-                WinJS.Binding.processAll(scenarioElt, scenario);
-                ctrl.scenariosList.appendChild(scenarioElt);
+            campaign.scenarios.forEach(function (scenario, index) {
+                if (scenario) {
+                    var name = scenario.name;
+                    var scenarioElt = document.createElement("DIV")
+                    scenarioElt.className = "scenario";
+                    scenarioElt.innerHTML = '<header><div class="status" data-win-bind="innerText : state WinJSContrib.UI.Tests.scenarioStatus"></div><div class="name" data-win-bind="innerText : name"></div></header><section  data-win-bind="innerText : message; display: message WinJSContrib.Bindings.showIf"></section>';
+                    WinJS.Binding.processAll(scenarioElt, scenario);
+                    ctrl.scenariosList.appendChild(scenarioElt);
+                }
             });
         },
 
