@@ -4,8 +4,15 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
+/* 
+ * WinJS Contrib v2.1.0.4
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
 var WinJSContrib = WinJSContrib || {};
 (function () {
+    var logger = WinJSContrib.Logs.getLogger("WinJSContrib.BgDownload");
     WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
     WinJSContrib.BgDownloads.currentDownloads = new WinJS.Binding.List();
     WinJSContrib.BgDownloads.currentUploads   = new WinJS.Binding.List();
@@ -20,7 +27,7 @@ var WinJSContrib = WinJSContrib || {};
                     download.load(downloads[i]);
                     downloadOperations.push(download);
                 }
-                printLog(downloadOperations.length + " pending downloads");
+                logger.info(downloadOperations.length + " pending downloads");
                 WinJSContrib.BgDownloads.currentDownloads = downloadOperations;
                 WinJS.Application.queueEvent({ type: "mcnbgdownload.init", downloads: downloadOperations });
                 complete(downloadOperations);
@@ -44,7 +51,7 @@ var WinJSContrib = WinJSContrib || {};
                     upload.load(uploads[i]);
                     uploadOperations.push(upload);
                 }
-                printLog(uploadOperations.length + " pending uploads");
+                logger.info(uploadOperations.length + " pending uploads");
                 WinJSContrib.BgDownloads.currentUploads = uploadOperations;
                 WinJS.Application.queueEvent({ type: "mcnbgupload.init", uploads: uploadOperations });
                 complete(uploadOperations);
@@ -92,7 +99,7 @@ var WinJSContrib = WinJSContrib || {};
 
                 folder.createFileAsync(fileName, collision).then(function (newFile) {
                     var downloader = new Windows.Networking.BackgroundTransfer.BackgroundDownloader();
-                    printLog("bg download using URI: " + uri.absoluteUri);
+                    logger.verbose("bg download using URI: " + uri.absoluteUri);
 
                     operation.download = downloader.createDownload(uri, newFile);
                     operation.download.priority = priority;
@@ -110,7 +117,7 @@ var WinJSContrib = WinJSContrib || {};
                     // By requesting unconstrained downloads, the app can request the system to not suspend any of the
                     // downloads in the list for power saving reasons. Use this API with caution...
                     return Windows.Networking.BackgroundTransfer.BackgroundDownloader.requestUnconstrainedDownloadsAsync([operation.download]).then(function (result) {
-                        printLog("Request for unconstrained downloads has been " + (result.isUnconstrained ? "granted" : "denied"));
+                        logger.verbose("Request for unconstrained downloads has been " + (result.isUnconstrained ? "granted" : "denied"));
 
                         operation.promise = operation.download.startAsync().then(operation._completeCallbackBinded, operation._errorCallbackBinded, operation._progressCallbackBinded);
                         complete(operation);
@@ -126,7 +133,7 @@ var WinJSContrib = WinJSContrib || {};
         load: function (loadedDownload) {
             var operation = this;
             operation.download = loadedDownload;
-            printLog("Found download: " + operation.download.guid + " from previous application run.");
+            logger.debug("Found download: " + operation.download.guid + " from previous application run.");
             operation.promise = operation.download.attachAsync().then(operation._completeCallbackBinded, operation._errorCallbackBinded, operation._progressCallbackBinded);
             operation.file = operation.download.resultFile.path;
             operation.progress = 0;
@@ -139,10 +146,10 @@ var WinJSContrib = WinJSContrib || {};
 
                 operation.promise.cancel();
                 operation.promise = null;
-                printLog("Canceling download: " + operation.download.guid);
+                logger.verbose("Canceling download: " + operation.download.guid);
             }
             else {
-                printLog("Download " + operation.download.guid + " already canceled.");
+                logger.verbose("Download " + operation.download.guid + " already canceled.");
             }
         },
 
@@ -152,10 +159,10 @@ var WinJSContrib = WinJSContrib || {};
             if (operation.download) {
                 if (download.progress.status === Windows.Networking.BackgroundTransfer.BackgroundTransferStatus.pausedByApplication) {
                     operation.download.resume();
-                    printLog("Resuming download: " + operation.download.guid);
+                    logger.debug("Resuming download: " + operation.download.guid);
                 }
                 else {
-                    printLog("Download " + operation.download.guid +
+                    logger.debug("Download " + operation.download.guid +
                         " is not paused, it may be running, completed, canceled or in error.");
                 }
             }
@@ -167,10 +174,10 @@ var WinJSContrib = WinJSContrib || {};
             if (operation.download) {
                 if (operation.download.progress.status === Windows.Networking.BackgroundTransfer.BackgroundTransferStatus.running) {
                     operation.download.pause();
-                    printLog("Pausing download: " + operation.download.guid + "");
+                    logger.debug("Pausing download: " + operation.download.guid + "");
                 }
                 else {
-                    printLog("Download " + operation.download.guid +
+                    logger.debug("Download " + operation.download.guid +
                         " is not running, it may be paused, completed, canceled or in error.");
                 }
             }
@@ -227,11 +234,11 @@ var WinJSContrib = WinJSContrib || {};
             if (operation.download) {
                 try {
                     var responseInfo = operation.download.getResponseInformation();
-                    printLog(operation.download.guid + " - download complete. Status code: " + responseInfo.statusCode + "");
+                    logger.verbose(operation.download.guid + " - download complete. Status code: " + responseInfo.statusCode + "");
                     WinJS.Application.queueEvent({ type: 'McnBgDownload', error:false, id: operation.download.guid, operation: operation });
                     //displayStatus("Completed: " + download.guid + ", Status Code: " + responseInfo.statusCode);
                 } catch (err) {
-                    printLog(err);
+                    logger.error(err);
                 }
                 operation.removeDownload(operation.download.guid);
             }
@@ -249,7 +256,7 @@ var WinJSContrib = WinJSContrib || {};
                 }, function () { });
                 operation.removeDownload(operation.download.guid);
                 WinJS.Application.queueEvent({ type: 'McnBgDownload', error: true, id: operation.download.guid, operation: operation });
-                printLog(operation.download.guid + " - download completed with error.");
+                logger.warn(operation.download.guid + " - download completed with error.");
             }
 
             if (operation.onerror) {
@@ -259,7 +266,7 @@ var WinJSContrib = WinJSContrib || {};
             else {
                 operation.notify("error");
             }
-            printLog(err);
+            logger.warn(err);
         }
     }), WinJS.Binding.mixin, WinJS.Binding.expandProperties({ progress: 0 }));
 
@@ -306,7 +313,7 @@ var WinJSContrib = WinJSContrib || {};
 
 
                 var uploader = new Windows.Networking.BackgroundTransfer.BackgroundUploader();
-                printLog("bg upload using URI: " + uri.absoluteUri);
+                logger.verbose("bg upload using URI: " + uri.absoluteUri);
                 
                 operation.upload = uploader.createUpload(uri, uploadedFile);
                 operation.upload.priority = priority;
@@ -324,7 +331,7 @@ var WinJSContrib = WinJSContrib || {};
                 // By requesting unconstrained uploads, the app can request the system to not suspend any of the
                 // uploads in the list for power saving reasons. Use this API with caution...
                 return Windows.Networking.BackgroundTransfer.BackgroundUploader.requestUnconstrainedUploadsAsync([operation.upload]).then(function (result) {
-                    printLog("Request for unconstrained uploads has been " + (result.isUnconstrained ? "granted" : "denied"));
+                    logger.verbose("Request for unconstrained uploads has been " + (result.isUnconstrained ? "granted" : "denied"));
 
                     operation.promise = operation.upload.startAsync().then(operation._completeCallbackBinded, operation._errorCallbackBinded, operation._progressCallbackBinded);
                     complete(operation);
@@ -338,7 +345,7 @@ var WinJSContrib = WinJSContrib || {};
         load: function (loadedUpload) {
             var operation = this;
             operation.upload = loadedUpload;
-            printLog("Found upload: " + operation.upload.guid + " from previous application run.");
+            logger.debug("Found upload: " + operation.upload.guid + " from previous application run.");
             operation.promise = operation.upload.attachAsync().then(operation._completeCallbackBinded, operation._errorCallbackBinded, operation._progressCallbackBinded);
             operation.file = operation.upload.sourceFile.path;
             operation.progress = 0;
@@ -351,10 +358,10 @@ var WinJSContrib = WinJSContrib || {};
 
                 operation.promise.cancel();
                 operation.promise = null;
-                printLog("Canceling upload: " + operation.upload.guid);
+                logger.debug("Canceling upload: " + operation.upload.guid);
             }
             else {
-                printLog("upload " + operation.upload.guid + " already canceled.");
+                logger.debug("upload " + operation.upload.guid + " already canceled.");
             }
         },
 
@@ -364,10 +371,10 @@ var WinJSContrib = WinJSContrib || {};
             if (operation.upload) {
                 if (operation.upload.progress.status === Windows.Networking.BackgroundTransfer.BackgroundTransferStatus.pausedByApplication) {
                     operation.upload.resume();
-                    printLog("Resuming upload: " + operation.upload.guid);
+                    logger.debug("Resuming upload: " + operation.upload.guid);
                 }
                 else {
-                    printLog("upload " + operation.upload.guid +
+                    logger.debug("upload " + operation.upload.guid +
                         " is not paused, it may be running, completed, canceled or in error.");
                 }
             }
@@ -379,10 +386,10 @@ var WinJSContrib = WinJSContrib || {};
             if (operation.upload) {
                 if (operation.upload.progress.status === Windows.Networking.BackgroundTransfer.BackgroundTransferStatus.running) {
                     operation.upload.pause();
-                    printLog("Pausing upload: " + operation.upload.guid + "");
+                    logger.debug("Pausing upload: " + operation.upload.guid + "");
                 }
                 else {
-                    printLog("upload " + operation.upload.guid +
+                    logger.debug("upload " + operation.upload.guid +
                         " is not running, it may be paused, completed, canceled or in error.");
                 }
             }
@@ -436,9 +443,9 @@ var WinJSContrib = WinJSContrib || {};
             if (operation.upload) {
                 try {
                     var responseInfo = operation.upload.getResponseInformation();
-                    printLog(operation.upload.guid + " - upload complete. Status code: " + responseInfo.statusCode + "");
+                    logger.verbose(operation.upload.guid + " - upload complete. Status code: " + responseInfo.statusCode + "");
                 } catch (err) {
-                    printLog(err);
+                    logger.error(err);
                 }
                 operation.removeUpload(operation.upload.guid);
             }
@@ -453,7 +460,7 @@ var WinJSContrib = WinJSContrib || {};
             if (operation.upload) {
                 WinJS.Application.queueEvent({ type: "mcnbgupload.error", uploadId: operation.upload.guid, file: operation.upload.sourceFile.path, uri: operation.upload.requestedUri, operation: operation });
                 operation.removeUpload(operation.upload.guid);
-                printLog(operation.upload.guid + " - upload completed with error.");
+                logger.warn(operation.upload.guid + " - upload completed with error.");
             }
 
             if (operation.onerror) {
@@ -463,7 +470,7 @@ var WinJSContrib = WinJSContrib || {};
             else {
                 operation.notify("error");
             }
-            printLog(err);
+            logger.warn(err);
         }
     }), WinJS.Binding.mixin, WinJS.Binding.expandProperties({ progress: 0 }));
 
@@ -484,9 +491,4 @@ var WinJSContrib = WinJSContrib || {};
 
         return WinJS.Promise.wrap(operation);
     };
-
-
-    function printLog(msg) {
-        console.log(msg);
-    }
 })();
