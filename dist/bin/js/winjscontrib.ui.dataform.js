@@ -434,15 +434,36 @@
                 if (typeof data === "undefined")
                     data = null;
 
-                data = converter.fromObject(data, options);
-
-                WinJSContrib.Utils.writeProperty(dest, destProperty, data);
+                if (dest.nodeName == "INPUT" && dest.type == "radio") {
+                    var fieldname = dest.name;
+                    if (dest.value == data) {
+                        dest.checked = true;
+                    }
+                } else {
+                    data = converter.fromObject(data, options);
+                    WinJSContrib.Utils.writeProperty(dest, destProperty, data);
+                }
             }
 
             function updateObjectFromInput() {
                 dataform.checkState();
                 if (!dest.id || dataform.validator.element(dest)) {
-                    var val = WinJSContrib.Utils.getProperty(dest, destProperty).propValue;
+                    var val = null;
+                    if (dest.nodeName == "INPUT" && dest.type == "radio") {
+                        var fieldname = dest.name;
+                        if (dest.form && dest.form[fieldname] && dest.form[fieldname].length) {
+                            for (var i = 0, l = dest.form[fieldname].length; i < l ; i++) {
+                                var field = dest.form[fieldname][i];
+                                if (field.checked){
+                                    val = field.value;
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        val = WinJSContrib.Utils.getProperty(dest, destProperty).propValue;
+                    }
+
                     if (val !== undefined)
                         val = converter.fromInput(val, options);
 

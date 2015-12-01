@@ -35,7 +35,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TypeScriptToolsVersion>1.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0'">
@@ -69,18 +69,6 @@
     </Content>
     <Content Include="..\..\..\Common\winjscontrib.crossplatform.js">
       <Link>scripts\winjscontrib\winjscontrib.crossplatform.js</Link>
-    </Content>
-    <Content Include="..\..\..\Common\winjscontrib.datacontainer.cordova.database.js">
-      <Link>scripts\winjscontrib\winjscontrib.datacontainer.cordova.database.js</Link>
-    </Content>
-    <Content Include="..\..\..\Common\winjscontrib.datacontainer.cordova.file.js">
-      <Link>scripts\winjscontrib\winjscontrib.datacontainer.cordova.file.js</Link>
-    </Content>
-    <Content Include="..\..\..\Common\winjscontrib.datacontainer.localstorage.js">
-      <Link>scripts\winjscontrib\winjscontrib.datacontainer.localstorage.js</Link>
-    </Content>
-    <Content Include="..\..\..\Common\winjscontrib.datacontainer.winrt.file.js">
-      <Link>scripts\winjscontrib\winjscontrib.datacontainer.winrt.file.js</Link>
     </Content>
     <Content Include="..\..\..\Common\winjscontrib.date.utils.js">
       <Link>scripts\winjscontrib\winjscontrib.date.utils.js</Link>
@@ -261,6 +249,18 @@
     </Content>
     <Content Include="..\..\..\Core\winjscontrib.ui.webcomponents.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.webcomponents.js</Link>
+    </Content>
+    <Content Include="..\..\..\DataContainer\winjscontrib.datacontainer.cordova.database.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.cordova.database.js</Link>
+    </Content>
+    <Content Include="..\..\..\DataContainer\winjscontrib.datacontainer.cordova.file.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.cordova.file.js</Link>
+    </Content>
+    <Content Include="..\..\..\DataContainer\winjscontrib.datacontainer.localstorage.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.localstorage.js</Link>
+    </Content>
+    <Content Include="..\..\..\DataContainer\winjscontrib.datacontainer.winrt.file.js">
+      <Link>scripts\winjscontrib\winjscontrib.datacontainer.winrt.file.js</Link>
     </Content>
     <Content Include="..\..\..\Search\winjscontrib.search.js">
       <Link>scripts\winjscontrib\winjscontrib.search.js</Link>

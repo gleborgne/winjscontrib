@@ -5,7 +5,8 @@
         ready: function (element, options) {
             var data = {
                 name: "John Doe",
-                gender: "unknown"
+                gender: "unknown",
+                radiogender: "male"
             };
 
             var dataformH = element.querySelector("#formHorizontal").winControl;

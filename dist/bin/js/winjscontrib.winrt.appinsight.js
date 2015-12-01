@@ -80,6 +80,7 @@ appinsightWrapper.tracker.trackEvent("app start");
 
 		if (__global.WinJS) {
 			WinJS.Application.addEventListener("error", function (arg) {
+				arg.detail.setPromise(WinJS.Promise.timeout(5000));
 				var err = component.wrapError(arg.detail);
 				if (err) {
 					component.tracker.trackException(err, "Unhandled");
@@ -113,9 +114,9 @@ appinsightWrapper.tracker.trackEvent("app start");
 
 				var err = component.wrapError(arg.error || arg.detail.error);
 				if (err) {
-					component.tracker.trackException(err, "Unhandled");
+				    component.tracker.trackException(err, "Unhandled tap error");
 				} else {
-					component.tracker.trackException("unknown error", "Unhandled", arg.error || arg.detail);
+					component.tracker.trackException("unknown tap error", "Unhandled tap error", arg.error || arg.detail);
 				}
 				component.tracker.flush();
 				if (component.ontaperror) {

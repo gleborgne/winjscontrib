@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ShowAllFiles>false</ShowAllFiles>
     <ReferenceCachePath>C:\Users\mlahlou\AppData\Local\Temp\MCNEXT WinJS Contrib.WindowsPhone_refcache</ReferenceCachePath>
-    <ToolsVersionPromptShown>1.4</ToolsVersionPromptShown>
+    <ToolsVersionPromptShown>1.7</ToolsVersionPromptShown>
     <AppxPackageIsForStore>False</AppxPackageIsForStore>
     <AppxShowAllApps>False</AppxShowAllApps>
     <AppxBuildConfigurationSelection>neutral</AppxBuildConfigurationSelection>
