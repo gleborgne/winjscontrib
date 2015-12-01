@@ -801,6 +801,10 @@
                                     }
 
                                     btn.onclick = function (arg) {
+                                        if (arg.currentTarget.classList.contains("win-navigation-backbutton")){
+                                            //it is winjs backbutton control, skip action...
+                                            return;
+                                        }
                                         if (ctrl.global) {
                                             nav.back();
                                         }
