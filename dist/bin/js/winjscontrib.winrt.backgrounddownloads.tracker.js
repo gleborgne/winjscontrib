@@ -46,7 +46,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
             tracker.verifyItems();
         }, 200, false);
 
-        this.debouncedSave = _.debounce(function () {
+        this.debouncedSave = _.throttle(function () {
             tracker.saveItems();
         }, 200, false);
 
@@ -194,14 +194,17 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                     return folder.createFileAsync(downloadedItemsFileName, Windows.Storage.CreationCollisionOption.replaceExisting).then(function (file) {
                         return Windows.Storage.FileIO.writeTextAsync(file, JSON.stringify({
                             items: items
-                        }));
+                        })).then(function () {
+                            logger.verbose("items saved");
+                        });
                     });
                 }).then(null, function (err) {
                     logger.warn("error saving bgdownload tracker items", err);
                     retries = retries || 0;
                     if (retries < 2) {
                         return WinJS.Promise.timeout(20).then(function () {
-                            tracker.saveItemsPromise = tracker.saveItems(retries + 1);
+                            tracker.saveItemsPromise = WinJS.Promise.wrap();
+                            tracker.saveItems(retries + 1);
                             return tracker.saveItemsPromise;
                         });
                     } else {
