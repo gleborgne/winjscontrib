@@ -1,10 +1,4 @@
-﻿/* 
- * WinJS Contrib v2.1.0.4
- * licensed under MIT license (see http://opensource.org/licenses/MIT)
- * sources available at https://github.com/gleborgne/winjscontrib
- */
-
-var WinJSContrib = WinJSContrib || {};
+﻿var WinJSContrib = WinJSContrib || {};
 (function () {
     var logger = WinJSContrib.Logs.getLogger("WinJSContrib.BgDownload");
     WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
@@ -87,7 +81,11 @@ var WinJSContrib = WinJSContrib || {};
             collision = collision || Windows.Storage.CreationCollisionOption.failIfExists;
             return new WinJS.Promise(function (complete, error) {
                 var onerror = function (err) {
-                    operation._errorCallback(err);
+                    try{
+                        operation._errorCallback(err);
+                    } catch (exception) {
+                        console.error(exception);
+                    }
                     error(err);
                 }
 
@@ -102,19 +100,28 @@ var WinJSContrib = WinJSContrib || {};
                     operation.progress = 0;
 
                     if (!disablePowerSavingLimitations) {
-                        // Start the download and persist the promise to be able to cancel the download.
-                        operation.promise = operation.download.startAsync().then(operation._completeCallbackBinded, operation._errorCallbackBinded, operation._progressCallbackBinded);
-                        complete(operation);
+                        try {
+                            // Start the download and persist the promise to be able to cancel the download.
+                            operation.promise = operation.download.startAsync().then(operation._completeCallbackBinded, operation._errorCallbackBinded, operation._progressCallbackBinded);
+                            complete(operation);
+                        } catch (exception) {
+                            onerror(exception);
+                        }
+                        
                         return;
                     }
 
                     // By requesting unconstrained downloads, the app can request the system to not suspend any of the
                     // downloads in the list for power saving reasons. Use this API with caution...
                     return Windows.Networking.BackgroundTransfer.BackgroundDownloader.requestUnconstrainedDownloadsAsync([operation.download]).then(function (result) {
-                        logger.verbose("Request for unconstrained downloads has been " + (result.isUnconstrained ? "granted" : "denied"));
+                        try {
+                            logger.verbose("Request for unconstrained downloads has been " + (result.isUnconstrained ? "granted" : "denied"));
 
-                        operation.promise = operation.download.startAsync().then(operation._completeCallbackBinded, operation._errorCallbackBinded, operation._progressCallbackBinded);
-                        complete(operation);
+                            operation.promise = operation.download.startAsync().then(operation._completeCallbackBinded, operation._errorCallbackBinded, operation._progressCallbackBinded);
+                            complete(operation);
+                        } catch (exception) {
+                            onerror(exception);
+                        }                        
                     }, onerror);
 
                 }, onerror);
