@@ -115,6 +115,12 @@
     <Content Include="..\..\..\Common\winjscontrib.ui.multipass-renderer.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js</Link>
     </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.aspectratio.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.aspectratio.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.autosuggest.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.autosuggest.js</Link>
+    </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.childviewflyout.css">
       <Link>css\winjscontrib\winjscontrib.ui.childviewflyout.css</Link>
     </Content>
@@ -157,6 +163,9 @@
     <Content Include="..\..\..\Controls\winjscontrib.ui.flipsnap.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.flipsnap.js</Link>
     </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.flipview.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.flipview.js</Link>
+    </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.flipviewpager.css">
       <Link>css\winjscontrib\winjscontrib.ui.flipviewpager.css</Link>
     </Content>
@@ -195,6 +204,9 @@
     </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.hubcontrol.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.hubcontrol.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.itemswipe.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.itemswipe.js</Link>
     </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.masterdetailview.css">
       <Link>css\winjscontrib\winjscontrib.ui.masterdetailview.css</Link>
@@ -240,6 +252,9 @@
     </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.tilemenu.less">
       <Link>css\winjscontrib\winjscontrib.ui.tilemenu.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.visualstate.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.visualstate.js</Link>
     </Content>
     <Content Include="..\..\..\Core\winjscontrib.core.js">
       <Link>scripts\winjscontrib\winjscontrib.core.js</Link>

@@ -1,0 +1,78 @@
+﻿.itemswipe-page .bloc-content {
+  display: -ms-grid;
+  -ms-grid-columns: 1fr 1fr;
+  -ms-grid-rows: 1fr;
+}
+.itemswipe-page #itemslist {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #DDD;
+  touch-action: pan-y;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -ms-grid-column: 1;
+}
+.itemswipe-page #listview {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #DDD;
+  touch-action: pan-y;
+  -ms-grid-column: 2;
+}
+.itemswipe-page .listitem {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  border-bottom: 1px solid #DDD;
+  overflow: hidden;
+}
+.itemswipe-page .listitem .card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.itemswipe-page .listitem .swipe-to-left,
+.itemswipe-page .listitem .swipe-to-right {
+  background-color: #777;
+  visibility: hidden;
+  transition: background-color 500ms ease-out, opacity 500ms ease-out;
+  opacity: 0.2;
+  color: white;
+  padding: 4px 16px;
+}
+.itemswipe-page .listitem .swipe-to-left i,
+.itemswipe-page .listitem .swipe-to-right i {
+  display: block;
+}
+.itemswipe-page .listitem .swipe-to-left i.sgicon-2x,
+.itemswipe-page .listitem .swipe-to-right i.sgicon-2x {
+  font-size: 1.7em;
+}
+.itemswipe-page .listitem .swipe-to-left .label,
+.itemswipe-page .listitem .swipe-to-right .label {
+  font-size: 0.7em;
+  line-height: 1.1em;
+}
+.itemswipe-page .listitem .swipe-to-left.accepted,
+.itemswipe-page .listitem .swipe-to-right.accepted {
+  opacity: 1;
+}
+.itemswipe-page .listitem .swipe-to-left.swiping,
+.itemswipe-page .listitem .swipe-to-right.swiping {
+  visibility: visible;
+}
+.itemswipe-page .listitem .swipe-to-left {
+  text-align: right;
+}
+.itemswipe-page .listitem .swipe-to-left.accepted {
+  background-color: indianred;
+}
+.itemswipe-page .listitem .swipe-to-right.accepted {
+  background-color: forestgreen;
+}
+.itemswipe-page .listitem .face {
+  background-color: white;
+  touch-action: pan-y;
+  padding: 20px;
+}

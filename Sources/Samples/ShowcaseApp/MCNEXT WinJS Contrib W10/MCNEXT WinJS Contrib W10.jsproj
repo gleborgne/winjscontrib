@@ -45,8 +45,8 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).props" />
   <PropertyGroup>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10069.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10069.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>$(VersionNumberMajor).$(VersionNumberMinor)</MinimumVisualStudioVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>MCNEXT WinJS Contrib W10_TemporaryKey.pfx</PackageCertificateKeyFile>
@@ -55,11 +55,29 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.aspectratio.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.aspectratio.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.autosuggest.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.autosuggest.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.flipview.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.flipview.js</Link>
+    </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.flipviewpager.js">
       <Link>winjscontrib.ui.flipviewpager.js</Link>
     </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.fowrapper.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.fowrapper.js</Link>
+    </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.grid.js">
       <Link>winjscontrib.ui.grid.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.itemswipe.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.itemswipe.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.visualstate.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.visualstate.js</Link>
     </Content>
     <Content Include="..\..\..\Core\winjscontrib.ui.webcomponents.js">
       <Link>winjscontrib.ui.webcomponents.js</Link>

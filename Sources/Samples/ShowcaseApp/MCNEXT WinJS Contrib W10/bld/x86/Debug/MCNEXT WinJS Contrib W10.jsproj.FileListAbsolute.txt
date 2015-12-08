@@ -13,3 +13,4 @@ C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib
 C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\x86\Debug\MultipleQualifiersPerDimensionFound.txt
 C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\x86\Debug\ProjectArchitectures.txt
 C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bin\x86\Debug\MCNEXT WinJS Contrib W10.build.appxrecipe
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\x86\Debug\ResourceHandlingTask.state

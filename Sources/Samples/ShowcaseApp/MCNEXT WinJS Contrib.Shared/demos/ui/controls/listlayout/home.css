@@ -1,4 +1,4 @@
-.listlayoutpage win-listview {
+﻿.listlayoutpage win-listview {
   display: block;
 }
 .listlayoutpage section[role=main] #mylistview {

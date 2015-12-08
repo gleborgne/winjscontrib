@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>itemswipe</title>
+
+    <link href="css/winjscontrib/winjscontrib.ui.itemswipe.css" rel="stylesheet" />
+    <script src="/scripts/winjscontrib/winjscontrib.ui.swipeslide.js"></script>
+    <script src="/scripts/winjscontrib/winjscontrib.ui.itemswipe.js"></script>
+
+    <link href="itemswipe.css" rel="stylesheet" />
+    <script src="itemswipe.js"></script>
+</head>
+<body>
+    <div class="itemswipe-page fragment">
+        <header aria-label="Header content" role="banner">
+            <button class="win-backbutton" aria-label="Back" disabled type="button"></button>
+            <h1 class="titlearea win-type-ellipsis">
+                <span class="pagetitle">state button</span>
+            </h1>
+            <div class="actions">
+                <div data-win-control="WinJSContrib.Sample.DocLink" data-win-options="{ datapath: 'WinJSContrib.UI.ItemSwipe' }"></div>
+                <div data-win-control="WinJSContrib.Sample.CodeLink" data-win-options="{ pagelink: './demos/ui/controls/itemswipe/itemswipe' }"></div>
+            </div>
+        </header>
+        <section class="desc-screen" aria-label="Main content" role="main">
+            <div class="bloc-description">
+                <p>
+                    The item swipe is a control for managing cross swipe on list items to trigger actions. It's like the cross swipe you have in Windows 10 mail app for deleting/archiving mails.
+                </p>
+            </div>
+            <div></div>
+            <div class="bloc-content">
+                <div id="listviewItemSwipeTemplate" member data-win-control="WinJS.Binding.Template">
+                    <div class="listitem" data-win-control="WinJSContrib.UI.ItemSwipe" data-win-bind="winControl.item : this">
+                        <div class="card swipe-to-left">
+                            <i class="sgicon-2x sgicon-trash"></i>
+                            <span class="label">delete</span>
+                        </div>
+                        <div class="card face">
+                            <div class="name" data-win-bind="textContent : name"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="itemSwipeTemplate" member data-win-control="WinJS.Binding.Template">
+                    <div class="listitem" data-win-control="WinJSContrib.UI.ItemSwipe" data-win-bind="winControl.item : this">
+                        <div class="card swipe-to-left">
+                            <i class="sgicon-2x sgicon-trash"></i>
+                            <span class="label">delete</span>
+                        </div>
+                        <div class="card swipe-to-right">
+                            <i class="sgicon-2x sgicon-check-mark"></i>
+                            <span class="label">valid.</span>
+                        </div>
+                        <div class="card face">                            
+                            <div class="name" data-win-bind="textContent : name"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="itemslist" member></div>
+                <div id="listview" member data-win-control="WinJS.UI.ListView" data-win-options="{ tapBehavior : 'none', selectionMode : 'none', swipeBehavior : 'none', itemTemplate : select('#listviewItemSwipeTemplate'),layout : { type : WinJS.UI.ListLayout}}"></div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

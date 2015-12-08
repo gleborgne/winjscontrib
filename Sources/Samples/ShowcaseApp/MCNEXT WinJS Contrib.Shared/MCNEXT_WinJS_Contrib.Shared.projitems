@@ -263,6 +263,10 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\showcode\showcode.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\aspectratio\aspectratio.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\aspectratio\aspectratio.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\aspectratio\aspectratio.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\aspectratio\aspectratio.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dataform\overview\dataform.js" />
@@ -310,6 +314,10 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\hub\home.min.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\itemswipe\itemswipe.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\itemswipe\itemswipe.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\itemswipe\itemswipe.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\itemswipe\itemswipe.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\listlayout\home.css">
       <DependentUpon>home.less</DependentUpon>
     </Content>
@@ -376,6 +384,10 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\tilemenu\tilemenu.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\visualstate\visualstate.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\visualstate\visualstate.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\visualstate\visualstate.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\visualstate\visualstate.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\ui.css">
       <DependentUpon>ui.less</DependentUpon>
     </Content>

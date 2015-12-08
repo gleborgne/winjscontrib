@@ -2,10 +2,6 @@ css\winjscontrib\segoe.symbol.css
 css\winjscontrib\segoe.symbol.less
 scripts\winjscontrib\winjscontrib.bindings.js
 scripts\winjscontrib\winjscontrib.crossplatform.js
-scripts\winjscontrib\winjscontrib.datacontainer.cordova.database.js
-scripts\winjscontrib\winjscontrib.datacontainer.cordova.file.js
-scripts\winjscontrib\winjscontrib.datacontainer.localstorage.js
-scripts\winjscontrib\winjscontrib.datacontainer.winrt.file.js
 scripts\winjscontrib\winjscontrib.date.utils.js
 scripts\winjscontrib\winjscontrib.dynamicscripts.js
 scripts\winjscontrib\winjscontrib.logger.js
@@ -21,6 +17,8 @@ scripts\winjscontrib\winjscontrib.ui.jquery.js
 css\winjscontrib\winjscontrib.ui.less
 scripts\winjscontrib\winjscontrib.ui.morph.js
 scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js
+scripts\winjscontrib\winjscontrib.ui.aspectratio.js
+scripts\winjscontrib\winjscontrib.ui.autosuggest.js
 css\winjscontrib\winjscontrib.ui.childviewflyout.css
 scripts\winjscontrib\winjscontrib.ui.childviewflyout.js
 css\winjscontrib\winjscontrib.ui.childviewflyout.less
@@ -35,6 +33,7 @@ scripts\winjscontrib\winjscontrib.ui.extended-splashscreen.js
 css\winjscontrib\winjscontrib.ui.extended-splashscreen.less
 css\winjscontrib\winjscontrib.ui.flipsnap.css
 scripts\winjscontrib\winjscontrib.ui.flipsnap.js
+scripts\winjscontrib\winjscontrib.ui.flipview.js
 css\winjscontrib\winjscontrib.ui.flipviewpager.css
 winjscontrib.ui.flipviewpager.js
 scripts\winjscontrib\winjscontrib.ui.flipviewpager.js
@@ -42,6 +41,7 @@ css\winjscontrib\winjscontrib.ui.flipviewpager.less
 css\winjscontrib\winjscontrib.ui.flyoutpage.css
 scripts\winjscontrib\winjscontrib.ui.flyoutpage.js
 css\winjscontrib\winjscontrib.ui.flyoutpage.less
+scripts\winjscontrib\winjscontrib.ui.fowrapper.js
 css\winjscontrib\winjscontrib.ui.globalprogress.css
 scripts\winjscontrib\winjscontrib.ui.globalprogress.js
 css\winjscontrib\winjscontrib.ui.globalprogress.less
@@ -50,6 +50,7 @@ scripts\winjscontrib\winjscontrib.ui.grid.js
 css\winjscontrib\winjscontrib.ui.hub.css
 css\winjscontrib\winjscontrib.ui.hub.less
 scripts\winjscontrib\winjscontrib.ui.hubcontrol.js
+scripts\winjscontrib\winjscontrib.ui.itemswipe.js
 css\winjscontrib\winjscontrib.ui.masterdetailview.css
 scripts\winjscontrib\winjscontrib.ui.masterdetailview.js
 css\winjscontrib\winjscontrib.ui.masterdetailview.less
@@ -65,9 +66,14 @@ css\winjscontrib\winjscontrib.ui.tabcontrol.less
 css\winjscontrib\winjscontrib.ui.tilemenu.css
 scripts\winjscontrib\winjscontrib.ui.tilemenu.js
 css\winjscontrib\winjscontrib.ui.tilemenu.less
+scripts\winjscontrib\winjscontrib.ui.visualstate.js
 scripts\winjscontrib\winjscontrib.core.js
 winjscontrib.ui.webcomponents.js
 scripts\winjscontrib\winjscontrib.ui.webcomponents.js
+scripts\winjscontrib\winjscontrib.datacontainer.cordova.database.js
+scripts\winjscontrib\winjscontrib.datacontainer.cordova.file.js
+scripts\winjscontrib\winjscontrib.datacontainer.localstorage.js
+scripts\winjscontrib\winjscontrib.datacontainer.winrt.file.js
 default.html
 defaultchild.html
 images\logo.png
@@ -273,6 +279,10 @@ demos\showcode\showcode.css
 demos\showcode\showcode.html
 demos\showcode\showcode.js
 demos\showcode\showcode.less
+demos\ui\controls\aspectratio\aspectratio.css
+demos\ui\controls\aspectratio\aspectratio.html
+demos\ui\controls\aspectratio\aspectratio.js
+demos\ui\controls\aspectratio\aspectratio.less
 demos\ui\controls\dataform\overview\dataform.css
 demos\ui\controls\dataform\overview\dataform.html
 demos\ui\controls\dataform\overview\dataform.js
@@ -312,6 +322,10 @@ demos\ui\controls\hub\home.html
 demos\ui\controls\hub\home.js
 demos\ui\controls\hub\home.less
 demos\ui\controls\hub\home.min.css
+demos\ui\controls\itemswipe\itemswipe.css
+demos\ui\controls\itemswipe\itemswipe.html
+demos\ui\controls\itemswipe\itemswipe.js
+demos\ui\controls\itemswipe\itemswipe.less
 demos\ui\controls\listlayout\home.css
 demos\ui\controls\listlayout\home.css.map
 demos\ui\controls\listlayout\home.html
@@ -360,6 +374,10 @@ demos\ui\controls\tilemenu\tilemenu.css.map
 demos\ui\controls\tilemenu\tilemenu.html
 demos\ui\controls\tilemenu\tilemenu.js
 demos\ui\controls\tilemenu\tilemenu.less
+demos\ui\controls\visualstate\visualstate.css
+demos\ui\controls\visualstate\visualstate.html
+demos\ui\controls\visualstate\visualstate.js
+demos\ui\controls\visualstate\visualstate.less
 demos\ui\ui.css
 demos\ui\ui.css.map
 demos\ui\ui.html

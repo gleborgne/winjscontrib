@@ -17,6 +17,8 @@
             options = options || {};
             this.moveDivider = options.moveDivider || 1;
             this.threshold = options.threshold || 40;
+            this.touchOnly = false;
+            this.minSwipeDistance = options.minSwipeDistance || 100;
             this.direction = options.direction || 'horizontal';
             if (!this.element.winControl)
                 this.element.winControl = this;
@@ -37,7 +39,8 @@
                 if (this.element.onpointerdown !== undefined) {
                     this.eventTracker.addEvent(this.element, 'pointerdown', this._processDown.bind(this), true);
                     this.eventTracker.addEvent(this.element, 'pointerup', this._processUp.bind(this), true);
-                    //this.eventTracker.addEvent(this.element, 'pointerleave', this._processUp.bind(this), true);
+                    //this.eventTracker.addEvent(this.element, 'pointerleave', this._processLeave.bind(this), true);
+                    this.eventTracker.addEvent(this.element, 'pointercancel', this._processCancel.bind(this), true);
                     this.eventTracker.addEvent(this.element, 'pointermove', this._processMove.bind(this), true);
                 } else if (window.Touch) {
                     this.eventTracker.addEvent(this.element, 'touchstart', this._processDown.bind(this), true);
@@ -69,7 +72,7 @@
                         transformOffsetX = matrix.m41;
                         transformOffsetY = matrix.m42;
                     }
-                    this.ptDown = { x: event.screenX, y: event.screenY, confirmed: false, transformOffsetX: transformOffsetX, transformOffsetY: transformOffsetY };
+                    this.ptDown = { x: event.screenX, y: event.screenY, confirmed: false, transformOffsetX: transformOffsetX, transformOffsetY: transformOffsetY, maxDX: 0, maxDY: 0 };
                 }
             },
 
@@ -77,7 +80,46 @@
                 if (this.disabled)
                     return;
 
+                //if (event.pointerId && this.touchOnly && event.pointerType != "touch")
+                //    return;
+
+                if (this.capturePointerOnDown) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
                 this._initPtDown(event);
+
+                if (this.capturePointerOnDown && event.pointerId && this.element.setPointerCapture) {
+                    this.element.setPointerCapture(event.pointerId);
+                }
+            },
+
+            _processLeave: function (event) {
+                var ctrl = this;
+                var elt = event.currentTarget || event.target;
+                console.log("pointer leave");
+                ctrl._processUp(event);
+                //if (event.pointerId && ctrl.element.releasePointerCapture) {
+                //    try {
+                //        ctrl.element.releasePointerCapture(event.pointerId);
+                //    } catch (exception) { }
+                //}
+            },
+
+            _processCancel: function (event) {
+                var ctrl = this;
+                var elt = event.currentTarget || event.target;
+                console.log("pointer cancel");
+                var elt = event.currentTarget || event.target;
+                if (event.pointerId && ctrl.element.releasePointerCapture) {
+                    try {
+                        ctrl.element.releasePointerCapture(event.pointerId);
+                    } catch (exception) { }
+                }
+                ctrl._cancelMove();
+                ctrl.ptDown = null;
+                ctrl.dispatchEvent('swipeend');
             },
 
             _processUp: function (event) {
@@ -97,26 +139,52 @@
                         var dX = ctrl.ptDown.x - event.screenX;
                         var dY = ctrl.ptDown.y - event.screenY;
                     }
+                    var moveval = this.ptDown.transformOffsetX + (-dX - this.threshold) / (window.devicePixelRatio * this.moveDivider);
+                    
+                    var enableSwipe = true;
+                    if (event.pointerId && this.touchOnly && event.pointerType != "touch") {
+                        enableSwipe = false;
+                    }
 
-                    if (Math.abs(dX) > (ctrl.element.clientWidth / ctrl.thresholdFactor)) {
+                    if (enableSwipe && ctrl._acceptSwipe(moveval)) {
                         if (this.setMoveIntent)
                             cancelAnimationFrame(this.setMoveIntent);
                         var arg = { dX: dX, dY: dY, move: (-dX - ctrl.threshold), screenMove: ctrl.ptDown.screenMove, direction: dX > 0 ? 'left' : 'right', handled: false };
-                        ctrl.dispatchEvent('swipe', arg);
-                        //setImmediate(function () {
-                        debugLog('swipe slide, swipeHandled ' + ctrl.swipeHandled + '/' + arg.handled + '/' + ctrl.zurgl);
-                        if (!ctrl.swipeHandled) {
+                        if ((arg.direction == "left" && ctrl.allowed.left) || (arg.direction == "right" && ctrl.allowed.right)) {
+                            ctrl.dispatchEvent('swipe', arg);
+                            debugLog('swipe slide, swipeHandled ' + ctrl.swipeHandled + '/' + arg.handled + '/' + ctrl.zurgl);
+                            if (!ctrl.swipeHandled) {
+                                ctrl._cancelMove();
+                            }
+                        } else {
                             ctrl._cancelMove();
                         }
-                        //});
                     } else {
-                        ctrl._cancelMove();
+                        if (this.ptDown.maxDX < ctrl.threshold && this.ptDown.maxDY < ctrl.threshold) {
+                            ctrl.dispatchEvent('invoked', arg);
+                            if (!ctrl.swipeHandled) {
+                                ctrl._cancelMove();
+                            }
+                        } else {
+                            ctrl._cancelMove();
+                        }
                     }
                 } else {
                     ctrl._cancelMove();
                 }
 
                 ctrl.ptDown = null;
+                ctrl.dispatchEvent('swipeend');
+            },
+
+            _acceptSwipe: function (move) {
+                var ctrl = this;
+                var abs = Math.abs(move);
+
+                if (abs < ctrl.minSwipeDistance)
+                    return false;
+
+                return abs > (ctrl.element.clientWidth / ctrl.thresholdFactor)
             },
 
             _toSize: function (x) {
@@ -157,6 +225,7 @@
             },
 
             _processMove: function (event) {
+                var ctrl = this;
                 if (this.disabled)
                     return;
 
@@ -165,6 +234,14 @@
                 }
 
                 if (this.ptDown) {
+                    var enableSwipe = true;
+                    if (event.pointerId && this.touchOnly && event.pointerType != "touch") {
+                        enableSwipe = false;
+                    }
+
+                    if (!enableSwipe)
+                        return;
+
                     if (event.changedTouches) {
                         var dX = this.ptDown.x - event.changedTouches[0].screenX;
                         var dY = this.ptDown.y - event.changedTouches[0].screenY;
@@ -173,22 +250,28 @@
                         var dX = this.ptDown.x - event.screenX;
                         var dY = this.ptDown.y - event.screenY;
                     }
-
-                    if (Math.abs(dX) > 5 && Math.abs(dX) > Math.abs(dY)) {
+                    var adX = Math.abs(dX);
+                    var adY = Math.abs(dY);
+                    this.ptDown.maxDX = Math.max(this.ptDown.maxDX, adX);
+                    this.ptDown.maxDY = Math.max(this.ptDown.maxDY, adY);
+                    
+                    if (adX > 5 && adX > adY) {
                         event.preventDefault(); //webkit...
                         event.stopPropagation();
                     }
 
                     if (!this.ptDown.confirmed) {
-                        if (Math.abs(dY) > this.threshold) {
+                        if (adY > this.threshold) {
                             this.ptDown = null;
                             return;
                         }
-                        if (Math.abs(dX) > this.threshold) {
+                        if (adX > this.threshold) {
+                            var moveval = this.ptDown.transformOffsetX + (-dX - this.threshold) / (window.devicePixelRatio * this.moveDivider);
                             this.ptDown.confirmed = true;
                             this.swipeHandled = false;
                             debugLog('start swipe');
-                            this.dispatchEvent('swipestart');
+                            var arg = { dX: dX, dY: dY, move: (-dX - ctrl.threshold), screenMove: ctrl.ptDown.screenMove, direction: dX > 0 ? 'left' : 'right', handled: false };
+                            this.dispatchEvent('swipestart', arg);
                             var elt = event.currentTarget || event.target;
                             if (event.pointerId && this.element.setPointerCapture) {
                                 this.element.setPointerCapture(event.pointerId);
@@ -200,7 +283,7 @@
                         var moveval = this.ptDown.transformOffsetX + (-dX - this.threshold) / (window.devicePixelRatio * this.moveDivider);
                         debugLog('swipe move ' + dX + ' / ' + moveval);
                         var screenMove = this.setMove(moveval, -dX);
-                        this.dispatchEvent('swipeprogress', { screenMove: screenMove, move: (-dX - this.threshold) });
+                        this.dispatchEvent('swipeprogress', { screenMove: screenMove, move: (-dX - this.threshold), direction: dX > 0 ? 'left' : 'right', accept: ctrl._acceptSwipe(moveval), dX: dX, dY: dY });
                     }
                 }
                 else {
