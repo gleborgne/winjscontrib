@@ -144,7 +144,7 @@
          */
         {
             /**
-             * @field {
+             * @field 
              * @type HTMLElement
              */
             content: {
@@ -154,7 +154,7 @@
             },
 
             /**
-             * @field {
+             * @field 
              * @type HTMLElement
              */
             display: {

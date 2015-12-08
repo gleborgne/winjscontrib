@@ -74,5 +74,24 @@
 .itemswipe-page .listitem .face {
   background-color: white;
   touch-action: pan-y;
-  padding: 20px;
+  padding: 20px 60px 20px 20px;
+}
+.itemswipe-page .listitem .face .actions {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease-out;
+}
+.itemswipe-page .listitem .face .actions .action {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  background-color: #CCC;
+  text-align: center;
+}
+.itemswipe-page .listitem.mousehover .face .actions {
+  opacity: 1;
+  pointer-events: all;
 }

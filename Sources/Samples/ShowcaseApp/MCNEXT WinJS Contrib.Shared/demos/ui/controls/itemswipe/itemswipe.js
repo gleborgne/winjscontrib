@@ -71,25 +71,22 @@
             });
 
             page.eventTracker.addEvent(page.listview.element, "itemswipeleft", function (arg) {
-                console.log("item swiped to left");                
-                var idx = page.listviewdata.indexOf(arg.detail.item.backingData);
-                if (idx >= 0) {
-                    page.listviewdata.splice(idx, 1);
-                }
-            });
-
-            page.eventTracker.addEvent(page.listview.element, "itemswiperight", function (arg) {
-                console.log("item swiped to right");
-                var idx = page.listviewdata.indexOf(arg.detail.item.backingData);
-                if (idx >= 0) {
-                    page.listviewdata.splice(idx, 1);
-                }
+                console.log("item swiped to left");
+                page.removeListViewItem(arg, arg.detail.item.backingData);
             });
 
             page.eventTracker.addEvent(page.listview.element, "itemswipeinvoked", function (arg) {
                 console.log("item swipe invoked");
                 WinJSContrib.Alerts.message("swiped", "you invoked item " + arg.detail.item.name);
             });
+        },
+
+        removeListViewItem: function (arg, item) {
+            var page = this;
+            var idx = page.listviewdata.indexOf(item);
+            if (idx >= 0) {
+                page.listviewdata.splice(idx, 1);
+            }
         },
 
         ready: function (element, options) {

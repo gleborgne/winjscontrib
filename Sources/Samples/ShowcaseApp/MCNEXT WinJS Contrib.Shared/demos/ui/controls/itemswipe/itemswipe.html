@@ -39,6 +39,11 @@
                         </div>
                         <div class="card face">
                             <div class="name" data-win-bind="textContent : name"></div>
+                            <div class="actions">
+                                <div class="action delete" data-win-bind="removeListViewItem : this WinJSContrib.Bindings.itemTap">
+                                    <i class="sgicon-trash"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

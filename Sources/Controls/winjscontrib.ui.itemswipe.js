@@ -3,7 +3,15 @@
 (function () {
 	'use strict';
 	WinJS.Namespace.define("WinJSContrib.UI", {	
-	    ItemSwipe: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
+	    ItemSwipe: WinJS.Class.mix(WinJS.Class.define(
+            /**
+             * @classdesc 
+             * enable cross swipe on list items to trigger actions by swiping item
+             * @class WinJSContrib.UI.ItemSwipe
+             * @param {HTMLElement} element DOM element containing the control
+             * @param {Object} options
+             */
+            function ctor(element, options) {
 	        var ctrl = this;
 			this.element = element || document.createElement('DIV');
 			options = options || {};
@@ -34,6 +42,17 @@
 			        this.swipeslide.allowed.right = false;
 			    }
 
+			    this.eventTracker.addEvent(this.element, "pointermove", function (arg) {
+			        if (arg.pointerType == "mouse") {
+			            ctrl.element.classList.add("mousehover");
+			            clearTimeout(ctrl.hoverTimeout);
+			            ctrl.hoverTimeout = setTimeout(function () {
+			                if (ctrl.element)
+			                    ctrl.element.classList.remove("mousehover");
+			            }, 1000);
+			        }
+			    }, true);
+
 			    this.eventTracker.addEvent(this.swipeslide, "swipestart", function (arg) {
 			        ctrl._processSwipeStart(arg);
 			    });
@@ -58,6 +77,10 @@
 			
 			
 		},{
+		    /**
+             * data item
+             * @field
+             */
 			item: {
 				get: function(){
 				    return this._item;
@@ -67,6 +90,11 @@
 				}
 			},
 
+		    /**
+             * minimum swipe distance for accepting action
+             * @field
+             * @type string
+             */
 			minSwipe : {
 			    get: function(){
 			        return this._minSwipe;
@@ -79,6 +107,11 @@
 			    }
 			},
 
+		    /**
+             * minimum swipe distance (expressed as a proportion like 2 for 50%) to element size for accepting action
+             * @field
+             * @type string
+             */
 			thresholdFactor: {
 			    get: function () {
 			        return this._thresholdFactor;

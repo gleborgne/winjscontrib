@@ -31,11 +31,10 @@
 
             registerEvents: function () {
                 if (this.element.onpointerdown !== undefined) {
-                    this.eventTracker.addEvent(this.element, 'pointerdown', this._processDown.bind(this), true);
-                    this.eventTracker.addEvent(this.element, 'pointerup', this._processUp.bind(this), true);
-                    //this.eventTracker.addEvent(this.element, 'pointerleave', this._processLeave.bind(this), true);
-                    this.eventTracker.addEvent(this.element, 'pointercancel', this._processCancel.bind(this), true);
-                    this.eventTracker.addEvent(this.element, 'pointermove', this._processMove.bind(this), true);
+                    this.eventTracker.addEvent(this.element, 'pointerdown', this._processDown.bind(this), false);
+                    this.eventTracker.addEvent(this.element, 'pointerup', this._processUp.bind(this), false);
+                    this.eventTracker.addEvent(this.element, 'pointercancel', this._processCancel.bind(this), false);
+                    this.eventTracker.addEvent(this.element, 'pointermove', this._processMove.bind(this), false);
                 } else if (window.Touch) {
                     this.eventTracker.addEvent(this.element, 'touchstart', this._processDown.bind(this), true);
                     this.eventTracker.addEvent(this.element, 'touchend', this._processUp.bind(this), true);
@@ -84,9 +83,9 @@
 
                 this._initPtDown(event);
 
-                if (this.capturePointerOnDown && event.pointerId && this.element.setPointerCapture) {
-                    this.element.setPointerCapture(event.pointerId);
-                }
+                //if (this.capturePointerOnDown && event.pointerId && this.element.setPointerCapture) {
+                //    this.element.setPointerCapture(event.pointerId);
+                //}
             },
 
             _processLeave: function (event) {

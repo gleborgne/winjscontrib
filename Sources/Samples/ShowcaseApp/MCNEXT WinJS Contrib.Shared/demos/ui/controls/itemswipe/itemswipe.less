@@ -1,8 +1,8 @@
 ﻿.itemswipe-page {
-    .bloc-content{
-        display : -ms-grid;
-        -ms-grid-columns : 1fr 1fr;
-        -ms-grid-rows : 1fr;
+    .bloc-content {
+        display: -ms-grid;
+        -ms-grid-columns: 1fr 1fr;
+        -ms-grid-rows: 1fr;
     }
 
     #itemslist {
@@ -12,7 +12,7 @@
         touch-action: pan-y;
         overflow-x: hidden;
         overflow-y: auto;
-        -ms-grid-column : 1;
+        -ms-grid-column: 1;
     }
 
     #listview {
@@ -20,69 +20,95 @@
         height: 100%;
         border: 1px solid #DDD;
         touch-action: pan-y;
-        -ms-grid-column : 2;
+        -ms-grid-column: 2;
     }
 
     .listitem {
         position: relative;
         width: 100%;
         height: 80px;
-        border-bottom : 1px solid #DDD;
-        overflow : hidden;
+        border-bottom: 1px solid #DDD;
+        overflow: hidden;
 
         .card {
             position: absolute;
             width: 100%;
             height: 100%;
-            box-sizing:border-box;
+            box-sizing: border-box;
         }
 
         .swipe-to-left, .swipe-to-right {
             background-color: #777;
-            visibility : hidden;
-            transition : background-color 500ms ease-out, opacity 500ms ease-out;
-            opacity : 0.2;
+            visibility: hidden;
+            transition: background-color 500ms ease-out, opacity 500ms ease-out;
+            opacity: 0.2;
             color: white;
-            padding : 4px 16px;
+            padding: 4px 16px;
 
             i {
-                display:block;
-                &.sgicon-2x{
-                    font-size : 1.7em;
+                display: block;
+
+                &.sgicon-2x {
+                    font-size: 1.7em;
                 }
             }
 
             .label {
-                font-size : 0.7em;
-                line-height : 1.1em;
+                font-size: 0.7em;
+                line-height: 1.1em;
             }
 
-            &.accepted{
-                opacity : 1;
+            &.accepted {
+                opacity: 1;
             }
 
-            &.swiping{
-                visibility : visible;
+            &.swiping {
+                visibility: visible;
             }
         }
 
         .swipe-to-left {
-            text-align :right;
-            &.accepted{
-                background-color : indianred;
+            text-align: right;
+
+            &.accepted {
+                background-color: indianred;
             }
         }
 
         .swipe-to-right {
-            &.accepted{
-                background-color : forestgreen;
+            &.accepted {
+                background-color: forestgreen;
             }
         }
 
         .face {
             background-color: white;
             touch-action: pan-y;
-            padding: 20px;
+            padding: 20px 60px 20px 20px;            
+
+            .actions {
+                position: absolute;
+                right: 4px;
+                top: 4px;  
+                opacity : 0; 
+                pointer-events : none;
+                transition : opacity 200ms ease-out;
+
+                .action {
+                    width: 32px;
+                    height: 32px;
+                    line-height: 32px;
+                    background-color: #CCC;
+                    text-align : center;
+                }
+            }
+        }
+
+        &.mousehover {
+            .face .actions {
+                opacity : 1; 
+                pointer-events : all;
+            }
         }
     }
 }
