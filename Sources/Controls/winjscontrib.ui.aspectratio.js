@@ -2,7 +2,15 @@
 (function () {
     'use strict';
     WinJS.Namespace.define("WinJSContrib.UI", {
-        AspectRatio: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
+        AspectRatio: WinJS.Class.mix(WinJS.Class.define(
+        /**
+             * @classdesc 
+             * resize item based on its proportions
+             * @class WinJSContrib.UI.AspectRatio
+             * @param {HTMLElement} element DOM element owning the control
+             * @param {Object} options
+             */
+        function ctor(element, options) {
             this.element = element || document.createElement('DIV');
             options = options || {};
             this.element.winControl = this;
@@ -12,7 +20,15 @@
             this.element.classList.add('mcn-layout-ctrl');
             WinJS.UI.setOptions(this, options);
             this.render();
-        }, {
+        }, 
+        /**
+         * @lends WinJSContrib.UI.AspectRatio.prototype
+         */
+        {
+            /**
+             * base width
+             * @field
+             */
             baseWidth: {
                 get: function () {
                     return this._baseWidth;
@@ -22,6 +38,10 @@
                 }
             },
 
+            /**
+             * base width minimum
+             * @field
+             */
             baseWidthMin: {
                 get: function () {
                     return this._baseWidthMin;
@@ -31,6 +51,10 @@
                 }
             },
 
+            /**
+             * base width margin
+             * @field
+             */
             baseWidthMargin: {
                 get: function () {
                     return this._baseWidthMargin || 0;
@@ -40,6 +64,10 @@
                 }
             },
 
+            /**
+             * base height
+             * @field
+             */
             baseHeight: {
                 get: function () {
                     return this._baseHeight;
@@ -49,6 +77,10 @@
                 }
             },
 
+            /**
+             * base height minimum
+             * @field
+             */
             baseHeightMin: {
                 get: function () {
                     return this._baseHeightMin;
@@ -58,6 +90,10 @@
                 }
             },
 
+            /**
+             * base height margin
+             * @field
+             */
             baseHeightMargin: {
                 get: function () {
                     return this._baseHeightMargin || 0;
@@ -67,6 +103,10 @@
                 }
             },
 
+            /**
+             * aspect ratio
+             * @field
+             */
             ratio: {
                 get: function () {
                     return this._ratio;
@@ -76,6 +116,10 @@
                 }
             },
 
+            /**
+             * based on
+             * @field
+             */
             basedOn: {
                 get: function () {
                     return this._basedOn;
@@ -85,6 +129,10 @@
                 }
             },
 
+            /**
+             * target
+             * @field
+             */
             target: {
                 get: function () {
                     return this._target;

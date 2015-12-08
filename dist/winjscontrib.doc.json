@@ -129,56 +129,6 @@
                 "filename": "winjscontrib.ui.dataform.js",
                 "lineno": 40
             }
-        },
-        {
-            "kind": "member",
-            "name": "item",
-            "fullname": "item",
-            "isEnum": null,
-            "access": "",
-            "virtual": false,
-            "description": "data item",
-            "type": "",
-            "meta": {
-                "filename": "winjscontrib.ui.itemswipe.js",
-                "lineno": 90
-            }
-        },
-        {
-            "kind": "member",
-            "name": "minSwipe",
-            "fullname": "minSwipe",
-            "isEnum": null,
-            "access": "",
-            "virtual": false,
-            "description": "minimum swipe distance for accepting action",
-            "type": {
-                "names": [
-                    "string"
-                ]
-            },
-            "meta": {
-                "filename": "winjscontrib.ui.itemswipe.js",
-                "lineno": 104
-            }
-        },
-        {
-            "kind": "member",
-            "name": "thresholdFactor",
-            "fullname": "thresholdFactor",
-            "isEnum": null,
-            "access": "",
-            "virtual": false,
-            "description": "minimum swipe distance (expressed as a proportion like 2 for 50%) to element size for accepting action",
-            "type": {
-                "names": [
-                    "string"
-                ]
-            },
-            "meta": {
-                "filename": "winjscontrib.ui.itemswipe.js",
-                "lineno": 121
-            }
         }
     ],
     "functions": [
@@ -6861,6 +6811,56 @@
                                     "meta": {
                                         "filename": "winjscontrib.ui.hubcontrol.js",
                                         "lineno": 81
+                                    }
+                                },
+                                {
+                                    "kind": "member",
+                                    "name": "item",
+                                    "fullname": "WinJSContrib.UI.HubControl#item",
+                                    "isEnum": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "data item",
+                                    "type": "",
+                                    "meta": {
+                                        "filename": "winjscontrib.ui.itemswipe.js",
+                                        "lineno": 95
+                                    }
+                                },
+                                {
+                                    "kind": "member",
+                                    "name": "minSwipe",
+                                    "fullname": "WinJSContrib.UI.HubControl#minSwipe",
+                                    "isEnum": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "minimum swipe distance for accepting action",
+                                    "type": {
+                                        "names": [
+                                            "string"
+                                        ]
+                                    },
+                                    "meta": {
+                                        "filename": "winjscontrib.ui.itemswipe.js",
+                                        "lineno": 109
+                                    }
+                                },
+                                {
+                                    "kind": "member",
+                                    "name": "thresholdFactor",
+                                    "fullname": "WinJSContrib.UI.HubControl#thresholdFactor",
+                                    "isEnum": null,
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "minimum swipe distance (expressed as a proportion like 2 for 50%) to element size for accepting action",
+                                    "type": {
+                                        "names": [
+                                            "string"
+                                        ]
+                                    },
+                                    "meta": {
+                                        "filename": "winjscontrib.ui.itemswipe.js",
+                                        "lineno": 126
                                     }
                                 }
                             ]

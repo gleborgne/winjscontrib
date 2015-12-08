@@ -77,7 +77,11 @@
 
 			
 			
-		},{
+        },
+        /**
+         * @lends WinJSContrib.UI.ItemSwipe.prototype
+         */
+        {
 		    /**
              * data item
              * @field
