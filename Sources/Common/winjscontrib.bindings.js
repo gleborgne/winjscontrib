@@ -485,7 +485,7 @@
         });
 
         /**
-         * Add tap by looking for a function in parent scope control
+         * Add tap by looking for a function in parent scope control, and add binded item to tap callback
          * @function
          * @param {Object} source object owning data
          * @param {string[]} sourceProperty path to object data

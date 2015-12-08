@@ -1,49 +1,103 @@
 {
-    "functions": [
-        {
-            "kind": "function",
-            "name": "WinJSContrib.UI.MediaTrigger#dispose\nrelease media trigger",
-            "fullname": "WinJSContrib.UI.MediaTrigger#dispose\nrelease media trigger",
-            "access": "",
-            "virtual": false,
-            "description": "",
-            "parameters": [],
-            "examples": [],
-            "meta": {
-                "filename": "winjscontrib.core.js",
-                "lineno": 1579
-            }
-        },
-        {
-            "kind": "function",
-            "name": "WinJSContrib.UI.MediaTrigger#check\nCheck all registered queries",
-            "fullname": "WinJSContrib.UI.MediaTrigger#check\nCheck all registered queries",
-            "access": "",
-            "virtual": false,
-            "description": "",
-            "parameters": [],
-            "examples": [],
-            "meta": {
-                "filename": "winjscontrib.core.js",
-                "lineno": 1625
-            }
-        },
-        {
-            "kind": "function",
-            "name": "WinJSContrib.Search.Stemming.Pipeline#clear\nremove all stemming functions from pipeline",
-            "fullname": "WinJSContrib.Search.Stemming.Pipeline#clear\nremove all stemming functions from pipeline",
-            "access": "",
-            "virtual": false,
-            "description": "",
-            "parameters": [],
-            "examples": [],
-            "meta": {
-                "filename": "winjscontrib.search.js",
-                "lineno": 669
-            }
-        }
-    ],
     "properties": [
+        {
+            "kind": "member",
+            "name": "Levels[undefined]",
+            "fullname": "Levels[undefined]",
+            "isEnum": null,
+            "access": "",
+            "virtual": false,
+            "description": "disabled",
+            "type": "",
+            "meta": {
+                "filename": "winjscontrib.core.js",
+                "lineno": 117
+            }
+        },
+        {
+            "kind": "member",
+            "name": "Levels[undefined]",
+            "fullname": "Levels[undefined]",
+            "isEnum": null,
+            "access": "",
+            "virtual": false,
+            "description": "disabled",
+            "type": "",
+            "meta": {
+                "filename": "winjscontrib.core.js",
+                "lineno": 121
+            }
+        },
+        {
+            "kind": "member",
+            "name": "Levels[undefined]",
+            "fullname": "Levels[undefined]",
+            "isEnum": null,
+            "access": "",
+            "virtual": false,
+            "description": "log error",
+            "type": "",
+            "meta": {
+                "filename": "winjscontrib.core.js",
+                "lineno": 125
+            }
+        },
+        {
+            "kind": "member",
+            "name": "Levels[undefined]",
+            "fullname": "Levels[undefined]",
+            "isEnum": null,
+            "access": "",
+            "virtual": false,
+            "description": "log warn and error",
+            "type": "",
+            "meta": {
+                "filename": "winjscontrib.core.js",
+                "lineno": 129
+            }
+        },
+        {
+            "kind": "member",
+            "name": "Levels[undefined]",
+            "fullname": "Levels[undefined]",
+            "isEnum": null,
+            "access": "",
+            "virtual": false,
+            "description": "log info, warn, error",
+            "type": "",
+            "meta": {
+                "filename": "winjscontrib.core.js",
+                "lineno": 133
+            }
+        },
+        {
+            "kind": "member",
+            "name": "Levels[undefined]",
+            "fullname": "Levels[undefined]",
+            "isEnum": null,
+            "access": "",
+            "virtual": false,
+            "description": "log debug, info, warn, error",
+            "type": "",
+            "meta": {
+                "filename": "winjscontrib.core.js",
+                "lineno": 137
+            }
+        },
+        {
+            "kind": "member",
+            "name": "Levels[undefined]",
+            "fullname": "Levels[undefined]",
+            "isEnum": null,
+            "access": "",
+            "virtual": false,
+            "description": "verbose mode",
+            "type": "",
+            "meta": {
+                "filename": "winjscontrib.core.js",
+                "lineno": 141
+            }
+        },
         {
             "kind": "member",
             "name": "WinJSContrib",
@@ -73,7 +127,101 @@
             },
             "meta": {
                 "filename": "winjscontrib.ui.dataform.js",
-                "lineno": 41
+                "lineno": 40
+            }
+        },
+        {
+            "kind": "member",
+            "name": "item",
+            "fullname": "item",
+            "isEnum": null,
+            "access": "",
+            "virtual": false,
+            "description": "data item",
+            "type": "",
+            "meta": {
+                "filename": "winjscontrib.ui.itemswipe.js",
+                "lineno": 90
+            }
+        },
+        {
+            "kind": "member",
+            "name": "minSwipe",
+            "fullname": "minSwipe",
+            "isEnum": null,
+            "access": "",
+            "virtual": false,
+            "description": "minimum swipe distance for accepting action",
+            "type": {
+                "names": [
+                    "string"
+                ]
+            },
+            "meta": {
+                "filename": "winjscontrib.ui.itemswipe.js",
+                "lineno": 104
+            }
+        },
+        {
+            "kind": "member",
+            "name": "thresholdFactor",
+            "fullname": "thresholdFactor",
+            "isEnum": null,
+            "access": "",
+            "virtual": false,
+            "description": "minimum swipe distance (expressed as a proportion like 2 for 50%) to element size for accepting action",
+            "type": {
+                "names": [
+                    "string"
+                ]
+            },
+            "meta": {
+                "filename": "winjscontrib.ui.itemswipe.js",
+                "lineno": 121
+            }
+        }
+    ],
+    "functions": [
+        {
+            "kind": "function",
+            "name": "WinJSContrib.UI.MediaTrigger#dispose\nrelease media trigger",
+            "fullname": "WinJSContrib.UI.MediaTrigger#dispose\nrelease media trigger",
+            "access": "",
+            "virtual": false,
+            "description": "",
+            "parameters": [],
+            "examples": [],
+            "meta": {
+                "filename": "winjscontrib.core.js",
+                "lineno": 2088
+            }
+        },
+        {
+            "kind": "function",
+            "name": "WinJSContrib.UI.MediaTrigger#check\nCheck all registered queries",
+            "fullname": "WinJSContrib.UI.MediaTrigger#check\nCheck all registered queries",
+            "access": "",
+            "virtual": false,
+            "description": "",
+            "parameters": [],
+            "examples": [],
+            "meta": {
+                "filename": "winjscontrib.core.js",
+                "lineno": 2134
+            }
+        },
+        {
+            "kind": "function",
+            "name": "WinJSContrib.Search.Stemming.Pipeline#clear\nremove all stemming functions from pipeline",
+            "fullname": "WinJSContrib.Search.Stemming.Pipeline#clear\nremove all stemming functions from pipeline",
+            "access": "",
+            "virtual": false,
+            "description": "",
+            "parameters": [],
+            "examples": [],
+            "meta": {
+                "filename": "winjscontrib.search.js",
+                "lineno": 718
             }
         }
     ],
@@ -487,6 +635,61 @@
                         },
                         {
                             "kind": "function",
+                            "name": "showClassIf",
+                            "fullname": "WinJSContrib.Bindings.showClassIf",
+                            "access": "",
+                            "virtual": false,
+                            "description": "add css class based on truthy/falsy value from the source object\rcss class has to be precised through data-win-bind-args='{\"className\": \"\"}' attribute",
+                            "parameters": [
+                                {
+                                    "name": "source",
+                                    "fullname": null,
+                                    "type": "Object",
+                                    "description": "object owning data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "sourceProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to object data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "dest",
+                                    "fullname": null,
+                                    "type": "HTMLElement",
+                                    "description": "DOM element targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "destProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to DOM element property targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": [],
+                            "meta": {
+                                "filename": "winjscontrib.bindings.js",
+                                "lineno": 169
+                            }
+                        },
+                        {
+                            "kind": "function",
                             "name": "toBgImage",
                             "fullname": "WinJSContrib.Bindings.toBgImage",
                             "access": "",
@@ -537,7 +740,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
-                                "lineno": 168
+                                "lineno": 190
                             }
                         },
                         {
@@ -592,7 +795,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
-                                "lineno": 209
+                                "lineno": 231
                             }
                         },
                         {
@@ -647,7 +850,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
-                                "lineno": 242
+                                "lineno": 264
                             }
                         },
                         {
@@ -702,7 +905,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
-                                "lineno": 282
+                                "lineno": 304
                             }
                         },
                         {
@@ -757,7 +960,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
-                                "lineno": 293
+                                "lineno": 315
                             }
                         },
                         {
@@ -812,7 +1015,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
-                                "lineno": 333
+                                "lineno": 355
                             }
                         },
                         {
@@ -867,7 +1070,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
-                                "lineno": 345
+                                "lineno": 367
                             }
                         },
                         {
@@ -922,7 +1125,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
-                                "lineno": 369
+                                "lineno": 391
                             }
                         },
                         {
@@ -977,7 +1180,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
-                                "lineno": 393
+                                "lineno": 415
                             }
                         },
                         {
@@ -1034,7 +1237,7 @@
                             ],
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
-                                "lineno": 418
+                                "lineno": 440
                             }
                         },
                         {
@@ -1089,7 +1292,62 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.bindings.js",
-                                "lineno": 443
+                                "lineno": 465
+                            }
+                        },
+                        {
+                            "kind": "function",
+                            "name": "itemTap",
+                            "fullname": "WinJSContrib.Bindings.itemTap",
+                            "access": "",
+                            "virtual": false,
+                            "description": "Add tap by looking for a function in parent scope control, and add binded item to tap callback",
+                            "parameters": [
+                                {
+                                    "name": "source",
+                                    "fullname": null,
+                                    "type": "Object",
+                                    "description": "object owning data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "sourceProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to object data",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "dest",
+                                    "fullname": null,
+                                    "type": "HTMLElement",
+                                    "description": "DOM element targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "destProperty",
+                                    "fullname": null,
+                                    "type": "string[]",
+                                    "description": "path to DOM element property targeted by binding",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": [],
+                            "meta": {
+                                "filename": "winjscontrib.bindings.js",
+                                "lineno": 501
                             }
                         },
                         {
@@ -1316,6 +1574,527 @@
                 },
                 {
                     "kind": "namespace",
+                    "name": "Logs",
+                    "fullname": "WinJSContrib.Logs",
+                    "description": "",
+                    "access": "",
+                    "virtual": false,
+                    "meta": {
+                        "filename": "winjscontrib.core.js",
+                        "lineno": 104
+                    },
+                    "namespaces": [
+                        {
+                            "kind": "namespace",
+                            "name": "Appenders",
+                            "fullname": "WinJSContrib.Logs.Appenders",
+                            "description": "",
+                            "access": "",
+                            "virtual": false,
+                            "meta": {
+                                "filename": "winjscontrib.core.js",
+                                "lineno": 16
+                            },
+                            "classes": [
+                                {
+                                    "kind": "class",
+                                    "name": "ConsoleAppender",
+                                    "fullname": "WinJSContrib.Logs.Appenders.ConsoleAppender",
+                                    "description": "Appender writing to console",
+                                    "extends": [],
+                                    "access": "",
+                                    "virtual": false,
+                                    "fires": "",
+                                    "constructor": {
+                                        "name": "ConsoleAppender",
+                                        "description": "Appender writing to console",
+                                        "parameters": [],
+                                        "examples": []
+                                    },
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 18
+                                    },
+                                    "functions": [
+                                        {
+                                            "kind": "function",
+                                            "name": "clone",
+                                            "fullname": "WinJSContrib.Logs.Appenders.ConsoleAppender#clone",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "clone appender",
+                                            "parameters": [],
+                                            "examples": [],
+                                            "meta": {
+                                                "filename": "winjscontrib.core.js",
+                                                "lineno": 25
+                                            }
+                                        },
+                                        {
+                                            "kind": "function",
+                                            "name": "log",
+                                            "fullname": "WinJSContrib.Logs.Appenders.ConsoleAppender#log",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "log item",
+                                            "parameters": [
+                                                {
+                                                    "name": "message",
+                                                    "fullname": null,
+                                                    "type": "string",
+                                                    "description": "log message",
+                                                    "default": "",
+                                                    "variable": "",
+                                                    "optional": "",
+                                                    "nullable": ""
+                                                },
+                                                {
+                                                    "name": "log",
+                                                    "fullname": null,
+                                                    "type": "WinJSContrib.Logs.Levels",
+                                                    "description": "level",
+                                                    "default": "",
+                                                    "variable": "",
+                                                    "optional": "",
+                                                    "nullable": ""
+                                                }
+                                            ],
+                                            "examples": [],
+                                            "meta": {
+                                                "filename": "winjscontrib.core.js",
+                                                "lineno": 32
+                                            }
+                                        },
+                                        {
+                                            "kind": "function",
+                                            "name": "group",
+                                            "fullname": "WinJSContrib.Logs.Appenders.ConsoleAppender#group",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "create log group",
+                                            "parameters": [],
+                                            "examples": [],
+                                            "meta": {
+                                                "filename": "winjscontrib.core.js",
+                                                "lineno": 62
+                                            }
+                                        },
+                                        {
+                                            "kind": "function",
+                                            "name": "groupCollapsed",
+                                            "fullname": "WinJSContrib.Logs.Appenders.ConsoleAppender#groupCollapsed",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "create collapsed log group",
+                                            "parameters": [],
+                                            "examples": [],
+                                            "meta": {
+                                                "filename": "winjscontrib.core.js",
+                                                "lineno": 69
+                                            }
+                                        },
+                                        {
+                                            "kind": "function",
+                                            "name": "groupEnd",
+                                            "fullname": "WinJSContrib.Logs.Appenders.ConsoleAppender#groupEnd",
+                                            "access": "",
+                                            "virtual": false,
+                                            "description": "close log group",
+                                            "parameters": [],
+                                            "examples": [],
+                                            "meta": {
+                                                "filename": "winjscontrib.core.js",
+                                                "lineno": 76
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "functions": [
+                        {
+                            "kind": "function",
+                            "name": "getLogger",
+                            "fullname": "WinJSContrib.Logs.getLogger",
+                            "access": "",
+                            "virtual": false,
+                            "description": "get a logger, logger is created if it does not exists",
+                            "parameters": [
+                                {
+                                    "name": "name",
+                                    "fullname": null,
+                                    "type": "string",
+                                    "description": "name for the logger",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "config",
+                                    "fullname": null,
+                                    "type": "Object",
+                                    "description": "logger configuration",
+                                    "default": "",
+                                    "variable": "",
+                                    "optional": "",
+                                    "nullable": ""
+                                },
+                                {
+                                    "name": "appenders",
+                                    "fullname": null,
+                                    "type": "Object",
+                                    "description": "appenders to add to the logger",
+                                    "default": "",
+                                    "variable": true,
+                                    "optional": "",
+                                    "nullable": ""
+                                }
+                            ],
+                            "examples": [],
+                            "meta": {
+                                "filename": "winjscontrib.core.js",
+                                "lineno": 156
+                            },
+                            "returns": {
+                                "type": "WinJSContrib.Logs.Logger",
+                                "description": ""
+                            }
+                        }
+                    ],
+                    "classes": [
+                        {
+                            "kind": "class",
+                            "name": "Logger",
+                            "fullname": "WinJSContrib.Logs.Logger",
+                            "description": "",
+                            "extends": [],
+                            "access": "",
+                            "virtual": false,
+                            "fires": "",
+                            "constructor": {
+                                "name": "Logger",
+                                "description": "",
+                                "parameters": [
+                                    {
+                                        "name": "config",
+                                        "fullname": null,
+                                        "type": "Object",
+                                        "description": "logger configuration",
+                                        "default": "",
+                                        "variable": "",
+                                        "optional": "",
+                                        "nullable": ""
+                                    }
+                                ],
+                                "examples": []
+                            },
+                            "meta": {
+                                "filename": "winjscontrib.core.js",
+                                "lineno": 221
+                            },
+                            "functions": [
+                                {
+                                    "kind": "function",
+                                    "name": "addAppender",
+                                    "fullname": "WinJSContrib.Logs.Logger#addAppender",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "add appender to logger",
+                                    "parameters": [
+                                        {
+                                            "name": "appender",
+                                            "fullname": null,
+                                            "type": "Object",
+                                            "description": "",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 299
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "log",
+                                    "fullname": "WinJSContrib.Logs.Logger#log",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "Add log entry",
+                                    "parameters": [
+                                        {
+                                            "name": "message",
+                                            "fullname": null,
+                                            "type": "string",
+                                            "description": "log message",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        },
+                                        {
+                                            "name": "log",
+                                            "fullname": null,
+                                            "type": "WinJSContrib.Logs.Levels",
+                                            "description": "level",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 318
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "debug",
+                                    "fullname": "WinJSContrib.Logs.Logger#debug",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "add debug log entry",
+                                    "parameters": [
+                                        {
+                                            "name": "message",
+                                            "fullname": null,
+                                            "type": "string",
+                                            "description": "log message",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 357
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "debug",
+                                    "fullname": "WinJSContrib.Logs.Logger#debug",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "add debug log entry",
+                                    "parameters": [
+                                        {
+                                            "name": "message",
+                                            "fullname": null,
+                                            "type": "string",
+                                            "description": "log message",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 368
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "info",
+                                    "fullname": "WinJSContrib.Logs.Logger#info",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "add info log entry",
+                                    "parameters": [
+                                        {
+                                            "name": "message",
+                                            "fullname": null,
+                                            "type": "string",
+                                            "description": "log message",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        },
+                                        {
+                                            "name": "group",
+                                            "fullname": null,
+                                            "type": "string",
+                                            "description": "log group name",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": true,
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 379
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "warn",
+                                    "fullname": "WinJSContrib.Logs.Logger#warn",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "add warn log entry",
+                                    "parameters": [
+                                        {
+                                            "name": "message",
+                                            "fullname": null,
+                                            "type": "string",
+                                            "description": "log message",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 391
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "error",
+                                    "fullname": "WinJSContrib.Logs.Logger#error",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "add error log entry",
+                                    "parameters": [
+                                        {
+                                            "name": "message",
+                                            "fullname": null,
+                                            "type": "string",
+                                            "description": "log message",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 402
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "group",
+                                    "fullname": "WinJSContrib.Logs.Logger#group",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "create a log group",
+                                    "parameters": [
+                                        {
+                                            "name": "title",
+                                            "fullname": null,
+                                            "type": "string",
+                                            "description": "group title",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 413
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "groupCollapsed",
+                                    "fullname": "WinJSContrib.Logs.Logger#groupCollapsed",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "create a collapsed log group",
+                                    "parameters": [
+                                        {
+                                            "name": "title",
+                                            "fullname": null,
+                                            "type": "string",
+                                            "description": "group title",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 424
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "groupEnd",
+                                    "fullname": "WinJSContrib.Logs.Logger#groupEnd",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "end current group",
+                                    "parameters": [],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 435
+                                    }
+                                },
+                                {
+                                    "kind": "function",
+                                    "name": "getChildLogger",
+                                    "fullname": "WinJSContrib.Logs.Logger#getChildLogger",
+                                    "access": "",
+                                    "virtual": false,
+                                    "description": "Get a child logger",
+                                    "parameters": [
+                                        {
+                                            "name": "name",
+                                            "fullname": null,
+                                            "type": "string",
+                                            "description": "child logger name",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        },
+                                        {
+                                            "name": "level",
+                                            "fullname": null,
+                                            "type": "WinJSContrib.Logs.Levels",
+                                            "description": "",
+                                            "default": "",
+                                            "variable": "",
+                                            "optional": "",
+                                            "nullable": ""
+                                        }
+                                    ],
+                                    "examples": [],
+                                    "meta": {
+                                        "filename": "winjscontrib.core.js",
+                                        "lineno": 445
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "kind": "namespace",
                     "name": "Templates",
                     "fullname": "WinJSContrib.Templates",
                     "description": "",
@@ -1323,7 +2102,7 @@
                     "virtual": false,
                     "meta": {
                         "filename": "winjscontrib.core.js",
-                        "lineno": 1065
+                        "lineno": 1561
                     },
                     "functions": [
                         {
@@ -1348,7 +2127,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1073
+                                "lineno": 1569
                             },
                             "returns": {
                                 "type": "WinJS.Binding.Template",
@@ -1387,7 +2166,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1087
+                                "lineno": 1583
                             },
                             "returns": {
                                 "type": "function",
@@ -1426,7 +2205,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1104
+                                "lineno": 1600
                             },
                             "returns": {
                                 "type": "function",
@@ -1553,12 +2332,12 @@
                     "kind": "namespace",
                     "name": "Logging",
                     "fullname": "WinJSContrib.Logging",
-                    "description": "",
+                    "description": "This API is deprecated, please use WinJSContrib.Logs instead",
                     "access": "",
                     "virtual": false,
                     "meta": {
                         "filename": "winjscontrib.logger.js",
-                        "lineno": 11
+                        "lineno": 12
                     },
                     "properties": [
                         {
@@ -1576,7 +2355,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.logger.js",
-                                "lineno": 20
+                                "lineno": 22
                             },
                             "properties": [
                                 {
@@ -1679,7 +2458,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.logger.js",
-                                "lineno": 54
+                                "lineno": 56
                             },
                             "returns": {
                                 "type": "WinJSContrib.Logging.LoggerClass",
@@ -1716,7 +2495,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.logger.js",
-                                "lineno": 82
+                                "lineno": 84
                             },
                             "functions": [
                                 {
@@ -1741,7 +2520,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 111
+                                        "lineno": 113
                                     }
                                 },
                                 {
@@ -1786,7 +2565,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 122
+                                        "lineno": 124
                                     }
                                 },
                                 {
@@ -1831,7 +2610,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 148
+                                        "lineno": 150
                                     }
                                 },
                                 {
@@ -1866,7 +2645,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 164
+                                        "lineno": 166
                                     }
                                 },
                                 {
@@ -1901,7 +2680,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 173
+                                        "lineno": 175
                                     }
                                 },
                                 {
@@ -1936,7 +2715,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 182
+                                        "lineno": 184
                                     }
                                 },
                                 {
@@ -1971,7 +2750,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 191
+                                        "lineno": 193
                                     }
                                 },
                                 {
@@ -1996,7 +2775,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 200
+                                        "lineno": 202
                                     }
                                 },
                                 {
@@ -2021,7 +2800,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 211
+                                        "lineno": 213
                                     }
                                 },
                                 {
@@ -2035,7 +2814,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 222
+                                        "lineno": 224
                                     }
                                 },
                                 {
@@ -2070,7 +2849,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 259
+                                        "lineno": 261
                                     }
                                 }
                             ]
@@ -2086,7 +2865,7 @@
                             "virtual": false,
                             "meta": {
                                 "filename": "winjscontrib.logger.js",
-                                "lineno": 290
+                                "lineno": 292
                             },
                             "classes": [
                                 {
@@ -2106,7 +2885,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.logger.js",
-                                        "lineno": 292
+                                        "lineno": 294
                                     },
                                     "functions": [
                                         {
@@ -2120,7 +2899,7 @@
                                             "examples": [],
                                             "meta": {
                                                 "filename": "winjscontrib.logger.js",
-                                                "lineno": 299
+                                                "lineno": 301
                                             }
                                         },
                                         {
@@ -2165,7 +2944,7 @@
                                             "examples": [],
                                             "meta": {
                                                 "filename": "winjscontrib.logger.js",
-                                                "lineno": 306
+                                                "lineno": 308
                                             }
                                         },
                                         {
@@ -2179,7 +2958,7 @@
                                             "examples": [],
                                             "meta": {
                                                 "filename": "winjscontrib.logger.js",
-                                                "lineno": 325
+                                                "lineno": 327
                                             }
                                         },
                                         {
@@ -2193,7 +2972,7 @@
                                             "examples": [],
                                             "meta": {
                                                 "filename": "winjscontrib.logger.js",
-                                                "lineno": 332
+                                                "lineno": 334
                                             }
                                         },
                                         {
@@ -2207,7 +2986,7 @@
                                             "examples": [],
                                             "meta": {
                                                 "filename": "winjscontrib.logger.js",
-                                                "lineno": 339
+                                                "lineno": 341
                                             }
                                         }
                                     ]
@@ -2352,7 +3131,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.search.js",
-                                "lineno": 73
+                                "lineno": 75
                             },
                             "functions": [
                                 {
@@ -2366,7 +3145,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 102
+                                        "lineno": 113
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -2384,7 +3163,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 110
+                                        "lineno": 121
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -2402,7 +3181,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 119
+                                        "lineno": 130
                                     }
                                 },
                                 {
@@ -2416,7 +3195,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 132
+                                        "lineno": 143
                                     }
                                 },
                                 {
@@ -2430,7 +3209,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 139
+                                        "lineno": 150
                                     }
                                 },
                                 {
@@ -2444,7 +3223,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 146
+                                        "lineno": 157
                                     }
                                 },
                                 {
@@ -2458,7 +3237,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 162
+                                        "lineno": 173
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -2476,7 +3255,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 176
+                                        "lineno": 195
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -2505,7 +3284,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 212
+                                        "lineno": 242
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -2523,7 +3302,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 250
+                                        "lineno": 280
                                     }
                                 },
                                 {
@@ -2558,7 +3337,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 283
+                                        "lineno": 329
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -2587,7 +3366,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 293
+                                        "lineno": 339
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -2616,7 +3395,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 325
+                                        "lineno": 371
                                     }
                                 },
                                 {
@@ -2641,7 +3420,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 343
+                                        "lineno": 389
                                     }
                                 },
                                 {
@@ -2666,7 +3445,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 356
+                                        "lineno": 402
                                     }
                                 }
                             ]
@@ -2701,7 +3480,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.search.js",
-                                "lineno": 385
+                                "lineno": 431
                             },
                             "functions": [
                                 {
@@ -2736,7 +3515,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 409
+                                        "lineno": 455
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -2765,7 +3544,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 431
+                                        "lineno": 477
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -2794,7 +3573,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 445
+                                        "lineno": 491
                                     }
                                 },
                                 {
@@ -2808,7 +3587,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 476
+                                        "lineno": 525
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -2826,7 +3605,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 488
+                                        "lineno": 537
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -2844,7 +3623,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.search.js",
-                                        "lineno": 500
+                                        "lineno": 549
                                     }
                                 }
                             ]
@@ -2895,7 +3674,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1151
+                                "lineno": 1647
                             }
                         },
                         {
@@ -2909,7 +3688,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1233
+                                "lineno": 1729
                             }
                         },
                         {
@@ -2923,7 +3702,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1249
+                                "lineno": 1745
                             }
                         },
                         {
@@ -2937,7 +3716,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1265
+                                "lineno": 1761
                             }
                         },
                         {
@@ -2951,7 +3730,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1281
+                                "lineno": 1777
                             }
                         },
                         {
@@ -2986,7 +3765,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1297
+                                "lineno": 1793
                             },
                             "returns": {
                                 "type": "WinJS.Promise",
@@ -3015,7 +3794,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1331
+                                "lineno": 1827
                             },
                             "returns": {
                                 "type": "WinJS.Promise",
@@ -3044,7 +3823,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1362
+                                "lineno": 1858
                             },
                             "returns": {
                                 "type": "Array",
@@ -3073,7 +3852,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1385
+                                "lineno": 1881
                             },
                             "returns": {
                                 "type": "WinJS.Promise",
@@ -3112,7 +3891,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1438
+                                "lineno": 1934
                             }
                         },
                         {
@@ -3137,7 +3916,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1495
+                                "lineno": 2002
                             }
                         },
                         {
@@ -3172,7 +3951,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1534
+                                "lineno": 2043
                             }
                         },
                         {
@@ -3207,7 +3986,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1550
+                                "lineno": 2059
                             }
                         },
                         {
@@ -3242,7 +4021,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1670
+                                "lineno": 2178
                             },
                             "returns": {
                                 "type": "function",
@@ -3271,7 +4050,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1753
+                                "lineno": 2260
                             }
                         },
                         {
@@ -3296,7 +4075,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1767
+                                "lineno": 2274
                             }
                         },
                         {
@@ -3341,7 +4120,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1781
+                                "lineno": 2299
                             }
                         },
                         {
@@ -3376,7 +4155,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1955
+                                "lineno": 2504
                             }
                         },
                         {
@@ -3431,7 +4210,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.ui.dataform.js",
-                                "lineno": 390
+                                "lineno": 391
                             }
                         }
                     ],
@@ -3453,7 +4232,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1171
+                                "lineno": 1667
                             },
                             "functions": [
                                 {
@@ -3508,7 +4287,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1178
+                                        "lineno": 1674
                                     },
                                     "returns": {
                                         "type": "function",
@@ -3557,7 +4336,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1205
+                                        "lineno": 1701
                                     }
                                 },
                                 {
@@ -3571,7 +4350,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1220
+                                        "lineno": 1716
                                     }
                                 }
                             ]
@@ -3614,7 +4393,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1561
+                                "lineno": 2070
                             },
                             "functions": [
                                 {
@@ -3659,7 +4438,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1590
+                                        "lineno": 2099
                                     }
                                 },
                                 {
@@ -3704,7 +4483,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1638
+                                        "lineno": 2147
                                     }
                                 },
                                 {
@@ -3739,7 +4518,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1647
+                                        "lineno": 2156
                                     },
                                     "returns": {
                                         "type": "",
@@ -3788,7 +4567,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 1657
+                                        "lineno": 2166
                                     }
                                 }
                             ]
@@ -3853,7 +4632,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1979
+                                "lineno": 2528
                             },
                             "functions": [
                                 {
@@ -3878,7 +4657,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2022
+                                        "lineno": 2571
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -3907,7 +4686,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2032
+                                        "lineno": 2582
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -3936,7 +4715,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2042
+                                        "lineno": 2593
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -3965,7 +4744,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2052
+                                        "lineno": 2604
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -3983,7 +4762,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2062
+                                        "lineno": 2615
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4012,7 +4791,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2071
+                                        "lineno": 2625
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4041,7 +4820,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2081
+                                        "lineno": 2636
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4070,7 +4849,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2091
+                                        "lineno": 2647
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4109,7 +4888,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2101
+                                        "lineno": 2658
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4148,7 +4927,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2112
+                                        "lineno": 2670
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4187,7 +4966,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2123
+                                        "lineno": 2682
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4216,7 +4995,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2138
+                                        "lineno": 2697
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4255,7 +5034,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2148
+                                        "lineno": 2708
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4304,7 +5083,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2159
+                                        "lineno": 2720
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4343,7 +5122,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2174
+                                        "lineno": 2735
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4382,7 +5161,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 2185
+                                        "lineno": 2746
                                     },
                                     "returns": {
                                         "type": "WinJSContrib.UI.FluentDOM",
@@ -4534,7 +5313,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.childviewflyout.js",
-                                        "lineno": 153
+                                        "lineno": 156
                                     }
                                 },
                                 {
@@ -4548,7 +5327,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.childviewflyout.js",
-                                        "lineno": 161
+                                        "lineno": 164
                                     }
                                 },
                                 {
@@ -4593,7 +5372,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.childviewflyout.js",
-                                        "lineno": 293
+                                        "lineno": 299
                                     },
                                     "returns": {
                                         "type": "WinJS.Promise",
@@ -4611,7 +5390,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.childviewflyout.js",
-                                        "lineno": 339
+                                        "lineno": 345
                                     }
                                 }
                             ]
@@ -4654,7 +5433,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.ui.dataform.js",
-                                "lineno": 18
+                                "lineno": 17
                             },
                             "properties": [
                                 {
@@ -4672,7 +5451,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.dataform.js",
-                                        "lineno": 71
+                                        "lineno": 70
                                     }
                                 },
                                 {
@@ -4690,7 +5469,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.dataform.js",
-                                        "lineno": 82
+                                        "lineno": 81
                                     }
                                 },
                                 {
@@ -4708,7 +5487,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.dataform.js",
-                                        "lineno": 93
+                                        "lineno": 92
                                     }
                                 },
                                 {
@@ -4726,7 +5505,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.dataform.js",
-                                        "lineno": 105
+                                        "lineno": 104
                                     }
                                 },
                                 {
@@ -4898,7 +5677,7 @@
                                             "type": "",
                                             "meta": {
                                                 "filename": "winjscontrib.ui.dataform.js",
-                                                "lineno": 334
+                                                "lineno": 335
                                             }
                                         },
                                         {
@@ -4912,7 +5691,7 @@
                                             "type": "",
                                             "meta": {
                                                 "filename": "winjscontrib.ui.dataform.js",
-                                                "lineno": 353
+                                                "lineno": 354
                                             }
                                         },
                                         {
@@ -4926,7 +5705,7 @@
                                             "type": "",
                                             "meta": {
                                                 "filename": "winjscontrib.ui.dataform.js",
-                                                "lineno": 364
+                                                "lineno": 365
                                             }
                                         }
                                     ]
@@ -4973,7 +5752,7 @@
                             },
                             "meta": {
                                 "filename": "winjscontrib.ui.datasourcemanager.js",
-                                "lineno": 346
+                                "lineno": 355
                             },
                             "properties": [
                                 {
@@ -4991,7 +5770,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.datasourcemanager.js",
-                                        "lineno": 382
+                                        "lineno": 391
                                     }
                                 },
                                 {
@@ -5009,7 +5788,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.datasourcemanager.js",
-                                        "lineno": 393
+                                        "lineno": 405
                                     }
                                 },
                                 {
@@ -5027,7 +5806,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.datasourcemanager.js",
-                                        "lineno": 404
+                                        "lineno": 419
                                     }
                                 },
                                 {
@@ -5045,7 +5824,7 @@
                                     },
                                     "meta": {
                                         "filename": "winjscontrib.ui.datasourcemanager.js",
-                                        "lineno": 415
+                                        "lineno": 433
                                     }
                                 }
                             ],
@@ -5061,7 +5840,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.ui.datasourcemanager.js",
-                                        "lineno": 454
+                                        "lineno": 472
                                     }
                                 }
                             ]
@@ -6085,6 +6864,47 @@
                                     }
                                 }
                             ]
+                        },
+                        {
+                            "kind": "class",
+                            "name": "ItemSwipe",
+                            "fullname": "WinJSContrib.UI.ItemSwipe",
+                            "description": "enable cross swipe on list items to trigger actions by swiping item",
+                            "extends": [],
+                            "access": "",
+                            "virtual": false,
+                            "fires": "",
+                            "constructor": {
+                                "name": "ItemSwipe",
+                                "description": "",
+                                "parameters": [
+                                    {
+                                        "name": "element",
+                                        "fullname": null,
+                                        "type": "HTMLElement",
+                                        "description": "DOM element containing the control",
+                                        "default": "",
+                                        "variable": "",
+                                        "optional": "",
+                                        "nullable": ""
+                                    },
+                                    {
+                                        "name": "options",
+                                        "fullname": null,
+                                        "type": "Object",
+                                        "description": "",
+                                        "default": "",
+                                        "variable": "",
+                                        "optional": "",
+                                        "nullable": ""
+                                    }
+                                ],
+                                "examples": []
+                            },
+                            "meta": {
+                                "filename": "winjscontrib.ui.itemswipe.js",
+                                "lineno": 13
+                            }
                         },
                         {
                             "kind": "class",
@@ -7638,7 +8458,7 @@
                                             "examples": [],
                                             "meta": {
                                                 "filename": "winjscontrib.ui.datasourcemanager.js",
-                                                "lineno": 323
+                                                "lineno": 332
                                             },
                                             "returns": {
                                                 "type": "WinJS.UI.SemanticZoom",
@@ -7656,7 +8476,7 @@
                                             "examples": [],
                                             "meta": {
                                                 "filename": "winjscontrib.ui.datasourcemanager.js",
-                                                "lineno": 335
+                                                "lineno": 344
                                             }
                                         }
                                     ]
@@ -7672,7 +8492,7 @@
                                     "virtual": false,
                                     "meta": {
                                         "filename": "winjscontrib.ui.datasourcemanager.js",
-                                        "lineno": 489
+                                        "lineno": 507
                                     },
                                     "properties": [
                                         {
@@ -7686,7 +8506,7 @@
                                             "type": "",
                                             "meta": {
                                                 "filename": "winjscontrib.ui.datasourcemanager.js",
-                                                "lineno": 499
+                                                "lineno": 517
                                             }
                                         },
                                         {
@@ -7700,7 +8520,7 @@
                                             "type": "",
                                             "meta": {
                                                 "filename": "winjscontrib.ui.datasourcemanager.js",
-                                                "lineno": 539
+                                                "lineno": 557
                                             }
                                         },
                                         {
@@ -7714,7 +8534,7 @@
                                             "type": "",
                                             "meta": {
                                                 "filename": "winjscontrib.ui.datasourcemanager.js",
-                                                "lineno": 584
+                                                "lineno": 617
                                             }
                                         },
                                         {
@@ -7728,7 +8548,7 @@
                                             "type": "",
                                             "meta": {
                                                 "filename": "winjscontrib.ui.datasourcemanager.js",
-                                                "lineno": 630
+                                                "lineno": 663
                                             }
                                         },
                                         {
@@ -7742,7 +8562,7 @@
                                             "type": "",
                                             "meta": {
                                                 "filename": "winjscontrib.ui.datasourcemanager.js",
-                                                "lineno": 676
+                                                "lineno": 709
                                             }
                                         }
                                     ]
@@ -7968,7 +8788,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 197
+                                "lineno": 693
                             },
                             "returns": {
                                 "type": "Object",
@@ -8007,7 +8827,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 210
+                                "lineno": 706
                             },
                             "returns": {
                                 "type": "boolean",
@@ -8046,7 +8866,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 242
+                                "lineno": 738
                             },
                             "returns": {
                                 "type": "boolean",
@@ -8075,7 +8895,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 260
+                                "lineno": 756
                             },
                             "returns": {
                                 "type": "string",
@@ -8134,7 +8954,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 278
+                                "lineno": 774
                             }
                         },
                         {
@@ -8189,7 +9009,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 292
+                                "lineno": 788
                             }
                         },
                         {
@@ -8224,7 +9044,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 353
+                                "lineno": 849
                             },
                             "returns": {
                                 "type": "Object",
@@ -8263,7 +9083,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 405
+                                "lineno": 901
                             },
                             "returns": {
                                 "type": "Object",
@@ -8312,7 +9132,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 433
+                                "lineno": 929
                             }
                         },
                         {
@@ -8347,7 +9167,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 448
+                                "lineno": 944
                             },
                             "returns": {
                                 "type": "number",
@@ -8386,7 +9206,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 458
+                                "lineno": 954
                             },
                             "returns": {
                                 "type": "number",
@@ -8435,7 +9255,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 473
+                                "lineno": 969
                             },
                             "returns": {
                                 "type": "Array",
@@ -8484,7 +9304,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 527
+                                "lineno": 1023
                             }
                         },
                         {
@@ -8509,7 +9329,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 540
+                                "lineno": 1036
                             },
                             "returns": {
                                 "type": "string",
@@ -8538,7 +9358,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 561
+                                "lineno": 1057
                             }
                         },
                         {
@@ -8563,7 +9383,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 578
+                                "lineno": 1074
                             }
                         },
                         {
@@ -8608,7 +9428,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 587
+                                "lineno": 1083
                             }
                         },
                         {
@@ -8622,7 +9442,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 603
+                                "lineno": 1099
                             },
                             "returns": {
                                 "type": "string",
@@ -8661,7 +9481,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 618
+                                "lineno": 1114
                             }
                         },
                         {
@@ -8696,7 +9516,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 638
+                                "lineno": 1134
                             }
                         },
                         {
@@ -8731,7 +9551,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 656
+                                "lineno": 1152
                             },
                             "returns": {
                                 "type": "Object",
@@ -8770,7 +9590,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 675
+                                "lineno": 1171
                             },
                             "returns": {
                                 "type": "Object",
@@ -8799,7 +9619,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 694
+                                "lineno": 1190
                             },
                             "returns": {
                                 "type": "Object",
@@ -8828,7 +9648,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 704
+                                "lineno": 1200
                             },
                             "returns": {
                                 "type": "Object",
@@ -8857,7 +9677,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 726
+                                "lineno": 1222
                             },
                             "returns": {
                                 "type": "Object",
@@ -8896,7 +9716,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 755
+                                "lineno": 1251
                             },
                             "returns": {
                                 "type": "function",
@@ -8935,7 +9755,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 971
+                                "lineno": 1467
                             },
                             "returns": {
                                 "type": "Object",
@@ -8994,7 +9814,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 992
+                                "lineno": 1488
                             }
                         },
                         {
@@ -9019,7 +9839,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1012
+                                "lineno": 1508
                             },
                             "returns": {
                                 "type": "Boolean",
@@ -9037,7 +9857,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1022
+                                "lineno": 1518
                             }
                         },
                         {
@@ -9062,7 +9882,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1030
+                                "lineno": 1526
                             },
                             "returns": {
                                 "type": "function",
@@ -9080,7 +9900,7 @@
                             "examples": [],
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 1051
+                                "lineno": 1547
                             }
                         }
                     ],
@@ -9094,7 +9914,7 @@
                             "virtual": false,
                             "meta": {
                                 "filename": "winjscontrib.core.js",
-                                "lineno": 781
+                                "lineno": 1277
                             },
                             "functions": [
                                 {
@@ -9108,7 +9928,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 786
+                                        "lineno": 1282
                                     }
                                 },
                                 {
@@ -9122,7 +9942,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 814
+                                        "lineno": 1310
                                     }
                                 },
                                 {
@@ -9136,7 +9956,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 835
+                                        "lineno": 1331
                                     }
                                 },
                                 {
@@ -9150,7 +9970,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 856
+                                        "lineno": 1352
                                     }
                                 },
                                 {
@@ -9164,7 +9984,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 883
+                                        "lineno": 1379
                                     }
                                 },
                                 {
@@ -9178,7 +9998,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 900
+                                        "lineno": 1396
                                     }
                                 },
                                 {
@@ -9192,7 +10012,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 912
+                                        "lineno": 1408
                                     }
                                 },
                                 {
@@ -9206,7 +10026,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 930
+                                        "lineno": 1426
                                     }
                                 },
                                 {
@@ -9220,7 +10040,7 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 937
+                                        "lineno": 1433
                                     }
                                 },
                                 {
@@ -9234,319 +10054,10 @@
                                     "examples": [],
                                     "meta": {
                                         "filename": "winjscontrib.core.js",
-                                        "lineno": 944
+                                        "lineno": 1440
                                     }
                                 }
                             ]
-                        }
-                    ]
-                },
-                {
-                    "kind": "namespace",
-                    "name": "WinRT",
-                    "fullname": "WinJSContrib.WinRT",
-                    "description": "",
-                    "access": "",
-                    "virtual": false,
-                    "meta": {
-                        "filename": "winjscontrib.winrt.core.js",
-                        "lineno": 12
-                    },
-                    "functions": [
-                        {
-                            "kind": "function",
-                            "name": "readProtocol",
-                            "fullname": "WinJSContrib.WinRT.readProtocol",
-                            "access": "",
-                            "virtual": false,
-                            "description": "read protocol arguments from application activation event arguments",
-                            "parameters": [
-                                {
-                                    "name": "args",
-                                    "fullname": null,
-                                    "type": "Object",
-                                    "description": "WinJS application activation argument",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                }
-                            ],
-                            "examples": [],
-                            "meta": {
-                                "filename": "winjscontrib.winrt.core.js",
-                                "lineno": 26
-                            },
-                            "returns": {
-                                "type": "Object",
-                                "description": "protocol arguments"
-                            }
-                        },
-                        {
-                            "kind": "function",
-                            "name": "isConnected",
-                            "fullname": "WinJSContrib.WinRT.isConnected",
-                            "access": "",
-                            "virtual": false,
-                            "description": "Indicate if a valid internet connection is available, even with constrained access",
-                            "parameters": [],
-                            "examples": [],
-                            "meta": {
-                                "filename": "winjscontrib.winrt.core.js",
-                                "lineno": 55
-                            },
-                            "returns": {
-                                "type": "boolean",
-                                "description": ""
-                            }
-                        },
-                        {
-                            "kind": "function",
-                            "name": "hasInternetAccess",
-                            "fullname": "WinJSContrib.WinRT.hasInternetAccess",
-                            "access": "",
-                            "virtual": false,
-                            "description": "Indicate if a valid internet connection is available",
-                            "parameters": [],
-                            "examples": [],
-                            "meta": {
-                                "filename": "winjscontrib.winrt.core.js",
-                                "lineno": 69
-                            },
-                            "returns": {
-                                "type": "boolean",
-                                "description": ""
-                            }
-                        },
-                        {
-                            "kind": "function",
-                            "name": "onInternetStatusChanged",
-                            "fullname": "WinJSContrib.WinRT.onInternetStatusChanged",
-                            "access": "",
-                            "virtual": false,
-                            "description": "trigger callback when internet connection status is changing",
-                            "parameters": [
-                                {
-                                    "name": "callback",
-                                    "fullname": null,
-                                    "type": "function",
-                                    "description": "callback for internet status change notification",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                }
-                            ],
-                            "examples": [],
-                            "meta": {
-                                "filename": "winjscontrib.winrt.core.js",
-                                "lineno": 84
-                            },
-                            "returns": {
-                                "type": "function",
-                                "description": "function to call for unregistering the callback"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "kind": "namespace",
-                    "name": "Alerts",
-                    "fullname": "WinJSContrib.Alerts",
-                    "description": "",
-                    "access": "",
-                    "virtual": false,
-                    "meta": {
-                        "filename": "winjscontrib.winrt.core.js",
-                        "lineno": 17
-                    },
-                    "functions": [
-                        {
-                            "kind": "function",
-                            "name": "messageBox",
-                            "fullname": "WinJSContrib.Alerts.messageBox",
-                            "access": "",
-                            "virtual": false,
-                            "description": "show system alert box",
-                            "parameters": [
-                                {
-                                    "name": "opt",
-                                    "fullname": null,
-                                    "type": "Object",
-                                    "description": "message options",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                }
-                            ],
-                            "examples": [],
-                            "meta": {
-                                "filename": "winjscontrib.winrt.core.js",
-                                "lineno": 101
-                            },
-                            "returns": {
-                                "type": "WinJS.Promise",
-                                "description": ""
-                            }
-                        },
-                        {
-                            "kind": "function",
-                            "name": "message",
-                            "fullname": "WinJSContrib.Alerts.message",
-                            "access": "",
-                            "virtual": false,
-                            "description": "show system alert box",
-                            "parameters": [
-                                {
-                                    "name": "title",
-                                    "fullname": null,
-                                    "type": "string",
-                                    "description": "title of the alert",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                },
-                                {
-                                    "name": "content",
-                                    "fullname": null,
-                                    "type": "string",
-                                    "description": "text for the alert",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                }
-                            ],
-                            "examples": [],
-                            "meta": {
-                                "filename": "winjscontrib.winrt.core.js",
-                                "lineno": 185
-                            },
-                            "returns": {
-                                "type": "WinJS.Promise",
-                                "description": ""
-                            }
-                        },
-                        {
-                            "kind": "function",
-                            "name": "confirm",
-                            "fullname": "WinJSContrib.Alerts.confirm",
-                            "access": "",
-                            "virtual": false,
-                            "description": "show system alert box",
-                            "parameters": [
-                                {
-                                    "name": "title",
-                                    "fullname": null,
-                                    "type": "string",
-                                    "description": "title of the alert",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                },
-                                {
-                                    "name": "content",
-                                    "fullname": null,
-                                    "type": "string",
-                                    "description": "text for the alert",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                },
-                                {
-                                    "name": "yes",
-                                    "fullname": null,
-                                    "type": "string",
-                                    "description": "text for yes",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                },
-                                {
-                                    "name": "no",
-                                    "fullname": null,
-                                    "type": "string",
-                                    "description": "text for no",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                }
-                            ],
-                            "examples": [],
-                            "meta": {
-                                "filename": "winjscontrib.winrt.core.js",
-                                "lineno": 197
-                            },
-                            "returns": {
-                                "type": "WinJS.Promise",
-                                "description": ""
-                            }
-                        },
-                        {
-                            "kind": "function",
-                            "name": "toastNotification",
-                            "fullname": "WinJSContrib.Alerts.toastNotification",
-                            "access": "",
-                            "virtual": false,
-                            "description": "show system toast notification",
-                            "parameters": [
-                                {
-                                    "name": "data",
-                                    "fullname": null,
-                                    "type": "Object",
-                                    "description": "toast options",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                }
-                            ],
-                            "examples": [],
-                            "meta": {
-                                "filename": "winjscontrib.winrt.core.js",
-                                "lineno": 225
-                            }
-                        },
-                        {
-                            "kind": "function",
-                            "name": "toast",
-                            "fullname": "WinJSContrib.Alerts.toast",
-                            "access": "",
-                            "virtual": false,
-                            "description": "show system toast notification",
-                            "parameters": [
-                                {
-                                    "name": "text",
-                                    "fullname": null,
-                                    "type": "string",
-                                    "description": "text displayed in the toast",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                },
-                                {
-                                    "name": "picture",
-                                    "fullname": null,
-                                    "type": "string",
-                                    "description": "path to a picture to display in the toast",
-                                    "default": "",
-                                    "variable": "",
-                                    "optional": "",
-                                    "nullable": ""
-                                }
-                            ],
-                            "examples": [],
-                            "meta": {
-                                "filename": "winjscontrib.winrt.core.js",
-                                "lineno": 267
-                            }
                         }
                     ]
                 }
