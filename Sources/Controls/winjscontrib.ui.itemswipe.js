@@ -20,6 +20,7 @@
 			this.element.classList.add('win-disposable');
 			this.minSwipe = 100;
 			this.thresholdFactor = 3;
+			this.hoverDelay = 600;
 			this.faceCard = this.element.querySelector(".face");
 			this.swipeToLeftCard = this.element.querySelector(".swipe-to-left");
 			this.swipeToRightCard = this.element.querySelector(".swipe-to-right");
@@ -49,7 +50,7 @@
 			            ctrl.hoverTimeout = setTimeout(function () {
 			                if (ctrl.element)
 			                    ctrl.element.classList.remove("mousehover");
-			            }, 1000);
+			            }, ctrl.hoverDelay);
 			        }
 			    }, true);
 
