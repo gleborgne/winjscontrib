@@ -1,4 +1,4 @@
-﻿/// <reference path="winjscontrib.core.js" />
+/// <reference path="winjscontrib.core.js" />
 
 var WinJSContrib = WinJSContrib || {};
 WinJSContrib.WinRT = WinJSContrib.WinRT || {};
@@ -7,15 +7,17 @@ WinJSContrib.WinRT.Audio = WinJSContrib.WinRT.Audio || {};
 (function () {
     'use strict';
 
-    WinJSContrib.WinRT.Audio.RecorderState = WinJS.Binding.define({ "isRecording": false, "ellapsedTime": 0, "startedAt": null });
+    WinJSContrib.WinRT.Audio.RecorderState = WinJS.Binding.define({ "isRecording": false, "isPaused": false, "ellapsedTime": 0, "startedAt": null });
 
     WinJSContrib.WinRT.Audio.Recorder = WinJS.Class.mix(WinJS.Class.define(function () {
         this.state = new WinJSContrib.WinRT.Audio.RecorderState();
         this.state.isRecording = false;
+        this.state.isPaused = false;
     }, {
         start: function (file, options) {
             var recorder = this;
-            var rawAudioSupported = false;
+
+            var rawAudioSupported = false; // Always false???
 
             recorder.state.ellapsedTime = 0;
             recorder.state.startedAt = new Date();
@@ -42,55 +44,80 @@ WinJSContrib.WinRT.Audio = WinJSContrib.WinRT.Audio || {};
 
             return recorder.recording.mediaCaptureMgr.initializeAsync(recorder.recording.captureInitSettings).then(function (result) {
                 recorder.state.isRecording = true;
-                recorder.ellapsedTimeInterval = setInterval(function () {
-                    var dif = (new Date() - recorder.state.startedAt) / 1000;
-                    recorder.state.ellapsedTime = dif;
-                }, 1000);
+                recorder.state.isPaused = false;
+                recorder.ellapsedTimeInterval = setInterval(recorder._mesureEllapsedTime.bind(recorder), 1000);
 
                 return recorder.recording.mediaCaptureMgr.startRecordToStorageFileAsync(recorder.recording.encodingProfile, file).then(function () {
-                    //clearInterval(recorder.ellapsedTimeInterval);
-                    //recorder.state.isRecording = false;
-                    //recorder.recording.dispose();
                     return file;
-                }, function (err) {
-                    recorder._errorHandler(err);
                 });
-
             }, recorder._errorHandler.bind(recorder));
         },
 
-        _errorHandler: function (err) {
-            var ctrl = this;
-            ctrl.recording.dispose();
-            ctrl._oldRecording = ctrl.recording;
-            ctrl.recording = null;
-            ctrl.state.isRecording = false;
-            ctrl.dispatchEvent('recordingstopped');
-            ctrl.dispatchEvent('error', err);
-            clearInterval(ctrl.ellapsedTimeInterval);
-        },
+        pause: function () {
+            var recorder = this;
 
-        stop: function () {
-            var ctrl = this;
-            ctrl.state.isRecording = false;
-            clearInterval(ctrl.ellapsedTimeInterval);
-            if (ctrl.recording) {
-                var recording = ctrl.recording;
-                ctrl._oldRecording = recording;
-                ctrl.recording = null;
+            if (recorder.state.isRecording) {
+                recorder.state.isPaused = true;
+                clearInterval(recorder.ellapsedTimeInterval);
 
-                return recording.mediaCaptureMgr.stopRecordAsync().then(function (result) {
-                    recording.dispose();
-                    ctrl.dispatchEvent('recordingstopped');
-                    return recording.file;
-                }, function () {
-                    recording.dispose();
-                    ctrl.dispatchEvent('recordingstopped');
-                    return recording.file;
-                });
+                return recorder.recording.mediaCaptureMgr.pauseRecordAsync(Windows.Media.Devices.MediaCapturePauseBehavior.retainHardwareResources);
             } else {
                 return WinJS.Promise.wrap();
             }
+        },
+
+        resume: function() {
+            var recorder = this;
+
+            if (recorder.state.isPaused) {
+                recorder.state.isPaused = false;
+                recorder.ellapsedTimeInterval = setInterval(recorder._mesureEllapsedTime.bind(recorder), 1000);
+
+                return recorder.recording.mediaCaptureMgr.resumeRecordAsync();
+            } else {
+                return WinJS.Promise.wrap();
+            }
+        },
+
+        stop: function () {
+            var recorder = this;
+
+            recorder.state.isRecording = false;
+            recorder.state.isPaused = false;
+            clearInterval(recorder.ellapsedTimeInterval);
+            if (recorder.recording) {
+                var recording = recorder.recording;
+                recorder._oldRecording = recording;
+                recorder.recording = null;
+
+                var whateverHappensAsync = function() {
+                    recording.dispose();
+                    recorder.dispatchEvent('recordingstopped');
+                    return WinJS.Promise.wrap(recording.file);
+                };
+
+                return recording.mediaCaptureMgr.stopRecordAsync().then(whateverHappensAsync, whateverHappensAsync);
+            } else {
+                return WinJS.Promise.wrap(null);
+            }
+        },
+
+        _mesureEllapsedTime: function () {
+            var recorder = this;
+
+            var dif = (new Date() - recorder.state.startedAt) / 1000;
+            recorder.state.ellapsedTime = dif;
+        },
+
+        _errorHandler: function (err) {
+            var recorder = this;
+            recorder.recording.dispose();
+            recorder._oldRecording = recorder.recording;
+            recorder.recording = null;
+            recorder.state.isRecording = false;
+            recorder.dispatchEvent('recordingstopped');
+            recorder.dispatchEvent('error', err);
+            clearInterval(recorder.ellapsedTimeInterval);
         }
     }),
     WinJS.Utilities.eventMixin);
