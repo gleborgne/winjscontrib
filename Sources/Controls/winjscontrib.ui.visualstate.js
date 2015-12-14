@@ -4,6 +4,8 @@
         VisualState: WinJS.Class.mix(WinJS.Class.define(function ctor(element, options) {
             this.element = element || document.createElement('DIV');
             options = options || {};
+            this.cssprefix = "state";
+            this.isDirty = false;
             this.element.winControl = this;
             this.element.style.display = "none";
             this.element.classList.add('mcn-visualstate');
@@ -35,6 +37,11 @@
                     for (var n in ctrl.states) {
                         ctrl.checkState(n, ctrl.states[n]);
                     }
+
+                    if (ctrl.isDirty) {
+                        ctrl.isDirty = false;
+                        ctrl.dispatchEvent("statechanged", { sender : this });
+                    }
                 }
             },
 
@@ -49,20 +56,43 @@
                 var evaluate = true;
                 if (state.wGt)
                     evaluate = evaluate && targetW > state.wGt;
+                if (state.wGtE)
+                    evaluate = evaluate && targetW >= state.wGtE;
                 if (state.wLt)
                     evaluate = evaluate && targetW < state.wLt;
+                if (state.wLtE)
+                    evaluate = evaluate && targetW <= state.wLtE;
                 if (state.hGt)
                     evaluate = evaluate && targetH > state.hGt;
+                if (state.hGtE)
+                    evaluate = evaluate && targetH >= state.hGtE;
                 if (state.hLt)
                     evaluate = evaluate && targetH < state.hLt;
+                if (state.hLtE)
+                    evaluate = evaluate && targetH <= state.hLtE;
 
                 if (evaluate) {
-                    state.active = true;
-                    target.classList.add("state-" + name);
+                    if (!state.active) {
+                        state.active = true;
+                        ctrl.isDirty = true;
+                        target.classList.add(ctrl.cssprefix + "-" + name);
+                    }
+                    
                 } else {
-                    state.active = false;
-                    target.classList.remove("state-" + name);
+                    if (state.active) {
+                        state.active = false;
+                        ctrl.isDirty = true;
+                        target.classList.remove(ctrl.cssprefix + "-" + name);
+                    }
                 }
+            },
+
+            isInState : function(statename){
+                var state = this.states[statename];
+                if (state && state.active)
+                    return true;
+
+                return false;
             },
 
             pageLayout: function () {
@@ -81,6 +111,6 @@
             }
         }),
 		WinJS.Utilities.eventMixin,
-		WinJS.Utilities.createEventProperties("myevent"))
+		WinJS.Utilities.createEventProperties("statechanged"))
     });
 })();

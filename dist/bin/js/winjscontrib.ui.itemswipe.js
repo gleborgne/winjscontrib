@@ -85,7 +85,7 @@
 			
         },
         /**
-         * @lends WinJSContrib.UI.HubControl.prototype
+         * @lends WinJSContrib.UI.ItemSwipe.prototype
          */
         {
 		    /**
