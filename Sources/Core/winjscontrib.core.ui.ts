@@ -867,8 +867,9 @@ module WinJSContrib.UI {
         element.mcnTapTracking.tapOnDown = opt.tapOnDown;
         element.mcnTapTracking.pointerModel = 'none';
         element.mcnTapTracking.invoke = function(arg){
-            if (element && element.mcnTapTracking) {
-                var tracking = element.mcnTapTracking;
+            var elt = element;
+            if (elt && elt.mcnTapTracking) {
+                var tracking = elt.mcnTapTracking;
                 if (tracking) {
                     var now = <any>(new Date());
                     var dif = 9000;
@@ -879,24 +880,24 @@ module WinJSContrib.UI {
                     if (dif < 100)
                         return;
                     
-                    var res = tracking.callback(element, arg);
+                    var res = tracking.callback(elt, arg);
                     tracking.lastinvoke = new Date();
                     if (res && WinJS.Promise.is(res)) {
-                        element.disabled = true;
-                        WinJS.Utilities.addClass(element, 'tap-working');
+                        elt.disabled = true;
+                        WinJS.Utilities.addClass(elt, 'tap-working');
                         res.then(function() {
-                            element.disabled = false;
-                            WinJS.Utilities.removeClass(element, 'tap-working');
+                            elt.disabled = false;
+                            WinJS.Utilities.removeClass(elt, 'tap-working');
                         }, function(err) {
-                            element.disabled = false;
-                            WinJS.Utilities.removeClass(element, 'tap-working');
+                            elt.disabled = false;
+                            WinJS.Utilities.removeClass(elt, 'tap-working');
                             console.error(err);
                             WinJS.Application.queueEvent({ type: "mcn-taperror", error: err });
-                            WinJS.Utilities.addClass(element, 'tap-error');
+                            WinJS.Utilities.addClass(elt, 'tap-error');
                             if (tracking.errorDelay) {
                                 tracking.pendingErrorTimeout = setTimeout(() => {
                                     tracking.pendingErrorTimeout = null;
-                                    WinJS.Utilities.removeClass(element, 'tap-error');
+                                    WinJS.Utilities.removeClass(elt, 'tap-error');
                                 }, tracking.errorDelay);
                             }
                         })
