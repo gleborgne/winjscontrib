@@ -3325,6 +3325,8 @@ var WinJSContrib;
                             _ElementUtilities.addClass(element, "win-disposable");
                             _ElementUtilities.addClass(element, "pagecontrol");
                             _ElementUtilities.addClass(element, "mcn-layout-ctrl");
+                            that._eventTracker = new WinJSContrib.UI.EventTracker();
+                            that._promises = [];
                             that.pageLifeCycle = {
                                 created: new Date(),
                                 location: uri,
