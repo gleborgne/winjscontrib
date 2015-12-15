@@ -2409,6 +2409,8 @@ var WinJSContrib;
                 element.mcnTapTracking.dispose();
             }
             WinJS.Utilities.addClass(element, 'tap');
+            element.setAttribute("tabindex", "0");
+            element.setAttribute("role", "button");
             element.mcnTapTracking = element.mcnTapTracking || {};
             element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
             element.mcnTapTracking.disableAnimation = opt.disableAnimation || UI.defaultTapBehavior.disableAnimation;
@@ -2428,41 +2430,43 @@ var WinJSContrib;
             element.mcnTapTracking.tapOnDown = opt.tapOnDown;
             element.mcnTapTracking.pointerModel = 'none';
             element.mcnTapTracking.invoke = function (arg) {
-                var tracking = element.mcnTapTracking;
-                if (tracking) {
-                    var now = (new Date());
-                    var dif = 9000;
-                    if (tracking.lastinvoke) {
-                        dif = now - tracking.lastinvoke;
-                    }
-                    if (dif < 100)
-                        return;
-                    tracking.lastinvoke = now;
-                    var res = tracking.callback(element, arg);
-                    if (res && WinJS.Promise.is(res)) {
-                        element.disabled = true;
-                        WinJS.Utilities.addClass(element, 'tap-working');
-                        res.then(function () {
-                            element.disabled = false;
-                            WinJS.Utilities.removeClass(element, 'tap-working');
-                        }, function (err) {
-                            element.disabled = false;
-                            WinJS.Utilities.removeClass(element, 'tap-working');
-                            console.error(err);
-                            WinJS.Application.queueEvent({ type: "mcn-taperror", error: err });
-                            WinJS.Utilities.addClass(element, 'tap-error');
-                            if (tracking.errorDelay) {
-                                tracking.pendingErrorTimeout = setTimeout(function () {
-                                    tracking.pendingErrorTimeout = null;
-                                    WinJS.Utilities.removeClass(element, 'tap-error');
-                                }, tracking.errorDelay);
-                            }
-                        });
+                if (element && element.mcnTapTracking) {
+                    var tracking = element.mcnTapTracking;
+                    if (tracking) {
+                        var now = (new Date());
+                        var dif = 9000;
+                        if (tracking.lastinvoke) {
+                            dif = now - tracking.lastinvoke;
+                        }
+                        if (dif < 100)
+                            return;
+                        var res = tracking.callback(element, arg);
+                        tracking.lastinvoke = new Date();
+                        if (res && WinJS.Promise.is(res)) {
+                            element.disabled = true;
+                            WinJS.Utilities.addClass(element, 'tap-working');
+                            res.then(function () {
+                                element.disabled = false;
+                                WinJS.Utilities.removeClass(element, 'tap-working');
+                            }, function (err) {
+                                element.disabled = false;
+                                WinJS.Utilities.removeClass(element, 'tap-working');
+                                console.error(err);
+                                WinJS.Application.queueEvent({ type: "mcn-taperror", error: err });
+                                WinJS.Utilities.addClass(element, 'tap-error');
+                                if (tracking.errorDelay) {
+                                    tracking.pendingErrorTimeout = setTimeout(function () {
+                                        tracking.pendingErrorTimeout = null;
+                                        WinJS.Utilities.removeClass(element, 'tap-error');
+                                    }, tracking.errorDelay);
+                                }
+                            });
+                        }
                     }
                 }
             };
             element.onclick = function (arg) {
-                if (element.mcnTapTracking) {
+                if (element && element.mcnTapTracking) {
                     element.mcnTapTracking.invoke(arg);
                 }
             };
