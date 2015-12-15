@@ -2327,7 +2327,7 @@ var WinJSContrib;
                     }
                     tracking.animDown(event.currentTarget);
                     if (tracking.tapOnDown) {
-                        tracking.callback(elt, event);
+                        tracking.invoke(elt, event);
                     }
                 }
             };
@@ -2376,27 +2376,7 @@ var WinJSContrib;
                                     event.stopImmediatePropagation();
                                     event.stopPropagation();
                                     event.preventDefault();
-                                    var res = tracking.callback(elt, event);
-                                    if (res && WinJS.Promise.is(res)) {
-                                        elt.disabled = true;
-                                        WinJS.Utilities.addClass(elt, 'tap-working');
-                                        res.then(function () {
-                                            elt.disabled = false;
-                                            WinJS.Utilities.removeClass(elt, 'tap-working');
-                                        }, function (err) {
-                                            elt.disabled = false;
-                                            WinJS.Utilities.removeClass(elt, 'tap-working');
-                                            console.error(err);
-                                            WinJS.Application.queueEvent({ type: "mcn-taperror", error: err });
-                                            WinJS.Utilities.addClass(elt, 'tap-error');
-                                            if (tracking.errorDelay) {
-                                                tracking.pendingErrorTimeout = setTimeout(function () {
-                                                    tracking.pendingErrorTimeout = null;
-                                                    WinJS.Utilities.removeClass(elt, 'tap-error');
-                                                }, tracking.errorDelay);
-                                            }
-                                        });
-                                    }
+                                    tracking.invoke();
                                 }
                                 if (tracking && tracking.pointerdown)
                                     tracking.pointerdown = undefined;
@@ -2447,6 +2427,45 @@ var WinJSContrib;
             element.mcnTapTracking.errorDelay = opt.errorDelay || UI.defaultTapBehavior.errorDelay;
             element.mcnTapTracking.tapOnDown = opt.tapOnDown;
             element.mcnTapTracking.pointerModel = 'none';
+            element.mcnTapTracking.invoke = function (arg) {
+                var tracking = element.mcnTapTracking;
+                if (tracking) {
+                    var now = (new Date());
+                    var dif = 9000;
+                    if (tracking.lastinvoke) {
+                        dif = now - tracking.lastinvoke;
+                    }
+                    if (dif < 100)
+                        return;
+                    tracking.lastinvoke = now;
+                    var res = tracking.callback(element, arg);
+                    if (res && WinJS.Promise.is(res)) {
+                        element.disabled = true;
+                        WinJS.Utilities.addClass(element, 'tap-working');
+                        res.then(function () {
+                            element.disabled = false;
+                            WinJS.Utilities.removeClass(element, 'tap-working');
+                        }, function (err) {
+                            element.disabled = false;
+                            WinJS.Utilities.removeClass(element, 'tap-working');
+                            console.error(err);
+                            WinJS.Application.queueEvent({ type: "mcn-taperror", error: err });
+                            WinJS.Utilities.addClass(element, 'tap-error');
+                            if (tracking.errorDelay) {
+                                tracking.pendingErrorTimeout = setTimeout(function () {
+                                    tracking.pendingErrorTimeout = null;
+                                    WinJS.Utilities.removeClass(element, 'tap-error');
+                                }, tracking.errorDelay);
+                            }
+                        });
+                    }
+                }
+            };
+            element.onclick = function (arg) {
+                if (element.mcnTapTracking) {
+                    element.mcnTapTracking.invoke(arg);
+                }
+            };
             element.mcnTapTracking.dispose = function () {
                 WinJS.Utilities.removeClass(element, 'tap');
                 this.eventTracker.dispose();
