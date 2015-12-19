@@ -9,4 +9,4 @@
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
-//# sourceMappingURL=../../Sources/Core/winjscontrib.ui.pages.js.map
+//# sourceMappingURL=winjscontrib.ui.pages.js.map

@@ -432,9 +432,9 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
             });
 
             if (existing && existing.length)
-                return;
+                return WinJS.Promise.wrap(existing[0]);
 
-            var observable = new ObservableItem()
+            var observable = new ObservableItem();
             observable.itemid = itemid;
             observable.data = item;
             observable.folderpath = folderpath;
@@ -447,7 +447,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
             tracker.debouncedCheck();
             tracker.debouncedSave();
 
-            return WinJS.Promise.wrap();
+            return WinJS.Promise.wrap(observable);
         },
 
         startDownloads: function (items) {

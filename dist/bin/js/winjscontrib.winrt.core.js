@@ -142,7 +142,8 @@ var WinJSContrib;
                         else
                             commands = ['Ok'];
                         if (_global.navigator && _global.navigator.notification && _global.navigator.notification.confirm) {
-                            _global.navigator.notification.confirm(opt.content, function (res) {
+                            _global.navigator.notification.confirm(opt.content, // message
+                            function (res) {
                                 if (opt.commands && opt.commands[res - 1] && opt.commands[res - 1].callback) {
                                     var c = opt.commands[res - 1].callback();
                                     if (c && c.then) {
@@ -158,7 +159,9 @@ var WinJSContrib;
                                     complete(true);
                                 else
                                     complete(false);
-                            }, title, commands // buttonLabels
+                            }, // callback to invoke with index of button pressed
+                            title, // title
+                            commands // buttonLabels
                             );
                         }
                         else {
@@ -267,4 +270,4 @@ var WinJSContrib;
     })(Alerts = WinJSContrib.Alerts || (WinJSContrib.Alerts = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
-//# sourceMappingURL=../../Sources/WinRT/winjscontrib.winrt.core.js.map
+//# sourceMappingURL=winjscontrib.winrt.core.js.map

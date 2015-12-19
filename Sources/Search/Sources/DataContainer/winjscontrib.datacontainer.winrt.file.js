@@ -265,4 +265,4 @@ var WinJSContrib;
     })(DataContainer = WinJSContrib.DataContainer || (WinJSContrib.DataContainer = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
-//# sourceMappingURL=../../Sources/DataContainer/winjscontrib.datacontainer.winrt.file.js.map
+//# sourceMappingURL=winjscontrib.datacontainer.winrt.file.js.map

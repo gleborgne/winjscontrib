@@ -2221,8 +2221,14 @@ var WinJSContrib;
             WinJS.Navigation.addEventListener('beforenavigate', cancelNavigation);
             if (window.Windows && window.Windows.Phone)
                 window.Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", backhandler);
-            else
+            else {
                 document.addEventListener("backbutton", backhandler);
+                var systemNavigationManager = null;
+                if (WinJSContrib.UI && WinJSContrib.UI.enableSystemBackButtonVisibility && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                    systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+                    systemNavigationManager.addEventListener('backrequested', backhandler);
+                }
+            }
             var keypress = function (args) {
                 if (args.key === "Esc" || args.key === "Backspace") {
                     backhandler(args);
@@ -2246,8 +2252,14 @@ var WinJSContrib;
                 WinJS.Navigation.removeEventListener('beforenavigate', cancelNavigation);
                 if (window.Windows && window.Windows.Phone)
                     window.Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", backhandler);
-                else
+                else {
                     document.removeEventListener("backbutton", backhandler);
+                    var systemNavigationManager = null;
+                    if (WinJSContrib.UI && WinJSContrib.UI.enableSystemBackButtonVisibility && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                        systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+                        systemNavigationManager.removeEventListener('backrequested', backhandler);
+                    }
+                }
             };
         }
         UI.registerNavigationEvents = registerNavigationEvents;
@@ -3331,9 +3343,6 @@ var WinJSContrib;
                     uri = abs(uri);
                     if (!base) {
                         base = _Base.Class.define(
-                        // This needs to follow the WinJS.UI.processAll "async constructor"
-                        // pattern to interop nicely in the "Views.Control" use case.
-                        //
                         // This needs to follow the WinJS.UI.processAll "async constructor"
                         // pattern to interop nicely in the "Views.Control" use case.
                         //
