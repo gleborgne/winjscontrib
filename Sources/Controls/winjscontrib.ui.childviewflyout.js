@@ -63,7 +63,7 @@
                    that.overlay = new FD('DIV')
                        .addClass("childNavigator-overlay")
                        .appendTo(that.rootElement)
-                       .tap(that.hide.bind(that), { disableAnimation: true })
+                       .tap(that.hide.bind(that), { disableAnimation: true, disableAria : true })
                        .element;
 
                    that.contentPlaceholder = new FD('DIV', "childNavigator-contentPlaceholder", that.rootElement)

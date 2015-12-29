@@ -355,4 +355,4 @@ var WinJSContrib;
     WinJSContrib.Logger = defaultLogger;
 })();
 
-//# sourceMappingURL=winjscontrib.logger.js.map
+//# sourceMappingURL=../../Sources/Common/winjscontrib.logger.js.map

@@ -2421,8 +2421,10 @@ var WinJSContrib;
                 element.mcnTapTracking.dispose();
             }
             WinJS.Utilities.addClass(element, 'tap');
-            element.setAttribute("tabindex", "0");
-            element.setAttribute("role", "button");
+            if (!options || !options.disableAria) {
+                element.setAttribute("tabindex", "0");
+                element.setAttribute("role", "button");
+            }
             element.mcnTapTracking = element.mcnTapTracking || {};
             element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
             element.mcnTapTracking.disableAnimation = opt.disableAnimation || UI.defaultTapBehavior.disableAnimation;
@@ -3349,6 +3351,9 @@ var WinJSContrib;
                     uri = abs(uri);
                     if (!base) {
                         base = _Base.Class.define(
+                        // This needs to follow the WinJS.UI.processAll "async constructor"
+                        // pattern to interop nicely in the "Views.Control" use case.
+                        //
                         // This needs to follow the WinJS.UI.processAll "async constructor"
                         // pattern to interop nicely in the "Views.Control" use case.
                         //

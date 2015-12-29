@@ -860,8 +860,10 @@ module WinJSContrib.UI {
         }
 
         WinJS.Utilities.addClass(element, 'tap');
-        element.setAttribute("tabindex", "0");
-        element.setAttribute("role", "button");
+        if (!options || !options.disableAria) {
+			element.setAttribute("tabindex", "0");
+			element.setAttribute("role", "button");
+		}
         element.mcnTapTracking = element.mcnTapTracking || {};
         element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
         element.mcnTapTracking.disableAnimation = opt.disableAnimation || defaultTapBehavior.disableAnimation;

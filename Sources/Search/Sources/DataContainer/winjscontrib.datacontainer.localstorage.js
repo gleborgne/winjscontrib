@@ -94,4 +94,4 @@ var WinJSContrib;
     })(DataContainer = WinJSContrib.DataContainer || (WinJSContrib.DataContainer = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
-//# sourceMappingURL=winjscontrib.datacontainer.localstorage.js.map
+//# sourceMappingURL=../../Sources/DataContainer/winjscontrib.datacontainer.localstorage.js.map
