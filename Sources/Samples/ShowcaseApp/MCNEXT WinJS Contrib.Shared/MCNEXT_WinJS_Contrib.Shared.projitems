@@ -289,6 +289,9 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\datasources\simple\datasources.less" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dateandtime\dateandtime.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dateandtime\dateandtime.html" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\dateandtime\dateandtime.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.css" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\ui\controls\detailPage\detailPage.js" />
@@ -522,8 +525,11 @@
     <Content Include="$(MSBuildThisFileDirectory)scripts\WinJS\css\ui-dark.css" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\WinJS\css\ui-light.css" />
     <Content Include="$(MSBuildThisFileDirectory)scripts\WinJS\fonts\Symbols.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\WinJS\js\base.js" />
     <Content Include="$(MSBuildThisFileDirectory)Scripts\WinJS\js\en-US\ui.strings.js" />
-    <Content Include="$(MSBuildThisFileDirectory)Scripts\WinJS\js\WinJS.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\WinJS\js\ui.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\WinJS\js\WinJS.intellisense-setup.js" />
+    <Content Include="$(MSBuildThisFileDirectory)Scripts\WinJS\js\WinJS.intellisense.js" />
     <Content Include="$(MSBuildThisFileDirectory)templates\article.html" />
   </ItemGroup>
   <ItemGroup>

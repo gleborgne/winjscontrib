@@ -1,0 +1,153 @@
+.mcn-datepicker-flyout {
+    padding: 0;
+    border: none;
+}
+
+.mcn-calendar {
+    @gridsize: 38px;
+    @space: 10px;
+
+    width: 7*@gridsize + 2*@space;
+    height: 8*@gridsize + 2*@space;
+    position: relative;
+    background-color: #333;
+    color: white;
+    overflow: hidden;
+
+    button {
+        width: @gridsize;
+        height: @gridsize;
+        line-height: @gridsize;
+        text-align: center;
+        border: none;
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+
+        &:hover {
+            background-color: #555;
+        }
+    }
+
+    .day-item, .day-header {
+        width: @gridsize;
+        height: @gridsize;
+        line-height: @gridsize;
+        text-align: center;
+        display: block;
+        border: 2px solid transparent;
+        box-sizing: border-box;
+    }
+
+    .day-header {
+        font-size: 0.8rem;
+        color: #AAA;
+    }
+
+    .day-item {
+        width: @gridsize;
+        height: @gridsize;
+        line-height: @gridsize;
+        text-align: center;
+        display: block;
+        font-weight: 500;
+
+        &.selected {
+            border-color: gold;
+        }
+
+        &.notthismonth {
+            color: #777;
+            font-weight: 400;
+        }
+
+        &:disabled {
+            opacity: 0.2;
+        }
+    }
+
+    .navbuttons {
+        position: absolute;
+        right: @space;
+        top: @space;
+
+        .navbutton-previous:before {
+            content: '\E014';
+            font-family: 'Segoe MDL2 Assets';
+        }
+
+        .navbutton-next:before {
+            content: '\E015';
+            font-family: 'Segoe MDL2 Assets';
+        }
+    }
+
+    .mcn-calendar-panels, .mcn-calendar-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .calendar-panel {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        padding: @space;
+        box-sizing: border-box;
+
+        .calendar-panel-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+
+            .calendar-panel-item {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-flow: column nowrap;
+
+
+                > header {
+                    height: @gridsize;
+                    padding-right: 2*@gridsize+@space;
+                    display: flex;
+                    align-items: center;
+                    padding-left: @space;
+
+                    > * {
+                        margin-right: 10px;
+                    }
+                }
+
+                > section {
+                    flex: 1;
+                    display: flex;
+                    flex-flow: column nowrap;
+
+                    > header {
+                        display: flex;
+                        flex-flow: row wrap;
+                    }
+
+                    > section {
+                        flex: 1;
+                        overflow: hidden;
+                        position: relative;
+
+                        .day-items-wrapper {
+                            position: absolute;
+                            display: flex;
+                            flex-flow: row wrap;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

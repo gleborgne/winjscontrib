@@ -281,7 +281,7 @@
                                 detail: {
                                     location: location,
                                     state: initialState,
-                                    navigateStacked : stacked,
+                                    navigateStacked: stacked,
                                     setPromise: function (promise) {
                                         this.pagePromise = promise;
                                     }
@@ -312,8 +312,8 @@
                     closeAllPages: function () {
                         var navigator = this;
                         var pages = navigator.element.children;
-                        
-                        for (var i = pages.length-1 ; i >= 0 ; i--) {
+
+                        for (var i = pages.length - 1 ; i >= 0 ; i--) {
                             var page = pages[i];
                             if (page && page.classList.contains("pagecontrol")) {
                                 navigator.element.removeChild(page);
@@ -373,7 +373,7 @@
 
                     back: function (distance) {
                         var navigator = this;
-                        
+
                         if (navigator.global) {
                             //navigator._handleBack();
 
@@ -474,13 +474,15 @@
                             }
                             return;
                         }
+
                         var hidepage = function () {
                             if (!openStacked) {
-                                page.style.display = 'none';
-                                page.style.visibility = 'hidden';
-                                page.style.opacity = '';
+                                //page.style.display = 'none';
+                                //page.style.visibility = 'hidden';
+                                //page.style.opacity = '';
                             }
                         }
+
                         if (page && page.winControl && !page.winControl.exitPagePromise) {
                             if (page.winControl.exitPage) {
                                 var exitPageResult = page.winControl.exitPage();
@@ -545,46 +547,65 @@
                         }
 
                         navigator._pageElement = null;
-                        return oldPageExitPromise.then(function () {
-                            if (oldElement) {
-                                oldElement.style.opacity = '0';
-                                oldElement.style.display = 'none';
-                                //    }
-                                //    return WinJS.Promise.timeout();
-                                //}).then(function () {
-                                //    if (oldElement) {
-                                if (oldElement.winControl) {
-                                    oldElement.winControl.stackedOn = null;
-                                    oldElement.winControl.stackedBy = null;
-                                    if (oldElement.winControl.eventTracker) {
-                                        oldElement.winControl.eventTracker.dispose();
-                                    }
+                        
+                        setImmediate(function () {
+                            var p = navigator._lastNavigationPromise;
+                            if (!p)
+                                p = WinJS.Promise.wrap();
 
-                                    if (oldElement.winControl.unload) {
-                                        oldElement.winControl.unload();
-                                    }
+                            p.then(function () {
+                                return oldPageExitPromise;
+                            }).then(function () {
+                                return WinJS.Promise.timeout(200);
+                            }).then(function () {
+                                WinJS.Utilities.Scheduler.schedule(function () {
+                                    navigator.destroyOldPage(oldElement);
+                                });
+                            });
+                        }, 1000);
+
+                        return WinJS.Promise.wrap();
+                    },
+
+                    destroyOldPage: function (oldElement) {
+                        if (oldElement) {
+                            oldElement.style.opacity = '0';
+                            oldElement.style.display = 'none';
+                            //    }
+                            //    return WinJS.Promise.timeout();
+                            //}).then(function () {
+                            //    if (oldElement) {
+                            if (oldElement.winControl) {
+                                oldElement.winControl.stackedOn = null;
+                                oldElement.winControl.stackedBy = null;
+                                if (oldElement.winControl.eventTracker) {
+                                    oldElement.winControl.eventTracker.dispose();
                                 }
 
-                                if (WinJS.Utilities.disposeSubTree)
-                                    WinJS.Utilities.disposeSubTree(oldElement);
-
-                                //oldElement.innerHTML = '';
-                                //setImmediate(function () {
-                                try {
-                                    if (oldElement.parentElement) oldElement.parentElement.removeChild(oldElement);
+                                if (oldElement.winControl.unload) {
+                                    oldElement.winControl.unload();
                                 }
-                                catch (exception) {
-                                    console.log('cannot remove page, WTF ????????')
-                                }
-                                //});
                             }
-                        });
+
+                            if (WinJS.Utilities.disposeSubTree)
+                                WinJS.Utilities.disposeSubTree(oldElement);
+
+                            //oldElement.innerHTML = '';
+                            //setImmediate(function () {
+                            try {
+                                if (oldElement.parentElement) oldElement.parentElement.removeChild(oldElement);
+                            }
+                            catch (exception) {
+                                console.log('cannot remove page, WTF ????????')
+                            }
+                            //});
+                        }
                     },
 
                     // Responds to navigation by adding new pages to the DOM.
                     _navigated: function (args) {
                         var navigator = this;
-                        
+
 
                         args.detail.state = args.detail.state || {};
                         var pagecontainer = navigator.element;
@@ -611,7 +632,7 @@
                             if (!navigator.global && !navigator.disableHistory && oldElement && oldElement.winControl && oldElement.winControl.navigationState && !args.skipHistory) {
                                 navigator._history.backstack.push(oldElement.winControl.navigationState);
                             }
-                            
+
                             var closeOldPagePromise = WinJS.Promise.wrap();
                         }
                         else {
@@ -627,12 +648,6 @@
                             }
                         }
 
-                        //if (this._handleSystemBackBtn && Windows && Windows.UI && Windows.UI.Core && Windows.UI.Core.SystemNavigationManager) {
-                        //    if (navigator.canGoBack)
-                        //        Windows.UI.Core.SystemNavigationManager.getForCurrentView().appViewBackButtonVisibility = Windows.UI.Core.AppViewBackButtonVisibility.visible;
-                        //    else
-                        //        Windows.UI.Core.SystemNavigationManager.getForCurrentView().appViewBackButtonVisibility = Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
-                        //}
                         args.detail.state.mcnNavigationDetails = {
                             id: WinJSContrib.Utils.guid(),
                             date: new Date()
@@ -655,7 +670,8 @@
                         //}
 
                         navigator.currentPageDetails = args.detail;
-
+                        //var timekey = "opening " + args.detail.location;
+                        //console.time(timekey);
                         var openNewPagePromise = WinJSContrib.UI.Pages.renderFragment(pagecontainer, args.detail.location, args.detail.state, {
                             //delay: tempo,
                             enterPage: navigator.animations.enterPage,
@@ -664,7 +680,7 @@
                             //  return parented;
                             //}),
 
-                            getFragmentElement : navigator.fragmentInjector,
+                            getFragmentElement: navigator.fragmentInjector,
 
                             closeOldPagePromise: closeOldPagePromise.then(function () { }, function () { }),
 
@@ -709,7 +725,9 @@
                                     WinJSContrib.UI.Application.progress.hide();
                             }
                         }).then(function () {
-                            navigator._lastNavigationPromise = undefined;
+                            if (navigator._lastNavigationPromise == openNewPagePromise)
+                                navigator._lastNavigationPromise = undefined;
+                            //console.timeEnd(timekey);
                         });
 
                         this._lastNavigationPromise = openNewPagePromise;
@@ -801,7 +819,7 @@
                                     }
 
                                     btn.onclick = function (arg) {
-                                        if (arg.currentTarget.classList.contains("win-navigation-backbutton")){
+                                        if (arg.currentTarget.classList.contains("win-navigation-backbutton")) {
                                             //it is winjs backbutton control, skip action...
                                             return;
                                         }

@@ -19,6 +19,8 @@ scripts\winjscontrib\winjscontrib.ui.morph.js
 scripts\winjscontrib\winjscontrib.ui.multipass-renderer.js
 scripts\winjscontrib\winjscontrib.ui.aspectratio.js
 scripts\winjscontrib\winjscontrib.ui.autosuggest.js
+css\winjscontrib\winjscontrib.ui.calendar.css
+scripts\winjscontrib\winjscontrib.ui.calendar.js
 css\winjscontrib\winjscontrib.ui.childviewflyout.css
 scripts\winjscontrib\winjscontrib.ui.childviewflyout.js
 css\winjscontrib\winjscontrib.ui.childviewflyout.less
@@ -66,6 +68,8 @@ css\winjscontrib\winjscontrib.ui.tabcontrol.less
 css\winjscontrib\winjscontrib.ui.tilemenu.css
 scripts\winjscontrib\winjscontrib.ui.tilemenu.js
 css\winjscontrib\winjscontrib.ui.tilemenu.less
+css\winjscontrib\winjscontrib.ui.time.css
+scripts\winjscontrib\winjscontrib.ui.time.js
 scripts\winjscontrib\winjscontrib.ui.visualstate.js
 scripts\winjscontrib\winjscontrib.core.js
 winjscontrib.ui.webcomponents.js
@@ -90,13 +94,6 @@ js\mcnext\mcnext.backgrounddownloads.js
 js\mcnext\mcnext.ui.datetimescroller.js
 js\movies.js
 TODO.txt
-WinJS\css\ui-dark.css
-WinJS\css\ui-light.css
-WinJS\fonts\Symbols.ttf
-WinJS\js\en-US\ui.strings.js
-WinJS\js\WinJS.intellisense.js
-WinJS\js\WinJS.intellisense-setup.js
-WinJS\js\WinJS.js
 apidoc\winjscontrib.doc.json
 css\app.css
 css\app.css.map
@@ -297,6 +294,9 @@ demos\ui\controls\datasources\simple\datasources.css.map
 demos\ui\controls\datasources\simple\datasources.html
 demos\ui\controls\datasources\simple\datasources.js
 demos\ui\controls\datasources\simple\datasources.less
+demos\ui\controls\dateandtime\dateandtime.css
+demos\ui\controls\dateandtime\dateandtime.html
+demos\ui\controls\dateandtime\dateandtime.js
 demos\ui\controls\detailPage\detailPage.css
 demos\ui\controls\detailPage\detailPage.html
 demos\ui\controls\detailPage\detailPage.js
@@ -500,8 +500,11 @@ scripts\velocity\velocity.ui.min.js
 scripts\WinJS\css\ui-dark.css
 scripts\WinJS\css\ui-light.css
 scripts\WinJS\fonts\Symbols.ttf
+Scripts\WinJS\js\base.js
 Scripts\WinJS\js\en-US\ui.strings.js
-Scripts\WinJS\js\WinJS.js
+Scripts\WinJS\js\ui.js
+Scripts\WinJS\js\WinJS.intellisense.js
+Scripts\WinJS\js\WinJS.intellisense-setup.js
 templates\article.html
 scripts\winjscontrib\winjscontrib.search.js
 scripts\winjscontrib\winjscontrib.search.worker.js

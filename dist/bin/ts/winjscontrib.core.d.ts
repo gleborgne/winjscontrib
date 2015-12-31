@@ -203,9 +203,6 @@ interface String {
     startsWith(e: any): any;
     endsWith(e: any): any;
 }
-declare module WinJS.UI {
-    var optionsParser: any;
-}
 declare module WinJSContrib.Promise {
     /**
      * apply callback for each item in the array in waterfall

@@ -32,10 +32,6 @@ interface String {
     endsWith(e);
 }
 
-declare module WinJS.UI {
-	var optionsParser: any;
-}
-
 if (!Object.map) {
     Object.map = function (obj, mapping) {
         var mapped = {};

@@ -61,6 +61,12 @@
     <Content Include="..\..\..\Controls\winjscontrib.ui.autosuggest.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.autosuggest.js</Link>
     </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.calendar.css">
+      <Link>css\winjscontrib\winjscontrib.ui.calendar.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.calendar.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.calendar.js</Link>
+    </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.flipview.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.flipview.js</Link>
     </Content>
@@ -75,6 +81,12 @@
     </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.itemswipe.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.itemswipe.js</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.time.css">
+      <Link>css\winjscontrib\winjscontrib.ui.time.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.time.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.time.js</Link>
     </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.visualstate.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.visualstate.js</Link>
@@ -338,13 +350,6 @@
     <Content Include="js\mcnext\mcnext.ui.datetimescroller.js" />
     <Content Include="js\movies.js" />
     <Content Include="TODO.txt" />
-    <Content Include="WinJS\css\ui-dark.css" />
-    <Content Include="WinJS\css\ui-light.css" />
-    <Content Include="WinJS\fonts\Symbols.ttf" />
-    <Content Include="WinJS\js\en-US\ui.strings.js" />
-    <Content Include="WinJS\js\WinJS.js" />
-    <Content Include="WinJS\js\WinJS.intellisense.js" />
-    <Content Include="WinJS\js\WinJS.intellisense-setup.js" />
     <None Include="MCNEXT WinJS Contrib W10_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

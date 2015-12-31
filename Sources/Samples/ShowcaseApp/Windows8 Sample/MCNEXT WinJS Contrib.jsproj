@@ -126,6 +126,12 @@
     <Content Include="..\..\..\Controls\winjscontrib.ui.autosuggest.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.autosuggest.js</Link>
     </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.calendar.css">
+      <Link>css\winjscontrib\winjscontrib.ui.calendar.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.calendar.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.calendar.js</Link>
+    </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.childviewflyout.css">
       <Link>css\winjscontrib\winjscontrib.ui.childviewflyout.css</Link>
     </Content>
@@ -263,6 +269,12 @@
     </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.tilemenu.less">
       <Link>css\winjscontrib\winjscontrib.ui.tilemenu.less</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.time.css">
+      <Link>css\winjscontrib\winjscontrib.ui.time.css</Link>
+    </Content>
+    <Content Include="..\..\..\Controls\winjscontrib.ui.time.js">
+      <Link>scripts\winjscontrib\winjscontrib.ui.time.js</Link>
     </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.visualstate.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.visualstate.js</Link>

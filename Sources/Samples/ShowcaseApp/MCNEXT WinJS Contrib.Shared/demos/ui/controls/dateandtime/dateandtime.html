@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>dateandtime</title>
+    <link href="/css/winjscontrib/winjscontrib.ui.calendar.css" rel="stylesheet" />
+    <link href="/css/winjscontrib/winjscontrib.ui.time.css" rel="stylesheet" />
+    <script src="/scripts/winjscontrib/winjscontrib.ui.calendar.js"></script>
+    <script src="/scripts/winjscontrib/winjscontrib.ui.time.js"></script>
+    <link href="dateandtime.css" rel="stylesheet" />
+    <script src="dateandtime.js"></script>
+</head>
+<body>
+    <div class="dateandtime fragment">
+        <header aria-label="Header content" role="banner">
+            <button class="win-backbutton" aria-label="Back" disabled type="button"></button>
+            <h1 class="titlearea win-type-ellipsis">
+                <span class="pagetitle">state button</span>
+            </h1>
+            <div class="actions">
+                <!--<div data-win-control="WinJSContrib.Sample.DocLink" data-win-options="{ datapath: 'WinJSContrib.UI.ItemSwipe' }"></div>-->
+                <div data-win-control="WinJSContrib.Sample.CodeLink" data-win-options="{ pagelink: './demos/ui/controls/dateandtime/dateandtime' }"></div>
+            </div>
+        </header>
+        <section class="page-section" aria-label="Main content" role="main">
+            <div class="bloc-description">
+                <p>
+                    The item swipe is a control for managing cross swipe on list items to trigger actions. It's like the cross swipe you have in Windows 10 mail app for deleting/archiving mails.
+                </p>
+            </div>
+            <div></div>
+            <div class="bloc-content">
+                <div id="calendar" member data-win-control="WinJSContrib.UI.Calendar"></div>
+            </div>
+</section>
+    </div>
+</body>
+</html>
