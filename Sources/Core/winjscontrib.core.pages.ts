@@ -9,6 +9,21 @@ module WinJSContrib.UI.Pages {
     var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Pages");
     export var verboseTraces = false;
 
+    var loadedPages = {};
+    export function preload(...pathes: string[]) {
+        pathes.forEach((path) => {
+            if (!loadedPages[path]) {
+                loadedPages[path] = true;
+                WinJS.Utilities.Scheduler.schedule(() => {
+                    var wrapper = document.createDocumentFragment();
+                    var elt = document.createElement("DIV");
+                    wrapper.appendChild(elt);
+                    WinJS.UI.Fragments.render(path, elt);
+                }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + path);
+            }
+        });
+    }
+
     /**
      * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
      * @field WinJSContrib.UI.Pages.defaultFragmentMixins
@@ -147,6 +162,7 @@ module WinJSContrib.UI.Pages {
      * @param {Object} options rendering options
      */
     export function renderFragment(container, location, args, options) {
+        loadedPages[location] = true;
         var fragmentCompleted;
         var fragmentError;
         options = options || {};
@@ -242,11 +258,13 @@ module WinJSContrib.UI.Pages {
 		public created: Date;
 		public resolved: Date;
 		public stepName: string;
+        public page: any;
 		_resolvePromise: any;
 		_rejectPromise: any;
 		public queue: Array<any>;
 
 		constructor(page, stepName, parent) {
+            this.page = page;
 			this.queue = [];
 			this.isDone = false;
 			this.stepName = stepName;
@@ -287,9 +305,10 @@ module WinJSContrib.UI.Pages {
 
                 if (verboseTraces) {
                     step.resolved = new Date();
-                    logger.verbose('resolved ' + step.stepName + '(' + (<any>step.resolved - <any>step.created) + 'ms) ');
+                    logger.verbose((<any>step.resolved - <any>step.created) + 'ms ' + step.stepName.toUpperCase() + ' ' + step.page.pageLifeCycle.profilerMarkIdentifier);
+                    profiler("WinJS.UI.Pages:" + step.stepName.toUpperCase() + step.page.pageLifeCycle.profilerMarkIdentifier + ",StartTM");
                 }
-
+                
 				return step.promise;
 			}
 
@@ -483,16 +502,18 @@ module WinJSContrib.UI.Pages {
 			element.style.display = 'none';
 
 			var profilerMarkIdentifier = " uri='" + uri + "'" + _BaseUtils._getProfilerMarkIdentifier(that.element);
+            that.pageLifeCycle.profilerMarkIdentifier = profilerMarkIdentifier;
 
 			_WriteProfilerMark("WinJS.UI.Pages:createPage" + profilerMarkIdentifier + ",StartTM");
 
 			if (WinJSContrib.UI.WebComponents) {
 				that.pageLifeCycle.observer = WinJSContrib.UI.WebComponents.watch(that.element);
 			}
-
+            
             var load = Promise.timeout().then(function Pages_load() {
                 return that.load(uri);
             }).then(function (loadResult) {
+                that.pageLifeCycle.log(() => "URI loaded " + that.pageLifeCycle.profilerMarkIdentifier);
                 //if page is defined by Js classes, call class constructors 
                 if (that._attachedConstructor) {
                     var realControl = new that._attachedConstructor(element, options);
@@ -511,7 +532,6 @@ module WinJSContrib.UI.Pages {
             });
 
 			var renderCalled = load.then(function Pages_init(loadResult) {
-
 				return Promise.join({
 					loadResult: loadResult,
 					initResult: that.init(element, options)
@@ -545,7 +565,7 @@ module WinJSContrib.UI.Pages {
 				WinJSContrib.UI.bindMembers(element, that);
 				return that.processed(element, options);
 			}).then(function () {
-				return that;
+                return that;
 			});
 
 			var callComplete = function () {
@@ -578,7 +598,7 @@ module WinJSContrib.UI.Pages {
 
 				that.pageLifeCycle.ended = new Date();
 				that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
-                logger.debug('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
+                logger.verbose(that.pageLifeCycle.delta + 'ms, page will start entering ' + uri);
 
 				//broadcast(that, element, 'pageReady', [element, options]);
 			}).then(function (result) {
@@ -653,6 +673,12 @@ module WinJSContrib.UI.Pages {
 						that.pageLifeCycle = {
 							created: new Date(),
 							location: uri,
+                            log : function(callback){
+                                if (verboseTraces){
+                                    var delta = <any>new Date() - this.created;
+                                    logger.verbose(delta + "ms " + callback());
+                                }
+                            },
 							stop: function () {
 								that.readyComplete.cancel();
 								that.cancelPromises();

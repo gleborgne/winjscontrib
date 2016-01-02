@@ -2807,6 +2807,25 @@ var WinJSContrib;
         (function (Pages) {
             var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Pages");
             Pages.verboseTraces = false;
+            var loadedPages = {};
+            function preload() {
+                var pathes = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    pathes[_i - 0] = arguments[_i];
+                }
+                pathes.forEach(function (path) {
+                    if (!loadedPages[path]) {
+                        loadedPages[path] = true;
+                        WinJS.Utilities.Scheduler.schedule(function () {
+                            var wrapper = document.createDocumentFragment();
+                            var elt = document.createElement("DIV");
+                            wrapper.appendChild(elt);
+                            WinJS.UI.Fragments.render(path, elt);
+                        }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + path);
+                    }
+                });
+            }
+            Pages.preload = preload;
             /**
              * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
              * @field WinJSContrib.UI.Pages.defaultFragmentMixins
@@ -2930,6 +2949,7 @@ var WinJSContrib;
              * @param {Object} options rendering options
              */
             function renderFragment(container, location, args, options) {
+                loadedPages[location] = true;
                 var fragmentCompleted;
                 var fragmentError;
                 options = options || {};
@@ -3010,6 +3030,7 @@ var WinJSContrib;
             var PageLifeCycleStep = (function () {
                 function PageLifeCycleStep(page, stepName, parent) {
                     var _this = this;
+                    this.page = page;
                     this.queue = [];
                     this.isDone = false;
                     this.stepName = stepName;
@@ -3045,7 +3066,8 @@ var WinJSContrib;
                         step._resolvePromise(arg);
                         if (Pages.verboseTraces) {
                             step.resolved = new Date();
-                            logger.verbose('resolved ' + step.stepName + '(' + (step.resolved - step.created) + 'ms) ');
+                            logger.verbose((step.resolved - step.created) + 'ms ' + step.stepName.toUpperCase() + ' ' + step.page.pageLifeCycle.profilerMarkIdentifier);
+                            profiler("WinJS.UI.Pages:" + step.stepName.toUpperCase() + step.page.pageLifeCycle.profilerMarkIdentifier + ",StartTM");
                         }
                         return step.promise;
                     }
@@ -3215,6 +3237,7 @@ var WinJSContrib;
                         that.pageLifeCycle.initialDisplay = element.style.display;
                     element.style.display = 'none';
                     var profilerMarkIdentifier = " uri='" + uri + "'" + _BaseUtils._getProfilerMarkIdentifier(that.element);
+                    that.pageLifeCycle.profilerMarkIdentifier = profilerMarkIdentifier;
                     _WriteProfilerMark("WinJS.UI.Pages:createPage" + profilerMarkIdentifier + ",StartTM");
                     if (WinJSContrib.UI.WebComponents) {
                         that.pageLifeCycle.observer = WinJSContrib.UI.WebComponents.watch(that.element);
@@ -3222,6 +3245,7 @@ var WinJSContrib;
                     var load = Promise.timeout().then(function Pages_load() {
                         return that.load(uri);
                     }).then(function (loadResult) {
+                        that.pageLifeCycle.log(function () { return "URI loaded " + that.pageLifeCycle.profilerMarkIdentifier; });
                         //if page is defined by Js classes, call class constructors 
                         if (that._attachedConstructor) {
                             var realControl = new that._attachedConstructor(element, options);
@@ -3295,7 +3319,7 @@ var WinJSContrib;
                         that.ready(element, options);
                         that.pageLifeCycle.ended = new Date();
                         that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
-                        logger.debug('navigation to ' + uri + ' took ' + that.pageLifeCycle.delta + 'ms');
+                        logger.verbose(that.pageLifeCycle.delta + 'ms, page will start entering ' + uri);
                         //broadcast(that, element, 'pageReady', [element, options]);
                     }).then(function (result) {
                         return that.pageLifeCycle.steps.ready.resolve();
@@ -3362,6 +3386,12 @@ var WinJSContrib;
                             that.pageLifeCycle = {
                                 created: new Date(),
                                 location: uri,
+                                log: function (callback) {
+                                    if (Pages.verboseTraces) {
+                                        var delta = new Date() - this.created;
+                                        logger.verbose(delta + "ms " + callback());
+                                    }
+                                },
                                 stop: function () {
                                     that.readyComplete.cancel();
                                     that.cancelPromises();

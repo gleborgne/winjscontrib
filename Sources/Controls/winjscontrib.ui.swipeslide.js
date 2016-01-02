@@ -22,8 +22,8 @@
             this.target = this.element;
             this.eventTracker = new WinJSContrib.UI.EventTracker();
             this.ptDown = null;
-            this.registerEvents();
-            this.allowed = options.allowed || { left: true, right: true };
+            this.registerEvents();            
+            this.allowed = options.allowed || { left: true, right: true, top : false, bottom : false };
             this.disabled = false;
             WinJS.UI.setOptions(this, options);
             this.thresholdFactor = this.thresholdFactor || 4;
@@ -133,7 +133,10 @@
                         var dY = ctrl.ptDown.y - event.screenY;
                     }
                     var moveval = this.ptDown.transformOffsetX + (-dX - this.threshold) / (window.devicePixelRatio * this.moveDivider);
-                    
+                    if (ctrl.direction == "vertical") {
+                        moveval = this.ptDown.transformOffsetY + (-dY - this.threshold) / (window.devicePixelRatio * this.moveDivider);
+                    }
+
                     var enableSwipe = true;
                     if (event.pointerId && this.touchOnly && event.pointerType != "touch") {
                         enableSwipe = false;
@@ -142,8 +145,19 @@
                     if (enableSwipe && ctrl._acceptSwipe(moveval)) {
                         if (this.setMoveIntent)
                             cancelAnimationFrame(this.setMoveIntent);
+
                         var arg = { dX: dX, dY: dY, move: (-dX - ctrl.threshold), screenMove: ctrl.ptDown.screenMove, direction: dX > 0 ? 'left' : 'right', handled: false };
-                        if ((arg.direction == "left" && ctrl.allowed.left) || (arg.direction == "right" && ctrl.allowed.right)) {
+
+                        if (ctrl.direction == "vertical") {
+                            arg.move = (-dY - ctrl.threshold);
+                            arg.direction = dY > 0 ? 'top' : 'bottom'
+                        }
+
+                        if (
+                            (arg.direction == "left" && ctrl.allowed.left) ||
+                            (arg.direction == "right" && ctrl.allowed.right) ||
+                            (arg.direction == "top" && ctrl.allowed.top) ||
+                            (arg.direction == "bottom" && ctrl.allowed.bottom)) {
                             ctrl.dispatchEvent('swipe', arg);
                             debugLog('swipe slide, swipeHandled ' + ctrl.swipeHandled + '/' + arg.handled + '/' + ctrl.zurgl);
                             if (!ctrl.swipeHandled) {
@@ -176,6 +190,9 @@
 
                 if (abs < ctrl.minSwipeDistance)
                     return false;
+
+                if (ctrl.direction == "vertical")
+                    return abs > (ctrl.element.clientHeight / ctrl.thresholdFactor)
 
                 return abs > (ctrl.element.clientWidth / ctrl.thresholdFactor)
             },
@@ -248,35 +265,76 @@
                     this.ptDown.maxDX = Math.max(this.ptDown.maxDX, adX);
                     this.ptDown.maxDY = Math.max(this.ptDown.maxDY, adY);
                     
-                    if (adX > 5 && adX > adY) {
-                        event.preventDefault(); //webkit...
-                        event.stopPropagation();
+                    if (ctrl.direction == "vertical") {
+                        if (adY > 5 && adY > adX) {
+                            event.preventDefault(); //webkit...
+                            event.stopPropagation();
+                        }
+                    }else{
+                        if (adX > 5 && adX > adY) {
+                            event.preventDefault(); //webkit...
+                            event.stopPropagation();
+                        }
+                    }
+
+                    var moveval = 0
+                    if (ctrl.direction == "vertical") {
+                        moveval = this.ptDown.transformOffsetY + (-dY - this.threshold) / (window.devicePixelRatio * this.moveDivider);
+                    } else {
+                        moveval = this.ptDown.transformOffsetX + (-dX - this.threshold) / (window.devicePixelRatio * this.moveDivider);
                     }
 
                     if (!this.ptDown.confirmed) {
-                        if (adY > this.threshold) {
-                            this.ptDown = null;
-                            return;
-                        }
-                        if (adX > this.threshold) {
-                            var moveval = this.ptDown.transformOffsetX + (-dX - this.threshold) / (window.devicePixelRatio * this.moveDivider);
-                            this.ptDown.confirmed = true;
-                            this.swipeHandled = false;
-                            debugLog('start swipe');
-                            var arg = { dX: dX, dY: dY, move: (-dX - ctrl.threshold), screenMove: ctrl.ptDown.screenMove, direction: dX > 0 ? 'left' : 'right', handled: false };
-                            this.dispatchEvent('swipestart', arg);
-                            var elt = event.currentTarget || event.target;
-                            if (event.pointerId && this.element.setPointerCapture) {
-                                this.element.setPointerCapture(event.pointerId);
+                        if (ctrl.direction == "vertical") {
+                            if (adX > this.threshold) {
+                                this.ptDown = null;
+                                return;
+                            }
+                            if (adY > this.threshold) {
+                                this.ptDown.confirmed = true;
+                                //if (event.target && event.target.classList.contains("tap")) {
+                                //    var tap = event.target.mcnTapTracking;
+                                //}
+                                this.swipeHandled = false;
+                                debugLog('start swipe');
+                                var arg = { dX: dX, dY: dY, move: (-dY - ctrl.threshold), screenMove: ctrl.ptDown.screenMove, direction: dY > 0 ? 'top' : 'bottom', handled: false };
+                                this.dispatchEvent('swipestart', arg);
+                                var elt = event.currentTarget || event.target;
+                                if (event.pointerId && this.element.setPointerCapture) {
+                                    this.element.setPointerCapture(event.pointerId);
+                                }
+                            }
+                        } else {
+                            if (adY > this.threshold) {
+                                this.ptDown = null;
+                                return;
+                            }
+                            if (adX > this.threshold) {
+                                this.ptDown.confirmed = true;
+                                this.swipeHandled = false;
+                                debugLog('start swipe');
+                                var arg = { dX: dX, dY: dY, move: (-dX - ctrl.threshold), screenMove: ctrl.ptDown.screenMove, direction: dX > 0 ? 'left' : 'right', handled: false };
+                                this.dispatchEvent('swipestart', arg);
+                                var elt = event.currentTarget || event.target;
+                                if (event.pointerId && this.element.setPointerCapture) {
+                                    this.element.setPointerCapture(event.pointerId);
+                                }
                             }
                         }
                     }
 
-                    if (this.ptDown.confirmed) {
-                        var moveval = this.ptDown.transformOffsetX + (-dX - this.threshold) / (window.devicePixelRatio * this.moveDivider);
-                        debugLog('swipe move ' + dX + ' / ' + moveval);
-                        var screenMove = this.setMove(moveval, -dX);
-                        this.dispatchEvent('swipeprogress', { screenMove: screenMove, move: (-dX - this.threshold), direction: dX > 0 ? 'left' : 'right', accept: ctrl._acceptSwipe(moveval), dX: dX, dY: dY });
+                    if (this.ptDown.confirmed) {  
+                        if (ctrl.direction == "vertical") {
+                            debugLog('swipe move ' + dY + ' / ' + moveval);
+                            var screenMove = this.setMove(moveval, -dY);
+                            var arg = { screenMove: screenMove, move: (-dY - this.threshold), direction: dY > 0 ? 'top' : 'bottom', accept: ctrl._acceptSwipe(moveval), dX: dX, dY: dY };
+                        }
+                        else {
+                            debugLog('swipe move ' + dX + ' / ' + moveval);
+                            var screenMove = this.setMove(moveval, -dX);
+                            var arg = { screenMove: screenMove, move: (-dX - this.threshold), direction: dX > 0 ? 'left' : 'right', accept: ctrl._acceptSwipe(moveval), dX: dX, dY: dY };
+                        }
+                        this.dispatchEvent('swipeprogress', arg);
                     }
                 }
                 else {
@@ -287,16 +345,31 @@
             setMove: function (move, dX) {
                 var ctrl = this;
 
-                //debugLog('raw move ' + move);
-                if (dX > 0 && !this.allowed.right) {
-                    move = Math.sqrt(move);
-                    if (move > this.element.clientWidth / 6)
-                        move = this.element.clientWidth / 6;
-                }
-                else if (dX < 0 && !this.allowed.left) {
-                    move = -Math.sqrt(-move);
-                    if (move < -(this.element.clientWidth / 6))
-                        move = -(this.element.clientWidth / 6);
+                if (ctrl.direction == "vertical") {
+                    var elementRef = this.element.clientHeight;
+                    if (dX > 0 && !this.allowed.bottom) {
+                        move = Math.sqrt(move);
+                        if (move > elementRef / 6)
+                            move = elementRef / 6;
+                    }
+                    else if (dX < 0 && !this.allowed.top) {
+                        move = -Math.sqrt(-move);
+                        if (move < -(elementRef / 6))
+                            move = -(elementRef / 6);
+                    }
+                } else {
+                    var elementRef = this.element.clientWidth;
+                    //debugLog('raw move ' + move);
+                    if (dX > 0 && !this.allowed.right) {
+                        move = Math.sqrt(move);
+                        if (move > elementRef / 6)
+                            move = elementRef / 6;
+                    }
+                    else if (dX < 0 && !this.allowed.left) {
+                        move = -Math.sqrt(-move);
+                        if (move < -(elementRef / 6))
+                            move = -(elementRef / 6);
+                    }
                 }
 
                 if (this.minMoveBounds && move < this.minMoveBounds) {
@@ -314,10 +387,16 @@
                 this.setMoveIntent = requestAnimationFrame(function () {
                     this.setMoveIntent = null;
                     debugLog('transform to ' + move);
+
+                    var translation = 'translate3d(' + ctrl._toSize(move) + ', 0px, 0px)';
+                    if (ctrl.direction == "vertical") {
+                        translation = 'translate3d(0px, ' + ctrl._toSize(move) + ', 0px)';
+                    }
+
                     if (ctrl.target.style.webkitTransform !== undefined) {
-                        ctrl.target.style.webkitTransform = 'translate3d(' + ctrl._toSize(move) + ', 0px, 0px)';
+                        ctrl.target.style.webkitTransform = translation;
                     } else {
-                        ctrl.target.style.transform = 'translate3d(' + ctrl._toSize(move) + ', 0px, 0px)';
+                        ctrl.target.style.transform = translation;
                     }
                 });
 

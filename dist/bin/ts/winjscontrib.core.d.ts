@@ -903,6 +903,7 @@ declare module WinJSContrib.UI.WebComponents {
 declare var profiler: any;
 declare module WinJSContrib.UI.Pages {
     var verboseTraces: boolean;
+    function preload(...pathes: string[]): void;
     /**
      * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
      * @field WinJSContrib.UI.Pages.defaultFragmentMixins
@@ -924,6 +925,7 @@ declare module WinJSContrib.UI.Pages {
         created: Date;
         resolved: Date;
         stepName: string;
+        page: any;
         _resolvePromise: any;
         _rejectPromise: any;
         queue: Array<any>;

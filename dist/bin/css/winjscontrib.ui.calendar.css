@@ -4,6 +4,17 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
+.mcn-datepicker {
+  display: inline;
+}
+.mcn-datepicker .mcn-datepicker-text {
+  display: inline;
+}
+.mcn-datepicker .mcn-datepicker-text:before {
+  content: "\e8bf";
+  font-family: "Segoe MDL2 Assets";
+  margin-right: 8px;
+}
 .mcn-datepicker-flyout {
   padding: 0;
   border: none;
@@ -21,14 +32,20 @@
   height: 38px;
   line-height: 38px;
   text-align: center;
-  border: none;
+  border: 2px solid transparent;
   background-color: transparent;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-.mcn-calendar button:hover {
+.mcn-calendar button:hover,
+.mcn-calendar button.tapped {
   background-color: #555;
+}
+.mcn-calendar button:disabled {
+  opacity: 0.2;
+  pointer-events: none;
+  touch-action: none;
 }
 .mcn-calendar .day-item,
 .mcn-calendar .day-header {
@@ -44,6 +61,18 @@
   font-size: 0.8rem;
   color: #AAA;
 }
+.mcn-calendar .day-item,
+.mcn-calendar .month-item {
+  touch-action: manipulation;
+}
+.mcn-calendar .day-item.today,
+.mcn-calendar .month-item.today {
+  border-color: #444;
+}
+.mcn-calendar .day-item.selected,
+.mcn-calendar .month-item.selected {
+  border-color: gold;
+}
 .mcn-calendar .day-item {
   width: 38px;
   height: 38px;
@@ -52,15 +81,9 @@
   display: block;
   font-weight: 500;
 }
-.mcn-calendar .day-item.selected {
-  border-color: gold;
-}
 .mcn-calendar .day-item.notthismonth {
   color: #777;
   font-weight: 400;
-}
-.mcn-calendar .day-item:disabled {
-  opacity: 0.2;
 }
 .mcn-calendar .navbuttons {
   position: absolute;
@@ -81,6 +104,19 @@
   width: 100%;
   height: 100%;
 }
+.mcn-calendar .month-itemspanel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row wrap;
+}
+.mcn-calendar .month-itemspanel .month-item {
+  width: 66.5px;
+  height: 66.5px;
+}
 .mcn-calendar .calendar-panel {
   position: absolute;
   left: 0;
@@ -89,11 +125,33 @@
   height: 100%;
   padding: 10px;
   box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.mcn-calendar .calendar-panel.disabled {
+  visibility: hidden;
+}
+.mcn-calendar .calendar-panel > header {
+  height: 38px;
+  padding-right: 86px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+.mcn-calendar .calendar-panel > header > * {
+  margin-right: 10px;
+}
+.mcn-calendar .calendar-panel > section {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
 }
 .mcn-calendar .calendar-panel .calendar-panel-content {
   position: relative;
   width: 100%;
   height: 100%;
+  flex: 1;
 }
 .mcn-calendar .calendar-panel .calendar-panel-content .calendar-panel-item {
   position: absolute;
@@ -118,6 +176,7 @@
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
+  position: relative;
 }
 .mcn-calendar .calendar-panel .calendar-panel-content .calendar-panel-item > section > header {
   display: flex;
@@ -130,6 +189,11 @@
 }
 .mcn-calendar .calendar-panel .calendar-panel-content .calendar-panel-item > section > section .day-items-wrapper {
   position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-flow: row wrap;
+  touch-action: none;
 }

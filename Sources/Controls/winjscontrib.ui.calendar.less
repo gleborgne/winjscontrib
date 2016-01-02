@@ -1,3 +1,17 @@
+.mcn-datepicker{
+    display : inline;
+
+    .mcn-datepicker-text{
+        display : inline;
+
+        &:before {
+            content : "\e8bf";
+            font-family : "Segoe MDL2 Assets";
+            margin-right : 8px;
+        }
+    }
+}
+
 .mcn-datepicker-flyout {
     padding: 0;
     border: none;
@@ -19,14 +33,20 @@
         height: @gridsize;
         line-height: @gridsize;
         text-align: center;
-        border: none;
+        border: 2px solid transparent;
         background-color: transparent;
         padding: 0;
         margin: 0;
         box-sizing: border-box;
 
-        &:hover {
+        &:hover, &.tapped {
             background-color: #555;
+        }
+
+        &:disabled {
+            opacity: 0.2;
+            pointer-events: none;
+            touch-action : none;
         }
     }
 
@@ -45,6 +65,18 @@
         color: #AAA;
     }
 
+    .day-item, .month-item {
+        touch-action : manipulation;
+
+        &.today{
+            border-color: #444;
+        }
+
+        &.selected {
+            border-color: gold;
+        }
+    }
+
     .day-item {
         width: @gridsize;
         height: @gridsize;
@@ -53,17 +85,9 @@
         display: block;
         font-weight: 500;
 
-        &.selected {
-            border-color: gold;
-        }
-
         &.notthismonth {
             color: #777;
             font-weight: 400;
-        }
-
-        &:disabled {
-            opacity: 0.2;
         }
     }
 
@@ -89,6 +113,21 @@
         height: 100%;
     }
 
+    .month-itemspanel {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-flow: row wrap;
+
+        .month-item {
+            width: 7*@gridsize/4;
+            height: 7*@gridsize/4;
+        }
+    }
+
     .calendar-panel {
         position: absolute;
         left: 0;
@@ -97,11 +136,37 @@
         height: 100%;
         padding: @space;
         box-sizing: border-box;
+        display: flex;
+        flex-flow: column nowrap;
+
+        &.disabled{
+            visibility : hidden;
+        }
+
+        > header {
+            height: @gridsize;
+            padding-right: 2*@gridsize+@space;
+            display: flex;
+            align-items: center;
+            padding-left: @space;
+
+            > * {
+                margin-right: 10px;
+            }
+        }
+
+        > section {
+            flex: 1;            
+            position: relative;
+            overflow : hidden;
+            touch-action : none;
+        }
 
         .calendar-panel-content {
             position: relative;
             width: 100%;
             height: 100%;
+            flex: 1;
 
             .calendar-panel-item {
                 position: absolute;
@@ -129,6 +194,7 @@
                     flex: 1;
                     display: flex;
                     flex-flow: column nowrap;
+                    position: relative;
 
                     > header {
                         display: flex;
@@ -142,8 +208,13 @@
 
                         .day-items-wrapper {
                             position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 100%;
+                            height: 100%;
                             display: flex;
                             flex-flow: row wrap;
+                            touch-action : none;
                         }
                     }
                 }
