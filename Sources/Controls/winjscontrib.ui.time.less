@@ -1,3 +1,180 @@
-.mcn-timeclock{
-	
+.mcn-timepicker {
+    display: inline;
+
+    .mcn-timepicker-text {
+        display: inline;
+
+        &:before {
+            content: "\e916";
+            font-family: "Segoe MDL2 Assets";
+            margin-right: 8px;
+        }
+    }
+}
+
+.mcn-timepicker-flyout {
+    padding: 0;
+    border: none;
+}
+
+.mcn-timeclock {
+    @gridsize: 38px;
+    @space: 10px;
+    @timeitemsize: 7*@gridsize / 4;
+    @radialitemsize: 38px;
+    width: 7*@gridsize + 2*@space;
+    height: 8*@gridsize + 3*@space;
+    position: relative;
+    background-color: #333;
+    color: white;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column nowrap;
+
+    button {
+        text-align: center;
+        border: 2px solid transparent;
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+
+        &:hover, &.tapped {
+            background-color: #555;
+        }
+
+        &:disabled {
+            opacity: 0.2;
+            pointer-events: none;
+            touch-action: none;
+        }
+    }
+
+    .timeitem {
+        width: @timeitemsize;
+        height: @timeitemsize;
+        line-height: @timeitemsize - 6;
+        font-size : 16pt;
+        font-weight : 300;
+
+        &.selected {
+            border-color: gold;
+        }
+    }
+
+    &.radial {
+        .timeitem,  > section .timepanel.minutespanel .timeitem {
+            width: @radialitemsize;
+            height: @radialitemsize;
+            line-height: @radialitemsize - 8;
+            font-size : 16pt;
+            position: absolute;
+            border-radius : 50%;
+            font-weight : 300;
+        }
+
+        > section .timepanel > section .itemspanel .items {
+            width: 230px;
+            margin : auto;
+        }
+    }
+
+    .hoursel {
+        width: 50%;
+    }
+
+    > header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: @space @space 0 @space;
+
+        button {
+            font-size: 28pt;
+            font-weight: 200;
+
+            &.current {
+                color: gold;
+            }
+        }
+
+        .sep {
+            margin: 0 8px;
+            font-size: 22pt;
+            font-weight: 200;
+            color: #999;
+        }
+    }
+
+    > section {
+        flex: 1;
+        position: relative;
+
+        .timepanel {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-flow: column nowrap;
+            padding: @space;
+            box-sizing: border-box;
+
+            &.hidden {
+                pointer-events: none;
+                opacity: 0;
+            }
+
+            > header {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            &.hourspanel {
+                > header {
+                    border-top: 1px solid #555;
+                    border-bottom: 1px solid #555;
+
+                    button {
+                        padding: @space;
+
+                        &.selected {
+                            background-color: #444;
+                        }
+                    }
+                }
+            }
+
+            &.minutespanel{
+                .timeitem{
+                    width : 33%;
+                    height : @timeitemsize - 4;
+                    line-height : @timeitemsize - 8;
+                }
+            }
+
+            > section {
+                flex: 1;
+                display: flex;
+                flex-flow: row wrap;
+                position: relative;
+
+                .itemspanel {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    left: 0;
+                    top: 0;
+
+                    .items {
+                        position: relative;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
 }

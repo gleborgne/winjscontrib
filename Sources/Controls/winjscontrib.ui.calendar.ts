@@ -130,7 +130,7 @@ module WinJSContrib.UI {
                     WinJS.Utilities.Scheduler.schedule(() => {
                         this.render();
                     }, WinJS.Utilities.Scheduler.Priority.idle);
-                }, 5000);
+                }, 2000);
             }
         }
 
@@ -204,6 +204,18 @@ module WinJSContrib.UI {
                 this.checkState();
             }
             this.checkState();
+
+            this.element.onmousewheel = (arg) => {
+                arg.preventDefault();
+                arg.stopPropagation();
+                if (arg.wheelDelta < 0) {
+                    if (this._currentPanel.allowNext())
+                        this._currentPanel.next();
+                } else {
+                    if (this._currentPanel.allowPrevious())
+                        this._currentPanel.previous();
+                }
+            }
         }
 
         checkState() {
@@ -393,7 +405,7 @@ module WinJSContrib.UI {
             this.currentDate = moment(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
             this.element = document.createElement('DIV');
             this.element.className = "calendar-panel-item day-panel-item";
-            this.element.id = "month" + this.currentDate.toDate().toISOString();
+            this.element.id = "month" + (this.currentDate.toDate().toISOString());
             this.parent.elementContent.appendChild(this.element);
             this.renderContent();
         }

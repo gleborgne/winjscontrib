@@ -391,8 +391,8 @@
          * @param {string[]} destProperty path to DOM element property targeted by binding
          */
         DataFormBinding: WinJS.Binding.initializer(function (source, sourceProperty, dest, destProperty) {
-            if (dest.binded && dest.winControl)
-                dest.winControl.dispose();
+            //if (dest.binded && dest.winControl)
+            //    dest.winControl.dispose();
 
             var dataform = WinJSContrib.UI.parentDataForm(dest);
             var options = WinJSContrib.UI.DataForm.DefaultBindingOptions;

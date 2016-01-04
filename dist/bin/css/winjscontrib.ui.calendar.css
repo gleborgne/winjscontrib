@@ -1,5 +1,5 @@
 ﻿/* 
- * WinJS Contrib v2.1.0.4
+ * WinJS Contrib v2.1.0.5
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -51,19 +51,26 @@
 .mcn-calendar .day-header {
   width: 38px;
   height: 38px;
-  line-height: 38px;
+  line-height: 32px;
   text-align: center;
   display: block;
   border: 2px solid transparent;
   box-sizing: border-box;
 }
-.mcn-calendar .day-header {
-  font-size: 0.8rem;
+.mcn-calendar .day-item.notthismonth,
+.mcn-calendar .day-header.notthismonth {
+  color: #777;
+  font-weight: 400;
+}
+.mcn-calendar .day-item.day-header {
+  font-size: 11pt;
   color: #AAA;
 }
 .mcn-calendar .day-item,
 .mcn-calendar .month-item {
   touch-action: manipulation;
+  font-size: 13pt;
+  font-weight: normal;
 }
 .mcn-calendar .day-item.today,
 .mcn-calendar .month-item.today {
@@ -72,18 +79,6 @@
 .mcn-calendar .day-item.selected,
 .mcn-calendar .month-item.selected {
   border-color: gold;
-}
-.mcn-calendar .day-item {
-  width: 38px;
-  height: 38px;
-  line-height: 38px;
-  text-align: center;
-  display: block;
-  font-weight: 500;
-}
-.mcn-calendar .day-item.notthismonth {
-  color: #777;
-  font-weight: 400;
 }
 .mcn-calendar .navbuttons {
   position: absolute;

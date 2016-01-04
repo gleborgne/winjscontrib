@@ -498,11 +498,12 @@
                 var scope = WinJSContrib.Utils.getScopeControl(dest);
                 if (scope) {
                     var tapCallback = WinJSContrib.Utils.readProperty(scope, destProperty);
+                    var lockpointer = dest.hasAttribute("lockpointer");
                     if (tapCallback && typeof tapCallback == "function") {
                         WinJSContrib.UI.tap(dest, function (arg) {
-                            var item = WinJSContrib.Utils.readProperty(source, sourceProperty);
-                            tapCallback.call(scope, arg, item);                            
-                        }, { lock: true });
+                            var item = WinJSContrib.Utils.readProperty(source, sourceProperty);                            
+                            tapCallback.call(scope, { target : arg, detail: { element: arg, item: item } });
+                        }, { lock: lockpointer });
                     }
                 }
             });

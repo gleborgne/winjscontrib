@@ -53,20 +53,27 @@
     .day-item, .day-header {
         width: @gridsize;
         height: @gridsize;
-        line-height: @gridsize;
+        line-height: @gridsize - 6;
         text-align: center;
         display: block;
         border: 2px solid transparent;
         box-sizing: border-box;
+
+        &.notthismonth {
+            color: #777;
+            font-weight: 400;
+        }
     }
 
-    .day-header {
-        font-size: 0.8rem;
+    .day-item.day-header {
+        font-size: 11pt;
         color: #AAA;
     }
 
     .day-item, .month-item {
         touch-action : manipulation;
+        font-size : 13pt;
+        font-weight : normal;
 
         &.today{
             border-color: #444;
@@ -74,20 +81,6 @@
 
         &.selected {
             border-color: gold;
-        }
-    }
-
-    .day-item {
-        width: @gridsize;
-        height: @gridsize;
-        line-height: @gridsize;
-        text-align: center;
-        display: block;
-        font-weight: 500;
-
-        &.notthismonth {
-            color: #777;
-            font-weight: 400;
         }
     }
 

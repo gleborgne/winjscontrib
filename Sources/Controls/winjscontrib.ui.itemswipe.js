@@ -1,6 +1,4 @@
-﻿//this is a blank WinJS control structure. It's intended to use as a startup for new controls
-
-(function () {
+﻿(function () {
 	'use strict';
 	WinJS.Namespace.define("WinJSContrib.UI", {	
 	    ItemSwipe: WinJS.Class.mix(WinJS.Class.define(
@@ -43,16 +41,21 @@
 			        this.swipeslide.allowed.right = false;
 			    }
 
-			    this.eventTracker.addEvent(this.element, "pointermove", function (arg) {
+			    this.eventTracker.addEvent(ctrl.element, "pointerenter", function (arg) {
 			        if (arg.pointerType == "mouse") {
-			            ctrl.element.classList.add("mousehover");
-			            clearTimeout(ctrl.hoverTimeout);
-			            ctrl.hoverTimeout = setTimeout(function () {
-			                if (ctrl.element)
-			                    ctrl.element.classList.remove("mousehover");
-			            }, ctrl.hoverDelay);
+			            ctrl.faceCard.classList.add("mousehover");
 			        }
-			    }, true);
+			    }, false);
+
+			    this.eventTracker.addEvent(ctrl.element, "pointerleave", function (arg) {
+			        if (arg.pointerType == "mouse") {
+			            setTimeout(function () {
+			                ctrl.faceCard.classList.remove("mousehover");
+			            }, 100);
+			        } else {
+			            ctrl.faceCard.classList.remove("mousehover");
+			        }
+			    }, false);
 
 			    this.eventTracker.addEvent(this.swipeslide, "swipestart", function (arg) {
 			        ctrl._processSwipeStart(arg);

@@ -1,5 +1,5 @@
 ﻿/* 
- * WinJS Contrib v2.1.0.4
+ * WinJS Contrib v2.1.0.5
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -504,11 +504,12 @@ var WinJSContrib;
                 var scope = WinJSContrib.Utils.getScopeControl(dest);
                 if (scope) {
                     var tapCallback = WinJSContrib.Utils.readProperty(scope, destProperty);
+                    var lockpointer = dest.hasAttribute("lockpointer");
                     if (tapCallback && typeof tapCallback == "function") {
                         WinJSContrib.UI.tap(dest, function (arg) {
-                            var item = WinJSContrib.Utils.readProperty(source, sourceProperty);
-                            tapCallback.call(scope, arg, item);                            
-                        }, { lock: true });
+                            var item = WinJSContrib.Utils.readProperty(source, sourceProperty);                            
+                            tapCallback.call(scope, { target : arg, detail: { element: arg, item: item } });
+                        }, { lock: lockpointer });
                     }
                 }
             });

@@ -6,20 +6,31 @@ declare module WinJSContrib.UI.WebComponents {
 var profiler = __global.msWriteProfilerMark || function () { };
 
 module WinJSContrib.UI.Pages {
+    function abs(uri) {
+        var a = window.document.createElement("a");
+        a.href = uri;
+        return a.href;
+    }
+
     var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Pages");
     export var verboseTraces = false;
+    export var preloadDelay = 500;
 
     var loadedPages = {};
     export function preload(...pathes: string[]) {
         pathes.forEach((path) => {
-            if (!loadedPages[path]) {
-                loadedPages[path] = true;
-                WinJS.Utilities.Scheduler.schedule(() => {
-                    var wrapper = document.createDocumentFragment();
-                    var elt = document.createElement("DIV");
-                    wrapper.appendChild(elt);
-                    WinJS.UI.Fragments.render(path, elt);
-                }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + path);
+            var absuri = abs(path);
+            if (!loadedPages[absuri]) {
+                logger.verbose("preload " + absuri);
+                loadedPages[absuri] = true;
+                WinJS.Promise.timeout(preloadDelay).then(() => { 
+                    WinJS.Utilities.Scheduler.schedule(() => {
+                        var wrapper = document.createDocumentFragment();
+                        var elt = document.createElement("DIV");
+                        wrapper.appendChild(elt);
+                        WinJS.UI.Fragments.render(absuri, elt);
+                    }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + absuri);
+                });
             }
         });
     }
@@ -162,7 +173,7 @@ module WinJSContrib.UI.Pages {
      * @param {Object} options rendering options
      */
     export function renderFragment(container, location, args, options) {
-        loadedPages[location] = true;
+        
         var fragmentCompleted;
         var fragmentError;
         options = options || {};
@@ -767,6 +778,7 @@ module WinJSContrib.UI.Pages {
 
         function render(uri, element, options?, parentedPromise?) {
             var Ctor = _CorePages.get(uri);
+            loadedPages[abs(uri)] = true;
             var control = new Ctor(element, options, null, parentedPromise);
             return control.renderComplete.then(null, function (err) {
                 return Promise.wrapError({

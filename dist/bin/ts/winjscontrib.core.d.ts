@@ -903,6 +903,7 @@ declare module WinJSContrib.UI.WebComponents {
 declare var profiler: any;
 declare module WinJSContrib.UI.Pages {
     var verboseTraces: boolean;
+    var preloadDelay: number;
     function preload(...pathes: string[]): void;
     /**
      * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).

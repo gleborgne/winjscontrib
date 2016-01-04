@@ -1,5 +1,5 @@
 ﻿/* 
- * WinJS Contrib v2.1.0.4
+ * WinJS Contrib v2.1.0.5
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -102,7 +102,7 @@ var WinJSContrib;
                         WinJS.Utilities.Scheduler.schedule(function () {
                             _this.render();
                         }, WinJS.Utilities.Scheduler.Priority.idle);
-                    }, 5000);
+                    }, 2000);
                 }
             }
             Object.defineProperty(CalendarControl.prototype, "value", {
@@ -174,6 +174,18 @@ var WinJSContrib;
                     _this.checkState();
                 };
                 this.checkState();
+                this.element.onmousewheel = function (arg) {
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                    if (arg.wheelDelta < 0) {
+                        if (_this._currentPanel.allowNext())
+                            _this._currentPanel.next();
+                    }
+                    else {
+                        if (_this._currentPanel.allowPrevious())
+                            _this._currentPanel.previous();
+                    }
+                };
             };
             CalendarControl.prototype.checkState = function () {
                 if (this._currentPanel.allowNext()) {
@@ -315,7 +327,7 @@ var WinJSContrib;
                 this.currentDate = moment(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
                 this.element = document.createElement('DIV');
                 this.element.className = "calendar-panel-item day-panel-item";
-                this.element.id = "month" + this.currentDate.toDate().toISOString();
+                this.element.id = "month" + (this.currentDate.toDate().toISOString());
                 this.parent.elementContent.appendChild(this.element);
                 this.renderContent();
             }

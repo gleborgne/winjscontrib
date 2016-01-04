@@ -2805,8 +2805,14 @@ var WinJSContrib;
     (function (UI) {
         var Pages;
         (function (Pages) {
+            function abs(uri) {
+                var a = window.document.createElement("a");
+                a.href = uri;
+                return a.href;
+            }
             var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Pages");
             Pages.verboseTraces = false;
+            Pages.preloadDelay = 500;
             var loadedPages = {};
             function preload() {
                 var pathes = [];
@@ -2814,14 +2820,18 @@ var WinJSContrib;
                     pathes[_i - 0] = arguments[_i];
                 }
                 pathes.forEach(function (path) {
-                    if (!loadedPages[path]) {
-                        loadedPages[path] = true;
-                        WinJS.Utilities.Scheduler.schedule(function () {
-                            var wrapper = document.createDocumentFragment();
-                            var elt = document.createElement("DIV");
-                            wrapper.appendChild(elt);
-                            WinJS.UI.Fragments.render(path, elt);
-                        }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + path);
+                    var absuri = abs(path);
+                    if (!loadedPages[absuri]) {
+                        logger.verbose("preload " + absuri);
+                        loadedPages[absuri] = true;
+                        WinJS.Promise.timeout(Pages.preloadDelay).then(function () {
+                            WinJS.Utilities.Scheduler.schedule(function () {
+                                var wrapper = document.createDocumentFragment();
+                                var elt = document.createElement("DIV");
+                                wrapper.appendChild(elt);
+                                WinJS.UI.Fragments.render(absuri, elt);
+                            }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + absuri);
+                        });
                     }
                 });
             }
@@ -2949,7 +2959,6 @@ var WinJSContrib;
              * @param {Object} options rendering options
              */
             function renderFragment(container, location, args, options) {
-                loadedPages[location] = true;
                 var fragmentCompleted;
                 var fragmentError;
                 options = options || {};
@@ -3466,6 +3475,7 @@ var WinJSContrib;
                 }
                 function render(uri, element, options, parentedPromise) {
                     var Ctor = _CorePages.get(uri);
+                    loadedPages[abs(uri)] = true;
                     var control = new Ctor(element, options, null, parentedPromise);
                     return control.renderComplete.then(null, function (err) {
                         return Promise.wrapError({
