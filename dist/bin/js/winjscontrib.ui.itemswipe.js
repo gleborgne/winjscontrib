@@ -202,6 +202,7 @@
 			_processInvoked: function (arg) {
 			    var ctrl = this;
 			    console.log("invoked");
+			    WinJSContrib.Utils.triggerEvent(ctrl.element, "click", true, false);
 			    WinJSContrib.Utils.triggerCustomEvent(ctrl.element, "itemswipeinvoked", true, false, { element: ctrl.element, item: ctrl.item });
 			},
 

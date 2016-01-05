@@ -737,6 +737,7 @@ declare module WinJSContrib.UI {
         disableAnimation: boolean;
         awaitAnim: boolean;
         errorDelay: number;
+        mapClickEvents: number;
     };
     /**
      * add tap behavior to an element, tap manages quirks like click delay, visual feedback, etc
@@ -904,7 +905,8 @@ declare var profiler: any;
 declare module WinJSContrib.UI.Pages {
     var verboseTraces: boolean;
     var preloadDelay: number;
-    function preload(...pathes: string[]): void;
+    function preload(...pathes: string[]): WinJS.IPromise<any[]>;
+    function preloadPath(path: string): WinJS.IPromise<WinJS.Utilities.Scheduler.IJob>;
     /**
      * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
      * @field WinJSContrib.UI.Pages.defaultFragmentMixins
@@ -920,6 +922,40 @@ declare module WinJSContrib.UI.Pages {
      * @param {Object} options rendering options
      */
     function renderFragment(container: any, location: any, args: any, options: any): WinJS.Promise<{}>;
+    interface PageLifeCycle {
+        created: Date;
+        location: string;
+        log: (callback: () => void) => void;
+        stop: () => void;
+        steps: {
+            init: PageLifeCycleStep;
+            render: PageLifeCycleStep;
+            process: PageLifeCycleStep;
+            layout: PageLifeCycleStep;
+            ready: PageLifeCycleStep;
+            enter: PageLifeCycleStep;
+        };
+        initialDisplay: string;
+    }
+    class DefferedLoadings {
+        resolved: boolean;
+        page: any;
+        items: (() => void | WinJS.Promise<any>)[];
+        constructor(page: any);
+        push(delegate: () => void | WinJS.Promise<any>): void;
+        resolve(): WinJS.IPromise<{}>;
+    }
+    class PageBase {
+        eventTracker: WinJSContrib.UI.EventTracker;
+        element: HTMLElement;
+        promises: WinJS.Promise<any>[];
+        defferedLoading: DefferedLoadings;
+        pageLifeCycle: PageLifeCycle;
+        parentedComplete: WinJS.Promise<any>;
+        q: (selector: string) => Element;
+        qAll: (selector: string) => Element[];
+        addPromise: (prom: WinJS.Promise<any>) => void;
+    }
     class PageLifeCycleStep {
         promise: WinJS.Promise<any>;
         isDone: boolean;

@@ -17,22 +17,28 @@ module WinJSContrib.UI.Pages {
     export var preloadDelay = 500;
 
     var loadedPages = {};
+
     export function preload(...pathes: string[]) {
-        pathes.forEach((path) => {
-            var absuri = abs(path);
-            if (!loadedPages[absuri]) {
-                logger.verbose("preload " + absuri);
-                loadedPages[absuri] = true;
-                WinJS.Promise.timeout(preloadDelay).then(() => { 
-                    WinJS.Utilities.Scheduler.schedule(() => {
-                        var wrapper = document.createDocumentFragment();
-                        var elt = document.createElement("DIV");
-                        wrapper.appendChild(elt);
-                        WinJS.UI.Fragments.render(absuri, elt);
-                    }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + absuri);
-                });
-            }
-        });
+        return WinJSContrib.Promise.waterfall(pathes, (path) =>{
+            return preloadPath(path);
+        })
+    }
+
+    export function preloadPath(path : string) {        
+        var absuri = abs(path);
+        if (!loadedPages[absuri]) {
+            logger.verbose("preload " + absuri);
+            loadedPages[absuri] = true;
+            return WinJS.Promise.timeout(preloadDelay).then(() => {
+                return WinJS.Utilities.Scheduler.schedule(() => {
+                    var wrapper = document.createDocumentFragment();
+                    var elt = document.createElement("DIV");
+                    wrapper.appendChild(elt);
+                    WinJS.UI.Fragments.render(absuri, elt);
+                }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + absuri);
+            });
+        }        
+        return WinJS.Promise.wrap();
     }
 
     /**
@@ -244,10 +250,14 @@ module WinJSContrib.UI.Pages {
 				});
 			}
 
-			elementCtrl.pageLifeCycle.steps.ready.attach(function () {
-				if (options.onready)
-					options.onready(elementCtrl.element, args);
+            if (options.onready) {
+                elementCtrl.pageLifeCycle.steps.ready.attach(function() {
+                    if (options.onready)
+                        options.onready(elementCtrl.element, args);
+                });
+            }
 
+            elementCtrl.pageLifeCycle.steps.enter.attach(function() {
                 if (elementCtrl.enterPageAnimation) {
                     return WinJS.Promise.as(elementCtrl.enterPageAnimation(element, options));
                 } else {
@@ -261,6 +271,73 @@ module WinJSContrib.UI.Pages {
         var elementCtrl = new pageConstructor(element, args, preparePageControl, parented);
 
         return fragmentPromise;
+    }
+
+    export interface PageLifeCycle {
+        created: Date,
+        location: string,
+        log : (callback : ()=>void) => void,
+        stop: () => void,
+        steps: {
+            init: PageLifeCycleStep,
+            render: PageLifeCycleStep,
+            process: PageLifeCycleStep,
+            layout: PageLifeCycleStep,
+            ready: PageLifeCycleStep,
+            enter: PageLifeCycleStep,
+        },
+        initialDisplay: string
+    }
+
+    export class DefferedLoadings{
+        resolved: boolean;
+        page: any;
+        items: (() => void | WinJS.Promise<any>)[];
+
+        constructor(page) {
+            this.items = [];
+            this.page = page;
+            this.resolved = false;
+            page.promises.push(page.pageLifeCycle.steps.ready.promise.then(()=>{
+                return this.resolve();
+            }));
+        }
+
+        push(delegate: () => void | WinJS.Promise<any>) {
+            if (!this.resolved) {
+                this.items.push(delegate);
+            }else{
+                setImmediate(() => {
+                    this.page.promises.push(WinJS.Promise.as(delegate()));
+                })
+            }
+        }
+
+        resolve(){
+            this.resolved = true;
+            if (!this.items.length){
+                return WinJS.Promise.wrap();
+            }
+
+            logger.verbose("resolve deffered loads");
+            return WinJSContrib.Promise.waterfall(this.items, (job) =>{
+                return WinJS.Promise.as(job()).then(() => {
+                    return WinJS.Promise.timeout();
+                });
+            });
+        }
+    }
+
+    export class PageBase {
+        public eventTracker: WinJSContrib.UI.EventTracker;
+        public element: HTMLElement;
+        public promises: WinJS.Promise<any>[];
+        public defferedLoading: DefferedLoadings;
+        public pageLifeCycle: PageLifeCycle;
+        public parentedComplete: WinJS.Promise<any>;
+        public q: (selector: string) => Element;
+        public qAll: (selector: string) => Element[];
+        public addPromise: (prom: WinJS.Promise<any>) => void;
     }
 
 	export class PageLifeCycleStep {
@@ -608,13 +685,14 @@ module WinJSContrib.UI.Pages {
 				that.ready(element, options);
 
 				that.pageLifeCycle.ended = new Date();
-				that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
-                logger.verbose(that.pageLifeCycle.delta + 'ms, page will start entering ' + uri);
+				that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;                
 
 				//broadcast(that, element, 'pageReady', [element, options]);
 			}).then(function (result) {
 				return that.pageLifeCycle.steps.ready.resolve();
-			}).then(function () {
+            }).then(function(result) {
+                return that.pageLifeCycle.steps.enter.resolve();
+            }).then(function() {
 				return that;
 			}).then(
 				null,
@@ -681,7 +759,7 @@ module WinJSContrib.UI.Pages {
                         that._eventTracker = new WinJSContrib.UI.EventTracker();
                         that._promises = [];
                         
-						that.pageLifeCycle = {
+                        that.pageLifeCycle = <PageLifeCycle>{
 							created: new Date(),
 							location: uri,
                             log : function(callback){
@@ -703,10 +781,12 @@ module WinJSContrib.UI.Pages {
 								render: new PageLifeCycleStep(that, 'render', null),
 								process: new PageLifeCycleStep(that, 'process', parent),
 								layout: new PageLifeCycleStep(that, 'layout', parent),
-								ready: new PageLifeCycleStep(that, 'ready', parent)
+								ready: new PageLifeCycleStep(that, 'ready', parent),
+                                enter: new PageLifeCycleStep(that, 'enter', parent),
 							},
 							initialDisplay: null
 						};
+                        that.defferedLoading = new DefferedLoadings(that);
 
                         this._disposed = false;
                         this.element = element = element || _Global.document.createElement("div");

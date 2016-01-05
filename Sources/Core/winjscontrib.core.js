@@ -2296,7 +2296,8 @@ var WinJSContrib;
             animUp: null,
             disableAnimation: false,
             awaitAnim: false,
-            errorDelay: 3000
+            errorDelay: 3000,
+            mapClickEvents: 0
         };
         if (WinJS && WinJS.UI && WinJS.UI.Animation) {
             UI.defaultTapBehavior.animDown = WinJS.UI.Animation.pointerDown;
@@ -2423,6 +2424,7 @@ var WinJSContrib;
             element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
             element.mcnTapTracking.disableAnimation = opt.disableAnimation || UI.defaultTapBehavior.disableAnimation;
             if (element.mcnTapTracking.disableAnimation) {
+                WinJS.Utilities.addClass(element, 'tap-disableanimation');
                 element.mcnTapTracking.animDown = function () { return WinJS.Promise.wrap(); };
                 element.mcnTapTracking.animUp = function () { return WinJS.Promise.wrap(); };
             }
@@ -2435,6 +2437,7 @@ var WinJSContrib;
             element.mcnTapTracking.lock = opt.lock;
             element.mcnTapTracking.awaitAnim = opt.awaitAnim || UI.defaultTapBehavior.awaitAnim;
             element.mcnTapTracking.errorDelay = opt.errorDelay || UI.defaultTapBehavior.errorDelay;
+            element.mcnTapTracking.mapClickEvents = opt.mapClickEvents || UI.defaultTapBehavior.mapClickEvents;
             element.mcnTapTracking.tapOnDown = opt.tapOnDown;
             element.mcnTapTracking.pointerModel = 'none';
             element.mcnTapTracking.invoke = function (arg) {
@@ -2447,8 +2450,11 @@ var WinJSContrib;
                         if (tracking.lastinvoke) {
                             dif = now - tracking.lastinvoke;
                         }
-                        if (dif < 100)
+                        if (dif < tracking.mapClickEvents) {
+                            arg.preventDefault();
+                            arg.stopPropagation();
                             return;
+                        }
                         var res = tracking.callback(elt, arg);
                         tracking.lastinvoke = new Date();
                         if (res && WinJS.Promise.is(res)) {
@@ -2474,11 +2480,13 @@ var WinJSContrib;
                     }
                 }
             };
-            element.onclick = function (arg) {
-                if (element && element.mcnTapTracking) {
-                    element.mcnTapTracking.invoke(arg);
-                }
-            };
+            if (element.mcnTapTracking.mapClickEvents > 0) {
+                element.onclick = function (arg) {
+                    if (element && arg.target == element && element.mcnTapTracking) {
+                        element.mcnTapTracking.invoke(arg);
+                    }
+                };
+            }
             element.mcnTapTracking.dispose = function () {
                 WinJS.Utilities.removeClass(element, 'tap');
                 this.eventTracker.dispose();
@@ -2819,23 +2827,28 @@ var WinJSContrib;
                 for (var _i = 0; _i < arguments.length; _i++) {
                     pathes[_i - 0] = arguments[_i];
                 }
-                pathes.forEach(function (path) {
-                    var absuri = abs(path);
-                    if (!loadedPages[absuri]) {
-                        logger.verbose("preload " + absuri);
-                        loadedPages[absuri] = true;
-                        WinJS.Promise.timeout(Pages.preloadDelay).then(function () {
-                            WinJS.Utilities.Scheduler.schedule(function () {
-                                var wrapper = document.createDocumentFragment();
-                                var elt = document.createElement("DIV");
-                                wrapper.appendChild(elt);
-                                WinJS.UI.Fragments.render(absuri, elt);
-                            }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + absuri);
-                        });
-                    }
+                return WinJSContrib.Promise.waterfall(pathes, function (path) {
+                    return preloadPath(path);
                 });
             }
             Pages.preload = preload;
+            function preloadPath(path) {
+                var absuri = abs(path);
+                if (!loadedPages[absuri]) {
+                    logger.verbose("preload " + absuri);
+                    loadedPages[absuri] = true;
+                    return WinJS.Promise.timeout(Pages.preloadDelay).then(function () {
+                        return WinJS.Utilities.Scheduler.schedule(function () {
+                            var wrapper = document.createDocumentFragment();
+                            var elt = document.createElement("DIV");
+                            wrapper.appendChild(elt);
+                            WinJS.UI.Fragments.render(absuri, elt);
+                        }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + absuri);
+                    });
+                }
+                return WinJS.Promise.wrap();
+            }
+            Pages.preloadPath = preloadPath;
             /**
              * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
              * @field WinJSContrib.UI.Pages.defaultFragmentMixins
@@ -3020,9 +3033,13 @@ var WinJSContrib;
                             return options.closeOldPagePromise;
                         });
                     }
-                    elementCtrl.pageLifeCycle.steps.ready.attach(function () {
-                        if (options.onready)
-                            options.onready(elementCtrl.element, args);
+                    if (options.onready) {
+                        elementCtrl.pageLifeCycle.steps.ready.attach(function () {
+                            if (options.onready)
+                                options.onready(elementCtrl.element, args);
+                        });
+                    }
+                    elementCtrl.pageLifeCycle.steps.enter.attach(function () {
                         if (elementCtrl.enterPageAnimation) {
                             return WinJS.Promise.as(elementCtrl.enterPageAnimation(element, options));
                         }
@@ -3036,6 +3053,48 @@ var WinJSContrib;
                 return fragmentPromise;
             }
             Pages.renderFragment = renderFragment;
+            var DefferedLoadings = (function () {
+                function DefferedLoadings(page) {
+                    var _this = this;
+                    this.items = [];
+                    this.page = page;
+                    this.resolved = false;
+                    page.promises.push(page.pageLifeCycle.steps.ready.promise.then(function () {
+                        return _this.resolve();
+                    }));
+                }
+                DefferedLoadings.prototype.push = function (delegate) {
+                    var _this = this;
+                    if (!this.resolved) {
+                        this.items.push(delegate);
+                    }
+                    else {
+                        setImmediate(function () {
+                            _this.page.promises.push(WinJS.Promise.as(delegate()));
+                        });
+                    }
+                };
+                DefferedLoadings.prototype.resolve = function () {
+                    this.resolved = true;
+                    if (!this.items.length) {
+                        return WinJS.Promise.wrap();
+                    }
+                    logger.verbose("resolve deffered loads");
+                    return WinJSContrib.Promise.waterfall(this.items, function (job) {
+                        return WinJS.Promise.as(job()).then(function () {
+                            return WinJS.Promise.timeout();
+                        });
+                    });
+                };
+                return DefferedLoadings;
+            })();
+            Pages.DefferedLoadings = DefferedLoadings;
+            var PageBase = (function () {
+                function PageBase() {
+                }
+                return PageBase;
+            })();
+            Pages.PageBase = PageBase;
             var PageLifeCycleStep = (function () {
                 function PageLifeCycleStep(page, stepName, parent) {
                     var _this = this;
@@ -3328,10 +3387,11 @@ var WinJSContrib;
                         that.ready(element, options);
                         that.pageLifeCycle.ended = new Date();
                         that.pageLifeCycle.delta = that.pageLifeCycle.ended - that.pageLifeCycle.created;
-                        logger.verbose(that.pageLifeCycle.delta + 'ms, page will start entering ' + uri);
                         //broadcast(that, element, 'pageReady', [element, options]);
                     }).then(function (result) {
                         return that.pageLifeCycle.steps.ready.resolve();
+                    }).then(function (result) {
+                        return that.pageLifeCycle.steps.enter.resolve();
                     }).then(function () {
                         return that;
                     }).then(null, function Pages_error(err) {
@@ -3414,10 +3474,12 @@ var WinJSContrib;
                                     render: new PageLifeCycleStep(that, 'render', null),
                                     process: new PageLifeCycleStep(that, 'process', parent),
                                     layout: new PageLifeCycleStep(that, 'layout', parent),
-                                    ready: new PageLifeCycleStep(that, 'ready', parent)
+                                    ready: new PageLifeCycleStep(that, 'ready', parent),
+                                    enter: new PageLifeCycleStep(that, 'enter', parent),
                                 },
                                 initialDisplay: null
                             };
+                            that.defferedLoading = new DefferedLoadings(that);
                             this._disposed = false;
                             this.element = element = element || _Global.document.createElement("div");
                             element.msSourceLocation = uri;

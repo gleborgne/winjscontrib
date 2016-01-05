@@ -739,7 +739,8 @@ module WinJSContrib.UI {
         animUp: null,
         disableAnimation: false,
         awaitAnim: false,
-        errorDelay: 3000
+        errorDelay: 3000,
+        mapClickEvents : 0
     }
 
     if (WinJS && WinJS.UI && WinJS.UI.Animation) {
@@ -868,6 +869,7 @@ module WinJSContrib.UI {
         element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
         element.mcnTapTracking.disableAnimation = opt.disableAnimation || defaultTapBehavior.disableAnimation;
         if (element.mcnTapTracking.disableAnimation) {
+            WinJS.Utilities.addClass(element, 'tap-disableanimation');
             element.mcnTapTracking.animDown = function() { return WinJS.Promise.wrap() };
             element.mcnTapTracking.animUp = function() { return WinJS.Promise.wrap() };
         } else {
@@ -879,6 +881,7 @@ module WinJSContrib.UI {
         element.mcnTapTracking.lock = opt.lock;
         element.mcnTapTracking.awaitAnim = opt.awaitAnim || defaultTapBehavior.awaitAnim;
         element.mcnTapTracking.errorDelay = opt.errorDelay || defaultTapBehavior.errorDelay;
+        element.mcnTapTracking.mapClickEvents = opt.mapClickEvents || defaultTapBehavior.mapClickEvents;
         element.mcnTapTracking.tapOnDown = opt.tapOnDown;
         element.mcnTapTracking.pointerModel = 'none';
         element.mcnTapTracking.invoke = function(arg) {
@@ -892,8 +895,11 @@ module WinJSContrib.UI {
                         dif = now - tracking.lastinvoke;
                     }
 
-                    if (dif < 100)
+                    if (dif < tracking.mapClickEvents) {
+                        arg.preventDefault();
+                        arg.stopPropagation();
                         return;
+                    }
 
                     var res = tracking.callback(elt, arg);
                     tracking.lastinvoke = new Date();
@@ -921,9 +927,11 @@ module WinJSContrib.UI {
             }
         }
 
-        element.onclick = function(arg) {
-            if (element && element.mcnTapTracking) {
-                element.mcnTapTracking.invoke(arg);
+        if (element.mcnTapTracking.mapClickEvents > 0) {
+            element.onclick = function(arg) {
+                if (element && arg.target == element && element.mcnTapTracking) {
+                    element.mcnTapTracking.invoke(arg);
+                }
             }
         }
 

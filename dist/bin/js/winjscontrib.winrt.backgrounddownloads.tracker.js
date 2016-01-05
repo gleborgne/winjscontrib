@@ -424,7 +424,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
             return item;
         },
 
-        add: function (item, itemid, folderpath, filename, uri) {
+        add: function (item, itemid, folderpath, filename, uri, immediate) {
             var tracker = this;
 
             var existing = tracker.items.filter(function (i) {
@@ -444,9 +444,17 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
 
             tracker.items.push(observable);
 
-            tracker.debouncedCheck();
             tracker.debouncedSave();
 
+            if (immediate) {
+                return this.startDownloads([observable]).then(function(downloads) {
+                    if (downloads && downloads.length)
+                        return downloads[0];
+                });
+            }
+
+            tracker.debouncedCheck();
+            
             return WinJS.Promise.wrap(observable);
         },
 
@@ -474,12 +482,12 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                         if (WinJSContrib.BgDownloads.currentDownloads.length > tracker.maxConcurrentDownloads) {
                             observable.status = downloadStatus.waiting;
                             logger.debug("too much pendings dl " + WinJSContrib.BgDownloads.currentDownloads.length + " / " + tracker.maxConcurrentDownloads + " " + tracker.items.length);
-                            return WinJS.Promise.wrap();
+                            return WinJS.Promise.wrap(null);
                         }
 
                         var dl = new WinJSContrib.BgDownloads.Download();
                         var filename = encodeURIComponent(observable.filename);
-                        var uri = new Windows.Foundation.Uri(observable.uri)
+                        var uri = new Windows.Foundation.Uri(observable.uri);
                         var startDownload = dl.start(uri, filename + ".download", folder, Windows.Storage.CreationCollisionOption.replaceExisting).then(function (download) {
                             logger.debug("bgdownload start " + WinJSContrib.BgDownloads.currentDownloads.length + " / " + tracker.maxConcurrentDownloads + " " + tracker.items.length);
                             observable.status = downloadStatus.downloading;
@@ -487,11 +495,13 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                             observable.downloadid = download.download.guid;
                             observable.filepath = download.file;
                             tracker.attach(observable, download);
+                            return observable;
                         }).then(null, function (err) {
                             logger.error("download start error " + err);
                             observable.status = downloadStatus.error;
                             observable.download = null;
                             observable.downloadid = null;
+                            return observable;
                         });
 
                         return startDownload;
