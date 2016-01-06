@@ -1898,7 +1898,7 @@ var WinJSContrib;
             });
         }
         UI.removeElementAnimation = removeElementAnimation;
-        function bindAction(el, element, control) {
+        function bindAction(el, element, control, item) {
             if (!el)
                 return;
             el.classList.add('page-action');
@@ -1926,7 +1926,7 @@ var WinJSContrib;
                         }
                     }
                     return p.then(function (arg) {
-                        return control[actionName].bind(control)({ elt: eltarg, args: arg });
+                        return control[actionName].bind(control)({ elt: eltarg, args: arg, item: item });
                     });
                 });
             }
@@ -1938,18 +1938,19 @@ var WinJSContrib;
          * @function WinJSContrib.UI.bindPageActions
          * @param {HTMLElement} element root node crawled for page actions
          * @param {Object} control control owning functions to call
+         * @param {item} optionnal argument for adding an item to call
          */
-        function bindPageActions(element, control) {
+        function bindPageActions(element, control, item) {
             var elements = element.querySelectorAll('*[data-page-action], *[tap]');
             if (elements && elements.length) {
                 for (var i = 0, l = elements.length; i < l; i++) {
                     var el = elements[i];
-                    bindAction(el, element, control);
+                    bindAction(el, element, control, item);
                 }
             }
         }
         UI.bindPageActions = bindPageActions;
-        function bindLink(el, element) {
+        function bindLink(el, element, item) {
             if (!el)
                 return;
             el.classList.add('page-link');
@@ -1987,6 +1988,8 @@ var WinJSContrib;
                             return val;
                         });
                     }
+                    if (!actionArgs && item)
+                        actionArgs = { item: item };
                     return p.then(function (actionArgs) {
                         if (!applink && WinJSContrib.UI.parentNavigator && WinJSContrib.UI.parentNavigator(eltarg)) {
                             var nav = WinJSContrib.UI.parentNavigator(eltarg);
@@ -2006,12 +2009,12 @@ var WinJSContrib;
          * @function WinJSContrib.UI.bindPageLinks
          * @param {HTMLElement} element root node crawled for page actions
          */
-        function bindPageLinks(element) {
+        function bindPageLinks(element, item) {
             var elements = element.querySelectorAll('*[data-page-link], *[linkto]');
             if (elements && elements.length) {
                 for (var i = 0, l = elements.length; i < l; i++) {
                     var el = elements[i];
-                    bindLink(el, element);
+                    bindLink(el, element, item);
                 }
             }
         }
@@ -2062,9 +2065,9 @@ var WinJSContrib;
          * @param {HTMLElement} element root node crawled for page actions
          * @param {Object} control control owning functions to call
          */
-        function bindActions(element, control) {
-            WinJSContrib.UI.bindPageActions(element, control);
-            WinJSContrib.UI.bindPageLinks(element);
+        function bindActions(element, control, item) {
+            WinJSContrib.UI.bindPageActions(element, control, item);
+            WinJSContrib.UI.bindPageLinks(element, item);
         }
         UI.bindActions = bindActions;
         /**

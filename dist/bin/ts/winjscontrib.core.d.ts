@@ -639,8 +639,9 @@ declare module WinJSContrib.UI {
      * @function WinJSContrib.UI.bindPageActions
      * @param {HTMLElement} element root node crawled for page actions
      * @param {Object} control control owning functions to call
+     * @param {item} optionnal argument for adding an item to call
      */
-    function bindPageActions(element: any, control: any): void;
+    function bindPageActions(element: any, control: any, item?: any): void;
     /**
      * setup declarative binding to page link. It looks for "data-page-link" attributes.
      * If any the content of the attribute point toward a page. clicking that element will navigate to that page.
@@ -648,7 +649,7 @@ declare module WinJSContrib.UI {
      * @function WinJSContrib.UI.bindPageLinks
      * @param {HTMLElement} element root node crawled for page actions
      */
-    function bindPageLinks(element: any): void;
+    function bindPageLinks(element: any, item?: any): void;
     function parentNavigator(element: any): any;
     /**
      * Add this element or control as member to the control. It looks for "data-page-member" attributes. If attribute is empty, it tooks the element id as member name.
@@ -663,7 +664,7 @@ declare module WinJSContrib.UI {
      * @param {HTMLElement} element root node crawled for page actions
      * @param {Object} control control owning functions to call
      */
-    function bindActions(element: any, control: any): void;
+    function bindActions(element: any, control: any, item?: any): void;
     /**
      * Trigger events on media queries. This class is usefull as a component for other controls to change some properties based on media queries
      * @class WinJSContrib.UI.MediaTrigger
