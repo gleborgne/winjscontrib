@@ -2295,6 +2295,7 @@ var WinJSContrib;
             animDown: null,
             animUp: null,
             disableAnimation: false,
+            disableAria: false,
             awaitAnim: false,
             errorDelay: 3000,
             mapClickEvents: 0
@@ -2416,15 +2417,19 @@ var WinJSContrib;
                 element.mcnTapTracking.dispose();
             }
             WinJS.Utilities.addClass(element, 'tap');
-            if (!options || !options.disableAria) {
-                element.setAttribute("tabindex", "0");
-                element.setAttribute("role", "button");
-            }
             element.mcnTapTracking = element.mcnTapTracking || {};
+            element.mcnTapTracking.disableAria = opt.disableAria || UI.defaultTapBehavior.disableAria;
+            if (!element.mcnTapTracking.disableAria) {
+                if (!element.hasAttribute("tabindex"))
+                    element.setAttribute("tabindex", "0");
+                if (!element.hasAttribute("role"))
+                    element.setAttribute("role", "button");
+            }
             element.mcnTapTracking.eventTracker = new WinJSContrib.UI.EventTracker();
             element.mcnTapTracking.disableAnimation = opt.disableAnimation || UI.defaultTapBehavior.disableAnimation;
             if (element.mcnTapTracking.disableAnimation) {
-                WinJS.Utilities.addClass(element, 'tap-disableanimation');
+                if (opt.disableAnimation)
+                    WinJS.Utilities.addClass(element, 'tap-disableanimation');
                 element.mcnTapTracking.animDown = function () { return WinJS.Promise.wrap(); };
                 element.mcnTapTracking.animUp = function () { return WinJS.Promise.wrap(); };
             }

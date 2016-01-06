@@ -735,6 +735,7 @@ declare module WinJSContrib.UI {
         animDown: any;
         animUp: any;
         disableAnimation: boolean;
+        disableAria: boolean;
         awaitAnim: boolean;
         errorDelay: number;
         mapClickEvents: number;
