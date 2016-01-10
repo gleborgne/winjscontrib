@@ -29,11 +29,13 @@ var WinJSContrib;
                     _this.value = _this.calendar.value;
                 };
                 this.textElement = document.createElement("DIV");
-                this.textElement.className = "mcn-datepicker-text";
+                this.textElement.className = "mcn-datepicker-text tap";
                 this.element.appendChild(this.textElement);
-                this.element.tabIndex = 0;
-                this.element.setAttribute("role", "button");
-                this.textElement.onclick = function () {
+                this.textElement.tabIndex = 0;
+                this.textElement.setAttribute("role", "button");
+                this.textElement.onclick = function (arg) {
+                    arg.preventDefault();
+                    arg.stopPropagation();
                     _this.flyout.show(_this.textElement);
                 };
                 WinJS.UI.setOptions(this, options);
@@ -233,6 +235,7 @@ var WinJSContrib;
                 this.parent = parent;
                 this.element = document.createElement('DIV');
                 this.element.className = "calendar-panel";
+                this.element.tabIndex = -1;
                 this.parent.panelsContainer.appendChild(this.element);
                 this._currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
             }

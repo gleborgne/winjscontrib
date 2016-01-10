@@ -42,11 +42,13 @@ var WinJSContrib;
                     _this.timeclock.switchToHours();
                 };
                 this.textElement = document.createElement("DIV");
-                this.textElement.className = "mcn-timepicker-text";
+                this.textElement.className = "mcn-timepicker-text tap";
                 this.element.appendChild(this.textElement);
-                this.element.tabIndex = 0;
-                this.element.setAttribute("role", "button");
-                this.textElement.onclick = function () {
+                this.textElement.tabIndex = 0;
+                this.textElement.setAttribute("role", "button");
+                this.textElement.onclick = function (arg) {
+                    arg.preventDefault();
+                    arg.stopPropagation();
                     _this.flyout.show(_this.textElement);
                 };
                 this.textElement.innerText = this.timeclock.value;

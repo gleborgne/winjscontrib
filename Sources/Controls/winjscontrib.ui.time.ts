@@ -45,12 +45,14 @@ module WinJSContrib.UI {
             }
 
             this.textElement = document.createElement("DIV");
-            this.textElement.className = "mcn-timepicker-text";
+            this.textElement.className = "mcn-timepicker-text tap";
             this.element.appendChild(this.textElement);
 
-            this.element.tabIndex = 0;
-            this.element.setAttribute("role", "button");
-            this.textElement.onclick = () => {
+            this.textElement.tabIndex = 0;
+            this.textElement.setAttribute("role", "button");
+            this.textElement.onclick = (arg) => {
+                arg.preventDefault();
+                arg.stopPropagation();
                 this.flyout.show(this.textElement);
             };
             this.textElement.innerText = this.timeclock.value;

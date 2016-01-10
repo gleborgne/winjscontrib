@@ -684,6 +684,16 @@ var WinJSContrib;
 (function (WinJSContrib) {
     var Utils;
     (function (Utils) {
+        var EventDispatcher = (function () {
+            function EventDispatcher() {
+            }
+            EventDispatcher.prototype.dispatchEvent = function (type, data) { };
+            EventDispatcher.prototype.addEventListener = function (type, callback) { };
+            EventDispatcher.prototype.removeEventListener = function (type, callback) { };
+            return EventDispatcher;
+        })();
+        Utils.EventDispatcher = EventDispatcher;
+        Utils.EventDispatcher = WinJS.Class.mix(EventDispatcher, WinJS.Utilities.eventMixin);
         /**
          * extend an object with properties from subsequent objects
          * @function WinJSContrib.Utils.extend

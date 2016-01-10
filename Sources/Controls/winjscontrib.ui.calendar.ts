@@ -30,12 +30,15 @@ module WinJSContrib.UI {
             }
 
             this.textElement = document.createElement("DIV");
-            this.textElement.className = "mcn-datepicker-text";
+            this.textElement.className = "mcn-datepicker-text tap";
             this.element.appendChild(this.textElement);
 
-            this.element.tabIndex = 0;
-            this.element.setAttribute("role", "button");
-            this.textElement.onclick = () => {
+            this.textElement.tabIndex = 0;
+            this.textElement.setAttribute("role", "button");
+
+            this.textElement.onclick = (arg) => {
+                arg.preventDefault();
+                arg.stopPropagation();
                 this.flyout.show(this.textElement);
             };
 
@@ -284,6 +287,7 @@ module WinJSContrib.UI {
             this.parent = parent;
             this.element = document.createElement('DIV');
             this.element.className = "calendar-panel";
+            this.element.tabIndex = -1;
             this.parent.panelsContainer.appendChild(this.element);
             this._currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
         }

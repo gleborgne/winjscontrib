@@ -231,6 +231,11 @@ declare module WinJSContrib.Promise {
     function batch(dataArray: any, batchSize: any, promiseCallback: any): WinJS.IPromise<any[]>;
 }
 declare module WinJSContrib.Utils {
+    class EventDispatcher {
+        dispatchEvent(type: string, data: any): void;
+        addEventListener(type: string, callback: Function): void;
+        removeEventListener(type: string, callback: Function): void;
+    }
     /**
      * extend an object with properties from subsequent objects
      * @function WinJSContrib.Utils.extend

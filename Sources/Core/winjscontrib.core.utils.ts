@@ -222,6 +222,14 @@ module WinJSContrib.Promise {
 
 
 module WinJSContrib.Utils {
+	export class EventDispatcher {
+        dispatchEvent(type: string, data: any){}
+        addEventListener(type: string, callback: Function){}
+        removeEventListener(type: string, callback: Function){}
+    }
+
+    Utils.EventDispatcher = <typeof EventDispatcher>WinJS.Class.mix(EventDispatcher, WinJS.Utilities.eventMixin);
+
 	/**
 	 * extend an object with properties from subsequent objects
 	 * @function WinJSContrib.Utils.extend
