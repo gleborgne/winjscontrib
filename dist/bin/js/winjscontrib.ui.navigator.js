@@ -135,7 +135,11 @@
                     // This is the root element of the current page.
                     pageElement: {
                         get: function () {
-                            return this._pageElement || this.element.lastElementChild;
+                            var elt = this.element.lastElementChild;
+                            while (elt && elt.winControl && elt.winControl.mcnPageClosing) {
+                                elt = elt.previousSibling;
+                            }
+                            return elt;
                         }
                     },
 
@@ -331,7 +335,6 @@
                     clear: function () {
                         this.clearHistory();
                         this.closeAllPages();
-                        this._pageElement = null;
                         this.element.innerHTML = '';
                     },
 
@@ -540,6 +543,7 @@
                         navigator.dispatchEvent('closingPage', { page: oldElement });
 
                         if (oldElement && oldElement.winControl) {
+                            oldElement.winControl.mcnPageClosing = true;
                             oldElement.winControl.pageLifeCycle.stop();
                             oldElement.winControl.dispatchEvent('closing', { youpla: 'boom' });
 
@@ -551,14 +555,10 @@
                         if (!navigator.global && !navigator.disableHistory && oldElement && oldElement.winControl && oldElement.winControl.navigationState && !args.skipHistory) {
                             navigator._history.backstack.push(oldElement.winControl.navigationState);
                         }
-
-                        navigator._pageElement = null;
                         
                         setImmediate(function () {
-                            var p = navigator._lastNavigationPromise;
-                            if (!p)
-                                p = WinJS.Promise.wrap();
-
+                            var p = navigator._lastNavigationPromise ? navigator._lastNavigationPromise.then(function () { }, function () { }) : WinJS.Promise.wrap();
+                            
                             p.then(function () {
                                 return oldPageExitPromise;
                             }).then(function () {
@@ -611,7 +611,6 @@
                     // Responds to navigation by adding new pages to the DOM.
                     _navigated: function (args) {
                         var navigator = this;
-
 
                         args.detail.state = args.detail.state || {};
                         var pagecontainer = navigator.element;

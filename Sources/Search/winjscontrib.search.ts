@@ -1,12 +1,23 @@
-﻿declare module WinJSContrib.Utils {
+declare module WinJSContrib.Utils {
     function readProperty(obj: any, name: string);
 }
 
-declare module WinJSContrib.Messenger {
-    class SmartWorker {
-        constructor(path:string);
-        start(eventname: string, data? :any);
+declare module WinJSContrib {
+    
+
+    class Messenger {
+        constructor(worker, worker2);
+
+        start(name, data?: any): WinJS.Promise<any>;
         dispose();
+    }
+
+    module Messenger {
+		class SmartWorker {
+			constructor(path: string);
+			start(eventname: string, data?: any): WinJS.Promise<any>;
+			dispose();
+		}
     }
 }
 

@@ -858,6 +858,8 @@ var WinJSContrib;
         * @returns {Object} property value
         */
         function readProperty(source, properties) {
+            if (!source)
+                return null;
             if (typeof properties == 'string' && source[properties])
                 return source[properties];
             if (!properties || !properties.length)

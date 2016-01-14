@@ -409,6 +409,9 @@ module WinJSContrib.Utils {
     * @returns {Object} property value
     */
     export function readProperty(source, properties) {
+		if (!source)
+			return null;
+		
         if (typeof properties == 'string' && source[properties])
             return source[properties];
 
