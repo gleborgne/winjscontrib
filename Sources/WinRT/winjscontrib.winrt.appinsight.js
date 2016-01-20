@@ -18,6 +18,8 @@ appinsightWrapper.tracker.trackEvent("app start");
 (function () {
 	'use strict';
 
+	  
+
 	WinJSContrib.WinRT.AppInsight = function (options) {
 		var component = this;
 		if (!options || !options.instrumentationKey)
@@ -34,12 +36,14 @@ appinsightWrapper.tracker.trackEvent("app start");
 		var version = Windows.ApplicationModel.Package.current.id.version;
 		var devicetoken = Windows.System.Profile.HardwareIdentification.getPackageSpecificToken(null);
 		var deviceid = getHardwareId();
+		var deviceInfo = new Windows.Security.ExchangeActiveSyncProvisioning.EasClientDeviceInformation()
+
 		var tagsComplement = {
 			"ai.application.ver": version.major + '.' + version.minor + '.' + version.build + "." + version.revision,
 			"ai.device.type": deviceType,
 			"ai.device.id": deviceid,
-			//"ai.device.oemName": "Dell inc.",
-			//"ai.device.model": "ukn",
+			"ai.device.oemName": deviceInfo.systemManufacturer,
+			"ai.device.model": deviceInfo.systemProductName,
 			"ai.device.network": getNewtworkAdapter(),
 			"ai.device.language": language,
 			//"ai.device.applanguage": context.language,

@@ -43,6 +43,43 @@
         groupEnd(): void;
         format(logger: Logger, message: string, level: Logs.Levels): string;
     }
+    class BufferAppender implements ILogAppender {
+        config: Logs.ILoggerConfig;
+        buffer: any[];
+        /**
+         * Appender writing to console
+         * @class WinJSContrib.Logs.Appenders.BufferAppender
+         */
+        constructor(config?: Logs.ILoggerConfig);
+        /**
+         * clone appender
+         * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.clone
+         */
+        clone(): BufferAppender;
+        /**
+         * log item
+         * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.log
+         * @param {string} message log message
+         * @param {WinJSContrib.Logs.Levels} log level
+         */
+        log(logger: Logs.Logger, message: string, level: Logs.Levels, ...args: any[]): void;
+        /**
+         * create log group
+         * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.group
+         */
+        group(title: string): void;
+        /**
+         * create collapsed log group
+         * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.groupCollapsed
+         */
+        groupCollapsed(title: string): void;
+        /**
+         * close log group
+         * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.groupEnd
+         */
+        groupEnd(): void;
+        format(logger: Logger, message: string, level: Logs.Levels): string;
+    }
 }
 declare module WinJSContrib.Logs {
     /**
@@ -91,6 +128,7 @@ declare module WinJSContrib.Logs {
     var RuntimeAppenders: {
         "DefaultConsole": Appenders.ConsoleAppender;
     };
+    var DefaultAppenders: Appenders.ILogAppender[];
     /**
      * get a logger, logger is created if it does not exists
      * @function WinJSContrib.Logs.getLogger

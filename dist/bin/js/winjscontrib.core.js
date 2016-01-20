@@ -40,23 +40,25 @@ var WinJSContrib;
                     for (var _i = 3; _i < arguments.length; _i++) {
                         args[_i - 3] = arguments[_i];
                     }
-                    var msg = [this.format(logger, message, level)];
-                    if (args.length) {
-                        args.forEach(function (a) {
-                            msg.push(a);
-                        });
-                    }
-                    switch (level) {
-                        case Logs.Levels.verbose:
-                            return console.log.apply(console, msg);
-                        case Logs.Levels.debug:
-                            return console.log.apply(console, msg);
-                        case Logs.Levels.info:
-                            return console.info.apply(console, msg);
-                        case Logs.Levels.warn:
-                            return console.warn.apply(console, msg);
-                        case Logs.Levels.error:
-                            return console.error.apply(console, msg);
+                    if (this.config.level == Logs.Levels.inherit || level >= this.config.level) {
+                        var msg = [this.format(logger, message, level)];
+                        if (args.length) {
+                            args.forEach(function (a) {
+                                msg.push(a);
+                            });
+                        }
+                        switch (level) {
+                            case Logs.Levels.verbose:
+                                return console.log.apply(console, msg);
+                            case Logs.Levels.debug:
+                                return console.log.apply(console, msg);
+                            case Logs.Levels.info:
+                                return console.info.apply(console, msg);
+                            case Logs.Levels.warn:
+                                return console.warn.apply(console, msg);
+                            case Logs.Levels.error:
+                                return console.error.apply(console, msg);
+                        }
                     }
                 };
                 /**
@@ -94,6 +96,77 @@ var WinJSContrib;
                 return ConsoleAppender;
             })();
             Appenders.ConsoleAppender = ConsoleAppender;
+            var BufferAppender = (function () {
+                /**
+                 * Appender writing to console
+                 * @class WinJSContrib.Logs.Appenders.BufferAppender
+                 */
+                function BufferAppender(config) {
+                    this.config = config || { level: Logs.Levels.inherit };
+                    this.buffer = [];
+                }
+                /**
+                 * clone appender
+                 * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.clone
+                 */
+                BufferAppender.prototype.clone = function () {
+                    return new WinJSContrib.Logs.Appenders.BufferAppender(this.config);
+                };
+                /**
+                 * log item
+                 * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.log
+                 * @param {string} message log message
+                 * @param {WinJSContrib.Logs.Levels} log level
+                 */
+                BufferAppender.prototype.log = function (logger, message, level) {
+                    var args = [];
+                    for (var _i = 3; _i < arguments.length; _i++) {
+                        args[_i - 3] = arguments[_i];
+                    }
+                    if (this.config.level == Logs.Levels.inherit || level >= this.config.level) {
+                        var msg = [new Date().getTime() + "", this.format(logger, message, level)];
+                        if (args.length) {
+                            args.forEach(function (a) {
+                                if (typeof a == "object")
+                                    a = JSON.stringify(a);
+                                msg.push(a);
+                            });
+                        }
+                        this.buffer.push(msg.join(" "));
+                    }
+                };
+                /**
+                 * create log group
+                 * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.group
+                 */
+                BufferAppender.prototype.group = function (title) {
+                };
+                /**
+                 * create collapsed log group
+                 * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.groupCollapsed
+                 */
+                BufferAppender.prototype.groupCollapsed = function (title) {
+                };
+                /**
+                 * close log group
+                 * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.groupEnd
+                 */
+                BufferAppender.prototype.groupEnd = function () {
+                };
+                BufferAppender.prototype.format = function (logger, message, level) {
+                    var finalMessage = "";
+                    if (logger.Config && logger.Config.prefix)
+                        finalMessage += logger.Config.prefix + " # ";
+                    if (this.config.showLoggerNameInMessage)
+                        finalMessage += logger.name + " # ";
+                    if (this.config.showLevelInMessage)
+                        finalMessage += Logs.logginLevelToString(level) + " # ";
+                    finalMessage += message;
+                    return finalMessage;
+                };
+                return BufferAppender;
+            })();
+            Appenders.BufferAppender = BufferAppender;
         })(Appenders = Logs.Appenders || (Logs.Appenders = {}));
     })(Logs = WinJSContrib.Logs || (WinJSContrib.Logs = {}));
 })(WinJSContrib || (WinJSContrib = {}));
@@ -153,6 +226,7 @@ var WinJSContrib;
         Logs.RuntimeAppenders = {
             "DefaultConsole": new Logs.Appenders.ConsoleAppender()
         };
+        Logs.DefaultAppenders = [];
         /**
          * get a logger, logger is created if it does not exists
          * @function WinJSContrib.Logs.getLogger
@@ -337,6 +411,9 @@ var WinJSContrib;
                         fnargs.push(args[i]);
                     }
                 }
+                Logs.DefaultAppenders.forEach(function (a) {
+                    a.log.apply(a, fnargs);
+                });
                 this.appenders.forEach(function (a) {
                     a.log.apply(a, fnargs);
                 });
