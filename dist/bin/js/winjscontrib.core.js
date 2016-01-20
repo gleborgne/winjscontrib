@@ -124,7 +124,7 @@ var WinJSContrib;
                         args[_i - 3] = arguments[_i];
                     }
                     if (this.config.level == Logs.Levels.inherit || level >= this.config.level) {
-                        var msg = [new Date().getTime() + "", this.format(logger, message, level)];
+                        var msg = [new Date().getTime() + "", Logs.Levels[level].toUpperCase(), this.format(logger, message, level)];
                         if (args.length) {
                             args.forEach(function (a) {
                                 if (typeof a == "object")
