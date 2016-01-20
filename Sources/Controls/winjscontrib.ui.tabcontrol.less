@@ -57,6 +57,9 @@
 
 
 .mcn-tabpages {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
     overflow: hidden;
 
     .mcn-tabpages-header {
@@ -80,12 +83,58 @@
     }
 
     .mcn-tabpages-content {
-		.mcn-tabpages-content-wrapper {
-			width: 100%;
-			height: 100%;
-			position: relative;
-			overflow: hidden;
-		}
+    	display: -ms-grid;
+        -ms-grid-rows: 1fr;
+        -ms-grid-columns: 1fr;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    	
+	.mcn-tabpages-content-wrapper {
+	    width: 100%;
+	    height: 100%;
+	    position: relative;
+	    overflow: hidden;
+	}
+	
+        > .mcn-tabpages-page {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    }
+}
+
+.mcn-tabpages.arrowright,
+.mcn-tabpages.arrowdown {
+    .mcn-tabpages-header {
+        .mcn-tabpages-headeritem {
+            &.current {
+                &:after, &:before {
+                    border: solid transparent;
+                    content: " ";
+                    height: 0;
+                    width: 0;
+                    position: absolute;
+                    pointer-events: none;
+                }
+
+                &:after {
+                    border-color: rgba(136, 183, 213, 0);
+                    border-width: 8px;
+                }
+
+                &:before {
+                    border-color: rgba(194, 225, 245, 0);
+                    border-width: 8px;
+                }
+            }
+        }
     }
 }
 
@@ -101,26 +150,16 @@
             &.current {
                 &:after, &:before {
                     left: 100%;
-                    border: solid transparent;
-                    content: " ";
-                    height: 0;
-                    width: 0;
-                    position: absolute;
-                    pointer-events: none;
                 }
 
                 &:after {
-                    border-color: rgba(136, 183, 213, 0);
                     border-left-color: @currentBgColor;
-                    border-width: 8px;
                     top: 50%;
                     margin-top: -8px;
                 }
 
                 &:before {
-                    border-color: rgba(194, 225, 245, 0);
                     border-left-color: @currentBgColor;
-                    border-width: 8px;
                     top: 50%;
                     margin-top: -8px;
                 }
@@ -135,24 +174,46 @@
     }
 
     .mcn-tabpages-content {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
         -ms-grid-column: 2;
-        display: -ms-grid;
-        -ms-grid-rows: 1fr;
-        -ms-grid-columns: 1fr;
+    }
+}
 
-        & > .mcn-tabpages-page {
-            width: 100%;
-            height: 100%;
-            /*height: ~"calc(100% + 15px)";*/
-            position: relative;
-            overflow: hidden;
-            padding: 0;
-            margin: 0;
-            /*margin-top: -15px;*/
-            box-sizing: border-box;
+.mcn-tabpages.arrowdown {
+    display: -ms-grid;
+    -ms-grid-rows: auto 1fr;
+    -ms-grid-columns: 1fr;
+
+    .mcn-tabpages-header {
+        .mcn-tabpages-headeritem {
+            border-right: 1px solid @borderColor;
+
+            &.current {
+                &:after, &:before {
+                    top: 100%;
+                }
+
+                &:after {
+                    border-top-color: @currentBgColor;
+                    left: 50%;
+                    margin-left: -8px;
+                }
+
+                &:before {
+                    border-top-color: @currentBgColor;
+                    left: 50%;
+                    margin-left: -8px;
+                }
+
+                &:hover {
+                    &:after, &:before {
+                        border-top-color: @hoverColor;
+                    }
+                }
+            }
         }
+    }
+
+    .mcn-tabpages-content {
+        -ms-grid-row: 2;
     }
 }
