@@ -50,6 +50,7 @@
                this._createContent(options);
                this.isOpened = false;
                this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
+               this.childContentKeyUp = this._childContentKeyUp.bind(this);
                //this.cancelNavigationBinded = this.cancelNavigation.bind(this);
            },
            /**
