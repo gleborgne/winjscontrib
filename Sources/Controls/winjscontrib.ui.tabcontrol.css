@@ -88,25 +88,9 @@
   padding: 0;
   overflow: hidden;
 }
-.mcn-tabpages.arrowright {
-  display: -ms-grid;
-  -ms-grid-rows: 1fr;
-  -ms-grid-columns: auto 1fr;
-}
-.mcn-tabpages.arrowdown {
-  display: -ms-grid;
-  -ms-grid-rows: auto 1fr;
-  -ms-grid-columns: 1fr;
-}
-.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem {
-  border-bottom: 1px solid #888888;
-}
-.mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem {
-  border-right: 1px solid #888888;
-}
 .mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:after,
-.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:before,
 .mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:after,
+.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:before,
 .mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:before {
   border: solid transparent;
   content: " ";
@@ -116,53 +100,69 @@
   pointer-events: none;
 }
 .mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:after,
-.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:before {
-  left: 100%;
-}
-.mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:after,
-.mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:before {
-  top: 100%;
-}
-.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:after,
 .mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:after {
   border-color: rgba(136, 183, 213, 0);
   border-width: 8px;
-}
-.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:after {
-  border-left-color: #6a6a6a;
-  top: 50%;
-  margin-top: -8px;
-}
-.mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:after {
-  border-top-color: #6a6a6a;
-  left: 50%;
-  margin-left: -8px;
 }
 .mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:before,
 .mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:before {
   border-color: rgba(194, 225, 245, 0);
   border-width: 8px;
 }
+.mcn-tabpages.arrowright {
+  display: -ms-grid;
+  -ms-grid-rows: 1fr;
+  -ms-grid-columns: auto 1fr;
+}
+.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem {
+  border-bottom: 1px solid #888888;
+}
+.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:after,
+.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:before {
+  left: 100%;
+}
+.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:after {
+  border-left-color: #6a6a6a;
+  top: 50%;
+  margin-top: -8px;
+}
 .mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:before {
   border-left-color: #6a6a6a;
   top: 50%;
   margin-top: -8px;
+}
+.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:hover:after,
+.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:hover:before {
+  border-left-color: #9a9a9a;
+}
+.mcn-tabpages.arrowright .mcn-tabpages-content {
+  -ms-grid-column: 2;
+}
+.mcn-tabpages.arrowdown {
+  display: -ms-grid;
+  -ms-grid-rows: auto 1fr;
+  -ms-grid-columns: 1fr;
+}
+.mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem {
+  border-right: 1px solid #888888;
+}
+.mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:after,
+.mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:before {
+  top: 100%;
+}
+.mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:after {
+  border-top-color: #6a6a6a;
+  left: 50%;
+  margin-left: -8px;
 }
 .mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:before {
   border-top-color: #6a6a6a;
   left: 50%;
   margin-left: -8px;
 }
-.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:hover:after,
-.mcn-tabpages.arrowright .mcn-tabpages-header .mcn-tabpages-headeritem.current:hover:before {
-  border-left-color: #9a9a9a;
-}
 .mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:hover:after,
 .mcn-tabpages.arrowdown .mcn-tabpages-header .mcn-tabpages-headeritem.current:hover:before {
   border-top-color: #9a9a9a;
-}
-.mcn-tabpages.arrowright .mcn-tabpages-content {
-  -ms-grid-column: 2;
 }
 .mcn-tabpages.arrowdown .mcn-tabpages-content {
   -ms-grid-row: 2;

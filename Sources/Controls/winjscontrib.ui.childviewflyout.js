@@ -46,10 +46,12 @@
                this.element.classList.add("mcn-childview");
                this.element.classList.add("win-disposable");
                this.rootElement.classList.add("childNavigator");
+               this.rootElement.classList.add('hidden');
                this.element.classList.add('mcn-navigation-ctrl');
                this._createContent(options);
                this.isOpened = false;
                this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
+               this.childContentKeyUp = this._childContentKeyUp.bind(this);
                //this.cancelNavigationBinded = this.cancelNavigation.bind(this);
            },
            /**
@@ -63,7 +65,7 @@
                    that.overlay = new FD('DIV')
                        .addClass("childNavigator-overlay")
                        .appendTo(that.rootElement)
-                       .tap(that.hide.bind(that), { disableAnimation: true, disableAria : true })
+                       .tap(that.hide.bind(that), { disableAnimation: true, disableAria: true })
                        .element;
 
                    that.contentPlaceholder = new FD('DIV', "childNavigator-contentPlaceholder", that.rootElement)
@@ -112,7 +114,7 @@
                clear: function (forceClose) {
                    var that = this;
                    return new WinJS.Promise(function (complete, error) {
-                       WinJS.Promise.wrap(that.closePage(null,null, forceClose)).done(function () {
+                       WinJS.Promise.wrap(that.closePage(null, null, forceClose)).done(function () {
                            that.navigator.clear();
                            that.navigator.element.innerText = '';
                            that.location = undefined;
@@ -190,6 +192,25 @@
                //    });
                //},
 
+               _showClasses: function (skipshowcontainer) {
+                   var that = this;
+                   that.rootElement.classList.remove("leave");
+                   that.rootElement.classList.remove('hidden');
+                   that.rootElement.getBoundingClientRect();
+
+                   that.rootElement.classList.add("visible");
+                   that.rootElement.classList.add("enter");
+                   that.overlay.classList.remove("leave");
+                   that.overlay.classList.add("enter");
+                   that.overlay.classList.add("visible");
+
+                   //if (!skipshowcontainer) {
+                   that.contentPlaceholder.classList.remove("leave");
+                   that.contentPlaceholder.classList.add("enter");
+                   that.contentPlaceholder.classList.add("visible");
+                   //}
+               },
+
                show: function (skipshowcontainer) {
                    var that = this;
 
@@ -197,15 +218,15 @@
                        document.body.addEventListener('keyup', that.childContentKeyUp);
                        that.isOpened = true;
 
-                       that.rootElement.classList.add("visible");
-                       that.overlay.classList.add("visible");
-                       if (!skipshowcontainer)
-                           that.contentPlaceholder.classList.add("visible");
-
+                       that._showClasses(skipshowcontainer);
                        that.navEventsHandler = WinJSContrib.UI.registerNavigationEvents(that, this.hardwareBackBtnPressedBinded);
                        if (that.navigationEvents) {
                            that.navigator.addNavigationEvents();
                        }
+
+                       return WinJS.Promise.timeout().then(function() {
+                           return WinJSContrib.UI.afterTransition(that.contentPlaceholder);
+                       });
                        //WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
                        //if (window.Windows && window.Windows.Phone)
                        //    Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
@@ -215,13 +236,15 @@
                        //if (WinJSContrib.UI.Application && WinJSContrib.UI.Application.navigator)
                        //    WinJSContrib.UI.Application.navigator.addLock();
                    }
+
+                   return WinJS.Promise.wrap();
                },
 
                pick: function (uri, options, skipHistory) {
                    var ctrl = this;
                    options = options || {};
                    ctrl.pickPromises = ctrl.pickPromises || [];
-                   
+
                    var pickPromise = new WinJS.Promise(function (complete, error) {
                        var completed = false;
                        var page = null;
@@ -234,7 +257,7 @@
                            if (!completed) {
                                completed = true;
                                complete({ completed: false, data: null });
-                           }                           
+                           }
                        };
 
                        options.navigateStacked = true;
@@ -294,31 +317,17 @@
                    var that = this;
                    that.rootElement.classList.add("visible");
                    that.dispatchEvent('beforeshow');
-                   that.overlay.classList.add("enter");
-                   that.contentPlaceholder.classList.add("enter");
-                   return new WinJS.Promise(function (complete, error) {
-                       setImmediate(function () {
-                           that.overlay.classList.add("visible");
-                           that.contentPlaceholder.classList.add("visible");
 
-                           //setImmediate(function () {
-                           if (!that.isOpened) {
-                               that.show(true);
-                           }
+                   var p = WinJS.Promise.wrap();
+                   if (!that.isOpened) {
+                       p = that.show(true);
+                   }
 
-                           setImmediate(function () {
-                               that.navigate(uri, options, skipHistory).done(function (e) {
-                                   that.dispatchEvent('aftershow');
-                                   complete(e);
-                               }, error);
-                           });
-
-                           WinJSContrib.UI.afterTransition(that.contentPlaceholder).then(function () {
-                               that.overlay.classList.remove("enter");
-                               that.contentPlaceholder.classList.remove("enter");
-                           });
-                           //});
-                       });
+                   return WinJS.Promise.join({
+                       show: WinJSContrib.UI.afterTransition(that.contentPlaceholder),
+                       navigate: that.navigate(uri, options, skipHistory).done(function (e) {
+                           that.dispatchEvent('aftershow');
+                       })
                    });
                },
 
@@ -367,18 +376,22 @@
                            if (that.overlay.classList.contains("visible")) {
                                that.overlay.classList.add("leave");
                                that.contentPlaceholder.classList.add("leave");
-                               setImmediate(function () {
-                                   WinJSContrib.UI.afterTransition(that.contentPlaceholder).then(function () {
+
+                               that.overlay.classList.remove("visible");
+                               that.contentPlaceholder.classList.remove("visible");
+
+                               return WinJS.Promise.timeout().then(function() {
+                                   return WinJS.Promise.join({
+                                       overlay: WinJSContrib.UI.afterTransition(that.overlay, 12000),
+                                       content: WinJSContrib.UI.afterTransition(that.contentPlaceholder, 12000),
+                                   }).then(function () {
                                        that.clear(true);
                                        that.rootElement.classList.remove('visible');
+                                       that.rootElement.classList.add('hidden');
                                        that.dispatchEvent('afterhide', arg);
                                        that.overlay.classList.remove("leave");
                                        that.contentPlaceholder.classList.remove("leave");
                                    });
-
-                                   that.overlay.classList.remove("visible");
-                                   that.contentPlaceholder.classList.remove("visible");
-
                                });
                            }
                        });

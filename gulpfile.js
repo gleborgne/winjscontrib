@@ -22,7 +22,7 @@ var bom = require('gulp-bom');
 //var config = require('./build.config.json');
 
 
-var WinJSContribVersion = "2.1.0.5";
+var WinJSContribVersion = "2.1.0.6";
 
 var typingsPath = 'Sources/typings/';
 var srcCorePath = 'Sources/Core/';
