@@ -266,7 +266,7 @@ declare module WinJSContrib.Promise {
      * @param {function} promiseCallback function applyed to each item (could return a promise for item callback completion)
      * @returns {WinJS.Promise}
      */
-    function batch(dataArray: any, batchSize: any, promiseCallback: any): WinJS.IPromise<any[]>;
+    function batch(dataArray: any, batchSize: any, promiseCallback: any, batchWrapCallback?: any): WinJS.IPromise<any[]>;
 }
 declare module WinJSContrib.Utils {
     class EventDispatcher {

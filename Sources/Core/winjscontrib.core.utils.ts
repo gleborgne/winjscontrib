@@ -94,11 +94,20 @@ module WinJSContrib.Promise {
 
         return dataPromise.then(function (items) {
             var queueP = function (p, item) {
-                return p.then(function (r) {
-                    return WinJS.Promise.as(promiseCallback(item)).then(function (r) {
-                        results.push(r);
-                    });
+                var prComplete, prError;
+                var result = new WinJS.Promise(function(c, e) {
+                    prComplete = c;
+                    prError = e;
                 });
+
+                p.then(function (previous) {
+                    WinJS.Promise.as(promiseCallback(item, previous)).then(function(r) {
+                        results.push(r);
+                        return r;
+                    }).then(prComplete, prError);
+                });
+
+                return result;
             }
 
 			for (var i = 0, l = items.length; i < l; i++) {
@@ -170,7 +179,7 @@ module WinJSContrib.Promise {
      * @param {function} promiseCallback function applyed to each item (could return a promise for item callback completion)
      * @returns {WinJS.Promise}
      */
-    export function batch(dataArray, batchSize, promiseCallback) {
+    export function batch(dataArray, batchSize, promiseCallback, batchWrapCallback?) {
         if (!dataArray) {
             return WinJS.Promise.wrap([]);
         }
@@ -183,15 +192,31 @@ module WinJSContrib.Promise {
             var hasErrors = false;
 
             var queueBatch = function (p, items) {
-                //var batchresults = [];
-                return p.then(function (r) {
-                    return WinJS.Promise.join(items.map(function (item) { return WinJS.Promise.as(promiseCallback(item)); })).then(function (results) {
-                        results = results.concat(results);
-                    }, function (errors) {
-                            results = results.concat(errors);
-                            hasErrors = true;
-                        });
+                var prComplete, prError;
+                var result = new WinJS.Promise(function(c, e) {
+                    prComplete = c;
+                    prError = e;
                 });
+
+                p.then(function(r) {
+                    WinJS.Promise.join(items.map(function(item, index) {
+                        return WinJS.Promise.as(promiseCallback(item, index));
+                    })).then(function(results) {
+                        if (batchWrapCallback)
+                            return batchWrapCallback(results);
+
+                        return results;
+                    }).then(function(results) {
+                        results = results.concat(results);
+                        return results;
+                    }, function(errors) {
+                        results = results.concat(errors);
+                        hasErrors = true;
+                        return results;
+                    }).then(prComplete, prError);
+                });
+                
+                return result;
             }
 
             for (var i = 0, l = items.length; i < l; i++) {
