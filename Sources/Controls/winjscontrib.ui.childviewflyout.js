@@ -215,6 +215,12 @@
                    var that = this;
 
                    if (!that.isOpened) {
+                       if (WinJSContrib.UI && WinJSContrib.UI.enableSystemBackButtonVisibility && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                           systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+                           if (systemNavigationManager.appViewBackButtonVisibility === window.Windows.UI.Core.AppViewBackButtonVisibility.collapsed)
+                               systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.visible;
+                       }
+
                        document.body.addEventListener('keyup', that.childContentKeyUp);
                        that.isOpened = true;
 
@@ -363,6 +369,14 @@
                            document.body.removeEventListener('keyup', that.childContentKeyUp);
                            that.isOpened = false;
                            that.dispatchEvent('beforehide', arg);
+
+                           if (!that.navigator.canGoBack && !WinJS.Navigation.canGoBack) {
+                               if (WinJSContrib.UI && WinJSContrib.UI.enableSystemBackButtonVisibility && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                                   systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+                                   if (systemNavigationManager.appViewBackButtonVisibility === window.Windows.UI.Core.AppViewBackButtonVisibility.visible)
+                                       systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
+                               }
+                           }
 
                            if (that.navEventsHandler) {
                                that.navEventsHandler();
