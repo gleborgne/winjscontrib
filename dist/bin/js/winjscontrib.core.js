@@ -3434,6 +3434,7 @@ var WinJSContrib;
                         that.pageLifeCycle.observer = WinJSContrib.UI.WebComponents.watch(that.element);
                     }
                     var load = Promise.timeout().then(function Pages_load() {
+                        that.pageLifeCycle.log(function () { return "URI loading " + that.pageLifeCycle.profilerMarkIdentifier; });
                         return that.load(uri);
                     }).then(function (loadResult) {
                         that.pageLifeCycle.log(function () { return "URI loaded " + that.pageLifeCycle.profilerMarkIdentifier; });
@@ -3569,6 +3570,17 @@ var WinJSContrib;
                         //
                         function PageControl_ctor(element, options, complete, parentedPromise) {
                             var that = this;
+                            if (that._attachedConstructor) {
+                                var realControl = new this._attachedConstructor(element, options);
+                                element.winControl = realControl;
+                                var keys = Object.keys(that);
+                                keys.forEach(function (k) {
+                                    if (k !== "_attachedConstructor") {
+                                        realControl[k] = that[k];
+                                    }
+                                });
+                                that = realControl;
+                            }
                             var parent = WinJSContrib.Utils.getScopeControl(element);
                             _ElementUtilities.addClass(element, "win-disposable");
                             _ElementUtilities.addClass(element, "pagecontrol");
@@ -3603,14 +3615,15 @@ var WinJSContrib;
                                 initialDisplay: null
                             };
                             that.defferedLoading = new DefferedLoadings(that);
-                            this._disposed = false;
-                            this.element = element = element || _Global.document.createElement("div");
+                            that._disposed = false;
+                            that.element = element = element || _Global.document.createElement("div");
                             element.msSourceLocation = uri;
-                            this.uri = uri;
-                            this.selfhost = selfhost(uri);
-                            element.winControl = this;
+                            that.uri = uri;
+                            that.selfhost = selfhost(uri);
+                            element.winControl = that;
                             that.parentedComplete = parentedPromise;
-                            pageLifeCycle(this, uri, element, options, complete, parentedPromise);
+                            pageLifeCycle(that, uri, element, options, complete, parentedPromise);
+                            return that;
                         }, _mixinBase);
                         base = _Base.Class.mix(base, WinJS.UI.DOMEventMixin);
                         //inject default behaviors to page constructor
