@@ -1283,4 +1283,62 @@ module WinJSContrib.UI {
             return this;
         }
     }
+
+    export function dismissableShow(targetElement: HTMLElement, classPrefix: string, animationTarget?: HTMLElement) {
+        animationTarget = animationTarget || targetElement;
+        targetElement.classList.add(classPrefix + "-enter");
+        targetElement.getBoundingClientRect();
+        targetElement.classList.remove(classPrefix + "-leave");
+        targetElement.classList.remove(classPrefix + "-leave-active");
+
+        //setImmediate(() => {
+        WinJSContrib.UI.afterTransition(animationTarget).then(() => {
+            //if (targetElement.classList.contains(classPrefix + "-lea")) {
+            //    targetElement.classList.remove(classPrefix + "-enter");
+            //    targetElement.classList.remove(classPrefix + "-enter-active");
+            //}
+        });
+        targetElement.classList.add(classPrefix + "-enter-active");
+        //});
+    }
+
+    export function dismissableHide(targetElement: HTMLElement, classPrefix: string, animationTarget?: HTMLElement) {
+        animationTarget = animationTarget || targetElement;
+        targetElement.classList.add(classPrefix + "-leave");
+        targetElement.classList.remove(classPrefix + "-enter");
+        targetElement.classList.remove(classPrefix + "-enter-active");
+
+        setImmediate(() => {
+            WinJSContrib.UI.afterTransition(animationTarget).then(() => {
+                targetElement.classList.remove(classPrefix + "-leave");
+                targetElement.classList.remove(classPrefix + "-leave-active");
+            });
+            targetElement.classList.add(classPrefix + "-leave-active");
+        });
+    }
+
+    export function forwardFocus(container: HTMLElement, focusTarget: HTMLElement, allowed?: HTMLElement[]) {
+        var isInContainer = (elt: Element) => {
+            while (elt.parentElement && elt.parentElement != container) {
+                elt = elt.parentElement;
+            }
+
+            if (elt.parentElement == container)
+                return true;
+
+            return false;
+        }
+
+        var focusManager = (arg) => {
+            if (!isInContainer(arg.target) && (!allowed || !(allowed.indexOf(arg.target) >= 0))) {
+                focusTarget.focus();
+            }
+        }
+
+        document.addEventListener("focus", focusManager, true);
+
+        return function() {
+            document.removeEventListener("focus", focusManager);
+        }
+    }
 }

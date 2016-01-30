@@ -25,11 +25,10 @@ interface Object {
 }
 
 interface String {
-    format(a1, a2);
-    format(a1, a2, a3);
+    format(...ag:any[]);
     padLeft(length, leadingChar);
-    startsWith(e);
-    endsWith(e);
+    startsWith(e:string);
+    endsWith(e:string);
 }
 
 if (!Object.map) {

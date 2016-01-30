@@ -235,11 +235,10 @@ interface Object {
     map(obj: any, mapping: any): any;
 }
 interface String {
-    format(a1: any, a2: any): any;
-    format(a1: any, a2: any, a3: any): any;
+    format(...ag: any[]): any;
     padLeft(length: any, leadingChar: any): any;
-    startsWith(e: any): any;
-    endsWith(e: any): any;
+    startsWith(e: string): any;
+    endsWith(e: string): any;
 }
 declare module WinJSContrib.Promise {
     /**
@@ -940,6 +939,9 @@ declare module WinJSContrib.UI {
          */
         ctrl(ctrl: any, options?: any): FluentDOM;
     }
+    function dismissableShow(targetElement: HTMLElement, classPrefix: string, animationTarget?: HTMLElement): void;
+    function dismissableHide(targetElement: HTMLElement, classPrefix: string, animationTarget?: HTMLElement): void;
+    function forwardFocus(container: HTMLElement, focusTarget: HTMLElement, allowed?: HTMLElement[]): () => void;
 }
 
 declare var __global: any;
