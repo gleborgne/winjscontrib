@@ -179,42 +179,6 @@
                        ctrl.hide();
                        arg.handled = true;
                    }
-
-                   //var idx = WinJSContrib.UI.FlyoutPage.openPages.indexOf(ctrl);
-                   //if (idx == WinJSContrib.UI.FlyoutPage.openPages.length - 1) {
-                   // ctrl.hide();
-                   // arg.handled = true;
-                   // if (arg.preventDefault)
-                   //   arg.preventDefault();
-                   //}
-               },
-
-               //cancelNavigation: function (args) {
-               //    //this.eventTracker.addEvent(nav, 'beforenavigate', this._beforeNavigate.bind(this));
-               //    var p = new WinJS.Promise(function (c) { });
-               //    args.detail.setPromise(p);
-               //    setImmediate(function () {
-               //        p.cancel();
-               //    });
-               //},
-
-               _showClasses: function (skipshowcontainer) {
-                   var that = this;
-                   that.rootElement.classList.remove("leave");
-                   that.rootElement.classList.remove('hidden');
-                   that.rootElement.getBoundingClientRect();
-
-                   that.rootElement.classList.add("visible");
-                   that.rootElement.classList.add("enter");
-                   that.overlay.classList.remove("leave");
-                   that.overlay.classList.add("enter");
-                   that.overlay.classList.add("visible");
-
-                   //if (!skipshowcontainer) {
-                   that.contentPlaceholder.classList.remove("leave");
-                   that.contentPlaceholder.classList.add("enter");
-                   that.contentPlaceholder.classList.add("visible");
-                   //}
                },
 
                show: function (skipshowcontainer) {
@@ -230,14 +194,23 @@
                        document.body.addEventListener('keyup', that.childContentKeyUp);
                        that.isOpened = true;
 
-                       that._showClasses(skipshowcontainer);
+                       this.addDismissableClass("visible");
+                       this.addDismissableClass("enter");
+                       this.removeDismissableClass("leave");
+                       this.removeDismissableClass("hidden");
+                       that.rootElement.getBoundingClientRect();                       
+
                        that.navEventsHandler = WinJSContrib.UI.registerNavigationEvents(that, this.hardwareBackBtnPressedBinded);
                        if (that.navigationEvents) {
                            that.navigator.addNavigationEvents();
                        }
 
-                       return WinJS.Promise.timeout().then(function() {
-                           return WinJSContrib.UI.afterTransition(that.contentPlaceholder);
+                       return WinJS.Promise.timeout().then(function () {
+                           that.addDismissableClass("enter-active");
+                           return WinJSContrib.UI.afterTransition(that.contentPlaceholder).then(function () {
+                               if (that.contentPlaceholder.classList.contains("enter")) {
+                               }
+                           });
                        });
                        //WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
                        //if (window.Windows && window.Windows.Phone)
@@ -250,6 +223,23 @@
                    }
 
                    return WinJS.Promise.wrap();
+               },
+
+               addDismissableClass: function (classname) {
+                   var that = this;
+                   that.overlay.classList.add(classname);
+                   that.contentPlaceholder.classList.add(classname);
+                   that.rootElement.classList.add(classname);
+               },
+
+               removeDismissableClass: function (classname) {
+                   var that = this;
+                   that.overlay.classList.remove(classname);
+                   that.overlay.classList.remove(classname + "-active");
+                   that.contentPlaceholder.classList.remove(classname);
+                   that.contentPlaceholder.classList.remove(classname + "-active");
+                   that.rootElement.classList.remove(classname);
+                   that.rootElement.classList.remove(classname + "-active");
                },
 
                pick: function (uri, options, skipHistory) {
@@ -362,55 +352,52 @@
                    if (that.isOpened) {
                        var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose();
                        check.then(function (canclose) {
-                           if (!canclose) {
-                               return false;
-                           }
-
-                           if (that.pickPromises) {
-                               that.pickPromises.forEach(function (p) {
-                                   p.cancel();
-                               });
-                           }
-
-                           document.body.removeEventListener('keyup', that.childContentKeyUp);
-                           that.isOpened = false;
-                           that.dispatchEvent('beforehide', arg);
-
-                           if (!that.navigator.canGoBack && !WinJS.Navigation.canGoBack) {
-                               if (WinJSContrib.UI && WinJSContrib.UI.enableSystemBackButtonVisibility && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
-                                   systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
-                                   if (systemNavigationManager.appViewBackButtonVisibility === window.Windows.UI.Core.AppViewBackButtonVisibility.visible)
-                                       systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
+                           if (that.contentPlaceholder.classList.contains("enter")) {
+                               that.addDismissableClass("leave");
+                               
+                               
+                               if (!canclose) {
+                                   return false;
                                }
-                           }
 
-                           if (that.navEventsHandler) {
-                               that.navEventsHandler();
-                               that.navigator.removeNavigationEvents();
-                               that.navEventsHandler = null;
-                           }
+                               if (that.pickPromises) {
+                                   that.pickPromises.forEach(function (p) {
+                                       p.cancel();
+                                   });
+                               }
 
-                           that.overlay.classList.remove("enter");
-                           that.contentPlaceholder.classList.remove("enter");
+                               document.body.removeEventListener('keyup', that.childContentKeyUp);
+                               that.isOpened = false;
+                               that.dispatchEvent('beforehide', arg);
 
-                           if (that.overlay.classList.contains("visible")) {
-                               that.overlay.classList.add("leave");
-                               that.contentPlaceholder.classList.add("leave");
+                               if (!that.navigator.canGoBack && !WinJS.Navigation.canGoBack) {
+                                   if (WinJSContrib.UI && WinJSContrib.UI.enableSystemBackButtonVisibility && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
+                                       systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
+                                       if (systemNavigationManager.appViewBackButtonVisibility === window.Windows.UI.Core.AppViewBackButtonVisibility.visible)
+                                           systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.collapsed;
+                                   }
+                               }
 
-                               that.overlay.classList.remove("visible");
-                               that.contentPlaceholder.classList.remove("visible");
+                               if (that.navEventsHandler) {
+                                   that.navEventsHandler();
+                                   that.navigator.removeNavigationEvents();
+                                   that.navEventsHandler = null;
+                               }
 
-                               return WinJS.Promise.timeout().then(function() {
+                               return WinJS.Promise.timeout().then(function () {
+                                   that.removeDismissableClass("enter");
+                                   that.addDismissableClass("leave-active");
                                    return WinJS.Promise.join({
                                        overlay: WinJSContrib.UI.afterTransition(that.overlay, 12000),
                                        content: WinJSContrib.UI.afterTransition(that.contentPlaceholder, 12000),
                                    }).then(function () {
-                                       that.clear(true);
-                                       that.rootElement.classList.remove('visible');
-                                       that.rootElement.classList.add('hidden');
-                                       that.dispatchEvent('afterhide', arg);
-                                       that.overlay.classList.remove("leave");
-                                       that.contentPlaceholder.classList.remove("leave");
+                                       if (that.contentPlaceholder.classList.contains("leave")) {
+                                           that.clear(true);
+                                           that.removeDismissableClass("visible");
+                                           that.addDismissableClass("hidden");
+                                           that.removeDismissableClass("leave");
+                                           that.dispatchEvent('afterhide', arg);
+                                       }
                                    });
                                });
                            }

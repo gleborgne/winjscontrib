@@ -6,12 +6,15 @@
     top: 0;
     z-index: 1007;
     pointer-events: none;
-}
 
-    .childNavigator.visible {
+    &.visible {
         visibility: visible;
+    }
+
+    &.enter {
         pointer-events: auto;
     }
+}
 
     .childNavigator .childNavigator-overlay {
         position: absolute;
@@ -19,18 +22,21 @@
         height: 100%;
         background-color: black;
         opacity: 0;
-        /*display : none;*/
-        -webkit-transform: translate3d(0,0,0);
-        transform: translate3d(0,0,0);
-        -webkit-transition: opacity 500ms ease-in-out;
-        transition: opacity 500ms ease-in-out;
         
-    }
-
-        .childNavigator .childNavigator-overlay.visible {
-            /*display : block;*/
-            opacity: 0.7;
+        &.enter {
+            -webkit-transition: opacity 500ms ease-out 10ms;
+            transition: opacity 500ms ease-out 10ms;            
         }
+
+        &.leave {
+            -webkit-transition: opacity 350ms ease-in 10ms;
+            transition: opacity 350ms ease-in 10ms;            
+        }
+
+        &.enter-active {
+            opacity: 0.7;
+        }    
+    }
 
     .childNavigator .childNavigator-contentPlaceholder {
         position: absolute;
@@ -40,34 +46,45 @@
         right: 0;
         /*display : none;*/
         top: 0;
-        -webkit-transition: -webkit-transform 250ms ease-in-out 100ms;
-        transition: transform 250ms ease-in-out 100ms;
+        
         -webkit-transform: translate3d(100%,0,0);
         transform: translate3d(100%,0,0);
         background-color: white;
-    }
 
-        .childNavigator .childNavigator-contentPlaceholder.visible {
-            /*display : block;*/
+        &.enter {
+            -webkit-transition: -webkit-transform 300ms ease-out 10ms;
+            transition: transform 300ms ease-out 10ms;
+        }
+
+        &.leave {
+            -webkit-transition: -webkit-transform 250ms ease-in 10ms;
+            transition: transform 250ms ease-in 10ms;
+        }
+
+        &.enter-active {
             -webkit-transform: translate3d(0,0,0);
             transform: translate3d(0,0,0);
         }
-              .childNavigator .childNavigator-contentPlaceholder.visible .mcn-close-btn {
+
+        &.visible {
+            /*display : block;*/
+            .mcn-close-btn {
                 position: absolute;
                 top: 10px;
                 right: 10px;
-            }
 
-                .childNavigator .childNavigator-contentPlaceholder.visible .mcn-close-btn.default-icon {
+                &.default-icon {
                     color: white;
                     font-family: "Segoe UI Symbol";
                     width: 40px;
                     line-height: 35px;
                     font-size: 30pt;
                     height: 40px;
-                }
 
-
-                    .childNavigator .childNavigator-contentPlaceholder.visible .mcn-close-btn.default-icon:before {
+                    &:before {
                         content: '\e0e1'; /* '' */
                     }
+                }
+            }
+        }
+    }

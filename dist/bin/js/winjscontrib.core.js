@@ -3048,18 +3048,13 @@ var WinJSContrib;
                     },
                 },
                 {
-                    dispose: function () {
-                        if (this._promises) {
-                            this.cancelPromises();
-                            this._promises = null;
-                        }
+                    initPageMixin: function () {
+                        this.promises = [];
                     },
-                    promises: {
-                        configurable: true,
-                        get: function () {
-                            if (!this._promises)
-                                this._promises = [];
-                            return this._promises;
+                    disposePageMixin: function () {
+                        if (this.promises) {
+                            this.cancelPromises();
+                            this.promises = null;
                         }
                     },
                     addPromise: function (prom) {
@@ -3079,20 +3074,15 @@ var WinJSContrib;
                     }
                 },
                 {
-                    dispose: function () {
-                        if (this._eventTracker) {
-                            this._eventTracker.dispose();
-                            this._eventTracker = null;
+                    initPageMixin: function () {
+                        this.eventTracker = new WinJSContrib.UI.EventTracker();
+                    },
+                    disposePageMixin: function () {
+                        if (this.eventTracker) {
+                            this.eventTracker.dispose();
+                            this.eventTracker = null;
                         }
                     },
-                    eventTracker: {
-                        configurable: true,
-                        get: function () {
-                            if (!this._eventTracker)
-                                this._eventTracker = new WinJSContrib.UI.EventTracker();
-                            return this._eventTracker;
-                        }
-                    }
                 }];
             function broadcast(ctrl, element, eventName, args, before, after) {
                 var promises = [];
@@ -3370,6 +3360,9 @@ var WinJSContrib;
                         if (this._disposed) {
                             return;
                         }
+                        if (this.disposePageMixin) {
+                            this.disposePageMixin();
+                        }
                         this.pageLifeCycle.stop();
                         this.pageLifeCycle = null;
                         this._disposed = true;
@@ -3443,12 +3436,29 @@ var WinJSContrib;
                 };
                 function injectMixin(base, mixin) {
                     var d = base.prototype.dispose;
+                    var dM = base.prototype.disposePageMixin;
+                    var iM = base.prototype.initPageMixin;
                     base = _Base.Class.mix(base, mixin);
-                    //we want to allow this mixins to provide their own addition to "dispose"
+                    //we want to allow this mixins to provide their own addition to "dispose" and initialize custom properties
                     if (d && mixin.hasOwnProperty('dispose')) {
                         base.prototype.dispose = function () {
                             mixin.dispose.apply(this);
-                            d.apply(this);
+                            if (d)
+                                d.apply(this);
+                        };
+                    }
+                    if (d && mixin.hasOwnProperty('disposePageMixin')) {
+                        base.prototype.disposePageMixin = function () {
+                            mixin.disposePageMixin.apply(this);
+                            if (dM)
+                                dM.apply(this);
+                        };
+                    }
+                    if (d && mixin.hasOwnProperty('initPageMixin')) {
+                        base.prototype.initPageMixin = function () {
+                            mixin.initPageMixin.apply(this);
+                            if (iM)
+                                iM.apply(this);
                         };
                     }
                     return base;
@@ -3636,8 +3646,10 @@ var WinJSContrib;
                             _ElementUtilities.addClass(element, "win-disposable");
                             _ElementUtilities.addClass(element, "pagecontrol");
                             _ElementUtilities.addClass(element, "mcn-layout-ctrl");
-                            that._eventTracker = new WinJSContrib.UI.EventTracker();
-                            that._promises = [];
+                            if (that.initPageMixin)
+                                that.initPageMixin();
+                            //that._eventTracker = new WinJSContrib.UI.EventTracker();
+                            //that._promises = [];
                             that.pageLifeCycle = {
                                 created: new Date(),
                                 location: uri,
