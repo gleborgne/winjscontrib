@@ -357,7 +357,8 @@ gulp.task('doc', ['cleandoc', 'scripts'], function() {
 	    inverseNav      : false
 	  };
 
-	return gulp.src([jsDestPath +'**/*.js', 'readme.md'])        
+
+	return gulp.src([jsDestPath +'**/*.js', '!' + jsDestPath +'**/*.min.js','readme.md'])        
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(jsdoc.parser(infos))
   	.pipe(jsdoc.generator('dist/documentation/', template));
