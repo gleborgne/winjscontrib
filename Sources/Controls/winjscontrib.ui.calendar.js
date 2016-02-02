@@ -19,12 +19,19 @@ var WinJSContrib;
                 this.flyout = new WinJS.UI.Flyout();
                 this.flyout.element.classList.add("mcn-datepicker-flyout");
                 this.element.appendChild(this.flyout.element);
+                this.flyout.onbeforeshow = function () {
+                    setImmediate(function () {
+                        _this.calendar.focusSelected();
+                    });
+                };
                 if (!options.hasOwnProperty("deferRendering")) {
                     options.deferRendering = true;
                 }
                 var elt = document.createElement("DIV");
                 this.flyout.element.appendChild(elt);
-                this.calendar = new WinJSContrib.UI.Calendar(elt, options);
+                var calendaroptions = JSON.parse(JSON.stringify(options));
+                calendaroptions.flyout = this.flyout;
+                this.calendar = new WinJSContrib.UI.Calendar(elt, calendaroptions);
                 this.calendar.onchange = function () {
                     _this.value = _this.calendar.value;
                 };
@@ -73,10 +80,15 @@ var WinJSContrib;
                 this.element = element || document.createElement('DIV');
                 options = options || {};
                 this._startDayOfWeek = 1; //monday
+                this.eventTracker = new WinJSContrib.UI.EventTracker();
                 this.element.winControl = this;
                 this.element.classList.add('mcn-calendar');
                 this.element.classList.add('win-disposable');
                 WinJS.UI.setOptions(this, options);
+                if (this.flyout) {
+                    this.element.classList.add('win-xyfocus-suspended');
+                    this.eventTracker.addEvent(this.element, "keydown", this.onkeydown.bind(this), true);
+                }
                 this._ready = false;
                 if (!options.deferRendering) {
                     this.render();
@@ -94,11 +106,13 @@ var WinJSContrib;
                             });
                         }
                     }
-                    setTimeout(function () {
-                        WinJS.Utilities.Scheduler.schedule(function () {
-                            _this.render();
-                        }, WinJS.Utilities.Scheduler.Priority.idle);
-                    }, 2000);
+                    else {
+                        setTimeout(function () {
+                            WinJS.Utilities.Scheduler.schedule(function () {
+                                _this.render();
+                            }, WinJS.Utilities.Scheduler.Priority.idle);
+                        }, 2000);
+                    }
                 }
             }
             Object.defineProperty(CalendarControl.prototype, "value", {
@@ -108,7 +122,7 @@ var WinJSContrib;
                 set: function (val) {
                     if (typeof val == "string")
                         val = moment(val).toDate();
-                    this._value = val;
+                    this._value = val; //moment(val).hour(0).minute(0).second(0).millisecond(0).toDate();
                     if (this._currentPanel) {
                         this._currentPanel._currentDate = new Date(val.getFullYear(), val.getMonth(), 1);
                         this._currentPanel.ensureValue();
@@ -127,6 +141,66 @@ var WinJSContrib;
                 enumerable: true,
                 configurable: true
             });
+            CalendarControl.prototype.focusSelected = function () {
+                var selected = this.element.querySelector(".day-item.selected");
+                if (selected)
+                    selected.focus();
+            };
+            CalendarControl.prototype.getFocusedDay = function () {
+                var focused = this.element.querySelector("*:focus");
+                if (focused.classList.contains("day-item")) {
+                    var date = focused.mcnCalendarDay;
+                    return date;
+                }
+            };
+            CalendarControl.prototype.onkeydown = function (arg) {
+                if (arg.key == "PageDown") {
+                    this._currentPanel.next(true);
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
+                else if (arg.key == "PageUp") {
+                    this._currentPanel.previous(true);
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
+                else if (arg.key == "Down") {
+                    var nextelt = WinJS.UI.XYFocus.findNextFocusElement("down", { focusRoot: this.element });
+                    if (nextelt) {
+                        nextelt.focus();
+                    }
+                    else {
+                        this._currentPanel.next(true);
+                    }
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
+                else if (arg.key == "Up") {
+                    var nextelt = WinJS.UI.XYFocus.findNextFocusElement("up", { focusRoot: this.element });
+                    if (nextelt) {
+                        nextelt.focus();
+                    }
+                    else {
+                        this._currentPanel.previous(true);
+                    }
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
+                else if (arg.key == "Left") {
+                    var nextelt = WinJS.UI.XYFocus.findNextFocusElement("left", { focusRoot: this.element });
+                    if (nextelt)
+                        nextelt.focus();
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
+                else if (arg.key == "Right") {
+                    var nextelt = WinJS.UI.XYFocus.findNextFocusElement("right", { focusRoot: this.element });
+                    if (nextelt)
+                        nextelt.focus();
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
+            };
             CalendarControl.prototype.render = function () {
                 var _this = this;
                 if (this._ready)
@@ -182,6 +256,7 @@ var WinJSContrib;
                             _this._currentPanel.previous();
                     }
                 };
+                this._currentPanel.setNavButtonsLabels();
             };
             CalendarControl.prototype.checkState = function () {
                 if (this._currentPanel.allowNext()) {
@@ -215,6 +290,7 @@ var WinJSContrib;
                 this._monthsPanel.show();
                 this._currentPanel = this._monthsPanel;
                 this.checkState();
+                this._currentPanel.setNavButtonsLabels();
             };
             CalendarControl.prototype.switchToDays = function () {
                 if (this._currentPanel != this._daysPanel) {
@@ -225,6 +301,11 @@ var WinJSContrib;
                 this._daysPanel.show();
                 this._currentPanel = this._daysPanel;
                 this.checkState();
+                this._currentPanel.setNavButtonsLabels();
+            };
+            CalendarControl.prototype.dispose = function () {
+                this.eventTracker.dispose();
+                WinJS.Utilities.disposeSubTree(this.element);
             };
             return CalendarControl;
         })();
@@ -239,9 +320,9 @@ var WinJSContrib;
                 this.parent.panelsContainer.appendChild(this.element);
                 this._currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
             }
-            CalendarPanelControl.prototype.next = function () {
+            CalendarPanelControl.prototype.next = function (focusItem) {
             };
-            CalendarPanelControl.prototype.previous = function () {
+            CalendarPanelControl.prototype.previous = function (focusItem) {
             };
             CalendarPanelControl.prototype.allowNext = function () {
                 return false;
@@ -249,7 +330,7 @@ var WinJSContrib;
             CalendarPanelControl.prototype.allowPrevious = function () {
                 return false;
             };
-            CalendarPanelControl.prototype.ensureValue = function (immediate) {
+            CalendarPanelControl.prototype.ensureValue = function (immediate, focusItem) {
             };
             CalendarPanelControl.prototype.hide = function () {
                 var _this = this;
@@ -260,6 +341,8 @@ var WinJSContrib;
             CalendarPanelControl.prototype.show = function () {
                 this.element.classList.remove("disabled");
                 return WinJS.UI.Animation.drillInIncoming(this.element);
+            };
+            CalendarPanelControl.prototype.setNavButtonsLabels = function () {
             };
             return CalendarPanelControl;
         })();
@@ -281,24 +364,41 @@ var WinJSContrib;
                 enumerable: true,
                 configurable: true
             });
-            CalendarDayPanelControl.prototype.ensureValue = function (immediate) {
-                if (moment(this.currentDate).diff(this._currentItem.currentDate) != 0) {
-                    this.update(function (elt) { return WinJS.UI.Animation.drillInIncoming(elt); }, function (elt) { return WinJS.UI.Animation.drillInOutgoing(elt); }, immediate);
+            CalendarDayPanelControl.prototype.setNavButtonsLabels = function () {
+                var arianext = WinJS.Resources.getString("mcncalendar.nextmonth.arialabel");
+                var ariaprevious = WinJS.Resources.getString("mcncalendar.previousmonth.arialabel");
+                if (!arianext.empty && !ariaprevious.empty) {
+                    this.parent.navbuttonNext.setAttribute("aria-label", arianext.value);
+                    this.parent.navbuttonPrevious.setAttribute("aria-label", ariaprevious.value);
                 }
             };
-            CalendarDayPanelControl.prototype.update = function (animIn, animOut, immediate) {
+            CalendarDayPanelControl.prototype.ensureValue = function (immediate, focusItem) {
+                if (moment(this.currentDate).diff(this._currentItem.currentDate) != 0) {
+                    this.update(focusItem, function (elt) { return WinJS.UI.Animation.drillInIncoming(elt); }, function (elt) { return WinJS.UI.Animation.drillInOutgoing(elt); }, immediate);
+                }
+                else {
+                    $('.selected', this.element).removeClass('selected');
+                    var selectedid = "day-" + moment(this.parent.value).format("YYYY-MM-DD");
+                    $('#' + selectedid, this.element).addClass('selected');
+                }
+            };
+            CalendarDayPanelControl.prototype.update = function (focusItem, animIn, animOut, immediate) {
                 this._currentItem.currentDate = moment(this._currentDate);
-                this._currentItem.generateDays(animIn, animOut, immediate);
+                this._currentItem.generateDays(focusItem, animIn, animOut, immediate);
                 this.parent.checkState();
             };
-            CalendarDayPanelControl.prototype.next = function () {
+            CalendarDayPanelControl.prototype.next = function (focusItem) {
+                if (!this.allowNext())
+                    return;
                 this._currentDate = moment(this._currentDate).add(1, "M").toDate();
-                this.update(function (elt) { return WinJSContrib.UI.Animation.slideFromBottom(elt, { duration: 160 }); }, function (elt) { return WinJSContrib.UI.Animation.slideToTop(elt, { duration: 160 }); });
+                this.update(focusItem, function (elt) { return WinJSContrib.UI.Animation.slideFromBottom(elt, { duration: 160 }); }, function (elt) { return WinJSContrib.UI.Animation.slideToTop(elt, { duration: 160 }); });
             };
-            CalendarDayPanelControl.prototype.previous = function () {
+            CalendarDayPanelControl.prototype.previous = function (focusItem) {
+                if (!this.allowPrevious())
+                    return;
                 this._currentDate = moment(this._currentDate).add(-1, "M").toDate();
                 this._currentItem.currentDate = moment(this._currentDate);
-                this.update(function (elt) { return WinJSContrib.UI.Animation.slideFromTop(elt, { duration: 160 }); }, function (elt) { return WinJSContrib.UI.Animation.slideToBottom(elt, { duration: 160 }); });
+                this.update(focusItem, function (elt) { return WinJSContrib.UI.Animation.slideFromTop(elt, { duration: 160 }); }, function (elt) { return WinJSContrib.UI.Animation.slideToBottom(elt, { duration: 160 }); });
             };
             CalendarDayPanelControl.prototype.allowNext = function () {
                 if (!this.parent.maxdate)
@@ -336,10 +436,14 @@ var WinJSContrib;
                 var _this = this;
                 var startdate = this.currentDate.clone().day(this.parent.parent.startDayOfWeek);
                 this.element.innerHTML =
-                    "<header>\n\t\t\t\t\t<div class=\"month\">" + this.currentDate.format("MMMM") + "</div>\n\t\t\t\t\t<div class=\"year\">" + this.currentDate.format("YYYY") + "</div>\n\t\t\t\t</header>\n\t\t\t\t<section class=\"day-items\">\n\t\t\t\t\t<header>\n\t\t\t\t\t</header>\n\t\t\t\t\t<section>\n\t\t\t\t\t</section>\n\t\t\t\t</section>";
+                    "<header role=\"button\" tabIndex=\"0\" data-win-focus='{ bottom: \".dayitem.tap\" }'>\n\t\t\t\t\t<div class=\"month\">" + this.currentDate.format("MMMM") + "</div>\n\t\t\t\t\t<div class=\"year\">" + this.currentDate.format("YYYY") + "</div>\n\t\t\t\t</header>\n\t\t\t\t<section class=\"day-items\">\n\t\t\t\t\t<header>\n\t\t\t\t\t</header>\n\t\t\t\t\t<section>\n\t\t\t\t\t</section>\n\t\t\t\t</section>";
                 this.monthTxt = this.element.querySelector(".month");
                 this.yearTxt = this.element.querySelector(".year");
                 var panelheader = this.element.querySelector("header");
+                var arialabel = WinJS.Resources.getString("mcncalendar.daystitle.arialabel");
+                if (!arialabel.empty) {
+                    panelheader.setAttribute("aria-label", arialabel.value);
+                }
                 WinJSContrib.UI.tap(panelheader, function () {
                     _this.parent.parent.switchToMonth();
                 });
@@ -365,7 +469,7 @@ var WinJSContrib;
                 dayspanel.winControl.dispose();
                 dayspanel.parentElement.removeChild(dayspanel);
             };
-            CalendarDayPanelContentControl.prototype.generateDays = function (animIn, animOut, immediate) {
+            CalendarDayPanelContentControl.prototype.generateDays = function (focusItem, animIn, animOut, immediate) {
                 var _this = this;
                 if (this.days) {
                     var currentDays = this.days;
@@ -380,14 +484,25 @@ var WinJSContrib;
                 }
                 this.selected = null;
                 this.days = this.renderDaysWrapper(this.content);
+                var handleFocus = function () {
+                    if (focusItem) {
+                        var selected = _this.content.querySelector(".day-item.selected:not(:disabled)");
+                        if (!selected)
+                            selected = _this.content.querySelector(".day-item.thismonth:not(:disabled)");
+                        if (selected)
+                            selected.focus();
+                    }
+                };
                 if (immediate) {
                     this.monthTxt.innerText = this.currentDate.format("MMMM");
                     this.yearTxt.innerText = this.currentDate.format("YYYY");
+                    handleFocus();
                 }
                 else {
                     animIn(this.days).then(function () {
                         _this.monthTxt.innerText = _this.currentDate.format("MMMM");
                         _this.yearTxt.innerText = _this.currentDate.format("YYYY");
+                        handleFocus();
                     });
                 }
             };
@@ -399,10 +514,10 @@ var WinJSContrib;
                 swipe.onswipe = function (arg) {
                     swipe.swipeHandled = true;
                     if (arg.direction == "top") {
-                        _this.parent.next();
+                        _this.parent.next(true);
                     }
                     else if (arg.direction == "bottom") {
-                        _this.parent.previous();
+                        _this.parent.previous(true);
                     }
                 };
                 this.renderDays(itemsWrapper);
@@ -414,7 +529,7 @@ var WinJSContrib;
                 var startdate = this.currentDate.clone().day(this.parent.parent.startDayOfWeek);
                 var currentMonth = this.currentDate.month();
                 var currentvalue = this.parent.parent.value;
-                var currentValueDate = moment(currentvalue);
+                var currentValueDate = moment(currentvalue).hour(0).minute(0).second(0).millisecond(0);
                 var currentDate = moment(this.parent.parent.value).hour(0).minute(0).second(0).millisecond(0);
                 var minDate = null;
                 var today = moment().hour(0).minute(0).second(0).millisecond(0);
@@ -430,9 +545,10 @@ var WinJSContrib;
                 var count = 0;
                 while (contentdate <= lastday) {
                     var day = document.createElement("BUTTON");
-                    day.className = "day-item";
+                    day.className = "day-item tap";
                     day.id = "day-" + contentdate.format("YYYY-MM-DD");
                     day.innerText = contentdate.format("DD");
+                    day.setAttribute("aria-label", contentdate.format("L"));
                     if (contentdate.diff(today) == 0) {
                         day.classList.add("today");
                     }
@@ -447,21 +563,24 @@ var WinJSContrib;
                     if (contentdate.month() != currentMonth) {
                         day.classList.add("notthismonth");
                     }
+                    else {
+                        day.classList.add("thismonth");
+                    }
                     if (minDate && contentdate < minDate)
                         day.disabled = true;
                     if (maxDate && contentdate > maxDate)
                         day.disabled = true;
                     day.mcnCalendarDay = contentdate.clone();
-                    WinJSContrib.UI.tap(day, function (arg) {
-                        var date = arg.mcnCalendarDay;
-                        arg.classList.add("selected");
+                    day.onclick = function (arg) {
+                        var date = arg.target.mcnCalendarDay;
+                        arg.target.classList.add("selected");
                         if (_this.selected) {
                             _this.selected.classList.remove("selected");
                         }
-                        _this.selected = arg;
+                        _this.selected = arg.target;
                         _this.parent.parent.value = date.toDate();
                         _this.parent.parent.dispatchEvent("change");
-                    });
+                    };
                     contentdate.add(1, "d");
                     container.appendChild(day);
                 }
@@ -487,13 +606,25 @@ var WinJSContrib;
                 this.element.classList.add("month-panel");
                 this.renderContent();
             }
-            CalendarMonthPanelControl.prototype.next = function () {
-                this._currentDate = moment(this._currentDate).add(1, "Y").toDate();
-                this.update(function (elt) { return WinJSContrib.UI.Animation.slideFromBottom(elt, { duration: 160 }); }, function (elt) { return WinJSContrib.UI.Animation.slideToTop(elt, { duration: 160 }); });
+            CalendarMonthPanelControl.prototype.setNavButtonsLabels = function () {
+                var arianext = WinJS.Resources.getString("mcncalendar.nextyear.arialabel");
+                var ariaprevious = WinJS.Resources.getString("mcncalendar.previousyear.arialabel");
+                if (!arianext.empty && !ariaprevious.empty) {
+                    this.parent.navbuttonNext.setAttribute("aria-label", arianext.value);
+                    this.parent.navbuttonPrevious.setAttribute("aria-label", ariaprevious.value);
+                }
             };
-            CalendarMonthPanelControl.prototype.previous = function () {
+            CalendarMonthPanelControl.prototype.next = function (focusItem) {
+                if (!this.allowNext())
+                    return;
+                this._currentDate = moment(this._currentDate).add(1, "Y").toDate();
+                this.update(focusItem, function (elt) { return WinJSContrib.UI.Animation.slideFromBottom(elt, { duration: 160 }); }, function (elt) { return WinJSContrib.UI.Animation.slideToTop(elt, { duration: 160 }); });
+            };
+            CalendarMonthPanelControl.prototype.previous = function (focusItem) {
+                if (!this.allowPrevious())
+                    return;
                 this._currentDate = moment(this._currentDate).add(-1, "Y").toDate();
-                this.update(function (elt) { return WinJSContrib.UI.Animation.slideFromTop(elt, { duration: 160 }); }, function (elt) { return WinJSContrib.UI.Animation.slideToBottom(elt, { duration: 160 }); });
+                this.update(focusItem, function (elt) { return WinJSContrib.UI.Animation.slideFromTop(elt, { duration: 160 }); }, function (elt) { return WinJSContrib.UI.Animation.slideToBottom(elt, { duration: 160 }); });
             };
             CalendarMonthPanelControl.prototype.allowNext = function () {
                 var lastday = new Date(this._currentDate.getFullYear(), 11, 31);
@@ -511,12 +642,12 @@ var WinJSContrib;
                     return true;
                 return false;
             };
-            CalendarMonthPanelControl.prototype.ensureValue = function (immediate) {
+            CalendarMonthPanelControl.prototype.ensureValue = function (immediate, focusItem) {
                 if (moment(this._currentDate).diff(moment(this.renderedDate)) != 0) {
-                    this.update(function (elt) { return WinJS.UI.Animation.drillInIncoming(elt); }, function (elt) { return WinJS.UI.Animation.drillInOutgoing(elt); }, immediate);
+                    this.update(focusItem, function (elt) { return WinJS.UI.Animation.drillInIncoming(elt); }, function (elt) { return WinJS.UI.Animation.drillInOutgoing(elt); }, immediate);
                 }
             };
-            CalendarMonthPanelControl.prototype.update = function (animIn, animOut, immediate) {
+            CalendarMonthPanelControl.prototype.update = function (focusItem, animIn, animOut, immediate) {
                 var _this = this;
                 var previouspanel = this.monthesPanel;
                 if (immediate) {
@@ -528,12 +659,23 @@ var WinJSContrib;
                     });
                 }
                 this.monthesPanel = this.renderMonthPanel(this.content);
+                var handleFocus = function () {
+                    if (focusItem) {
+                        var selected = _this.content.querySelector(".month-item.selected:not(:disabled)");
+                        if (!selected)
+                            selected = _this.content.querySelector(".month-item:not(:disabled)");
+                        if (selected)
+                            selected.focus();
+                    }
+                };
                 if (immediate) {
                     this.yearTxt.innerText = "" + this._currentDate.getFullYear();
+                    handleFocus();
                 }
                 else {
                     animIn(this.monthesPanel).then(function () {
                         _this.yearTxt.innerText = "" + _this._currentDate.getFullYear();
+                        handleFocus();
                     });
                 }
                 this.parent.checkState();
@@ -570,10 +712,11 @@ var WinJSContrib;
                     maxDate = moment(this.parent.maxdate).date(1).hour(0).minute(0).second(0).millisecond(0);
                 for (var i = 0; i < 12; i++) {
                     var month = document.createElement("BUTTON");
-                    month.className = "month-item";
+                    month.className = "month-item tap";
                     var currentMonthDate = start.clone();
                     month.mcnMonthDate = currentMonthDate;
                     month.innerText = currentMonthDate.format("MMM");
+                    month.setAttribute("aria-label", currentMonthDate.format("MMMM YYYY"));
                     if (currentMonthDate.diff(thismonth) == 0) {
                         month.classList.add("today");
                     }
@@ -584,11 +727,12 @@ var WinJSContrib;
                         month.disabled = true;
                     if (maxDate && start > maxDate)
                         month.disabled = true;
-                    WinJSContrib.UI.tap(month, function (elt) {
+                    month.onclick = function (arg) {
+                        var elt = arg.target;
                         var date = elt.mcnMonthDate;
                         _this._currentDate = date.toDate();
                         _this.parent.switchToDays();
-                    });
+                    };
                     panel.appendChild(month);
                     start.add(1, "M");
                 }

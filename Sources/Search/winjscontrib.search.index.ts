@@ -2,20 +2,43 @@
 module WinJSContrib.Search {
     var logger = WinJSContrib.Logs.getLogger("WinJSContrib.Search");
 
+    /**
+     * optional properties for animations
+     * @typedef {Object} WinJSContrib.Search.ISearchResultItem
+     * @property {number} rank ranking for the item
+     * @property {Object} key unique key defined for the item
+     * @property {Object} item item data
+     */
     export interface ISearchResultItem {
         rank: number,
         key: any,
         item : any
     }
+    
+    export interface IIndexedItemToken{
+            items : string[], 
+            untokenized : string          
+    }
+    
+    export interface IIndexedItemTokens{
+        tokens: IIndexedItemToken, 
+        weight: number 
+    }
+    
+    export interface IIndexedItem {
+        items: IIndexedItemTokens[],
+        rawdata: any,
+        key: any
+    }
 
     export class Index {
         public name: string;
-        public definition: any;
+        public definition: WinJSContrib.Search.IndexDefinition;
         public onprogress: any;
         public folderPromise: any;
         public stopWords: any[];
         public container: WinJSContrib.DataContainer.IDataContainer;
-        public items: any[] = [];
+        public items: IIndexedItem[] = [];
         public storeData: boolean = true;
         public pipeline: WinJSContrib.Search.Stemming.Pipeline;
 
@@ -24,14 +47,16 @@ module WinJSContrib.Search {
          * @class WinJSContrib.Search.Index
          * @classdesc
          * This class is the heart of the search engine. operations performed by this object are synchronous but exposes as promises.
-         * This way Index is almost interchangeable with {@link WinJSContrib.Search.IndexWorkerProxy}
+         * This way Index is almost interchangeable with {@link WinJSContrib.Search.IndexWorkerProxy}.
+         * Depending of the size of your index and targeted devices, it could be faster to run search in main "thread".
          * @param {string} name index name
          * @param {WinJSContrib.Search.IndexDefinition} definition index definition
+         * @param {WinJSContrib.DataContainer.IDataContainer} container optional parameter to explicitely specify the way index is stored
          */
-        constructor(name, definition, container?: WinJSContrib.DataContainer.IDataContainer) {
+        constructor(name, definition : WinJSContrib.Search.IndexDefinition, container?: WinJSContrib.DataContainer.IDataContainer) {
             var index = this;
             index.name = name || 'defaultIndex';
-            index.definition = definition || {};
+            index.definition = definition || { key : null, fields : null };
             index.items = [];
             index.storeData = true;
             index.onprogress = undefined;
@@ -199,7 +224,7 @@ module WinJSContrib.Search {
          * search index
          * @function WinJSContrib.Search.Index.prototype.search
          * @param {string} querytext
-         * @returns {WinJS.Promise} search result
+         * @returns {WinJS.Promise<WinJSContrib.Search.ISearchResultItem[]>} search result
          */
         public search(querytext, options): WinJS.Promise<ISearchResultItem[]> {
             return WinJS.Promise.wrap(this._runSearch(querytext, options));
@@ -255,7 +280,7 @@ module WinJSContrib.Search {
             var key = undefined;
             var def = index.definition;
 
-            var res = {
+            var res = <IIndexedItem>{
                 items: [],
                 rawdata: undefined,
                 key: undefined
@@ -271,8 +296,8 @@ module WinJSContrib.Search {
 
             for (var elt in def.fields) {
                 if (def.fields.hasOwnProperty(elt)) {
-                    var item = def.fields[elt];
-                    var weight = item.weight || 1;
+                    var fieldDefinition = <FieldDefinition>def.fields[elt];
+                    var weight = fieldDefinition.weight || 1;
                     var value = WinJSContrib.Utils.readProperty(obj, elt.split('.'));
 
                     if (value) {
@@ -280,7 +305,7 @@ module WinJSContrib.Search {
 
                         if (valueType !== 'string' && (value.length !== null && value.length !== undefined)) {
                             for (var i = 0, l = value.length; i < l; i++) {
-                                var item = value[i];
+                                let item = value[i];
                                 if (item && typeof item == 'string') {
                                     res.items.push({ tokens: index.processText(item), weight: weight });
                                 }
@@ -352,12 +377,12 @@ module WinJSContrib.Search {
          * @function WinJSContrib.Search.Index.prototype.processText
          * @param {string} text
          */
-        public processText(text) {
+        public processText(text) : IIndexedItemToken {
             if (typeof text == "number")
                 text = text.toString();
 
             var tokens = this.tokenize(text);
-            var res = [];
+            var res = <string[]>[];
             var size = tokens.length;
             for (var i = 0; i < size; i++) {
                 var txt = this.pipeline.run(tokens[i]);
@@ -365,7 +390,7 @@ module WinJSContrib.Search {
                     res.push(txt);
             }
 
-            return { items: res, untokenized: this.pipeline.run(text) };
+            return { items: res, untokenized: <string>this.pipeline.run(text) };
         }
 
         /**

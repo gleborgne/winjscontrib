@@ -1,6 +1,6 @@
 ﻿module WinJSContrib.Logs.Appenders {
     /**
-     * @namespace
+     * @namespace WinJSContrib.Logs.Appenders
      */
     WinJSContrib.Logs.Appenders = WinJSContrib.Logs.Appenders;
 

@@ -36,13 +36,24 @@ var WinJSContrib;
                 }
                 var elt = document.createElement("DIV");
                 this.flyout.element.appendChild(elt);
-                this.timeclock = new WinJSContrib.UI.TimeClock(elt, options);
+                var calendaroptions = JSON.parse(JSON.stringify(options));
+                calendaroptions.flyout = this.flyout;
+                this.timeclock = new WinJSContrib.UI.TimeClock(elt, calendaroptions);
                 this.timeclock.element.onmousewheel = function (arg) {
                     arg.preventDefault();
                     arg.stopPropagation();
                 };
                 this.timeclock.onchange = function () {
                     _this.value = _this.timeclock.value;
+                    _this.flyout.hide();
+                };
+                this.timeclock.onhourchange = function () {
+                    _this.value = _this.timeclock.value;
+                };
+                this.flyout.onbeforeshow = function () {
+                    setImmediate(function () {
+                        _this.timeclock.setFocus();
+                    });
                 };
                 this.flyout.onafterhide = function () {
                     _this.timeclock.switchToHours();
@@ -75,7 +86,6 @@ var WinJSContrib;
                         console.error(exception);
                     }
                     this.textElement.innerText = this.timeclock.value;
-                    this.flyout.hide();
                 },
                 enumerable: true,
                 configurable: true
@@ -110,6 +120,7 @@ var WinJSContrib;
                 this.element.winControl = this;
                 this.element.classList.add('mcn-timeclock');
                 this.element.classList.add('win-disposable');
+                this.eventTracker = new WinJSContrib.UI.EventTracker();
                 if (options.radial) {
                     this.element.classList.add('radial');
                 }
@@ -117,6 +128,10 @@ var WinJSContrib;
                     this.valueAsDate = new Date();
                 }
                 WinJS.UI.setOptions(this, options);
+                if (this.flyout) {
+                    this.element.classList.add('win-xyfocus-suspended');
+                    this.eventTracker.addEvent(this.element, "keydown", this.onkeydown.bind(this), true);
+                }
                 if (!options.deferRendering) {
                     this.render();
                 }
@@ -133,11 +148,13 @@ var WinJSContrib;
                             });
                         }
                     }
-                    setTimeout(function () {
-                        WinJS.Utilities.Scheduler.schedule(function () {
-                            _this.render();
-                        }, WinJS.Utilities.Scheduler.Priority.idle);
-                    }, 2000);
+                    else {
+                        setTimeout(function () {
+                            WinJS.Utilities.Scheduler.schedule(function () {
+                                _this.render();
+                            }, WinJS.Utilities.Scheduler.Priority.idle);
+                        }, 2000);
+                    }
                 }
             }
             TimeClockControl.prototype.render = function () {
@@ -159,6 +176,58 @@ var WinJSContrib;
                 this.hoursPanel = new HoursPanel(this);
                 //this.minutesPanel = new MinutesPanel(this);
                 this.currentPanel = this.hoursPanel;
+            };
+            TimeClockControl.prototype.onkeydown = function (arg) {
+                if (arg.key == "PageDown") {
+                    this.toggleDisplay();
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
+                else if (arg.key == "PageUp") {
+                    this.toggleDisplay();
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
+                else if (arg.key == "Down") {
+                    var nextelt = WinJS.UI.XYFocus.findNextFocusElement("down", { focusRoot: this.element });
+                    if (nextelt) {
+                        nextelt.focus();
+                    }
+                    else {
+                        if (this.currentPanel == this.hoursPanel) {
+                            this.hoursPanel.toggleView();
+                        }
+                    }
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
+                else if (arg.key == "Up") {
+                    var nextelt = WinJS.UI.XYFocus.findNextFocusElement("up", { focusRoot: this.element });
+                    if (nextelt) {
+                        nextelt.focus();
+                    }
+                    else {
+                        if (this.currentPanel == this.hoursPanel) {
+                            this.hoursPanel.toggleView();
+                        }
+                    }
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
+                else if (arg.key == "Left") {
+                    var nextelt = WinJS.UI.XYFocus.findNextFocusElement("left", { focusRoot: this.element });
+                    if (nextelt)
+                        nextelt.focus();
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
+                else if (arg.key == "Right") {
+                    var nextelt = WinJS.UI.XYFocus.findNextFocusElement("right", { focusRoot: this.element });
+                    if (nextelt)
+                        nextelt.focus();
+                    arg.preventDefault();
+                    arg.stopPropagation();
+                }
             };
             Object.defineProperty(TimeClockControl.prototype, "value", {
                 get: function () {
@@ -227,6 +296,18 @@ var WinJSContrib;
                     this.currentPanel.ensureValue();
                 }
             };
+            TimeClockControl.prototype.toggleDisplay = function () {
+                if (this.currentPanel == this.hoursPanel) {
+                    this.switchToMinutes();
+                }
+                else {
+                    this.switchToHours();
+                }
+            };
+            TimeClockControl.prototype.setFocus = function () {
+                if (this.currentPanel)
+                    this.currentPanel.setFocus();
+            };
             TimeClockControl.prototype.switchToHours = function () {
                 if (this.currentPanel == this.hoursPanel) {
                     this.hoursPanel.ensureValue();
@@ -244,6 +325,7 @@ var WinJSContrib;
                 this.minutesElt.classList.remove("current");
                 this.hoursElt.classList.add("current");
                 this.hoursPanel.show();
+                this.hoursPanel.setFocus();
                 this.currentPanel = this.hoursPanel;
             };
             TimeClockControl.prototype.switchToMinutes = function () {
@@ -263,11 +345,15 @@ var WinJSContrib;
                 this.minutesElt.classList.add("current");
                 this.hoursElt.classList.remove("current");
                 this.minutesPanel.show();
+                this.minutesPanel.setFocus();
                 this.currentPanel = this.minutesPanel;
             };
             TimeClockControl.prototype.dispatchEvent = function (type, data) {
             };
             TimeClockControl.prototype.addEventListener = function (type, callback) {
+            };
+            TimeClockControl.prototype.dispose = function () {
+                this.eventTracker.dispose();
             };
             return TimeClockControl;
         })();
@@ -299,7 +385,7 @@ var WinJSContrib;
                     if (n == current) {
                         item.classList.add("selected");
                     }
-                    WinJSContrib.UI.tap(item, callback);
+                    item.onclick = callback;
                     itemscontainer.appendChild(item);
                 });
                 if (this.parent.radial) {
@@ -321,13 +407,17 @@ var WinJSContrib;
                 var _this = this;
                 return WinJS.UI.Animation.drillInOutgoing(this.element).then(function () {
                     _this.element.classList.add("hidden");
+                    _this.element.style.display = "none";
                 });
             };
             TimePanel.prototype.show = function () {
                 this.element.classList.remove("hidden");
+                this.element.style.display = "";
                 return WinJS.UI.Animation.drillInIncoming(this.element);
             };
             TimePanel.prototype.ensureValue = function () {
+            };
+            TimePanel.prototype.setFocus = function () {
             };
             return TimePanel;
         })();
@@ -371,6 +461,21 @@ var WinJSContrib;
                     }
                 }
             };
+            HoursPanel.prototype.toggleView = function () {
+                if (this.isAm) {
+                    this.setPM();
+                }
+                else {
+                    this.setAM();
+                }
+            };
+            HoursPanel.prototype.setFocus = function () {
+                var focusing = this.currentHours.querySelector(".item-hour.selected");
+                if (!focusing)
+                    focusing = focusing = this.currentHours.querySelector(".item-hour");
+                if (focusing)
+                    focusing.focus();
+            };
             HoursPanel.prototype.setPM = function () {
                 if (!this.isAm)
                     return;
@@ -384,6 +489,7 @@ var WinJSContrib;
                 this.amButton.classList.remove("selected");
                 this.currentHours = this.renderItems(hourslist, "hour", this.parent.hour, this.hourClicked.bind(this));
                 this.content.appendChild(this.currentHours);
+                this.setFocus();
                 WinJS.UI.Animation.drillInIncoming(this.currentHours);
             };
             HoursPanel.prototype.setAM = function () {
@@ -399,9 +505,11 @@ var WinJSContrib;
                 this.amButton.classList.add("selected");
                 this.currentHours = this.renderItems(hourslist, "hour", this.parent.hour, this.hourClicked.bind(this));
                 this.content.appendChild(this.currentHours);
+                this.setFocus();
                 WinJS.UI.Animation.drillInIncoming(this.currentHours);
             };
-            HoursPanel.prototype.hourClicked = function (elt) {
+            HoursPanel.prototype.hourClicked = function (arg) {
+                var elt = arg.target;
                 var selecteditem = this.parent.element.querySelector(".item-hour.selected");
                 if (selecteditem)
                     selecteditem.classList.remove("selected");
@@ -423,13 +531,21 @@ var WinJSContrib;
                 var timeitems = this.renderItems(list, "min", this.parent.minutes, this.minuteClicked.bind(this));
                 this.content.appendChild(timeitems);
             }
-            MinutesPanel.prototype.minuteClicked = function (elt) {
+            MinutesPanel.prototype.minuteClicked = function (arg) {
+                var elt = arg.target;
                 var selecteditem = this.parent.element.querySelector(".item-min.selected");
                 if (selecteditem)
                     selecteditem.classList.remove("selected");
                 elt.classList.add("selected");
                 var val = parseInt(elt.dataset["val"], 10);
                 this.parent.minutes = val;
+            };
+            MinutesPanel.prototype.setFocus = function () {
+                var focusing = this.content.querySelector(".item-min.selected");
+                if (!focusing)
+                    focusing = focusing = this.content.querySelector(".item-min");
+                if (focusing)
+                    focusing.focus();
             };
             return MinutesPanel;
         })(TimePanel);

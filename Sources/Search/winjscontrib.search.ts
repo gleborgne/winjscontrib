@@ -33,7 +33,10 @@ module WinJSContrib.Search {
      * @example
      * { weight : 2}
      */
-
+    export interface FieldDefinition {
+        weight? : number;
+    }
+    
     /**
      * Definition of an index content
      * @typedef {Object} WinJSContrib.Search.IndexDefinition
@@ -43,6 +46,14 @@ module WinJSContrib.Search {
      * { key: 'id', fields: { "title": { weight : 5}, "description.detail": { weight : 2}}}
      */
 
+    export interface FieldDefinitionMap {
+        [name: string]: FieldDefinition;
+    }
+    
+    export interface IndexDefinition {
+        key : string;
+        fields : FieldDefinitionMap;
+    }
 
     /**
      * Small text search features based on objet indexing and text stemming. It's inspired by tools like Lucene.

@@ -1,9 +1,9 @@
 ﻿module WinJSContrib.Search.Stemming {
 
     /**
-     * @namespace
+     * @namespace WinJSContrib.Search.Stemming
      */
-        
+    WinJSContrib.Search.Stemming = WinJSContrib.Search.Stemming;    
 
      export class Pipeline{
         public _processors: any[];
@@ -78,11 +78,24 @@
 }
 
 module WinJSContrib.Search.Stemming.Presets {
+        /**
+         * @namespace WinJSContrib.Search.Stemming.Presets
+         */
+        WinJSContrib.Search.Stemming.Presets = WinJSContrib.Search.Stemming.Presets;    
+
+        /**
+         * very basic ruleset
+         * @field WinJSContrib.Search.Stemming.Presets.standard
+         */
         export var standard = [
             "lowerCase",
             "removeDiacritics"
         ];
 
+        /**
+         * ruleset with almost all stemming functions
+         * @field WinJSContrib.Search.Stemming.Presets.full
+         */
         export var full = [
             "lowerCase",
             "removeDiacritics",
@@ -111,10 +124,16 @@ module WinJSContrib.Search.Stemming.Presets {
 
 
     module WinJSContrib.Search.Stemming.StopWords {
-    
+       /**
+       * stop words are words like "of" or "the", they usually have no meaning in searches. Words in the list provided in the pipeline are
+       * removed from search terms
+       * @namespace WinJSContrib.Search.Stemming.Presets
+       */
+        WinJSContrib.Search.Stemming.StopWords = WinJSContrib.Search.Stemming.StopWords;    
+
    
        /**
-       * common stop words
+       * common stop words (for english and french)
        * @field WinJSContrib.Search.Stemming.StopWords.common
        */
         export var common = [
@@ -265,8 +284,8 @@ module WinJSContrib.Search.Stemming.Presets {
     
     module WinJSContrib.Search.Stemming.Op {
     /**
-     * built-in stemmings
-     * @namespace
+     * built-in stemmings Operator functions
+     * @namespace WinJSContrib.Search.Stemming.Op
      */
     
         /**

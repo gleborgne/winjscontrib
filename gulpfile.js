@@ -335,7 +335,7 @@ gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
 //  	.pipe(gulp.dest('dist/testsjsdoc'));
 //});
 
-gulp.task('doc', ['cleandoc', 'scripts'], function() {
+gulp.task('doc', ['cleandoc'], function() {
 	//ink-docstrap module within gulp-jsdoc is not up to date, update it with latest version
 	
 	var infos = {
@@ -379,7 +379,7 @@ gulp.task('watch', function() {
 	], ['typescript']);
 });
 
-gulp.task('buildAndDoc', ['styles', 'doc']);
+gulp.task('buildAndDoc', ['build', 'doc']);
 gulp.task('build', ['styles', 'scripts']);
 
-gulp.task('default', ['buildAndDoc']);
+gulp.task('default', ['build']);

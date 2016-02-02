@@ -24,7 +24,10 @@
         _value: Date;
         radial: boolean;
         onchange: () => void;
+        onhourchange: () => void;
         element: HTMLElement;
+        flyout: WinJS.UI.Flyout;
+        eventTracker: EventTracker;
         header: HTMLElement;
         content: HTMLElement;
         hoursElt: HTMLElement;
@@ -36,16 +39,20 @@
         pmLabel: string;
         constructor(element: HTMLElement, options: TimeClockOptions);
         render(): void;
+        onkeydown(arg: any): void;
         value: string;
         valueAsDate: Date;
         hour: number;
         minutes: number;
         conformMinutes(): void;
         updateDisplay(): void;
+        toggleDisplay(): void;
+        setFocus(): void;
         switchToHours(): void;
         switchToMinutes(): void;
         dispatchEvent(type: string, data?: any): void;
         addEventListener(type: string, callback: any): void;
+        dispose(): void;
     }
     var TimeClock: any;
     class TimePanel {
@@ -59,6 +66,7 @@
         remove(): WinJS.IPromise<void>;
         show(): WinJS.Promise<any>;
         ensureValue(): void;
+        setFocus(): void;
     }
     class HoursPanel extends TimePanel {
         currentHours: HTMLElement;
@@ -68,12 +76,15 @@
         constructor(parent: TimeClockControl);
         init(): void;
         ensureValue(): void;
+        toggleView(): void;
+        setFocus(): void;
         setPM(): void;
         setAM(): void;
-        hourClicked(elt: HTMLElement): void;
+        hourClicked(arg: any): void;
     }
     class MinutesPanel extends TimePanel {
         constructor(parent: TimeClockControl);
-        minuteClicked(elt: HTMLElement): void;
+        minuteClicked(arg: any): void;
+        setFocus(): void;
     }
 }

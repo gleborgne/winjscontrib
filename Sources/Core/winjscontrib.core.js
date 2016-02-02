@@ -5,7 +5,7 @@
         var Appenders;
         (function (Appenders) {
             /**
-             * @namespace
+             * @namespace WinJSContrib.Logs.Appenders
              */
             WinJSContrib.Logs.Appenders = WinJSContrib.Logs.Appenders;
             var ConsoleAppender = (function () {

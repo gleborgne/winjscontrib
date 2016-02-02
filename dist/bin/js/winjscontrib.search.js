@@ -8,24 +8,6 @@ var WinJSContrib;
 (function (WinJSContrib) {
     var Search;
     (function (Search) {
-        /*
-         look at http://burakkanber.com/blog/machine-learning-full-text-search-in-javascript-relevance-scoring/
-         */
-        /**
-         * definition for a field
-         * @typedef {Object} WinJSContrib.Search.FieldDefinition
-         * @property {number} weight weight of the item to rank search results
-         * @example
-         * { weight : 2}
-         */
-        /**
-         * Definition of an index content
-         * @typedef {Object} WinJSContrib.Search.IndexDefinition
-         * @property {string} key name of the property considered as a key for the items
-         * @property {Object} fields object containing item's property path as name, and {@link WinJSContrib.Search.FieldDefinition} as value
-         * @example
-         * { key: 'id', fields: { "title": { weight : 5}, "description.detail": { weight : 2}}}
-         */
         /**
          * Small text search features based on objet indexing and text stemming. It's inspired by tools like Lucene.
          * For now indexes are stored with WinRT files, but it will soon be extended to support an extensible storage mecanism
@@ -77,16 +59,18 @@ var WinJSContrib;
              * @class WinJSContrib.Search.Index
              * @classdesc
              * This class is the heart of the search engine. operations performed by this object are synchronous but exposes as promises.
-             * This way Index is almost interchangeable with {@link WinJSContrib.Search.IndexWorkerProxy}
+             * This way Index is almost interchangeable with {@link WinJSContrib.Search.IndexWorkerProxy}.
+             * Depending of the size of your index and targeted devices, it could be faster to run search in main "thread".
              * @param {string} name index name
              * @param {WinJSContrib.Search.IndexDefinition} definition index definition
+             * @param {WinJSContrib.DataContainer.IDataContainer} container optional parameter to explicitely specify the way index is stored
              */
             function Index(name, definition, container) {
                 this.items = [];
                 this.storeData = true;
                 var index = this;
                 index.name = name || 'defaultIndex';
-                index.definition = definition || {};
+                index.definition = definition || { key: null, fields: null };
                 index.items = [];
                 index.storeData = true;
                 index.onprogress = undefined;
@@ -243,7 +227,7 @@ var WinJSContrib;
              * search index
              * @function WinJSContrib.Search.Index.prototype.search
              * @param {string} querytext
-             * @returns {WinJS.Promise} search result
+             * @returns {WinJS.Promise<WinJSContrib.Search.ISearchResultItem[]>} search result
              */
             Index.prototype.search = function (querytext, options) {
                 return WinJS.Promise.wrap(this._runSearch(querytext, options));
@@ -301,8 +285,8 @@ var WinJSContrib;
                     res.key = WinJSContrib.Utils.readProperty(obj, def.key);
                 for (var elt in def.fields) {
                     if (def.fields.hasOwnProperty(elt)) {
-                        var item = def.fields[elt];
-                        var weight = item.weight || 1;
+                        var fieldDefinition = def.fields[elt];
+                        var weight = fieldDefinition.weight || 1;
                         var value = WinJSContrib.Utils.readProperty(obj, elt.split('.'));
                         if (value) {
                             var valueType = typeof value;
@@ -672,8 +656,9 @@ var WinJSContrib;
         var Stemming;
         (function (Stemming) {
             /**
-             * @namespace
+             * @namespace WinJSContrib.Search.Stemming
              */
+            WinJSContrib.Search.Stemming = WinJSContrib.Search.Stemming;
             var Pipeline = (function () {
                 /**
                  * stemming pipeline
@@ -749,10 +734,22 @@ var WinJSContrib;
         (function (Stemming) {
             var Presets;
             (function (Presets) {
+                /**
+                 * @namespace WinJSContrib.Search.Stemming.Presets
+                 */
+                WinJSContrib.Search.Stemming.Presets = WinJSContrib.Search.Stemming.Presets;
+                /**
+                 * very basic ruleset
+                 * @field WinJSContrib.Search.Stemming.Presets.standard
+                 */
                 Presets.standard = [
                     "lowerCase",
                     "removeDiacritics"
                 ];
+                /**
+                 * ruleset with almost all stemming functions
+                 * @field WinJSContrib.Search.Stemming.Presets.full
+                 */
                 Presets.full = [
                     "lowerCase",
                     "removeDiacritics",
@@ -790,7 +787,13 @@ var WinJSContrib;
             var StopWords;
             (function (StopWords) {
                 /**
-                * common stop words
+                * stop words are words like "of" or "the", they usually have no meaning in searches. Words in the list provided in the pipeline are
+                * removed from search terms
+                * @namespace WinJSContrib.Search.Stemming.Presets
+                */
+                WinJSContrib.Search.Stemming.StopWords = WinJSContrib.Search.Stemming.StopWords;
+                /**
+                * common stop words (for english and french)
                 * @field WinJSContrib.Search.Stemming.StopWords.common
                 */
                 StopWords.common = [
@@ -948,8 +951,8 @@ var WinJSContrib;
             var Op;
             (function (Op) {
                 /**
-                 * built-in stemmings
-                 * @namespace
+                 * built-in stemmings Operator functions
+                 * @namespace WinJSContrib.Search.Stemming.Op
                  */
                 /**
                  *

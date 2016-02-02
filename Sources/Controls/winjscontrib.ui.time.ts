@@ -1,4 +1,4 @@
-module WinJSContrib.UI {
+﻿module WinJSContrib.UI {
     var amHoursList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     var amRadialHoursList = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     var pmHoursList = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0];
@@ -30,7 +30,11 @@ module WinJSContrib.UI {
 
             var elt = document.createElement("DIV");
             this.flyout.element.appendChild(elt);
-            this.timeclock = <TimeClockControl>new WinJSContrib.UI.TimeClock(elt, options);
+
+            var calendaroptions = JSON.parse(JSON.stringify(options));
+            calendaroptions.flyout = this.flyout;
+
+            this.timeclock = <TimeClockControl>new WinJSContrib.UI.TimeClock(elt, calendaroptions);
             this.timeclock.element.onmousewheel = (arg) => {
                 arg.preventDefault();
                 arg.stopPropagation();
@@ -38,6 +42,17 @@ module WinJSContrib.UI {
 
             this.timeclock.onchange = () => {
                 this.value = this.timeclock.value;
+                this.flyout.hide();
+            }
+
+            this.timeclock.onhourchange = () => {
+                this.value = this.timeclock.value;
+            }
+
+            this.flyout.onbeforeshow = () => {
+                setImmediate(() => {
+                    this.timeclock.setFocus();
+                });
             }
 
             this.flyout.onafterhide = () => {
@@ -74,7 +89,7 @@ module WinJSContrib.UI {
                 console.error(exception);
             }
             this.textElement.innerText = this.timeclock.value;
-            this.flyout.hide();
+            
         }
 
         get valueAsDate(): Date {
@@ -112,7 +127,10 @@ module WinJSContrib.UI {
         _value: Date;
         radial: boolean;
         public onchange: () => void;
+        public onhourchange: () => void;
         public element: HTMLElement;
+        public flyout: WinJS.UI.Flyout;
+        eventTracker: EventTracker;
         header: HTMLElement;
         content: HTMLElement;
         hoursElt: HTMLElement;
@@ -130,6 +148,7 @@ module WinJSContrib.UI {
             this.element.winControl = this;
             this.element.classList.add('mcn-timeclock');
             this.element.classList.add('win-disposable');
+            this.eventTracker = new WinJSContrib.UI.EventTracker();
             if (options.radial) {
                 this.element.classList.add('radial');
             }
@@ -139,6 +158,11 @@ module WinJSContrib.UI {
             }
 
             WinJS.UI.setOptions(this, options);
+
+            if (this.flyout) {
+                this.element.classList.add('win-xyfocus-suspended');
+                this.eventTracker.addEvent(this.element, "keydown", this.onkeydown.bind(this), true);
+            }
 
             if (!options.deferRendering) {
                 this.render();
@@ -155,12 +179,13 @@ module WinJSContrib.UI {
                         });
                     }
                 }
-
-                setTimeout(() => {
-                    WinJS.Utilities.Scheduler.schedule(() => {
-                        this.render();
-                    }, WinJS.Utilities.Scheduler.Priority.idle);
-                }, 2000);
+                else {
+                    setTimeout(() => {
+                        WinJS.Utilities.Scheduler.schedule(() => {
+                            this.render();
+                        }, WinJS.Utilities.Scheduler.Priority.idle);
+                    }, 2000);
+                }
             }
 
 
@@ -192,6 +217,59 @@ module WinJSContrib.UI {
             this.hoursPanel = new HoursPanel(this);
             //this.minutesPanel = new MinutesPanel(this);
             this.currentPanel = this.hoursPanel;
+        }
+
+        onkeydown(arg) {
+            if (arg.key == "PageDown") {
+                this.toggleDisplay();
+                arg.preventDefault();
+                arg.stopPropagation();
+            }
+            else if (arg.key == "PageUp") {
+                this.toggleDisplay();
+                arg.preventDefault();
+                arg.stopPropagation();
+            }
+            else if (arg.key == "Down") {
+                var nextelt = WinJS.UI.XYFocus.findNextFocusElement("down", { focusRoot: this.element });
+                if (nextelt) {
+                    nextelt.focus();
+                } else {
+                    if (this.currentPanel == this.hoursPanel) {
+                        this.hoursPanel.toggleView();
+                    }
+                }
+                arg.preventDefault();
+                arg.stopPropagation();
+            }
+            else if (arg.key == "Up") {
+                var nextelt = WinJS.UI.XYFocus.findNextFocusElement("up", { focusRoot: this.element });
+                if (nextelt) {
+                    nextelt.focus();
+                } else {
+                    if (this.currentPanel == this.hoursPanel) {
+                        this.hoursPanel.toggleView();
+                    }
+                }
+                arg.preventDefault();
+                arg.stopPropagation();
+            }
+            else if (arg.key == "Left") {
+                var nextelt = WinJS.UI.XYFocus.findNextFocusElement("left", { focusRoot: this.element });
+                if (nextelt)
+                    nextelt.focus();
+
+                arg.preventDefault();
+                arg.stopPropagation();
+            }
+            else if (arg.key == "Right") {
+                var nextelt = WinJS.UI.XYFocus.findNextFocusElement("right", { focusRoot: this.element });
+                if (nextelt)
+                    nextelt.focus();
+
+                arg.preventDefault();
+                arg.stopPropagation();
+            }
         }
 
         get value(): string {
@@ -258,6 +336,19 @@ module WinJSContrib.UI {
             }
         }
 
+        toggleDisplay() {
+            if (this.currentPanel == this.hoursPanel) {
+                this.switchToMinutes();
+            } else {
+                this.switchToHours();
+            }
+        }
+
+        setFocus() {
+            if (this.currentPanel)
+                this.currentPanel.setFocus();
+        }
+
         switchToHours() {
             if (this.currentPanel == this.hoursPanel) {
                 this.hoursPanel.ensureValue();
@@ -276,6 +367,7 @@ module WinJSContrib.UI {
             this.minutesElt.classList.remove("current");
             this.hoursElt.classList.add("current");
             this.hoursPanel.show();
+            this.hoursPanel.setFocus();
             this.currentPanel = this.hoursPanel;
         }
 
@@ -297,6 +389,7 @@ module WinJSContrib.UI {
             this.minutesElt.classList.add("current");
             this.hoursElt.classList.remove("current");
             this.minutesPanel.show();
+            this.minutesPanel.setFocus();
             this.currentPanel = this.minutesPanel;
         }
 
@@ -304,6 +397,10 @@ module WinJSContrib.UI {
         }
 
         addEventListener(type: string, callback: any) {
+        }
+
+        dispose() {
+            this.eventTracker.dispose();
         }
     }
     export var TimeClock = WinJS.Class.mix(WinJS.Utilities.markSupportedForProcessing(TimeClockControl), WinJS.Utilities.eventMixin, WinJS.Utilities.createEventProperties("change", "hourchange", "minutechange"));
@@ -345,7 +442,7 @@ module WinJSContrib.UI {
                 if (n == current) {
                     item.classList.add("selected");
                 }
-                WinJSContrib.UI.tap(item, callback);
+                item.onclick = callback;
                 itemscontainer.appendChild(item);
             });
 
@@ -371,15 +468,20 @@ module WinJSContrib.UI {
         remove() {
             return WinJS.UI.Animation.drillInOutgoing(this.element).then(() => {
                 this.element.classList.add("hidden");
+                this.element.style.display = "none";
             });
         }
 
         show() {
             this.element.classList.remove("hidden");
+            this.element.style.display = "";
             return WinJS.UI.Animation.drillInIncoming(this.element);
         }
 
         ensureValue() {
+        }
+
+        setFocus() {
         }
     }
 
@@ -431,6 +533,23 @@ module WinJSContrib.UI {
             }
         }
 
+        toggleView() {
+            if (this.isAm) {
+                this.setPM();
+            } else {
+                this.setAM();
+            }
+        }
+
+        setFocus() {
+            var focusing = <HTMLElement>this.currentHours.querySelector(".item-hour.selected");
+            if (!focusing)
+                focusing = focusing = <HTMLElement>this.currentHours.querySelector(".item-hour");
+
+            if (focusing)
+                focusing.focus();
+        }
+
         setPM() {
             if (!this.isAm)
                 return;
@@ -446,6 +565,8 @@ module WinJSContrib.UI {
 
             this.currentHours = this.renderItems(hourslist, "hour", this.parent.hour, this.hourClicked.bind(this));
             this.content.appendChild(this.currentHours);
+
+            this.setFocus();
             WinJS.UI.Animation.drillInIncoming(this.currentHours);
         }
 
@@ -464,10 +585,14 @@ module WinJSContrib.UI {
 
             this.currentHours = this.renderItems(hourslist, "hour", this.parent.hour, this.hourClicked.bind(this));
             this.content.appendChild(this.currentHours);
+
+            this.setFocus();
+
             WinJS.UI.Animation.drillInIncoming(this.currentHours);
         }
 
-        hourClicked(elt: HTMLElement) {
+        hourClicked(arg) {
+            var elt = <HTMLElement>arg.target;
             var selecteditem = this.parent.element.querySelector(".item-hour.selected");
             if (selecteditem)
                 selecteditem.classList.remove("selected");
@@ -490,7 +615,8 @@ module WinJSContrib.UI {
             this.content.appendChild(timeitems);
         }
 
-        minuteClicked(elt: HTMLElement) {
+        minuteClicked(arg) {
+            var elt = <HTMLElement>arg.target;
             var selecteditem = this.parent.element.querySelector(".item-min.selected");
             if (selecteditem)
                 selecteditem.classList.remove("selected");
@@ -499,6 +625,15 @@ module WinJSContrib.UI {
 
             var val = parseInt(elt.dataset["val"], 10)
             this.parent.minutes = val;
+        }
+
+        setFocus() {
+            var focusing = <HTMLElement>this.content.querySelector(".item-min.selected");
+            if (!focusing)
+                focusing = focusing = <HTMLElement>this.content.querySelector(".item-min");
+
+            if (focusing)
+                focusing.focus();
         }
     }
 }
