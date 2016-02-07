@@ -624,7 +624,7 @@ module WinJSContrib.Utils {
      * @param {string} s
      * @returns {string}
      */
-    export function removeAccents(s) {
+    export function removeAccents(s:string) : string {
         var r = s.toLowerCase();
         r = r.replace(new RegExp("[àáâãäå]", 'g'), "a");
         r = r.replace(new RegExp("æ", 'g'), "ae");
