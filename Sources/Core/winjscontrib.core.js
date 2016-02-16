@@ -1822,7 +1822,12 @@ var WinJSContrib;
              */
             EventTracker.prototype.dispose = function () {
                 for (var i = 0; i < this.events.length; i++) {
-                    this.events[i]();
+                    if (i < 0)
+                        i = 0;
+                    if (this.events && this.events.length && this.events[i]) {
+                        this.events[i]();
+                        i--;
+                    }
                 }
                 this.events = [];
             };
