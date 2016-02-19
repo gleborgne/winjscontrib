@@ -64,12 +64,14 @@ module WinJSContrib.UI {
         public addEvent(e, eventName: string, handler, capture?: boolean) {
             var tracker = this;
             e.addEventListener(eventName, handler, capture);
-            var unregister = function() {
+            var unregister = function(disableSplice) {
                 try {
                     e.removeEventListener(eventName, handler);
-                    var idx = tracker.events.indexOf(unregister);
-                    if (idx >= 0) {
-                        tracker.events.splice(idx, 1);
+                    if (!disableSplice) {
+                        var idx = tracker.events.indexOf(unregister);
+                        if (idx >= 0) {
+                            tracker.events.splice(idx, 1);
+                        }
                     }
                 } catch (exception) {
                     console.error('unexpected error while releasing callback ' + exception.message);
@@ -88,9 +90,16 @@ module WinJSContrib.UI {
          * @param {function} handler
          */
         public addBinding(e, eventName: string, handler) {
+            var tracker = this;
             e.bind(eventName, handler);
-            var unregister = function() {
+            var unregister = function(disableSplice) {
                 e.unbind(eventName, handler);
+                if (!disableSplice) {
+                    var idx = tracker.events.indexOf(unregister);
+                    if (idx >= 0) {
+                        tracker.events.splice(idx, 1);
+                    }
+                }
             };
             this.events.push(unregister);
             return unregister;
@@ -101,8 +110,10 @@ module WinJSContrib.UI {
          * @function WinJSContrib.UI.EventTracker.prototype.dispose
          */
         public dispose() {
-            for (var i = 0; i < this.events.length; i++) {
-                this.events[i]();
+            if (this.events && this.events.length) {
+                for (var i = 0; i < this.events.length; i++) {
+                    this.events[i](true);
+                }
             }
             this.events = [];
         }

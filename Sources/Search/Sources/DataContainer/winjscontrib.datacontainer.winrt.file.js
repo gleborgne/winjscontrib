@@ -72,19 +72,15 @@ var WinJSContrib;
             WinRTFilesContainer.prototype.listKeys = function () {
                 var container = this;
                 return container.folderPromise.then(function (folder) {
-                    var queryOptions = new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.defaultQuery, [".json"]);
-                    return folder.createFileQueryWithOptions(queryOptions).getFilesAsync().then(function (files) {
-                        return files.reduce(function (seed, file) {
-                            var fileName = file.path.substr(folder.path.length + 1);
-                            var indexOfExtension = fileName.indexOf('.json');
-
-                            if (indexOfExtension > 0) {
-                                var fileNameWithoutExtension = fileName.substr(0, indexOfExtension);
-                                seed.push(fileNameWithoutExtension);
+                    return folder.getFilesAsync().then(function (files) {
+                        return files.map(function (f) {
+                            var key = f.path.substr(folder.path.length + 1);
+                            var ext = key.indexOf('.json');
+                            if (ext > 0) {
+                                key = key.substr(0, ext);
                             }
-
-                            return seed;
-                        }, []);
+                            return key;
+                        });
                     });
                 });
             };

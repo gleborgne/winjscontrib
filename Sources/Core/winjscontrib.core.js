@@ -1786,12 +1786,14 @@ var WinJSContrib;
             EventTracker.prototype.addEvent = function (e, eventName, handler, capture) {
                 var tracker = this;
                 e.addEventListener(eventName, handler, capture);
-                var unregister = function () {
+                var unregister = function (disableSplice) {
                     try {
                         e.removeEventListener(eventName, handler);
-                        var idx = tracker.events.indexOf(unregister);
-                        if (idx >= 0) {
-                            tracker.events.splice(idx, 1);
+                        if (!disableSplice) {
+                            var idx = tracker.events.indexOf(unregister);
+                            if (idx >= 0) {
+                                tracker.events.splice(idx, 1);
+                            }
                         }
                     }
                     catch (exception) {
@@ -1809,9 +1811,16 @@ var WinJSContrib;
              * @param {function} handler
              */
             EventTracker.prototype.addBinding = function (e, eventName, handler) {
+                var tracker = this;
                 e.bind(eventName, handler);
-                var unregister = function () {
+                var unregister = function (disableSplice) {
                     e.unbind(eventName, handler);
+                    if (!disableSplice) {
+                        var idx = tracker.events.indexOf(unregister);
+                        if (idx >= 0) {
+                            tracker.events.splice(idx, 1);
+                        }
+                    }
                 };
                 this.events.push(unregister);
                 return unregister;
@@ -1821,12 +1830,9 @@ var WinJSContrib;
              * @function WinJSContrib.UI.EventTracker.prototype.dispose
              */
             EventTracker.prototype.dispose = function () {
-                for (var i = 0; i < this.events.length; i++) {
-                    if (i < 0)
-                        i = 0;
-                    if (this.events && this.events.length && this.events[i]) {
-                        this.events[i]();
-                        i--;
+                if (this.events && this.events.length) {
+                    for (var i = 0; i < this.events.length; i++) {
+                        this.events[i](true);
                     }
                 }
                 this.events = [];

@@ -19,7 +19,7 @@
   padding: 0;
   border: none;
 }
-.mcn-timeclock {
+.mcn-timeclock.win-disposable {
   width: 286px;
   height: 334px;
   position: relative;
@@ -29,7 +29,7 @@
   display: flex;
   flex-flow: column nowrap;
 }
-.mcn-timeclock button {
+.mcn-timeclock.win-disposable button {
   text-align: center;
   border: 2px solid transparent;
   background-color: transparent;
@@ -37,27 +37,27 @@
   margin: 0;
   box-sizing: border-box;
 }
-.mcn-timeclock button:hover,
-.mcn-timeclock button.tapped {
+.mcn-timeclock.win-disposable button:hover,
+.mcn-timeclock.win-disposable button.tapped {
   background-color: #555;
 }
-.mcn-timeclock button:disabled {
+.mcn-timeclock.win-disposable button:disabled {
   opacity: 0.2;
   pointer-events: none;
   touch-action: none;
 }
-.mcn-timeclock .timeitem {
+.mcn-timeclock.win-disposable .timeitem {
   width: 66.5px;
   height: 66.5px;
   line-height: 60.5px;
   font-size: 16pt;
   font-weight: 300;
 }
-.mcn-timeclock .timeitem.selected {
+.mcn-timeclock.win-disposable .timeitem.selected {
   border-color: gold;
 }
-.mcn-timeclock.radial .timeitem,
-.mcn-timeclock.radial > section .timepanel.minutespanel .timeitem {
+.mcn-timeclock.win-disposable.radial .timeitem,
+.mcn-timeclock.win-disposable.radial > section .timepanel.minutespanel .timeitem {
   width: 38px;
   height: 38px;
   line-height: 30px;
@@ -66,37 +66,37 @@
   border-radius: 50%;
   font-weight: 300;
 }
-.mcn-timeclock.radial > section .timepanel > section .itemspanel .items {
+.mcn-timeclock.win-disposable.radial > section .timepanel > section .itemspanel .items {
   width: 230px;
   margin: auto;
 }
-.mcn-timeclock .hoursel {
+.mcn-timeclock.win-disposable .hoursel {
   width: 50%;
 }
-.mcn-timeclock > header {
+.mcn-timeclock.win-disposable > header {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px 10px 0 10px;
 }
-.mcn-timeclock > header button {
+.mcn-timeclock.win-disposable > header button {
   font-size: 28pt;
   font-weight: 200;
 }
-.mcn-timeclock > header button.current {
+.mcn-timeclock.win-disposable > header button.current {
   color: gold;
 }
-.mcn-timeclock > header .sep {
+.mcn-timeclock.win-disposable > header .sep {
   margin: 0 8px;
   font-size: 22pt;
   font-weight: 200;
   color: #999;
 }
-.mcn-timeclock > section {
+.mcn-timeclock.win-disposable > section {
   flex: 1;
   position: relative;
 }
-.mcn-timeclock > section .timepanel {
+.mcn-timeclock.win-disposable > section .timepanel {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -107,44 +107,44 @@
   padding: 10px;
   box-sizing: border-box;
 }
-.mcn-timeclock > section .timepanel.hidden {
+.mcn-timeclock.win-disposable > section .timepanel.hidden {
   pointer-events: none;
   opacity: 0;
 }
-.mcn-timeclock > section .timepanel > header {
+.mcn-timeclock.win-disposable > section .timepanel > header {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.mcn-timeclock > section .timepanel.hourspanel > header {
+.mcn-timeclock.win-disposable > section .timepanel.hourspanel > header {
   border-top: 1px solid #555;
   border-bottom: 1px solid #555;
 }
-.mcn-timeclock > section .timepanel.hourspanel > header button {
+.mcn-timeclock.win-disposable > section .timepanel.hourspanel > header button {
   padding: 10px;
 }
-.mcn-timeclock > section .timepanel.hourspanel > header button.selected {
+.mcn-timeclock.win-disposable > section .timepanel.hourspanel > header button.selected {
   background-color: #444;
 }
-.mcn-timeclock > section .timepanel.minutespanel .timeitem {
+.mcn-timeclock.win-disposable > section .timepanel.minutespanel .timeitem {
   width: 33%;
   height: 62.5px;
   line-height: 58.5px;
 }
-.mcn-timeclock > section .timepanel > section {
+.mcn-timeclock.win-disposable > section .timepanel > section {
   flex: 1;
   display: flex;
   flex-flow: row wrap;
   position: relative;
 }
-.mcn-timeclock > section .timepanel > section .itemspanel {
+.mcn-timeclock.win-disposable > section .timepanel > section .itemspanel {
   position: absolute;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
 }
-.mcn-timeclock > section .timepanel > section .itemspanel .items {
+.mcn-timeclock.win-disposable > section .timepanel > section .itemspanel .items {
   position: relative;
   width: 100%;
   height: 100%;

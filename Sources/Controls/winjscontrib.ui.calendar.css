@@ -13,7 +13,7 @@
   padding: 0;
   border: none;
 }
-.mcn-calendar {
+.mcn-calendar.win-disposable {
   width: 286px;
   height: 324px;
   position: relative;
@@ -21,7 +21,7 @@
   color: white;
   overflow: hidden;
 }
-.mcn-calendar button {
+.mcn-calendar.win-disposable .mcn-calendar-wrapper button {
   width: 38px;
   height: 38px;
   line-height: 38px;
@@ -32,17 +32,17 @@
   margin: 0;
   box-sizing: border-box;
 }
-.mcn-calendar button:hover,
-.mcn-calendar button.tapped {
+.mcn-calendar.win-disposable .mcn-calendar-wrapper button:hover,
+.mcn-calendar.win-disposable .mcn-calendar-wrapper button.tapped {
   background-color: #555;
 }
-.mcn-calendar button:disabled {
+.mcn-calendar.win-disposable .mcn-calendar-wrapper button:disabled {
   opacity: 0.2;
   pointer-events: none;
   touch-action: none;
 }
-.mcn-calendar .day-item,
-.mcn-calendar .day-header {
+.mcn-calendar.win-disposable .day-item,
+.mcn-calendar.win-disposable .day-header {
   width: 38px;
   height: 38px;
   line-height: 32px;
@@ -51,49 +51,49 @@
   border: 2px solid transparent;
   box-sizing: border-box;
 }
-.mcn-calendar .day-item.notthismonth,
-.mcn-calendar .day-header.notthismonth {
+.mcn-calendar.win-disposable .day-item.notthismonth,
+.mcn-calendar.win-disposable .day-header.notthismonth {
   color: #777;
   font-weight: 400;
 }
-.mcn-calendar .day-item.day-header {
+.mcn-calendar.win-disposable .day-item.day-header {
   font-size: 11pt;
   color: #AAA;
 }
-.mcn-calendar .day-item,
-.mcn-calendar .month-item {
+.mcn-calendar.win-disposable .day-item,
+.mcn-calendar.win-disposable .month-item {
   touch-action: manipulation;
   font-size: 13pt;
   font-weight: normal;
 }
-.mcn-calendar .day-item.today,
-.mcn-calendar .month-item.today {
+.mcn-calendar.win-disposable .day-item.today,
+.mcn-calendar.win-disposable .month-item.today {
   border-color: #444;
 }
-.mcn-calendar .day-item.selected,
-.mcn-calendar .month-item.selected {
+.mcn-calendar.win-disposable .day-item.selected,
+.mcn-calendar.win-disposable .month-item.selected {
   border-color: gold;
 }
-.mcn-calendar .navbuttons {
+.mcn-calendar.win-disposable .navbuttons {
   position: absolute;
   right: 10px;
   top: 10px;
 }
-.mcn-calendar .navbuttons .navbutton-previous:before {
+.mcn-calendar.win-disposable .navbuttons .navbutton-previous:before {
   content: '\E014';
   font-family: 'Segoe MDL2 Assets';
 }
-.mcn-calendar .navbuttons .navbutton-next:before {
+.mcn-calendar.win-disposable .navbuttons .navbutton-next:before {
   content: '\E015';
   font-family: 'Segoe MDL2 Assets';
 }
-.mcn-calendar .mcn-calendar-panels,
-.mcn-calendar .mcn-calendar-wrapper {
+.mcn-calendar.win-disposable .mcn-calendar-panels,
+.mcn-calendar.win-disposable .mcn-calendar-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
 }
-.mcn-calendar .month-itemspanel {
+.mcn-calendar.win-disposable .month-itemspanel {
   position: absolute;
   left: 0;
   top: 0;
@@ -102,11 +102,11 @@
   display: flex;
   flex-flow: row wrap;
 }
-.mcn-calendar .month-itemspanel .month-item {
+.mcn-calendar.win-disposable .month-itemspanel .month-item {
   width: 66.5px;
   height: 66.5px;
 }
-.mcn-calendar .calendar-panel {
+.mcn-calendar.win-disposable .calendar-panel {
   position: absolute;
   left: 0;
   top: 0;
@@ -117,32 +117,32 @@
   display: flex;
   flex-flow: column nowrap;
 }
-.mcn-calendar .calendar-panel.disabled {
+.mcn-calendar.win-disposable .calendar-panel.disabled {
   visibility: hidden;
 }
-.mcn-calendar .calendar-panel > header {
+.mcn-calendar.win-disposable .calendar-panel > header {
   height: 38px;
   margin-right: 86px;
   display: flex;
   align-items: center;
   padding-left: 10px;
 }
-.mcn-calendar .calendar-panel > header > * {
+.mcn-calendar.win-disposable .calendar-panel > header > * {
   margin-right: 10px;
 }
-.mcn-calendar .calendar-panel > section {
+.mcn-calendar.win-disposable .calendar-panel > section {
   flex: 1;
   position: relative;
   overflow: hidden;
   touch-action: none;
 }
-.mcn-calendar .calendar-panel .calendar-panel-content {
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content {
   position: relative;
   width: 100%;
   height: 100%;
   flex: 1;
 }
-.mcn-calendar .calendar-panel .calendar-panel-content .calendar-panel-item {
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item {
   position: absolute;
   left: 0;
   top: 0;
@@ -151,32 +151,32 @@
   display: flex;
   flex-flow: column nowrap;
 }
-.mcn-calendar .calendar-panel .calendar-panel-content .calendar-panel-item > header {
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > header {
   height: 38px;
   margin-right: 86px;
   display: flex;
   align-items: center;
   padding-left: 10px;
 }
-.mcn-calendar .calendar-panel .calendar-panel-content .calendar-panel-item > header > * {
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > header > * {
   margin-right: 10px;
 }
-.mcn-calendar .calendar-panel .calendar-panel-content .calendar-panel-item > section {
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > section {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
   position: relative;
 }
-.mcn-calendar .calendar-panel .calendar-panel-content .calendar-panel-item > section > header {
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > section > header {
   display: flex;
   flex-flow: row wrap;
 }
-.mcn-calendar .calendar-panel .calendar-panel-content .calendar-panel-item > section > section {
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > section > section {
   flex: 1;
   overflow: hidden;
   position: relative;
 }
-.mcn-calendar .calendar-panel .calendar-panel-content .calendar-panel-item > section > section .day-items-wrapper {
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > section > section .day-items-wrapper {
   position: absolute;
   left: 0;
   top: 0;

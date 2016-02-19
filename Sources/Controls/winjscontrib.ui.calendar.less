@@ -17,7 +17,7 @@
     border: none;
 }
 
-.mcn-calendar {
+.mcn-calendar.win-disposable {
     @gridsize: 38px;
     @space: 10px;
 
@@ -27,26 +27,27 @@
     background-color: #333;
     color: white;
     overflow: hidden;
+    .mcn-calendar-wrapper {
+        button {
+            width: @gridsize;
+            height: @gridsize;
+            line-height: @gridsize;
+            text-align: center;
+            border: 2px solid transparent;
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
 
-    button {
-        width: @gridsize;
-        height: @gridsize;
-        line-height: @gridsize;
-        text-align: center;
-        border: 2px solid transparent;
-        background-color: transparent;
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
+            &:hover, &.tapped {
+                background-color: #555;
+            }
 
-        &:hover, &.tapped {
-            background-color: #555;
-        }
-
-        &:disabled {
-            opacity: 0.2;
-            pointer-events: none;
-            touch-action : none;
+            &:disabled {
+                opacity: 0.2;
+                pointer-events: none;
+                touch-action : none;
+            }
         }
     }
 

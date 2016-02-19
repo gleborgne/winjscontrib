@@ -390,7 +390,7 @@ declare module WinJSContrib.Utils {
      * @param {string} s
      * @returns {string}
      */
-    function removeAccents(s: any): any;
+    function removeAccents(s: string): string;
     /**
      * remove a page from navigation history
      * @function WinJSContrib.Utils.removePageFromHistory
@@ -610,7 +610,7 @@ declare module WinJSContrib.UI {
          * @param {boolean} capture
          * @returns {function} function to call for unregistering the event
          */
-        addEvent(e: any, eventName: string, handler: any, capture?: boolean): () => void;
+        addEvent(e: any, eventName: string, handler: any, capture?: boolean): (disableSplice: any) => void;
         /**
          * register binding event
          * @function WinJSContrib.UI.EventTracker.prototype.addBinding
@@ -618,7 +618,7 @@ declare module WinJSContrib.UI {
          * @param {string} eventName name of the binding event
          * @param {function} handler
          */
-        addBinding(e: any, eventName: string, handler: any): () => void;
+        addBinding(e: any, eventName: string, handler: any): (disableSplice: any) => void;
         /**
          * release all registered events
          * @function WinJSContrib.UI.EventTracker.prototype.dispose

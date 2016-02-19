@@ -55,6 +55,9 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="..\..\..\..\dist\bin\css\winjscontrib.ui.itemswipe.css">
+      <Link>css\winjscontrib\winjscontrib.ui.itemswipe.css</Link>
+    </Content>
     <Content Include="..\..\..\Controls\winjscontrib.ui.aspectratio.js">
       <Link>scripts\winjscontrib\winjscontrib.ui.aspectratio.js</Link>
     </Content>
@@ -111,9 +114,6 @@
     </Content>
     <Content Include="..\..\..\Common\winjscontrib.dynamicscripts.js">
       <Link>scripts\winjscontrib\winjscontrib.dynamicscripts.js</Link>
-    </Content>
-    <Content Include="..\..\..\Common\winjscontrib.logger.js">
-      <Link>scripts\winjscontrib\winjscontrib.logger.js</Link>
     </Content>
     <Content Include="..\..\..\Common\winjscontrib.messenger.js">
       <Link>scripts\winjscontrib\winjscontrib.messenger.js</Link>

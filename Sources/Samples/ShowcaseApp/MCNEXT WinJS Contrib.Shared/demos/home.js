@@ -28,7 +28,7 @@
         //},
 
         processed: function (element, options) {
-            WinJSContrib.Logger.debug('???');
+            //WinJSContrib.Logger.debug('???');
         },
 
         updateLayout: function (element) {

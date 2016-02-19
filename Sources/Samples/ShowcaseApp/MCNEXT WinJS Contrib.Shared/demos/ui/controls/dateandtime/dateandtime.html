@@ -5,6 +5,7 @@
     <title>dateandtime</title>
     <link href="/css/winjscontrib/winjscontrib.ui.calendar.css" rel="stylesheet" />
     <link href="/css/winjscontrib/winjscontrib.ui.time.css" rel="stylesheet" />
+    <script src="/scripts/winjscontrib/winjscontrib.ui.swipeslide.js"></script>
     <script src="/scripts/winjscontrib/winjscontrib.ui.calendar.js"></script>
     <script src="/scripts/winjscontrib/winjscontrib.ui.time.js"></script>
     <link href="dateandtime.css" rel="stylesheet" />
@@ -15,22 +16,35 @@
         <header aria-label="Header content" role="banner">
             <button class="win-backbutton" aria-label="Back" disabled type="button"></button>
             <h1 class="titlearea win-type-ellipsis">
-                <span class="pagetitle">state button</span>
+                <span class="pagetitle">date and time</span>
             </h1>
             <div class="actions">
                 <!--<div data-win-control="WinJSContrib.Sample.DocLink" data-win-options="{ datapath: 'WinJSContrib.UI.ItemSwipe' }"></div>-->
                 <div data-win-control="WinJSContrib.Sample.CodeLink" data-win-options="{ pagelink: './demos/ui/controls/dateandtime/dateandtime' }"></div>
             </div>
         </header>
-        <section class="page-section" aria-label="Main content" role="main">
+        <section class="desc-screen" aria-label="Main content" role="main">
             <div class="bloc-description">
                 <p>
-                    The item swipe is a control for managing cross swipe on list items to trigger actions. It's like the cross swipe you have in Windows 10 mail app for deleting/archiving mails.
+                    The calendar and time controls provide nice looking controls for date and time inputs.
                 </p>
+                <p>Controls could be used directly in your page, or through picker versions (like in this page).</p>
+                <p>Please note that both controls relies on <a href="http://momentjs.com/">moment.js</a>.</p>
             </div>
             <div></div>
             <div class="bloc-content">
-                <div id="calendar" member data-win-control="WinJSContrib.UI.Calendar"></div>
+                <div class="split">
+                    <div>
+                        <h4>date picker</h4>
+                        <div id="calendar" member data-win-control="WinJSContrib.UI.DatePicker"></div>
+                    </div>
+                    <div>
+                        <h4>time picker</h4>
+                        <div id="timeclock" member data-win-control="WinJSContrib.UI.TimePicker"></div>
+                        <h4>radial time picker</h4>
+                        <div id="timeclock" member data-win-control="WinJSContrib.UI.TimePicker" data-win-options="{ radial : true}"></div>
+                    </div>
+                </div>
             </div>
 </section>
     </div>

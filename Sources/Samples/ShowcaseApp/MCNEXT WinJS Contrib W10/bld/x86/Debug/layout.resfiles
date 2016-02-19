@@ -1,10 +1,10 @@
+css\winjscontrib\winjscontrib.ui.itemswipe.css
 css\winjscontrib\segoe.symbol.css
 css\winjscontrib\segoe.symbol.less
 scripts\winjscontrib\winjscontrib.bindings.js
 scripts\winjscontrib\winjscontrib.crossplatform.js
 scripts\winjscontrib\winjscontrib.date.utils.js
 scripts\winjscontrib\winjscontrib.dynamicscripts.js
-scripts\winjscontrib\winjscontrib.logger.js
 scripts\winjscontrib\winjscontrib.messenger.js
 scripts\winjscontrib\winjscontrib.messenger.worker.js
 css\winjscontrib\winjscontrib.mixin.css

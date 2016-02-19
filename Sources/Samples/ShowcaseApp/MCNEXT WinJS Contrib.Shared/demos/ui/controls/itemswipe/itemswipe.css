@@ -1,4 +1,4 @@
-﻿.itemswipe-page .bloc-content {
+.itemswipe-page .bloc-content {
   display: -ms-grid;
   -ms-grid-columns: 1fr 1fr;
   -ms-grid-rows: 1fr;
@@ -20,10 +20,10 @@
   -ms-grid-column: 2;
 }
 .itemswipe-page .listitem {
-  position: relative;
   width: 100%;
   height: 80px;
   border-bottom: 1px solid #DDD;
+  position: relative;
   overflow: hidden;
 }
 .itemswipe-page .listitem .card {
