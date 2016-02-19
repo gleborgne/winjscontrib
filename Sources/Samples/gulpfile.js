@@ -13,7 +13,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var flatten = require('gulp-flatten');
 var merge = require('merge-stream');
 var bom = require('gulp-bom');
-var babel = require('gulp-babel');
 
 var onError = function(err) {
 	//notify.onError({

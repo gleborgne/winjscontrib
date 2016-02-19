@@ -46,6 +46,7 @@ var WinJSContrib;
                 this.timeclock.onchange = function () {
                     _this.value = _this.timeclock.value;
                     _this.flyout.hide();
+                    _this.dispatchEvent("change");
                 };
                 this.timeclock.onhourchange = function () {
                     _this.value = _this.timeclock.value;

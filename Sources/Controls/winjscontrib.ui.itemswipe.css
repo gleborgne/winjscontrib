@@ -51,10 +51,6 @@
   position: relative;
   touch-action: pan-y;
 }
-.mcn-itemswipe .face.mousehover .actions {
-  opacity: 1;
-  pointer-events: all;
-}
 .mcn-itemswipe .face .actions {
   position: absolute;
   right: 4px;
@@ -70,4 +66,8 @@
   background-color: #555;
   color: white;
   text-align: center;
+}
+.mcn-itemswipe .face.mousehover .actions {
+  opacity: 1;
+  pointer-events: all;
 }

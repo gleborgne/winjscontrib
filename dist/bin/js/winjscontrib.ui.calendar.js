@@ -40,6 +40,7 @@ var WinJSContrib;
                 this.calendar = new WinJSContrib.UI.Calendar(elt, calendaroptions);
                 this.calendar.onchange = function () {
                     _this.value = _this.calendar.value;
+                    _this.dispatchEvent("change");
                 };
                 this.textElement = document.createElement("DIV");
                 this.textElement.className = "mcn-datepicker-text tap";

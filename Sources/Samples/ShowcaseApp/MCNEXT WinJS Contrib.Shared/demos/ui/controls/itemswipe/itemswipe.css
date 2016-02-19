@@ -1,4 +1,4 @@
-.itemswipe-page .bloc-content {
+﻿.itemswipe-page .bloc-content {
   display: -ms-grid;
   -ms-grid-columns: 1fr 1fr;
   -ms-grid-rows: 1fr;
@@ -80,9 +80,6 @@
   position: absolute;
   right: 4px;
   top: 4px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 200ms ease-out;
 }
 .itemswipe-page .listitem .face .actions .action {
   width: 32px;
@@ -90,8 +87,4 @@
   line-height: 32px;
   background-color: #CCC;
   text-align: center;
-}
-.itemswipe-page .listitem.mousehover .face .actions {
-  opacity: 1;
-  pointer-events: all;
 }

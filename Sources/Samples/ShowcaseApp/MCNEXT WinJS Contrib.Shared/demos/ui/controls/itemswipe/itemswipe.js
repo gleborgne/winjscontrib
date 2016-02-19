@@ -1,45 +1,5 @@
-﻿// For an introduction to the Page Control template, see the following documentation:
-// http://go.microsoft.com/fwlink/?LinkId=232511
-(function () {
+﻿(function () {
     "use strict";
-    var sampleData = [
-                {
-                    name: "John Doe"
-                },
-                {
-                    name: "Bill Murphy"
-                },
-                {
-                    name: "Eddy Murray"
-                },
-                {
-                    name: "John Doe"
-                },
-                {
-                    name: "Bill Murphy"
-                },
-                {
-                    name: "Eddy Murray"
-                },
-                {
-                    name: "John Doe"
-                },
-                {
-                    name: "Bill Murphy"
-                },
-                {
-                    name: "Eddy Murray"
-                },
-                {
-                    name: "John Doe"
-                },
-                {
-                    name: "Bill Murphy"
-                },
-                {
-                    name: "Eddy Murray"
-                }
-    ];
 
     WinJS.UI.Pages.define("/demos/ui/controls/itemswipe/itemswipe.html", {
         processed: function (element, options) {
@@ -83,6 +43,7 @@
 
         removeListViewItem: function (arg, item) {
             var page = this;
+            var item = item || arg.detail.item;
             var idx = page.listviewdata.indexOf(item);
             if (idx >= 0) {
                 page.listviewdata.splice(idx, 1);
@@ -93,4 +54,44 @@
             // TODO: Initialize the page here.
         }
     });
+
+    var sampleData = [
+                {
+                    name: "John Doe"
+                },
+                {
+                    name: "Bill Murphy"
+                },
+                {
+                    name: "Eddy Murray"
+                },
+                {
+                    name: "John Doe"
+                },
+                {
+                    name: "Bill Murphy"
+                },
+                {
+                    name: "Eddy Murray"
+                },
+                {
+                    name: "John Doe"
+                },
+                {
+                    name: "Bill Murphy"
+                },
+                {
+                    name: "Eddy Murray"
+                },
+                {
+                    name: "John Doe"
+                },
+                {
+                    name: "Bill Murphy"
+                },
+                {
+                    name: "Eddy Murray"
+                }
+    ];
+
 })();

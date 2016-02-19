@@ -34,6 +34,7 @@
             
             this.calendar.onchange = () => {
                 this.value = this.calendar.value;
+                this.dispatchEvent("change");
             }
 
             this.textElement = document.createElement("DIV");

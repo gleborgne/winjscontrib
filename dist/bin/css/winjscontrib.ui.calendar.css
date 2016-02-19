@@ -37,6 +37,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  outline: none;
 }
 .mcn-calendar.win-disposable .mcn-calendar-wrapper button:hover,
 .mcn-calendar.win-disposable .mcn-calendar-wrapper button.tapped {

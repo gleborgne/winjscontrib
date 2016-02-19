@@ -1,4 +1,4 @@
-#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .navigator .pagecontrol .fragment header[role=banner] {
+﻿#app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .navigator .pagecontrol .fragment header[role=banner] {
   -ms-grid-columns: 20px auto 1fr auto;
 }
 #app-mainpage #app-content .mcn-masterdetailview-detail .mcn-masterdetailview-detail-content .mcn-masterdetailview-master .navigator .pagecontrol .fragment header[role=banner] .titlearea {

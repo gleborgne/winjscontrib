@@ -43,6 +43,7 @@
             this.timeclock.onchange = () => {
                 this.value = this.timeclock.value;
                 this.flyout.hide();
+                this.dispatchEvent("change");
             }
 
             this.timeclock.onhourchange = () => {

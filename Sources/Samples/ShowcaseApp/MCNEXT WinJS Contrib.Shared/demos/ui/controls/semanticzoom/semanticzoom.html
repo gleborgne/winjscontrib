@@ -28,7 +28,7 @@
             </div>
         </header>
         <section aria-label="Main content" role="main">
-            <div id="semanticzoom" data-win-control="WinJS.UI.SemanticZoom">
+            <div id="semanticzoom" member data-win-control="WinJS.UI.SemanticZoom">
                 <div id="zoomedin" data-win-control="WinJSContrib.UI.SemanticZoomWrapper">
                     <div class="container">
                         <div id="zoomedingrid" data-win-control="WinJSContrib.UI.GridControl"
@@ -45,7 +45,10 @@
                 </div>
                 <div id="zoomedout" data-win-control="WinJSContrib.UI.SemanticZoomWrapper">
                     <div class="container">
-                        <div id="zoomedoutgrid" data-win-control="WinJSContrib.UI.GridControl">
+                        <div id="zoomedoutgrid" data-win-control="WinJSContrib.UI.GridControl" data-win-options="{ layouts: {
+                                vertical: { query: '(orientation: portrait)', layout: 'flexvertical' },
+                                horizontal: { query: '(orientation: landscape)', layout: 'horizontal' }
+                             } }">
                             <div class="item" data-target="item1">Item 1</div>
                             <div class="item" data-target="item2">Item 2</div>
                             <div class="item" data-target="item3">Item 3</div>

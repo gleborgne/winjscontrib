@@ -41,7 +41,7 @@
             controls.section4.grid.prepareItems(options.items);
             controls.section5.grid.prepareItems(options.items);
 
-            $(".pagetitle", element).text("flex grid items (by " + options.multipass + " " + (controls.hub.sections.length*options.items.length) + " items)");
+            $(".pagetitle", element).text("flex grid items");
         },
 
         //this method is bound declaratively thanks to our custom navigator

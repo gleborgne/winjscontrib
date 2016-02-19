@@ -35,13 +35,16 @@
                 this._element.className = this._element.className + ' win-disposable mcn-layout-ctrl';
                 this._element.winControl = this;
                 this.queries = [];
-                this.listView = options ? options.listView : undefined;
-                this.layouts = options.layouts;
-
-                if (this.listView && this.listView.winControl && options.layouts) {
-                    this.initQueries(options.layouts);
-                    this.applyPendingLayout();
+                if (options) {
+                    if (options.listView)
+                        this.listView = options.listView;
+                    if (options.layouts)
+                        this.layouts = options.layouts;
                 }
+                //if (this.listView && this.listView.winControl && options.layouts) {
+                //    this.initQueries(options.layouts);
+                //    this.applyPendingLayout();
+                //}
             },
             /**
              * @lends WinJSContrib.UI.SmartListLayout
@@ -68,6 +71,21 @@
                         }
                     }
                 },
+
+                layouts: {
+                    get: function () {
+                        return this._layouts;
+                    },
+                    set: function (val) {
+                        this._layouts = val;
+
+                        if (this._layouts) {
+                            this.initQueries(this._layouts);
+                            this.applyPendingLayout();
+                        }
+                    }
+                },
+
 
                 initQueries: function (layouts) {
                     var ctrl = this;
@@ -144,11 +162,24 @@
                     //}
                 },
 
-                contentReady: function(){
+                pageLayout: function(){
                     var ctrl = this;
-                    //if (ctrl.listView) {
-                    //    ctrl.listView.winControl.forceLayout();
-                    //}
+                    if (ctrl.listView) {
+                        var semanticzoom = WinJSContrib.Utils.getParentControlByClass("win-semanticzoom", ctrl.listView);
+                        if (semanticzoom) {
+                            semanticzoom.forceLayout();
+                         //   ctrl.forceListUpdate();
+                        }
+                    }
+                },
+
+                forceListUpdate(){
+                    var ctrl = this;
+                    if (ctrl.listView.winControl._batchingViewUpdates) {
+                        ctrl.listView.winControl._batchingViewUpdates.cancel();
+                        ctrl.listView.winControl._batchingViewUpdates = null;
+                    }
+                    ctrl.listView.winControl.forceLayout();
                 },
 
                 dispose: function () {

@@ -1,4 +1,7 @@
 css\winjscontrib\winjscontrib.ui.itemswipe.css
+scripts\winjscontrib\winjscontrib.ui.flipviewpager.js
+scripts\winjscontrib\winjscontrib.ui.grid.js
+scripts\winjscontrib\winjscontrib.ui.webcomponents.js
 css\winjscontrib\segoe.symbol.css
 css\winjscontrib\segoe.symbol.less
 scripts\winjscontrib\winjscontrib.bindings.js
@@ -37,8 +40,6 @@ css\winjscontrib\winjscontrib.ui.flipsnap.css
 scripts\winjscontrib\winjscontrib.ui.flipsnap.js
 scripts\winjscontrib\winjscontrib.ui.flipview.js
 css\winjscontrib\winjscontrib.ui.flipviewpager.css
-winjscontrib.ui.flipviewpager.js
-scripts\winjscontrib\winjscontrib.ui.flipviewpager.js
 css\winjscontrib\winjscontrib.ui.flipviewpager.less
 css\winjscontrib\winjscontrib.ui.flyoutpage.css
 scripts\winjscontrib\winjscontrib.ui.flyoutpage.js
@@ -47,8 +48,6 @@ scripts\winjscontrib\winjscontrib.ui.fowrapper.js
 css\winjscontrib\winjscontrib.ui.globalprogress.css
 scripts\winjscontrib\winjscontrib.ui.globalprogress.js
 css\winjscontrib\winjscontrib.ui.globalprogress.less
-winjscontrib.ui.grid.js
-scripts\winjscontrib\winjscontrib.ui.grid.js
 css\winjscontrib\winjscontrib.ui.hub.css
 css\winjscontrib\winjscontrib.ui.hub.less
 scripts\winjscontrib\winjscontrib.ui.hubcontrol.js
@@ -72,8 +71,6 @@ css\winjscontrib\winjscontrib.ui.time.css
 scripts\winjscontrib\winjscontrib.ui.time.js
 scripts\winjscontrib\winjscontrib.ui.visualstate.js
 scripts\winjscontrib\winjscontrib.core.js
-winjscontrib.ui.webcomponents.js
-scripts\winjscontrib\winjscontrib.ui.webcomponents.js
 scripts\winjscontrib\winjscontrib.datacontainer.cordova.database.js
 scripts\winjscontrib\winjscontrib.datacontainer.cordova.file.js
 scripts\winjscontrib\winjscontrib.datacontainer.localstorage.js

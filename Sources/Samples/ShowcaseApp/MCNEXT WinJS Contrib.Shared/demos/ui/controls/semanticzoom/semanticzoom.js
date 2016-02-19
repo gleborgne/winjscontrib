@@ -2,9 +2,9 @@
     "use strict";
 
     WinJS.UI.Pages.define("./demos/ui/controls/semanticzoom/semanticzoom.html", {
-        processed: function (element, options) {
+        pageLayout: function (element, options) {
             var page = this;
-            page.zoom = page.element.querySelector("#semanticzoom").winControl;
+            page.semanticzoom.forceLayout();
         },
 
         ready: function (element, options) {
@@ -14,7 +14,7 @@
             this.zoomedout = page.element.querySelector("#zoomedout").winControl;
             this.zoomedoutGrid = page.element.querySelector("#zoomedoutgrid").winControl;
             if (WinJSContrib.CrossPlatform && (WinJSContrib.CrossPlatform.isMobile.Android() || WinJSContrib.CrossPlatform.isMobile.iOS())) {
-                page.zoom.forceLayout();
+                page.semanticzoom.forceLayout();
             }
             this.zoomedinGrid.layout();
             this.zoomedoutGrid.layout();

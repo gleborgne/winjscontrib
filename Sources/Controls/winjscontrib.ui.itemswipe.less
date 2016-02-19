@@ -55,14 +55,7 @@
 
         .face {
             position: relative;
-            touch-action: pan-y;            
-
-            &.mousehover {
-                .actions {
-                    opacity: 1;
-                    pointer-events: all;
-                }
-            }
+            touch-action: pan-y;     
             
             .actions {
                 position: absolute;
@@ -70,8 +63,8 @@
                 top: 4px;
                 opacity: 0;
                 pointer-events: none;
-                transition: opacity 200ms ease-out;
-
+                transition: opacity 200ms ease-out;                
+                
                 .action {
                     width: 32px;
                     height: 32px;
@@ -79,6 +72,13 @@
                     background-color: #555;
                     color: white;
                     text-align: center;
+                }
+            }
+
+            &.mousehover {
+                .actions {
+                    opacity: 1;
+                    pointer-events: all;
                 }
             }
         }
