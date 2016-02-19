@@ -1,2 +1,26 @@
-﻿.search  {    
+﻿.search-page .bloc-content {
+  display: -ms-grid;
+  -ms-grid-rows: auto 1fr;
+  -ms-grid-columns: 1fr;
+}
+.search-page .bloc-content label {
+  font-size: 12pt;
+}
+.search-page .bloc-content select,
+.search-page .bloc-content input {
+  margin-bottom: 6px;
+}
+.search-page .bloc-content .movie .meta {
+  font-size: 0.9em;
+  color: #777;
+}
+.search-page .bloc-content .searchresults {
+  -ms-grid-row: 2;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+@media screen and (orientation: portrait) {
+  .search-page .bloc-content {
+    display: block;
+  }
 }

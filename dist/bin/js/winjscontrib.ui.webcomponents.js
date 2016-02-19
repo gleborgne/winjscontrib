@@ -117,7 +117,7 @@ WinJSContrib.UI.WebComponents = WinJSContrib.UI.WebComponents || {};
 
 		if (scope && scope.pageLifeCycle) {
 			//if the component is owned by a page/fragment, we process the control according to page lifecycle
-			p = scope.pageLifeCycle.steps.render.attach(process);
+			p = scope.pageLifeCycle.steps.process.attach(process);
 		} else {
 			process();
 		}

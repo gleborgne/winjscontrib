@@ -13,3 +13,19 @@ C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\Show
 C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\MultipleQualifiersPerDimensionFound.txt
 C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\ProjectArchitectures.txt
 C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bin\Debug\MCNEXT WinJS Contrib W10.build.appxrecipe
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bin\Debug\ReverseMap\resources.pri
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bin\Debug\AppxManifest.xml
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bin\Debug\MCNEXT WinJS Contrib W10.build.appxrecipe
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\ResourceHandlingTask.state
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\priconfig.xml
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\priconfig.xml.intermediate
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\layout.resfiles
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\layout.resfiles.intermediate
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\resources.resfiles
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\resources.resfiles.intermediate
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\pri.resfiles
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\pri.resfiles.intermediate
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\qualifiers.txt
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\qualifiers.txt.intermediate
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\MultipleQualifiersPerDimensionFound.txt
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\bld\Debug\ProjectArchitectures.txt

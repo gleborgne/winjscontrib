@@ -1,1 +1,1 @@
-C:\Users\mlahlou\Documents\GitHub\winjscontrib\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\MCNEXT WinJS Contrib W10.jsproj;neutral
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\MCNEXT WinJS Contrib W10.jsproj;neutral

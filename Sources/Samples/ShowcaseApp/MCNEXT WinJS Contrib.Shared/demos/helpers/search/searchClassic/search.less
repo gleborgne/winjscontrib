@@ -1,0 +1,36 @@
+﻿.search-page {
+    .bloc-content {
+        display: -ms-grid;
+        -ms-grid-rows: auto 1fr;
+        -ms-grid-columns: 1fr;
+
+        label {
+            font-size: 12pt;
+        }
+
+        select, input {
+            margin-bottom: 6px;
+        }
+
+        .movie {
+            .meta {
+                font-size: 0.9em;
+                color: #777;
+            }
+        }
+
+        .searchresults {
+            -ms-grid-row: 2;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+    }
+}
+
+@media screen and (orientation : portrait) {
+    .search-page {
+        .bloc-content {
+            display: block;
+        }
+    }
+}

@@ -1,0 +1,1 @@
+C:\projects\github\winjscontrib\Sources\Samples\ShowcaseApp\MCNEXT WinJS Contrib W10\MCNEXT WinJS Contrib W10.jsproj;arm

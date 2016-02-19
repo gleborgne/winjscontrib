@@ -194,8 +194,10 @@
     <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchAsync\search.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchAsync\search.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchClassic\search.css" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchClassic\search.less" />
     <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchClassic\search.html" />
     <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchClassic\search.js" />
+    <Content Include="$(MSBuildThisFileDirectory)demos\helpers\search\searchClassic\searchworker.js" />
     <Content Include="$(MSBuildThisFileDirectory)demos\home.css">
       <DependentUpon>home.less</DependentUpon>
     </Content>

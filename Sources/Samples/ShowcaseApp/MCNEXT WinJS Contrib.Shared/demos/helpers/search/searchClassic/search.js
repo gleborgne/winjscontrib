@@ -2,12 +2,13 @@
 
 (function () {
     "use strict";
-    var indexDefinition =  {
-                    fields: {
-                        "desc.title": { weight: 1 },
-                        "title": { weight: 2 }
-                    }
-                }
+    var indexDefinition = {
+        fields: {
+            "metadata.genre": { weight: 1 },
+            "title": { weight: 2 }
+        }
+    }
+
     WinJS.UI.Pages.define("./demos/helpers/search/searchClassic/search.html", {
         setIndex: function () {
             var page = this;
@@ -18,10 +19,10 @@
             }
 
             if (kind == "worker") {
-                page.index = new WinJSContrib.Search.IndexWorkerProxy('persistentTest', indexDefinition);
+                page.index = new WinJSContrib.Search.IndexWorkerProxy('moviesPersistentTest', indexDefinition);
 
             } else {
-                page.index = new WinJSContrib.Search.Index('persistentTest', indexDefinition);
+                page.index = new WinJSContrib.Search.Index('moviesPersistentTest', indexDefinition);
             }
 
             return page.index.load().then(function () {
@@ -30,6 +31,7 @@
         },
 
         ready: function (element, options) {
+            WinJSContrib.Search.workerPath = "/demos/helpers/search/searchClassic/searchworker.js";
             var page = this;
 
             page.setIndex();
@@ -43,11 +45,13 @@
 
             //load index from disc
             page.index.load().done(function () {
-                page.refreshCount().then(function (nb) {
-                    if (nb == 0) {
-                        page.indexItems(searchitems);
-                    }
-                });
+                page.index.clear();
+                page.indexItems(moviesSample);
+                //page.refreshCount().then(function (nb) {
+                //    if (nb == 0) {
+                //        page.indexItems(moviesSample);
+                //    }
+                //});
 
             });
         },
@@ -68,7 +72,7 @@
             var container = $('#searchresults', page.element);
             container.html('');
             setImmediate(function () {
-                page.index.search(txt).then(function (search) {
+                page.index.search(txt, { limit: 100 }).then(function (search) {
                     page.showSearchResult(search);
                 });
             });
@@ -83,11 +87,8 @@
                 return;
             }
 
-            if (search.length > 20)
-                search = search.slice(0, 20);
-
             search.forEach(function (item) {
-                container.append('<li>' + item.rank + ' : ' + item.item.title + '</li>');
+                container.append('<li class="movie">' + item.rank + ' : ' + item.item.title + ' <span class="meta">' + (item.item.year ? moment(item.item.year).format("YYYY") : "") + ' ' + (item.item.metadata && item.item.metadata.genre ? item.item.metadata.genre : "") + '</span></li>');
             });
             page.progress.value = 0;
         },
@@ -131,7 +132,7 @@
             var sz = (elt && elt.args && elt.args.size) ? elt.args.size : 500;
             var items = [];
             for (var i = 0 ; i < sz ; i++) {
-                var item = { title: "abcd efgh ijkl", desc: { title: "mnop qrstu vwxyz" } };
+                var item = { title: "abcd efgh ijkl", metadata: { genre: "custom" } };
                 items.push(item);
             }
 
@@ -154,9 +155,3 @@
         }
     });
 })();
-
-var searchitems = [
-        { title: "mon TiTre" },
-        { title: "un autre titré", desc: { title: "plein de choses et d'autres" } },
-        { title: "encore un titre", desc: { title: "du titre et encore du Titre" } },
-];

@@ -6,9 +6,7 @@
 
 
     <!-- WinJSContrib.Core references -->
-    <script src="./scripts/jquery-2.1.1.js"></script>
-    <script src="./scripts/winjscontrib/jquery.winjscontrib.js"></script>
-    <script src="../datasources/movies.js"></script>
+    <script src="/demos/ui/controls/datasources/movies.js"></script>
     <script src="/scripts/winjscontrib/winjscontrib.core.js"></script>
     <script src="/scripts/winjscontrib/winjscontrib.messenger.js"></script>
 
@@ -19,7 +17,7 @@
     <script src="search.js"></script>
 </head>
 <body>
-    <div class="search fragment">
+    <div class="search-page fragment">
         <header aria-label="Header content" role="banner">
             <button class="win-backbutton" aria-label="Back" disabled type="button"></button>
             <h1 class="titlearea win-type-ellipsis">
@@ -33,38 +31,50 @@
         <section class="desc-screen" aria-label="Main content" role="main">
             <div class="bloc-description">
                 <p>
-                    The search feature is for managing search with small to medium indexing. The engine relies on stemming to provide
-                    smart search on common spelling mistakes.
+                    The search feature is for managing search with indexing inspired from Lucene. The engine relies on stemming to provide
+                    smart search on common spelling mistakes. Stemming rules are customizable.
+                </p>
+                <p>You could index multiple fields in an object giving depth to each field. When searching, the engine will score each item depending on depth and accuracy.</p>
+                <p>
+                    The search engine works very well for mid-sized datasets.
                 </p>
             </div>
             <div class="bloc-content">
-                <p>
-                    Choose how your index works<br />
-                    <select id="indexkind">
-                        <option value="synchronous" selected>Synchronous</option>
-                        <option value="worker">Web worker</option>
-                    </select>
-                </p>
-                <p>
-                    <input type="search" id="searchtxt" />
-                    <button id="btnSearch" data-page-action="doSearch">search</button>
-                </p>
-                <p>
-                    <input type="text" id="indexbox" /><button data-page-action="addToIndex">Index this</button>
-                </p>
-                <p><input type="range" id="progress" min="0" max="100" readonly style="opacity:0" /></p>
-                <p>index has <span id="indexCount"></span> items</p>
-                <p>
-                    <button data-page-action="clearIndex">Clear</button>
-                    <button data-page-action="addItems" data-page-action-args='{ "size":500 }'>Add 500 items</button>
-                    <button data-page-action="addItems" data-page-action-args='{ "size": 2000 }'>Add 2 000 items</button>
-                    <button data-page-action="addItems" data-page-action-args='{ "size": 20000 }'>Add 20 000 items</button>
-                    <button data-page-action="addItems" data-page-action-args='{ "size": 100000 }'>Add 100 000 items</button>
-                    <button data-page-action="addItems" data-page-action-args='{ "size": 1000000 }'>Add 1 000 000 items</button>
+                <div class="searchheader">
+                    <p>
+                        <label for="indexkind">
+                            Choose how your index works
+                        </label><br />
+                        <select id="indexkind">
+                            <option value="synchronous" selected>Synchronous</option>
+                            <option value="worker">Web worker</option>
+                        </select>
+                        <br />
+                        <label for="searchtxt">search famous "classic" movies by title or genre</label><br />
+                        <input type="search" id="searchtxt" />
+                        <button id="btnSearch" data-page-action="doSearch">search</button>
+                        <br />
+                        <label for="indexbox">add this title to index</label><br />
+                        <input type="text" id="indexbox" /><button data-page-action="addToIndex">Add</button>
+                        <br />
+                        index has <span id="indexCount"></span> items
+                        <br />
+                        <input type="range" id="progress" min="0" max="100" readonly style="opacity:0" />
+                    </p>
+                    <p>
+                        <button data-page-action="clearIndex">Clear</button>
+                        <button data-page-action="addItems" data-page-action-args='{ "size":500 }'>Add 500 items</button>
+                        <button data-page-action="addItems" data-page-action-args='{ "size": 2000 }'>Add 2 000 items</button>
+                        <button data-page-action="addItems" data-page-action-args='{ "size": 20000 }'>Add 20 000 items</button>
+                        <button data-page-action="addItems" data-page-action-args='{ "size": 100000 }'>Add 100 000 items</button>
+                        <button data-page-action="addItems" data-page-action-args='{ "size": 1000000 }'>Add 1 000 000 items</button>
 
-                </p>
-                <p id="searchmessage"></p>
-                <ul id="searchresults"></ul>
+                    </p>
+                    <p id="searchmessage"></p>
+                </div>
+                <div class="searchresults">
+                    <ul id="searchresults"></ul>
+                </div>
             </div>
         </section>
     </div>

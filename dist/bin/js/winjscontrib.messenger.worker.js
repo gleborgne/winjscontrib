@@ -4,7 +4,7 @@
  * sources available at https://github.com/gleborgne/winjscontrib
  */
 
-importScripts("/scripts/WinJS/js/WinJS.js");
+importScripts("/scripts/WinJS/js/base.js");
 importScripts("/scripts/winjscontrib/winjscontrib.messenger.js");
 
 var messenger = new WinJSContrib.Messenger(this, this);
