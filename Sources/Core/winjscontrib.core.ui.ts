@@ -920,8 +920,10 @@ module WinJSContrib.UI {
                     }
 
                     if (dif < tracking.mapClickEvents) {
-                        arg.preventDefault();
-                        arg.stopPropagation();
+                        if (arg && arg.preventDefault) {
+                            arg.preventDefault();
+                            arg.stopPropagation();
+                        }
                         return;
                     }
 

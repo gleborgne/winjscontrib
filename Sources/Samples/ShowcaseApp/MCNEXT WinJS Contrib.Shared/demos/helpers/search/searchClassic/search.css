@@ -3,9 +3,6 @@
   -ms-grid-rows: auto 1fr;
   -ms-grid-columns: 1fr;
 }
-.search-page .bloc-content label {
-  font-size: 12pt;
-}
 .search-page .bloc-content select,
 .search-page .bloc-content input {
   margin-bottom: 6px;

@@ -14,10 +14,14 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" StartPage="default.html">
-      <uap:VisualElements DisplayName="MCNEXT WinJS Contrib W10" Description="MCNEXT WinJS Contrib W10" BackgroundColor="#a12121" Square150x150Logo="images\Logo.png" Square44x44Logo="images\SmallLogo.png">
+    <Application Id="App" StartPage="ms-appx-web:///default.html">
+      <uap:VisualElements DisplayName="WinJS Contrib Samples" Description="MCNEXT WinJS Contrib W10" BackgroundColor="#a12121" Square150x150Logo="images\Logo.png" Square44x44Logo="images\SmallLogo.png">
         <uap:SplashScreen Image="images\splashscreen.png" />
       </uap:VisualElements>
+      <uap:ApplicationContentUriRules>
+        <uap:Rule Match="ms-appx-web:///default.html" Type="include" WindowsRuntimeAccess="all" />
+        <uap:Rule Match="http://localhost:1337" Type="include" WindowsRuntimeAccess="none" />
+      </uap:ApplicationContentUriRules>
     </Application>
   </Applications>
   <Capabilities>

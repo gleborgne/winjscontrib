@@ -218,6 +218,8 @@ demos\helpers\search\searchAsync\search.js
 demos\helpers\search\searchClassic\search.css
 demos\helpers\search\searchClassic\search.html
 demos\helpers\search\searchClassic\search.js
+demos\helpers\search\searchClassic\search.less
+demos\helpers\search\searchClassic\searchworker.js
 demos\home.css
 demos\home.css.map
 demos\home.html

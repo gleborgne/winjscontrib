@@ -2579,8 +2579,10 @@ var WinJSContrib;
                             dif = now - tracking.lastinvoke;
                         }
                         if (dif < tracking.mapClickEvents) {
-                            arg.preventDefault();
-                            arg.stopPropagation();
+                            if (arg && arg.preventDefault) {
+                                arg.preventDefault();
+                                arg.stopPropagation();
+                            }
                             return;
                         }
                         var res = tracking.callback(elt, arg);
