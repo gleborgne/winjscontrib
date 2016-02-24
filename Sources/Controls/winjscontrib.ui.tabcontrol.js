@@ -156,27 +156,27 @@
             },
 
             selectFirst: function (skipHeader) {
-                this.selectTab(this.tabs.default[0], skipHeader);
+                return this.selectTab(this.tabs.default[0], skipHeader);
             },
 
             selectTab: function (tab, skipHeader, args) {
                 var ctrl = this;
 
-                if (tab == ctrl.currentTab)
-                    return;
+                if (tab == ctrl.currentTab) return WinJS.Promise.wrap(null);
 
                 var link = ctrl.getPageLink(tab);
-                if (link) {
-                    var navArgs = $.extend({}, args, link.args);
+                if (!link) return WinJS.Promise.wrap(null);
 
-                    ctrl.navigator.open(link.uri, navArgs);
-                    ctrl.currentTab = tab;
-                    var currentHeader = ctrl.tabHeader.querySelector('.mcn-tabpages-headeritem.current');
-                    if (currentHeader) WinJS.Utilities.removeClass(currentHeader, 'current');
+                ctrl.currentTab = tab;
+                var currentHeader = ctrl.tabHeader.querySelector('.mcn-tabpages-headeritem.current');
+                if (currentHeader)
+                    WinJS.Utilities.removeClass(currentHeader, 'current');
 
-                    if (!skipHeader)
-                        ctrl.selectTabHeader();
-                }
+                if (!skipHeader)
+                    ctrl.selectTabHeader();
+
+                var navArgs = $.extend({}, args, link.args);
+                return ctrl.navigator.open(link.uri, navArgs);
             },
 
             selectTabHeader: function () {
@@ -193,7 +193,9 @@
                 var tab = grp[index];
 
                 if (tab)
-                    ctrl.selectTab(tab, skipHeader, args);
+                    return ctrl.selectTab(tab, skipHeader, args);
+
+                return WinJS.Promise.wrap(null);
             },
 
             selectByName: function (name, skipHeader, group, args) {
@@ -203,10 +205,11 @@
                 for (var i = 0 ; i < grp.length; i++) {
                     var tab = grp[i];
                     if (tab.item && (tab.item.id === name || tab.item.name === name)) {
-                        ctrl.selectTab(tab, skipHeader, args);
-                        break;
+                        return ctrl.selectTab(tab, skipHeader, args);
                     }
                 }
+
+                return WinJS.Promise.wrap(null);
             },
 
             selectByItem: function (item, skipHeader, group, args) {
@@ -215,10 +218,11 @@
                 for (var i = 0 ; i < grp.length; i++) {
                     var tab = grp[i];
                     if (tab.item == item) {
-                        ctrl.selectTab(tab, skipHeader, args);
-                        break;
+                        return ctrl.selectTab(tab, skipHeader, args);
                     }
                 }
+
+                return WinJS.Promise.wrap(null);
             },
 
             registerTabs: function (tabItems, group) {
