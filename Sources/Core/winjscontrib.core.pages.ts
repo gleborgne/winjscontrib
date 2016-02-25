@@ -70,13 +70,13 @@ module WinJSContrib.UI.Pages {
 	},
 		{
 			initPageMixin : function(){
-				this.promises = [];
+                //this.promises = this.promises || [];
 			},
 
 			disposePageMixin: function () {
 				if (this.promises) {
 					this.cancelPromises();
-					this.promises = null;
+					this.promises = [];
 				}
 			},
 
@@ -780,10 +780,9 @@ module WinJSContrib.UI.Pages {
 						_ElementUtilities.addClass(element, "pagecontrol");
 						_ElementUtilities.addClass(element, "mcn-layout-ctrl");
 
-						if (that.initPageMixin)
-							that.initPageMixin();
+						
                         //that._eventTracker = new WinJSContrib.UI.EventTracker();
-                        //that._promises = [];
+                        that.promises = [];
                         
                         that.pageLifeCycle = <PageLifeCycle>{
 							created: new Date(),
@@ -812,6 +811,10 @@ module WinJSContrib.UI.Pages {
 							},
 							initialDisplay: null
 						};
+
+                        if (that.initPageMixin)
+                            that.initPageMixin();
+
                         that.defferedLoading = new DefferedLoadings(that);
 
                         that._disposed = false;

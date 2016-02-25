@@ -1,6 +1,11 @@
 ﻿(function () {
     "use strict";
 
+//    WinJSContrib.Logs.getLogger("WinJSContrib.UI.Pages", { prefix: "PAGES", level: WinJSContrib.Logs.Levels.verbose, appenders: ["DefaultConsole"] });
+//    WinJSContrib.Logs.getLogger("WinJSContrib.WinRT.MultipleViews", { prefix: "MULTIVIEWSCHILD", level: WinJSContrib.Logs.Levels.verbose, appenders: ["DefaultConsole"] });
+//    WinJSContrib.UI.Pages.verboseTraces = true;
+
+
     var ViewManagement = Windows.UI.ViewManagement;
 
     WinJS.Namespace.define("WinJSContrib.WinRT.MultipleViews", {
@@ -8,15 +13,19 @@
     });
 
     WinJSContrib.WinRT.MultipleViews.currentView.addEventListener("initialize", function (e) {
-        WinJS.UI.processAll(document.body).then(function () {
-            WinJS.Application.queueEvent({ type: 'mcnchildview.init' });
-            if (e.detail.location && e.detail.location.uri) {
-                WinJS.Navigation.navigate(e.detail.location.uri, e.detail.location.state).then(function () {
-                    if (WinJSContrib.UI && WinJSContrib.UI.Application && WinJSContrib.UI.Application.splashscreen) {
-                        WinJSContrib.UI.Application.splashscreen.hide();
-                    }
-                });
-            }
+        WinJS.Utilities.ready(function () {
+            WinJS.UI.processAll(document.body).then(function () {
+                WinJS.Application.queueEvent({ type: 'mcnchildview.init' });
+                if (e.detail && e.detail.location && e.detail.location.uri) {
+                    return WinJS.Navigation.navigate(e.detail.location.uri, e.detail.location.state).then(function () {
+                        if (WinJSContrib.UI && WinJSContrib.UI.Application && WinJSContrib.UI.Application.splashscreen) {
+                            WinJSContrib.UI.Application.splashscreen.hide();
+                        }
+                    });
+                }
+            }, function (err) {
+                console.error(err);
+            });
         });
     }, false);
 
@@ -39,5 +48,9 @@
     }, false);
 
     WinJS.Application.start();
+
+    WinJS.Application.addEventListener("error", function (arg) {
+        console.error(arg);
+    });
 })();
 

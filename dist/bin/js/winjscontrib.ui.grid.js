@@ -377,10 +377,10 @@
 
             			ctrl.element.style.height = '';
 
-            			//if (ctrl.element.clientHeight)
-            			//	ctrl.element.style.height = ctrl.element.clientHeight + 'px';
-            			//else
-            			//	ctrl.element.style.height = '';
+            			if (ctrl.element.clientHeight)
+            				ctrl.element.style.height = ctrl.element.clientHeight + 'px';
+            			else
+            				ctrl.element.style.height = '';
 
             			var _itemsPerColumn = Math.floor(ctrl.element.clientHeight / (ctrl.data.cellHeight + ctrl.data.cellSpace));
             			if (_itemsPerColumn) {
@@ -399,10 +399,10 @@
             			ctrl.element.style.alignContent = 'flex-start';
 
             			ctrl.element.style.width = '';
-            			//if (ctrl.element.clientWidth)
-            			//	ctrl.element.style.width = ctrl.element.clientWidth + 'px';
-            			//else
-            			//	ctrl.element.style.width = '';
+            			if (ctrl.element.clientWidth)
+            				ctrl.element.style.width = ctrl.element.clientWidth + 'px';
+            			else
+            				ctrl.element.style.width = '';
 
             			if (ctrl.element.style.height)
             				ctrl.element.style.height = '';

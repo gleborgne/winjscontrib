@@ -173,7 +173,7 @@
                     }
                 },
 
-                forceListUpdate(){
+                forceListUpdate: function(){
                     var ctrl = this;
                     if (ctrl.listView.winControl._batchingViewUpdates) {
                         ctrl.listView.winControl._batchingViewUpdates.cancel();

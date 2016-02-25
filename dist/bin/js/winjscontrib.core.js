@@ -3062,12 +3062,12 @@ var WinJSContrib;
                 },
                 {
                     initPageMixin: function () {
-                        this.promises = [];
+                        //this.promises = this.promises || [];
                     },
                     disposePageMixin: function () {
                         if (this.promises) {
                             this.cancelPromises();
-                            this.promises = null;
+                            this.promises = [];
                         }
                     },
                     addPromise: function (prom) {
@@ -3659,10 +3659,8 @@ var WinJSContrib;
                             _ElementUtilities.addClass(element, "win-disposable");
                             _ElementUtilities.addClass(element, "pagecontrol");
                             _ElementUtilities.addClass(element, "mcn-layout-ctrl");
-                            if (that.initPageMixin)
-                                that.initPageMixin();
                             //that._eventTracker = new WinJSContrib.UI.EventTracker();
-                            //that._promises = [];
+                            that.promises = [];
                             that.pageLifeCycle = {
                                 created: new Date(),
                                 location: uri,
@@ -3690,6 +3688,8 @@ var WinJSContrib;
                                 },
                                 initialDisplay: null
                             };
+                            if (that.initPageMixin)
+                                that.initPageMixin();
                             that.defferedLoading = new DefferedLoadings(that);
                             that._disposed = false;
                             that.element = element = element || _Global.document.createElement("div");

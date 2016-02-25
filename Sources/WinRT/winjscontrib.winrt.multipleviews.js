@@ -1,4 +1,6 @@
 ﻿(function () {
+    var logger = WinJSContrib.Logs.getLogger("WinJSContrib.WinRT.MultipleViews");
+
     var ViewManagement = Windows.UI.ViewManagement;
 
     var messageTypePrefix = "WinJSContribViewHelper_"
@@ -22,6 +24,7 @@
         },
         {
             _handleMessage: function ViewManager_handleMessage(e) {
+                logger.verbose("handle message", e);
                 if (e.origin === WinJSContrib.WinRT.MultipleViews.thisDomain && e.data.type) {
                     var i = this.findViewIndexByViewId(e.data.viewId);
                     if (i !== null) {
@@ -32,6 +35,7 @@
             },
 
             broadcast: function (type, data) {
+                logger.verbose("broadcast " + type, data);
                 for (var i = 0, len = this.secondaryViews.length; i < len; i++) {
                     var value = this.secondaryViews.getItem(i).data;
                     value.send(type, data);
@@ -43,6 +47,7 @@
             },
 
             _viewReleased: function ViewManager_viewReleased(e) {
+                logger.verbose("view released : " + e.target.viewId);
                 e.target.removeEventListener("released", this._viewReleasedWrapper, false);
                 var i = this.findViewIndexByViewId(e.target.viewId);
                 if (i !== null) {
@@ -53,6 +58,7 @@
             secondaryViews: new WinJS.Binding.List([]),
 
             closeAll: function () {
+                logger.verbose("close all views");
                 for (var i = 0, len = this.secondaryViews.length; i < len; i++) {
                     var value = this.secondaryViews.getItem(i).data;
                     value.close();
@@ -113,7 +119,10 @@
                         ).done(function (pointer) {
                             view.stopViewInUse();
                             complete({ view: view, pointer: pointer });
-                        }, error);
+                        }, function (err) {
+                            logger.error(err);
+                            error(err);
+                        });
                 });
             },
 
@@ -132,9 +141,13 @@
                         Windows.UI.ViewManagement.ApplicationView.getForCurrentView().id,
                         currentViewSize
                         ).done(function (pointer) {
+                            view.initialize(page, data);
                             view.stopViewInUse();
                             complete({ view: view, pointer: pointer });
-                        }, error);
+                        }, function (err) {
+                            logger.error(err);
+                            error(err);
+                        });
                 });
 
             },
@@ -160,7 +173,10 @@
                     Windows.UI.ViewManagement.ProjectionManager.startProjectingAsync(view.viewId, Windows.UI.ViewManagement.ApplicationView.getForCurrentView().id).done(function (pointer) {
                         view.stopViewInUse();
                         complete({ view: view, pointer: pointer });
-                    }, error);
+                    }, function (err) {
+                        logger.error(err);
+                        error(err);
+                    });
                 });
             },
 
@@ -175,29 +191,33 @@
 
                 return new WinJS.Promise(function (complete, error) {
                     Windows.UI.ViewManagement.ProjectionManager.startProjectingAsync(view.viewId, Windows.UI.ViewManagement.ApplicationView.getForCurrentView().id).done(function (pointer) {
+                        view.initialize(page, data);
                         view.stopViewInUse();
                         complete({ view: view, pointer: pointer });
-                    }, error);
+                    }, function (err) {
+                        logger.error(err);
+                        error(err);
+                    });
                 });
 
             },
 
-            createNewView: function ViewManager_createNewView(page, data) {
-                var initData = null;
-                if (data) initData = JSON.parse(JSON.stringify(data));
-                if (!page) {
-                    throw "Must specify a URL of a page from your app to show in the new view";
-                }
+            createNewView: function ViewManager_createNewView() {
+                logger.verbose("create view");
+                //var initData = null;
+                //if (data) initData = JSON.parse(JSON.stringify(data));
+                //if (!page) {
+                //    throw "Must specify a URL of a page from your app to show in the new view";
+                //}
 
                 var newView = MSApp.createNewView(this.pagewrapper);
-                newView.postMessage({
-                    type: messageTypes.initialize,
-                    initData: { location: { uri: page, state: initData } }
-                }, WinJSContrib.WinRT.MultipleViews.thisDomain);
-
+                
                 var newProxy = new WinJSContrib.WinRT.MultipleViews.ViewLifetimeControlProxy(newView);
                 newProxy.addEventListener("released", this._viewReleasedWrapper, false);
                 this.secondaryViews.push(newProxy);
+                //setTimeout(function () {
+                //    newProxy.send(messageTypes.initialize, { location: { uri: page, state: data } });
+                //}, 300);
                 return newProxy;
             }
         }), WinJS.Utilities.eventMixin, WinJS.Binding.observableMixin),
@@ -207,11 +227,22 @@
             this.appView = appView;
             this.viewId = appView.viewId;
             this.title = "";
+            this.initialized = false;
         },
         {
-            _refCount: 0,
+            _refCount: 0,            
+
+            initialize: function (page, data) {
+                if (this.initialized)
+                    return;
+
+                logger.verbose("proxy initialize view");
+                this.initialized = true;
+                this.send(messageTypes.initialize, { location: { uri: page, state: data } });
+            },
 
             send: function ViewLifetimeControlProxy_alertView(type, data) {
+                logger.verbose("proxy sending message " + type, data);
                 if (!type) {
                     throw "Must specify a type of message to send to the proxy";
                 }
@@ -231,6 +262,7 @@
 
             _handleMessage: function ViewLifetimeControlProxy_handleMessage(e) {
                 var data = e.data;
+                logger.verbose("proxy received message " + data.type);
                 switch (data.type) {
                     case messageTypes.queryProxyReadyForRelease:
 
@@ -260,6 +292,7 @@
             },
 
             openAsync: function (currentWindowSize, newWindowSize) {
+                logger.verbose("proxy open view");
                 var view = this;
                 var currentViewSize = currentWindowSize || Windows.UI.ViewManagement.ViewSizePreference.default;
                 var newViewSize = newWindowSize || Windows.UI.ViewManagement.ViewSizePreference.default;
@@ -281,6 +314,7 @@
 
             close: function () {
                 var view = this;
+                logger.verbose("proxy close view");
                 view.startViewInUse();
                 var closeCompletion = function () {
                     view.stopViewInUse();
@@ -311,6 +345,7 @@
             _consolidated: true,
 
             send: function ViewLifetimeControlProxy_alertProxy(type, data) {
+                logger.verbose("sending message " + type, data);
                 if (!type) {
                     throw "Must specify a type of message to send to the proxy";
                 }
@@ -323,6 +358,7 @@
 
 
             _handleMessage: function ViewLifetimeControlProxy_handleMessage(e) {
+                logger.verbose("received message " + e.origin + "-" + (e.data ? e.data.type: ""));
                 if (e.origin === WinJSContrib.WinRT.MultipleViews.thisDomain && e.data.type) {
                     var data = e.data;
                     switch (data.type) {
@@ -339,7 +375,7 @@
                             break;
 
                         case messageTypes.initialize:
-                            this.dispatchEvent("initialize", e.data.initData);
+                            this.dispatchEvent("initialize", e.data);
                             break;
                         default:
                             this.dispatchEvent(data.type, data);
@@ -372,6 +408,7 @@
             },
 
             _finalizeRelease: function ViewLifetimeControlProxy_finalizeRelease(force) {
+                logger.verbose("close window");
                 if (this._refCount === 0 || force) {
                     window.removeEventListener("message", this._handleMessageWrapper, false);
                     ViewManagement.ApplicationView.getForCurrentView().removeEventListener("consolidated", this._onConsolidatedWrapper, false);
@@ -384,6 +421,7 @@
             },
 
             initialize: function ViewLifetimeControlProxy_initialize() {
+                logger.verbose("initialize window");
                 window.addEventListener("message", this._handleMessageWrapper, false);
                 ViewManagement.ApplicationView.getForCurrentView().addEventListener("consolidated", this._onConsolidatedWrapper, false);
                 document.addEventListener("visibilitychange", this._onVisibilityChangeWrapper, false);
