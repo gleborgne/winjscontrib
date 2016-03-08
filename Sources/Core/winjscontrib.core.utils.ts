@@ -25,10 +25,10 @@ interface Object {
 }
 
 interface String {
-    format(...ag:any[]);
-    padLeft(length, leadingChar);
-    startsWith(e:string);
-    endsWith(e:string);
+    format(txt : string,...ag:any[]) : string;
+    padLeft(length, leadingChar): string;
+    startsWith(e: string): boolean;
+    endsWith(e: string): boolean;
 }
 
 if (!Object.map) {

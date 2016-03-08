@@ -34,7 +34,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
         this.maxConcurrentDownloads = options.maxConcurrentDownloads || 300;
         this.debouncedCheck = _.debounce(function () {
             tracker.checkDownloads();
-        }, 200, false);
+        }, 1000, false);
 
         this.debouncedVerif = _.debounce(function () {
             tracker.verifyItems();
@@ -381,7 +381,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
         },
 
         _swapTempFile: function (observable) {
-            var ext = ".download";
+            var ext = this.tempExtension;
             if (observable.filepath.indexOf(ext) > 0) {
                 return Windows.Storage.StorageFile.getFileFromPathAsync(observable.filepath).then(function (file) {
                     if (file) {
@@ -482,7 +482,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                         var dl = new WinJSContrib.BgDownloads.Download();
                         var filename = encodeURIComponent(observable.filename);
                         var uri = new Windows.Foundation.Uri(observable.uri);
-                        var startDownload = dl.start(uri, filename + ".download", folder, Windows.Storage.CreationCollisionOption.replaceExisting).then(function (download) {
+                        var startDownload = dl.start(uri, filename + tracker.tempExtension, folder, Windows.Storage.CreationCollisionOption.replaceExisting).then(function (download) {
                             logger.debug("bgdownload start " + WinJSContrib.BgDownloads.currentDownloads.length + " / " + tracker.maxConcurrentDownloads + " " + tracker.items.length);
                             observable.status = downloadStatus.downloading;
                             observable.download = download;
@@ -607,7 +607,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                 logger.verbose('remove item from list ' + item.itemid);
                 tracker.items.splice(idx, 1);
                 return Windows.Storage.StorageFile.getFileFromPathAsync(item.filepath).then(function (file) {
-                    var tempext = ".download";
+                    var tempext = tracker.tempExtension;
                     if (file.path.indexOf(tempext) == (file.path.length - tempext.length))
                         return file.deleteAsync();
                 }, function (err) {

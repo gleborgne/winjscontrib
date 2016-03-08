@@ -235,10 +235,10 @@ interface Object {
     map(obj: any, mapping: any): any;
 }
 interface String {
-    format(...ag: any[]): any;
-    padLeft(length: any, leadingChar: any): any;
-    startsWith(e: string): any;
-    endsWith(e: string): any;
+    format(txt: string, ...ag: any[]): string;
+    padLeft(length: any, leadingChar: any): string;
+    startsWith(e: string): boolean;
+    endsWith(e: string): boolean;
 }
 declare module WinJSContrib.Promise {
     /**
@@ -523,7 +523,7 @@ declare module WinJSContrib.Utils {
      * format error from an xhr call
      * @function WinJSContrib.Utils.formatXHRError
      */
-    function formatXHRError(xhr: any): any;
+    function formatXHRError(xhr: any): string;
     /**
      * Unwraps the real error from a WinJS.Promise.join operation, which by design returns an array with 'undefined' for all cells,
      * excepts the one corresponding to the promise that really faulted.
