@@ -1,0 +1,195 @@
+﻿/* 
+ * WinJS Contrib v2.1.0.6
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+.mcn-datepicker {
+  display: inline;
+}
+.mcn-datepicker .mcn-datepicker-text {
+  display: inline;
+}
+.mcn-datepicker .mcn-datepicker-text:before {
+  content: "\e8bf";
+  font-family: "Segoe MDL2 Assets";
+  margin-right: 8px;
+}
+.mcn-datepicker-flyout {
+  padding: 0;
+  border: none;
+}
+.mcn-calendar.win-disposable {
+  width: 286px;
+  height: 324px;
+  position: relative;
+  background-color: #333;
+  color: white;
+  overflow: hidden;
+}
+.mcn-calendar.win-disposable .mcn-calendar-wrapper button {
+  width: 38px;
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  border: 2px solid transparent;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+.mcn-calendar.win-disposable .mcn-calendar-wrapper button:hover,
+.mcn-calendar.win-disposable .mcn-calendar-wrapper button.tapped {
+  background-color: #555;
+}
+.mcn-calendar.win-disposable .mcn-calendar-wrapper button:disabled {
+  opacity: 0.2;
+  pointer-events: none;
+  touch-action: none;
+}
+.mcn-calendar.win-disposable .day-item,
+.mcn-calendar.win-disposable .day-header {
+  width: 38px;
+  height: 38px;
+  line-height: 32px;
+  text-align: center;
+  display: block;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+}
+.mcn-calendar.win-disposable .day-item.notthismonth,
+.mcn-calendar.win-disposable .day-header.notthismonth {
+  color: #777;
+  font-weight: 400;
+}
+.mcn-calendar.win-disposable .day-item.day-header {
+  font-size: 11pt;
+  color: #AAA;
+}
+.mcn-calendar.win-disposable .day-item,
+.mcn-calendar.win-disposable .month-item {
+  touch-action: manipulation;
+  font-size: 13pt;
+  font-weight: normal;
+}
+.mcn-calendar.win-disposable .day-item.today,
+.mcn-calendar.win-disposable .month-item.today {
+  border-color: #444;
+}
+.mcn-calendar.win-disposable .day-item.selected,
+.mcn-calendar.win-disposable .month-item.selected {
+  border-color: gold;
+}
+.mcn-calendar.win-disposable .navbuttons {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.mcn-calendar.win-disposable .navbuttons .navbutton-previous:before {
+  content: '\E014';
+  font-family: 'Segoe MDL2 Assets';
+}
+.mcn-calendar.win-disposable .navbuttons .navbutton-next:before {
+  content: '\E015';
+  font-family: 'Segoe MDL2 Assets';
+}
+.mcn-calendar.win-disposable .mcn-calendar-panels,
+.mcn-calendar.win-disposable .mcn-calendar-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.mcn-calendar.win-disposable .month-itemspanel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row wrap;
+}
+.mcn-calendar.win-disposable .month-itemspanel .month-item {
+  width: 66.5px;
+  height: 66.5px;
+}
+.mcn-calendar.win-disposable .calendar-panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.mcn-calendar.win-disposable .calendar-panel.disabled {
+  visibility: hidden;
+}
+.mcn-calendar.win-disposable .calendar-panel > header {
+  height: 38px;
+  margin-right: 86px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+.mcn-calendar.win-disposable .calendar-panel > header > * {
+  margin-right: 10px;
+}
+.mcn-calendar.win-disposable .calendar-panel > section {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+}
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > header {
+  height: 38px;
+  margin-right: 86px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > header > * {
+  margin-right: 10px;
+}
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > section {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  position: relative;
+}
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > section > header {
+  display: flex;
+  flex-flow: row wrap;
+}
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > section > section {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+.mcn-calendar.win-disposable .calendar-panel .calendar-panel-content .calendar-panel-item > section > section .day-items-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  touch-action: none;
+}

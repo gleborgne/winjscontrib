@@ -1,0 +1,83 @@
+﻿/* 
+ * WinJS Contrib v2.1.0.6
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+.childNavigator {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  top: 0;
+  z-index: 1007;
+  pointer-events: none;
+}
+.childNavigator.visible {
+  visibility: visible;
+}
+.childNavigator.enter {
+  pointer-events: auto;
+}
+.childNavigator .childNavigator-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0;
+}
+.childNavigator .childNavigator-overlay.enter {
+  -webkit-transition: opacity 500ms ease-out 10ms;
+  transition: opacity 500ms ease-out 10ms;
+}
+.childNavigator .childNavigator-overlay.leave {
+  -webkit-transition: opacity 350ms ease-in 10ms;
+  transition: opacity 350ms ease-in 10ms;
+}
+.childNavigator .childNavigator-overlay.enter-active {
+  opacity: 0.7;
+}
+.childNavigator .childNavigator-contentPlaceholder {
+  position: absolute;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  right: 0;
+  /*display : none;*/
+  top: 0;
+  -webkit-transform: translate3d(100%, 0, 0);
+  transform: translate3d(100%, 0, 0);
+  background-color: white;
+}
+.childNavigator .childNavigator-contentPlaceholder.enter {
+  -webkit-transition: -webkit-transform 300ms ease-out 10ms;
+  transition: transform 300ms ease-out 10ms;
+}
+.childNavigator .childNavigator-contentPlaceholder.leave {
+  -webkit-transition: -webkit-transform 250ms ease-in 10ms;
+  transition: transform 250ms ease-in 10ms;
+}
+.childNavigator .childNavigator-contentPlaceholder.enter-active {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.childNavigator .childNavigator-contentPlaceholder.visible {
+  /*display : block;*/
+}
+.childNavigator .childNavigator-contentPlaceholder.visible .mcn-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.childNavigator .childNavigator-contentPlaceholder.visible .mcn-close-btn.default-icon {
+  color: white;
+  font-family: "Segoe UI Symbol";
+  width: 40px;
+  line-height: 35px;
+  font-size: 30pt;
+  height: 40px;
+}
+.childNavigator .childNavigator-contentPlaceholder.visible .mcn-close-btn.default-icon:before {
+  content: '\e0e1';
+  /* '' */
+}

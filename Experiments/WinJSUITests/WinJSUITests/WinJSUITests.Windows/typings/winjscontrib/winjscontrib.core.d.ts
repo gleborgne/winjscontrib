@@ -43,6 +43,43 @@
         groupEnd(): void;
         format(logger: Logger, message: string, level: Logs.Levels): string;
     }
+    class BufferAppender implements ILogAppender {
+        config: Logs.ILoggerConfig;
+        buffer: any[];
+        /**
+         * Appender writing to console
+         * @class WinJSContrib.Logs.Appenders.BufferAppender
+         */
+        constructor(config?: Logs.ILoggerConfig);
+        /**
+         * clone appender
+         * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.clone
+         */
+        clone(): BufferAppender;
+        /**
+         * log item
+         * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.log
+         * @param {string} message log message
+         * @param {WinJSContrib.Logs.Levels} log level
+         */
+        log(logger: Logs.Logger, message: string, level: Logs.Levels, ...args: any[]): void;
+        /**
+         * create log group
+         * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.group
+         */
+        group(title: string): void;
+        /**
+         * create collapsed log group
+         * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.groupCollapsed
+         */
+        groupCollapsed(title: string): void;
+        /**
+         * close log group
+         * @function WinJSContrib.Logs.Appenders.BufferAppender.prototype.groupEnd
+         */
+        groupEnd(): void;
+        format(logger: Logger, message: string, level: Logs.Levels): string;
+    }
 }
 declare module WinJSContrib.Logs {
     /**
@@ -91,6 +128,7 @@ declare module WinJSContrib.Logs {
     var RuntimeAppenders: {
         "DefaultConsole": Appenders.ConsoleAppender;
     };
+    var DefaultAppenders: Appenders.ILogAppender[];
     /**
      * get a logger, logger is created if it does not exists
      * @function WinJSContrib.Logs.getLogger
@@ -197,14 +235,10 @@ interface Object {
     map(obj: any, mapping: any): any;
 }
 interface String {
-    format(a1: any, a2: any): any;
-    format(a1: any, a2: any, a3: any): any;
-    padLeft(length: any, leadingChar: any): any;
-    startsWith(e: any): any;
-    endsWith(e: any): any;
-}
-declare module WinJS.UI {
-    var optionsParser: any;
+    format(...ag: any[]): string;
+    padLeft(length: any, leadingChar: any): string;
+    startsWith(e: string): boolean;
+    endsWith(e: string): boolean;
 }
 declare module WinJSContrib.Promise {
     /**
@@ -231,9 +265,14 @@ declare module WinJSContrib.Promise {
      * @param {function} promiseCallback function applyed to each item (could return a promise for item callback completion)
      * @returns {WinJS.Promise}
      */
-    function batch(dataArray: any, batchSize: any, promiseCallback: any): WinJS.IPromise<any[]>;
+    function batch(dataArray: any, batchSize: any, promiseCallback: any, batchWrapCallback?: any): WinJS.IPromise<any[]>;
 }
 declare module WinJSContrib.Utils {
+    class EventDispatcher {
+        dispatchEvent(type: string, data: any): void;
+        addEventListener(type: string, callback: Function): void;
+        removeEventListener(type: string, callback: Function): void;
+    }
     /**
      * extend an object with properties from subsequent objects
      * @function WinJSContrib.Utils.extend
@@ -351,7 +390,7 @@ declare module WinJSContrib.Utils {
      * @param {string} s
      * @returns {string}
      */
-    function removeAccents(s: any): any;
+    function removeAccents(s: string): string;
     /**
      * remove a page from navigation history
      * @function WinJSContrib.Utils.removePageFromHistory
@@ -484,7 +523,7 @@ declare module WinJSContrib.Utils {
      * format error from an xhr call
      * @function WinJSContrib.Utils.formatXHRError
      */
-    function formatXHRError(xhr: any): any;
+    function formatXHRError(xhr: any): string;
     /**
      * Unwraps the real error from a WinJS.Promise.join operation, which by design returns an array with 'undefined' for all cells,
      * excepts the one corresponding to the promise that really faulted.
@@ -571,7 +610,7 @@ declare module WinJSContrib.UI {
          * @param {boolean} capture
          * @returns {function} function to call for unregistering the event
          */
-        addEvent(e: any, eventName: string, handler: any, capture?: boolean): () => void;
+        addEvent(e: any, eventName: string, handler: any, capture?: boolean): (disableSplice: any) => void;
         /**
          * register binding event
          * @function WinJSContrib.UI.EventTracker.prototype.addBinding
@@ -579,7 +618,7 @@ declare module WinJSContrib.UI {
          * @param {string} eventName name of the binding event
          * @param {function} handler
          */
-        addBinding(e: any, eventName: string, handler: any): () => void;
+        addBinding(e: any, eventName: string, handler: any): (disableSplice: any) => void;
         /**
          * release all registered events
          * @function WinJSContrib.UI.EventTracker.prototype.dispose
@@ -642,8 +681,9 @@ declare module WinJSContrib.UI {
      * @function WinJSContrib.UI.bindPageActions
      * @param {HTMLElement} element root node crawled for page actions
      * @param {Object} control control owning functions to call
+     * @param {item} optionnal argument for adding an item to call
      */
-    function bindPageActions(element: any, control: any): void;
+    function bindPageActions(element: any, control: any, item?: any): void;
     /**
      * setup declarative binding to page link. It looks for "data-page-link" attributes.
      * If any the content of the attribute point toward a page. clicking that element will navigate to that page.
@@ -651,7 +691,7 @@ declare module WinJSContrib.UI {
      * @function WinJSContrib.UI.bindPageLinks
      * @param {HTMLElement} element root node crawled for page actions
      */
-    function bindPageLinks(element: any): void;
+    function bindPageLinks(element: any, item?: any): void;
     function parentNavigator(element: any): any;
     /**
      * Add this element or control as member to the control. It looks for "data-page-member" attributes. If attribute is empty, it tooks the element id as member name.
@@ -666,7 +706,7 @@ declare module WinJSContrib.UI {
      * @param {HTMLElement} element root node crawled for page actions
      * @param {Object} control control owning functions to call
      */
-    function bindActions(element: any, control: any): void;
+    function bindActions(element: any, control: any, item?: any): void;
     /**
      * Trigger events on media queries. This class is usefull as a component for other controls to change some properties based on media queries
      * @class WinJSContrib.UI.MediaTrigger
@@ -738,8 +778,10 @@ declare module WinJSContrib.UI {
         animDown: any;
         animUp: any;
         disableAnimation: boolean;
+        disableAria: boolean;
         awaitAnim: boolean;
         errorDelay: number;
+        mapClickEvents: number;
     };
     /**
      * add tap behavior to an element, tap manages quirks like click delay, visual feedback, etc
@@ -897,6 +939,9 @@ declare module WinJSContrib.UI {
          */
         ctrl(ctrl: any, options?: any): FluentDOM;
     }
+    function dismissableShow(targetElement: HTMLElement, classPrefix: string, animationTarget?: HTMLElement): void;
+    function dismissableHide(targetElement: HTMLElement, classPrefix: string, animationTarget?: HTMLElement): void;
+    function forwardFocus(container: HTMLElement, focusTarget: HTMLElement, allowed?: HTMLElement[]): () => void;
 }
 
 declare var __global: any;
@@ -906,6 +951,9 @@ declare module WinJSContrib.UI.WebComponents {
 declare var profiler: any;
 declare module WinJSContrib.UI.Pages {
     var verboseTraces: boolean;
+    var preloadDelay: number;
+    function preload(...pathes: string[]): WinJS.IPromise<any[]>;
+    function preloadPath(path: string): WinJS.IPromise<WinJS.Utilities.Scheduler.IJob>;
     /**
      * List of mixins to apply to each fragment managed by WinJS Contrib (through navigator or by calling explicitely {@link WinJSContrib.UI.Pages.fragmentMixin}).
      * @field WinJSContrib.UI.Pages.defaultFragmentMixins
@@ -921,12 +969,47 @@ declare module WinJSContrib.UI.Pages {
      * @param {Object} options rendering options
      */
     function renderFragment(container: any, location: any, args: any, options: any): WinJS.Promise<{}>;
+    interface PageLifeCycle {
+        created: Date;
+        location: string;
+        log: (callback: () => void) => void;
+        stop: () => void;
+        steps: {
+            init: PageLifeCycleStep;
+            render: PageLifeCycleStep;
+            process: PageLifeCycleStep;
+            layout: PageLifeCycleStep;
+            ready: PageLifeCycleStep;
+            enter: PageLifeCycleStep;
+        };
+        initialDisplay: string;
+    }
+    class DefferedLoadings {
+        resolved: boolean;
+        page: any;
+        items: (() => void | WinJS.Promise<any>)[];
+        constructor(page: any);
+        push(delegate: () => void | WinJS.Promise<any>): void;
+        resolve(): WinJS.IPromise<{}>;
+    }
+    class PageBase {
+        eventTracker: WinJSContrib.UI.EventTracker;
+        element: HTMLElement;
+        promises: WinJS.Promise<any>[];
+        defferedLoading: DefferedLoadings;
+        pageLifeCycle: PageLifeCycle;
+        parentedComplete: WinJS.Promise<any>;
+        q: (selector: string) => Element;
+        qAll: (selector: string) => Element[];
+        addPromise: (prom: WinJS.Promise<any>) => void;
+    }
     class PageLifeCycleStep {
         promise: WinJS.Promise<any>;
         isDone: boolean;
         created: Date;
         resolved: Date;
         stepName: string;
+        page: any;
         _resolvePromise: any;
         _rejectPromise: any;
         queue: Array<any>;

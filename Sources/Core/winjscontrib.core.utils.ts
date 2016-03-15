@@ -25,7 +25,7 @@ interface Object {
 }
 
 interface String {
-    format(txt : string,...ag:any[]) : string;
+    format(...ag:any[]) : string;
     padLeft(length, leadingChar): string;
     startsWith(e: string): boolean;
     endsWith(e: string): boolean;

@@ -1,0 +1,143 @@
+﻿.mcn-testrunner {
+  font-size: 14pt;
+  background-color: #222;
+  color: white;
+}
+.mcn-testrunner.expanded {
+  display: -ms-grid;
+  -ms-grid-rows: auto 1fr;
+  -ms-grid-columns: 1fr;
+}
+.mcn-testrunner.expanded .expandedrunner {
+  -ms-grid-row: 2;
+}
+.mcn-testrunner.collapsed .expandedrunner {
+  display: none;
+}
+.mcn-testrunner .collapsedrunner {
+  height: 60px;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.mcn-testrunner .collapsedrunner .campaign-status {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #AAA;
+  margin-right: 10px;
+}
+.mcn-testrunner .collapsedrunner .campaign-status.failed {
+  background-color: red;
+}
+.mcn-testrunner .collapsedrunner .campaign-status.success {
+  background-color: green;
+}
+.mcn-testrunner .collapsedrunner .campaignrun {
+  width: 100%;
+}
+.mcn-testrunner .collapsedrunner .campaignrun .run > * {
+  margin-left: 8px;
+  font-size: 16pt;
+}
+.mcn-testrunner .collapsedrunner .campaignrun .run .sucessbubble,
+.mcn-testrunner .collapsedrunner .campaignrun .run .failbubble,
+.mcn-testrunner .collapsedrunner .campaignrun .run .totalbubble {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #AAA;
+  display: inline-block;
+  border-radius: 50%;
+}
+.mcn-testrunner .collapsedrunner .campaignrun .run .sucessbubble {
+  background-color: green;
+}
+.mcn-testrunner .collapsedrunner .campaignrun .run .failbubble {
+  background-color: red;
+}
+.mcn-testrunner .collapsedrunner .campaign {
+  display: flex;
+}
+.mcn-testrunner .collapsedrunner .campaign .name {
+  flex: 1;
+}
+.mcn-testrunner .expandedrunner {
+  width: 100%;
+  height: 100%;
+  display: -ms-grid;
+  -ms-grid-rows: auto 1fr;
+  -ms-grid-columns: 1fr;
+}
+.mcn-testrunner .expandedrunner > header {
+  height: 60px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #555;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.mcn-testrunner .expandedrunner > header .selectcampaign {
+  flex: 1;
+  margin-right: 10px;
+  padding: 4px 10px;
+  background-color: white;
+}
+.mcn-testrunner .expandedrunner > header button {
+  padding: 10px;
+}
+.mcn-testrunner .expandedrunner > section {
+  -ms-grid-row: 2;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+}
+.mcn-testrunner .expandedrunner > section .scenario {
+  padding: 10px;
+  box-sizing: border-box;
+}
+.mcn-testrunner .expandedrunner > section .scenario:hover {
+  background-color: #444;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header {
+  display: flex;
+  flex-flow: row nowrap;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .status {
+  border: 1px solid #AAA;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  font-family: "Segoe UI Symbol";
+  text-align: center;
+  margin-right: 10px;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .status.running {
+  background-color: blue;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .status.success {
+  background-color: green;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .status.failed {
+  background-color: red;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .name {
+  flex: 1;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .duration {
+  min-width: 80px;
+  margin-right: 4px;
+}
+.mcn-testrunner .expandedrunner > section .scenario > header .runscenario {
+  background-color: #777;
+  color: white;
+  font-size: 1rem;
+}
+.mcn-testrunner .expandedrunner > section .scenario > section {
+  color: #CCC;
+  font-style: italic;
+}

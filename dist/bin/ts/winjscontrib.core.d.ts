@@ -235,7 +235,7 @@ interface Object {
     map(obj: any, mapping: any): any;
 }
 interface String {
-    format(txt: string, ...ag: any[]): string;
+    format(...ag: any[]): string;
     padLeft(length: any, leadingChar: any): string;
     startsWith(e: string): boolean;
     endsWith(e: string): boolean;

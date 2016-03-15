@@ -1,0 +1,79 @@
+﻿/* 
+ * WinJS Contrib v2.1.0.6
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+.mcn-itemswipe {
+  position: relative;
+  overflow: hidden;
+}
+.mcn-itemswipe .card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.mcn-itemswipe .swipe-to-left,
+.mcn-itemswipe .swipe-to-right {
+  background-color: #777;
+  visibility: hidden;
+  transition: background-color 500ms ease-out, opacity 500ms ease-out;
+  opacity: 0.2;
+  color: white;
+  padding: 4px 16px;
+}
+.mcn-itemswipe .swipe-to-left i,
+.mcn-itemswipe .swipe-to-right i {
+  display: block;
+}
+.mcn-itemswipe .swipe-to-left i.sgicon-2x,
+.mcn-itemswipe .swipe-to-right i.sgicon-2x {
+  font-size: 1.7em;
+}
+.mcn-itemswipe .swipe-to-left .label,
+.mcn-itemswipe .swipe-to-right .label {
+  font-size: 0.7em;
+  line-height: 1.1em;
+}
+.mcn-itemswipe .swipe-to-left.swiping,
+.mcn-itemswipe .swipe-to-right.swiping {
+  visibility: visible;
+}
+.mcn-itemswipe .swipe-to-left.accepted,
+.mcn-itemswipe .swipe-to-right.accepted {
+  opacity: 1;
+}
+.mcn-itemswipe .swipe-to-left {
+  text-align: right;
+}
+.mcn-itemswipe .swipe-to-left.accepted {
+  background-color: #333;
+}
+.mcn-itemswipe .swipe-to-right.accepted {
+  background-color: #333;
+}
+.mcn-itemswipe .face {
+  position: relative;
+  touch-action: pan-y;
+}
+.mcn-itemswipe .face .actions {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease-out;
+}
+.mcn-itemswipe .face .actions .action {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  background-color: #555;
+  color: white;
+  text-align: center;
+}
+.mcn-itemswipe .face.mousehover .actions {
+  opacity: 1;
+  pointer-events: all;
+}

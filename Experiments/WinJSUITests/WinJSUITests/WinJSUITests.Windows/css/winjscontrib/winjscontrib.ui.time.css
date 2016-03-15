@@ -1,0 +1,152 @@
+﻿/* 
+ * WinJS Contrib v2.1.0.6
+ * licensed under MIT license (see http://opensource.org/licenses/MIT)
+ * sources available at https://github.com/gleborgne/winjscontrib
+ */
+
+.mcn-timepicker {
+  display: inline;
+}
+.mcn-timepicker .mcn-timepicker-text {
+  display: inline;
+}
+.mcn-timepicker .mcn-timepicker-text:before {
+  content: "\e916";
+  font-family: "Segoe MDL2 Assets";
+  margin-right: 8px;
+}
+.mcn-timepicker-flyout {
+  padding: 0;
+  border: none;
+}
+.mcn-timeclock.win-disposable {
+  width: 286px;
+  height: 334px;
+  position: relative;
+  background-color: #333;
+  color: white;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.mcn-timeclock.win-disposable button {
+  text-align: center;
+  border: 2px solid transparent;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+.mcn-timeclock.win-disposable button:hover,
+.mcn-timeclock.win-disposable button.tapped {
+  background-color: #555;
+}
+.mcn-timeclock.win-disposable button:disabled {
+  opacity: 0.2;
+  pointer-events: none;
+  touch-action: none;
+}
+.mcn-timeclock.win-disposable .timeitem {
+  width: 66.5px;
+  height: 66.5px;
+  line-height: 60.5px;
+  font-size: 16pt;
+  font-weight: 300;
+}
+.mcn-timeclock.win-disposable .timeitem.selected {
+  border-color: gold;
+}
+.mcn-timeclock.win-disposable.radial .timeitem,
+.mcn-timeclock.win-disposable.radial > section .timepanel.minutespanel .timeitem {
+  width: 38px;
+  height: 38px;
+  line-height: 30px;
+  font-size: 16pt;
+  position: absolute;
+  border-radius: 50%;
+  font-weight: 300;
+}
+.mcn-timeclock.win-disposable.radial > section .timepanel > section .itemspanel .items {
+  width: 230px;
+  margin: auto;
+}
+.mcn-timeclock.win-disposable .hoursel {
+  width: 50%;
+}
+.mcn-timeclock.win-disposable > header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 10px 0 10px;
+}
+.mcn-timeclock.win-disposable > header button {
+  font-size: 28pt;
+  font-weight: 200;
+}
+.mcn-timeclock.win-disposable > header button.current {
+  color: gold;
+}
+.mcn-timeclock.win-disposable > header .sep {
+  margin: 0 8px;
+  font-size: 22pt;
+  font-weight: 200;
+  color: #999;
+}
+.mcn-timeclock.win-disposable > section {
+  flex: 1;
+  position: relative;
+}
+.mcn-timeclock.win-disposable > section .timepanel {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.mcn-timeclock.win-disposable > section .timepanel.hidden {
+  pointer-events: none;
+  opacity: 0;
+}
+.mcn-timeclock.win-disposable > section .timepanel > header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mcn-timeclock.win-disposable > section .timepanel.hourspanel > header {
+  border-top: 1px solid #555;
+  border-bottom: 1px solid #555;
+}
+.mcn-timeclock.win-disposable > section .timepanel.hourspanel > header button {
+  padding: 10px;
+}
+.mcn-timeclock.win-disposable > section .timepanel.hourspanel > header button.selected {
+  background-color: #444;
+}
+.mcn-timeclock.win-disposable > section .timepanel.minutespanel .timeitem {
+  width: 33%;
+  height: 62.5px;
+  line-height: 58.5px;
+}
+.mcn-timeclock.win-disposable > section .timepanel > section {
+  flex: 1;
+  display: flex;
+  flex-flow: row wrap;
+  position: relative;
+}
+.mcn-timeclock.win-disposable > section .timepanel > section .itemspanel {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+.mcn-timeclock.win-disposable > section .timepanel > section .itemspanel .items {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
