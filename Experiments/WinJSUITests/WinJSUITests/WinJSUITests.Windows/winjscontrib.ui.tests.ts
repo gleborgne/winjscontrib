@@ -2,6 +2,9 @@
 module WinJSContrib.UI.Tests {
     export var pageNavigationDelay = 200;
 
+    export var testRunSetup: Function;
+    export var testRunTeardown: Function;
+
     function makeAbsoluteUri(uri) {
         var a = document.createElement("a");
         a.href = uri;
@@ -23,12 +26,16 @@ module WinJSContrib.UI.Tests {
         duration: '',
         state: -1,
         disabled: false,
-        run: null
+        run: null,
+        setup: null,
+        teardown: null
     });
 
     export interface IScenarioCreationOptions {
         name: string;
         run(document: Document): WinJS.Promise<any>;
+        setup?: Function;
+        teardown?: Function;
     }
 
     export function createScenario(options: IScenarioCreationOptions): IScenario {
@@ -37,13 +44,11 @@ module WinJSContrib.UI.Tests {
         return res;
     }
 
-    export interface IScenario {
-        name: string;
+    export interface IScenario extends IScenarioCreationOptions {
         message: string;
         duration: string;
         state: number;
         disabled: boolean;
-        run(document: Document): WinJS.Promise<any>;
     }
 
     export interface IRunOptions {
@@ -106,10 +111,34 @@ module WinJSContrib.UI.Tests {
                 scenario.disabled = true;
             });
 
-            return WinJSContrib.Promise.waterfall(this.scenarios, (scenario: IScenario) => {
-                return this._runScenario(document, scenario, options);
+            var p = null;
+            if (testRunSetup) {
+                p = WinJS.Promise.as(testRunSetup());
+            } else {
+                p = WinJS.Promise.wrap();
+            }
+
+            return p.then(() => {
+                return WinJSContrib.Promise.waterfall(this.scenarios, (scenario: IScenario) => {
+                    return this._runScenario(document, scenario, options).then((data) => {
+                        return WinJS.Promise.timeout(50).then(() => {
+                            return data;
+                        });
+                    });
+                });
             }).then((data) => {
                 this.isRunning = false;
+                this.scenarios.forEach(function (scenario) {
+                    scenario.disabled = false;
+                });
+                return data;
+            }).then((data) => {
+                if (testRunTeardown) {
+                    return WinJS.Promise.as(testRunTeardown()).then(() => {
+                        return data;
+                    });
+                }
+
                 return data;
             });
         }
@@ -137,11 +166,28 @@ module WinJSContrib.UI.Tests {
                 scenario.disabled = true;
             });
 
-            return this._runScenario(document, scenario, options).then((data) => {
+            var p = null;
+            if (testRunSetup) {
+                p = WinJS.Promise.as(testRunSetup());
+            } else {
+                p = WinJS.Promise.wrap();
+            }
+
+            return p.then(() => {
+                return this._runScenario(document, scenario, options);
+            }).then((data) => {
                 this.isRunning = false;
                 this.scenarios.forEach(function (scenario) {
                     scenario.disabled = false;
                 });
+                return data;
+            }).then((data) => {
+                if (testRunTeardown) {
+                    return WinJS.Promise.as(testRunTeardown()).then(() => {
+                        return data;
+                    });
+                }
+
                 return data;
             });
         }
@@ -157,7 +203,16 @@ module WinJSContrib.UI.Tests {
                 options.onteststart(scenario);
             }
             var start = new Date();
-            return scenario.run(document).then(() => {
+            var p = <WinJS.Promise<any>>null;
+            if (scenario.setup) {
+                p = WinJS.Promise.as(scenario.setup());
+            } else {
+                p = WinJS.Promise.wrap();
+            }
+
+            return p.then(() => {
+                return scenario.run(document)
+            }).then(() => {
                 scenario.state = TestStatus.success;
                 this.nbRunned++;
                 this.nbSuccess++;
@@ -181,6 +236,12 @@ module WinJSContrib.UI.Tests {
                 testresult.duration = (<any>end - <any>start) / 1000;
                 this.duration += testresult.duration;
                 scenario.duration = testresult.duration.toFixed(1) + "s";
+
+                if (scenario.teardown) {
+                    return WinJS.Promise.as(scenario.teardown()).then(() => {
+                        return testresult;
+                    });
+                }
                 return testresult;
             });
         }
@@ -455,6 +516,10 @@ module WinJSContrib.UI.Tests {
             }
 
             return this.waitForNavigatorPage(navigator, url, timeout);
+        }
+
+        waitForClosed(timeout?: number) {
+            return _waitForClass(this.element.winControl.rootElement, "hidden", timeout);
         }
     }
 }

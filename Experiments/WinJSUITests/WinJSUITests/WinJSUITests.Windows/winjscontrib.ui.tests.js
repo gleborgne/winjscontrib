@@ -30,7 +30,9 @@ var WinJSContrib;
                 duration: '',
                 state: -1,
                 disabled: false,
-                run: null
+                run: null,
+                setup: null,
+                teardown: null
             });
             function createScenario(options) {
                 var b = BaseScenario;
@@ -64,10 +66,33 @@ var WinJSContrib;
                         scenario.message = "";
                         scenario.disabled = true;
                     });
-                    return WinJSContrib.Promise.waterfall(this.scenarios, function (scenario) {
-                        return _this._runScenario(document, scenario, options);
+                    var p = null;
+                    if (Tests.testRunSetup) {
+                        p = WinJS.Promise.as(Tests.testRunSetup());
+                    }
+                    else {
+                        p = WinJS.Promise.wrap();
+                    }
+                    return p.then(function () {
+                        return WinJSContrib.Promise.waterfall(_this.scenarios, function (scenario) {
+                            return _this._runScenario(document, scenario, options).then(function (data) {
+                                return WinJS.Promise.timeout(50).then(function () {
+                                    return data;
+                                });
+                            });
+                        });
                     }).then(function (data) {
                         _this.isRunning = false;
+                        _this.scenarios.forEach(function (scenario) {
+                            scenario.disabled = false;
+                        });
+                        return data;
+                    }).then(function (data) {
+                        if (Tests.testRunTeardown) {
+                            return WinJS.Promise.as(Tests.testRunTeardown()).then(function () {
+                                return data;
+                            });
+                        }
                         return data;
                     });
                 };
@@ -90,11 +115,27 @@ var WinJSContrib;
                     this.scenarios.forEach(function (scenario) {
                         scenario.disabled = true;
                     });
-                    return this._runScenario(document, scenario, options).then(function (data) {
+                    var p = null;
+                    if (Tests.testRunSetup) {
+                        p = WinJS.Promise.as(Tests.testRunSetup());
+                    }
+                    else {
+                        p = WinJS.Promise.wrap();
+                    }
+                    return p.then(function () {
+                        return _this._runScenario(document, scenario, options);
+                    }).then(function (data) {
                         _this.isRunning = false;
                         _this.scenarios.forEach(function (scenario) {
                             scenario.disabled = false;
                         });
+                        return data;
+                    }).then(function (data) {
+                        if (Tests.testRunTeardown) {
+                            return WinJS.Promise.as(Tests.testRunTeardown()).then(function () {
+                                return data;
+                            });
+                        }
                         return data;
                     });
                 };
@@ -109,7 +150,16 @@ var WinJSContrib;
                         options.onteststart(scenario);
                     }
                     var start = new Date();
-                    return scenario.run(document).then(function () {
+                    var p = null;
+                    if (scenario.setup) {
+                        p = WinJS.Promise.as(scenario.setup());
+                    }
+                    else {
+                        p = WinJS.Promise.wrap();
+                    }
+                    return p.then(function () {
+                        return scenario.run(document);
+                    }).then(function () {
                         scenario.state = TestStatus.success;
                         _this.nbRunned++;
                         _this.nbSuccess++;
@@ -134,6 +184,11 @@ var WinJSContrib;
                         testresult.duration = (end - start) / 1000;
                         _this.duration += testresult.duration;
                         scenario.duration = testresult.duration.toFixed(1) + "s";
+                        if (scenario.teardown) {
+                            return WinJS.Promise.as(scenario.teardown()).then(function () {
+                                return testresult;
+                            });
+                        }
                         return testresult;
                     });
                 };
@@ -406,6 +461,9 @@ var WinJSContrib;
                         throw new Error("incoherent child view");
                     }
                     return this.waitForNavigatorPage(navigator, url, timeout);
+                };
+                ChildView.prototype.waitForClosed = function (timeout) {
+                    return _waitForClass(this.element.winControl.rootElement, "hidden", timeout);
                 };
                 return ChildView;
             })(UIElementWrapper);
