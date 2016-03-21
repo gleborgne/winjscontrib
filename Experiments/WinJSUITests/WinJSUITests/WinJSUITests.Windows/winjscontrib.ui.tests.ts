@@ -1,9 +1,12 @@
 ﻿var __global = this;
-module WinJSContrib.UI.Tests {
-    export var pageNavigationDelay = 200;
 
-    export var testRunSetup: Function;
-    export var testRunTeardown: Function;
+module WinJSContrib.UI.Tests {
+    export var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Tests");
+    export var config = {
+        testRunSetup: <Function>null,
+        testRunTeardown: <Function>null,
+        pageNavigationDelay: 200
+    };
 
     function makeAbsoluteUri(uri) {
         var a = document.createElement("a");
@@ -104,7 +107,7 @@ module WinJSContrib.UI.Tests {
             this.duration = 0;
             this.isRunning = true;
 
-            this.scenarios.forEach(function (scenario) {
+            this.scenarios.forEach(function(scenario) {
                 scenario.state = TestStatus.pending;
                 scenario.duration = "";
                 scenario.message = "";
@@ -112,8 +115,8 @@ module WinJSContrib.UI.Tests {
             });
 
             var p = null;
-            if (testRunSetup) {
-                p = WinJS.Promise.as(testRunSetup());
+            if (config.testRunSetup) {
+                p = WinJS.Promise.as(config.testRunSetup());
             } else {
                 p = WinJS.Promise.wrap();
             }
@@ -128,13 +131,13 @@ module WinJSContrib.UI.Tests {
                 });
             }).then((data) => {
                 this.isRunning = false;
-                this.scenarios.forEach(function (scenario) {
+                this.scenarios.forEach(function(scenario) {
                     scenario.disabled = false;
                 });
                 return data;
             }).then((data) => {
-                if (testRunTeardown) {
-                    return WinJS.Promise.as(testRunTeardown()).then(() => {
+                if (config.testRunTeardown) {
+                    return WinJS.Promise.as(config.testRunTeardown()).then(() => {
                         return data;
                     });
                 }
@@ -162,13 +165,13 @@ module WinJSContrib.UI.Tests {
             scenario.message = "";
             scenario.duration = "";
 
-            this.scenarios.forEach(function (scenario) {
+            this.scenarios.forEach(function(scenario) {
                 scenario.disabled = true;
             });
 
             var p = null;
-            if (testRunSetup) {
-                p = WinJS.Promise.as(testRunSetup());
+            if (config.testRunSetup) {
+                p = WinJS.Promise.as(config.testRunSetup());
             } else {
                 p = WinJS.Promise.wrap();
             }
@@ -177,13 +180,13 @@ module WinJSContrib.UI.Tests {
                 return this._runScenario(document, scenario, options);
             }).then((data) => {
                 this.isRunning = false;
-                this.scenarios.forEach(function (scenario) {
+                this.scenarios.forEach(function(scenario) {
                     scenario.disabled = false;
                 });
                 return data;
             }).then((data) => {
-                if (testRunTeardown) {
-                    return WinJS.Promise.as(testRunTeardown()).then(() => {
+                if (config.testRunTeardown) {
+                    return WinJS.Promise.as(config.testRunTeardown()).then(() => {
                         return data;
                     });
                 }
@@ -196,7 +199,7 @@ module WinJSContrib.UI.Tests {
             options = options || {};
             this.nbRun++;
             scenario.state = TestStatus.running;
-            console.info("RUNNING " + scenario.name);
+            logger.info("TEST RUN START : " + scenario.name);
             this.currentTest = scenario.name;
 
             if (options.onteststart) {
@@ -229,14 +232,14 @@ module WinJSContrib.UI.Tests {
                 } else {
                     scenario.message = JSON.stringify(err);
                 }
-
+                logger.error(scenario.message);
                 return <ITestResult>{ success: false, error: err };
             }).then((testresult) => {
                 var end = new Date();
                 testresult.duration = (<any>end - <any>start) / 1000;
                 this.duration += testresult.duration;
                 scenario.duration = testresult.duration.toFixed(1) + "s";
-
+                logger.info("TEST RUN END : " + scenario.name + " (success: " + testresult.success + ", in " + scenario.duration + ")");
                 if (scenario.teardown) {
                     return WinJS.Promise.as(scenario.teardown()).then(() => {
                         return testresult;
@@ -261,7 +264,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((complete, error) => {
             var promise = p as any;
-            var check = function () {
+            var check = function() {
                 var elt = <HTMLElement>parent.querySelector(selector);
                 if (!completed && elt) {
                     completed = true;
@@ -288,7 +291,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((complete, error) => {
             var promise = p as any;
-            var check = function () {
+            var check = function() {
                 var hasClass = parent.classList.contains(classToWatch);
                 if (!completed && hasClass) {
                     completed = true;
@@ -315,7 +318,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((complete, error) => {
             var promise = p as any;
-            var check = function () {
+            var check = function() {
                 var classGone = !parent.classList.contains(classToWatch);
                 if (!completed && classGone) {
                     completed = true;
@@ -350,10 +353,10 @@ module WinJSContrib.UI.Tests {
         on(selector: string): UIElementWrapper {
             var elt = <HTMLElement>this.element.querySelector(selector);
             if (!elt) {
-                console.error("element action not found for " + selector);
+                logger.error("element action not found for " + selector);
                 throw new Error("element action not found for " + selector);
             }
-            console.log("element found " + selector);
+            logger.verbose("element found " + selector);
             var res = new UIElementWrapper(elt, selector);
             return res;
         }
@@ -372,14 +375,14 @@ module WinJSContrib.UI.Tests {
                 error = exception;
             }
 
-            console.log("wait for page " + url);
+            logger.verbose("wait for page " + url);
             var optimeout = setTimeout(() => {
                 completed = true;
             }, timeout);
 
             var p = new WinJS.Promise<Page>((pagecomplete, pageerror) => {
                 var promise = p as any;
-                var check = function () {
+                var check = function() {
                     var pageControl = navigator.pageControl;
                     var location = null;
                     if (pageControl) {
@@ -393,16 +396,13 @@ module WinJSContrib.UI.Tests {
                             if (pageControl.pageLifeCycle) {
                                 p = pageControl.pageLifeCycle.steps.enter.promise;
                             }
-                            p.then(function () {
+                            p.then(function() {
                                 clearTimeout(optimeout);
-                                WinJS.Promise.timeout(pageNavigationDelay).then(() => {
+                                WinJS.Promise.timeout(config.pageNavigationDelay).then(() => {
                                     completed = true;
-                                    console.log("page found " + url);
-
-                                    //setTimeout(function () {
                                     var res = new Page(pageControl.element);
+                                    logger.debug("navigated to " + url);
                                     pagecomplete(res);
-                                    //}, 50);
                                 });
                             });
                         }
@@ -410,6 +410,7 @@ module WinJSContrib.UI.Tests {
                         setTimeout(() => { check(); }, 50);
                     } else {
                         completed = true;
+                        logger.error("cannot navigate to " + url, error);
                         pageerror(error);
                     }
                 }
@@ -450,7 +451,7 @@ module WinJSContrib.UI.Tests {
 
         click() {
             var el = <any>this.element;
-            console.log("trigger click");
+            logger.verbose("trigger click");
             if (el.mcnTapTracking) {
                 el.mcnTapTracking.callback(el, {});
             } else {

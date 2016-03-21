@@ -143,8 +143,8 @@ declare module WinJSContrib.Logs {
     function logginLevelToString(level: any): string;
     class Logger {
         appenders: Array<WinJSContrib.Logs.Appenders.ILogAppender>;
-        _config: ILoggerConfig;
-        _level: Logs.Levels;
+        private _config;
+        private _level;
         name: string;
         static noop: (message: string, ...args: any[]) => void;
         static getLogFn: (level: Levels) => (message: string) => void;
@@ -160,6 +160,7 @@ declare module WinJSContrib.Logs {
         constructor(config: any);
         Config: ILoggerConfig;
         Level: Logs.Levels;
+        checkLevel(): void;
         /**
          * add appender to logger
          * @function WinJSContrib.Logs.Logger.prototype.addAppender

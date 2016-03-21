@@ -265,3 +265,125 @@ module WinJSContrib.Alerts {
         WinJSContrib.Alerts.toastNotification({ text: text, picture: picture });
     }
 }
+
+module WinJSContrib.Logs {
+    export class WinRTFileLogger implements WinJSContrib.Logs.Appenders.ILogAppender {
+        readyPromise: WinJS.Promise<Windows.Storage.StorageFile>;
+        public maxBufferSize: number = 50;
+        public maxFlushDelay: number = 2000;
+        public maxFileSize: number = 5 * 1024 * 1024;
+        buffer: string[] = [];
+        flushTimeout: any;
+        public file: Windows.Storage.StorageFile;
+
+        constructor(file: Windows.Storage.StorageFile) {
+            this.file = file;
+
+            this.readyPromise = WinJS.Promise.wrap(file);
+            //Windows.Storage.StorageFile.getFileFromPathAsync(path).then(null, (err) => {
+            //    console.error(err);
+            //    this.readyPromise = null;
+            //    return null;
+            //});
+        }
+
+        static from(folder: Windows.Storage.StorageFolder, filename: string): WinRTFileLogger {
+            var res = new WinRTFileLogger(null);
+            res.readyPromise = folder.createFileAsync(filename, Windows.Storage.CreationCollisionOption.openIfExists).then((file) => {
+                res.file = file;
+                return file;
+            });
+            return res;
+        }
+
+        clone() {
+            var appender = new WinRTFileLogger(this.file);
+            appender.maxBufferSize = this.maxBufferSize;
+            appender.maxFlushDelay = this.maxFlushDelay;
+            return appender;
+        }
+
+        format(logger: WinJSContrib.Logs.Logger, message: string, level: WinJSContrib.Logs.Levels) {
+        }
+
+        log(logger: WinJSContrib.Logs.Logger, message: string, level: WinJSContrib.Logs.Levels, ...args) {
+            this.buffer.push(new Date().getTime() + "\t" + WinJSContrib.Logs.Levels[level].toUpperCase() + "\t" + (logger.Config.prefix ? logger.Config.prefix + "\t" : "") + message);
+            if (args && args.length) {
+                args.forEach((arg) => {
+                    if (typeof arg == "string") {
+                        this.buffer.push("\t" + arg);
+                    } else {
+                        this.buffer.push("\r\n" + JSON.stringify(arg));
+                    }
+                });
+            }
+
+            this.buffer.push("\r\n");
+
+            if (this.maxBufferSize && this.buffer.length > this.maxBufferSize) {
+                this.flush();
+            }
+
+            if (this.maxFlushDelay && !this.flushTimeout) {
+                this.flushTimeout = setTimeout(() => {
+                    this.flushTimeout = null;
+                    this.flush();
+                }, this.maxFlushDelay);
+            }
+        }
+
+        flush() {
+            var appender = this;
+            if (appender.readyPromise && appender.buffer.length) {
+                var existingReadyPromise = appender.readyPromise;
+                var currentBuffer = appender.buffer.join("");
+                appender.buffer = [];
+                appender.readyPromise = new WinJS.Promise((complete, error) => {
+                    existingReadyPromise.then((file) => {
+                        if (file) {
+                            return Windows.Storage.FileIO.appendTextAsync(file, currentBuffer).then(() => {
+                                return file;
+                            }, (err) => {
+                                console.error(err);
+                                return file;
+                            });
+                        } else {
+                            return file;
+                        }
+                    }).then((file: Windows.Storage.StorageFile) => {
+                        if (file && appender.maxFileSize) {
+                            return file.getBasicPropertiesAsync().then((props) => {
+                                if (props.size > appender.maxFileSize) {
+                                    var oldpath = file.path;
+                                    var oldfilename = file.name;
+                                    return file.renameAsync(file.name + ".old", Windows.Storage.NameCollisionOption.generateUniqueName).then(() => {
+                                        return Windows.Storage.StorageFolder.getFolderFromPathAsync(oldpath.substr(0, oldpath.lastIndexOf("\\"))).then((folder) => {
+                                            return folder.createFileAsync(oldfilename).then((file) => {
+                                                appender.file = file;
+                                                return file;
+                                            });
+                                        })
+                                    });
+                                }
+
+                                return file;
+                            });
+                        }
+                    }).then(complete, (err) => {
+                        console.error(err);
+                        complete();
+                    });
+                });
+            }
+        }
+
+        group(title: string) {
+        }
+
+        groupCollapsed(title: string) {
+        }
+
+        groupEnd() {
+        }
+    }
+}

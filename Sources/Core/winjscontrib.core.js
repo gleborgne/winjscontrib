@@ -320,50 +320,57 @@ var WinJSContrib;
                     else {
                         this._config.appenders = [];
                     }
+                    this.checkLevel();
                 },
                 enumerable: true,
                 configurable: true
             });
             Object.defineProperty(Logger.prototype, "Level", {
                 get: function () {
-                    return this._level;
+                    if (this._level)
+                        return this._level;
+                    else
+                        return this._config.level;
                 },
                 set: function (val) {
                     this._level = val;
-                    if (this._level <= Logs.Levels.verbose) {
-                        this.verbose = Logger.verbose;
-                    }
-                    else {
-                        this.verbose = Logger.noop;
-                    }
-                    if (this._level <= Logs.Levels.debug) {
-                        this.debug = Logger.debug;
-                    }
-                    else {
-                        this.debug = Logger.noop;
-                    }
-                    if (this._level <= Logs.Levels.info) {
-                        this.info = Logger.info;
-                    }
-                    else {
-                        this.info = Logger.noop;
-                    }
-                    if (this._level <= Logs.Levels.warn) {
-                        this.warn = Logger.warn;
-                    }
-                    else {
-                        this.warn = Logger.noop;
-                    }
-                    if (this._level <= Logs.Levels.error) {
-                        this.error = Logger.error;
-                    }
-                    else {
-                        this.error = Logger.noop;
-                    }
+                    this.checkLevel();
                 },
                 enumerable: true,
                 configurable: true
             });
+            Logger.prototype.checkLevel = function () {
+                if (this._level <= Logs.Levels.verbose) {
+                    this.verbose = Logger.verbose;
+                }
+                else {
+                    this.verbose = Logger.noop;
+                }
+                if (this._level <= Logs.Levels.debug) {
+                    this.debug = Logger.debug;
+                }
+                else {
+                    this.debug = Logger.noop;
+                }
+                if (this._level <= Logs.Levels.info) {
+                    this.info = Logger.info;
+                }
+                else {
+                    this.info = Logger.noop;
+                }
+                if (this._level <= Logs.Levels.warn) {
+                    this.warn = Logger.warn;
+                }
+                else {
+                    this.warn = Logger.noop;
+                }
+                if (this._level <= Logs.Levels.error) {
+                    this.error = Logger.error;
+                }
+                else {
+                    this.error = Logger.noop;
+                }
+            };
             /**
              * add appender to logger
              * @function WinJSContrib.Logs.Logger.prototype.addAppender
@@ -395,7 +402,7 @@ var WinJSContrib;
                     args[_i - 2] = arguments[_i];
                 }
                 // If general logging level is set to 'none', returns
-                if (this._config.level === WinJSContrib.Logs.Levels.off || level < this._config.level)
+                if ((this.Level === WinJSContrib.Logs.Levels.off) || (level < this.Level))
                     return;
                 if (!this.appenders || !this.appenders.length)
                     return;

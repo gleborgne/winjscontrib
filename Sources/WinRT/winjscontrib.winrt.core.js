@@ -260,5 +260,122 @@ var WinJSContrib;
         Alerts.toast = toast;
     })(Alerts = WinJSContrib.Alerts || (WinJSContrib.Alerts = {}));
 })(WinJSContrib || (WinJSContrib = {}));
+var WinJSContrib;
+(function (WinJSContrib) {
+    var Logs;
+    (function (Logs) {
+        var WinRTFileLogger = (function () {
+            function WinRTFileLogger(file) {
+                this.maxBufferSize = 50;
+                this.maxFlushDelay = 2000;
+                this.maxFileSize = 5 * 1024 * 1024;
+                this.buffer = [];
+                this.file = file;
+                this.readyPromise = WinJS.Promise.wrap(file);
+                //Windows.Storage.StorageFile.getFileFromPathAsync(path).then(null, (err) => {
+                //    console.error(err);
+                //    this.readyPromise = null;
+                //    return null;
+                //});
+            }
+            WinRTFileLogger.from = function (folder, filename) {
+                var res = new WinRTFileLogger(null);
+                res.readyPromise = folder.createFileAsync(filename, Windows.Storage.CreationCollisionOption.openIfExists).then(function (file) {
+                    res.file = file;
+                    return file;
+                });
+                return res;
+            };
+            WinRTFileLogger.prototype.clone = function () {
+                var appender = new WinRTFileLogger(this.file);
+                appender.maxBufferSize = this.maxBufferSize;
+                appender.maxFlushDelay = this.maxFlushDelay;
+                return appender;
+            };
+            WinRTFileLogger.prototype.format = function (logger, message, level) {
+            };
+            WinRTFileLogger.prototype.log = function (logger, message, level) {
+                var _this = this;
+                var args = [];
+                for (var _i = 3; _i < arguments.length; _i++) {
+                    args[_i - 3] = arguments[_i];
+                }
+                this.buffer.push(new Date().getTime() + "\t" + WinJSContrib.Logs.Levels[level].toUpperCase() + "\t" + (logger.Config.prefix ? logger.Config.prefix + "\t" : "") + message);
+                if (args && args.length) {
+                    args.forEach(function (arg) {
+                        if (typeof arg == "string") {
+                            _this.buffer.push("\t" + arg);
+                        }
+                        else {
+                            _this.buffer.push("\r\n" + JSON.stringify(arg));
+                        }
+                    });
+                }
+                this.buffer.push("\r\n");
+                if (this.maxBufferSize && this.buffer.length > this.maxBufferSize) {
+                    this.flush();
+                }
+                if (this.maxFlushDelay && !this.flushTimeout) {
+                    this.flushTimeout = setTimeout(function () {
+                        _this.flushTimeout = null;
+                        _this.flush();
+                    }, this.maxFlushDelay);
+                }
+            };
+            WinRTFileLogger.prototype.flush = function () {
+                var appender = this;
+                if (appender.readyPromise && appender.buffer.length) {
+                    var existingReadyPromise = appender.readyPromise;
+                    var currentBuffer = appender.buffer.join("");
+                    appender.buffer = [];
+                    appender.readyPromise = new WinJS.Promise(function (complete, error) {
+                        existingReadyPromise.then(function (file) {
+                            if (file) {
+                                return Windows.Storage.FileIO.appendTextAsync(file, currentBuffer).then(function () {
+                                    return file;
+                                }, function (err) {
+                                    console.error(err);
+                                    return file;
+                                });
+                            }
+                            else {
+                                return file;
+                            }
+                        }).then(function (file) {
+                            if (file && appender.maxFileSize) {
+                                return file.getBasicPropertiesAsync().then(function (props) {
+                                    if (props.size > appender.maxFileSize) {
+                                        var oldpath = file.path;
+                                        var oldfilename = file.name;
+                                        return file.renameAsync(file.name + ".old", Windows.Storage.NameCollisionOption.generateUniqueName).then(function () {
+                                            return Windows.Storage.StorageFolder.getFolderFromPathAsync(oldpath.substr(0, oldpath.lastIndexOf("\\"))).then(function (folder) {
+                                                return folder.createFileAsync(oldfilename).then(function (file) {
+                                                    appender.file = file;
+                                                    return file;
+                                                });
+                                            });
+                                        });
+                                    }
+                                    return file;
+                                });
+                            }
+                        }).then(complete, function (err) {
+                            console.error(err);
+                            complete();
+                        });
+                    });
+                }
+            };
+            WinRTFileLogger.prototype.group = function (title) {
+            };
+            WinRTFileLogger.prototype.groupCollapsed = function (title) {
+            };
+            WinRTFileLogger.prototype.groupEnd = function () {
+            };
+            return WinRTFileLogger;
+        })();
+        Logs.WinRTFileLogger = WinRTFileLogger;
+    })(Logs = WinJSContrib.Logs || (WinJSContrib.Logs = {}));
+})(WinJSContrib || (WinJSContrib = {}));
 
 //# sourceMappingURL=../../Sources/WinRT/winjscontrib.winrt.core.js.map

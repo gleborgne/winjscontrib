@@ -66,3 +66,23 @@ declare module WinJSContrib.Alerts {
      */
     function toast(text: any, picture?: any): void;
 }
+declare module WinJSContrib.Logs {
+    class WinRTFileLogger implements WinJSContrib.Logs.Appenders.ILogAppender {
+        readyPromise: WinJS.Promise<Windows.Storage.StorageFile>;
+        maxBufferSize: number;
+        maxFlushDelay: number;
+        maxFileSize: number;
+        buffer: string[];
+        flushTimeout: any;
+        file: Windows.Storage.StorageFile;
+        constructor(file: Windows.Storage.StorageFile);
+        static from(folder: Windows.Storage.StorageFolder, filename: string): WinRTFileLogger;
+        clone(): WinRTFileLogger;
+        format(logger: WinJSContrib.Logs.Logger, message: string, level: WinJSContrib.Logs.Levels): void;
+        log(logger: WinJSContrib.Logs.Logger, message: string, level: WinJSContrib.Logs.Levels, ...args: any[]): void;
+        flush(): void;
+        group(title: string): void;
+        groupCollapsed(title: string): void;
+        groupEnd(): void;
+    }
+}
