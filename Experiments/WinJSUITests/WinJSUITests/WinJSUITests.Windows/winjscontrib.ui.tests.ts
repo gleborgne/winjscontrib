@@ -3,8 +3,8 @@
 module WinJSContrib.UI.Tests {
     export var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Tests");
     export var config = {
-        testRunSetup: <Function>null,
-        testRunTeardown: <Function>null,
+        runSetup: <Function>null,
+        runTeardown: <Function>null,
         pageNavigationDelay: 200
     };
 
@@ -78,6 +78,13 @@ module WinJSContrib.UI.Tests {
         error: any;
     }
 
+    function promiseForCallback(callback) {
+        if (!callback)
+            return WinJS.Promise.wrap();
+
+        return WinJS.Promise.as(callback());
+    }
+
     class _Campaign {
         public nbRun: number;
         public nbRunned: number;
@@ -96,6 +103,7 @@ module WinJSContrib.UI.Tests {
             if (this.isRunning)
                 return;
 
+
             var document = new Document(__global.document.body);
             options = options || {};
 
@@ -107,21 +115,16 @@ module WinJSContrib.UI.Tests {
             this.duration = 0;
             this.isRunning = true;
 
-            this.scenarios.forEach(function(scenario) {
+            this.scenarios.forEach(function (scenario) {
                 scenario.state = TestStatus.pending;
                 scenario.duration = "";
                 scenario.message = "";
                 scenario.disabled = true;
             });
 
-            var p = null;
-            if (config.testRunSetup) {
-                p = WinJS.Promise.as(config.testRunSetup());
-            } else {
-                p = WinJS.Promise.wrap();
-            }
-
-            return p.then(() => {
+            logger.info("CAMPAIGN START : " + this.name);
+            hookAlerts();
+            return promiseForCallback(config.runSetup).then(() => {
                 return WinJSContrib.Promise.waterfall(this.scenarios, (scenario: IScenario) => {
                     return this._runScenario(document, scenario, options).then((data) => {
                         return WinJS.Promise.timeout(50).then(() => {
@@ -131,18 +134,16 @@ module WinJSContrib.UI.Tests {
                 });
             }).then((data) => {
                 this.isRunning = false;
-                this.scenarios.forEach(function(scenario) {
+                this.scenarios.forEach(function (scenario) {
                     scenario.disabled = false;
                 });
                 return data;
             }).then((data) => {
-                if (config.testRunTeardown) {
-                    return WinJS.Promise.as(config.testRunTeardown()).then(() => {
-                        return data;
-                    });
-                }
-
-                return data;
+                unHookAlerts();
+                logger.info("CAMPAIGN END : " + this.name);
+                return promiseForCallback(config.runTeardown).then(() => {
+                    return data;
+                });
             });
         }
 
@@ -165,33 +166,24 @@ module WinJSContrib.UI.Tests {
             scenario.message = "";
             scenario.duration = "";
 
-            this.scenarios.forEach(function(scenario) {
+            this.scenarios.forEach(function (scenario) {
                 scenario.disabled = true;
             });
 
-            var p = null;
-            if (config.testRunSetup) {
-                p = WinJS.Promise.as(config.testRunSetup());
-            } else {
-                p = WinJS.Promise.wrap();
-            }
-
-            return p.then(() => {
+            hookAlerts();
+            return promiseForCallback(config.runSetup).then(() => {
                 return this._runScenario(document, scenario, options);
             }).then((data) => {
                 this.isRunning = false;
-                this.scenarios.forEach(function(scenario) {
+                this.scenarios.forEach(function (scenario) {
                     scenario.disabled = false;
                 });
                 return data;
             }).then((data) => {
-                if (config.testRunTeardown) {
-                    return WinJS.Promise.as(config.testRunTeardown()).then(() => {
-                        return data;
-                    });
-                }
-
-                return data;
+                unHookAlerts();
+                return promiseForCallback(config.runTeardown).then(() => {
+                    return data;
+                });
             });
         }
 
@@ -206,14 +198,8 @@ module WinJSContrib.UI.Tests {
                 options.onteststart(scenario);
             }
             var start = new Date();
-            var p = <WinJS.Promise<any>>null;
-            if (scenario.setup) {
-                p = WinJS.Promise.as(scenario.setup());
-            } else {
-                p = WinJS.Promise.wrap();
-            }
 
-            return p.then(() => {
+            return promiseForCallback(scenario.setup).then(() => {
                 return scenario.run(document)
             }).then(() => {
                 scenario.state = TestStatus.success;
@@ -240,12 +226,9 @@ module WinJSContrib.UI.Tests {
                 this.duration += testresult.duration;
                 scenario.duration = testresult.duration.toFixed(1) + "s";
                 logger.info("TEST RUN END : " + scenario.name + " (success: " + testresult.success + ", in " + scenario.duration + ")");
-                if (scenario.teardown) {
-                    return WinJS.Promise.as(scenario.teardown()).then(() => {
-                        return testresult;
-                    });
-                }
-                return testresult;
+                return promiseForCallback(scenario.teardown).then(() => {
+                    return testresult;
+                });
             });
         }
     }
@@ -256,6 +239,17 @@ module WinJSContrib.UI.Tests {
         WinJS.Binding.expandProperties({ nbRun: 0, nbSuccess: 0, nbFail: 0, total: 0, currentTest: 0, nbRunned: 0, duration: 0, isRunning: false })
     );
 
+    function _click(el) {        
+        logger.verbose("trigger click");
+        if (el.mcnTapTracking) {
+            el.mcnTapTracking.callback(el, {});
+        } else {
+            el.click();
+        }
+
+        return this;
+    }
+
     function _waitForElement(parent: HTMLElement, selector: string, timeout: number = 3000): WinJS.Promise<HTMLElement> {
         var completed = false;
         var optimeout = setTimeout(() => {
@@ -264,7 +258,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((complete, error) => {
             var promise = p as any;
-            var check = function() {
+            var check = function () {
                 var elt = <HTMLElement>parent.querySelector(selector);
                 if (!completed && elt) {
                     completed = true;
@@ -291,7 +285,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((complete, error) => {
             var promise = p as any;
-            var check = function() {
+            var check = function () {
                 var hasClass = parent.classList.contains(classToWatch);
                 if (!completed && hasClass) {
                     completed = true;
@@ -318,7 +312,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((complete, error) => {
             var promise = p as any;
-            var check = function() {
+            var check = function () {
                 var classGone = !parent.classList.contains(classToWatch);
                 if (!completed && classGone) {
                     completed = true;
@@ -365,7 +359,7 @@ module WinJSContrib.UI.Tests {
             return WinJS.Promise.timeout(timeout);
         }
 
-        waitForNavigatorPage(navigator, url: string, timeout: number = 3000): WinJS.Promise<Page> {
+        waitForNavigatorPage<T extends Page>(navigator, url: string, pagector?: Function, timeout: number = 3000): WinJS.Promise<T> {
             var completed = false;
             var error = null;
             var absoluteUrl = makeAbsoluteUri(url);
@@ -382,7 +376,7 @@ module WinJSContrib.UI.Tests {
 
             var p = new WinJS.Promise<Page>((pagecomplete, pageerror) => {
                 var promise = p as any;
-                var check = function() {
+                var check = function () {
                     var pageControl = navigator.pageControl;
                     var location = null;
                     if (pageControl) {
@@ -396,11 +390,18 @@ module WinJSContrib.UI.Tests {
                             if (pageControl.pageLifeCycle) {
                                 p = pageControl.pageLifeCycle.steps.enter.promise;
                             }
-                            p.then(function() {
+                            p.then(function () {
                                 clearTimeout(optimeout);
                                 WinJS.Promise.timeout(config.pageNavigationDelay).then(() => {
                                     completed = true;
-                                    var res = new Page(pageControl.element);
+                                    var res: Page;
+                                    if (pagector) {
+                                        var ctor = <any>pagector;
+                                        res = <Page>new ctor(pageControl.element);
+                                    }
+                                    else {
+                                        res = new Page(pageControl.element);
+                                    }
                                     logger.debug("navigated to " + url);
                                     pagecomplete(res);
                                 });
@@ -420,43 +421,37 @@ module WinJSContrib.UI.Tests {
             return p;
         }
 
-        waitForPage(url: string, timeout: number = 3000): WinJS.Promise<Page> {
+        waitForPage<T extends Page>(url: string, pagector?: Function, timeout?: number): WinJS.Promise<T> {
             var ui = (<any>WinJSContrib.UI);
 
             var navigator = (ui && ui.Application) ? ui.Application.navigator : undefined;
             if (!navigator)
                 throw new Error("no global navigation defined");
 
-            return this.waitForNavigatorPage(navigator, url, timeout);
+            return this.waitForNavigatorPage<T>(navigator, url, pagector, timeout);
         }
 
-        clickAndWaitForPage(selector: string, pagetowait: string, timeout?: number): WinJS.Promise<Page> {
+        clickAndWaitForPage<T extends Page>(selector: string, pagetowait: string, pagector?: Function, timeout?: number): WinJS.Promise<T> {
             this.on(selector).click();
-            return this.waitForPage(pagetowait, timeout);
+            return this.waitForPage<T>(pagetowait, pagector, timeout);
         }
 
-        waitForClass(classToWatch: string, timeout: number = 3000): WinJS.Promise<any> {
+        waitForClass(classToWatch: string, timeout?: number): WinJS.Promise<any> {
             return _waitForClass(this.element, classToWatch, timeout);
         }
 
-        waitForClassGone(classToWatch: string, timeout: number = 3000): WinJS.Promise<any> {
+        waitForClassGone(classToWatch: string, timeout?: number): WinJS.Promise<any> {
             return _waitForClassGone(this.element, classToWatch, timeout);
         }
 
-        waitForElement(selector: string, timeout: number = 3000): WinJS.Promise<UIElementWrapper> {
+        waitForElement(selector: string, timeout?: number): WinJS.Promise<UIElementWrapper> {
             return _waitForElement(this.element, selector, timeout).then((elt) => {
                 return new UIElementWrapper(elt, selector);
             });
         }
 
         click() {
-            var el = <any>this.element;
-            logger.verbose("trigger click");
-            if (el.mcnTapTracking) {
-                el.mcnTapTracking.callback(el, {});
-            } else {
-                this.element.click();
-            }
+            _click(this.element);
 
             return this;
         }
@@ -497,11 +492,11 @@ module WinJSContrib.UI.Tests {
             WinJS.Navigation.history.backStack = [];
         }
 
-        navigateTo(url: string, args?: any): WinJS.Promise<Page> {
+        navigateTo<T extends Page>(url: string, args?: any, pagector?: Function): WinJS.Promise<T> {
             return WinJS.Navigation.navigate(url, args).then(() => {
                 return WinJS.Promise.timeout(100);
             }).then(() => {
-                return this.waitForPage(url);
+                return this.waitForPage<T>(url, pagector);
             });
         }
     }
@@ -510,17 +505,49 @@ module WinJSContrib.UI.Tests {
     }
 
     export class ChildView extends UIElementWrapper {
-        waitForPage(url: string, timeout: number = 3000): WinJS.Promise<Page> {
+        waitForPage<T extends Page>(url: string, pagector?: Function, timeout?: number): WinJS.Promise<T> {
             var navigator = this.element.winControl.navigator;
             if (!navigator) {
                 throw new Error("incoherent child view");
             }
 
-            return this.waitForNavigatorPage(navigator, url, timeout);
+            return this.waitForNavigatorPage<T>(navigator, url, pagector, timeout);
         }
 
         waitForClosed(timeout?: number) {
             return _waitForClass(this.element.winControl.rootElement, "hidden", timeout);
+        }
+
+        cancel(timeout?: number) {
+            var overlay = this.element.winControl.overlay;
+            if (overlay) {
+                _click(overlay);                
+            }
+            throw new Error("overlay not found for childview");
+        }
+    }
+
+    var _alert_messagebox = WinJSContrib.Alerts.messageBox;
+    var _alert_messageboxhook = WinJSContrib.Alerts.messageBox;
+    var _reply = {};
+
+    export function alertsReplyWith(reply) {
+        _reply = reply;
+    }
+
+    export function hookAlerts() {
+        if (WinJSContrib.Alerts) {
+            _alert_messageboxhook = function (opt) {
+                logger.debug("replying to alert call with " + _reply);
+                return WinJS.Promise.wrap(_reply);
+            }
+            WinJSContrib.Alerts.messageBox = _alert_messageboxhook;
+        }
+    }
+
+    export function unHookAlerts() {
+        if (WinJSContrib.Alerts) {
+            WinJSContrib.Alerts.messageBox = _alert_messagebox;
         }
     }
 }
