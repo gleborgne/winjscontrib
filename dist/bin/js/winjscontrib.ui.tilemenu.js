@@ -18,6 +18,7 @@
             this.element.classList.add('mcn-tilemenu');
             this.element.style.display = 'none';
             this._space = 10;
+            this.name = options.name || (element.id ? element.id + "wrapper": "") || "tilemenuwrapper";
 
             this.offsets = {
                 left: 0,
@@ -146,6 +147,9 @@
                     res.element = rendered.children[0];
                     res.element.classList.add('mcn-tilemenu-menu');
                     res.element.style.opacity = '0';
+                    if (item.id){
+                        res.element.id = item.id;
+                    }
                     WinJSContrib.UI.tap(res.element, function (elt) {
                         ctrl.dispatchEvent('iteminvoked', { item: item, target: elt });
                         ctrl.hide(elt);

@@ -14,7 +14,7 @@ module WinJSContrib.UI.Pages {
 
     var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Pages");
     export var verboseTraces = false;
-    export var preloadDelay = 500;
+    export var preloadDelay = 250;
 
     var loadedPages = {};
 
@@ -30,11 +30,8 @@ module WinJSContrib.UI.Pages {
             logger.verbose("preload " + absuri);
             loadedPages[absuri] = true;
             return WinJS.Promise.timeout(preloadDelay).then(() => {
-                return WinJS.Utilities.Scheduler.schedule(() => {
-                    var wrapper = document.createDocumentFragment();
-                    var elt = document.createElement("DIV");
-                    wrapper.appendChild(elt);
-                    WinJS.UI.Fragments.render(absuri, elt);
+                return WinJS.Utilities.Scheduler.schedule(() => {                    
+                    WinJS.UI.Fragments.cache(absuri);
                 }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + absuri);
             });
         }        

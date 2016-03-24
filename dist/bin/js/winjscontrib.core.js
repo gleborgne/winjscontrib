@@ -3033,10 +3033,7 @@ var WinJSContrib;
                     loadedPages[absuri] = true;
                     return WinJS.Promise.timeout(Pages.preloadDelay).then(function () {
                         return WinJS.Utilities.Scheduler.schedule(function () {
-                            var wrapper = document.createDocumentFragment();
-                            var elt = document.createElement("DIV");
-                            wrapper.appendChild(elt);
-                            WinJS.UI.Fragments.render(absuri, elt);
+                            WinJS.UI.Fragments.cache(absuri);
                         }, WinJS.Utilities.Scheduler.Priority.idle, {}, "preload|" + absuri);
                     });
                 }

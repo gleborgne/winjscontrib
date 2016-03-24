@@ -115,7 +115,7 @@ module WinJSContrib.UI.Tests {
             this.duration = 0;
             this.isRunning = true;
 
-            this.scenarios.forEach(function (scenario) {
+            this.scenarios.forEach(function(scenario) {
                 scenario.state = TestStatus.pending;
                 scenario.duration = "";
                 scenario.message = "";
@@ -134,7 +134,7 @@ module WinJSContrib.UI.Tests {
                 });
             }).then((data) => {
                 this.isRunning = false;
-                this.scenarios.forEach(function (scenario) {
+                this.scenarios.forEach(function(scenario) {
                     scenario.disabled = false;
                 });
                 return data;
@@ -166,7 +166,7 @@ module WinJSContrib.UI.Tests {
             scenario.message = "";
             scenario.duration = "";
 
-            this.scenarios.forEach(function (scenario) {
+            this.scenarios.forEach(function(scenario) {
                 scenario.disabled = true;
             });
 
@@ -175,7 +175,7 @@ module WinJSContrib.UI.Tests {
                 return this._runScenario(document, scenario, options);
             }).then((data) => {
                 this.isRunning = false;
-                this.scenarios.forEach(function (scenario) {
+                this.scenarios.forEach(function(scenario) {
                     scenario.disabled = false;
                 });
                 return data;
@@ -239,7 +239,7 @@ module WinJSContrib.UI.Tests {
         WinJS.Binding.expandProperties({ nbRun: 0, nbSuccess: 0, nbFail: 0, total: 0, currentTest: 0, nbRunned: 0, duration: 0, isRunning: false })
     );
 
-    function _click(el) {        
+    function _click(el) {
         logger.verbose("trigger click");
         if (el.mcnTapTracking) {
             el.mcnTapTracking.callback(el, {});
@@ -258,7 +258,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((complete, error) => {
             var promise = p as any;
-            var check = function () {
+            var check = function() {
                 var elt = <HTMLElement>parent.querySelector(selector);
                 if (!completed && elt) {
                     completed = true;
@@ -285,7 +285,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((complete, error) => {
             var promise = p as any;
-            var check = function () {
+            var check = function() {
                 var hasClass = parent.classList.contains(classToWatch);
                 if (!completed && hasClass) {
                     completed = true;
@@ -312,7 +312,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((complete, error) => {
             var promise = p as any;
-            var check = function () {
+            var check = function() {
                 var classGone = !parent.classList.contains(classToWatch);
                 if (!completed && classGone) {
                     completed = true;
@@ -376,7 +376,7 @@ module WinJSContrib.UI.Tests {
 
             var p = new WinJS.Promise<Page>((pagecomplete, pageerror) => {
                 var promise = p as any;
-                var check = function () {
+                var check = function() {
                     var pageControl = navigator.pageControl;
                     var location = null;
                     if (pageControl) {
@@ -390,7 +390,7 @@ module WinJSContrib.UI.Tests {
                             if (pageControl.pageLifeCycle) {
                                 p = pageControl.pageLifeCycle.steps.enter.promise;
                             }
-                            p.then(function () {
+                            p.then(function() {
                                 clearTimeout(optimeout);
                                 WinJS.Promise.timeout(config.pageNavigationDelay).then(() => {
                                     completed = true;
@@ -521,15 +521,16 @@ module WinJSContrib.UI.Tests {
         cancel(timeout?: number) {
             var overlay = this.element.winControl.overlay;
             if (overlay) {
-                _click(overlay);                
+                _click(overlay);
+            } else {
+                throw new Error("overlay not found for childview");
             }
-            throw new Error("overlay not found for childview");
         }
     }
 
     var _alert_messagebox = WinJSContrib.Alerts.messageBox;
     var _alert_messageboxhook = WinJSContrib.Alerts.messageBox;
-    var _reply = {};
+    var _reply = <any>{};
 
     export function alertsReplyWith(reply) {
         _reply = reply;
@@ -537,9 +538,13 @@ module WinJSContrib.UI.Tests {
 
     export function hookAlerts() {
         if (WinJSContrib.Alerts) {
-            _alert_messageboxhook = function (opt) {
+            _alert_messageboxhook = function(opt) {
                 logger.debug("replying to alert call with " + _reply);
-                return WinJS.Promise.wrap(_reply);
+                if (typeof _reply == "function") {
+                    return WinJS.Promise.as(_reply(opt));
+                } else {
+                    return WinJS.Promise.wrap(_reply);
+                }
             }
             WinJSContrib.Alerts.messageBox = _alert_messageboxhook;
         }
