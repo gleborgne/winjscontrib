@@ -7,8 +7,7 @@
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var WinJSContrib;
 (function (WinJSContrib) {
@@ -50,7 +49,10 @@ var WinJSContrib;
                 this.textElement.onclick = function (arg) {
                     arg.preventDefault();
                     arg.stopPropagation();
-                    _this.flyout.show(_this.textElement);
+                    if (window.innerWidth < 500)
+                        _this.flyout.show(document.body, 'top', 'left');
+                    else
+                        _this.flyout.show(_this.textElement);
                 };
                 WinJS.UI.setOptions(this, options);
                 if (!this.value) {
@@ -753,4 +755,4 @@ var WinJSContrib;
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
-//# sourceMappingURL=../../Sources/Controls/winjscontrib.ui.calendar.js.map
+//# sourceMappingURL=winjscontrib.ui.calendar.js.map

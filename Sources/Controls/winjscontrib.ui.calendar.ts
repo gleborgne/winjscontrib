@@ -31,7 +31,7 @@
             var calendaroptions = JSON.parse(JSON.stringify(options));
             calendaroptions.flyout = this.flyout;
             this.calendar = <CalendarControl>new WinJSContrib.UI.Calendar(elt, calendaroptions);
-            
+
             this.calendar.onchange = () => {
                 this.value = this.calendar.value;
                 this.dispatchEvent("change");
@@ -47,7 +47,9 @@
             this.textElement.onclick = (arg) => {
                 arg.preventDefault();
                 arg.stopPropagation();
-                this.flyout.show(this.textElement);
+                if (window.innerWidth < 500)
+                    this.flyout.show(document.body, 'top', 'left');
+                else this.flyout.show(this.textElement);
             };
 
             WinJS.UI.setOptions(this, options);
@@ -119,7 +121,7 @@
             this.element.winControl = this;
             this.element.classList.add('mcn-calendar');
             this.element.classList.add('win-disposable');
-            
+
             WinJS.UI.setOptions(this, options);
 
             if (this.flyout) {
@@ -235,7 +237,7 @@
                     nextelt.focus();
 
                 arg.preventDefault();
-                arg.stopPropagation();                
+                arg.stopPropagation();
             }
         }
 
@@ -380,7 +382,7 @@
             this._currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
         }
 
-        next(focusItem? : boolean) {
+        next(focusItem?: boolean) {
 
         }
 
@@ -396,7 +398,7 @@
             return false;
         }
 
-        ensureValue(immediate?: boolean, focusItem? : boolean) {
+        ensureValue(immediate?: boolean, focusItem?: boolean) {
         }
 
         hide() {
@@ -617,7 +619,7 @@
         renderDaysWrapper(container: HTMLElement) {
             var itemsWrapper = document.createElement("DIV");
             itemsWrapper.className = "day-items-wrapper";
-            var swipe = new (<any>WinJSContrib.UI).SwipeSlide(itemsWrapper, { direction: "vertical", allowed: { top: this.parent.allowNext(), bottom: this.parent.allowPrevious() }});
+            var swipe = new (<any>WinJSContrib.UI).SwipeSlide(itemsWrapper, { direction: "vertical", allowed: { top: this.parent.allowNext(), bottom: this.parent.allowPrevious() } });
             swipe.onswipe = (arg) => {
                 swipe.swipeHandled = true;
                 if (arg.direction == "top") {
@@ -658,7 +660,7 @@
                 day.id = "day-" + contentdate.format("YYYY-MM-DD");
                 day.innerText = contentdate.format("DD");
                 day.setAttribute("aria-label", contentdate.format("L"));
-                
+
                 if (contentdate.diff(today) == 0) {
                     day.classList.add("today");
                 }

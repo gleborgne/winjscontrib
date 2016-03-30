@@ -3008,7 +3008,7 @@ var WinJSContrib;
             }
             var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Pages");
             Pages.verboseTraces = false;
-            Pages.preloadDelay = 500;
+            Pages.preloadDelay = 250;
             var loadedPages = {};
             function preload() {
                 var pathes = [];
@@ -3634,9 +3634,6 @@ var WinJSContrib;
                     uri = abs(uri);
                     if (!base) {
                         base = _Base.Class.define(
-                        // This needs to follow the WinJS.UI.processAll "async constructor"
-                        // pattern to interop nicely in the "Views.Control" use case.
-                        //
                         // This needs to follow the WinJS.UI.processAll "async constructor"
                         // pattern to interop nicely in the "Views.Control" use case.
                         //
