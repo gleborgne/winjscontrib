@@ -30,6 +30,8 @@ var WinJSContrib;
                 this.element.classList.add('win-disposable');
                 this.flyout = new WinJS.UI.Flyout();
                 this.flyout.element.classList.add("mcn-timepicker-flyout");
+                var flr = WinJS.Resources.getString("mcntimepicker.flyout.arialabel");
+                this.flyout.element.setAttribute("aria-label", !flr.empty ? flr.value : "");
                 this.element.appendChild(this.flyout.element);
                 if (!options.hasOwnProperty("deferRendering")) {
                     options.deferRendering = true;
@@ -67,7 +69,10 @@ var WinJSContrib;
                 this.textElement.onclick = function (arg) {
                     arg.preventDefault();
                     arg.stopPropagation();
-                    _this.flyout.show(_this.textElement);
+                    if (window.innerWidth < 500)
+                        _this.flyout.show(document.body, 'top', 'left');
+                    else
+                        _this.flyout.show(_this.textElement);
                 };
                 this.textElement.innerText = this.timeclock.value;
                 WinJS.UI.setOptions(this, options);
@@ -160,8 +165,10 @@ var WinJSContrib;
             }
             TimeClockControl.prototype.render = function () {
                 var _this = this;
+                var arialabelminutes = WinJS.Resources.getString("mcntimepicker.mainminutes.arialabel");
+                var arialabelhour = WinJS.Resources.getString("mcntimepicker.mainhour.arialabel");
                 this.element.innerHTML =
-                    "<header>\n                    <button class=\"hours current\">" + WinJSContrib.Utils.pad2(this.hour) + "</button>\n                    <div class=\"sep\">:</div>\n                    <button class=\"minutes\">" + WinJSContrib.Utils.pad2(this.minutes) + "</button>\n                </header>\n                <section>\n                </section>";
+                    "<header>\n                    <button class=\"hours current\" aria-label=\"" + (!arialabelhour.empty ? arialabelhour.value.format(this.hour) : "") + "\">" + WinJSContrib.Utils.pad2(this.hour) + "</button>\n                    <div class=\"sep\">:</div>\n                    <button class=\"minutes\"  aria-label=\"" + (!arialabelhour.empty ? arialabelminutes.value.format(this.minutes) : "") + "\">" + WinJSContrib.Utils.pad2(this.minutes) + "</button>\n                </header>\n                <section>\n                </section>";
                 this.header = this.element.querySelector("header");
                 this.content = this.element.querySelector("section");
                 this.hoursElt = this.element.querySelector(".hours");
@@ -292,6 +299,14 @@ var WinJSContrib;
                 if (this.hoursElt) {
                     this.hoursElt.innerText = WinJSContrib.Utils.pad2(this.hour);
                     this.minutesElt.innerText = WinJSContrib.Utils.pad2(this.minutes);
+                    var arialabelminutes = WinJS.Resources.getString("mcntimepicker.mainminutes.arialabel");
+                    var arialabelhour = WinJS.Resources.getString("mcntimepicker.mainhour.arialabel");
+                    if (!arialabelhour.empty) {
+                        this.hoursElt.setAttribute("aria-label", arialabelhour.value.format(this.hour));
+                    }
+                    if (!arialabelminutes.empty) {
+                        this.minutesElt.setAttribute("aria-label", arialabelminutes.value.format(this.minutes));
+                    }
                 }
                 if (this.currentPanel) {
                     this.currentPanel.ensureValue();
@@ -377,10 +392,16 @@ var WinJSContrib;
                 var itemscontainer = document.createElement("DIV");
                 itemscontainer.className = "items";
                 itempanel.appendChild(itemscontainer);
+                var arialabelhour = WinJS.Resources.getString("mcntimepicker.hour.arialabel");
+                var arialabelminutes = WinJS.Resources.getString("mcntimepicker.minutes.arialabel");
                 items.forEach(function (n) {
                     var item = document.createElement("BUTTON");
                     item.className = "timeitem item-" + name;
                     item.id = name + n;
+                    if (name == "hour" && !arialabelhour.empty)
+                        item.setAttribute("aria-label", n + " " + arialabelhour.value);
+                    else if (name == "min" && !arialabelminutes.empty)
+                        item.setAttribute("aria-label", n + " " + arialabelminutes.value);
                     item.dataset["val"] = "" + n;
                     item.innerText = WinJSContrib.Utils.pad2(n);
                     if (n == current) {

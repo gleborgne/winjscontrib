@@ -44,7 +44,10 @@ var WinJSContrib;
                 this.textElement.onclick = function (arg) {
                     arg.preventDefault();
                     arg.stopPropagation();
-                    _this.flyout.show(_this.textElement);
+                    if (window.innerWidth < 500)
+                        _this.flyout.show(document.body, 'top', 'left');
+                    else
+                        _this.flyout.show(_this.textElement);
                 };
                 WinJS.UI.setOptions(this, options);
                 if (!this.value) {
