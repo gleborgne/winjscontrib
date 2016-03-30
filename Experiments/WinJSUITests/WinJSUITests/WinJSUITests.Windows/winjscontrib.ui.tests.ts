@@ -5,7 +5,8 @@ module WinJSContrib.UI.Tests {
     export var config = {
         runSetup: <Function>null,
         runTeardown: <Function>null,
-        pageNavigationDelay: 200
+        pageNavigationDelay: 200,
+        childViewPageNavigationDelay: 300
     };
 
     function makeAbsoluteUri(uri) {
@@ -255,20 +256,26 @@ module WinJSContrib.UI.Tests {
         var optimeout = setTimeout(() => {
             completed = true;
         }, timeout);
+        var error = null;
+        try {
+            throw new Error('element ' + selector + ' not found');
+        } catch (exception) {
+            error = exception;
+        }
 
-        var p = new WinJS.Promise<HTMLElement>((complete, error) => {
+        var p = new WinJS.Promise<HTMLElement>((taskcomplete, taskerror) => {
             var promise = p as any;
             var check = function() {
                 var elt = <HTMLElement>parent.querySelector(selector);
                 if (!completed && elt) {
                     completed = true;
                     clearTimeout(optimeout);
-                    complete(elt);
+                    taskcomplete(elt);
                 } else if (!completed) {
                     setTimeout(() => { check(); }, 50);
                 } else {
                     completed = true;
-                    error({ message: 'element not found ' + selector });
+                    taskerror(error);
                 }
             }
             check();
@@ -282,20 +289,26 @@ module WinJSContrib.UI.Tests {
         var optimeout = setTimeout(() => {
             completed = true;
         }, timeout);
+        var error = null;
+        try {
+            throw new Error('class ' + classToWatch + ' not added');
+        } catch (exception) {
+            error = exception;
+        }
 
-        var p = new WinJS.Promise<HTMLElement>((complete, error) => {
+        var p = new WinJS.Promise<HTMLElement>((taskcomplete, taskerror) => {
             var promise = p as any;
             var check = function() {
                 var hasClass = parent.classList.contains(classToWatch);
                 if (!completed && hasClass) {
                     completed = true;
                     clearTimeout(optimeout);
-                    complete();
+                    taskcomplete();
                 } else if (!completed) {
                     setTimeout(() => { check(); }, 50);
                 } else {
                     completed = true;
-                    error({ message: 'class not added ' + classToWatch });
+                    taskerror(error);
                 }
             }
             check();
@@ -309,20 +322,26 @@ module WinJSContrib.UI.Tests {
         var optimeout = setTimeout(() => {
             completed = true;
         }, timeout);
+        var error = null;
+        try {
+            throw new Error('class ' + classToWatch + ' not removed');
+        } catch (exception) {
+            error = exception;
+        }
 
-        var p = new WinJS.Promise<HTMLElement>((complete, error) => {
+        var p = new WinJS.Promise<HTMLElement>((taskcomplete, taskerror) => {
             var promise = p as any;
             var check = function() {
                 var classGone = !parent.classList.contains(classToWatch);
                 if (!completed && classGone) {
                     completed = true;
                     clearTimeout(optimeout);
-                    complete();
+                    taskcomplete();
                 } else if (!completed) {
                     setTimeout(() => { check(); }, 50);
                 } else {
                     completed = true;
-                    error({ message: 'class not gone ' + classToWatch });
+                    taskerror(error);
                 }
             }
             check();
@@ -511,10 +530,32 @@ module WinJSContrib.UI.Tests {
                 throw new Error("incoherent child view");
             }
 
-            return this.waitForNavigatorPage<T>(navigator, url, pagector, timeout);
+            return this.ready().then(() => {
+                return this.waitForNavigatorPage<T>(navigator, url, pagector, timeout);
+            })
+        }
+
+        ready() {
+            return WinJS.Promise.timeout(config.childViewPageNavigationDelay).then(() => {
+                if (this.element.winControl.openChildViewPromise)
+                    return this.element.winControl.openChildViewPromise;
+            });
+        }
+
+        waitForPageClosed() {
+            if (this.element.winControl.closePagePromise) {
+                return this.element.winControl.closePagePromise;
+            } else if (this.element.winControl.hideChildViewPromise) {
+                return this.element.winControl.hideChildViewPromise;
+            } else {
+                throw new Error("childview not about to close");
+            }
         }
 
         waitForClosed(timeout?: number) {
+            if (this.element.winControl.hideChildViewPromise) {
+                return this.element.winControl.hideChildViewPromise;
+            }
             return _waitForClass(this.element.winControl.rootElement, "hidden", timeout);
         }
 
@@ -530,23 +571,35 @@ module WinJSContrib.UI.Tests {
 
     var _alert_messagebox = WinJSContrib.Alerts.messageBox;
     var _alert_messageboxhook = WinJSContrib.Alerts.messageBox;
-    var _reply = <any>{};
+    var _alert_confirm = WinJSContrib.Alerts.confirm;
+    var _alert_confirmhook = WinJSContrib.Alerts.confirm;
+    var _messageboxreply = <any>{};
+    var _confirmreply = true;
 
-    export function alertsReplyWith(reply) {
-        _reply = reply;
+    export function messageBoxReplyWith(reply) {
+        _messageboxreply = reply;
+    }
+
+    export function confirmReplyWith(reply: boolean) {
+        _confirmreply = reply;
     }
 
     export function hookAlerts() {
         if (WinJSContrib.Alerts) {
             _alert_messageboxhook = function(opt) {
-                logger.debug("replying to alert call with " + _reply);
-                if (typeof _reply == "function") {
-                    return WinJS.Promise.as(_reply(opt));
+                logger.info("replying to alert call with " + _messageboxreply);
+                if (typeof _messageboxreply == "function") {
+                    return WinJS.Promise.as(_messageboxreply(opt));
                 } else {
-                    return WinJS.Promise.wrap(_reply);
+                    return WinJS.Promise.wrap(_messageboxreply);
                 }
             }
+            _alert_confirmhook = function(title, content, yes, no) {
+                logger.info("replying to confirm alert call with " + _confirmreply);
+                return WinJS.Promise.wrap(_confirmreply);
+            }
             WinJSContrib.Alerts.messageBox = _alert_messageboxhook;
+            WinJSContrib.Alerts.confirm = _alert_confirmhook;
         }
     }
 

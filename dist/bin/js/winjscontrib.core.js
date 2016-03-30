@@ -3014,7 +3014,7 @@ var WinJSContrib;
             }
             var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Pages");
             Pages.verboseTraces = false;
-            Pages.preloadDelay = 500;
+            Pages.preloadDelay = 250;
             var loadedPages = {};
             function preload() {
                 var pathes = [];

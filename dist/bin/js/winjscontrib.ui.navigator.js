@@ -132,6 +132,21 @@
                         }
                     },
 
+                    pagesCount: {
+                        get: function () {
+                            var count = 0;
+                            if (this.pageElement) {
+                                for (var i = 0; i < this.element.children.length ; i++) {
+                                    var child = this.element.children[i];
+                                    if (child && child.winControl && !child.winControl.mcnPageClosing) {
+                                        count++;
+                                    }
+                                }
+                            }
+                            return count;
+                        }
+                    },
+
                     // This is the root element of the current page.
                     pageElement: {
                         get: function () {
@@ -493,6 +508,7 @@
                         }
 
                         if (page && page.winControl && !page.winControl.exitPagePromise) {
+                            //page.winControl.mcnPageClosing = true;
                             if (page.winControl.exitPage) {
                                 var exitPageResult = page.winControl.exitPage();
                                 if (exitPageResult) {

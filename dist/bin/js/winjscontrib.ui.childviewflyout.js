@@ -135,13 +135,18 @@
                closePage: function (arg, pageElement, forceClose) {
                    var that = this;
                    var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose();
-                   return check.then(function (canClose) {
+
+
+
+                   var currentpageclose = check.then(function (canClose) {
                        if (!canClose) {
                            return WinJS.Promise.wrapError();
                        }
 
-                       if (that.navigator.element.children.length == 1) {
-                           that.hide(arg, null, true);
+                       var pagescount = that.navigator.pagesCount;
+                       //console.log("closing " + (that.navigator.pageControl ? that.navigator.pageControl.uri : "") + ", childview active pages " + pagescount);
+                       if (pagescount == 1) {
+                           return that.hide(arg, null, true);
                        }
 
                        that.navigator.triggerPageExit();
@@ -150,6 +155,20 @@
                                WinJSContrib.UI.Application.progress.hide();
                        });
                    });
+
+                   if (that.closePagePromise) {
+                       //console.log("childview has previous close promise")
+                       that.closePagePromise = that.closePagePromise.then(function () {
+                           return currentpageclose;
+                       }, function () {
+                       }).then(function () {
+                           return forceClose ? WinJS.Promise.wrap(true) : that.canClose()
+                       })
+                   } else {
+                       that.closePagePromise = currentpageclose;
+                   }
+
+                   return currentpageclose;
                },
 
                /**
@@ -198,20 +217,21 @@
                        this.addDismissableClass("enter");
                        this.removeDismissableClass("leave");
                        this.removeDismissableClass("hidden");
-                       that.rootElement.getBoundingClientRect();                       
+                       that.rootElement.getBoundingClientRect();
 
                        that.navEventsHandler = WinJSContrib.UI.registerNavigationEvents(that, this.hardwareBackBtnPressedBinded);
                        if (that.navigationEvents) {
                            that.navigator.addNavigationEvents();
                        }
-
-                       return WinJS.Promise.timeout().then(function () {
+                       that.hideChildViewPromise = null;
+                       that.showChildViewPromise = WinJS.Promise.timeout().then(function () {
                            that.addDismissableClass("enter-active");
                            return WinJSContrib.UI.afterTransition(that.contentPlaceholder).then(function () {
                                if (that.contentPlaceholder.classList.contains("enter")) {
                                }
                            });
                        });
+                       return that.showChildViewPromise;
                        //WinJS.Navigation.addEventListener('beforenavigate', this.cancelNavigationBinded);
                        //if (window.Windows && window.Windows.Phone)
                        //    Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", this.hardwareBackBtnPressedBinded);
@@ -272,7 +292,7 @@
                                if (page)
                                    page.removeEventListener("closing", manageClose);
                                ctrl.removeEventListener("beforehide", manageClose);
-                               ctrl.closePage(arg, this.rootElement).then(function () {
+                               ctrl.closePage(arg, this.element || this.rootElement).then(function () {
                                    complete({ completed: true, data: arg });
                                });
                            },
@@ -325,12 +345,14 @@
                        p = that.show(true);
                    }
 
-                   return WinJS.Promise.join({
+                   that.openChildViewPromise = WinJS.Promise.join({
                        show: WinJSContrib.UI.afterTransition(that.contentPlaceholder),
                        navigate: that.navigate(uri, options, skipHistory).done(function (e) {
                            that.dispatchEvent('aftershow');
                        })
                    });
+
+                   return that.openChildViewPromise;
                },
 
                canClose: function () {
@@ -350,12 +372,16 @@
                hide: function (arg, event, forceClose) {
                    var that = this;
                    if (that.isOpened) {
+                       that.isOpened = false;
+                       that.showChildViewPromise = null;
+                       that.closePagePromise = null;
+                       that.openChildViewPromise = null;
                        var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose();
-                       check.then(function (canclose) {
-                           if (that.contentPlaceholder.classList.contains("enter")) {
+                       that.hideChildViewPromise = check.then(function (canclose) {
+                           if (that.contentPlaceholder.classList.contains("enter-active")) {
                                that.addDismissableClass("leave");
-                               
-                               
+
+
                                if (!canclose) {
                                    return false;
                                }
@@ -367,7 +393,7 @@
                                }
 
                                document.body.removeEventListener('keyup', that.childContentKeyUp);
-                               that.isOpened = false;
+                               
                                that.dispatchEvent('beforehide', arg);
 
                                if (!that.navigator.canGoBack && !WinJS.Navigation.canGoBack) {
@@ -402,6 +428,7 @@
                                });
                            }
                        });
+                       //return that.hideChildViewPromise;
                    }
                    return WinJS.Promise.wrap(true);
                },
