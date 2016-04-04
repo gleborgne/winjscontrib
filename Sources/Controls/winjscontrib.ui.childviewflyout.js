@@ -130,8 +130,6 @@
                    var that = this;
                    var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose();
 
-
-
                    var currentpageclose = check.then(function (canClose) {
                        if (!canClose) {
                            return WinJS.Promise.wrapError();
@@ -139,7 +137,7 @@
 
                        var pagescount = that.navigator.pagesCount;
                        //console.log("closing " + (that.navigator.pageControl ? that.navigator.pageControl.uri : "") + ", childview active pages " + pagescount);
-                       if (pagescount == 1) {
+                       if (that.navigator.pagesCount == 1) {
                            return that.hide(arg, null, true);
                        }
 
@@ -161,6 +159,8 @@
                    } else {
                        that.closePagePromise = currentpageclose;
                    }
+
+                   
 
                    return currentpageclose;
                },
@@ -372,7 +372,7 @@
                        that.openChildViewPromise = null;
                        var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose();
                        that.hideChildViewPromise = check.then(function (canclose) {
-                           if (that.contentPlaceholder.classList.contains("enter-active")) {
+                           if (that.contentPlaceholder.classList.contains("enter") || that.contentPlaceholder.classList.contains("enter-active")) {
                                that.addDismissableClass("leave");
 
 
@@ -387,7 +387,7 @@
                                }
 
                                document.body.removeEventListener('keyup', that.childContentKeyUp);
-                               
+
                                that.dispatchEvent('beforehide', arg);
 
                                if (!that.navigator.canGoBack && !WinJS.Navigation.canGoBack) {
@@ -408,8 +408,8 @@
                                    that.removeDismissableClass("enter");
                                    that.addDismissableClass("leave-active");
                                    return WinJS.Promise.join({
-                                       overlay: WinJSContrib.UI.afterTransition(that.overlay, 12000),
-                                       content: WinJSContrib.UI.afterTransition(that.contentPlaceholder, 12000),
+                                       overlay: WinJSContrib.UI.afterTransition(that.overlay, 1000),
+                                       content: WinJSContrib.UI.afterTransition(that.contentPlaceholder, 1000),
                                    }).then(function () {
                                        if (that.contentPlaceholder.classList.contains("leave")) {
                                            that.clear(true);
@@ -422,7 +422,7 @@
                                });
                            }
                        });
-                       //return that.hideChildViewPromise;
+                       return that.hideChildViewPromise;
                    }
                    return WinJS.Promise.wrap(true);
                },

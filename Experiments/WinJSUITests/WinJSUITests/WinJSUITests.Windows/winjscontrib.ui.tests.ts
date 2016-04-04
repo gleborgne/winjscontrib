@@ -240,10 +240,10 @@ module WinJSContrib.UI.Tests {
         WinJS.Binding.expandProperties({ nbRun: 0, nbSuccess: 0, nbFail: 0, total: 0, currentTest: 0, nbRunned: 0, duration: 0, isRunning: false })
     );
 
-    function _click(el) {
+    function _click(el: HTMLElement) {
         logger.verbose("trigger click");
-        if (el.mcnTapTracking) {
-            el.mcnTapTracking.callback(el, {});
+        if ((<any>el).mcnTapTracking) {
+            (<any>el).mcnTapTracking.callback(el, {});
         } else {
             el.click();
         }
@@ -251,7 +251,7 @@ module WinJSContrib.UI.Tests {
         return this;
     }
 
-    function _waitForElement(parent: HTMLElement, selector: string, timeout: number = 3000): WinJS.Promise<HTMLElement> {
+    function _waitForElement(parent: HTMLElement, selector: string, condition = (elt: HTMLElement) => { return true; }, timeout: number = 3000): WinJS.Promise<HTMLElement> {
         var completed = false;
         var optimeout = setTimeout(() => {
             completed = true;
@@ -267,7 +267,7 @@ module WinJSContrib.UI.Tests {
             var promise = p as any;
             var check = function() {
                 var elt = <HTMLElement>parent.querySelector(selector);
-                if (!completed && elt) {
+                if (!completed && elt && condition(elt)) {
                     completed = true;
                     clearTimeout(optimeout);
                     taskcomplete(elt);
@@ -348,6 +348,17 @@ module WinJSContrib.UI.Tests {
         });
 
         return p;
+    }
+
+    function _elementVisible(elt: HTMLElement) {
+        var e = getComputedStyle(elt);
+        if (elt.parentElement) {
+            return _elementVisible(elt.parentElement);
+        } else if (e.display != 'none' && e.visibility != 'hidden') {
+            return true;
+        }
+
+        return false;
     }
 
     export class UIElementWrapper {
@@ -450,9 +461,22 @@ module WinJSContrib.UI.Tests {
             return this.waitForNavigatorPage<T>(navigator, url, pagector, timeout);
         }
 
+        waitForPageByCtor<T extends Page>(pagector: new (element: HTMLElement, selector?: string) => T, timeout?: number): WinJS.Promise<T> {
+            var path = (<any>pagector).path;
+            if (!path) {
+                throw new Error("constructor of " + (typeof pagector) + " must have a path static property");
+            }
+            return this.waitForPage(path, pagector, timeout);
+        }
+
         clickAndWaitForPage<T extends Page>(selector: string, pagetowait: string, pagector?: Function, timeout?: number): WinJS.Promise<T> {
             this.on(selector).click();
             return this.waitForPage<T>(pagetowait, pagector, timeout);
+        }
+
+        clickAndWaitForPageCtor<T extends Page>(selector: string, pagector: new (element: HTMLElement, selector?: string) => T, timeout?: number): WinJS.Promise<T> {
+            this.on(selector).click();
+            return this.waitForPageByCtor<T>(pagector, timeout);
         }
 
         waitForClass(classToWatch: string, timeout?: number): WinJS.Promise<any> {
@@ -464,7 +488,15 @@ module WinJSContrib.UI.Tests {
         }
 
         waitForElement(selector: string, timeout?: number): WinJS.Promise<UIElementWrapper> {
-            return _waitForElement(this.element, selector, timeout).then((elt) => {
+            return _waitForElement(this.element, selector, (elt: HTMLElement) => { return true; }, timeout).then((elt) => {
+                return new UIElementWrapper(elt, selector);
+            });
+        }
+
+        waitForElementVisible(selector: string, timeout?: number): WinJS.Promise<UIElementWrapper> {
+            return _waitForElement(this.element, selector, (elt: HTMLElement) => {
+                return _elementVisible(elt);
+            }, timeout).then((elt) => {
                 return new UIElementWrapper(elt, selector);
             });
         }
@@ -511,12 +543,20 @@ module WinJSContrib.UI.Tests {
             WinJS.Navigation.history.backStack = [];
         }
 
-        navigateTo<T extends Page>(url: string, args?: any, pagector?: Function): WinJS.Promise<T> {
+        navigateTo<T extends Page>(url: string, args?: any, pagector?: Function, timeout: number = 100): WinJS.Promise<T> {
             return WinJS.Navigation.navigate(url, args).then(() => {
-                return WinJS.Promise.timeout(100);
+                return WinJS.Promise.timeout(timeout);
             }).then(() => {
                 return this.waitForPage<T>(url, pagector);
             });
+        }
+
+        navigateToCtor<T extends Page>(pagector: new (element: HTMLElement, selector?: string) => T, args?: any, timeout?: number): WinJS.Promise<T> {
+            var path = (<any>pagector).path;
+            if (!path) {
+                throw new Error("constructor of " + (typeof pagector) + " must have a path static property");
+            }
+            return this.navigateTo(path, pagector, args, timeout);
         }
     }
 
@@ -567,6 +607,39 @@ module WinJSContrib.UI.Tests {
                 throw new Error("overlay not found for childview");
             }
         }
+
+        withPage<T extends Page>(url: string, pagector: Function, callback: (page: T, childview?: ChildView) => void, expectClosed = false) {
+            var childview = this;
+            return this.waitForPage<T>(url, pagector).then((childviewpage) => {
+                return WinJS.Promise.as(callback(childviewpage, childview));
+            }).then(() => {
+                if (expectClosed)
+                    return childview.waitForClosed();
+            }).then(() => {
+                return childview;
+            });
+        }
+
+        withPageCtor<T extends Page>(pagector: new (element: HTMLElement, selector?: string) => T, callback: (page: T, childview?: ChildView) => void, expectClosed = false) {
+            var childview = this;
+            return this.waitForPageByCtor<T>(pagector).then((childviewpage) => {
+                return WinJS.Promise.as(callback(childviewpage, childview));
+            }).then(() => {
+                if (expectClosed)
+                    return childview.waitForClosed();
+            }).then(() => {
+                return childview;
+            });
+        }
+
+        static from(selector: string) {
+            var childviewElt = <HTMLElement>document.querySelector(selector);
+            if (!childviewElt) {
+                throw new Error("child view not found for " + selector);
+            }
+            return new WinJSContrib.UI.Tests.ChildView(childviewElt, selector);
+        }
+
     }
 
     var _alert_messagebox = WinJSContrib.Alerts.messageBox;
