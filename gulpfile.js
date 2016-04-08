@@ -234,6 +234,7 @@ var tsGlobalProject = ts.createProject({
 gulp.task('typescript', ['searchcompile'], function() {
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
+		typingsPath + 'react/*.d.ts', 
 		tsDestPath + 'winjscontrib.core.d.ts',
 		srcCorePath + 'winjscontrib.ui.pages.ts', 
 		srcCommonPath + '*.ts', 

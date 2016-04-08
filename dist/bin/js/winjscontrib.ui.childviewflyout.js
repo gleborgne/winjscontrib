@@ -54,6 +54,7 @@
                this.rootElement.classList.add("childNavigator");
                this.rootElement.classList.add('hidden');
                this.element.classList.add('mcn-navigation-ctrl');
+               this.target = options.target || null;
                this._createContent(options);
                this.isOpened = false;
                this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
@@ -136,8 +137,6 @@
                    var that = this;
                    var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose();
 
-
-
                    var currentpageclose = check.then(function (canClose) {
                        if (!canClose) {
                            return WinJS.Promise.wrapError();
@@ -145,7 +144,7 @@
 
                        var pagescount = that.navigator.pagesCount;
                        //console.log("closing " + (that.navigator.pageControl ? that.navigator.pageControl.uri : "") + ", childview active pages " + pagescount);
-                       if (pagescount == 1) {
+                       if (that.navigator.pagesCount == 1) {
                            return that.hide(arg, null, true);
                        }
 
@@ -167,6 +166,8 @@
                    } else {
                        that.closePagePromise = currentpageclose;
                    }
+
+                   
 
                    return currentpageclose;
                },
@@ -202,6 +203,10 @@
 
                show: function (skipshowcontainer) {
                    var that = this;
+
+                   if (that.target) {
+                       that.target.classList.add("childview-target");
+                   }
 
                    if (!that.isOpened) {
                        if (WinJSContrib.UI && WinJSContrib.UI.enableSystemBackButtonVisibility && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
@@ -250,6 +255,10 @@
                    that.overlay.classList.add(classname);
                    that.contentPlaceholder.classList.add(classname);
                    that.rootElement.classList.add(classname);
+
+                   if (that.target) {
+                       that.target.classList.add("childview-" + classname);
+                   }
                },
 
                removeDismissableClass: function (classname) {
@@ -260,6 +269,11 @@
                    that.contentPlaceholder.classList.remove(classname + "-active");
                    that.rootElement.classList.remove(classname);
                    that.rootElement.classList.remove(classname + "-active");
+
+                   if (that.target) {
+                       that.target.classList.remove("childview-" + classname);
+                       that.target.classList.remove("childview-" + classname + "-active");
+                   }
                },
 
                pick: function (uri, options, skipHistory) {
@@ -378,7 +392,7 @@
                        that.openChildViewPromise = null;
                        var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose();
                        that.hideChildViewPromise = check.then(function (canclose) {
-                           if (that.contentPlaceholder.classList.contains("enter-active")) {
+                           if (that.contentPlaceholder.classList.contains("enter") || that.contentPlaceholder.classList.contains("enter-active")) {
                                that.addDismissableClass("leave");
 
 
@@ -393,7 +407,7 @@
                                }
 
                                document.body.removeEventListener('keyup', that.childContentKeyUp);
-                               
+
                                that.dispatchEvent('beforehide', arg);
 
                                if (!that.navigator.canGoBack && !WinJS.Navigation.canGoBack) {
@@ -414,8 +428,8 @@
                                    that.removeDismissableClass("enter");
                                    that.addDismissableClass("leave-active");
                                    return WinJS.Promise.join({
-                                       overlay: WinJSContrib.UI.afterTransition(that.overlay, 12000),
-                                       content: WinJSContrib.UI.afterTransition(that.contentPlaceholder, 12000),
+                                       overlay: WinJSContrib.UI.afterTransition(that.overlay, 1000),
+                                       content: WinJSContrib.UI.afterTransition(that.contentPlaceholder, 1000),
                                    }).then(function () {
                                        if (that.contentPlaceholder.classList.contains("leave")) {
                                            that.clear(true);
@@ -428,7 +442,7 @@
                                });
                            }
                        });
-                       //return that.hideChildViewPromise;
+                       return that.hideChildViewPromise;
                    }
                    return WinJS.Promise.wrap(true);
                },

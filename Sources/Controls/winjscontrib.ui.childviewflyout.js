@@ -48,6 +48,7 @@
                this.rootElement.classList.add("childNavigator");
                this.rootElement.classList.add('hidden');
                this.element.classList.add('mcn-navigation-ctrl');
+               this.target = options.target || null;
                this._createContent(options);
                this.isOpened = false;
                this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
@@ -197,6 +198,10 @@
                show: function (skipshowcontainer) {
                    var that = this;
 
+                   if (that.target) {
+                       that.target.classList.add("childview-target");
+                   }
+
                    if (!that.isOpened) {
                        if (WinJSContrib.UI && WinJSContrib.UI.enableSystemBackButtonVisibility && window.Windows && window.Windows.UI && window.Windows.UI.Core && window.Windows.UI.Core.SystemNavigationManager) {
                            systemNavigationManager = window.Windows.UI.Core.SystemNavigationManager.getForCurrentView();
@@ -244,6 +249,10 @@
                    that.overlay.classList.add(classname);
                    that.contentPlaceholder.classList.add(classname);
                    that.rootElement.classList.add(classname);
+
+                   if (that.target) {
+                       that.target.classList.add("childview-" + classname);
+                   }
                },
 
                removeDismissableClass: function (classname) {
@@ -254,6 +263,11 @@
                    that.contentPlaceholder.classList.remove(classname + "-active");
                    that.rootElement.classList.remove(classname);
                    that.rootElement.classList.remove(classname + "-active");
+
+                   if (that.target) {
+                       that.target.classList.remove("childview-" + classname);
+                       that.target.classList.remove("childview-" + classname + "-active");
+                   }
                },
 
                pick: function (uri, options, skipHistory) {
