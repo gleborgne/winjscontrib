@@ -32,13 +32,9 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
         this.retryOnError = options.retryOnError;
         this.handleItemProperties = options.handleItemProperties;
         this.maxConcurrentDownloads = options.maxConcurrentDownloads || 300;
-        this.debouncedCheck = _.debounce(function () {
-            tracker.checkDownloads();
-        }, 1000, false);
-
-        this.debouncedVerif = _.debounce(function () {
-            tracker.verifyItems();
-        }, 200, false);
+        this.maxItemsInQueue = options.maxItemsInQueue || null;
+        this.debounceDelay = options.debounceDelay || 200;        
+        this.maxDownloadAttempts = options.maxDownloadAttempts || 10;
 
         this.debouncedSave = _.throttle(function () {
             tracker.saveItems();
@@ -56,6 +52,22 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
         this.refreshInterval = null;
         tracker.ready = false;
     }, {
+        debounceDelay : {
+            get: function () {
+                return this._debounceDelay;
+            },
+            set: function (val) {
+                var tracker = this;
+                tracker._debounceDelay = val;
+                this.debouncedCheck = _.debounce(function () {
+                    tracker.checkDownloads();
+                }, this.debounceDelay, false);
+
+                this.debouncedVerif = _.debounce(function () {
+                    tracker.verifyItems();
+                }, this.debounceDelay, false);
+            }
+        },
         _getFolder: function (allowCreate) {
             if (this.folder)
                 return WinJS.Promise.wrap(this.folder);
@@ -341,6 +353,12 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                     }
                 }
 
+                if (observable.download && observable.download.ended && observable.download.error) {
+                    var e = observable.download.error;
+                    observable.status = downloadStatus.error;
+                    return WinJS.Promise.wrap();
+                }
+
                 if ((observable.status === downloadStatus.downloading && observable.downloadid) || observable.status === downloadStatus.waiting) {
                     return WinJS.Promise.wrap();
                 }
@@ -353,7 +371,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                 //    return Windows.Storage.StorageFile.getFileFromPathAsync(observable.filepath).then(function (file) {
                 //        if (file) {
                 //            observable.status = downloadStatus.downloaded;
-                //            var targetfilename = observable.filepath.substr(0, observable.filepath.length - ".download".length);
+                //            var targetfilename = observable.filepath.substr(0, observable.filepath.length - tracker.tempExtension.length);
                 //            return closeItem();
                 //        } else {
                 //            observable.status = downloadStatus.waiting;
@@ -381,8 +399,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
         },
 
         _swapTempFile: function (observable) {
-            var ext = this.tempExtension;
-            if (observable.filepath.indexOf(ext) > 0) {
+            if (observable.filepath.indexOf(this.tempExtension) > 0) {
                 return Windows.Storage.StorageFile.getFileFromPathAsync(observable.filepath).then(function (file) {
                     if (file) {
                         //var targetfilename = observable.filepath.substr(0, observable.filepath.length - ".download".length);
@@ -421,9 +438,15 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
         add: function (item, itemid, folderpath, filename, uri, immediate) {
             var tracker = this;
 
+            if (tracker.maxItemsInQueue && tracker.items.length > tracker.maxItemsInQueue) {
+                return WinJS.Promise.wrapError({ message: "max downloads in queue exceeded " + tracker.items.length })
+            }
+
             var existing = tracker.items.filter(function (i) {
                 return i.itemid == itemid;
             });
+
+            
 
             if (existing && existing.length)
                 return WinJS.Promise.wrap(existing[0]);
@@ -473,6 +496,15 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                     }
 
                     var downloadPromise = folderPromise.then(function (folder) {
+                        observable.attemps = observable.attemps || 0;
+                        observable.attemps = observable.attemps + 1;
+
+                        if (observable.attemps > tracker.maxDownloadAttempts) {
+                            tracker.remove(observable);
+                            logger.warn("too much bg download attemps on item " + observable.filename);
+                            return WinJS.Promise.wrap(null);
+                        }
+
                         if (WinJSContrib.BgDownloads.currentDownloads.length > tracker.maxConcurrentDownloads) {
                             observable.status = downloadStatus.waiting;
                             logger.debug("too much pendings dl " + WinJSContrib.BgDownloads.currentDownloads.length + " / " + tracker.maxConcurrentDownloads + " " + tracker.items.length);
@@ -482,7 +514,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                         var dl = new WinJSContrib.BgDownloads.Download();
                         var filename = encodeURIComponent(observable.filename);
                         var uri = new Windows.Foundation.Uri(observable.uri);
-                        var startDownload = dl.start(uri, filename + tracker.tempExtension, folder, Windows.Storage.CreationCollisionOption.replaceExisting).then(function (download) {
+                        var startDownload = WinJS.Promise.timeout(10000, dl.start(uri, filename + tracker.tempExtension, folder, Windows.Storage.CreationCollisionOption.replaceExisting)).then(function (download) {
                             logger.debug("bgdownload start " + WinJSContrib.BgDownloads.currentDownloads.length + " / " + tracker.maxConcurrentDownloads + " " + tracker.items.length);
                             observable.status = downloadStatus.downloading;
                             observable.download = download;
