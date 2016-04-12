@@ -55,8 +55,7 @@
                this.rootElement.classList.add('hidden');
                this.element.classList.add('mcn-navigation-ctrl');
                this.target = options.target || null;
-               this._createContent(options);
-               this.isOpened = false;
+               this._createContent(options);               
                this.hardwareBackBtnPressedBinded = this.hardwareBackBtnPressed.bind(this);
                this.childContentKeyUp = this._childContentKeyUp.bind(this);
                //this.cancelNavigationBinded = this.cancelNavigation.bind(this);
@@ -115,6 +114,12 @@
                    }
                },
 
+               isOpened: {
+                   get : function(){
+                       return this.contentPlaceholder.classList.contains("enter") || this.contentPlaceholder.classList.contains("enter-active")
+                   }
+               },
+
                /**
                 * clear all child view pages
                 */
@@ -135,7 +140,9 @@
                 */
                closePage: function (arg, pageElement, forceClose) {
                    var that = this;
-                   var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose();
+                   var pageControl = pageElement ? pageElement.winControl : null;
+
+                   var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose(pageControl);
 
                    var currentpageclose = check.then(function (canClose) {
                        if (!canClose) {
@@ -161,7 +168,7 @@
                            return currentpageclose;
                        }, function () {
                        }).then(function () {
-                           return forceClose ? WinJS.Promise.wrap(true) : that.canClose()
+                           return forceClose ? WinJS.Promise.wrap(true) : that.canClose(pageControl)
                        })
                    } else {
                        that.closePagePromise = currentpageclose;
@@ -215,8 +222,7 @@
                                systemNavigationManager.appViewBackButtonVisibility = window.Windows.UI.Core.AppViewBackButtonVisibility.visible;
                        }
 
-                       document.body.addEventListener('keyup', that.childContentKeyUp);
-                       that.isOpened = true;
+                       document.body.addEventListener('keyup', that.childContentKeyUp);                       
 
                        this.addDismissableClass("visible");
                        this.addDismissableClass("enter");
@@ -369,10 +375,11 @@
                    return that.openChildViewPromise;
                },
 
-               canClose: function () {
+               canClose: function (pagecontrol) {
                    var that = this;
-                   if (this.navigator.pageControl && this.navigator.pageControl.canClose) {
-                       return WinJS.Promise.as(this.navigator.pageControl.canClose()).then(function (canclose) {
+                   pagecontrol = pagecontrol || this.navigator.pageControl;
+                   if (pagecontrol && pagecontrol.canClose) {
+                       return WinJS.Promise.as(pagecontrol.canClose()).then(function (canclose) {
                            return canclose;
                        });
                    }
@@ -385,14 +392,13 @@
                 */
                hide: function (arg, event, forceClose) {
                    var that = this;
-                   if (that.isOpened) {
-                       that.isOpened = false;
+                   if (that.isOpened) {                       
                        that.showChildViewPromise = null;
                        that.closePagePromise = null;
                        that.openChildViewPromise = null;
                        var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose();
                        that.hideChildViewPromise = check.then(function (canclose) {
-                           if (that.contentPlaceholder.classList.contains("enter") || that.contentPlaceholder.classList.contains("enter-active")) {
+                           if (that.isOpened) {
                                that.addDismissableClass("leave");
 
 
