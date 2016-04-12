@@ -40,7 +40,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
         this.maxConcurrentDownloads = options.maxConcurrentDownloads || 300;
         this.maxItemsInQueue = options.maxItemsInQueue || null;
         this.debounceDelay = options.debounceDelay || 200;        
-        this.maxDownloadAttempts = options.maxDownloadAttempts || 10;
+        this.maxDownloadAttempts = options.maxDownloadAttempts || 5;
 
         this.debouncedSave = _.throttle(function () {
             tracker.saveItems();
@@ -405,7 +405,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
         },
 
         _swapTempFile: function (observable) {
-            if (observable.filepath.indexOf(this.tempExtension) > 0) {
+            if (observable.filepath && observable.filepath.indexOf(this.tempExtension) > 0) {
                 return Windows.Storage.StorageFile.getFileFromPathAsync(observable.filepath).then(function (file) {
                     if (file) {
                         //var targetfilename = observable.filepath.substr(0, observable.filepath.length - ".download".length);
@@ -646,7 +646,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                 tracker.items.splice(idx, 1);
                 return Windows.Storage.StorageFile.getFileFromPathAsync(item.filepath).then(function (file) {
                     var tempext = tracker.tempExtension;
-                    if (file.path.indexOf(tempext) == (file.path.length - tempext.length))
+                    if (file.path && file.path.indexOf(tempext) == (file.path.length - tempext.length))
                         return file.deleteAsync();
                 }, function (err) {
                     logger.debug('file not found', err);

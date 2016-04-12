@@ -289,6 +289,7 @@
                            removePromise();
                            if (page)
                                page.removeEventListener("closing", manageClose);
+
                            ctrl.removeEventListener("beforehide", manageClose);
                            if (!completed) {
                                completed = true;
@@ -305,6 +306,7 @@
 
                                if (page)
                                    page.removeEventListener("closing", manageClose);
+
                                ctrl.removeEventListener("beforehide", manageClose);
                                ctrl.closePage(arg, this.element || this.rootElement).then(function () {
                                    complete({ completed: true, data: arg });
