@@ -181,7 +181,7 @@ declare module WinJSContrib.Search {
          * @param {Array} items items array
          * @returns {WinJS.Promise}
          */
-        addRange(arr: any, progress: any): WinJS.IPromise<{
+        addRange(arr: any, progress?: Function): WinJS.IPromise<{
             indexed: number;
         }>;
         refresh(): void;
@@ -305,7 +305,7 @@ declare module WinJSContrib.Search {
          * @param {Object} options
          * @returns {WinJS.Promise}
          */
-        add(data: any, options: any): WinJS.Promise<any>;
+        add(data: any, options?: any): WinJS.Promise<any>;
         /**
          * add an array of objects to index
          * @function WinJSContrib.Search.IndexWorkerProxy.prototype.addRange
@@ -313,7 +313,7 @@ declare module WinJSContrib.Search {
          * @param {Object} options
          * @returns {WinJS.Promise}
          */
-        addRange(data: any, options: any): WinJS.Promise<any>;
+        addRange(data: any, options?: any): WinJS.Promise<any>;
         /**
          * release proxy
          * @function WinJSContrib.Search.IndexWorkerProxy.prototype.dispose

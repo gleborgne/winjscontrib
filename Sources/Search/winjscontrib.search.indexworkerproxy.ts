@@ -54,7 +54,7 @@
          * @param {Object} options
          * @returns {WinJS.Promise}
          */
-        public add(data, options) {
+        public add(data, options?) {
             return this.worker.start('index', { items: [data], options: options });
         }
 
@@ -65,7 +65,7 @@
          * @param {Object} options
          * @returns {WinJS.Promise}
          */
-        public addRange(data, options) {
+        public addRange(data, options?) {
             return this.worker.start('index', { items: data, options: options });
         }
 

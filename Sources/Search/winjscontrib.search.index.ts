@@ -341,7 +341,7 @@ module WinJSContrib.Search {
          * @param {Array} items items array
          * @returns {WinJS.Promise}
          */
-        public addRange(arr, progress) {
+        public addRange(arr, progress?: Function) {
             var index = this;
             var size = arr.length;
             var indexed = [];
