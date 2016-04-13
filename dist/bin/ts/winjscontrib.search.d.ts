@@ -1,20 +1,6 @@
 ﻿declare module WinJSContrib.Utils {
     function readProperty(obj: any, name: string): any;
 }
-declare module WinJSContrib {
-    class Messenger {
-        constructor(worker: any, worker2: any);
-        start(name: any, data?: any): WinJS.Promise<any>;
-        dispose(): any;
-    }
-    module Messenger {
-        class SmartWorker {
-            constructor(path: string);
-            start(eventname: string, data?: any): WinJS.Promise<any>;
-            dispose(): any;
-        }
-    }
-}
 declare module WinJSContrib.Search {
     /**
      * definition for a field
@@ -266,7 +252,7 @@ declare module WinJSContrib.Search {
 
 declare module WinJSContrib.Search {
     class IndexWorkerProxy {
-        worker: WinJSContrib.Messenger.SmartWorker;
+        worker: WinJSContrib.MessengerClass;
         /**
          * @classdesc
          * Proxy for a {@link WinJSContrib.Search.Index} running in a web worker
@@ -283,7 +269,7 @@ declare module WinJSContrib.Search {
          * @param {WinJSContrib.Search.IndexDefinition} definition index definition (optional), use index's definition if not defined
          * @returns {WinJS.Promise}
          */
-        init(name: any, definition: any, load?: any): WinJS.Promise<any>;
+        init(name: any, definition: any, load?: any): any;
         /**
          * start search
          * @function WinJSContrib.Search.IndexWorkerProxy.prototype.search
@@ -291,13 +277,13 @@ declare module WinJSContrib.Search {
          * @param {Object} options
          * @returns {WinJS.Promise}
          */
-        search(searchTerm: any, options: any): WinJS.Promise<any>;
+        search(searchTerm: any, options: any): any;
         /**
          * get the number of items in index
          * @function WinJSContrib.Search.IndexWorkerProxy.prototype.count
          * @returns {WinJS.Promise}
          */
-        count(): WinJS.Promise<any>;
+        count(): any;
         /**
          * add an object to index
          * @function WinJSContrib.Search.IndexWorkerProxy.prototype.add
@@ -305,7 +291,7 @@ declare module WinJSContrib.Search {
          * @param {Object} options
          * @returns {WinJS.Promise}
          */
-        add(data: any, options?: any): WinJS.Promise<any>;
+        add(data: any, options?: any): any;
         /**
          * add an array of objects to index
          * @function WinJSContrib.Search.IndexWorkerProxy.prototype.addRange
@@ -313,7 +299,7 @@ declare module WinJSContrib.Search {
          * @param {Object} options
          * @returns {WinJS.Promise}
          */
-        addRange(data: any, options?: any): WinJS.Promise<any>;
+        addRange(data: any, options?: any): any;
         /**
          * release proxy
          * @function WinJSContrib.Search.IndexWorkerProxy.prototype.dispose
@@ -324,19 +310,19 @@ declare module WinJSContrib.Search {
          * @function WinJSContrib.Search.IndexWorkerProxy.prototype.clear
          * @returns {WinJS.Promise}
          */
-        clear(): WinJS.Promise<any>;
+        clear(): any;
         /**
          * load index from storage
          * @function WinJSContrib.Search.IndexWorkerProxy.prototype.load
          * @returns {WinJS.Promise}
          */
-        load(): WinJS.Promise<any>;
+        load(): any;
         /**
          * save index to storage
          * @function WinJSContrib.Search.IndexWorkerProxy.prototype.save
          * @returns {WinJS.Promise}
          */
-        save(): WinJS.Promise<any>;
+        save(): any;
     }
 }
 

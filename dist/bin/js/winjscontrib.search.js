@@ -561,7 +561,7 @@ var WinJSContrib;
              */
             function IndexWorkerProxy(name, definition, workerpath) {
                 var wrapper = this;
-                wrapper.worker = new WinJSContrib.Messenger.SmartWorker(workerpath || WinJSContrib.Search.workerPath);
+                wrapper.worker = WinJSContrib.SmartWorker(workerpath || WinJSContrib.Search.workerPath);
                 wrapper.init(name, definition);
             }
             /**

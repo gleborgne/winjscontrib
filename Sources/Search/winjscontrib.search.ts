@@ -2,25 +2,6 @@ declare module WinJSContrib.Utils {
     function readProperty(obj: any, name: string);
 }
 
-declare module WinJSContrib {
-    
-
-    class Messenger {
-        constructor(worker, worker2);
-
-        start(name, data?: any): WinJS.Promise<any>;
-        dispose();
-    }
-
-    module Messenger {
-		class SmartWorker {
-			constructor(path: string);
-			start(eventname: string, data?: any): WinJS.Promise<any>;
-			dispose();
-		}
-    }
-}
-
 module WinJSContrib.Search {
     /*
      look at http://burakkanber.com/blog/machine-learning-full-text-search-in-javascript-relevance-scoring/

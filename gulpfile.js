@@ -165,10 +165,11 @@ var tsSearchProject = ts.createProject({
     noEmitOnError : false
 });
 
-gulp.task('searchcompile', ["datacontainercompile"], function() {
+gulp.task('searchcompile', ["corecompile", "typescript", "datacontainercompile"], function() {
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
 		tsDestPath + 'winjscontrib.core.d.ts',
+		tsDestPath + 'winjscontrib.messenger.d.ts',
 		srcDataContainerPath + '*.d.ts', 	
 		srcSearchPath + 'winjscontrib.search.ts', 
 		srcSearchPath + 'winjscontrib.search.index.ts', 
@@ -231,7 +232,7 @@ var tsGlobalProject = ts.createProject({
     noEmitOnError : false
 });
 
-gulp.task('typescript', ['searchcompile'], function() {
+gulp.task('typescript', ["corecompile"], function() {
 	var tsResult = gulp.src([
 		typingsPath + '*.d.ts', 
 		typingsPath + 'react/*.d.ts', 
@@ -271,7 +272,7 @@ gulp.task('jshint', ['cleanscripts', 'typescript'], function() {
 	.pipe(jshint.reporter('default'));
 });
 
-gulp.task('scripts', ['cleanscripts', 'typescript'], function() {
+gulp.task('scripts', ['cleanscripts', 'typescript', 'searchcompile'], function() {
 	gulp.src([srcCommonPath + 'winjscontrib.dynamicscripts.html']).pipe(bom()).pipe(gulp.dest(jsDestPath));
 	var header = licenseHeader();
 	
