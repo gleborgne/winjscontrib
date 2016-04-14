@@ -453,6 +453,23 @@ var WinJSContrib;
             }
         });
 
+        WinJSContrib.Bindings.phone = WinJS.Binding.initializer(function emptyIfNull(source, sourceProperty, dest, destProperty) {
+            var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
+            if (data){
+                dest.innerHTML = '<a class="phonenumber" href="tel://' + data + '">' + data + '</a>'
+            }else{
+                dest.innerHTML = '';
+            }
+        });
+
+        WinJSContrib.Bindings.mail = WinJS.Binding.initializer(function emptyIfNull(source, sourceProperty, dest, destProperty) {
+            var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
+            if (data){
+                dest.innerHTML = '<a class="email" href="mailto://'+ data +'">' + data + '</a>'
+            }else{
+                dest.innerHTML = '';
+            }
+        });
 
         /**
          * Two way binding triggered by "change" event on inputs
