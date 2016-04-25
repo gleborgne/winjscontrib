@@ -149,7 +149,7 @@
                    logger.verbose("close page " + (pageControl ? pageControl.uri : ""));
 
                    var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose(pageControl);
-
+                   
                    var currentpageclose = check.then(function (canClose) {
                        if (!canClose) {
                            return WinJS.Promise.wrapError();
@@ -159,13 +159,13 @@
 
                        that.navigator.triggerPageExit();
                        return that.navigator.closePage(pageElement).then(function () {
+                           if (WinJSContrib.UI.Application.progress)
+                               WinJSContrib.UI.Application.progress.hide();
+
                            //console.log("closing " + (that.navigator.pageControl ? that.navigator.pageControl.uri : "") + ", childview active pages " + pagescount);
                            if (that.navigator.pagesCount == 0) {
                                return that.hide(arg, null, true);
-                           }
-
-                           if (WinJSContrib.UI.Application.progress)
-                               WinJSContrib.UI.Application.progress.hide();
+                           }                          
                        });
                    });
 
@@ -493,7 +493,9 @@
                                        if (pagesToClose && pagesToClose.length) {
                                            for (var i = 0 ; i < pagesToClose.length ; i++) {
                                                var page = pagesToClose[i];
-                                               that.closePage(null, page);
+                                               if (!page.winControl.mcnPageClosing) {
+                                                   that.closePage(null, page);
+                                               }
                                            }
                                        }
                                    });
