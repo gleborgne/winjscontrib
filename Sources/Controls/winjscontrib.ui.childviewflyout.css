@@ -10,7 +10,8 @@
 .childNavigator.visible {
   visibility: visible;
 }
-.childNavigator.enter {
+.childNavigator.enter,
+.childNavigator.leave {
   pointer-events: auto;
 }
 .childNavigator .childNavigator-overlay {
