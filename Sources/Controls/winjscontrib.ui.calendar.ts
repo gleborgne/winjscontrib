@@ -917,7 +917,7 @@
     export class CalendarYearPanelControl extends CalendarPanelControl {
         public content: HTMLElement;
         public yearTxt: HTMLElement;
-        public monthesPanel: HTMLElement;
+        public yearsPanel: HTMLElement;
         renderedDate: Date;
 
         constructor(parent: CalendarControl, currentDate: Date) {
@@ -984,16 +984,16 @@
         }
 
         update(focusItem: boolean, animIn, animOut, immediate?: boolean) {
-            var previouspanel = this.monthesPanel;
+            var previouspanel = this.yearsPanel;
             if (immediate) {
                 previouspanel.parentElement.removeChild(previouspanel);
             } else {
-                animOut(this.monthesPanel).then(() => {
+                animOut(this.yearsPanel).then(() => {
                     previouspanel.parentElement.removeChild(previouspanel);
                 });
             }
 
-            this.monthesPanel = this.renderYearPanel(this.content);
+            this.yearsPanel = this.renderYearPanel(this.content);
 
             var handleFocus = () => {
                 if (focusItem) {
@@ -1009,7 +1009,7 @@
                 this.yearTxt.innerText = "" + this._currentDate.getFullYear() + " - " + moment(this._currentDate).add('Y', 11).toDate().getFullYear();
                 handleFocus();
             } else {
-                animIn(this.monthesPanel).then(() => {
+                animIn(this.yearsPanel).then(() => {
                     this.yearTxt.innerText = "" + this._currentDate.getFullYear() + " - " + moment(this._currentDate).add('Y', 11).toDate().getFullYear();
                     handleFocus();
                 });
@@ -1028,7 +1028,7 @@
 
             this.yearTxt = <HTMLElement>this.element.querySelector(".year");
             this.content = <HTMLElement>this.element.querySelector(".month-items");
-            this.monthesPanel = this.renderYearPanel(this.content);
+            this.yearsPanel = this.renderYearPanel(this.content);
         }
 
         renderYearPanel(container: HTMLElement) {
@@ -1077,7 +1077,7 @@
                     var elt = <any>arg.target;
                     var date = <moment.Moment>elt.mcnMonthDate;
                     this._currentDate = date.toDate();
-                    this.parent.switchToDays();
+                    this.parent.switchToMonth();
                 };
 
                 panel.appendChild(year);
