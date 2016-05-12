@@ -12,6 +12,7 @@
         public textElement: HTMLElement;
         public flyout: WinJS.UI.Flyout;
         public timeclock: TimeClockControl;
+        public showonbody: boolean;
 
         constructor(element: HTMLElement, options: TimeClockOptions) {
             this.element = element || document.createElement('DIV');
@@ -71,7 +72,7 @@
             this.textElement.onclick = (arg) => {
                 arg.preventDefault();
                 arg.stopPropagation();
-                if (window.innerWidth < 500)
+                if (window.innerWidth < 500 || this.showonbody)
                     this.flyout.show(document.body, 'top', 'left');
                 else this.flyout.show(this.textElement);
             };
