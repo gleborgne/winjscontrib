@@ -111,6 +111,7 @@
         eventTracker: EventTracker;
         _daysPanel: CalendarDayPanelControl;
         _monthsPanel: CalendarMonthPanelControl;
+        _yearPanel: CalendarYearPanelControl;
         _currentPanel: CalendarPanelControl;
 
         constructor(element: HTMLElement, options: CalendarOptions) {
@@ -323,6 +324,25 @@
         }
 
         addEventListener(type: string, callback: any) {
+        }
+
+        switchToYear() {
+            if (this._currentPanel != this._yearPanel) {
+                this._currentPanel.hide();
+            }
+
+            if (!this._yearPanel) {
+                this._yearPanel = new CalendarYearPanelControl(this, this._currentPanel._currentDate);
+            } else {
+                this._yearPanel._currentDate = this._currentPanel._currentDate;
+                this._yearPanel.ensureValue(true);
+            }
+
+            this._yearPanel.show();
+            this._currentPanel = this._yearPanel;
+            this.checkState();
+
+            this._currentPanel.setNavButtonsLabels();
         }
 
         switchToMonth() {
@@ -828,6 +848,10 @@
             this.yearTxt = <HTMLElement>this.element.querySelector(".year");
             this.content = <HTMLElement>this.element.querySelector(".month-items");
             this.monthesPanel = this.renderMonthPanel(this.content);
+            WinJSContrib.UI.tap(this.element.querySelector("header"), () => {
+                this.parent.switchToYear();
+            });
+
         }
 
         renderMonthPanel(container: HTMLElement) {
@@ -889,7 +913,182 @@
         }
     }
 
-    
+    export class CalendarYearPanelControl extends CalendarPanelControl {
+        public content: HTMLElement;
+        public yearTxt: HTMLElement;
+        public monthesPanel: HTMLElement;
+        renderedDate: Date;
+
+        constructor(parent: CalendarControl, currentDate: Date) {
+            super(parent, currentDate);
+            this.element.classList.add("month-panel");
+            this.renderContent();
+        }
+
+        setNavButtonsLabels() {
+            var arianext = WinJS.Resources.getString("mcncalendar.nextyears.arialabel");
+            var ariaprevious = WinJS.Resources.getString("mcncalendar.previousyears.arialabel");
+            if (!arianext.empty && !ariaprevious.empty) {
+                this.parent.navbuttonNext.setAttribute("aria-label", arianext.value);
+                this.parent.navbuttonPrevious.setAttribute("aria-label", ariaprevious.value);
+            }
+        }
+
+        next(focusItem?: boolean) {
+            if (!this.allowNext())
+                return;
+            this._currentDate = moment(this._currentDate).add(12, "Y").toDate();
+            this.update(focusItem,
+                (elt) => WinJSContrib.UI.Animation.slideFromBottom(elt, { duration: 160 }),
+                (elt) => WinJSContrib.UI.Animation.slideToTop(elt, { duration: 160 }));
+        }
+
+        previous(focusItem?: boolean) {
+            if (!this.allowPrevious())
+                return;
+            this._currentDate = moment(this._currentDate).add(-12, "Y").toDate();
+            this.update(focusItem,
+                (elt) => WinJSContrib.UI.Animation.slideFromTop(elt, { duration: 160 }),
+                (elt) => WinJSContrib.UI.Animation.slideToBottom(elt, { duration: 160 }));
+        }
+
+        allowNext(): boolean {
+            var lastday = new Date(this._currentDate.getFullYear(), 11, 31);
+
+            if (!this.parent.maxdate)
+                return true;
+
+            if (lastday < moment(this.parent.maxdate).toDate())
+                return true;
+
+            return false;
+        }
+
+        allowPrevious() {
+            var firstday = new Date(this._currentDate.getFullYear(), 0, 1);
+
+            if (!this.parent.mindate)
+                return true;
+
+            if (firstday > moment(this.parent.mindate).month(0).date(1).toDate())
+                return true;
+
+            return false;
+        }
+
+        ensureValue(immediate?: boolean, focusItem?: boolean) {
+            if (moment(this._currentDate).diff(moment(this.renderedDate)) != 0) {
+                this.update(focusItem, (elt) => WinJS.UI.Animation.drillInIncoming(elt), (elt) => WinJS.UI.Animation.drillInOutgoing(elt), immediate);
+            }
+        }
+
+        update(focusItem: boolean, animIn, animOut, immediate?: boolean) {
+            var previouspanel = this.monthesPanel;
+            if (immediate) {
+                previouspanel.parentElement.removeChild(previouspanel);
+            } else {
+                animOut(this.monthesPanel).then(() => {
+                    previouspanel.parentElement.removeChild(previouspanel);
+                });
+            }
+
+            this.monthesPanel = this.renderYearPanel(this.content);
+
+            var handleFocus = () => {
+                if (focusItem) {
+                    var selected = <HTMLElement>this.content.querySelector(".month-item.selected:not(:disabled)");
+                    if (!selected)
+                        selected = <HTMLElement>this.content.querySelector(".month-item:not(:disabled)");
+
+                    if (selected)
+                        selected.focus();
+                }
+            }
+            if (immediate) {
+                this.yearTxt.innerText = "" + this._currentDate.getFullYear() + " - " + moment(this._currentDate).add('Y', 11).toDate().getFullYear();
+                handleFocus();
+            } else {
+                animIn(this.monthesPanel).then(() => {
+                    this.yearTxt.innerText = "" + this._currentDate.getFullYear() + " - " + moment(this._currentDate).add('Y', 11).toDate().getFullYear();
+                    handleFocus();
+                });
+            }
+            this.parent.checkState();
+        }
+
+        renderContent() {
+            this.element.innerHTML =
+                `<header>
+					<div class="year">${this._currentDate.getFullYear()} - ${moment(this._currentDate).add('Y', 11).toDate().getFullYear()}</div>
+				</header>
+				<section class="month-items">
+					
+				</section>`;
+
+            this.yearTxt = <HTMLElement>this.element.querySelector(".year");
+            this.content = <HTMLElement>this.element.querySelector(".month-items");
+            this.monthesPanel = this.renderYearPanel(this.content);
+        }
+
+        renderYearPanel(container: HTMLElement) {
+            var panel = document.createElement("DIV");
+            panel.className = "month-itemspanel";
+            var swipe = new (<any>WinJSContrib.UI).SwipeSlide(panel, { direction: "vertical", allowed: { top: this.allowNext(), bottom: this.allowPrevious() } });
+            swipe.onswipe = (arg) => {
+                swipe.swipeHandled = true;
+                if (arg.direction == "top") {
+                    this.next();
+                } else if (arg.direction == "bottom") {
+                    this.previous();
+                }
+            }
+
+            var start = moment(new Date(this._currentDate.getFullYear(), 0, 1));
+            var now = moment().hour(0).minute(0).second(0).millisecond(0);
+            var thismonth = now.clone().date(1);
+            var minDate = null;
+            if (this.parent.mindate)
+                minDate = moment(this.parent.mindate).date(1).hour(0).minute(0).second(0).millisecond(0);
+            var maxDate = null;
+            if (this.parent.maxdate)
+                maxDate = moment(this.parent.maxdate).date(1).hour(0).minute(0).second(0).millisecond(0);
+
+            for (var i = 0; i < 12; i++) {
+                var year = <HTMLButtonElement>document.createElement("BUTTON");
+                year.className = "month-item tap";
+                var currentMonthDate = start.clone();
+                (<any>year).mcnMonthDate = currentMonthDate;
+                year.innerText = currentMonthDate.format("YYYY");
+                year.setAttribute("aria-label", currentMonthDate.format("YYYY"));
+
+                if (currentMonthDate.diff(thismonth) == 0) {
+                    year.classList.add("today");
+                } else if (start < now) {
+                    year.classList.add("pastmonth");
+                }
+
+                if (minDate && start < minDate)
+                    year.disabled = true;
+                if (maxDate && start > maxDate)
+                    year.disabled = true;
+
+                year.onclick = (arg) => {
+                    var elt = <any>arg.target;
+                    var date = <moment.Moment>elt.mcnMonthDate;
+                    this._currentDate = date.toDate();
+                    this.parent.switchToDays();
+                };
+
+                panel.appendChild(year);
+                start.add(1, "Y");
+            }
+            container.appendChild(panel);
+            this.renderedDate = this._currentDate;
+
+            return panel;
+        }
+    }
+
     //export var CalendarDayPanel = WinJS.Class.mix(CalendarDayPanelControl,
     //	WinJS.Utilities.eventMixin,
     //       WinJS.Utilities.createEventProperties("selected"));
