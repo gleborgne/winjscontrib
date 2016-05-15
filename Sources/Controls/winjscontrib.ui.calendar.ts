@@ -107,6 +107,7 @@
         public navbuttonNext: HTMLButtonElement;
         public mindate: string | Date;
         public maxdate: string | Date;
+        public onmousewheelPromise: WinJS.Promise<any>;
         public allowDateCallback: (date: Date) => boolean;
         public onchange: () => void;
         eventTracker: EventTracker;
@@ -123,7 +124,7 @@
             this.element.winControl = this;
             this.element.classList.add('mcn-calendar');
             this.element.classList.add('win-disposable');
-
+            this.onmousewheelPromise = WinJS.Promise.wrap();
             WinJS.UI.setOptions(this, options);
 
             if (this.flyout) {
@@ -295,13 +296,18 @@
             this.element.onmousewheel = (arg) => {
                 arg.preventDefault();
                 arg.stopPropagation();
-                if (arg.wheelDelta < 0) {
-                    if (this._currentPanel.allowNext())
-                        this._currentPanel.next();
-                } else {
-                    if (this._currentPanel.allowPrevious())
-                        this._currentPanel.previous();
-                }
+                if ((<any>this.onmousewheelPromise)._state && (<any>this.onmousewheelPromise)._state.name !== "success")
+                    return;
+                this.onmousewheelPromise.then(() => {
+                    if (arg.wheelDelta < 0) {
+                        if (this._currentPanel.allowNext())
+                            this._currentPanel.next();
+                    } else {
+                        if (this._currentPanel.allowPrevious())
+                            this._currentPanel.previous();
+                    }
+                    this.onmousewheelPromise = WinJS.Promise.timeout(160);
+                });
             }
 
             this._currentPanel.setNavButtonsLabels();
