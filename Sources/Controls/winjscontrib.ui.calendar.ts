@@ -23,6 +23,16 @@
                 });
             }
 
+            this.flyout.onaftershow = () => {
+                if ((<any>WinJS).UI && (<any>WinJS).UI._LightDismissService &&
+                    (<any>WinJS).UI._LightDismissService._service &&
+                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl &&
+                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style &&
+                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style.zIndex < 1003) {
+                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style.zIndex = "1003";
+                }
+            }
+
             if (!options.hasOwnProperty("deferRendering")) {
                 options.deferRendering = true;
             }
