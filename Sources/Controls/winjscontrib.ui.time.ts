@@ -12,7 +12,6 @@
         public textElement: HTMLElement;
         public flyout: WinJS.UI.Flyout;
         public timeclock: TimeClockControl;
-        public showonbody: boolean;
 
         constructor(element: HTMLElement, options: TimeClockOptions) {
             this.element = element || document.createElement('DIV');
@@ -64,8 +63,8 @@
                     (<any>WinJS).UI._LightDismissService._service &&
                     (<any>WinJS).UI._LightDismissService._service._clickEaterEl &&
                     (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style &&
-                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style.zIndex < 1003) {
-                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style.zIndex = "1003";
+                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style.zIndex < 1010) {
+                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style.zIndex = "1010";
                 }
             }
             this.flyout.onafterhide = () => {
@@ -81,7 +80,7 @@
             this.textElement.onclick = (arg) => {
                 arg.preventDefault();
                 arg.stopPropagation();
-                if (window.innerWidth < 500 || this.showonbody)
+                if (window.innerWidth < 500)
                     this.flyout.show(document.body, 'top', 'left');
                 else this.flyout.show(this.textElement);
             };
