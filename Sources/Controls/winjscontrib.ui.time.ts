@@ -63,8 +63,8 @@
                     (<any>WinJS).UI._LightDismissService._service &&
                     (<any>WinJS).UI._LightDismissService._service._clickEaterEl &&
                     (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style &&
-                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style.zIndex < 1010) {
-                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style.zIndex = "1010";
+                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style.zIndex < 1006) {
+                    (<any>WinJS).UI._LightDismissService._service._clickEaterEl.style.zIndex = "1006";
                 }
             }
             this.flyout.onafterhide = () => {
