@@ -8,6 +8,7 @@
 
 (function () {
     "use strict";
+    var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Navigator");
 
     var appView = null;
     if (window.Windows && window.Windows.UI && window.Windows.UI.ViewManagement && window.Windows.UI.ViewManagement.ApplicationView)
@@ -628,6 +629,7 @@
                     _navigated: function (args) {
                         var navigator = this;
 
+                        logger.verbose("navigating to " + args.detail.location, args.detail.state);
                         args.detail.state = args.detail.state || {};
                         var pagecontainer = navigator.element;
                         var oldPage = this.pageControl;

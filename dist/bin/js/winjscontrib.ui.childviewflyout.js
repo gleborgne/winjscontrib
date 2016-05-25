@@ -128,7 +128,7 @@
                 */
                clear: function (forceClose) {
                    var that = this;
-                   logger.verbose("clear");
+                   logger.debug("clear");
                    return new WinJS.Promise(function (complete, error) {
                        WinJS.Promise.wrap(that.closePage(null, null, forceClose)).done(function () {
                            that.navigator.clear();
@@ -139,33 +139,37 @@
                    });
                },
 
+               checkStack: function (arg) {
+                   var that = this;
+                   if (that.navigator.pagesCount == 0) {
+                       return that.hide(arg, null, true);
+                   }
+               },
+
                /**
                 * close current page
                 */
                closePage: function (arg, pageElement, forceClose) {
                    var that = this;
-                   
+
                    var pageControl = pageElement ? pageElement.winControl : null;
-                   logger.verbose("close page " + (pageControl ? pageControl.uri : ""));
+                   logger.debug("close page " + (pageControl ? pageControl.uri : ""));
 
                    var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose(pageControl);
-                   
+
                    var currentpageclose = check.then(function (canClose) {
                        if (!canClose) {
                            return WinJS.Promise.wrapError();
                        }
 
-                       var pagescount = that.navigator.pagesCount;                       
+                       var pagescount = that.navigator.pagesCount;
 
                        that.navigator.triggerPageExit();
                        return that.navigator.closePage(pageElement).then(function () {
                            if (WinJSContrib.UI.Application.progress)
                                WinJSContrib.UI.Application.progress.hide();
 
-                           //console.log("closing " + (that.navigator.pageControl ? that.navigator.pageControl.uri : "") + ", childview active pages " + pagescount);
-                           if (that.navigator.pagesCount == 0) {
-                               return that.hide(arg, null, true);
-                           }                          
+                           return that.checkStack(arg);
                        });
                    });
 
@@ -218,7 +222,7 @@
                show: function (skipshowcontainer) {
                    var that = this;
 
-                   logger.verbose("show");
+                   logger.verbose("showing childview");
 
                    if (that.target) {
                        that.target.classList.add("childview-target");
@@ -247,7 +251,7 @@
 
                        that.showChildViewPromise = WinJS.Promise.timeout().then(function () {
                            return that.hideChildViewPromise;
-                       }).then(function(){
+                       }).then(function () {
                            that.hideChildViewPromise = null;
                            that.addDismissableClass("enter-active");
                            that.addDismissableClass("visible");
@@ -300,83 +304,110 @@
                    }
                },
 
-               pick: function (uri, options, skipHistory) {
+               _pick: function (uri, options, stacked, skipHistory) {
                    var ctrl = this;
                    options = options || {};
                    ctrl.pickPromises = ctrl.pickPromises || [];
 
-                   var pickPromise = new WinJS.Promise(function (complete, error) {
-                       var completed = false;
-                       var childviewpage = null;
+                   var pickOperation = {
+                       completed: false,
+                       childviewpage: null,
+                       promise: null,
+                       completeCallback: null,
+                       errorCallback: null,
+                       manageClose: null,
+                       attachPage : function(page){
+                           this.detachPage();
+                           this.childviewpage = page;
+                           if (page && page.element) {
+                               page.addEventListener("closing", this.manageClose);
+                           }
+                       },
+                       detachPage: function (page) {
+                           if (this.childviewpage && this.childviewpage.element && this.childviewpage.removeEventListener) {
+                               this.childviewpage.removeEventListener("closing", this.manageClose);
+                           }
+                       },
+                       dispose: function () {
+                       }
+                   };
 
-                       var manageClose = function (eventarg, hasResult, arg) {
-                           removePromise();
-                           try{
-                               if (childviewpage && childviewpage.element && childviewpage.removeEventListener) {
-                                   childviewpage.removeEventListener("closing", manageClose);
-                               }
+                   
 
-                               ctrl.removeEventListener("beforehide", manageClose);
+                   pickOperation.promise = new WinJS.Promise(function (complete, error) {
+                       pickOperation.completed = false;
+                       pickOperation.childviewpage = null;
+
+                       pickOperation.completeCallback = complete;
+                       pickOperation.errorCallback = error;
+                       pickOperation.manageClose = function (eventarg, hasResult, arg) {                           
+                           try {
+                               pickOperation.detachPage();
+
+                               ctrl.removeEventListener("beforehide", pickOperation.manageClose);
                            } catch (exception) {
                                console.error(exception);
                            }
 
-                           if (!completed) {
-                               completed = true;
+                           if (!pickOperation.completed) {
+                               pickOperation.completed = true;
+                               logger.verbose("closing childview page hasresult:" + hasResult, arg);
                                complete({ completed: hasResult, data: arg });
                            }
                        };
 
-                       options.navigateStacked = true;
-                       options.injectToPage = {
+                       pickOperation.injectToPage = {
                            close: function (arg) {
-                               removePromise();
-                               manageClose(null, true, arg);
+                               return ctrl.canClose(pickOperation.childviewpage).then(function () {
+                                   pickOperation.manageClose(null, true, arg);
 
-                               try{
-                                   if (childviewpage && childviewpage.element && childviewpage.removeEventListener) {
-                                       childviewpage.removeEventListener("closing", manageClose);
+                                   try {
+                                       pickOperation.detachPage();
+
+                                       ctrl.removeEventListener("beforehide", pickOperation.manageClose);
+                                   } catch (exception) {
+                                       console.error(exception);
                                    }
-
-                                   ctrl.removeEventListener("beforehide", manageClose);
-                               }catch(exception){
-                                   console.error(exception);
-                               }
-
-                               ctrl.closePage(arg, this.element || this.rootElement);
+                                   ctrl.closePage(arg, pickOperation.childviewpage.element, true);
+                               });
                            },
                            cancel: function () {
-                               manageClose(null, false);
-                               ctrl.closePage();
+                               var elt = this.element || this.rootElement;
+                               return ctrl.canClose(elt.winControl).then(function () {
+                                   pickOperation.manageClose(null, false);
+                                   ctrl.closePage()
+                               });
                            }
                        };
+                       options.navigateStacked = stacked;
+                       options.injectToPage = pickOperation.injectToPage;
 
-                       //var arg = JSON.parse(JSON.stringify(options));
-                       //arg.navigateStacked = true;
+                       ctrl.pickPromises.push(pickOperation);
                        ctrl.open(uri, options, skipHistory).then(function (arg) {
-                           childviewpage = ctrl.navigator.pageControl;
-                           if (childviewpage && childviewpage.element) {
-                               childviewpage.addEventListener("closing", manageClose);
-                           }
-                           ctrl.addEventListener("beforehide", manageClose, false);
+                           logger.debug("picking with childview page " + uri);
+                           //pickOperation.attachPage(ctrl.navigator.pageControl)
+                           
+                           ctrl.addEventListener("beforehide", pickOperation.manageClose, false);
                        });
+                       
                    });
+
                    var removePromise = function () {
-                       var idx = ctrl.pickPromises.indexOf(pickPromise);
+                       var idx = ctrl.pickPromises.indexOf(pickOperation);
                        ctrl.pickPromises.splice(idx, 1);
                    }
-                   ctrl.pickPromises.push(pickPromise);
-                   pickPromise.then(removePromise, removePromise);
-
-                   //if (this.pickPromise) {
-                   //    this.pickPromise = this.pickPromise.then(function () {
-                   //        return pickPromise;
-                   //    })
-                   //}
-
-                   return pickPromise;
+                   
+                   pickOperation.promise.then(removePromise, removePromise);
+                   
+                   return pickOperation.promise;
                },
 
+
+               pick: function (uri, options, skipHistory) {
+                   var ctrl = this;
+                   return ctrl._pick(uri, options, true, skipHistory);
+               },
+               
                /**
                 * display child view and navigate to target uri
                 * @param {string} uri target page uri
@@ -386,15 +417,21 @@
                 */
                open: function (uri, options, skipHistory) {
                    var that = this;
+                   options = options || {};
+                   var lastPickOperation;
+                   if (that.pickPromises.length) {
+                       lastPickOperation = that.pickPromises[that.pickPromises.length - 1];
+                       options.injectToPage = lastPickOperation.injectToPage;
+                       lastPickOperation.detachPage();
+                   }
                    that.rootElement.classList.add("visible");
                    that.dispatchEvent('beforeshow');
-                   logger.verbose("open " + uri);
+                   logger.verbose("opening " + uri, options);
 
-                   that.openChildViewPromise = new WinJS.Promise(function(complete, error){
+                   that.openChildViewPromise = new WinJS.Promise(function (complete, error) {
                        WinJS.Promise.as(that.hideChildViewPromise).then(function () {
                            var p = WinJS.Promise.wrap();
                            if (!that.isOpened) {
-                               logger.verbose("open and show");
                                p = that.show(true);
                            }
 
@@ -403,6 +440,9 @@
                                navigate: that.navigate(uri, options, skipHistory).done(function (e) {
                                    that.dispatchEvent('aftershow');
                                })
+                           }).then(function () {                               
+                               if (lastPickOperation)
+                                   lastPickOperation.attachPage(that.navigator.pageControl);
                            });
                        }).then(complete, error);
                    });
@@ -427,7 +467,7 @@
                 */
                hide: function (arg, event, forceClose) {
                    var that = this;
-                   logger.verbose("hide");
+                   logger.verbose("hiding childview");
 
                    if (that.isOpened) {
                        that.showChildViewPromise = null;
@@ -441,7 +481,7 @@
                            return WinJS.Promise.as(previousHide).then(function () {
                                return canclose;
                            })
-                       }).then(function(canclose){
+                       }).then(function (canclose) {
                            if (!canclose) {
                                return false;
                            }
@@ -453,7 +493,7 @@
 
                                if (that.pickPromises) {
                                    that.pickPromises.forEach(function (p) {
-                                       p.cancel();
+                                       p.promise.cancel();
                                    });
                                }
 
@@ -476,7 +516,7 @@
                                }
 
                                return WinJS.Promise.timeout().then(function () {
-                                   
+
                                    that.addDismissableClass("leave-active");
                                    return WinJS.Promise.join({
                                        overlay: WinJSContrib.UI.afterTransition(that.overlay, 1000),

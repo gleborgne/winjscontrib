@@ -58,6 +58,15 @@ var WinJSContrib;
                         _this.timeclock.setFocus();
                     });
                 };
+                this.flyout.onaftershow = function () {
+                    if (WinJS.UI && WinJS.UI._LightDismissService &&
+                        WinJS.UI._LightDismissService._service &&
+                        WinJS.UI._LightDismissService._service._clickEaterEl &&
+                        WinJS.UI._LightDismissService._service._clickEaterEl.style &&
+                        WinJS.UI._LightDismissService._service._clickEaterEl.style.zIndex < 1006) {
+                        WinJS.UI._LightDismissService._service._clickEaterEl.style.zIndex = "1006";
+                    }
+                };
                 this.flyout.onafterhide = function () {
                     _this.timeclock.switchToHours();
                 };

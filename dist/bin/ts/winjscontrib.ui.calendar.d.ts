@@ -33,11 +33,13 @@
         navbuttonNext: HTMLButtonElement;
         mindate: string | Date;
         maxdate: string | Date;
+        onmousewheelPromise: WinJS.Promise<any>;
         allowDateCallback: (date: Date) => boolean;
         onchange: () => void;
         eventTracker: EventTracker;
         _daysPanel: CalendarDayPanelControl;
         _monthsPanel: CalendarMonthPanelControl;
+        _yearPanel: CalendarYearPanelControl;
         _currentPanel: CalendarPanelControl;
         constructor(element: HTMLElement, options: CalendarOptions);
         value: Date;
@@ -49,6 +51,7 @@
         checkState(): void;
         dispatchEvent(type: string, data?: any): void;
         addEventListener(type: string, callback: any): void;
+        switchToYear(): void;
         switchToMonth(): void;
         switchToDays(): void;
         dispose(): void;
@@ -117,5 +120,21 @@
         update(focusItem: boolean, animIn: any, animOut: any, immediate?: boolean): void;
         renderContent(): void;
         renderMonthPanel(container: HTMLElement): HTMLElement;
+    }
+    class CalendarYearPanelControl extends CalendarPanelControl {
+        content: HTMLElement;
+        yearTxt: HTMLElement;
+        yearsPanel: HTMLElement;
+        renderedDate: Date;
+        constructor(parent: CalendarControl, currentDate: Date);
+        setNavButtonsLabels(): void;
+        next(focusItem?: boolean): void;
+        previous(focusItem?: boolean): void;
+        allowNext(): boolean;
+        allowPrevious(): boolean;
+        ensureValue(immediate?: boolean, focusItem?: boolean): void;
+        update(focusItem: boolean, animIn: any, animOut: any, immediate?: boolean): void;
+        renderContent(): void;
+        renderYearPanel(container: HTMLElement): HTMLElement;
     }
 }

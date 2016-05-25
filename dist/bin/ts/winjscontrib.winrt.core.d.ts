@@ -69,6 +69,7 @@ declare module WinJSContrib.Alerts {
 declare module WinJSContrib.Logs {
     class WinRTFileLogger implements WinJSContrib.Logs.Appenders.ILogAppender {
         readyPromise: WinJS.Promise<Windows.Storage.StorageFile>;
+        maxNumberOfFiles: number;
         maxBufferSize: number;
         maxFlushDelay: number;
         maxFileSize: number;
@@ -80,7 +81,9 @@ declare module WinJSContrib.Logs {
         clone(): WinRTFileLogger;
         format(logger: WinJSContrib.Logs.Logger, message: string, level: WinJSContrib.Logs.Levels): void;
         log(logger: WinJSContrib.Logs.Logger, message: string, level: WinJSContrib.Logs.Levels, ...args: any[]): void;
-        flush(): void;
+        flush(): WinJS.Promise<Windows.Storage.StorageFile>;
+        _swapCurrentFile(): Windows.Foundation.IPromise<WinJS.IPromise<any[]>>;
+        _cleanup(): Windows.Foundation.IPromise<WinJS.IPromise<any[]>>;
         group(title: string): void;
         groupCollapsed(title: string): void;
         groupEnd(): void;

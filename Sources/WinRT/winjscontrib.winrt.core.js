@@ -266,9 +266,10 @@ var WinJSContrib;
     (function (Logs) {
         var WinRTFileLogger = (function () {
             function WinRTFileLogger(file) {
+                this.maxNumberOfFiles = 10;
                 this.maxBufferSize = 50;
                 this.maxFlushDelay = 2000;
-                this.maxFileSize = 5 * 1024 * 1024;
+                this.maxFileSize = 3 * 1024 * 1024; //3Mo
                 this.buffer = [];
                 this.file = file;
                 this.readyPromise = WinJS.Promise.wrap(file);
@@ -300,7 +301,14 @@ var WinJSContrib;
                 for (var _i = 3; _i < arguments.length; _i++) {
                     args[_i - 3] = arguments[_i];
                 }
-                this.buffer.push(new Date().getTime() + "\t" + WinJSContrib.Logs.Levels[level].toUpperCase() + "\t" + (logger.Config.prefix ? logger.Config.prefix + "\t" : "") + message);
+                var leveltxt;
+                if (level && WinJSContrib.Logs.Levels[level]) {
+                    leveltxt = WinJSContrib.Logs.Levels[level].toUpperCase();
+                }
+                else {
+                    leveltxt = "UKN";
+                }
+                this.buffer.push(new Date().getTime() + "\t" + leveltxt + "\t" + (logger.Config.prefix ? logger.Config.prefix + "\t" : "") + message);
                 if (args && args.length) {
                     args.forEach(function (arg) {
                         if (typeof arg == "string") {
@@ -330,41 +338,68 @@ var WinJSContrib;
                     appender.buffer = [];
                     appender.readyPromise = new WinJS.Promise(function (complete, error) {
                         existingReadyPromise.then(function (file) {
-                            if (file) {
-                                return Windows.Storage.FileIO.appendTextAsync(file, currentBuffer).then(function () {
-                                    return file;
-                                }, function (err) {
-                                    console.error(err);
-                                    return file;
-                                });
-                            }
-                            else {
-                                return file;
-                            }
-                        }).then(function (file) {
-                            if (file && appender.maxFileSize) {
-                                return file.getBasicPropertiesAsync().then(function (props) {
-                                    if (props.size > appender.maxFileSize) {
-                                        var oldpath = file.path;
-                                        var oldfilename = file.name;
-                                        return file.renameAsync(file.name + ".old", Windows.Storage.NameCollisionOption.generateUniqueName).then(function () {
-                                            return Windows.Storage.StorageFolder.getFolderFromPathAsync(oldpath.substr(0, oldpath.lastIndexOf("\\"))).then(function (folder) {
-                                                return folder.createFileAsync(oldfilename).then(function (file) {
-                                                    appender.file = file;
-                                                    return file;
-                                                });
-                                            });
-                                        });
-                                    }
-                                    return file;
-                                });
+                            return Windows.Storage.FileIO.appendTextAsync(appender.file, currentBuffer).then(function () {
+                                return appender.file;
+                            }, function (err) {
+                                console.error("error appending logs to " + appender.file.path, err);
+                                return appender.file;
+                            });
+                        }).then(function () {
+                            if (appender.file && appender.maxFileSize) {
+                                return appender._swapCurrentFile();
                             }
                         }).then(complete, function (err) {
                             console.error(err);
                             complete();
                         });
                     });
+                    return appender.readyPromise;
                 }
+                return WinJS.Promise.wrap();
+            };
+            WinRTFileLogger.prototype._swapCurrentFile = function () {
+                var appender = this;
+                return appender.file.getBasicPropertiesAsync().then(function (props) {
+                    if (props.size > appender.maxFileSize) {
+                        var oldpath = appender.file.path;
+                        var oldfilename = appender.file.name;
+                        var now = new Date();
+                        var newfile = "" + now.getFullYear() + WinJSContrib.Utils.pad2(now.getMonth() + 1) + WinJSContrib.Utils.pad2(now.getDate()) + WinJSContrib.Utils.pad2(now.getHours()) + WinJSContrib.Utils.pad2(now.getMinutes()) + now.getMilliseconds();
+                        return Windows.Storage.StorageFolder.getFolderFromPathAsync(oldpath.substr(0, oldpath.lastIndexOf("\\"))).then(function (folder) {
+                            return appender.file.renameAsync(newfile + "." + oldfilename, Windows.Storage.NameCollisionOption.generateUniqueName).then(function () {
+                                return folder.createFileAsync(oldfilename).then(function (file) {
+                                    appender.file = file;
+                                    return file;
+                                });
+                            });
+                        }).then(function () {
+                            return appender._cleanup();
+                        });
+                    }
+                });
+            };
+            WinRTFileLogger.prototype._cleanup = function () {
+                var appender = this;
+                var oldpath = appender.file.path;
+                var filename = appender.file.name;
+                return Windows.Storage.StorageFolder.getFolderFromPathAsync(oldpath.substr(0, oldpath.lastIndexOf("\\"))).then(function (folder) {
+                    return folder.getFilesAsync().then(function (files) {
+                        var fileslist = files.filter(function (f) {
+                            if (f.path.indexOf(filename) >= 0 || f.path.indexOf(filename + ".old") >= 0) {
+                                if (f.path != oldpath) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        });
+                        if (fileslist.length <= appender.maxNumberOfFiles)
+                            return;
+                        fileslist = fileslist.slice(0, fileslist.length - appender.maxNumberOfFiles);
+                        return WinJSContrib.Promise.parallel(fileslist, function (file) {
+                            return file.deleteAsync();
+                        });
+                    });
+                });
             };
             WinRTFileLogger.prototype.group = function (title) {
             };

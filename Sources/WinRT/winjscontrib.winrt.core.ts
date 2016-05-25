@@ -269,9 +269,10 @@ module WinJSContrib.Alerts {
 module WinJSContrib.Logs {
     export class WinRTFileLogger implements WinJSContrib.Logs.Appenders.ILogAppender {
         readyPromise: WinJS.Promise<Windows.Storage.StorageFile>;
+        public maxNumberOfFiles: number = 10;
         public maxBufferSize: number = 50;
         public maxFlushDelay: number = 2000;
-        public maxFileSize: number = 5 * 1024 * 1024;
+        public maxFileSize: number = 3 * 1024 * 1024; //3Mo
         buffer: string[] = [];
         flushTimeout: any;
         public file: Windows.Storage.StorageFile;
@@ -307,7 +308,13 @@ module WinJSContrib.Logs {
         }
 
         log(logger: WinJSContrib.Logs.Logger, message: string, level: WinJSContrib.Logs.Levels, ...args) {
-            this.buffer.push(new Date().getTime() + "\t" + WinJSContrib.Logs.Levels[level].toUpperCase() + "\t" + (logger.Config.prefix ? logger.Config.prefix + "\t" : "") + message);
+            var leveltxt;
+            if (level && WinJSContrib.Logs.Levels[level]){
+                leveltxt = WinJSContrib.Logs.Levels[level].toUpperCase();
+            }else{
+                leveltxt = "UKN";
+            }
+            this.buffer.push(new Date().getTime() + "\t" + leveltxt + "\t" + (logger.Config.prefix ? logger.Config.prefix + "\t" : "") + message);
             if (args && args.length) {
                 args.forEach((arg) => {
                     if (typeof arg == "string") {
@@ -340,41 +347,74 @@ module WinJSContrib.Logs {
                 appender.buffer = [];
                 appender.readyPromise = new WinJS.Promise((complete, error) => {
                     existingReadyPromise.then((file) => {
-                        if (file) {
-                            return Windows.Storage.FileIO.appendTextAsync(file, currentBuffer).then(() => {
-                                return file;
-                            }, (err) => {
-                                console.error(err);
-                                return file;
-                            });
-                        } else {
-                            return file;
-                        }
-                    }).then((file: Windows.Storage.StorageFile) => {
-                        if (file && appender.maxFileSize) {
-                            return file.getBasicPropertiesAsync().then((props) => {
-                                if (props.size > appender.maxFileSize) {
-                                    var oldpath = file.path;
-                                    var oldfilename = file.name;
-                                    return file.renameAsync(file.name + ".old", Windows.Storage.NameCollisionOption.generateUniqueName).then(() => {
-                                        return Windows.Storage.StorageFolder.getFolderFromPathAsync(oldpath.substr(0, oldpath.lastIndexOf("\\"))).then((folder) => {
-                                            return folder.createFileAsync(oldfilename).then((file) => {
-                                                appender.file = file;
-                                                return file;
-                                            });
-                                        })
-                                    });
-                                }
-
-                                return file;
-                            });
+                        return Windows.Storage.FileIO.appendTextAsync(appender.file, currentBuffer).then(() => {
+                            return appender.file;
+                        }, (err) => {
+                            console.error("error appending logs to " + appender.file.path, err);
+                            return appender.file;
+                        });
+                    }).then(() => {
+                        if (appender.file && appender.maxFileSize) {
+                            return appender._swapCurrentFile();
                         }
                     }).then(complete, (err) => {
                         console.error(err);
                         complete();
                     });
                 });
+
+                return appender.readyPromise;
             }
+
+            return WinJS.Promise.wrap();
+        }
+
+        _swapCurrentFile(){
+			var appender = this;
+			return appender.file.getBasicPropertiesAsync().then((props) => {
+				if (props.size > appender.maxFileSize) {
+					var oldpath = appender.file.path;
+					var oldfilename = appender.file.name;
+					var now = new Date();
+					var newfile = "" + now.getFullYear() + WinJSContrib.Utils.pad2(now.getMonth() + 1) + WinJSContrib.Utils.pad2(now.getDate()) + WinJSContrib.Utils.pad2(now.getHours()) + WinJSContrib.Utils.pad2(now.getMinutes()) + now.getMilliseconds();
+					return Windows.Storage.StorageFolder.getFolderFromPathAsync(oldpath.substr(0, oldpath.lastIndexOf("\\"))).then(function(folder) {
+						return appender.file.renameAsync(newfile + "." + oldfilename, Windows.Storage.NameCollisionOption.generateUniqueName).then(function() {
+							return folder.createFileAsync(oldfilename).then((file) => {
+								appender.file = file;
+								return file;
+							});
+						});
+					}).then(() => {
+						return appender._cleanup();
+					});
+				}
+			});
+        }
+
+        _cleanup() {
+			var appender = this;
+			var oldpath = appender.file.path;
+			var filename = appender.file.name;
+			return Windows.Storage.StorageFolder.getFolderFromPathAsync(oldpath.substr(0, oldpath.lastIndexOf("\\"))).then((folder) => {
+				return folder.getFilesAsync().then((files) => {
+					var fileslist = files.filter((f) => {
+						if (f.path.indexOf(filename) >= 0 || f.path.indexOf(filename + ".old") >= 0) {
+							if (f.path != oldpath) {
+								return true;
+							}
+						}
+						return false;
+					});
+
+					if (fileslist.length <= appender.maxNumberOfFiles)
+						return;
+
+					fileslist = fileslist.slice(0, fileslist.length - appender.maxNumberOfFiles);
+					return WinJSContrib.Promise.parallel(fileslist, (file) => {
+						return file.deleteAsync();
+					});
+				});
+			});
         }
 
         group(title: string) {

@@ -29,11 +29,11 @@
 }
 .childNavigator .childNavigator-overlay.enter {
   -webkit-transition: opacity 500ms ease-out 10ms;
-  transition: opacity 500ms ease-out 10ms;
+  transition: opacity 400ms ease-out 10ms;
 }
 .childNavigator .childNavigator-overlay.leave {
   -webkit-transition: opacity 350ms ease-in 10ms;
-  transition: opacity 350ms ease-in 10ms;
+  transition: opacity 250ms ease-in 10ms;
 }
 .childNavigator .childNavigator-overlay.enter-active {
   opacity: 0.7;
@@ -56,7 +56,7 @@
 }
 .childNavigator .childNavigator-contentPlaceholder.leave {
   -webkit-transition: -webkit-transform 250ms ease-in 10ms;
-  transition: transform 250ms ease-in 10ms;
+  transition: transform 200ms ease-in 10ms;
 }
 .childNavigator .childNavigator-contentPlaceholder.enter-active {
   -webkit-transform: translate3d(0, 0, 0);

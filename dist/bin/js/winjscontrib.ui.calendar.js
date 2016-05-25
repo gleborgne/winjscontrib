@@ -30,6 +30,15 @@ var WinJSContrib;
                         _this.calendar.focusSelected();
                     });
                 };
+                this.flyout.onaftershow = function () {
+                    if (WinJS.UI && WinJS.UI._LightDismissService &&
+                        WinJS.UI._LightDismissService._service &&
+                        WinJS.UI._LightDismissService._service._clickEaterEl &&
+                        WinJS.UI._LightDismissService._service._clickEaterEl.style &&
+                        WinJS.UI._LightDismissService._service._clickEaterEl.style.zIndex < 1006) {
+                        WinJS.UI._LightDismissService._service._clickEaterEl.style.zIndex = "1006";
+                    }
+                };
                 if (!options.hasOwnProperty("deferRendering")) {
                     options.deferRendering = true;
                 }
@@ -94,6 +103,7 @@ var WinJSContrib;
                 this.element.winControl = this;
                 this.element.classList.add('mcn-calendar');
                 this.element.classList.add('win-disposable');
+                this.onmousewheelPromise = WinJS.Promise.wrap();
                 WinJS.UI.setOptions(this, options);
                 if (this.flyout) {
                     this.element.classList.add('win-xyfocus-suspended');
@@ -257,14 +267,19 @@ var WinJSContrib;
                 this.element.onmousewheel = function (arg) {
                     arg.preventDefault();
                     arg.stopPropagation();
-                    if (arg.wheelDelta < 0) {
-                        if (_this._currentPanel.allowNext())
-                            _this._currentPanel.next();
-                    }
-                    else {
-                        if (_this._currentPanel.allowPrevious())
-                            _this._currentPanel.previous();
-                    }
+                    if (_this.onmousewheelPromise._state && _this.onmousewheelPromise._state.name !== "success")
+                        return;
+                    _this.onmousewheelPromise.then(function () {
+                        if (arg.wheelDelta < 0) {
+                            if (_this._currentPanel.allowNext())
+                                _this._currentPanel.next();
+                        }
+                        else {
+                            if (_this._currentPanel.allowPrevious())
+                                _this._currentPanel.previous();
+                        }
+                        _this.onmousewheelPromise = WinJS.Promise.timeout(160);
+                    });
                 };
                 this._currentPanel.setNavButtonsLabels();
             };
@@ -285,6 +300,22 @@ var WinJSContrib;
             CalendarControl.prototype.dispatchEvent = function (type, data) {
             };
             CalendarControl.prototype.addEventListener = function (type, callback) {
+            };
+            CalendarControl.prototype.switchToYear = function () {
+                if (this._currentPanel != this._yearPanel) {
+                    this._currentPanel.hide();
+                }
+                if (!this._yearPanel) {
+                    this._yearPanel = new CalendarYearPanelControl(this, this._currentPanel._currentDate);
+                }
+                else {
+                    this._yearPanel._currentDate = this._currentPanel._currentDate;
+                    this._yearPanel.ensureValue(true);
+                }
+                this._yearPanel.show();
+                this._currentPanel = this._yearPanel;
+                this.checkState();
+                this._currentPanel.setNavButtonsLabels();
             };
             CalendarControl.prototype.switchToMonth = function () {
                 if (this._currentPanel != this._monthsPanel) {
@@ -691,11 +722,15 @@ var WinJSContrib;
                 this.parent.checkState();
             };
             CalendarMonthPanelControl.prototype.renderContent = function () {
+                var _this = this;
                 this.element.innerHTML =
                     "<header>\n\t\t\t\t\t<div class=\"year\">" + this._currentDate.getFullYear() + "</div>\n\t\t\t\t</header>\n\t\t\t\t<section class=\"month-items\">\n\t\t\t\t\t\n\t\t\t\t</section>";
                 this.yearTxt = this.element.querySelector(".year");
                 this.content = this.element.querySelector(".month-items");
                 this.monthesPanel = this.renderMonthPanel(this.content);
+                WinJSContrib.UI.tap(this.element.querySelector("header"), function () {
+                    _this.parent.switchToYear();
+                });
             };
             CalendarMonthPanelControl.prototype.renderMonthPanel = function (container) {
                 var _this = this;
@@ -753,6 +788,150 @@ var WinJSContrib;
             return CalendarMonthPanelControl;
         })(CalendarPanelControl);
         UI.CalendarMonthPanelControl = CalendarMonthPanelControl;
+        var CalendarYearPanelControl = (function (_super) {
+            __extends(CalendarYearPanelControl, _super);
+            function CalendarYearPanelControl(parent, currentDate) {
+                _super.call(this, parent, currentDate);
+                this.element.classList.add("month-panel");
+                this.renderContent();
+            }
+            CalendarYearPanelControl.prototype.setNavButtonsLabels = function () {
+                var arianext = WinJS.Resources.getString("mcncalendar.nextyears.arialabel");
+                var ariaprevious = WinJS.Resources.getString("mcncalendar.previousyears.arialabel");
+                if (!arianext.empty && !ariaprevious.empty) {
+                    this.parent.navbuttonNext.setAttribute("aria-label", arianext.value);
+                    this.parent.navbuttonPrevious.setAttribute("aria-label", ariaprevious.value);
+                }
+            };
+            CalendarYearPanelControl.prototype.next = function (focusItem) {
+                if (!this.allowNext())
+                    return;
+                this._currentDate = moment(this._currentDate).add(12, "Y").toDate();
+                this.update(focusItem, function (elt) { return WinJSContrib.UI.Animation.slideFromBottom(elt, { duration: 160 }); }, function (elt) { return WinJSContrib.UI.Animation.slideToTop(elt, { duration: 160 }); });
+            };
+            CalendarYearPanelControl.prototype.previous = function (focusItem) {
+                if (!this.allowPrevious())
+                    return;
+                this._currentDate = moment(this._currentDate).add(-12, "Y").toDate();
+                this.update(focusItem, function (elt) { return WinJSContrib.UI.Animation.slideFromTop(elt, { duration: 160 }); }, function (elt) { return WinJSContrib.UI.Animation.slideToBottom(elt, { duration: 160 }); });
+            };
+            CalendarYearPanelControl.prototype.allowNext = function () {
+                var lastday = new Date(this._currentDate.getFullYear(), 11, 31);
+                if (!this.parent.maxdate)
+                    return true;
+                if (lastday < moment(this.parent.maxdate).toDate())
+                    return true;
+                return false;
+            };
+            CalendarYearPanelControl.prototype.allowPrevious = function () {
+                var firstday = new Date(this._currentDate.getFullYear(), 0, 1);
+                if (!this.parent.mindate)
+                    return true;
+                if (firstday > moment(this.parent.mindate).month(0).date(1).toDate())
+                    return true;
+                return false;
+            };
+            CalendarYearPanelControl.prototype.ensureValue = function (immediate, focusItem) {
+                if (moment(this._currentDate).diff(moment(this.renderedDate)) != 0) {
+                    this.update(focusItem, function (elt) { return WinJS.UI.Animation.drillInIncoming(elt); }, function (elt) { return WinJS.UI.Animation.drillInOutgoing(elt); }, immediate);
+                }
+            };
+            CalendarYearPanelControl.prototype.update = function (focusItem, animIn, animOut, immediate) {
+                var _this = this;
+                var previouspanel = this.yearsPanel;
+                if (immediate) {
+                    previouspanel.parentElement.removeChild(previouspanel);
+                }
+                else {
+                    animOut(this.yearsPanel).then(function () {
+                        previouspanel.parentElement.removeChild(previouspanel);
+                    });
+                }
+                this.yearsPanel = this.renderYearPanel(this.content);
+                var handleFocus = function () {
+                    if (focusItem) {
+                        var selected = _this.content.querySelector(".month-item.selected:not(:disabled)");
+                        if (!selected)
+                            selected = _this.content.querySelector(".month-item:not(:disabled)");
+                        if (selected)
+                            selected.focus();
+                    }
+                };
+                if (immediate) {
+                    this.yearTxt.innerText = "" + this._currentDate.getFullYear() + " - " + moment(this._currentDate).add('Y', 11).toDate().getFullYear();
+                    handleFocus();
+                }
+                else {
+                    animIn(this.yearsPanel).then(function () {
+                        _this.yearTxt.innerText = "" + _this._currentDate.getFullYear() + " - " + moment(_this._currentDate).add('Y', 11).toDate().getFullYear();
+                        handleFocus();
+                    });
+                }
+                this.parent.checkState();
+            };
+            CalendarYearPanelControl.prototype.renderContent = function () {
+                this.element.innerHTML =
+                    "<header>\n\t\t\t\t\t<div class=\"year\">" + this._currentDate.getFullYear() + " - " + moment(this._currentDate).add('Y', 11).toDate().getFullYear() + "</div>\n\t\t\t\t</header>\n\t\t\t\t<section class=\"month-items\">\n\t\t\t\t\t\n\t\t\t\t</section>";
+                this.yearTxt = this.element.querySelector(".year");
+                this.content = this.element.querySelector(".month-items");
+                this.yearsPanel = this.renderYearPanel(this.content);
+            };
+            CalendarYearPanelControl.prototype.renderYearPanel = function (container) {
+                var _this = this;
+                var panel = document.createElement("DIV");
+                panel.className = "month-itemspanel";
+                var swipe = new WinJSContrib.UI.SwipeSlide(panel, { direction: "vertical", allowed: { top: this.allowNext(), bottom: this.allowPrevious() } });
+                swipe.onswipe = function (arg) {
+                    swipe.swipeHandled = true;
+                    if (arg.direction == "top") {
+                        _this.next();
+                    }
+                    else if (arg.direction == "bottom") {
+                        _this.previous();
+                    }
+                };
+                var start = moment(new Date(this._currentDate.getFullYear(), 0, 1));
+                var now = moment().hour(0).minute(0).second(0).millisecond(0);
+                var thismonth = now.clone().date(1);
+                var minDate = null;
+                if (this.parent.mindate)
+                    minDate = moment(this.parent.mindate).date(1).hour(0).minute(0).second(0).millisecond(0);
+                var maxDate = null;
+                if (this.parent.maxdate)
+                    maxDate = moment(this.parent.maxdate).date(1).hour(0).minute(0).second(0).millisecond(0);
+                for (var i = 0; i < 12; i++) {
+                    var year = document.createElement("BUTTON");
+                    year.className = "month-item tap";
+                    var currentMonthDate = start.clone();
+                    year.mcnMonthDate = currentMonthDate;
+                    year.innerText = currentMonthDate.format("YYYY");
+                    year.setAttribute("aria-label", currentMonthDate.format("YYYY"));
+                    if (currentMonthDate.diff(thismonth) == 0) {
+                        year.classList.add("today");
+                    }
+                    else if (start < now) {
+                        year.classList.add("pastmonth");
+                    }
+                    if (minDate && start < minDate)
+                        year.disabled = true;
+                    if (maxDate && start > maxDate)
+                        year.disabled = true;
+                    year.onclick = function (arg) {
+                        var elt = arg.target;
+                        var date = elt.mcnMonthDate;
+                        _this._currentDate = date.toDate();
+                        _this.parent.switchToMonth();
+                    };
+                    panel.appendChild(year);
+                    start.add(1, "Y");
+                }
+                container.appendChild(panel);
+                this.renderedDate = this._currentDate;
+                return panel;
+            };
+            return CalendarYearPanelControl;
+        })(CalendarPanelControl);
+        UI.CalendarYearPanelControl = CalendarYearPanelControl;
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
