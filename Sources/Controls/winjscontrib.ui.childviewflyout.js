@@ -310,7 +310,7 @@
                        completeCallback: null,
                        errorCallback: null,
                        manageClose: null,
-                       attachPage : function(page){
+                       attachPage: function (page) {
                            this.detachPage();
                            this.childviewpage = page;
                            if (page && page.element) {
@@ -326,7 +326,7 @@
                        }
                    };
 
-                   
+
 
                    pickOperation.promise = new WinJS.Promise(function (complete, error) {
                        pickOperation.completed = false;
@@ -334,7 +334,7 @@
 
                        pickOperation.completeCallback = complete;
                        pickOperation.errorCallback = error;
-                       pickOperation.manageClose = function (eventarg, hasResult, arg) {                           
+                       pickOperation.manageClose = function (eventarg, hasResult, arg) {
                            try {
                                pickOperation.detachPage();
 
@@ -362,7 +362,8 @@
                                    } catch (exception) {
                                        console.error(exception);
                                    }
-                                   ctrl.closePage(arg, pickOperation.childviewpage.element, true);
+                                   if (pickOperation.childviewpage && pickOperation.childviewpage.element)
+                                       ctrl.closePage(arg, pickOperation.childviewpage.element, true);
                                });
                            },
                            cancel: function () {
@@ -380,19 +381,19 @@
                        ctrl.open(uri, options, skipHistory).then(function (arg) {
                            logger.debug("picking with childview page " + uri);
                            //pickOperation.attachPage(ctrl.navigator.pageControl)
-                           
+
                            ctrl.addEventListener("beforehide", pickOperation.manageClose, false);
                        });
-                       
+
                    });
 
                    var removePromise = function () {
                        var idx = ctrl.pickPromises.indexOf(pickOperation);
                        ctrl.pickPromises.splice(idx, 1);
                    }
-                   
+
                    pickOperation.promise.then(removePromise, removePromise);
-                   
+
                    return pickOperation.promise;
                },
 
@@ -401,7 +402,7 @@
                    var ctrl = this;
                    return ctrl._pick(uri, options, true, skipHistory);
                },
-               
+
                /**
                 * display child view and navigate to target uri
                 * @param {string} uri target page uri
@@ -434,7 +435,7 @@
                                navigate: that.navigate(uri, options, skipHistory).done(function (e) {
                                    that.dispatchEvent('aftershow');
                                })
-                           }).then(function () {                               
+                           }).then(function () {
                                if (lastPickOperation)
                                    lastPickOperation.attachPage(that.navigator.pageControl);
                            });
