@@ -43,7 +43,9 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
         this.maxDownloadAttempts = options.maxDownloadAttempts || 5;
 
         this.debouncedSave = _.throttle(function () {
-            tracker.saveItems();
+            tracker.saveItems().then(null, function (error) {
+                console.error("error saving pending downloads", error);
+            });
         }, 200, false);
 
         if (options.getFolder) {
@@ -66,11 +68,15 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                 var tracker = this;
                 tracker._debounceDelay = val;
                 this.debouncedCheck = _.debounce(function () {
-                    tracker.checkDownloads();
+                    tracker.checkDownloads().then(null, function (error) {
+                        console.error("error checking downloads", error);
+                    });
                 }, this.debounceDelay, false);
 
                 this.debouncedVerif = _.debounce(function () {
-                    tracker.verifyItems();
+                    tracker.verifyItems().then(null, function (error) {
+                        console.error("error verifying items", error);
+                    });
                 }, this.debounceDelay, false);
             }
         },
@@ -94,8 +100,10 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
 
         _loadItemsFile: function () {
             var tracker = this;
+            
             return tracker._getFolder(false).then(function (folder) {
                 if (folder) {
+                    logger.info("loading items from " + downloadedItemsFileName);
                     return folder.getFileAsync(downloadedItemsFileName).then(function (file) {
                         return Windows.Storage.FileIO.readTextAsync(file).then(function (res) {
                             var readedItems = res ? JSON.parse(res) : {};
@@ -106,7 +114,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                 }
             }, function (err) {
                 logger.error("internal error loading items", err);
-                return [];
+                return {};
             });
         },
 
@@ -161,6 +169,8 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                                 if (observable.status == downloadStatus.downloading && observable.downloadid && !observable.download) {
                                     promises.push(tracker._swapTempFile(observable).then(function () {
                                         return tracker._checkItem(observable);
+                                    }, function (err) {
+                                        logger.error("error swapping file", observable);
                                     }));
                                 } else {
                                     promises.push(tracker._checkItem(observable));
@@ -187,6 +197,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
             return WinJSContrib.BgDownloads.initDownloads().then(function (a) {
                 return processItems(a);
             }, function (err) {
+                logger.error("tracker init error", err);
                 return processItems([]);
             }).then(function () {
                 return tracker.checkDownloads();
@@ -224,14 +235,16 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                     }
                 });
 
-                saveitemsPromise.then(function () {
-                    if (tracker.saveItemsPromise == saveitemsPromise) {
-                        logger.verbose("refresh save promise");
+                
+                var continuation = saveitemsPromise.then(function(){}, function(){});
+                tracker.saveItemsPromise = continuation;
+                continuation.then(function () {
+                    if (tracker.saveItemsPromise == continuation) {
+                        logger.verbose("reset save promise");
                         tracker.saveItemsPromise = WinJS.Promise.wrap();
                     }
                 });
 
-                tracker.saveItemsPromise = saveitemsPromise;
 
                 return tracker.saveItemsPromise;
             });
@@ -395,6 +408,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
                     if (ignoreErrors) {
                         return closeItem();
                     } else {
+                        logger.error("item error", err);
                         observable.status = downloadStatus.error;
                     }
                     return WinJS.Promise.wrap();
@@ -406,8 +420,10 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
 
         _swapTempFile: function (observable) {
             if (observable.filepath && observable.filepath.indexOf(this.tempExtension) > 0) {
+                logger.verbose("checking file " + observable.filepath);
                 return Windows.Storage.StorageFile.getFileFromPathAsync(observable.filepath).then(function (file) {
                     if (file) {
+                        logger.verbose("renaming file " + file.path + " to " + observable.filename);
                         //var targetfilename = observable.filepath.substr(0, observable.filepath.length - ".download".length);
                         return file.renameAsync(observable.filename, Windows.Storage.NameCollisionOption.replaceExisting).then(function (renamedfile) {
                             observable.status = downloadStatus.downloaded;
@@ -588,7 +604,7 @@ WinJSContrib.BgDownloads = WinJSContrib.BgDownloads || {};
 
                 return WinJS.Promise.wrap();
             }).then(function () {
-                tracker.checkState();
+                return tracker.checkState();
             });
         },
 
