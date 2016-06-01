@@ -1,4 +1,4 @@
-var __extends = (this && this.__extends) || function (d, b) {
+﻿var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -10,7 +10,13 @@ var WinJSContrib;
     (function (UI) {
         var Tests;
         (function (Tests) {
-            Tests.pageNavigationDelay = 200;
+            Tests.logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Tests");
+            Tests.config = {
+                runSetup: null,
+                runTeardown: null,
+                pageNavigationDelay: 200,
+                childViewPageNavigationDelay: 300
+            };
             function makeAbsoluteUri(uri) {
                 var a = document.createElement("a");
                 a.href = uri;
@@ -40,6 +46,11 @@ var WinJSContrib;
                 return res;
             }
             Tests.createScenario = createScenario;
+            function promiseForCallback(callback) {
+                if (!callback)
+                    return WinJS.Promise.wrap();
+                return WinJS.Promise.as(callback());
+            }
             var _Campaign = (function () {
                 function _Campaign(name, scenarios) {
                     if (scenarios === void 0) { scenarios = []; }
@@ -66,14 +77,9 @@ var WinJSContrib;
                         scenario.message = "";
                         scenario.disabled = true;
                     });
-                    var p = null;
-                    if (Tests.testRunSetup) {
-                        p = WinJS.Promise.as(Tests.testRunSetup());
-                    }
-                    else {
-                        p = WinJS.Promise.wrap();
-                    }
-                    return p.then(function () {
+                    Tests.logger.info("CAMPAIGN START : " + this.name);
+                    hookAlerts();
+                    return promiseForCallback(Tests.config.runSetup).then(function () {
                         return WinJSContrib.Promise.waterfall(_this.scenarios, function (scenario) {
                             return _this._runScenario(document, scenario, options).then(function (data) {
                                 return WinJS.Promise.timeout(50).then(function () {
@@ -88,12 +94,11 @@ var WinJSContrib;
                         });
                         return data;
                     }).then(function (data) {
-                        if (Tests.testRunTeardown) {
-                            return WinJS.Promise.as(Tests.testRunTeardown()).then(function () {
-                                return data;
-                            });
-                        }
-                        return data;
+                        unHookAlerts();
+                        Tests.logger.info("CAMPAIGN END : " + _this.name);
+                        return promiseForCallback(Tests.config.runTeardown).then(function () {
+                            return data;
+                        });
                     });
                 };
                 _Campaign.prototype.runScenario = function (scenario, options) {
@@ -115,14 +120,8 @@ var WinJSContrib;
                     this.scenarios.forEach(function (scenario) {
                         scenario.disabled = true;
                     });
-                    var p = null;
-                    if (Tests.testRunSetup) {
-                        p = WinJS.Promise.as(Tests.testRunSetup());
-                    }
-                    else {
-                        p = WinJS.Promise.wrap();
-                    }
-                    return p.then(function () {
+                    hookAlerts();
+                    return promiseForCallback(Tests.config.runSetup).then(function () {
                         return _this._runScenario(document, scenario, options);
                     }).then(function (data) {
                         _this.isRunning = false;
@@ -131,12 +130,10 @@ var WinJSContrib;
                         });
                         return data;
                     }).then(function (data) {
-                        if (Tests.testRunTeardown) {
-                            return WinJS.Promise.as(Tests.testRunTeardown()).then(function () {
-                                return data;
-                            });
-                        }
-                        return data;
+                        unHookAlerts();
+                        return promiseForCallback(Tests.config.runTeardown).then(function () {
+                            return data;
+                        });
                     });
                 };
                 _Campaign.prototype._runScenario = function (document, scenario, options) {
@@ -144,20 +141,13 @@ var WinJSContrib;
                     options = options || {};
                     this.nbRun++;
                     scenario.state = TestStatus.running;
-                    console.info("RUNNING " + scenario.name);
+                    Tests.logger.info("TEST RUN START : " + scenario.name);
                     this.currentTest = scenario.name;
                     if (options.onteststart) {
                         options.onteststart(scenario);
                     }
                     var start = new Date();
-                    var p = null;
-                    if (scenario.setup) {
-                        p = WinJS.Promise.as(scenario.setup());
-                    }
-                    else {
-                        p = WinJS.Promise.wrap();
-                    }
-                    return p.then(function () {
+                    return promiseForCallback(scenario.setup).then(function () {
                         return scenario.run(document);
                     }).then(function () {
                         scenario.state = TestStatus.success;
@@ -170,7 +160,7 @@ var WinJSContrib;
                         _this.nbRunned++;
                         _this.nbFail++;
                         if (err.stack) {
-                            scenario.message = err.stack;
+                            scenario.message = (err.message ? err.message + '\r\n' : '') + err.stack;
                         }
                         else if (err.message) {
                             scenario.message = err.message;
@@ -178,44 +168,61 @@ var WinJSContrib;
                         else {
                             scenario.message = JSON.stringify(err);
                         }
+                        Tests.logger.error(scenario.message);
                         return { success: false, error: err };
                     }).then(function (testresult) {
                         var end = new Date();
                         testresult.duration = (end - start) / 1000;
                         _this.duration += testresult.duration;
                         scenario.duration = testresult.duration.toFixed(1) + "s";
-                        if (scenario.teardown) {
-                            return WinJS.Promise.as(scenario.teardown()).then(function () {
-                                return testresult;
-                            });
-                        }
-                        return testresult;
+                        Tests.logger.info("TEST RUN END : " + scenario.name + " (success: " + testresult.success + ", in " + scenario.duration + ")");
+                        return promiseForCallback(scenario.teardown).then(function () {
+                            return testresult;
+                        });
                     });
                 };
                 return _Campaign;
-            })();
+            }());
             Tests.Campaign = WinJS.Class.mix(_Campaign, WinJS.Binding.mixin, WinJS.Binding.expandProperties({ nbRun: 0, nbSuccess: 0, nbFail: 0, total: 0, currentTest: 0, nbRunned: 0, duration: 0, isRunning: false }));
-            function _waitForElement(parent, selector, timeout) {
+            function _click(el) {
+                Tests.logger.verbose("trigger click");
+                if (el.mcnTapTracking) {
+                    el.mcnTapTracking.callback(el, {});
+                }
+                else {
+                    el.click();
+                }
+                return this;
+            }
+            function _waitForElement(parent, selector, condition, timeout) {
+                if (condition === void 0) { condition = function (elt) { return true; }; }
                 if (timeout === void 0) { timeout = 3000; }
                 var completed = false;
                 var optimeout = setTimeout(function () {
                     completed = true;
                 }, timeout);
-                var p = new WinJS.Promise(function (complete, error) {
+                var error = null;
+                try {
+                    throw new Error('element ' + selector + ' not found');
+                }
+                catch (exception) {
+                    error = exception;
+                }
+                var p = new WinJS.Promise(function (taskcomplete, taskerror) {
                     var promise = p;
                     var check = function () {
                         var elt = parent.querySelector(selector);
-                        if (!completed && elt) {
+                        if (!completed && elt && condition(elt)) {
                             completed = true;
                             clearTimeout(optimeout);
-                            complete(elt);
+                            taskcomplete(elt);
                         }
                         else if (!completed) {
                             setTimeout(function () { check(); }, 50);
                         }
                         else {
                             completed = true;
-                            error({ message: 'element not found ' + selector });
+                            taskerror(error);
                         }
                     };
                     check();
@@ -228,21 +235,28 @@ var WinJSContrib;
                 var optimeout = setTimeout(function () {
                     completed = true;
                 }, timeout);
-                var p = new WinJS.Promise(function (complete, error) {
+                var error = null;
+                try {
+                    throw new Error('class ' + classToWatch + ' not added');
+                }
+                catch (exception) {
+                    error = exception;
+                }
+                var p = new WinJS.Promise(function (taskcomplete, taskerror) {
                     var promise = p;
                     var check = function () {
                         var hasClass = parent.classList.contains(classToWatch);
                         if (!completed && hasClass) {
                             completed = true;
                             clearTimeout(optimeout);
-                            complete();
+                            taskcomplete();
                         }
                         else if (!completed) {
                             setTimeout(function () { check(); }, 50);
                         }
                         else {
                             completed = true;
-                            error({ message: 'class not added ' + classToWatch });
+                            taskerror(error);
                         }
                     };
                     check();
@@ -255,26 +269,43 @@ var WinJSContrib;
                 var optimeout = setTimeout(function () {
                     completed = true;
                 }, timeout);
-                var p = new WinJS.Promise(function (complete, error) {
+                var error = null;
+                try {
+                    throw new Error('class ' + classToWatch + ' not removed');
+                }
+                catch (exception) {
+                    error = exception;
+                }
+                var p = new WinJS.Promise(function (taskcomplete, taskerror) {
                     var promise = p;
                     var check = function () {
                         var classGone = !parent.classList.contains(classToWatch);
                         if (!completed && classGone) {
                             completed = true;
                             clearTimeout(optimeout);
-                            complete();
+                            taskcomplete();
                         }
                         else if (!completed) {
                             setTimeout(function () { check(); }, 50);
                         }
                         else {
                             completed = true;
-                            error({ message: 'class not gone ' + classToWatch });
+                            taskerror(error);
                         }
                     };
                     check();
                 });
                 return p;
+            }
+            function _elementVisible(elt) {
+                var e = getComputedStyle(elt);
+                if (elt.parentElement) {
+                    return _elementVisible(elt.parentElement);
+                }
+                else if (e.display != 'none' && e.visibility != 'hidden') {
+                    return true;
+                }
+                return false;
             }
             var UIElementWrapper = (function () {
                 function UIElementWrapper(element, selector) {
@@ -290,18 +321,31 @@ var WinJSContrib;
                 UIElementWrapper.prototype.on = function (selector) {
                     var elt = this.element.querySelector(selector);
                     if (!elt) {
-                        console.error("element action not found for " + selector);
+                        Tests.logger.error("element action not found for " + selector);
                         throw new Error("element action not found for " + selector);
                     }
-                    console.log("element found " + selector);
+                    Tests.logger.verbose("element found " + selector);
                     var res = new UIElementWrapper(elt, selector);
+                    return res;
+                };
+                UIElementWrapper.prototype.onAll = function (selector) {
+                    var elts = this.element.querySelectorAll(selector);
+                    var res = [];
+                    if (!elts || !elts.length) {
+                        Tests.logger.error("elements not found for " + selector);
+                        throw new Error("elements not found for " + selector);
+                    }
+                    Tests.logger.verbose(elts.length + " elements found for " + selector);
+                    for (var i = 0; i < elts.length; i++) {
+                        res.push(new UIElementWrapper(elts[i], selector));
+                    }
                     return res;
                 };
                 UIElementWrapper.prototype.wait = function (timeout) {
                     if (timeout === void 0) { timeout = 3000; }
                     return WinJS.Promise.timeout(timeout);
                 };
-                UIElementWrapper.prototype.waitForNavigatorPage = function (navigator, url, timeout) {
+                UIElementWrapper.prototype.waitForNavigatorPage = function (navigator, url, pagector, timeout) {
                     if (timeout === void 0) { timeout = 3000; }
                     var completed = false;
                     var error = null;
@@ -312,7 +356,7 @@ var WinJSContrib;
                     catch (exception) {
                         error = exception;
                     }
-                    console.log("wait for page " + url);
+                    Tests.logger.verbose("wait for page " + url);
                     var optimeout = setTimeout(function () {
                         completed = true;
                     }, timeout);
@@ -333,13 +377,18 @@ var WinJSContrib;
                                     }
                                     p.then(function () {
                                         clearTimeout(optimeout);
-                                        WinJS.Promise.timeout(Tests.pageNavigationDelay).then(function () {
+                                        WinJS.Promise.timeout(Tests.config.pageNavigationDelay).then(function () {
                                             completed = true;
-                                            console.log("page found " + url);
-                                            //setTimeout(function () {
-                                            var res = new Page(pageControl.element);
+                                            var res;
+                                            if (pagector) {
+                                                var ctor = pagector;
+                                                res = new ctor(pageControl.element);
+                                            }
+                                            else {
+                                                res = new Page(pageControl.element);
+                                            }
+                                            Tests.logger.debug("navigated to " + url);
                                             pagecomplete(res);
-                                            //}, 50);
                                         });
                                     });
                                 }
@@ -349,6 +398,7 @@ var WinJSContrib;
                             }
                             else {
                                 completed = true;
+                                Tests.logger.error("cannot navigate to " + url, error);
                                 pageerror(error);
                             }
                         };
@@ -356,41 +406,48 @@ var WinJSContrib;
                     });
                     return p;
                 };
-                UIElementWrapper.prototype.waitForPage = function (url, timeout) {
-                    if (timeout === void 0) { timeout = 3000; }
+                UIElementWrapper.prototype.waitForPage = function (url, pagector, timeout) {
                     var ui = WinJSContrib.UI;
                     var navigator = (ui && ui.Application) ? ui.Application.navigator : undefined;
                     if (!navigator)
                         throw new Error("no global navigation defined");
-                    return this.waitForNavigatorPage(navigator, url, timeout);
+                    return this.waitForNavigatorPage(navigator, url, pagector, timeout);
                 };
-                UIElementWrapper.prototype.clickAndWaitForPage = function (selector, pagetowait, timeout) {
+                UIElementWrapper.prototype.waitForPageByCtor = function (pagector, timeout) {
+                    var path = pagector.path;
+                    if (!path) {
+                        throw new Error("constructor of " + (typeof pagector) + " must have a path static property");
+                    }
+                    return this.waitForPage(path, pagector, timeout);
+                };
+                UIElementWrapper.prototype.clickAndWaitForPage = function (selector, pagetowait, pagector, timeout) {
                     this.on(selector).click();
-                    return this.waitForPage(pagetowait, timeout);
+                    return this.waitForPage(pagetowait, pagector, timeout);
+                };
+                UIElementWrapper.prototype.clickAndWaitForPageCtor = function (selector, pagector, timeout) {
+                    this.on(selector).click();
+                    return this.waitForPageByCtor(pagector, timeout);
                 };
                 UIElementWrapper.prototype.waitForClass = function (classToWatch, timeout) {
-                    if (timeout === void 0) { timeout = 3000; }
                     return _waitForClass(this.element, classToWatch, timeout);
                 };
                 UIElementWrapper.prototype.waitForClassGone = function (classToWatch, timeout) {
-                    if (timeout === void 0) { timeout = 3000; }
                     return _waitForClassGone(this.element, classToWatch, timeout);
                 };
                 UIElementWrapper.prototype.waitForElement = function (selector, timeout) {
-                    if (timeout === void 0) { timeout = 3000; }
-                    return _waitForElement(this.element, selector, timeout).then(function (elt) {
+                    return _waitForElement(this.element, selector, function (elt) { return true; }, timeout).then(function (elt) {
+                        return new UIElementWrapper(elt, selector);
+                    });
+                };
+                UIElementWrapper.prototype.waitForElementVisible = function (selector, timeout) {
+                    return _waitForElement(this.element, selector, function (elt) {
+                        return _elementVisible(elt);
+                    }, timeout).then(function (elt) {
                         return new UIElementWrapper(elt, selector);
                     });
                 };
                 UIElementWrapper.prototype.click = function () {
-                    var el = this.element;
-                    console.log("trigger click");
-                    if (el.mcnTapTracking) {
-                        el.mcnTapTracking.callback(el, {});
-                    }
-                    else {
-                        this.element.click();
-                    }
+                    _click(this.element);
                     return this;
                 };
                 UIElementWrapper.prototype.input = function (val) {
@@ -398,6 +455,7 @@ var WinJSContrib;
                     elt.focus();
                     elt.value = val;
                     WinJSContrib.Utils.triggerEvent(elt, "change", true, true);
+                    WinJSContrib.Utils.triggerEvent(elt, "input", true, true);
                     elt.blur();
                     return this;
                 };
@@ -420,7 +478,7 @@ var WinJSContrib;
                     return this;
                 };
                 return UIElementWrapper;
-            })();
+            }());
             Tests.UIElementWrapper = UIElementWrapper;
             var Document = (function (_super) {
                 __extends(Document, _super);
@@ -430,16 +488,24 @@ var WinJSContrib;
                 Document.prototype.clearHistory = function () {
                     WinJS.Navigation.history.backStack = [];
                 };
-                Document.prototype.navigateTo = function (url, args) {
+                Document.prototype.navigateTo = function (url, args, pagector, timeout) {
                     var _this = this;
+                    if (timeout === void 0) { timeout = 100; }
                     return WinJS.Navigation.navigate(url, args).then(function () {
-                        return WinJS.Promise.timeout(100);
+                        return WinJS.Promise.timeout(timeout);
                     }).then(function () {
-                        return _this.waitForPage(url);
+                        return _this.waitForPage(url, pagector);
                     });
                 };
+                Document.prototype.navigateToCtor = function (pagector, args, timeout) {
+                    var path = pagector.path;
+                    if (!path) {
+                        throw new Error("constructor of " + (typeof pagector) + " must have a path static property");
+                    }
+                    return this.navigateTo(path, pagector, args, timeout);
+                };
                 return Document;
-            })(UIElementWrapper);
+            }(UIElementWrapper));
             Tests.Document = Document;
             var Page = (function (_super) {
                 __extends(Page, _super);
@@ -447,28 +513,130 @@ var WinJSContrib;
                     _super.apply(this, arguments);
                 }
                 return Page;
-            })(UIElementWrapper);
+            }(UIElementWrapper));
             Tests.Page = Page;
             var ChildView = (function (_super) {
                 __extends(ChildView, _super);
                 function ChildView() {
                     _super.apply(this, arguments);
                 }
-                ChildView.prototype.waitForPage = function (url, timeout) {
-                    if (timeout === void 0) { timeout = 3000; }
+                ChildView.prototype.waitForPage = function (url, pagector, timeout) {
+                    var _this = this;
                     var navigator = this.element.winControl.navigator;
                     if (!navigator) {
                         throw new Error("incoherent child view");
                     }
-                    return this.waitForNavigatorPage(navigator, url, timeout);
+                    return this.ready().then(function () {
+                        return _this.waitForNavigatorPage(navigator, url, pagector, timeout);
+                    });
+                };
+                ChildView.prototype.ready = function () {
+                    var _this = this;
+                    return WinJS.Promise.timeout(Tests.config.childViewPageNavigationDelay).then(function () {
+                        if (_this.element.winControl.openChildViewPromise)
+                            return _this.element.winControl.openChildViewPromise;
+                    });
+                };
+                ChildView.prototype.waitForPageClosed = function () {
+                    if (this.element.winControl.closePagePromise) {
+                        return this.element.winControl.closePagePromise;
+                    }
+                    else if (this.element.winControl.hideChildViewPromise) {
+                        return this.element.winControl.hideChildViewPromise;
+                    }
+                    else {
+                        throw new Error("childview not about to close");
+                    }
                 };
                 ChildView.prototype.waitForClosed = function (timeout) {
+                    if (this.element.winControl.hideChildViewPromise) {
+                        return this.element.winControl.hideChildViewPromise;
+                    }
                     return _waitForClass(this.element.winControl.rootElement, "hidden", timeout);
                 };
+                ChildView.prototype.cancel = function (timeout) {
+                    var overlay = this.element.winControl.overlay;
+                    if (overlay) {
+                        _click(overlay);
+                    }
+                    else {
+                        throw new Error("overlay not found for childview");
+                    }
+                };
+                ChildView.prototype.withPage = function (url, pagector, callback, expectClosed, timeout) {
+                    if (expectClosed === void 0) { expectClosed = false; }
+                    var childview = this;
+                    return this.waitForPage(url, pagector, timeout).then(function (childviewpage) {
+                        return WinJS.Promise.as(callback(childviewpage, childview));
+                    }).then(function () {
+                        if (expectClosed)
+                            return childview.waitForClosed();
+                    }).then(function () {
+                        return childview;
+                    });
+                };
+                ChildView.prototype.withPageCtor = function (pagector, callback, expectClosed, timeout) {
+                    if (expectClosed === void 0) { expectClosed = false; }
+                    var childview = this;
+                    return this.waitForPageByCtor(pagector, timeout).then(function (childviewpage) {
+                        return WinJS.Promise.as(callback(childviewpage, childview));
+                    }).then(function () {
+                        if (expectClosed)
+                            return childview.waitForClosed();
+                    }).then(function () {
+                        return childview;
+                    });
+                };
+                ChildView.from = function (selector) {
+                    var childviewElt = document.querySelector(selector);
+                    if (!childviewElt) {
+                        throw new Error("child view not found for " + selector);
+                    }
+                    return new WinJSContrib.UI.Tests.ChildView(childviewElt, selector);
+                };
                 return ChildView;
-            })(UIElementWrapper);
+            }(UIElementWrapper));
             Tests.ChildView = ChildView;
+            var _alert_messagebox = WinJSContrib.Alerts.messageBox;
+            var _alert_messageboxhook = WinJSContrib.Alerts.messageBox;
+            var _alert_confirm = WinJSContrib.Alerts.confirm;
+            var _alert_confirmhook = WinJSContrib.Alerts.confirm;
+            var _messageboxreply = {};
+            var _confirmreply = true;
+            function messageBoxReplyWith(reply) {
+                _messageboxreply = reply;
+            }
+            Tests.messageBoxReplyWith = messageBoxReplyWith;
+            function confirmReplyWith(reply) {
+                _confirmreply = reply;
+            }
+            Tests.confirmReplyWith = confirmReplyWith;
+            function hookAlerts() {
+                if (WinJSContrib.Alerts) {
+                    _alert_messageboxhook = function (opt) {
+                        Tests.logger.info("replying to alert call with " + _messageboxreply);
+                        if (typeof _messageboxreply == "function") {
+                            return WinJS.Promise.as(_messageboxreply(opt));
+                        }
+                        else {
+                            return WinJS.Promise.wrap(_messageboxreply);
+                        }
+                    };
+                    _alert_confirmhook = function (title, content, yes, no) {
+                        Tests.logger.info("replying to confirm alert call with " + _confirmreply);
+                        return WinJS.Promise.wrap(_confirmreply);
+                    };
+                    WinJSContrib.Alerts.messageBox = _alert_messageboxhook;
+                    WinJSContrib.Alerts.confirm = _alert_confirmhook;
+                }
+            }
+            Tests.hookAlerts = hookAlerts;
+            function unHookAlerts() {
+                if (WinJSContrib.Alerts) {
+                    WinJSContrib.Alerts.messageBox = _alert_messagebox;
+                }
+            }
+            Tests.unHookAlerts = unHookAlerts;
         })(Tests = UI.Tests || (UI.Tests = {}));
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
-//# sourceMappingURL=winjscontrib.ui.tests.js.map

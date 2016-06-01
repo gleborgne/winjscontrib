@@ -63,6 +63,7 @@ module WinJSContrib.UI.Tests {
     export interface ICampaign {
         name: string;
         scenarios: IScenario[];
+        nbRunned: number;
         nbRun: number;
         nbSuccess: number;
         nbFail: number;
@@ -116,7 +117,7 @@ module WinJSContrib.UI.Tests {
             this.duration = 0;
             this.isRunning = true;
 
-            this.scenarios.forEach(function(scenario) {
+            this.scenarios.forEach(function (scenario) {
                 scenario.state = TestStatus.pending;
                 scenario.duration = "";
                 scenario.message = "";
@@ -135,7 +136,7 @@ module WinJSContrib.UI.Tests {
                 });
             }).then((data) => {
                 this.isRunning = false;
-                this.scenarios.forEach(function(scenario) {
+                this.scenarios.forEach(function (scenario) {
                     scenario.disabled = false;
                 });
                 return data;
@@ -167,7 +168,7 @@ module WinJSContrib.UI.Tests {
             scenario.message = "";
             scenario.duration = "";
 
-            this.scenarios.forEach(function(scenario) {
+            this.scenarios.forEach(function (scenario) {
                 scenario.disabled = true;
             });
 
@@ -176,7 +177,7 @@ module WinJSContrib.UI.Tests {
                 return this._runScenario(document, scenario, options);
             }).then((data) => {
                 this.isRunning = false;
-                this.scenarios.forEach(function(scenario) {
+                this.scenarios.forEach(function (scenario) {
                     scenario.disabled = false;
                 });
                 return data;
@@ -213,7 +214,7 @@ module WinJSContrib.UI.Tests {
                 this.nbRunned++;
                 this.nbFail++;
                 if (err.stack) {
-                    scenario.message = err.stack;
+                    scenario.message = (err.message ? err.message + '\r\n' : '') + err.stack;
                 } else if (err.message) {
                     scenario.message = err.message;
                 } else {
@@ -240,7 +241,7 @@ module WinJSContrib.UI.Tests {
         WinJS.Binding.expandProperties({ nbRun: 0, nbSuccess: 0, nbFail: 0, total: 0, currentTest: 0, nbRunned: 0, duration: 0, isRunning: false })
     );
 
-    function _click(el: HTMLElement) {
+    function _click(el: HTMLElement) {        
         logger.verbose("trigger click");
         if ((<any>el).mcnTapTracking) {
             (<any>el).mcnTapTracking.callback(el, {});
@@ -265,7 +266,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((taskcomplete, taskerror) => {
             var promise = p as any;
-            var check = function() {
+            var check = function () {
                 var elt = <HTMLElement>parent.querySelector(selector);
                 if (!completed && elt && condition(elt)) {
                     completed = true;
@@ -298,7 +299,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((taskcomplete, taskerror) => {
             var promise = p as any;
-            var check = function() {
+            var check = function () {
                 var hasClass = parent.classList.contains(classToWatch);
                 if (!completed && hasClass) {
                     completed = true;
@@ -331,7 +332,7 @@ module WinJSContrib.UI.Tests {
 
         var p = new WinJS.Promise<HTMLElement>((taskcomplete, taskerror) => {
             var promise = p as any;
-            var check = function() {
+            var check = function () {
                 var classGone = !parent.classList.contains(classToWatch);
                 if (!completed && classGone) {
                     completed = true;
@@ -385,6 +386,20 @@ module WinJSContrib.UI.Tests {
             return res;
         }
 
+        onAll(selector): UIElementWrapper[] {
+            var elts = this.element.querySelectorAll(selector);
+            var res = <UIElementWrapper[]>[];
+            if (!elts || !elts.length) {
+                logger.error("elements not found for " + selector);
+                throw new Error("elements not found for " + selector);
+            }
+            logger.verbose(elts.length + " elements found for " + selector);
+            for (var i = 0; i < elts.length; i++) {
+                res.push(new UIElementWrapper(<HTMLElement>elts[i], selector));
+            }
+            return res;
+        }
+
         wait(timeout: number = 3000): WinJS.Promise<any> {
             return WinJS.Promise.timeout(timeout);
         }
@@ -406,7 +421,7 @@ module WinJSContrib.UI.Tests {
 
             var p = new WinJS.Promise<Page>((pagecomplete, pageerror) => {
                 var promise = p as any;
-                var check = function() {
+                var check = function () {
                     var pageControl = navigator.pageControl;
                     var location = null;
                     if (pageControl) {
@@ -420,7 +435,7 @@ module WinJSContrib.UI.Tests {
                             if (pageControl.pageLifeCycle) {
                                 p = pageControl.pageLifeCycle.steps.enter.promise;
                             }
-                            p.then(function() {
+                            p.then(function () {
                                 clearTimeout(optimeout);
                                 WinJS.Promise.timeout(config.pageNavigationDelay).then(() => {
                                     completed = true;
@@ -461,7 +476,7 @@ module WinJSContrib.UI.Tests {
             return this.waitForNavigatorPage<T>(navigator, url, pagector, timeout);
         }
 
-        waitForPageByCtor<T extends Page>(pagector: new (element: HTMLElement, selector?: string) => T, timeout?: number): WinJS.Promise<T> {
+        waitForPageByCtor<T extends Page>(pagector: new (element: HTMLElement, selector?: string)=>T, timeout?: number): WinJS.Promise<T> {
             var path = (<any>pagector).path;
             if (!path) {
                 throw new Error("constructor of " + (typeof pagector) + " must have a path static property");
@@ -512,6 +527,7 @@ module WinJSContrib.UI.Tests {
             elt.focus();
             elt.value = val;
             WinJSContrib.Utils.triggerEvent(elt, "change", true, true);
+            WinJSContrib.Utils.triggerEvent(elt, "input", true, true);
             elt.blur();
             return this;
         }
@@ -573,7 +589,7 @@ module WinJSContrib.UI.Tests {
             return this.ready().then(() => {
                 return this.waitForNavigatorPage<T>(navigator, url, pagector, timeout);
             })
-        }
+        }        
 
         ready() {
             return WinJS.Promise.timeout(config.childViewPageNavigationDelay).then(() => {
@@ -582,7 +598,7 @@ module WinJSContrib.UI.Tests {
             });
         }
 
-        waitForPageClosed() {
+        waitForPageClosed() {            
             if (this.element.winControl.closePagePromise) {
                 return this.element.winControl.closePagePromise;
             } else if (this.element.winControl.hideChildViewPromise) {
@@ -595,7 +611,7 @@ module WinJSContrib.UI.Tests {
         waitForClosed(timeout?: number) {
             if (this.element.winControl.hideChildViewPromise) {
                 return this.element.winControl.hideChildViewPromise;
-            }
+            } 
             return _waitForClass(this.element.winControl.rootElement, "hidden", timeout);
         }
 
@@ -608,9 +624,9 @@ module WinJSContrib.UI.Tests {
             }
         }
 
-        withPage<T extends Page>(url: string, pagector: Function, callback: (page: T, childview?: ChildView) => void, expectClosed = false) {
+        withPage<T extends Page>(url: string, pagector: Function, callback: (page: T, childview?: ChildView) => void, expectClosed = false, timeout?: number) {
             var childview = this;
-            return this.waitForPage<T>(url, pagector).then((childviewpage) => {
+            return this.waitForPage<T>(url, pagector, timeout).then((childviewpage) => {
                 return WinJS.Promise.as(callback(childviewpage, childview));
             }).then(() => {
                 if (expectClosed)
@@ -620,9 +636,9 @@ module WinJSContrib.UI.Tests {
             });
         }
 
-        withPageCtor<T extends Page>(pagector: new (element: HTMLElement, selector?: string) => T, callback: (page: T, childview?: ChildView) => void, expectClosed = false) {
+        withPageCtor<T extends Page>(pagector: new (element: HTMLElement, selector?: string) => T, callback: (page: T, childview?: ChildView) => void, expectClosed = false, timeout?:number) {
             var childview = this;
-            return this.waitForPageByCtor<T>(pagector).then((childviewpage) => {
+            return this.waitForPageByCtor<T>(pagector, timeout).then((childviewpage) => {
                 return WinJS.Promise.as(callback(childviewpage, childview));
             }).then(() => {
                 if (expectClosed)
@@ -632,14 +648,14 @@ module WinJSContrib.UI.Tests {
             });
         }
 
-        static from(selector: string) {
+        static from(selector:string) {
             var childviewElt = <HTMLElement>document.querySelector(selector);
             if (!childviewElt) {
                 throw new Error("child view not found for " + selector);
             }
             return new WinJSContrib.UI.Tests.ChildView(childviewElt, selector);
         }
-
+        
     }
 
     var _alert_messagebox = WinJSContrib.Alerts.messageBox;
@@ -653,13 +669,13 @@ module WinJSContrib.UI.Tests {
         _messageboxreply = reply;
     }
 
-    export function confirmReplyWith(reply: boolean) {
+    export function confirmReplyWith(reply:boolean) {
         _confirmreply = reply;
     }
 
     export function hookAlerts() {
         if (WinJSContrib.Alerts) {
-            _alert_messageboxhook = function(opt) {
+            _alert_messageboxhook = function (opt) {
                 logger.info("replying to alert call with " + _messageboxreply);
                 if (typeof _messageboxreply == "function") {
                     return WinJS.Promise.as(_messageboxreply(opt));
@@ -667,7 +683,7 @@ module WinJSContrib.UI.Tests {
                     return WinJS.Promise.wrap(_messageboxreply);
                 }
             }
-            _alert_confirmhook = function(title, content, yes, no) {
+            _alert_confirmhook = function (title, content, yes, no) {
                 logger.info("replying to confirm alert call with " + _confirmreply);
                 return WinJS.Promise.wrap(_confirmreply);
             }

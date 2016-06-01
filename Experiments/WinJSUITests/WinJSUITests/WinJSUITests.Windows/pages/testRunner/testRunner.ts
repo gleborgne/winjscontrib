@@ -72,6 +72,7 @@
                     ctrl.scenariosList.appendChild(scenarioElt);
                     WinJSContrib.UI.tap(scenarioElt.querySelector(".runscenario"), () => {
                         if (ctrl.currentCampaign) {
+                            WinJS.Utilities.disposeSubTree(ctrl.collapsedrunner);
                             ctrl.collapsedrunner.innerHTML = '';
                             return ctrl.testCampaignRunTemplate.render(ctrl.currentCampaign, ctrl.collapsedrunner).then(function () {
                                 ctrl.closeTestRunner();
@@ -102,7 +103,7 @@
         }
     }
 
-    export var RunnerCtrl = WinJS.UI.Pages.define("/pages/testRunner/testRunner.html", TestRunnerPage);
+    export var RunnerCtrl = WinJS.UI.Pages.define("/uitests/framework/testRunner.html", TestRunnerPage);
 
     export var scenarioStatus = WinJS.Binding.initializer(function (source, sourceProperty, dest, destProperty) {
         function setState(newval, oldval) {
@@ -123,10 +124,15 @@
         return WinJS.Binding.bind(source, bindingDesc);
     });
 
-    export var campaignStatus = WinJS.Binding.initializer(function (source, sourceProperty, dest, destProperty) {
+    export var campaignStatus = WinJS.Binding.initializer(function (source: ICampaign, sourceProperty, dest: HTMLElement, destProperty) {
         function setState(newval, oldval) {
+            if (source.nbRunned == 0) {
+                dest.classList.remove("failed");
+                dest.classList.remove("success");
+            }
+
             if (source.nbFail > 0) {
-                dest.classList.add("failed");
+                dest.classList.add("failed");                
             }
 
             if (source.nbRunned == source.total && source.nbFail == 0) {

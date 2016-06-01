@@ -414,7 +414,7 @@
                    var that = this;
                    options = options || {};
                    var lastPickOperation;
-                   if (that.pickPromises.length) {
+                   if (that.pickPromises && that.pickPromises.length) {
                        lastPickOperation = that.pickPromises[that.pickPromises.length - 1];
                        options.injectToPage = lastPickOperation.injectToPage;
                        lastPickOperation.detachPage();

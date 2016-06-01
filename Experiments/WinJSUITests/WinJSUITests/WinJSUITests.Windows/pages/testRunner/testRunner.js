@@ -1,4 +1,4 @@
-var __extends = (this && this.__extends) || function (d, b) {
+﻿var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -63,6 +63,7 @@ var WinJSContrib;
                             ctrl.scenariosList.appendChild(scenarioElt);
                             WinJSContrib.UI.tap(scenarioElt.querySelector(".runscenario"), function () {
                                 if (ctrl.currentCampaign) {
+                                    WinJS.Utilities.disposeSubTree(ctrl.collapsedrunner);
                                     ctrl.collapsedrunner.innerHTML = '';
                                     return ctrl.testCampaignRunTemplate.render(ctrl.currentCampaign, ctrl.collapsedrunner).then(function () {
                                         ctrl.closeTestRunner();
@@ -89,8 +90,8 @@ var WinJSContrib;
                     }
                 };
                 return TestRunnerPage;
-            })(WinJSContrib.UI.Pages.PageBase);
-            Tests.RunnerCtrl = WinJS.UI.Pages.define("/pages/testRunner/testRunner.html", TestRunnerPage);
+            }(WinJSContrib.UI.Pages.PageBase));
+            Tests.RunnerCtrl = WinJS.UI.Pages.define("/uitests/framework/testRunner.html", TestRunnerPage);
             Tests.scenarioStatus = WinJS.Binding.initializer(function (source, sourceProperty, dest, destProperty) {
                 function setState(newval, oldval) {
                     var data = WinJSContrib.Utils.readProperty(source, sourceProperty);
@@ -113,6 +114,10 @@ var WinJSContrib;
             });
             Tests.campaignStatus = WinJS.Binding.initializer(function (source, sourceProperty, dest, destProperty) {
                 function setState(newval, oldval) {
+                    if (source.nbRunned == 0) {
+                        dest.classList.remove("failed");
+                        dest.classList.remove("success");
+                    }
                     if (source.nbFail > 0) {
                         dest.classList.add("failed");
                     }
@@ -146,4 +151,3 @@ var WinJSContrib;
         })(Tests = UI.Tests || (UI.Tests = {}));
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
-//# sourceMappingURL=testRunner.js.map
