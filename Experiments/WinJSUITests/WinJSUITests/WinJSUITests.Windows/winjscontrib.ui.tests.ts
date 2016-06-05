@@ -3,10 +3,11 @@
 module WinJSContrib.UI.Tests {
     export var logger = WinJSContrib.Logs.getLogger("WinJSContrib.UI.Tests");
     export var config = {
+        verifyClickOverlay : true,
         runSetup: <Function>null,
         runTeardown: <Function>null,
         pageNavigationDelay: 200,
-        childViewPageNavigationDelay: 300
+        childViewPageNavigationDelay: 200
     };
 
     function makeAbsoluteUri(uri) {
@@ -241,15 +242,44 @@ module WinJSContrib.UI.Tests {
         WinJS.Binding.expandProperties({ nbRun: 0, nbSuccess: 0, nbFail: 0, total: 0, currentTest: 0, nbRunned: 0, duration: 0, isRunning: false })
     );
 
-    function _click(el: HTMLElement) {        
-        logger.verbose("trigger click");
-        if ((<any>el).mcnTapTracking) {
-            (<any>el).mcnTapTracking.callback(el, {});
-        } else {
-            el.click();
+    function _click(el: HTMLElement, selector?: string): WinJS.Promise<any> {        
+        if (!el) {
+            throw new Error("trying to click but element does not exists " + (selector || ""));
         }
+        logger.verbose("trigger click");
 
-        return this;
+        if (config.verifyClickOverlay) {
+            el.scrollIntoView();
+            return WinJS.Promise.timeout().then(() => {
+                var eltCoordinates = el.getBoundingClientRect();
+                var x = eltCoordinates.left + (eltCoordinates.width / 2);
+                var y = eltCoordinates.top + (eltCoordinates.height / 2);
+
+                var elementAtCoordinates = <HTMLElement>document.elementFromPoint(x, y);
+                var current = elementAtCoordinates;
+                while (current && current != el) {
+                    current = current.parentElement;
+                }
+
+                if (!current) {
+                    throw new Error("element is bellow another element " + (selector || '') + " / " + (elementAtCoordinates ? elementAtCoordinates.className : ""));
+                }
+
+                if ((<any>el).mcnTapTracking && !(<any>el).mcnTapTracking.mapClickEvents) {
+                    (<any>el).mcnTapTracking.callback(el, {});
+                } else {
+                    el.click();
+                }
+            });
+        }
+        else {
+            if ((<any>el).mcnTapTracking && !(<any>el).mcnTapTracking.mapClickEvents) {
+                (<any>el).mcnTapTracking.callback(el, {});
+            } else {
+                el.click();
+            }
+        }
+        return WinJS.Promise.wrap();
     }
 
     function _waitForElement(parent: HTMLElement, selector: string, condition = (elt: HTMLElement) => { return true; }, timeout: number = 3000): WinJS.Promise<HTMLElement> {
@@ -386,6 +416,19 @@ module WinJSContrib.UI.Tests {
             return res;
         }
 
+        parent(selector?: string) {
+            if (selector) {
+                var parent = $(this.element).closest(selector);
+                if (!parent) {
+                    logger.error("parent element not found for " + selector);
+                    throw new Error("parent element not found for " + selector);
+                }
+
+                return new UIElementWrapper(parent.get(0));
+            }
+            return new UIElementWrapper(this.element.parentElement);
+        }
+
         onAll(selector): UIElementWrapper[] {
             var elts = this.element.querySelectorAll(selector);
             var res = <UIElementWrapper[]>[];
@@ -490,8 +533,9 @@ module WinJSContrib.UI.Tests {
         }
 
         clickAndWaitForPageCtor<T extends Page>(selector: string, pagector: new (element: HTMLElement, selector?: string) => T, timeout?: number): WinJS.Promise<T> {
-            this.on(selector).click();
-            return this.waitForPageByCtor<T>(pagector, timeout);
+            return this.on(selector).click().then(() => {
+                return this.waitForPageByCtor<T>(pagector, timeout);
+            });
         }
 
         waitForClass(classToWatch: string, timeout?: number): WinJS.Promise<any> {
@@ -517,9 +561,7 @@ module WinJSContrib.UI.Tests {
         }
 
         click() {
-            _click(this.element);
-
-            return this;
+            return _click(this.element, this.selector);
         }
 
         input(val: string) {
