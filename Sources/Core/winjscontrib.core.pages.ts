@@ -327,6 +327,10 @@ module WinJSContrib.UI.Pages {
         public addPromise: (prom: WinJS.Promise<any>) => void;
     }
 
+    export class ChildViewFlyoutPageBase extends PageBase {
+        public close: (result?: any) => void;
+    }
+
 	export class PageLifeCycleStep {
 		public promise: WinJS.Promise<any>;
 		public isDone: boolean;

@@ -2993,6 +2993,12 @@ var WinJSContrib;
     })(UI = WinJSContrib.UI || (WinJSContrib.UI = {}));
 })(WinJSContrib || (WinJSContrib = {}));
 
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var __global = this;
 var profiler = __global.msWriteProfilerMark || function () { };
 var WinJSContrib;
@@ -3270,6 +3276,14 @@ var WinJSContrib;
                 return PageBase;
             })();
             Pages.PageBase = PageBase;
+            var ChildViewFlyoutPageBase = (function (_super) {
+                __extends(ChildViewFlyoutPageBase, _super);
+                function ChildViewFlyoutPageBase() {
+                    _super.apply(this, arguments);
+                }
+                return ChildViewFlyoutPageBase;
+            })(PageBase);
+            Pages.ChildViewFlyoutPageBase = ChildViewFlyoutPageBase;
             var PageLifeCycleStep = (function () {
                 function PageLifeCycleStep(page, stepName, parent) {
                     var _this = this;

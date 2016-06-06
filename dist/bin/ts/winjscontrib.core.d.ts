@@ -1004,6 +1004,9 @@ declare module WinJSContrib.UI.Pages {
         qAll: (selector: string) => Element[];
         addPromise: (prom: WinJS.Promise<any>) => void;
     }
+    class ChildViewFlyoutPageBase extends PageBase {
+        close: (result?: any) => void;
+    }
     class PageLifeCycleStep {
         promise: WinJS.Promise<any>;
         isDone: boolean;

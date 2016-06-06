@@ -89,7 +89,9 @@
                        else if (!options.closeBtn.templatetext) {
                            that.closebtn.className(that.closebtn.element.className + " default-icon");
                        }
-                       WinJSContrib.UI.tap(that.closebtn.element, function () { that.closePage(); });
+                       WinJSContrib.UI.tap(that.closebtn.element, function () {
+                           return that.closePage();
+                       });
                    }
                },
 
@@ -146,14 +148,14 @@
                closePage: function (arg, pageElement, forceClose) {
                    var that = this;
 
-                   var pageControl = pageElement ? pageElement.winControl : null;
+                   var pageControl = pageElement && pageElement.winControl ? pageElement.winControl : that.navigator.pageControl;
                    logger.debug("close page " + (pageControl ? pageControl.uri : ""));
 
                    var check = forceClose ? WinJS.Promise.wrap(true) : that.canClose(pageControl);
 
                    var currentpageclose = check.then(function (canClose) {
-                       if (!canClose) {
-                           return WinJS.Promise.wrapError();
+                       if (!canClose) {                           
+                           return WinJS.Promise.wrapError({ message : "close canceled by user" });
                        }
 
                        var pagescount = that.navigator.pagesCount;
@@ -165,6 +167,9 @@
 
                            return that.checkStack(arg);
                        });
+                   }, function (err) {
+                       console.warn("close childview error", err);
+                       //noop
                    });
 
                    if (that.closePagePromise) {
@@ -174,7 +179,9 @@
                        }, function () {
                        }).then(function () {
                            return forceClose ? WinJS.Promise.wrap(true) : that.canClose(pageControl)
-                       })
+                       }, function (err) {
+                           //noop
+                       });
                    } else {
                        that.closePagePromise = currentpageclose;
                    }
