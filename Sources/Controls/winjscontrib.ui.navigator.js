@@ -548,6 +548,7 @@
                         var pagecontainer = navigator.element;
                         var oldElement = pageElementToClose || this.pageElement;
                         if (oldElement) {
+                            oldElement.classList.add("page-closing");
                             WinJSContrib.UI.untapAll(oldElement);
                         }
                         var oldPageExitPromise = (oldElement && oldElement.winControl && oldElement.winControl.exitPagePromise) ? oldElement.winControl.exitPagePromise : WinJS.Promise.wrap()

@@ -455,7 +455,7 @@
                canClose: function (pagecontrol) {
                    var that = this;
                    pagecontrol = pagecontrol || this.navigator.pageControl;
-                   if (pagecontrol && pagecontrol.canClose) {
+                   if (pagecontrol && pagecontrol.canClose && pagecontrol.element && !pagecontrol.element.classList.contains("page-closing")) {
                        return WinJS.Promise.as(pagecontrol.canClose()).then(function (canclose) {
                            return canclose;
                        });

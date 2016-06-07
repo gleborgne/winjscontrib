@@ -1,5 +1,5 @@
 ﻿/* 
- * WinJS Contrib v2.1.0.6
+ * WinJS Contrib v2.1.0.7
  * licensed under MIT license (see http://opensource.org/licenses/MIT)
  * sources available at https://github.com/gleborgne/winjscontrib
  */
@@ -554,6 +554,7 @@
                         var pagecontainer = navigator.element;
                         var oldElement = pageElementToClose || this.pageElement;
                         if (oldElement) {
+                            oldElement.classList.add("page-closing");
                             WinJSContrib.UI.untapAll(oldElement);
                         }
                         var oldPageExitPromise = (oldElement && oldElement.winControl && oldElement.winControl.exitPagePromise) ? oldElement.winControl.exitPagePromise : WinJS.Promise.wrap()
