@@ -425,6 +425,9 @@
                 */
                open: function (uri, options, skipHistory) {
                    var that = this;
+
+                   WinJS.Application.queueEvent({ type: "mcn-childviewflyout-open", detail: { location: uri, options: options }});
+
                    options = options || {};
                    var lastPickOperation;
                    if (that.pickPromises && that.pickPromises.length) {
