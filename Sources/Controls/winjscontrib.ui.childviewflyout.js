@@ -444,10 +444,9 @@
                                show: WinJSContrib.UI.afterTransition(that.contentPlaceholder),
                                navigate: that.navigate(uri, options, skipHistory).done(function (e) {
                                    that.dispatchEvent('aftershow');
+                                   if (lastPickOperation)
+                                       lastPickOperation.attachPage(that.navigator.pageControl);
                                })
-                           }).then(function () {
-                               if (lastPickOperation)
-                                   lastPickOperation.attachPage(that.navigator.pageControl);
                            });
                        }).then(complete, error);
                    });
