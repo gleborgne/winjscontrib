@@ -77,7 +77,7 @@ module WinJSContrib.UI.Pages {
 				}
 			},
 
-			addPromise: function (prom) {
+			addPromise: function <T>(prom: WinJS.Promise<T>) {
 				this.promises.push(prom);
 				return prom;
 			},
@@ -324,7 +324,7 @@ module WinJSContrib.UI.Pages {
         public parentedComplete: WinJS.Promise<any>;
         public q: (selector: string) => Element;
         public qAll: (selector: string) => Element[];
-        public addPromise: (prom: WinJS.Promise<any>) => void;
+        public addPromise: (prom: WinJS.Promise<any>) => WinJS.Promise<any>;
     }
 
     export class ChildViewFlyoutPageBase extends PageBase {

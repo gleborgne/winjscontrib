@@ -525,6 +525,8 @@
                                    that.navEventsHandler = null;
                                }
 
+                               that.navigator.clearHistory();
+
                                return WinJS.Promise.timeout().then(function () {
 
                                    that.addDismissableClass("leave-active");
