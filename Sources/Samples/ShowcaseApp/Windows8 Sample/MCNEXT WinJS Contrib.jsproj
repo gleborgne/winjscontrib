@@ -81,9 +81,6 @@
     <Content Include="..\..\..\Common\winjscontrib.dynamicscripts.js">
       <Link>scripts\winjscontrib\winjscontrib.dynamicscripts.js</Link>
     </Content>
-    <Content Include="..\..\..\Common\winjscontrib.logger.js">
-      <Link>scripts\winjscontrib\winjscontrib.logger.js</Link>
-    </Content>
     <Content Include="..\..\..\Common\winjscontrib.messenger.js">
       <Link>scripts\winjscontrib\winjscontrib.messenger.js</Link>
     </Content>

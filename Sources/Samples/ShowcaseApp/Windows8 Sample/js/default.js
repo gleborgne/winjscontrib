@@ -11,12 +11,7 @@
     var ui = WinJS.UI;
 
     // Client logging configuration
-    var logger = WinJSContrib.Logging.getLogger('SampleApplication', {
-        "level": WinJSContrib.Logging.Levels.all,
-        "displayLevelInMessage": true,
-        "displayGroupInMessage": true,
-        "plugToWinJSLog": false
-    }, new WinJSContrib.Logging.Appenders.ConsoleAppender());
+    var logger = console;
 
     function prepareApp(args) {
         app.queueEvent({ type: 'WinJSContrib.app.started', startArgs : args });
